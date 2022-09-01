@@ -19,7 +19,7 @@ export const MULTICALL2_ADDRESS: Record<ChainId, string> = {
   [ChainId.MAINNET]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
   [ChainId.RINKEBY]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
   [ChainId.GOERLI]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
-  [ChainId.GNOSIS]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696', // FIXME: might be wrong
+  [ChainId.GNOSIS]: '0xFAa296891cA6CECAF2D86eF5F7590316d0A17dA0',
 }
 
 export { MULTICALL2_ABI, ERC20_ABI }
