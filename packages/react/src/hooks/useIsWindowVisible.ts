@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 const VISIBILITY_STATE_SUPPORTED = 'visibilityState' in document
 
-function isWindowVisible() {
+function isWindowVisible(): boolean {
   return !VISIBILITY_STATE_SUPPORTED || document.visibilityState !== 'hidden'
 }
 

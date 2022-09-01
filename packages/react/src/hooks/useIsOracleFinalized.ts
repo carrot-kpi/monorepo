@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useOracleContract } from './useContract'
 import { useSingleCallResult } from './multicall'
 
-export function useIsOracleFinalized(oracleAddress?: string): { loading: boolean; finalized: boolean } {
+export function useIsOracleFinalized (oracleAddress?: string): { loading: boolean, finalized: boolean } {
   const kpiTokenContract = useOracleContract(oracleAddress)
   const wrappedResult = useSingleCallResult(kpiTokenContract, 'finalized')
 
@@ -10,12 +10,12 @@ export function useIsOracleFinalized(oracleAddress?: string): { loading: boolean
   const [finalized, setFinalized] = useState(false)
 
   useEffect(() => {
-    if (!oracleAddress || !kpiTokenContract) return
+    if (!oracleAddress || (kpiTokenContract == null)) return
     if (wrappedResult.loading) {
       setLoading(true)
       return
     }
-    if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
+    if (wrappedResult.error || (wrappedResult.result == null) || wrappedResult.result.length === 0) {
       console.error('could not fetch oracle finalization status')
       setLoading(true)
       return

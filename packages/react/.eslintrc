@@ -11,17 +11,16 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["react"],
-  "rules": {
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-floating-promises": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off",
-    "@typescript-eslint/restrict-template-expressions": "off",
-    "comma-dangle": "off"
-  },
   "settings": {
     "react": {
       "version": "detect"
     }
+  },
+  "rules": {
+    "@typescript-eslint/space-before-function-paren": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/member-delimiter-style": 0,
+    "@typescript-eslint/no-dynamic-delete": "off",
+    "comma-dangle": "off"
   }
 }

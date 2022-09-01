@@ -6,19 +6,25 @@ import {
   KPI_TOKENS_MANAGER_ADDRESS,
   KPI_TOKENS_MANAGER_ABI,
   ORACLES_MANAGER_ADDRESS,
+  CACHER,
 } from './commons/constants'
-import { ChainId, IPFS_GATEWAY, MULTICALL2_ABI, Fetcher as CoreFetcher } from '@carrot-kpi/core-sdk'
+import {
+  ChainId,
+  IPFS_GATEWAY,
+  MULTICALL2_ABI,
+  Fetcher as CoreFetcher,
+  MULTICALL2_ADDRESS,
+  ADDRESS_ZERO,
+  require,
+} from '@carrot-kpi/core-sdk'
 import KPI_TOKEN_ABI from './abis/kpi-token.json'
 import ORACLE_ABI from './abis/oracle.json'
 import FACTORY_ABI from './abis/factory.json'
 import { KpiToken, KpiTokenDescription } from './entities/kpi-token'
-import { Cacher } from './cacher'
 import { Template, TemplateSpecification } from './entities/template'
 import { Oracle } from './entities/oracle'
 import { BigNumber } from '@ethersproject/bignumber'
 import { isCID } from './utils/cid'
-import { MULTICALL2_ADDRESS, ADDRESS_ZERO } from '@carrot-kpi/core-sdk'
-import { require } from './utils/invariant'
 
 // platform related interfaces
 const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI)
@@ -56,7 +62,7 @@ export abstract class Fetcher extends CoreFetcher {
     const oracleSpecifications: { [cid: string]: TemplateSpecification } = {}
     const uncachedCids = []
     for (const cid of cids) {
-      const cachedSpecification = Cacher.get<TemplateSpecification>(cid)
+      const cachedSpecification = CACHER.get<TemplateSpecification>(cid)
       if (!!cachedSpecification) oracleSpecifications[cid] = cachedSpecification
       else uncachedCids.push(cid)
     }
@@ -70,7 +76,7 @@ export abstract class Fetcher extends CoreFetcher {
       )
       for (const [cid, specification] of uncachedOracleTemplateSpecifications) {
         oracleSpecifications[cid] = specification
-        Cacher.set(cid, specification, Date.now() + 86400) // valid for a day
+        CACHER.set(cid, specification, Date.now() + 86400) // valid for a day
       }
     }
     return oracleSpecifications
@@ -80,7 +86,7 @@ export abstract class Fetcher extends CoreFetcher {
     const descriptions: { [cid: string]: KpiTokenDescription } = {}
     const uncachedCids = []
     for (const cid of cids) {
-      const cachedDescription = Cacher.get<KpiTokenDescription>(cid)
+      const cachedDescription = CACHER.get<KpiTokenDescription>(cid)
       if (!!cachedDescription) descriptions[cid] = cachedDescription
       else uncachedCids.push(cid)
     }
@@ -100,7 +106,7 @@ export abstract class Fetcher extends CoreFetcher {
       )
       for (const [cid, description] of uncachedDescriptions) {
         descriptions[cid] = description
-        Cacher.set(cid, description, Number.MAX_SAFE_INTEGER) // valid forever (descriptions can't change)
+        CACHER.set(cid, description, Number.MAX_SAFE_INTEGER) // valid forever (descriptions can't change)
       }
     }
     return descriptions
@@ -367,6 +373,7 @@ export abstract class Fetcher extends CoreFetcher {
         })
       )
       rawTemplates = result.map(
+        // eslint-disable-next-line
         (wrappedTemplate: any) =>
           KPI_TOKENS_MANAGER_INTERFACE.decodeFunctionResult(MANAGER_TEMPLATE_FUNCTION, wrappedTemplate)[0]
       )

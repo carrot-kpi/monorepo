@@ -10,8 +10,8 @@ export function useKpiTokenTemplates(): { loading: boolean; templates: Template[
 
   useEffect(() => {
     let cancelled = false
-    async function fetchData() {
-      if (!chainId || !library) return
+    async function fetchData(): Promise<void> {
+      if (!chainId || library == null) return
       setLoading(true)
       try {
         const templates = await Fetcher.fetchKpiTokenTemplates(chainId, library)
@@ -22,7 +22,7 @@ export function useKpiTokenTemplates(): { loading: boolean; templates: Template[
         if (!cancelled) setLoading(false)
       }
     }
-    fetchData()
+    void fetchData()
     return () => {
       cancelled = true
     }

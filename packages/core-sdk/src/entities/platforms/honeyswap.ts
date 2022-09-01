@@ -37,7 +37,7 @@ export class Honeyswap implements DexPlatform {
     const [token0, token1] =
       tokenA.address.toLowerCase() < tokenB.address.toLowerCase() ? [tokenA, tokenB] : [tokenB, tokenA]
 
-    let { data } = await subgraph.query<{
+    const { data } = await subgraph.query<{
       [timestampString: string]: { reserveUSD: string }[]
     }>({
       query: gql`
@@ -76,7 +76,7 @@ export class Honeyswap implements DexPlatform {
     const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
-    let { data } = await subgraph.query<{
+    const { data } = await subgraph.query<{
       [timestampString: string]: { totalLiquidity: string }
     }>({
       query: gql`
@@ -118,7 +118,7 @@ export class Honeyswap implements DexPlatform {
     const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
-    let { data } = await subgraph.query<{
+    const { data } = await subgraph.query<{
       [timestampString: string]: { totalLiquidityUSD: string }[]
     }>({
       query: gql`

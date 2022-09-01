@@ -1,34 +1,40 @@
-const PERSISTENCE_NAMESPACE = 'carrot-sdk'
-
 interface CacheItem<T extends object> {
   validUntil: number
   data: T
 }
 
-export abstract class Cacher {
-  private constructor() {}
+export class Cacher {
+  public readonly NAMESPACE: string
 
-  public static get<T extends object>(key: string): T | null {
-    const cache = localStorage.getItem(`${PERSISTENCE_NAMESPACE}-${key}`)
+  constructor(namespace: string) {
+    this.NAMESPACE = namespace
+  }
+
+  public get<T extends object>(key: string): T | null {
+    const cache = localStorage.getItem(this.namespacedKey(key))
     if (!cache) return null
     const cacheItem = JSON.parse(cache) as CacheItem<T>
     if (cacheItem.validUntil < Date.now()) {
-      Cacher.clear(`${PERSISTENCE_NAMESPACE}-${key}`)
+      this.clear(key)
       return null
     }
     return cacheItem.data
   }
 
-  public static getOrDefault<T extends object>(key: string, defaultValue: T): T {
-    const cachedItem = Cacher.get<T>(key)
+  public getOrDefault<T extends object>(key: string, defaultValue: T): T {
+    const cachedItem = this.get<T>(key)
     return cachedItem || defaultValue
   }
 
-  public static set<T extends object>(key: string, value: T, validUntil: number) {
-    localStorage.setItem(`${PERSISTENCE_NAMESPACE}-${key}`, JSON.stringify({ validUntil, data: value }))
+  public set<T extends object>(key: string, value: T, validUntil: number) {
+    localStorage.setItem(this.namespacedKey(key), JSON.stringify({ validUntil, data: value }))
   }
 
-  public static clear(key: string) {
-    localStorage.removeItem(`${PERSISTENCE_NAMESPACE}-${key}`)
+  public clear(key: string) {
+    localStorage.removeItem(this.namespacedKey(key))
+  }
+
+  protected namespacedKey(key: string): string {
+    return `${this.NAMESPACE}-${key}`
   }
 }

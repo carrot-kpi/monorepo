@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export interface Call {
   address: string
   callData: string

@@ -3,7 +3,9 @@ import KPI_TOKEN_ABI from '../abis/kpi-token.json'
 import ORACLE_ABI from '../abis/oracle.json'
 import KPI_TOKENS_MANAGER_ABI from '../abis/kpi-tokens-manager.json'
 import ORACLES_MANAGER_ABI from '../abis/oracles-manager.json'
-import { ChainId, POCKET_ID, INFURA_PROJECT_ID } from '@carrot-kpi/core-sdk'
+import { ChainId, POCKET_ID, INFURA_PROJECT_ID, Cacher } from '@carrot-kpi/core-sdk'
+
+export const CACHER = new Cacher('carrot-v1-sdk')
 
 export const RPC_URL: Record<ChainId, string> = {
   [ChainId.MAINNET]: `https://eth-mainnet.gateway.pokt.network/v1/lb/${POCKET_ID}`,

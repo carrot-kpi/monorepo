@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { useNativeCurrency } from './useNativeCurrency'
 
-export function useNativeCurrencyBalance(account?: string | null): { loading: boolean; balance: Amount<Currency> } {
+export function useNativeCurrencyBalance (account?: string | null): { loading: boolean, balance: Amount<Currency> } {
   const { library } = useActiveWeb3React()
   const nativeCurrency = useNativeCurrency()
   const [loading, setLoading] = useState(true)
@@ -12,8 +12,8 @@ export function useNativeCurrencyBalance(account?: string | null): { loading: bo
 
   useEffect(() => {
     let cancelled = false
-    const fetchBalance = async () => {
-      if (!library || !account) return
+    const fetchBalance = async (): Promise<void> => {
+      if ((library == null) || !account) return
       if (!cancelled) setLoading(true)
       try {
         const balance = await library.getBalance(account)
@@ -22,7 +22,7 @@ export function useNativeCurrencyBalance(account?: string | null): { loading: bo
         if (!cancelled) setLoading(false)
       }
     }
-    fetchBalance()
+    void fetchBalance()
     return () => {
       cancelled = true
     }

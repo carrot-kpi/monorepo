@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useKpiTokenContract } from './useContract'
 import { useSingleCallResult } from './multicall'
 
-export function useIsKpiTokenFinalized(kpiTokenAddress?: string): { loading: boolean; finalized: boolean } {
+export function useIsKpiTokenFinalized (kpiTokenAddress?: string): { loading: boolean, finalized: boolean } {
   const kpiTokenContract = useKpiTokenContract(kpiTokenAddress)
   const wrappedResult = useSingleCallResult(kpiTokenContract, 'finalized')
 
@@ -10,12 +10,12 @@ export function useIsKpiTokenFinalized(kpiTokenAddress?: string): { loading: boo
   const [finalized, setFinalized] = useState(false)
 
   useEffect(() => {
-    if (!kpiTokenAddress || !kpiTokenContract) return
+    if (!kpiTokenAddress || (kpiTokenContract == null)) return
     if (wrappedResult.loading) {
       setLoading(true)
       return
     }
-    if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
+    if (wrappedResult.error || (wrappedResult.result == null) || wrappedResult.result.length === 0) {
       console.error('could not fetch kpi token finalization status')
       setLoading(true)
       return

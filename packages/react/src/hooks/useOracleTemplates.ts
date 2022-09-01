@@ -10,8 +10,8 @@ export function useOracleTemplates(ids?: number[]): { loading: boolean; template
 
   useEffect(() => {
     let cancelled = false
-    async function fetchData() {
-      if (!chainId || !library) return
+    async function fetchData(): Promise<void> {
+      if (!chainId || library == null) return
       setLoading(true)
       try {
         const templates = await Fetcher.fetchOracleTemplates(chainId, library, ids)
@@ -22,7 +22,7 @@ export function useOracleTemplates(ids?: number[]): { loading: boolean; template
         if (!cancelled) setLoading(false)
       }
     }
-    fetchData()
+    void fetchData()
     return () => {
       cancelled = true
     }

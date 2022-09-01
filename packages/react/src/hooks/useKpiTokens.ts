@@ -10,8 +10,8 @@ export function useKpiTokens(address?: string): { loading: boolean; kpiTokens: K
 
   useEffect(() => {
     let cancelled = false
-    async function fetchData() {
-      if (!chainId || !library) return
+    async function fetchData(): Promise<void> {
+      if (!chainId || library == null) return
       if (!cancelled) setLoading(true)
       try {
         const kpiTokens = await Fetcher.fetchKpiTokens(chainId, library)
@@ -22,7 +22,7 @@ export function useKpiTokens(address?: string): { loading: boolean; kpiTokens: K
         if (!cancelled) setLoading(false)
       }
     }
-    fetchData()
+    void fetchData()
     return () => {
       cancelled = true
     }

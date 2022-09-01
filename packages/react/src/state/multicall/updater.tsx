@@ -52,7 +52,7 @@ export function activeListeningKeys(
   allListeners: CoreAppState['multicall']['callListeners'],
   chainId?: number
 ): { [callKey: string]: number } {
-  if (!allListeners || !chainId) return {}
+  if (allListeners == null || !chainId) return {}
   const listeners = allListeners[chainId]
   if (!listeners) return {}
 
@@ -116,7 +116,7 @@ export function MulticallStateUpdater(): null {
   const { library, chainId } = useActiveWeb3React()
   const windowVisible = useIsWindowVisible()
   const multicallContract = useMulticallContract()
-  const cancellations = useRef<{ blockNumber: number; cancellations: (() => void)[] }>()
+  const cancellations = useRef<{ blockNumber: number; cancellations: Array<() => void> }>()
 
   const listeningKeys: { [callKey: string]: number } = useMemo(() => {
     return activeListeningKeys(debouncedListeners, chainId)
@@ -155,7 +155,7 @@ export function MulticallStateUpdater(): null {
   )
 
   useEffect(() => {
-    if (!latestBlockNumber || !chainId || !multicallContract) return
+    if (!latestBlockNumber || !chainId || multicallContract == null) return
 
     const outdatedCallKeys: string[] = JSON.parse(serializedOutdatedCallKeys)
     if (outdatedCallKeys.length === 0) return
@@ -163,7 +163,7 @@ export function MulticallStateUpdater(): null {
 
     const chunkedCalls = chunkArray(calls)
 
-    if (cancellations.current && cancellations.current.blockNumber !== latestBlockNumber) {
+    if (cancellations.current != null && cancellations.current.blockNumber !== latestBlockNumber) {
       cancellations.current.cancellations.forEach((c) => c())
     }
 
@@ -178,13 +178,13 @@ export function MulticallStateUpdater(): null {
     cancellations.current = {
       blockNumber: latestBlockNumber,
       cancellations: chunkedCalls.map((chunk, index) => {
-        const { cancel, promise } = retry(() => fetchChunk(multicallContract, chunk, latestBlockNumber), {
+        const { cancel, promise } = retry(async () => await fetchChunk(multicallContract, chunk, latestBlockNumber), {
           n: Infinity,
           minWait: 1000,
           maxWait: 2500,
         })
         promise
-          .then((returnData: any) => {
+          .then((returnData: any[]) => {
             // accumulates the length of all previous indices
             const firstCallKeyIndex = chunkedCalls.slice(0, index).reduce<number>((memo, curr) => memo + curr.length, 0)
             const lastCallKeyIndex = firstCallKeyIndex + returnData.length
@@ -204,7 +204,7 @@ export function MulticallStateUpdater(): null {
             )
 
             // dispatch any new results
-            if (Object.keys(results).length > 0)
+            if (Object.keys(results).length > 0) {
               dispatch(
                 updateMulticallResults({
                   chainId,
@@ -212,6 +212,7 @@ export function MulticallStateUpdater(): null {
                   blockNumber: latestBlockNumber,
                 })
               )
+            }
 
             // dispatch any errored calls
             if (erroredCalls.length > 0) {
@@ -246,7 +247,7 @@ export function MulticallStateUpdater(): null {
 
   // attach/detach listeners
   useEffect(() => {
-    if (!library || !chainId || !windowVisible) return undefined
+    if (library == null || !chainId || !windowVisible) return undefined
 
     setBlockState({ chainId, blockNumber: null })
 

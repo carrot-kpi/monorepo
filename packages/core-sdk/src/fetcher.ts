@@ -47,8 +47,6 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA = BYTES_SYMBOL_ERC20_INTERFACE.encodeFunc
 )
 
 export abstract class Fetcher {
-  protected constructor() {}
-
   public static async fetchErc20Tokens(
     chainId: ChainId,
     addresses: string[],

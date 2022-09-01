@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useKpiTokenContract } from './useContract'
 import { useSingleCallResult } from './multicall'
 
-export function useIsKpiTokenExpired(kpiTokenAddress?: string): { loading: boolean; expired: boolean } {
+export function useIsKpiTokenExpired (kpiTokenAddress?: string): { loading: boolean, expired: boolean } {
   const kpiTokenContract = useKpiTokenContract(kpiTokenAddress)
   const wrappedResult = useSingleCallResult(kpiTokenContract, 'expired')
 
@@ -10,12 +10,12 @@ export function useIsKpiTokenExpired(kpiTokenAddress?: string): { loading: boole
   const [expired, setExpired] = useState(false)
 
   useEffect(() => {
-    if (!kpiTokenAddress || !kpiTokenContract) return
+    if (!kpiTokenAddress || (kpiTokenContract == null)) return
     if (wrappedResult.loading) {
       setLoading(true)
       return
     }
-    if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
+    if (wrappedResult.error || (wrappedResult.result == null) || wrappedResult.result.length === 0) {
       console.error('could not fetch kpi token expiration status')
       setLoading(true)
       return

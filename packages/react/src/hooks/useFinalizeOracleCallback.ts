@@ -15,9 +15,9 @@ export function useFinalizeOracleCallback(oracleAddress?: string): () => Promise
   const oracleContract = useContract(oracleAddress, ORACLE_FINALIZE_ABI, true)
 
   return useCallback(async () => {
-    if (!oracleAddress || !oracleContract) return
+    if (!oracleAddress || oracleContract == null) return
     try {
-      return await oracleContract.finalize()
+      return oracleContract.finalize()
     } catch (error) {
       console.error('error finalizing carrot', error)
     }

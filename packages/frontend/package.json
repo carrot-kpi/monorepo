@@ -81,8 +81,8 @@
     "start": "react-scripts start",
     "build": "cross-env GENERATE_SOURCEMAP=false react-app-rewired build",
     "ipfs-build": "cross-env PUBLIC_URL=\".\" GENERATE_SOURCEMAP=false react-app-rewired build",
-    "test": "react-scripts test --env=jsdom",
-    "lint:code": "react-scripts lint",
+    "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
+    "lint:code": "eslint src/**/*.{ts,tsx}",
     "eject": "react-scripts eject",
     "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'",
     "build-test": "serve -s build"

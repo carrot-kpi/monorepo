@@ -6,15 +6,15 @@ export interface ListenerOptions {
   readonly blocksPerFetch: number
 }
 
-export const addMulticallListeners = createAction<{ chainId: number; calls: Call[]; options: ListenerOptions }>(
+export const addMulticallListeners = createAction<{ chainId: number, calls: Call[], options: ListenerOptions }>(
   'multicall/addMulticallListeners'
 )
 
-export const removeMulticallListeners = createAction<{ chainId: number; calls: Call[]; options: ListenerOptions }>(
+export const removeMulticallListeners = createAction<{ chainId: number, calls: Call[], options: ListenerOptions }>(
   'multicall/removeMulticallListeners'
 )
 
-export const fetchingMulticallResults = createAction<{ chainId: number; calls: Call[]; fetchingBlockNumber: number }>(
+export const fetchingMulticallResults = createAction<{ chainId: number, calls: Call[], fetchingBlockNumber: number }>(
   'multicall/fetchingMulticallResults'
 )
 export const errorFetchingMulticallResults = createAction<{
@@ -31,4 +31,4 @@ export const updateMulticallResults = createAction<{
   }
 }>('multicall/updateMulticallResults')
 
-export const updateBlockNumber = createAction<{ chainId: number; blockNumber: number }>('application/updateBlockNumber')
+export const updateBlockNumber = createAction<{ chainId: number, blockNumber: number }>('application/updateBlockNumber')
