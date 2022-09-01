@@ -2,7 +2,7 @@ import { Token, currencyEquals } from './token'
 import { Currency } from './currency'
 import { BigNumber, formatFixed } from '@ethersproject/bignumber'
 import Decimal from 'decimal.js-light'
-import { require } from '../utils'
+import { enforce } from '../utils'
 
 export type TokenOrCurrency = Token | Currency
 
@@ -17,12 +17,12 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
   }
 
   public plus(other: Amount<TokenOrCurrency>): Amount<T> {
-    require(currencyEquals(this.currency, other.currency), 'tried to sum different currencies')
+    enforce(currencyEquals(this.currency, other.currency), 'tried to sum different currencies')
     return new Amount<T>(this.currency, this.raw.add(other.raw))
   }
 
   public minus(other: Amount<T>): Amount<T> {
-    require(currencyEquals(this.currency, other.currency), 'tried to subtract different currencies')
+    enforce(currencyEquals(this.currency, other.currency), 'tried to subtract different currencies')
     return new Amount<T>(this.currency, this.raw.sub(other.raw))
   }
 

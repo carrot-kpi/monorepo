@@ -2,7 +2,7 @@ import { getAddress } from '@ethersproject/address'
 
 const isProduction: boolean = process.env.NODE_ENV === 'production'
 
-export function require(condition: boolean, message: string): asserts condition {
+export function enforce(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(isProduction ? undefined : message)
 }
 
@@ -16,7 +16,7 @@ export function validateAndParseAddress(address: string): string {
     warn(address !== checksummedAddress, `${address} is not checksummed.`)
     return checksummedAddress
   } catch (error) {
-    require(false, `${address} is not a valid address.`)
+    enforce(false, `${address} is not a valid address.`)
   }
 }
 

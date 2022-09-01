@@ -15,7 +15,7 @@ import {
   Fetcher as CoreFetcher,
   MULTICALL2_ADDRESS,
   ADDRESS_ZERO,
-  require,
+  enforce,
 } from '@carrot-kpi/core-sdk'
 import KPI_TOKEN_ABI from './abis/kpi-token.json'
 import ORACLE_ABI from './abis/oracle.json'
@@ -117,7 +117,7 @@ export abstract class Fetcher extends CoreFetcher {
     address: string,
     provider: Web3Provider
   ): Promise<KpiToken | null> {
-    require(!!address && address !== ADDRESS_ZERO, 'invalid kpi token address')
+    enforce(!!address && address !== ADDRESS_ZERO, 'invalid kpi token address')
 
     const multicall2 = new Contract(MULTICALL2_ADDRESS[chainId], MULTICALL2_ABI, provider)
 
@@ -362,7 +362,7 @@ export abstract class Fetcher extends CoreFetcher {
     let rawTemplates: { id: BigNumber; addrezz: string; version: BigNumber; specification: string }[]
     if (ids && ids.length > 0) {
       const { chainId } = await managerContract.provider.getNetwork()
-      require(chainId in ChainId, 'invalid chain id when trying to get templates by id')
+      enforce(chainId in ChainId, 'invalid chain id when trying to get templates by id')
       const multicall2 = new Contract(MULTICALL2_ADDRESS[chainId as ChainId], MULTICALL2_ABI, managerContract.provider)
       const [, result] = await multicall2.aggregate(
         ids.map((id: number) => {
