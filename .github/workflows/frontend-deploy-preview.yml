@@ -1,0 +1,32 @@
+name: IPFS Preview Deploy
+on:
+  push:
+    branches:
+      - develop
+      - feature/v1
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  ipfs-preview-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        working-directory: ./packages/frontend
+        run: npm run ipfs-build
+      - name: Deploy to IPFS
+        uses: web3-storage/add-to-web3@v2
+        id: web3
+        with:
+          web3_token: ${{secrets.WEB3_STORAGE_TOKEN}}
+          path_to_add: "./packages/frontend/build"

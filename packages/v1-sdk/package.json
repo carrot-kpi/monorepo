@@ -1,0 +1,47 @@
+{
+  "name": "@carrot-kpi/v1-sdk",
+  "license": "GPL-3.0",
+  "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
+  "version": "0.8.0",
+  "description": "An SDK for building applications on top of Carrot v1.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/carrot-kpi/v1-sdk.git",
+  "module": "dist/react.esm.js",
+  "scripts": {
+    "lint:code": "tsdx lint src test",
+    "build": "tsdx build",
+    "start": "tsdx watch",
+    "test": "tsdx test",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "peerDependencies": {
+    "@carrot-kpi/core-sdk": "^1.4.1",
+    "ethers": "^5.7.0"
+  },
+  "devDependencies": {
+    "@carrot-kpi/core-sdk": "^1.4.1",
+    "@ethersproject/abi": "^5.7.0",
+    "@ethersproject/address": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/constants": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
+    "@size-limit/preset-big-lib": "^8.0.1",
+    "@size-limit/webpack-why": "^8.0.1",
+    "caniuse-lite": "^1.0.30001384",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "multiformats": "^9.7.1",
+    "prettier": "^2.7.1",
+    "size-limit": "^8.0.1",
+    "tsdx": "^0.14.1"
+  }
+}

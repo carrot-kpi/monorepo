@@ -1,0 +1,10 @@
+[
+  {
+    "path": "dist/core-sdk.cjs.production.min.js",
+    "limit": "125 kB"
+  },
+  {
+    "path": "dist/core-sdk.esm.js",
+    "limit": "110 kB"
+  }
+]
