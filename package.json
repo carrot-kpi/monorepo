@@ -9,7 +9,6 @@
     "test:all": "npm run test --workspaces",
     "size-check:all": "npm run size-limit --workspaces --if-present",
     "lint:commit-message": "commitlint -e",
-    "lint": "npm run lint:code:all && npm run test:all && npm run lint:commit-message",
     "prepare": "husky install"
   },
   "workspaces": [

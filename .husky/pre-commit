@@ -1,2 +1,3 @@
-npm run lint
+npm run lint:code:all
+npm run test:all
 npm run size-check:all
