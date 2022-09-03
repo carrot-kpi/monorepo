@@ -17,6 +17,12 @@ function getLibrary(provider: any): Web3Provider {
   return new Web3Provider(provider, 'any')
 }
 
+/* const worker = new Worker(new URL('./web-workers/ipfs-worker.ts', import.meta.url))
+worker.onmessage = (event: MessageEvent) => {
+  console.log(event.data)
+}
+worker.postMessage('init') */
+
 const container = document.getElementById('root')
 const root = createRoot(container!)
 root.render(

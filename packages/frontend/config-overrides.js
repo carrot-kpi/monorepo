@@ -5,6 +5,7 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 
 // Used to make the build reproducible between different machines (IPFS-related)
 module.exports = (config, env) => {
+  config.resolve.fallback = { ...config.resolve.fallback, util: require.resolve('util/') }
   if (env !== 'production') {
     return config
   }
