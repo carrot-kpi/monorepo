@@ -5,9 +5,8 @@ export class TemplateSpecification {
     public readonly name: string,
     public readonly description: string,
     public readonly tags: string[],
-    public readonly formSpecification: string,
-    public readonly calldataEncoder: string,
-    public readonly dataDecoder: string
+    public readonly creationForm: string,
+    public readonly page: string
   ) {}
 }
 
