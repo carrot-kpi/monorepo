@@ -35,8 +35,6 @@
   "devDependencies": {
     "@carrot-kpi/core-sdk": "^1.4.1",
     "@carrot-kpi/v1-sdk": "^0.8.0",
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@size-limit/preset-small-lib": "^8.0.1",
@@ -47,7 +45,6 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-config-standard-with-typescript": "^22.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.1",
     "npm": "^8.18.0",
