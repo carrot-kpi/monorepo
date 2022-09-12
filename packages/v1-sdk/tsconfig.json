@@ -19,10 +19,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {
-      "*": ["src/*"]
-    },
     "esModuleInterop": true,
     "resolveJsonModule": true
   }
