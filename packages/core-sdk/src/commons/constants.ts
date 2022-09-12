@@ -3,7 +3,7 @@ import ERC20_ABI from '../abis/erc20.json'
 
 export const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
 export const POCKET_ID = '61d8970ca065f5003a112e86'
-export const IPFS_GATEWAY = 'https://dxgov.mypinata.cloud/ipfs/'
+export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'
 export const WEB3_NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
