@@ -16,6 +16,7 @@ import {
   MULTICALL2_ADDRESS,
   ADDRESS_ZERO,
   enforce,
+  warn,
 } from '@carrot-kpi/core-sdk'
 import KPI_TOKEN_ABI from './abis/kpi-token.json'
 import ORACLE_ABI from './abis/oracle.json'
@@ -70,11 +71,13 @@ export abstract class Fetcher extends CoreFetcher {
       const uncachedOracleTemplateSpecifications = await Promise.all(
         uncachedCids.map(async (templateCid: string) => {
           const response = await fetch(IPFS_GATEWAY + templateCid)
-          if (!response.ok) throw new Error(`could not fetch template specification with cid ${templateCid}`)
-          return [templateCid, await response.json()]
+          const responseOk = response.ok
+          warn(responseOk, `could not fetch template specification with cid ${templateCid}`)
+          return [templateCid, responseOk ? await response.json() : null]
         })
       )
       for (const [cid, specification] of uncachedOracleTemplateSpecifications) {
+        if (!specification) continue
         oracleSpecifications[cid] = specification
         CACHER.set(cid, specification, Date.now() + 86400) // valid for a day
       }
@@ -390,9 +393,9 @@ export abstract class Fetcher extends CoreFetcher {
     return rawTemplates.map(
       (rawTemplate) =>
         new Template(
-          rawTemplate.id,
+          rawTemplate.id.toNumber(),
           rawTemplate.addrezz,
-          rawTemplate.version,
+          rawTemplate.version.toNumber(),
           specifications[rawTemplate.specification]
         )
     )
