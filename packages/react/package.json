@@ -47,7 +47,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.1",
-    "npm": "^8.18.0",
     "react": "^18.2.0",
     "size-limit": "^8.0.1",
     "tsdx": "^0.14.1",
