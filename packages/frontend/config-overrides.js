@@ -2,10 +2,23 @@ const { GitRevisionPlugin } = require('git-revision-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
+const { ModuleFederationPlugin } = require('webpack').container
 
 // Used to make the build reproducible between different machines (IPFS-related)
 module.exports = (config, env) => {
   config.resolve.fallback = { ...config.resolve.fallback, util: require.resolve('util/') }
+  config.plugins.push(
+    new ModuleFederationPlugin({
+      name: 'home',
+      filename: 'entry.js',
+      shared: [
+        {
+          react: { singleton: true },
+          'react-dom': { singleton: true },
+        },
+      ],
+    })
+  )
   if (env !== 'production') {
     return config
   }
