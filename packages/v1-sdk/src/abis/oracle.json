@@ -68,18 +68,18 @@
       {
         "components": [
           {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
             "internalType": "address",
             "name": "addrezz",
             "type": "address"
           },
           {
-            "internalType": "uint256",
+            "internalType": "uint128",
             "name": "version",
+            "type": "uint128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "id",
             "type": "uint256"
           },
           {
@@ -88,7 +88,7 @@
             "type": "string"
           }
         ],
-        "internalType": "struct IBaseTemplatesManager.Template",
+        "internalType": "struct Template",
         "name": "",
         "type": "tuple"
       }

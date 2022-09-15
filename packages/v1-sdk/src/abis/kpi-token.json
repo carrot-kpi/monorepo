@@ -93,49 +93,61 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_creator",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_kpiTokensManager",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_oraclesManager",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_feeReceiver",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_kpiTokenTemplateId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_description",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_expiration",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes",
-        "name": "_kpiTokenData",
-        "type": "bytes"
-      },
-      {
-        "internalType": "bytes",
-        "name": "_oraclesData",
-        "type": "bytes"
+        "components": [
+          {
+            "internalType": "address",
+            "name": "creator",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "oraclesManager",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "kpiTokensManager",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "feeReceiver",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "kpiTokenTemplateId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint128",
+            "name": "kpiTokenTemplateVersion",
+            "type": "uint128"
+          },
+          {
+            "internalType": "string",
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "expiration",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "kpiTokenData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "oraclesData",
+            "type": "bytes"
+          }
+        ],
+        "internalType": "struct InitializeKPITokenParams",
+        "name": "_params",
+        "type": "tuple"
       }
     ],
     "name": "initialize",
@@ -195,18 +207,18 @@
       {
         "components": [
           {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
             "internalType": "address",
             "name": "addrezz",
             "type": "address"
           },
           {
-            "internalType": "uint256",
+            "internalType": "uint128",
             "name": "version",
+            "type": "uint128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "id",
             "type": "uint256"
           },
           {
@@ -215,7 +227,7 @@
             "type": "string"
           }
         ],
-        "internalType": "struct IBaseTemplatesManager.Template",
+        "internalType": "struct Template",
         "name": "",
         "type": "tuple"
       }
