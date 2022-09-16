@@ -3,6 +3,16 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const { ModuleFederationPlugin } = require('webpack').container
+const pkg = require('./package.json')
+
+const sharedDependencies = Object.entries(pkg.sharedDependencies).reduce((deps, [name, version]) => {
+  deps[name] = {
+    requiredVersion: version,
+    singleton: true,
+    eager: false,
+  }
+  return deps
+})
 
 // Used to make the build reproducible between different machines (IPFS-related)
 module.exports = (config, env) => {
@@ -11,12 +21,7 @@ module.exports = (config, env) => {
     new ModuleFederationPlugin({
       name: 'home',
       filename: 'entry.js',
-      shared: [
-        {
-          react: { singleton: true },
-          'react-dom': { singleton: true },
-        },
-      ],
+      shared: sharedDependencies,
     })
   )
   if (env !== 'production') {

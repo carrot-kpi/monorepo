@@ -3,6 +3,10 @@
   "license": "GPL-3.0-or-later",
   "version": "1.0.0-alpha.4",
   "description": "Frontend for Carrot KPIs.",
+  "sharedDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
     "@apollo/client": "^3.6.9",
     "@carrot-kpi/core-sdk": "^1.4.1",
