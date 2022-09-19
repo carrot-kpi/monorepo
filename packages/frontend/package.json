@@ -4,6 +4,10 @@
   "version": "1.0.0-alpha.4",
   "description": "Frontend for Carrot KPIs.",
   "sharedDependencies": {
+    "@carrot-kpi/core-sdk": "^1.4.1",
+    "@carrot-kpi/react": "^0.1.0",
+    "@carrot-kpi/v1-sdk": "^0.8.1",
+    "ethers": "^5.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
