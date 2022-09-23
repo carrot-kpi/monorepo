@@ -26,7 +26,7 @@
     "multiformats": "^9.9.0"
   },
   "peerDependencies": {
-    "@carrot-kpi/core-sdk": "^1.4.1",
+    "@carrot-kpi/core-sdk": "^1.4.3",
     "ethers": "^5.7.0"
   },
   "devDependencies": {
