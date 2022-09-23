@@ -24,20 +24,11 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
-    "decimal.js-light": "^2.5.1"
-  },
-  "peerDependencies": {
-    "ethers": "^5.7.0"
+    "decimal.js-light": "^2.5.1",
+    "ethers": "^5.7.1"
   },
   "devDependencies": {
     "@apollo/client": "^3.6.9",
-    "@ethersproject/abi": "^5.7.0",
-    "@ethersproject/address": "^5.7.0",
-    "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/constants": "^5.7.0",
-    "@ethersproject/contracts": "^5.7.0",
-    "@ethersproject/providers": "^5.7.1",
-    "@ethersproject/units": "^5.7.0",
     "@size-limit/preset-big-lib": "^8.1.0",
     "@size-limit/webpack-why": "^8.1.0",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
