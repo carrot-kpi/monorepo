@@ -22,6 +22,9 @@
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
+  "dependencies": {
+    "multiformats": "^9.7.1"
+  },
   "peerDependencies": {
     "@carrot-kpi/core-sdk": "^1.4.1",
     "ethers": "^5.7.0"
@@ -41,7 +44,6 @@
     "caniuse-lite": "^1.0.30001384",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
-    "multiformats": "^9.7.1",
     "prettier": "^2.7.1",
     "size-limit": "^8.0.1",
     "tsdx": "^0.14.1"
