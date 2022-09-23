@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { injected } from '../connectors'
-import { useIsMobile } from '@carrot-kpi/react'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { useWeb3React } from '@web3-react/core'
 
 export function useEagerConnect() {
