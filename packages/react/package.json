@@ -30,7 +30,10 @@
     "@carrot-kpi/v1-sdk": "^0.8.0",
     "@web3-react/core": "^6.1.9",
     "ethers": "^5.7.0",
-    "react": "^18.2.0"
+    "i18next": "^21.9.2",
+    "react": "^18.2.0",
+    "react-i18next": "^11.18.6",
+    "react-redux": "^8.0.4"
   },
   "devDependencies": {
     "@carrot-kpi/core-sdk": "^1.4.1",
@@ -47,7 +50,10 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.1",
+    "i18next": "^21.9.2",
     "react": "^18.2.0",
+    "react-i18next": "^11.18.6",
+    "react-redux": "^8.0.4",
     "size-limit": "^8.0.1",
     "tsdx": "^0.14.1",
     "tslib": "^2.4.0",
