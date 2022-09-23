@@ -13,7 +13,7 @@
     "access": "public"
   },
   "repository": "https://github.com/carrot-kpi/frontend-monorepo.git",
-  "module": "dist/sdk.esm.js",
+  "module": "dist/core-sdk.esm.js",
   "scripts": {
     "lint:code": "eslint ./src",
     "build": "tsdx build",
