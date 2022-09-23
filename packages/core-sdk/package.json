@@ -2,7 +2,7 @@
   "name": "@carrot-kpi/core-sdk",
   "license": "GPL-3.0",
   "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Core common logic and entities to build higher-level SDKs on top of the Carrot platform.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
