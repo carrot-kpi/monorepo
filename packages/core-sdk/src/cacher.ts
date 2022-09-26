@@ -1,4 +1,4 @@
-interface CacheItem<T extends object> {
+interface CacheItem<T extends object | string> {
   validUntil: number
   data: T
 }
@@ -10,7 +10,7 @@ export class Cacher {
     this.NAMESPACE = namespace
   }
 
-  public get<T extends object>(key: string): T | null {
+  public get<T extends object | string>(key: string): T | null {
     const cache = localStorage.getItem(this.namespacedKey(key))
     if (!cache) return null
     const cacheItem = JSON.parse(cache) as CacheItem<T>
@@ -26,7 +26,7 @@ export class Cacher {
     return cachedItem || defaultValue
   }
 
-  public set<T extends object>(key: string, value: T, validUntil: number) {
+  public set<T extends object | string>(key: string, value: T, validUntil: number) {
     localStorage.setItem(this.namespacedKey(key), JSON.stringify({ validUntil, data: value }))
   }
 
