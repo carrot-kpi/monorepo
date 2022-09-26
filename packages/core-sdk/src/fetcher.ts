@@ -1,21 +1,14 @@
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
 import { Interface } from '@ethersproject/abi'
-import { MULTICALL2_ADDRESS, MULTICALL2_ABI, ChainId } from './commons/constants'
+import { MULTICALL2_ADDRESS, MULTICALL2_ABI, ChainId, CACHER, IPFS_GATEWAY } from './commons/constants'
 import { Token } from './entities/token'
 import ERC20_ABI from './abis/erc20.json'
 import BYTES_NAME_ERC20_ABI from './abis/erc20-name-bytes.json'
 import BYTES_SYMBOL_ERC20_ABI from './abis/erc20-symbol-bytes.json'
 import { BLOCK_SUBGRAPH_CLIENT } from './commons/graphql'
 import { gql } from '@apollo/client'
-
-// FIXME: consider using localstorage instead of this ephemeral cache
-const TOKEN_CACHE: Record<ChainId, { [address: string]: Token }> = {
-  [ChainId.MAINNET]: {},
-  [ChainId.RINKEBY]: {},
-  [ChainId.GOERLI]: {},
-  [ChainId.GNOSIS]: {},
-}
+import { cacheErc20Token, getCachedErc20Token, warn } from './utils'
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI)
@@ -54,7 +47,7 @@ export abstract class Fetcher {
   ): Promise<{ [address: string]: Token }> {
     const { cachedTokens, missingTokens } = addresses.reduce(
       (accumulator: { cachedTokens: { [address: string]: Token }; missingTokens: string[] }, address) => {
-        const cachedToken = TOKEN_CACHE[chainId as ChainId][address]
+        const cachedToken = getCachedErc20Token(chainId, address)
         if (!!cachedToken) accumulator.cachedTokens[address] = cachedToken
         else accumulator.missingTokens.push(address)
         return accumulator
@@ -127,7 +120,7 @@ export abstract class Fetcher {
           symbol,
           name
         )
-        TOKEN_CACHE[chainId as ChainId][missingToken] = token
+        cacheErc20Token(token)
         accumulator[missingToken] = token
       } catch (error) {
         console.error(`error decoding ERC20 data for address ${missingToken}`)
@@ -178,5 +171,33 @@ export abstract class Fetcher {
       }
       return accumulator
     }, [])
+  }
+
+  public static async fetchContentFromIpfs(
+    cacheableCids: { cid: string; validUntil?: number }[]
+  ): Promise<{ [cid: string]: string }> {
+    const cachedCids: { [cid: string]: string } = {}
+    const uncachedCids = []
+    for (const wrappedCid of cacheableCids) {
+      const cachedContent = CACHER.get<string>(wrappedCid.cid)
+      if (!!cachedContent) cachedCids[wrappedCid.cid] = cachedContent
+      else uncachedCids.push(wrappedCid)
+    }
+    if (uncachedCids.length > 0) {
+      const uncachedContent = await Promise.all(
+        uncachedCids.map(async (wrappedCid) => {
+          const response = await fetch(`${IPFS_GATEWAY}${wrappedCid.cid}`)
+          const responseOk = response.ok
+          warn(responseOk, `could not fetch content with cid ${wrappedCid.cid}`)
+          return { wrappedCid, content: responseOk ? await response.text() : null }
+        })
+      )
+      for (const { wrappedCid, content } of uncachedContent) {
+        if (!content) continue
+        cachedCids[wrappedCid.cid] = content
+        CACHER.set(wrappedCid.cid, content, wrappedCid.validUntil || 0)
+      }
+    }
+    return cachedCids
   }
 }
