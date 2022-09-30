@@ -1,0 +1,56 @@
+import { useEffect, useState } from 'react'
+import { warn } from '@carrot-kpi/sdk'
+
+declare let __webpack_share_scopes__: {
+  default: any
+}
+
+export interface RemoteContainer {
+  __initialized: boolean
+  init: (arg: any) => {}
+  get: (module: any) => Promise<() => any>
+}
+
+export const useFederatedModuleContainer = (baseUrl?: string, entry?: string) => {
+  const [loading, setLoading] = useState(false)
+  const [container, setContainer] = useState<RemoteContainer | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    const fetchContainer = async () => {
+      if (!entry || !baseUrl) return
+      let container = <RemoteContainer | undefined>window[entry as keyof Window]
+      if (!!container && container.__initialized) return
+      if (!cancelled) setLoading(true)
+      try {
+        let sanitizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+        if (!container)
+          await import(/* webpackIgnore: true */ `${sanitizedBaseUrl}${entry}.js`)
+        container = <RemoteContainer | undefined>window[entry as keyof Window]
+        if (!container) {
+          warn(true, 'container still undefined after federated module import')
+          return
+        }
+        const shareScope = __webpack_share_scopes__.default
+        if (!shareScope) {
+          warn(true, 'webpack share scope is undefined')
+          return
+        }
+        await container.init(shareScope)
+        const setPublicPathModuleFactory = await container.get('./set-public-path')
+        const { set: setModulePublicPath } = setPublicPathModuleFactory()
+        setModulePublicPath(sanitizedBaseUrl)
+        container.__initialized = true
+        if (!cancelled) setContainer(container)
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    fetchContainer()
+    return () => {
+      cancelled = true
+    }
+  }, [baseUrl, entry])
+
+  return { loading, container }
+}

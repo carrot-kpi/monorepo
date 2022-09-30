@@ -4,34 +4,43 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
-import json from '@rollup/plugin-json'
 
 export default [
   {
     input: join(__dirname, './src/index.ts'),
     plugins: [
       peerDepsExternal(),
-      json(),
       commonjs(),
       nodeResolve(),
       typescript(),
-      terser(),
+      terser({
+        output: {
+          comments: (_, comment) => {
+            return /webpackIgnore/.test(comment.value)
+          },
+        },
+        mangle: {
+          reserved: ['__webpack_share_scopes__'],
+        },
+      }),
     ],
     output: [
       {
-        file: join(__dirname, `./dist/carrot-kpi-sdk.umd.js`),
+        file: join(__dirname, `./dist/carrot-kpi-react.umd.js`),
         format: 'umd',
-        name: 'CarrotKpiSdk',
+        name: 'CarrotKpiReact',
         globals: {
+          '@carrot-kpi/sdk': 'CarrotKpiSdk',
           ethers: 'ethers',
-          'decimal.js-light': 'Decimal',
+          i18next: 'i18next',
+          react: 'React',
+          'react-i18next': 'ReactI18next',
+          wagmi: 'wagmi',
         },
-        sourcemap: true,
       },
       {
-        file: join(__dirname, `./dist/carrot-kpi-sdk.es.js`),
+        file: join(__dirname, `./dist/carrot-kpi-react.es.js`),
         format: 'es',
-        sourcemap: true,
       },
     ],
   },

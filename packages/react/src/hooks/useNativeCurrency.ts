@@ -1,9 +1,9 @@
-import { Currency } from '@carrot-kpi/core-sdk'
-import { useActiveWeb3React } from './useActiveWeb3React'
+import { Currency } from '@carrot-kpi/sdk'
+import { useNetwork, chain as wagmiChain } from 'wagmi'
 
-export function useNativeCurrency (): Currency {
-  const { chainId } = useActiveWeb3React()
+export function useNativeCurrency(): Currency {
+  const { chain } = useNetwork()
   // fallback to ether if chain id is not defined
-  if (!chainId) return Currency.ETHER
-  return Currency.getNative(chainId) || Currency.ETHER
+  if (!chain) return wagmiChain.mainnet.nativeCurrency!
+  return chain.nativeCurrency!
 }

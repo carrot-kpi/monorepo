@@ -1,25 +1,36 @@
-import { useKpiTokenTemplates } from '@carrot-kpi/react'
+import React from 'react'
+import { useOracleTemplates } from '@carrot-kpi/react'
+import { Template } from '@carrot-kpi/sdk'
+import { useState } from 'react'
+import { CreationForm } from '../creation-form'
 
 export const Create = () => {
-  const { loading, templates } = useKpiTokenTemplates()
+  // FIXME: this should fetch KPI token templates
+  const { loading, templates } = useOracleTemplates()
+  const [pickedTemplate, setPickedTemplate] = useState<Template | null>(null)
 
+  if (!!pickedTemplate) return <CreationForm template={pickedTemplate} />
   return (
     <>
       {loading && <>Loading...</>}
       {!loading && templates.length > 0 && (
         <ul>
           {templates.map((template: any) => (
-            <>
-              <ul key={template.address}>
+            <div key={template.id}>
+              <ul>
                 <li>Title: {template.specification.name}</li>
                 <li>Version: {template.version.toString()}</li>
                 <li>ID: {template.id.toString()}</li>
                 <li>Description: {template.specification.description}</li>
               </ul>
-              <button key={template.address + '-button'} onClick={() => {}}>
+              <button
+                onClick={() => {
+                  setPickedTemplate(template)
+                }}
+              >
                 Use
               </button>
-            </>
+            </div>
           ))}
         </ul>
       )}

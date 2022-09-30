@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Template, Fetcher } from '@carrot-kpi/v1-sdk'
-import { useActiveWeb3React } from './useActiveWeb3React'
+import { Template, Fetcher } from '@carrot-kpi/sdk'
+import { useProvider, useNetwork } from 'wagmi'
 
 export function useKpiTokenTemplates(): { loading: boolean; templates: Template[] } {
-  const { chainId, library } = useActiveWeb3React()
+  const { chain } = useNetwork()
+  const provider = useProvider()
 
   const [templates, setTemplates] = useState<Template[]>([])
   const [loading, setLoading] = useState(true)
@@ -11,10 +12,10 @@ export function useKpiTokenTemplates(): { loading: boolean; templates: Template[
   useEffect(() => {
     let cancelled = false
     async function fetchData(): Promise<void> {
-      if (!chainId || library == null) return
+      if (!chain) return
       setLoading(true)
       try {
-        const templates = await Fetcher.fetchKpiTokenTemplates(chainId, library)
+        const templates = await Fetcher.fetchKpiTokenTemplates(chain.id, provider)
         if (!cancelled) setTemplates(templates)
       } catch (error) {
         console.error('error fetching kpi token templates', error)
@@ -26,7 +27,7 @@ export function useKpiTokenTemplates(): { loading: boolean; templates: Template[
     return () => {
       cancelled = true
     }
-  }, [chainId, library])
+  }, [chain, provider])
 
   return { loading, templates }
 }

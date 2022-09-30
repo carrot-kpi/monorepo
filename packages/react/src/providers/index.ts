@@ -1,1 +1,0 @@
-export { CoreProvider } from './core'

@@ -23,7 +23,9 @@
   "scripts": {
     "lint:code": "eslint ./src",
     "prettier:write": "prettier -w ./src",
-    "build": "rimraf ./dist && rollup -c rollup.config.js",
+    "build": "npm run clean && rollup -c rollup.config.js",
+    "clean": "rimraf ./dist",
+    "prepublishOnly": "npm run build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },

@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react'
-import { Template, Fetcher } from '@carrot-kpi/v1-sdk'
-import { useActiveWeb3React } from './useActiveWeb3React'
+import { Template, Fetcher } from '@carrot-kpi/sdk'
+import { useProvider, useNetwork } from 'wagmi'
 
-export function useOracleTemplates(ids?: number[]): { loading: boolean; templates: Template[] } {
-  const { chainId, library } = useActiveWeb3React()
+export function useOracleTemplates(ids?: number[]): {
+  loading: boolean
+  templates: Template[]
+} {
+  const { chain } = useNetwork()
+  const provider = useProvider()
 
   const [templates, setTemplates] = useState<Template[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let cancelled = false
-    async function fetchData(): Promise<void> {
-      if (!chainId || library == null) return
+    const fetchData = async (): Promise<void> => {
+      if (!chain) return
       setLoading(true)
       try {
-        const templates = await Fetcher.fetchOracleTemplates(chainId, library, ids)
+        const templates = await Fetcher.fetchOracleTemplates(chain.id, provider, ids)
         if (!cancelled) setTemplates(templates)
       } catch (error) {
         console.error('error fetching oracle templates', error)
@@ -26,7 +30,7 @@ export function useOracleTemplates(ids?: number[]): { loading: boolean; template
     return () => {
       cancelled = true
     }
-  }, [chainId, library, ids])
+  }, [chain, provider, ids])
 
   return { loading, templates }
 }

@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
-import { KpiToken, Fetcher } from '@carrot-kpi/v1-sdk'
-import { useActiveWeb3React } from './useActiveWeb3React'
+import { KpiToken, Fetcher } from '@carrot-kpi/sdk'
+import { useProvider, useNetwork } from 'wagmi'
 
-export function useKpiTokens(address?: string): { loading: boolean; kpiTokens: KpiToken[] } {
-  const { chainId, library } = useActiveWeb3React()
+export function useKpiTokens(): {
+  loading: boolean
+  kpiTokens: KpiToken[]
+} {
+  const { chain } = useNetwork()
+  const provider = useProvider()
 
   const [kpiTokens, setKpiTokens] = useState<KpiToken[]>([])
   const [loading, setLoading] = useState(true)
@@ -11,10 +15,10 @@ export function useKpiTokens(address?: string): { loading: boolean; kpiTokens: K
   useEffect(() => {
     let cancelled = false
     async function fetchData(): Promise<void> {
-      if (!chainId || library == null) return
+      if (!chain) return
       if (!cancelled) setLoading(true)
       try {
-        const kpiTokens = await Fetcher.fetchKpiTokens(chainId, library)
+        const kpiTokens = await Fetcher.fetchKpiTokens(provider)
         if (!cancelled) setKpiTokens(kpiTokens)
       } catch (error) {
         console.error('error fetching kpi tokens', error)
@@ -26,7 +30,7 @@ export function useKpiTokens(address?: string): { loading: boolean; kpiTokens: K
     return () => {
       cancelled = true
     }
-  }, [chainId, library])
+  }, [chain, provider])
 
   return { loading, kpiTokens }
 }

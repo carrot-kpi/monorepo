@@ -1,28 +1,10 @@
 {
+  "extends": "../../tsconfig.base.json",
+  "include": ["./src/**/*"],
   "compilerOptions": {
-    "target": "ES2018",
-    "lib": ["DOM", "DOM.Iterable", "ESNext", "WebWorker"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "strict": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": false, // TODO: change
-    "jsx": "react-jsx",
-    "downlevelIteration": true,
-    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
-  "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+  "references": [{ "path": "../sdk" }, { "path": "../react" }]
 }

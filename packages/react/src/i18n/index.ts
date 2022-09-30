@@ -1,4 +1,3 @@
-import { Template } from '@carrot-kpi/v1-sdk'
 import i18n, { Resource } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
@@ -14,16 +13,14 @@ export const initializeI8n = (resources: Resource) => {
   })
 }
 
-export const getTemplateNamespace = (template: Template) => {
-  return `${template.id}-${template.version}`
-}
-
 export interface TemplateBundle {
   [language: string]: { [key: string]: string }
 }
 
-export const addBundleForTemplate = (template: Template, bundle: TemplateBundle) => {
-  const namespace = getTemplateNamespace(template)
+export const addBundleForTemplate = (
+  namespace: string,
+  bundle: TemplateBundle
+) => {
   Object.entries(bundle).forEach(([language, keys]) => {
     i18n.addResourceBundle(language, namespace, keys)
   })

@@ -1,25 +1,38 @@
-import { useCallback } from 'react'
+import React from 'react'
+import { useKpiTokens } from '@carrot-kpi/react'
 import { Link } from 'react-router-dom'
-import { injected } from '../../connectors'
-import { useActiveWeb3React, useKpiTokens } from '@carrot-kpi/react'
+import { chain, useAccount, useConnect } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 
 export const Home = () => {
-  const { account, activate, error } = useActiveWeb3React()
+  const { isConnected } = useAccount()
+  const { connect, connectors, isLoading, pendingConnector, error } = useConnect({
+    connector: new InjectedConnector({
+      chains: [chain.goerli],
+    }),
+  })
   const { loading, kpiTokens } = useKpiTokens()
-
-  const handleActivate = useCallback(() => {
-    activate(injected)
-  }, [activate])
 
   return (
     <>
-      {!account && <button onClick={handleActivate}>Connect wallet</button>}
-      {account && (
+      {!isConnected &&
+        connectors.map((connector) => (
+          <button
+            disabled={!connector.ready}
+            key={connector.id}
+            onClick={() => connect({ connector })}
+          >
+            {connector.name}
+            {!connector.ready && ' (unsupported)'}
+            {isLoading && connector.id === pendingConnector?.id && ' (connecting)'}
+          </button>
+        ))}
+      {!!error && error.message}
+      {isConnected && (
         <Link to="/create">
           <button>Create KPI token</button>
         </Link>
       )}
-      {error}
       {loading && <>Loading...</>}
       {!loading && kpiTokens.length > 0 && (
         <ul>
