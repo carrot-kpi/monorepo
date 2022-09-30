@@ -12,10 +12,9 @@
     "prepare": "husky install"
   },
   "workspaces": [
-    "packages/core-sdk",
     "packages/frontend",
     "packages/react",
-    "packages/v1-sdk"
+    "packages/sdk"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
