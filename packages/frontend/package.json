@@ -18,12 +18,15 @@
     "build": "npm run clean && cross-env PUBLIC_URL=\".\" GENERATE_SOURCEMAP=false react-app-rewired build",
     "clean": "rimraf ./build",
     "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
+    "size-limit": "size-limit",
     "start": "react-app-rewired start"
   },
   "devDependencies": {
     "@carrot-kpi/react": "^0.1.2",
     "@carrot-kpi/sdk": "^1.0.0",
     "@reduxjs/toolkit": "^1.8.5",
+    "@size-limit/preset-app": "^8.1.0",
+    "@size-limit/webpack-why": "^8.1.0",
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
     "@types/react-router-dom": "^5.3.3",
@@ -51,6 +54,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "redux-localstorage-simple": "^2.5.1",
+    "size-limit": "^8.1.0",
     "wagmi": "^0.6.7"
   },
   "browserslist": {

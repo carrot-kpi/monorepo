@@ -1,10 +1,10 @@
 [
   {
     "path": "dist/carrot-kpi-react.umd.js",
-    "limit": "60 KB"
+    "limit": "10 KB"
   },
   {
     "path": "dist/carrot-kpi-react.es.js",
-    "limit": "50 KB"
+    "limit": "10 KB"
   }
 ]

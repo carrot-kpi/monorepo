@@ -27,7 +27,7 @@
     "clean": "rimraf ./dist",
     "test": "echo 'No tests' && exit 0",
     "prepublishOnly": "npm run build",
-    "size": "size-limit",
+    "size-limit": "size-limit",
     "analyze": "size-limit --why"
   },
   "dependencies": {

@@ -25,4 +25,4 @@ jobs:
       - name: Test all packages
         run: npm run test:all
       - name: Size check all eligible packages
-        run: npm run size-check:all
+        run: npm run build:all && npm run size-check:all
