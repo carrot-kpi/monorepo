@@ -1,7 +1,7 @@
 import React from 'react'
 import { Template } from '@carrot-kpi/sdk'
 import { useTemplateModule } from '../../hooks/useTemplateModule'
-// import { addBundleForTemplate } from '../../i18n'
+import { addBundleForTemplate } from '../../i18n'
 import { useEffect, useState } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
 
@@ -16,22 +16,22 @@ export function TemplateComponent({
   template,
   props = {},
 }: TemplateComponentProps) {
-  const { t: i18NextTranslate } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { loading, bundle, Component } = useTemplateModule(type, template)
 
-  const [t, setT] = useState<TFunction>(() => () => '')
+  const [translateWithNamespace, setTranslateWithNamespace] = useState<TFunction>(
+    () => () => ''
+  )
 
   useEffect(() => {
     if (loading || !template || !bundle || !Component) return
-    // FIXME: proper i18n setup
-    // const namespace = `${template.specification.cid}`
-    // addBundleForTemplate(namespace, bundle)
-    setT(() => (key: any, options?: any) => {
-      return 'Test'
-      // i18NextTranslate(key, { ...options, namespace })
+    const namespace = `${template.specification.cid}${type}`
+    addBundleForTemplate(i18n, namespace, bundle)
+    setTranslateWithNamespace(() => (key: any, options?: any) => {
+      return t(key, { ...options, ns: namespace })
     })
-  }, [Component, bundle, i18NextTranslate, loading, template])
+  }, [Component, bundle, t, i18n, loading, template, type])
 
   if (loading || !Component) return <>Loading...</>
-  return <Component {...props} t={t} />
+  return <Component {...props} t={translateWithNamespace} />
 }
