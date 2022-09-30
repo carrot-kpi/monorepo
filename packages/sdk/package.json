@@ -21,10 +21,11 @@
   },
   "repository": "https://github.com/carrot-kpi/frontend-monorepo.git",
   "scripts": {
-    "lint:code": "eslint ./src",
-    "prettier:write": "prettier -w ./src",
+    "lint:code": "eslint --ext .tsx,.ts ./src && prettier --check ./src",
+    "prettier:write": "prettier -w ./src/**",
     "build": "npm run clean && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
+    "test": "echo 'No tests' && exit 0",
     "prepublishOnly": "npm run build",
     "size": "size-limit",
     "analyze": "size-limit --why"

@@ -23,6 +23,7 @@ export function TemplateComponent({
 
   useEffect(() => {
     if (loading || !template || !bundle || !Component) return
+    // FIXME: proper i18n setup
     // const namespace = `${template.specification.cid}`
     // addBundleForTemplate(namespace, bundle)
     setT(() => (key: any, options?: any) => {

@@ -13,12 +13,12 @@
     "react-i18next": "^11.18.6"
   },
   "scripts": {
-    "lint:code": "eslint ./src",
-    "prettier:write": "prettier -w ./src",
+    "lint:code": "eslint --ext .tsx,.ts ./src && prettier --check ./src",
+    "prettier:write": "prettier -w ./src/**",
     "build": "npm run clean && cross-env PUBLIC_URL=\".\" GENERATE_SOURCEMAP=false react-app-rewired build",
     "clean": "rimraf ./build",
-    "start": "react-app-rewired start",
-    "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests"
+    "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
+    "start": "react-app-rewired start"
   },
   "devDependencies": {
     "@carrot-kpi/react": "^0.1.2",

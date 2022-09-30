@@ -12,10 +12,16 @@ const fileToString = async (source: AsyncIterable<Uint8Array>) => {
 onmessage = async (event: MessageEvent) => {
   try {
     if (!!!ipfs) ipfs = await create()
-    const stat = await ipfs.files.stat('/ipfs/QmYZ89fiCjtDP3w4Am1XhTSmhTxzB4BnQnmtp8TeJp6vvj')
+    const stat = await ipfs.files.stat(
+      '/ipfs/QmYZ89fiCjtDP3w4Am1XhTSmhTxzB4BnQnmtp8TeJp6vvj'
+    )
     switch (stat.type) {
       case 'file': {
-        console.log(await fileToString(ipfs.cat('/ipfs/QmYZ89fiCjtDP3w4Am1XhTSmhTxzB4BnQnmtp8TeJp6vvj')))
+        console.log(
+          await fileToString(
+            ipfs.cat('/ipfs/QmYZ89fiCjtDP3w4Am1XhTSmhTxzB4BnQnmtp8TeJp6vvj')
+          )
+        )
       }
     }
   } catch (error) {
