@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "./src/abis/*.json"],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist"
