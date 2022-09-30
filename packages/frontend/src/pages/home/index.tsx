@@ -3,8 +3,10 @@ import { useKpiTokens } from '@carrot-kpi/react'
 import { Link } from 'react-router-dom'
 import { chain, useAccount, useConnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { useTranslation } from 'react-i18next'
 
 export const Home = () => {
+  const { t } = useTranslation()
   const { isConnected } = useAccount()
   const { connect, connectors, isLoading, pendingConnector, error } = useConnect({
     connector: new InjectedConnector({
@@ -30,23 +32,23 @@ export const Home = () => {
       {!!error && error.message}
       {isConnected && (
         <Link to="/create">
-          <button>Create KPI token</button>
+          <button>{t('home.createKpiToken')}</button>
         </Link>
       )}
-      {loading && <>Loading...</>}
+      {loading && <>{t('home.loading')}...</>}
       {!loading && kpiTokens.length > 0 && (
         <ul>
           {kpiTokens.map((token: any) => (
             <li key={token.address}>
               {token.description.title}{' '}
               <Link to={`/campaigns/${token.address}`}>
-                <button>See</button>
+                <button>{t('home.viewCampaign')}</button>
               </Link>
             </li>
           ))}
         </ul>
       )}
-      {!loading && kpiTokens.length === 0 && <>No KPI tokens</>}
+      {!loading && kpiTokens.length === 0 && <>{t('home.noKpiToken')}</>}
     </>
   )
 }

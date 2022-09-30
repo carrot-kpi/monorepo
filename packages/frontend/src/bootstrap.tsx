@@ -7,8 +7,10 @@ import { configureChains, chain as wagmiChain, createClient, WagmiConfig } from 
 import { infuraProvider } from 'wagmi/providers/infura'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { ChainId } from '@carrot-kpi/sdk'
-import { INFURA_PROJECT_ID } from '@carrot-kpi/sdk'
+import { ChainId, INFURA_PROJECT_ID } from '@carrot-kpi/sdk'
+import { initializeI8n } from '@carrot-kpi/react'
+import i18n from 'i18next'
+import { resources } from './i18n'
 
 const supportedChains = Object.values(wagmiChain).filter((chain) => {
   return chain.id in ChainId
@@ -34,6 +36,8 @@ const client = createClient({
 })
 
 __webpack_init_sharing__('default')
+
+initializeI8n(i18n, resources)
 
 const container = document.getElementById('root')
 const root = createRoot(container!)
