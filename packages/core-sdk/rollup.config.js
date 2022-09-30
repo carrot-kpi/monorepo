@@ -1,20 +1,36 @@
 import { join } from 'path'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
-import typescript from '@rollup/plugin-typescript'
+import typescript from 'rollup-plugin-typescript2'
 import json from '@rollup/plugin-json'
 
-export default {
-  input: join(__dirname, './src/index.ts'),
-  plugins: [typescript(), json(), terser()],
-  output: [
-    {
-      format: 'es',
-      file: join(__dirname, './dist/carrot-kpi-core-sdk.es.js'),
-    },
-    {
-      format: 'umd',
-      name: 'CarrotKpiCoreSdk',
-      file: join(__dirname, './dist/carrot-kpi-core-sdk.umd.js'),
-    },
-  ],
-}
+export default [
+  {
+    input: join(__dirname, './src/index.ts'),
+    plugins: [
+      peerDepsExternal(),
+      json({ compact: true }),
+      commonjs(),
+      nodeResolve(),
+      typescript(),
+      terser(),
+    ],
+    output: [
+      {
+        file: join(__dirname, `./dist/carrot-kpi-core-sdk.umd.js`),
+        format: 'umd',
+        name: 'CarrotKpiCoreSdk',
+        globals: {
+          ethers: 'ethers',
+          'decimal.js-light': 'Decimal',
+        },
+      },
+      {
+        file: join(__dirname, `./dist/carrot-kpi-core-sdk.es.js`),
+        format: 'es',
+      },
+    ],
+  },
+]

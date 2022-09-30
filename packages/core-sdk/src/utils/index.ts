@@ -1,6 +1,5 @@
-import { getAddress } from '@ethersproject/address'
 import { Token } from '../entities/token'
-import { CACHER, ChainId } from '../commons/constants'
+import { CACHER } from '../commons'
 
 const isProduction: boolean = process.env.NODE_ENV === 'production'
 
@@ -12,30 +11,8 @@ export const warn = (condition: boolean, message: string) => {
   if (!condition && !isProduction) console.warn(message)
 }
 
-export function validateAndParseAddress(address: string): string {
-  try {
-    const checksummedAddress = getAddress(address)
-    warn(address !== checksummedAddress, `${address} is not checksummed.`)
-    return checksummedAddress
-  } catch (error) {
-    enforce(false, `${address} is not a valid address.`)
-  }
-}
-
-export const dateToEpoch = (date: Date): number => Math.floor(date.getTime() / 1000)
-
-export const getTimestampsFromRange = (from: Date, to: Date, granularitySeconds: number): number[] => {
-  let loopedDateAsEpoch = dateToEpoch(from)
-  const toAsEpoch = dateToEpoch(to)
-  const timestamps = []
-  while (loopedDateAsEpoch <= toAsEpoch) {
-    timestamps.push(loopedDateAsEpoch)
-    loopedDateAsEpoch += granularitySeconds
-  }
-  return timestamps
-}
-
-export const erc20TokenCachingKey = (chainId: ChainId, address: string) => `erc20-${chainId}-${address}`
+export const erc20TokenCachingKey = (chainId: number, address: string) =>
+  `erc20-${chainId}-${address}`
 
 interface SerializedErc20Token {
   chainId: number
@@ -63,8 +40,13 @@ export const cacheErc20Token = (token: Token, validUntil?: number) => {
   )
 }
 
-export const getCachedErc20Token = (chainId: ChainId, address: string): Token | undefined => {
-  const serializedErc20Token = CACHER.get<SerializedErc20Token>(erc20TokenCachingKey(chainId, address))
+export const getCachedErc20Token = (
+  chainId: number,
+  address: string
+): Token | undefined => {
+  const serializedErc20Token = CACHER.get<SerializedErc20Token>(
+    erc20TokenCachingKey(chainId, address)
+  )
   if (!!!serializedErc20Token) return
   return new Token(
     serializedErc20Token.chainId,
