@@ -1,7 +1,7 @@
 {
   "name": "@carrot-kpi/react",
   "author": "Federico Luzzi",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "./dist/carrot-kpi-react.umd.js",
   "module": "./dist/carrot-kpi-react.es.js",
