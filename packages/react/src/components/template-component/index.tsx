@@ -8,16 +8,18 @@ import { TFunction, useTranslation } from 'react-i18next'
 interface TemplateComponentProps {
   type: 'creationForm' | 'page'
   template?: Template
+  customBaseUrl?: string
   props?: any
 }
 
 export function TemplateComponent({
   type,
   template,
+  customBaseUrl,
   props = {},
 }: TemplateComponentProps) {
   const { t, i18n } = useTranslation()
-  const { loading, bundle, Component } = useTemplateModule(type, template)
+  const { loading, bundle, Component } = useTemplateModule(type, template, customBaseUrl)
 
   const [translateWithNamespace, setTranslateWithNamespace] = useState<TFunction>(
     () => () => ''

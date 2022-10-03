@@ -3,14 +3,18 @@ import { TemplateBundle } from '../i18n'
 import { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import { useFederatedModuleContainer } from './useFederatedModuleContainer'
 
-export const useTemplateModule = (entryPostfix: string, template?: Template) => {
+export const useTemplateModule = (
+  entryPostfix: string,
+  template?: Template,
+  customBaseUrl?: string
+) => {
   const { baseUrl, entry } = useMemo(() => {
     if (!template) return {}
     return {
-      baseUrl: `${IPFS_GATEWAY}${template.specification.cid}`,
+      baseUrl: customBaseUrl || `${IPFS_GATEWAY}${template.specification.cid}`,
       entry: `${template.specification.commitHash}${entryPostfix}`,
     }
-  }, [template, entryPostfix])
+  }, [template, entryPostfix, customBaseUrl])
   const { loading: loadingFederatedModule, container } = useFederatedModuleContainer(
     baseUrl,
     entry
