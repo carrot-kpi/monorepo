@@ -1,0 +1,10 @@
+[
+  {
+    "path": "dist/carrot-kpi-ui.umd.js",
+    "limit": "10 KB"
+  },
+  {
+    "path": "dist/carrot-kpi-ui.es.js",
+    "limit": "10 KB"
+  }
+]

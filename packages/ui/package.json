@@ -1,0 +1,74 @@
+{
+  "name": "@carrot-kpi/ui",
+  "author": "Federico Luzzi",
+  "version": "0.1.0",
+  "license": "GPL-3.0-or-later",
+  "main": "./dist/carrot-kpi-ui.umd.js",
+  "module": "./dist/carrot-kpi-ui.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/carrot-kpi-ui.es.js",
+      "require": "./dist/carrot-kpi-ui.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint:code": "eslint --ext .tsx,.ts ./src && prettier --check ./src",
+    "prettier:write": "prettier -w ./src/**",
+    "build": "npm run clean && rollup -c rollup.config.js",
+    "clean": "rimraf ./dist",
+    "test": "echo 'No tests' && exit 0",
+    "prepublishOnly": "npm run build",
+    "size-limit": "size-limit",
+    "analyze": "size-limit --why",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^4.5.12"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.10.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@emotion/react": "^11.10.4",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@size-limit/preset-small-lib": "^8.1.0",
+    "@size-limit/webpack-why": "^8.1.0",
+    "@storybook/addon-actions": "^6.5.12",
+    "@storybook/addon-essentials": "^6.5.12",
+    "@storybook/addon-interactions": "^6.5.12",
+    "@storybook/addon-links": "^6.5.12",
+    "@storybook/builder-webpack5": "^6.5.12",
+    "@storybook/manager-webpack5": "^6.5.12",
+    "@storybook/react": "^6.5.12",
+    "@storybook/testing-library": "^0.0.13",
+    "@types/react": "^18.0.21",
+    "@types/rollup-plugin-peer-deps-external": "^2.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.1",
+    "babel-loader": "^8.2.5",
+    "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.79.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.34.0",
+    "size-limit": "^8.1.0"
+  }
+}
