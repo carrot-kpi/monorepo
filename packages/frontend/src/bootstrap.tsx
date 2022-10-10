@@ -11,6 +11,7 @@ import { ChainId, INFURA_PROJECT_ID } from '@carrot-kpi/sdk'
 import { initializeI8n } from '@carrot-kpi/react'
 import i18n from 'i18next'
 import { resources } from './i18n'
+import { CarrotUIProvider } from '@carrot-kpi/ui'
 
 const supportedChains = Object.values(wagmiChain).filter((chain) => {
   return chain.id in ChainId
@@ -45,7 +46,9 @@ root.render(
   <StrictMode>
     <HashRouter>
       <WagmiConfig client={client}>
-        <App />
+        <CarrotUIProvider>
+          <App />
+        </CarrotUIProvider>
       </WagmiConfig>
     </HashRouter>
   </StrictMode>

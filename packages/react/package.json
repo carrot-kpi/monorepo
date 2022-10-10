@@ -2,7 +2,7 @@
   "name": "@carrot-kpi/react",
   "author": "Federico Luzzi",
   "version": "0.2.0",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "main": "./dist/carrot-kpi-react.umd.js",
   "module": "./dist/carrot-kpi-react.es.js",
   "types": "./dist/index.d.ts",

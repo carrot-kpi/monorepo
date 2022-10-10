@@ -6,5 +6,5 @@
     "rootDir": "./src",
     "outDir": "./dist"
   },
-  "references": [{ "path": "../sdk" }, { "path": "../react" }]
+  "references": [{ "path": "../sdk" }, { "path": "../react" }, { "path": "../ui" }]
 }

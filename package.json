@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A monorepo for Carrot v1 packages.",
   "author": "Federico Luzzi",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "lint:code:all": "npm run lint:code --workspaces",
     "test:all": "npm run test --workspaces",
