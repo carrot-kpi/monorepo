@@ -19,7 +19,7 @@ export default [
     ],
     output: [
       {
-        file: join(__dirname, `./dist/carrot-kpi-sdk.umd.js`),
+        file: join(__dirname, `./dist/index.js`),
         format: 'umd',
         name: 'CarrotKpiSdk',
         globals: {
@@ -29,7 +29,7 @@ export default [
         sourcemap: true,
       },
       {
-        file: join(__dirname, `./dist/carrot-kpi-sdk.es.js`),
+        file: join(__dirname, `./dist/index.mjs`),
         format: 'es',
         sourcemap: true,
       },

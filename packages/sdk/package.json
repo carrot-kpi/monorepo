@@ -4,13 +4,13 @@
   "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
   "version": "1.0.0",
   "description": "An SDK for building applications on top of Carrot v1.",
-  "main": "./dist/carrot-kpi-sdk.umd.js",
-  "module": "./dist/carrot-kpi-sdk.es.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/carrot-kpi-sdk.es.js",
-      "require": "./dist/carrot-kpi-sdk.umd.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
   "files": [
