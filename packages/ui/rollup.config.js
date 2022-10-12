@@ -20,7 +20,7 @@ export default [
     external: ['@emotion/react'],
     output: [
       {
-        file: join(__dirname, `./dist/carrot-kpi-ui.umd.js`),
+        file: join(__dirname, `./dist/index.js`),
         format: 'umd',
         name: 'CarrotKpiUi',
         globals: {
@@ -28,7 +28,7 @@ export default [
         },
       },
       {
-        file: join(__dirname, `./dist/carrot-kpi-ui.es.js`),
+        file: join(__dirname, `./dist/index.mjs`),
         format: 'es',
       },
     ],
