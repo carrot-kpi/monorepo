@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@carrot-kpi/react": "^0.2.0",
-    "@carrot-kpi/sdk": "^1.0.0",
+    "@carrot-kpi/sdk": "^1.0.1",
     "@carrot-kpi/ui": "^0.1.0",
     "@emotion/react": "^11.10.4",
     "@reduxjs/toolkit": "^1.8.5",
