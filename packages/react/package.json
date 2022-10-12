@@ -3,13 +3,13 @@
   "author": "Federico Luzzi",
   "version": "0.2.0",
   "license": "GPL-3.0-or-later",
-  "main": "./dist/carrot-kpi-react.umd.js",
-  "module": "./dist/carrot-kpi-react.es.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/carrot-kpi-react.es.js",
-      "require": "./dist/carrot-kpi-react.umd.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
   "files": [
