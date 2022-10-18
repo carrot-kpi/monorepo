@@ -11,13 +11,11 @@ export enum ChainId {
   GOERLI = 5,
 }
 
-export const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
-export const POCKET_ID = '61d8970ca065f5003a112e86'
 export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'
 
 export const CACHER = new Cacher('carrot-sdk')
 
-interface ChainAddresses {
+export interface ChainAddresses {
   multicall: string
   factory: string
   kpiTokensManager: string
