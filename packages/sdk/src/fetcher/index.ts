@@ -1,4 +1,4 @@
-import { BigNumber, Contract, constants, providers, utils } from 'ethers'
+import { BigNumber, Contract, providers, utils } from 'ethers'
 import {
   KPI_TOKENS_MANAGER_ABI,
   CHAIN_ADDRESSES,
@@ -64,154 +64,10 @@ const ORACLE_DATA_FUNCTION_DATA =
   ORACLE_INTERFACE.encodeFunctionData(ORACLE_DATA_FUNCTION)
 
 export abstract class Fetcher extends CoreFetcher {
-  public static async fetchKpiToken(
-    chainId: ChainId,
-    address: string,
-    provider: providers.Provider
-  ): Promise<KpiToken | null> {
-    enforce(!!address && address !== constants.AddressZero, 'invalid kpi token address')
-
-    const chainAddresses = CHAIN_ADDRESSES[chainId]
-    const multicall = new Contract(
-      chainAddresses.multicall[chainId],
-      MULTICALL_ABI,
-      provider
-    )
-
-    const [, kpiTokenResult] = await multicall.callStatic.aggregate([
-      [address, KPI_TOKEN_FINALIZED_FUNCTION_DATA],
-      [address, KPI_TOKEN_DESCRIPTION_FUNCTION_DATA],
-      [address, KPI_TOKEN_DATA_FUNCTION_DATA],
-      [address, KPI_TOKEN_TEMPLATE_FUNCTION_DATA],
-      [address, KPI_TOKEN_ORACLES_FUNCTION_DATA],
-      [address, KPI_TOKEN_EXPIRATION_FUNCTION_DATA],
-    ])
-
-    const kpiTokenFinalized = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-      KPI_TOKEN_FINALIZED_FUNCTION,
-      kpiTokenResult[0]
-    )[0]
-    const kpiTokenDescriptionCid = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-      KPI_TOKEN_DESCRIPTION_FUNCTION,
-      kpiTokenResult[1]
-    )[0]
-    if (!isCID(kpiTokenDescriptionCid)) return null
-    const kpiTokenData = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-      KPI_TOKEN_DATA_FUNCTION,
-      kpiTokenResult[2]
-    )[0]
-    const kpiTokenTemplate = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-      KPI_TOKEN_TEMPLATE_FUNCTION,
-      kpiTokenResult[3]
-    )[0]
-    const kpiTokenOracleAddresses = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-      KPI_TOKEN_ORACLES_FUNCTION,
-      kpiTokenResult[4]
-    )[0]
-    const kpiTokenExpiration = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-      KPI_TOKEN_EXPIRATION_FUNCTION,
-      kpiTokenResult[5]
-    )[0].toNumber()
-
-    const [, oraclesResult] = await multicall.callStatic.aggregate(
-      kpiTokenOracleAddresses.flatMap((oracleAddress: string) => {
-        return [
-          [oracleAddress, ORACLE_TEMPLATE_FUNCTION_DATA],
-          [oracleAddress, ORACLE_FINALIZED_FUNCTION_DATA],
-          [oracleAddress, ORACLE_DATA_FUNCTION_DATA],
-        ]
-      })
-    )
-
-    const allOracleSpecificationCids: string[] = []
-    for (let i = 0; i < oraclesResult.length; i += 3) {
-      const cid = ORACLE_INTERFACE.decodeFunctionResult(
-        ORACLE_TEMPLATE_FUNCTION,
-        oraclesResult[i]
-      )[0].specification
-      if (!isCID(cid)) return null
-      if (allOracleSpecificationCids.indexOf(cid) < 0)
-        allOracleSpecificationCids.push(cid)
-    }
-
-    const oracleTemplateSpecifications = await CoreFetcher.fetchContentFromIpfs(
-      allOracleSpecificationCids.map((cid) => ({
-        cid: `${cid}/base.json`,
-        validUntil: Date.now() + 86_400_000,
-      }))
-    )
-
-    if (!isCID(kpiTokenTemplate.specification)) return null
-    // TODO: fetch base.json in KPI token templates too
-    const kpiTokenTemplateSpecification = JSON.parse(
-      (
-        await CoreFetcher.fetchContentFromIpfs([
-          {
-            cid: kpiTokenTemplate.specification,
-            validUntil: Date.now() + 86_400_000,
-          },
-        ])
-      )[kpiTokenTemplate.specification]
-    )
-
-    const kpiTokenDescription = Object.values(
-      await CoreFetcher.fetchContentFromIpfs([
-        { cid: kpiTokenDescriptionCid, validUntil: Number.MAX_SAFE_INTEGER },
-      ])
-    ).map((content) => JSON.parse(content))[kpiTokenDescriptionCid]
-
-    const oracles = []
-    for (let i = 0; i < kpiTokenOracleAddresses.length; i++) {
-      const oracleAddress = kpiTokenOracleAddresses[i]
-      const rawTemplate = ORACLE_INTERFACE.decodeFunctionResult(
-        ORACLE_TEMPLATE_FUNCTION,
-        oraclesResult[i * 3]
-      )[0]
-      const templateSpecification = JSON.parse(
-        oracleTemplateSpecifications[`${rawTemplate.specification}/base.json`]
-      )
-      if (!templateSpecification) return null
-      const template: Template = {
-        ...rawTemplate,
-        id: rawTemplate.id.toNumber(),
-        specification: templateSpecification,
-      }
-      oracles.push(
-        new Oracle(
-          chainId,
-          oracleAddress,
-          template,
-          ORACLE_INTERFACE.decodeFunctionResult(
-            ORACLE_FINALIZED_FUNCTION,
-            oraclesResult[i * 3 + 1]
-          )[0],
-          ORACLE_INTERFACE.decodeFunctionResult(
-            ORACLE_DATA_FUNCTION,
-            oraclesResult[i * 3 + 2]
-          )[0]
-        )
-      )
-    }
-
-    const template = new Template(
-      kpiTokenTemplate.id.toNumber(),
-      kpiTokenTemplate.addrezz,
-      kpiTokenTemplate.version,
-      kpiTokenTemplateSpecification
-    )
-    return new KpiToken(
-      chainId,
-      address,
-      template,
-      oracles,
-      kpiTokenDescription,
-      kpiTokenExpiration,
-      kpiTokenFinalized,
-      kpiTokenData
-    )
-  }
-
-  public static async fetchKpiTokens(provider: providers.Provider): Promise<KpiToken[]> {
+  public static async fetchKpiTokens(
+    provider: providers.Provider,
+    addresses?: string[]
+  ): Promise<{ [address: string]: KpiToken }> {
     const { chainId } = await provider.getNetwork()
     enforce(chainId in ChainId, `unsupported chain with id ${chainId}`)
     const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId]
@@ -219,8 +75,11 @@ export abstract class Fetcher extends CoreFetcher {
     const factoryContract = new Contract(chainAddresses.factory, FACTORY_ABI, provider)
 
     const kpiTokenAmounts = await factoryContract.kpiTokensAmount()
-    if (kpiTokenAmounts.isZero()) return []
-    const tokenAddresses = await factoryContract.enumerate(0, kpiTokenAmounts)
+    if (kpiTokenAmounts.isZero()) return {}
+    const tokenAddresses =
+      addresses && addresses.length > 0
+        ? addresses
+        : await factoryContract.enumerate(0, kpiTokenAmounts)
 
     const [, kpiTokenResult] = await multicall.callStatic.aggregate(
       tokenAddresses.flatMap((address: string) => {
@@ -276,77 +135,10 @@ export abstract class Fetcher extends CoreFetcher {
           kpiTokenResult[i]
         )[0]
       )
-    const [, oraclesResult] = await multicall.callStatic.aggregate(
-      allOracleAddresses.flatMap((oracleAddress: string) => {
-        return [
-          [oracleAddress, ORACLE_TEMPLATE_FUNCTION_DATA],
-          [oracleAddress, ORACLE_FINALIZED_FUNCTION_DATA],
-          [oracleAddress, ORACLE_DATA_FUNCTION_DATA],
-        ]
-      })
-    )
 
-    const allOracleSpecificationCids: string[] = []
-    for (let i = 0; i < oraclesResult.length; i += 3) {
-      const cid = ORACLE_INTERFACE.decodeFunctionResult(
-        ORACLE_TEMPLATE_FUNCTION,
-        oraclesResult[i]
-      )[0].specification
-      if (!!isCID(cid) && allOracleSpecificationCids.indexOf(cid) < 0)
-        allOracleSpecificationCids.push(cid)
-    }
-    const oracleTemplateSpecifications = await CoreFetcher.fetchContentFromIpfs(
-      allOracleSpecificationCids.map((cid) => ({
-        cid: `${cid}/base.json`,
-        validUntil: Date.now() + 86_400_000,
-      }))
-    )
+    const oracles = await Fetcher.fetchOracles(provider, allOracleAddresses)
 
-    const oracles: { [address: string]: Oracle } = {}
-    for (let i = 0; i < allOracleAddresses.length; i++) {
-      const {
-        id: templateId,
-        addrezz: templateAddress,
-        specification,
-        version,
-      } = ORACLE_INTERFACE.decodeFunctionResult(
-        ORACLE_TEMPLATE_FUNCTION,
-        oraclesResult[i * 3]
-      )[0]
-      const unparsedSpecification =
-        oracleTemplateSpecifications[`${specification}/base.json`]
-      if (!unparsedSpecification) continue
-      const parsedSpecification = JSON.parse(unparsedSpecification)
-      const oracleAddress = allOracleAddresses[i]
-      const template = new Template(
-        templateId,
-        templateAddress,
-        version,
-        new TemplateSpecification(
-          specification,
-          parsedSpecification.name,
-          parsedSpecification.description,
-          parsedSpecification.tags,
-          parsedSpecification.repository,
-          parsedSpecification.commitHash
-        )
-      )
-      oracles[oracleAddress] = new Oracle(
-        chainId,
-        oracleAddress,
-        template,
-        ORACLE_INTERFACE.decodeFunctionResult(
-          ORACLE_FINALIZED_FUNCTION,
-          oraclesResult[i * 3 + 1]
-        )[0],
-        ORACLE_INTERFACE.decodeFunctionResult(
-          ORACLE_DATA_FUNCTION,
-          oraclesResult[i * 3 + 2]
-        )[0]
-      )
-    }
-
-    const allKpiTokens = []
+    const allKpiTokens: { [address: string]: KpiToken } = {}
     outerLoop: for (let i = 0; kpiTokenAmounts.gt(i); i++) {
       const kpiTokenTemplate = KPI_TOKEN_INTERFACE.decodeFunctionResult(
         KPI_TOKEN_TEMPLATE_FUNCTION,
@@ -393,20 +185,103 @@ export abstract class Fetcher extends CoreFetcher {
         kpiTokenTemplate.version,
         kpiTokenTemplateSpecification
       )
-      allKpiTokens.push(
-        new KpiToken(
-          chainId,
-          tokenAddresses[i],
-          template,
-          kpiTokenOracles,
-          description,
-          kpiTokenExpiration,
-          kpiTokenFinalized,
-          kpiTokenData
-        )
+
+      const kpiTokenAddress = tokenAddresses[i]
+      allKpiTokens[kpiTokenAddress] = new KpiToken(
+        chainId,
+        kpiTokenAddress,
+        template,
+        kpiTokenOracles,
+        description,
+        kpiTokenExpiration,
+        kpiTokenFinalized,
+        kpiTokenData
       )
     }
     return allKpiTokens
+  }
+
+  public static async fetchOracles(
+    provider: providers.Provider,
+    addresses: string[]
+  ): Promise<{ [address: string]: Oracle }> {
+    if (addresses.length === 0) return {}
+
+    const { chainId } = await provider.getNetwork()
+    enforce(chainId in ChainId, `unsupported chain with id ${chainId}`)
+    const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId]
+    const multicall = new Contract(chainAddresses.multicall, MULTICALL_ABI, provider)
+
+    const [, oraclesResult] = await multicall.callStatic.aggregate(
+      addresses.flatMap((address: string) => {
+        return [
+          [address, ORACLE_TEMPLATE_FUNCTION_DATA],
+          [address, ORACLE_FINALIZED_FUNCTION_DATA],
+          [address, ORACLE_DATA_FUNCTION_DATA],
+        ]
+      })
+    )
+
+    const allOracleSpecificationCids: string[] = []
+    for (let i = 0; i < oraclesResult.length; i += 3) {
+      const cid = ORACLE_INTERFACE.decodeFunctionResult(
+        ORACLE_TEMPLATE_FUNCTION,
+        oraclesResult[i]
+      )[0].specification
+      if (!!isCID(cid) && allOracleSpecificationCids.indexOf(cid) < 0)
+        allOracleSpecificationCids.push(cid)
+    }
+    const oracleTemplateSpecifications = await CoreFetcher.fetchContentFromIpfs(
+      allOracleSpecificationCids.map((cid) => ({
+        cid: `${cid}/base.json`,
+        validUntil: Date.now() + 86_400_000,
+      }))
+    )
+
+    const oracles: { [address: string]: Oracle } = {}
+    for (let i = 0; i < addresses.length; i++) {
+      const {
+        id: templateId,
+        addrezz: templateAddress,
+        specification,
+        version,
+      } = ORACLE_INTERFACE.decodeFunctionResult(
+        ORACLE_TEMPLATE_FUNCTION,
+        oraclesResult[i * 3]
+      )[0]
+      const unparsedSpecification =
+        oracleTemplateSpecifications[`${specification}/base.json`]
+      if (!unparsedSpecification) continue
+      const parsedSpecification = JSON.parse(unparsedSpecification)
+      const oracleAddress = addresses[i]
+      const template = new Template(
+        templateId,
+        templateAddress,
+        version,
+        new TemplateSpecification(
+          specification,
+          parsedSpecification.name,
+          parsedSpecification.description,
+          parsedSpecification.tags,
+          parsedSpecification.repository,
+          parsedSpecification.commitHash
+        )
+      )
+      oracles[oracleAddress] = new Oracle(
+        chainId,
+        oracleAddress,
+        template,
+        ORACLE_INTERFACE.decodeFunctionResult(
+          ORACLE_FINALIZED_FUNCTION,
+          oraclesResult[i * 3 + 1]
+        )[0],
+        ORACLE_INTERFACE.decodeFunctionResult(
+          ORACLE_DATA_FUNCTION,
+          oraclesResult[i * 3 + 2]
+        )[0]
+      )
+    }
+    return oracles
   }
 
   private static async fetchTemplates(
