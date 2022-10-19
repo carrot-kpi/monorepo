@@ -28,12 +28,12 @@ export const useFederatedModuleContainer = (baseUrl?: string, entry?: string) =>
           await import(/* webpackIgnore: true */ `${sanitizedBaseUrl}${entry}.js`)
         container = <RemoteContainer | undefined>window[entry as keyof Window]
         if (!container) {
-          warn(true, 'container still undefined after federated module import')
+          console.warn('container still undefined after federated module import')
           return
         }
         const shareScope = __webpack_share_scopes__.default
         if (!shareScope) {
-          warn(true, 'webpack share scope is undefined')
+          console.warn(true, 'webpack share scope is undefined')
           return
         }
         await container.init(shareScope)
