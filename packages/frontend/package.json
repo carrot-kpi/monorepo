@@ -13,7 +13,7 @@
     "start": "react-app-rewired start"
   },
   "devDependencies": {
-    "@carrot-kpi/react": "^0.4.0",
+    "@carrot-kpi/react": "^0.4.1",
     "@carrot-kpi/sdk": "^1.1.0",
     "@carrot-kpi/ui": "^0.1.0",
     "@emotion/react": "^11.10.4",
