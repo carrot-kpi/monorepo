@@ -4,12 +4,12 @@ import { useProvider, useNetwork } from 'wagmi'
 
 export function useKpiTokens(): {
   loading: boolean
-  kpiTokens: KpiToken[]
+  kpiTokens: { [address: string]: KpiToken }
 } {
   const { chain } = useNetwork()
   const provider = useProvider()
 
-  const [kpiTokens, setKpiTokens] = useState<KpiToken[]>([])
+  const [kpiTokens, setKpiTokens] = useState<{ [address: string]: KpiToken }>({})
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

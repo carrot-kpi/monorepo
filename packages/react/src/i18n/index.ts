@@ -1,5 +1,7 @@
 import { i18n } from 'i18next'
 
+export const CARROT_KPI_REACT_I18N_NAMESPACE = '@carrot-kpi/react'
+
 export interface TemplateBundle {
   [language: string]: { [key: string]: string }
 }

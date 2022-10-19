@@ -1,7 +1,7 @@
 import React from 'react'
 import { Template } from '@carrot-kpi/sdk'
 import { useTemplateModule } from '../../hooks/useTemplateModule'
-import { addBundleForTemplate } from '../../i18n'
+import { addBundleForTemplate, CARROT_KPI_REACT_I18N_NAMESPACE } from '../../i18n'
 import { useEffect, useState } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
 
@@ -18,7 +18,7 @@ export function TemplateComponent({
   customBaseUrl,
   props = {},
 }: TemplateComponentProps) {
-  const { t, i18n } = useTranslation()
+  const { t, i18n } = useTranslation(CARROT_KPI_REACT_I18N_NAMESPACE)
   const { loading, bundle, Component } = useTemplateModule(type, template, customBaseUrl)
 
   const [translateWithNamespace, setTranslateWithNamespace] = useState<TFunction>(
@@ -34,6 +34,6 @@ export function TemplateComponent({
     })
   }, [Component, bundle, t, i18n, loading, template, type])
 
-  if (loading || !Component) return <>Loading...</>
+  if (loading || !Component) return <>{t('loading')}...</>
   return <Component {...props} t={translateWithNamespace} />
 }

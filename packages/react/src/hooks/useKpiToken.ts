@@ -18,7 +18,10 @@ export function useKpiToken(kpiTokenAddress?: string): {
       if (!chain || !kpiTokenAddress) return
       if (!cancelled) setLoading(true)
       try {
-        const kpiToken = await Fetcher.fetchKpiToken(chain.id, kpiTokenAddress, provider)
+        const kpiToken = (await Fetcher.fetchKpiTokens(provider, [kpiTokenAddress]))[
+          kpiTokenAddress
+        ]
+        if (!kpiToken) return
         if (!cancelled) setKpiToken(kpiToken)
       } catch (error) {
         console.error(`error fetching kpi token at address ${kpiTokenAddress}`, error)
