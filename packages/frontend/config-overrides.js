@@ -12,7 +12,7 @@ module.exports = (config, env) => {
     new ModuleFederationPlugin({
       name: 'host',
       shared: {
-        '@carrot-kpi/react': '^0.4.1',
+        '@carrot-kpi/react': '^0.4.2',
         '@carrot-kpi/sdk': '^1.1.0',
         '@emotion/react': '^11.10.4',
         ethers: '^5.7.1',
