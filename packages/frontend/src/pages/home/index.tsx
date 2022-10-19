@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useKpiTokens } from '@carrot-kpi/react'
 import { Link } from 'react-router-dom'
 import { chain, useAccount, useConnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { useTranslation } from 'react-i18next'
+import { KpiToken } from '@carrot-kpi/sdk'
 
 export const Home = () => {
   const { t } = useTranslation()
@@ -14,6 +15,12 @@ export const Home = () => {
     }),
   })
   const { loading, kpiTokens } = useKpiTokens()
+
+  const [kpiTokensArray, setKpiTokensArray] = useState<KpiToken[]>([])
+
+  useEffect(() => {
+    setKpiTokensArray(Object.values(kpiTokens))
+  }, [kpiTokens])
 
   return (
     <>
@@ -36,9 +43,9 @@ export const Home = () => {
         </Link>
       )}
       {loading && <>{t('home.loading')}...</>}
-      {!loading && kpiTokens.length > 0 && (
+      {!loading && kpiTokensArray.length > 0 && (
         <ul>
-          {kpiTokens.map((token: any) => (
+          {kpiTokensArray.map((token: any) => (
             <li key={token.address}>
               {token.description.title}{' '}
               <Link to={`/campaigns/${token.address}`}>
@@ -48,7 +55,7 @@ export const Home = () => {
           ))}
         </ul>
       )}
-      {!loading && kpiTokens.length === 0 && <>{t('home.noKpiToken')}</>}
+      {!loading && kpiTokensArray.length === 0 && <>{t('home.noKpiToken')}</>}
     </>
   )
 }

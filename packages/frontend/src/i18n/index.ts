@@ -1,5 +1,1 @@
-import en from './en.json'
-
-export const resources = {
-  en,
-}
+export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = '@carrot-kpi/frontend'

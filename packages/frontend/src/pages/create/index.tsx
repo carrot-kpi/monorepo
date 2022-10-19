@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useOracleTemplates } from '@carrot-kpi/react'
 import { Template } from '@carrot-kpi/sdk'
 import { useState } from 'react'
-import { CreationForm } from '../creation-form'
+import { CreationForm } from '@carrot-kpi/react'
 import { useTranslation } from 'react-i18next'
+import { BigNumber } from 'ethers'
 
 export const Create = () => {
   const { t } = useTranslation()
@@ -11,7 +12,12 @@ export const Create = () => {
   const { loading, templates } = useOracleTemplates()
   const [pickedTemplate, setPickedTemplate] = useState<Template | null>(null)
 
-  if (!!pickedTemplate) return <CreationForm template={pickedTemplate} />
+  const handleDone = useCallback((data: string, value: BigNumber) => {
+    console.log(data, value.toString())
+  }, [])
+
+  if (!!pickedTemplate)
+    return <CreationForm template={pickedTemplate} onDone={handleDone} />
   return (
     <>
       {loading && <>{t('create.loading')}...</>}

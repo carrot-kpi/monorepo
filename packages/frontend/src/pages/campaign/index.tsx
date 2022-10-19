@@ -1,16 +1,9 @@
 import React from 'react'
-import { ReactElement } from 'react'
+import { Campaign as RemoteCampaignComponent } from '@carrot-kpi/react'
 import { useParams } from 'react-router-dom'
-import { useKpiToken, TemplateComponent } from '@carrot-kpi/react'
-import { useTranslation } from 'react-i18next'
 
-export function Campaign(): ReactElement {
-  const { t } = useTranslation()
-  const { address: kpiTokenAddress } = useParams()
-  const { loading, kpiToken } = useKpiToken(kpiTokenAddress)
+export const Campaign = () => {
+  const { address } = useParams()
 
-  if (loading || !kpiToken) return <>{t('campaign.loading')}...</>
-  return (
-    <TemplateComponent type="page" template={kpiToken.template} props={{ kpiToken }} />
-  )
+  return <RemoteCampaignComponent address={address} />
 }

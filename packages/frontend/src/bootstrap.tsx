@@ -10,8 +10,9 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { ChainId } from '@carrot-kpi/sdk'
 import { CarrotCoreProvider } from '@carrot-kpi/react'
 import i18n from 'i18next'
-import { resources } from './i18n'
+import { resources } from './i18n/resources'
 import { CarrotUIProvider } from '@carrot-kpi/ui'
+import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from './i18n'
 
 const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
 
@@ -39,6 +40,7 @@ root.render(
       <CarrotCoreProvider
         i18nInstance={i18n}
         i18nResources={resources}
+        i18nDefaultNamespace={CARROT_KPI_FRONTEND_I18N_NAMESPACE}
         supportedChains={supportedChains}
         providers={[infuraProvider({ apiKey: INFURA_PROJECT_ID })]}
         getConnectors={getConnectors}
