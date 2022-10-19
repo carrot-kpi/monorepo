@@ -32,7 +32,7 @@ export const useFederatedModuleContainer = (baseUrl?: string, entry?: string) =>
         }
         const shareScope = __webpack_share_scopes__.default
         if (!shareScope) {
-          console.warn(true, 'webpack share scope is undefined')
+          console.warn('webpack share scope is undefined')
           return
         }
         await container.init(shareScope)
