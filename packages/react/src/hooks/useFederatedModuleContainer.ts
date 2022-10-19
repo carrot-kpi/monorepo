@@ -42,6 +42,8 @@ export const useFederatedModuleContainer = (baseUrl?: string, entry?: string) =>
         setModulePublicPath(sanitizedBaseUrl)
         container.__initialized = true
         if (!cancelled) setContainer(container)
+      } catch (error) {
+        console.error('could not initialize federated module container', error)
       } finally {
         if (!cancelled) setLoading(false)
       }
