@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { warn } from '@carrot-kpi/sdk'
 
 declare let __webpack_share_scopes__: {
   default: any
