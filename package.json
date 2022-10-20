@@ -1,20 +1,19 @@
 {
+  "private": true,
   "name": "@carrot-kpi/v1-monorepo",
   "version": "1.0.0",
   "description": "A monorepo for Carrot v1 packages.",
   "author": "Federico Luzzi",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "lint:code:all": "npm run lint:code --workspaces",
-    "test:all": "npm run test --workspaces",
-    "build:all": "npm run build --workspaces --if-present",
-    "size-check:all": "npm run size-limit --workspaces --if-present",
-    "lint:commit-message": "commitlint -e",
+    "lint:all": "pnpm -r lint",
+    "lint:fix:all": "pnpm -r lint:fix",
+    "test:all": "pnpm -r test",
+    "build:all": "pnpm -r build",
+    "size-check:all": "pnpm -r size-limit",
+    "commitlint": "commitlint -e",
     "prepare": "husky install"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
