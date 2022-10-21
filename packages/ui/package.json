@@ -21,7 +21,6 @@
   "scripts": {
     "lint": "prettier --check ./src && eslint --ext .tsx,.ts ./src",
     "lint:fix": "prettier --write ./src && eslint --fix --ext .tsx,.ts ./src",
-    "prettier:write": "prettier -w ./src/**",
     "build": "pnpm clean && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "test": "echo 'No tests' && exit 0",

@@ -6,7 +6,6 @@
   "scripts": {
     "lint": "prettier --check ./src && eslint --ext .tsx,.ts ./src",
     "lint:fix": "prettier --write ./src && eslint --fix --ext .tsx,.ts ./src",
-    "prettier:write": "prettier -w ./src/**",
     "build": "pnpm clean && cross-env PUBLIC_URL=\".\" GENERATE_SOURCEMAP=false react-app-rewired build",
     "clean": "rimraf ./build",
     "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
