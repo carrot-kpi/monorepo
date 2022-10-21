@@ -2,7 +2,7 @@ import { Template } from './template'
 import { Oracle } from './oracle'
 import { ChainId } from '../commons'
 
-export interface KpiTokenDescription {
+export interface KpiTokenSpecification {
   ipfsHash: string
   title: string
   description: string
@@ -15,7 +15,7 @@ export class KpiToken {
     public readonly address: string,
     public readonly template: Template,
     public readonly oracles: Oracle[],
-    public readonly description: KpiTokenDescription,
+    public readonly specification: KpiTokenSpecification,
     public readonly expiration: number,
     public readonly finalized: boolean,
     public readonly rawData: string
