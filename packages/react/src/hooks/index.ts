@@ -1,3 +1,4 @@
+export * from './useDecentralizedStorageUploader'
 export * from './useFederatedModuleContainer'
 export * from './useKpiToken'
 export * from './useKpiTokens'
