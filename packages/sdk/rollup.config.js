@@ -12,8 +12,8 @@ export default [
     plugins: [
       peerDepsExternal(),
       json(),
-      commonjs(),
       nodeResolve(),
+      commonjs(),
       typescript(),
       terser(),
     ],

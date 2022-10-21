@@ -11,8 +11,8 @@ export default [
     input: join(__dirname, './src/index.ts'),
     plugins: [
       peerDepsExternal(),
-      commonjs(),
       nodeResolve(),
+      commonjs(),
       postcss(),
       typescript(),
       terser(),
