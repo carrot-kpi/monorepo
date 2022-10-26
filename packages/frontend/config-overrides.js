@@ -12,13 +12,13 @@ module.exports = (config, env) => {
     new ModuleFederationPlugin({
       name: 'host',
       shared: {
-        '@carrot-kpi/react': '^0.4.2',
-        '@carrot-kpi/sdk': '^1.1.0',
+        '@carrot-kpi/react': '^0.5.0',
+        '@carrot-kpi/sdk': '^1.3.0',
         '@emotion/react': '^11.10.4',
         ethers: '^5.7.1',
         react: { requiredVersion: '^18.2.0', singleton: true },
         'react-dom': { requiredVersion: '^18.2.0', singleton: true },
-        wagmi: '^0.6.7',
+        wagmi: '^0.7.7',
       },
     }),
     new ProvidePlugin({
