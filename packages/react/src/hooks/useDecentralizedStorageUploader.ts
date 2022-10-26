@@ -1,8 +1,9 @@
 import { KpiTokenSpecification } from '@carrot-kpi/sdk'
 
+export type UploadableSpecification = Omit<KpiTokenSpecification, 'ipfsHash'>
 export type DecentralizedStorageOption = 'ipfs'
 export type SpecificationUploader = (
-  specification: KpiTokenSpecification
+  specification: UploadableSpecification
 ) => Promise<string>
 
 const WEB3_STORAGE_API_TOKEN =
@@ -10,9 +11,7 @@ const WEB3_STORAGE_API_TOKEN =
 
 const SPECIFICATION_UPLOADER: Record<DecentralizedStorageOption, SpecificationUploader> =
   {
-    ipfs: async (
-      specification: Omit<KpiTokenSpecification, 'ipfsHash'>
-    ): Promise<string> => {
+    ipfs: async (specification: UploadableSpecification): Promise<string> => {
       const formData = new FormData()
       formData.append(
         'file',
