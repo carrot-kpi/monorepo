@@ -3,7 +3,9 @@ import { Template } from '@carrot-kpi/sdk'
 import { useTemplateModule } from '../../hooks/useTemplateModule'
 import { addBundleForTemplate, CARROT_KPI_REACT_I18N_NAMESPACE } from '../../i18n'
 import { useEffect, useState } from 'react'
-import { TFunction, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
+
+export type NamespacedTranslateFunction = (key: any, options?: any) => any
 
 interface TemplateComponentProps {
   type: 'creationForm' | 'page'
@@ -21,9 +23,8 @@ export function TemplateComponent({
   const { t, i18n } = useTranslation(CARROT_KPI_REACT_I18N_NAMESPACE)
   const { loading, bundle, Component } = useTemplateModule(type, template, customBaseUrl)
 
-  const [translateWithNamespace, setTranslateWithNamespace] = useState<TFunction>(
-    () => () => ''
-  )
+  const [translateWithNamespace, setTranslateWithNamespace] =
+    useState<NamespacedTranslateFunction>(() => () => '')
 
   useEffect(() => {
     if (loading || !template || !bundle || !Component) return

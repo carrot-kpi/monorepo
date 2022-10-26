@@ -1,11 +1,11 @@
-import { join } from 'path'
-import peerDepsExternal from 'rollup-plugin-peer-deps-external'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import { terser } from 'rollup-plugin-terser'
-import typescript from 'rollup-plugin-typescript2'
+const { join } = require('path')
+const peerDepsExternal = require('rollup-plugin-peer-deps-external')
+const { nodeResolve } = require('@rollup/plugin-node-resolve')
+const commonjs = require('@rollup/plugin-commonjs')
+const { terser } = require('rollup-plugin-terser')
+const typescript = require('rollup-plugin-typescript2')
 
-export default [
+module.exports = [
   {
     input: join(__dirname, './src/index.ts'),
     plugins: [
