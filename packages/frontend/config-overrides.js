@@ -12,8 +12,8 @@ module.exports = (config, env) => {
     new ModuleFederationPlugin({
       name: 'host',
       shared: {
-        '@carrot-kpi/react': '^0.5.0',
-        '@carrot-kpi/sdk': '^1.3.0',
+        '@carrot-kpi/react': '^0.5.2',
+        '@carrot-kpi/sdk': '^1.4.0',
         '@emotion/react': '^11.10.4',
         ethers: '^5.7.1',
         react: { requiredVersion: '^18.2.0', singleton: true },
