@@ -11,7 +11,7 @@ export const Home = () => {
   const { isConnected } = useAccount()
   const { connect, connectors, isLoading, pendingConnector, error } = useConnect({
     connector: new InjectedConnector({
-      chains: [chain.goerli],
+      chains: [chain.sepolia, chain.goerli],
     }),
   })
   const { loading, kpiTokens } = useKpiTokens()
