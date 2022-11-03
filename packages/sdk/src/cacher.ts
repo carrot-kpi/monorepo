@@ -21,7 +21,7 @@ export class Cacher {
     return cacheItem.data
   }
 
-  public getOrDefault<T extends object>(key: string, defaultValue: T): T {
+  public getOrDefault<T extends object | string>(key: string, defaultValue: T): T {
     const cachedItem = this.get<T>(key)
     return cachedItem || defaultValue
   }
