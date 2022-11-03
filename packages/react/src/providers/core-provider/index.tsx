@@ -12,6 +12,7 @@ import { i18n } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import { resources } from '../../i18n/resources'
 import { CARROT_KPI_REACT_I18N_NAMESPACE } from '../../i18n'
+import { IpfsService } from '@carrot-kpi/sdk'
 
 interface CarrotCoreProviderProps {
   children: ReactNode
@@ -23,6 +24,7 @@ interface CarrotCoreProviderProps {
   supportedChains: Chain[]
   providers: ChainProviderFn[]
   getConnectors: (chains: Chain[]) => Connector[]
+  ipfsGateway?: string
 }
 
 export const CarrotCoreProvider = ({
@@ -33,6 +35,7 @@ export const CarrotCoreProvider = ({
   supportedChains,
   providers,
   getConnectors,
+  ipfsGateway,
 }: CarrotCoreProviderProps) => {
   const { provider, chains, webSocketProvider } = configureChains(
     supportedChains,
@@ -59,6 +62,8 @@ export const CarrotCoreProvider = ({
   Object.entries(resources).forEach(([language, keys]) => {
     i18nInstance.addResourceBundle(language, CARROT_KPI_REACT_I18N_NAMESPACE, keys)
   })
+
+  if (!!ipfsGateway) IpfsService.gateway = ipfsGateway
 
   return <WagmiConfig client={client}>{children}</WagmiConfig>
 }
