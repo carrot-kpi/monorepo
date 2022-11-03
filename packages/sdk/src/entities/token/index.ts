@@ -1,6 +1,6 @@
 import { utils } from 'ethers'
-import { Currency } from './currency'
-import { enforce } from '../utils/invariant'
+import { Currency } from '../currency'
+import { enforce } from '../../utils/invariant'
 
 export class Token extends Currency {
   public readonly address: string
