@@ -1,8 +1,8 @@
-import { Token, currencyEquals } from './token'
-import { Currency } from './currency'
+import { Token, currencyEquals } from '../token'
+import { Currency } from '../currency'
 import { BigNumber, utils } from 'ethers'
 import Decimal from 'decimal.js-light'
-import { enforce } from '../utils'
+import { enforce } from '../../utils'
 
 export type TokenOrCurrency = Token | Currency
 
@@ -29,6 +29,7 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
       currencyEquals(this.currency, other.currency),
       'tried to subtract different currencies'
     )
+    enforce(this.greaterThan(other), 'subtraction results in a negative amount')
     return new Amount<T>(this.currency, this.raw.sub(other.raw))
   }
 
