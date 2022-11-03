@@ -1,10 +1,11 @@
-import { CACHER, IPFS_GATEWAY } from '../commons'
+import { CACHER } from '../commons'
 import { MULTICALL_ABI, ChainId, ERC20_ABI, CHAIN_ADDRESSES } from '../commons'
 import { cacheErc20Token, enforce, getCachedErc20Token, warn } from '../utils'
 import { ethers, Contract } from 'ethers'
 import { Token } from '../entities/token'
 import BYTES_NAME_ERC20_ABI from '../abis/erc20-name-bytes.json'
 import BYTES_SYMBOL_ERC20_ABI from '../abis/erc20-symbol-bytes.json'
+import { IpfsService } from '../services'
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new ethers.utils.Interface(ERC20_ABI)
@@ -166,7 +167,7 @@ export abstract class CoreFetcher {
     if (uncachedCids.length > 0) {
       const uncachedContent = await Promise.all(
         uncachedCids.map(async (wrappedCid) => {
-          const response = await fetch(`${IPFS_GATEWAY}${wrappedCid.cid}`)
+          const response = await fetch(`${IpfsService.gateway}${wrappedCid.cid}`)
           const responseOk = response.ok
           warn(responseOk, `could not fetch content with cid ${wrappedCid.cid}`)
           return {

@@ -12,8 +12,6 @@ export enum ChainId {
   SEPOLIA = 11155111,
 }
 
-export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'
-
 export const CACHER = new Cacher('carrot-sdk')
 
 export interface ChainAddresses {
