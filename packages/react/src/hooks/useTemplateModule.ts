@@ -11,7 +11,9 @@ export const useTemplateModule = (
   const { baseUrl, entry } = useMemo(() => {
     if (!template) return {}
     return {
-      baseUrl: customBaseUrl || `${IpfsService.gateway}${template.specification.cid}`,
+      baseUrl:
+        customBaseUrl ||
+        new URL(IpfsService.gateway, template.specification.cid).toString(),
       entry: `${template.specification.commitHash}${entryPostfix}`,
     }
   }, [template, entryPostfix, customBaseUrl])
