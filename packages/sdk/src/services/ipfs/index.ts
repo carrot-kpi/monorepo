@@ -6,6 +6,7 @@ export class IpfsService {
   static readonly IPFS_GATEWAY_KEY = 'ipfs-gateway'
 
   static set gateway(ipfsGateway: string) {
+    ipfsGateway = ipfsGateway.endsWith('/') ? ipfsGateway : `${ipfsGateway}/`
     CACHER.set(this.IPFS_GATEWAY_KEY, ipfsGateway, Number.MAX_SAFE_INTEGER)
   }
 

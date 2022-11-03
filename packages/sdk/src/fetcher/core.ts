@@ -167,7 +167,7 @@ export abstract class CoreFetcher {
     if (uncachedCids.length > 0) {
       const uncachedContent = await Promise.all(
         uncachedCids.map(async (wrappedCid) => {
-          const response = await fetch(new URL(IpfsService.gateway, wrappedCid.cid))
+          const response = await fetch(`${IpfsService.gateway}${wrappedCid.cid}`)
           const responseOk = response.ok
           warn(responseOk, `could not fetch content with cid ${wrappedCid.cid}`)
           return {
