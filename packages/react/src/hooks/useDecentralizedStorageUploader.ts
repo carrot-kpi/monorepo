@@ -1,7 +1,8 @@
 import { KpiTokenSpecification } from '@carrot-kpi/sdk'
+import { create as createHttpIpfsClient } from 'ipfs-http-client'
 
 export type UploadableSpecification = Omit<KpiTokenSpecification, 'ipfsHash'>
-export type DecentralizedStorageOption = 'ipfs'
+export type DecentralizedStorageOption = 'ipfs' | 'playground'
 export type SpecificationUploader = (
   specification: UploadableSpecification
 ) => Promise<string>
@@ -34,6 +35,17 @@ const SPECIFICATION_UPLOADER: Record<DecentralizedStorageOption, SpecificationUp
         )
       const { cid } = (await response.json()) as { cid: string }
       return cid
+    },
+    playground: async (specification: UploadableSpecification): Promise<string> => {
+      // FIXME: this url is hardcoded based on the configuration of
+      // carrot-scripts. Should we keep it this way?
+      const client = createHttpIpfsClient({ url: 'http://localhost:9003' })
+      const { cid } = await client.add(
+        new File([JSON.stringify(specification)], 'specification', {
+          type: 'text/plain',
+        })
+      )
+      return cid.toString()
     },
   }
 
