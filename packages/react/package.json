@@ -63,8 +63,5 @@
     "rollup-plugin-typescript2": "^0.34.0",
     "size-limit": "^8.1.0",
     "wagmi": "^0.7.7"
-  },
-  "dependencies": {
-    "ipfs-http-client": "^59.0.0"
   }
 }
