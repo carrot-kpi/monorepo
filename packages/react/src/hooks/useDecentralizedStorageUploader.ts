@@ -43,7 +43,7 @@ const SPECIFICATION_UPLOADER: Record<DecentralizedStorageOption, SpecificationUp
           type: 'text/plain',
         })
       )
-      const response = await fetch('http://localhost:5003/api/v0/add', {
+      const response = await fetch('http://localhost:5002/api/v0/add', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
