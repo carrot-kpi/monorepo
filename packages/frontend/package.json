@@ -1,8 +1,11 @@
 {
   "name": "@carrot-kpi/frontend",
   "license": "GPL-3.0-or-later",
-  "version": "1.0.0-alpha.4",
-  "description": "Frontend for Carrot KPIs.",
+  "version": "1.0.0-rc.1",
+  "description": "Frontend for Carrot KPI protocol v1.",
+  "files": [
+    "shared-dependencies.json"
+  ],
   "scripts": {
     "lint": "prettier --check ./src && eslint --ext .tsx,.ts ./src",
     "lint:fix": "prettier --write ./src && eslint --fix --ext .tsx,.ts ./src",

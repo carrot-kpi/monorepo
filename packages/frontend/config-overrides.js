@@ -4,6 +4,7 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const { ModuleFederationPlugin } = require('webpack').container
 const { ProvidePlugin } = require('webpack')
+const shared = require('./shared-dependencies.json')
 
 // Used to make the build reproducible between different machines (IPFS-related)
 module.exports = (config, env) => {
@@ -11,15 +12,7 @@ module.exports = (config, env) => {
   config.plugins.push(
     new ModuleFederationPlugin({
       name: 'host',
-      shared: {
-        '@carrot-kpi/react': '^0.9.0',
-        '@carrot-kpi/sdk': '^1.8.0',
-        '@emotion/react': '^11.10.4',
-        ethers: '^5.7.1',
-        react: { requiredVersion: '^18.2.0', singleton: true },
-        'react-dom': { requiredVersion: '^18.2.0', singleton: true },
-        wagmi: '^0.7.7',
-      },
+      shared,
     }),
     new ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
