@@ -1,21 +1,45 @@
-import React, { useCallback } from 'react'
-import { useOracleTemplates } from '@carrot-kpi/react'
+import React, { useCallback, useEffect } from 'react'
+import { useKpiTokenTemplates } from '@carrot-kpi/react'
 import { Template } from '@carrot-kpi/sdk'
 import { useState } from 'react'
 import { CreationForm } from '@carrot-kpi/react'
 import { useTranslation } from 'react-i18next'
-import { BigNumber } from 'ethers'
+import { BigNumber, providers } from 'ethers'
+import { Address, usePrepareSendTransaction, useSendTransaction } from 'wagmi'
 
 export const Create = () => {
   const { t } = useTranslation()
-  // FIXME: this should fetch KPI token templates
-  const { loading, templates } = useOracleTemplates()
+  const { loading, templates } = useKpiTokenTemplates()
   const [pickedTemplate, setPickedTemplate] = useState<Template | null>(null)
+  const [creationTx, setCreationTx] = useState<
+    providers.TransactionRequest & {
+      to: string
+    }
+  >({
+    to: '',
+    data: '',
+    value: BigNumber.from('0'),
+  })
 
-  const handleDone = useCallback((data: string, value: BigNumber) => {
-    console.log(data, value.toString())
+  const { config } = usePrepareSendTransaction({
+    request: creationTx,
+  })
+  const {
+    sendTransaction,
+    isLoading: transactionLoading,
+    isSuccess,
+  } = useSendTransaction(config)
+
+  const handleDone = useCallback((to: Address, data: string, value: BigNumber) => {
+    setCreationTx({ to, data, value })
   }, [])
 
+  useEffect(() => {
+    if (sendTransaction) sendTransaction()
+  }, [sendTransaction])
+
+  if (transactionLoading) return <>Awaiting confirmation...</>
+  if (isSuccess) return <>Confirmed!</>
   if (!!pickedTemplate)
     return <CreationForm template={pickedTemplate} onDone={handleDone} />
   return (
