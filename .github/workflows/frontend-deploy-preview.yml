@@ -25,6 +25,10 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: pwd
+        run: pwd
+      - name: ls -l
+        run: ls -l
       - name: Build
         working-directory: ./packages/frontend
         run: pnpm --filter ./packages/frontend ipfs-build
