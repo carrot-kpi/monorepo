@@ -3,6 +3,9 @@
   "license": "GPL-3.0-or-later",
   "version": "1.0.0-rc.1",
   "description": "Frontend for Carrot KPI protocol v1.",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "shared-dependencies.json"
   ],
