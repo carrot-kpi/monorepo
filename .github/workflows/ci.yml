@@ -29,5 +29,13 @@ jobs:
         run: pnpm lint:all
       - name: Test all packages
         run: pnpm test:all
+      - name: Build SDK
+        run: pnpm build --filter ./packages/sdk
+      - name: Build UI
+        run: pnpm build --filter ./packages/ui
+      - name: Build React
+        run: pnpm build --filter ./packages/react
+      - name: Build frontend
+        run: pnpm build --filter ./packages/frontend
       - name: Size check all eligible packages
         run: pnpm build:all && pnpm size-check:all

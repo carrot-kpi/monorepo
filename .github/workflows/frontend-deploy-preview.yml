@@ -24,13 +24,18 @@ jobs:
           node-version: ${{matrix.node-version}}
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
-      - name: Build
-        working-directory: ./packages/frontend/
-        run: pnpm build:all && pnpm ipfs-build --filter ./packages/frontend/
+        run: pnpm -r install
+      - name: Build SDK
+        run: pnpm build --filter ./packages/sdk
+      - name: Build UI
+        run: pnpm build --filter ./packages/ui
+      - name: Build React
+        run: pnpm build --filter ./packages/react
+      - name: Build frontend
+        run: pnpm build --filter ./packages/frontend/
       - name: Deploy to IPFS
         uses: web3-storage/add-to-web3@v2
         id: web3
         with:
           web3_token: ${{secrets.WEB3_STORAGE_TOKEN}}
-          path_to_add: "./build"
+          path_to_add: "./packages/frontend/build"
