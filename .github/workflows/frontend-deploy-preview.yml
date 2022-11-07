@@ -28,10 +28,11 @@ jobs:
       - name: Build
         working-directory: ./packages/frontend/
         run: pnpm --filter ./packages/frontend/ ipfs-build
+      - name: Ls
+        run: cd ./packages/frontend && ls -l
       - name: Deploy to IPFS
         uses: web3-storage/add-to-web3@v2
         id: web3
-        working-directory: ./packages/frontend/
         with:
           web3_token: ${{secrets.WEB3_STORAGE_TOKEN}}
           path_to_add: "./build"
