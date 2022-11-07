@@ -25,16 +25,12 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
-      - name: pwd
-        run: pwd
-      - name: ls -l
-        run: ls -l
       - name: Build
-        working-directory: ./packages/frontend
-        run: pnpm --filter ./packages/frontend ipfs-build
+        working-directory: ./packages/frontend/
+        run: pnpm --filter ./packages/frontend/ ipfs-build
       - name: Deploy to IPFS
         uses: web3-storage/add-to-web3@v2
         id: web3
         with:
           web3_token: ${{secrets.WEB3_STORAGE_TOKEN}}
-          path_to_add: "./packages/frontend/build"
+          path_to_add: "./build"
