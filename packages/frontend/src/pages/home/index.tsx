@@ -45,9 +45,9 @@ export const Home = () => {
       {loading && <>{t('home.loading')}...</>}
       {!loading && kpiTokensArray.length > 0 && (
         <ul>
-          {kpiTokensArray.map((token: any) => (
+          {kpiTokensArray.map((token) => (
             <li key={token.address}>
-              {token.description.title}{' '}
+              {token.specification.title}{' '}
               <Link to={`/campaigns/${token.address}`}>
                 <button>{t('home.viewCampaign')}</button>
               </Link>
