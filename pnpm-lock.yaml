@@ -46,6 +46,7 @@ importers:
       react-i18next: ^12.0.0
       react-router-dom: ^6.3.0
       react-scripts: ^5.0.1
+      rimraf: ^3.0.2
       size-limit: ^8.1.0
       typescript: ^4.8.4
       wagmi: ^0.7.7
@@ -82,6 +83,7 @@ importers:
       react-i18next: 12.0.0_aenbukojujz4qdlyd4cxxbdygi
       react-router-dom: 6.4.2_biqbaboplfbrettd7655fr4n2y
       react-scripts: 5.0.1_mojkb66nrb35nkdmirjres5uq4
+      rimraf: 3.0.2
       size-limit: 8.1.0
       typescript: 4.8.4
       wagmi: 0.7.7_7fhwbuxgxd3pxk6fw5hb5dwxam
@@ -6693,7 +6695,7 @@ packages:
       '@tanstack/react-query': 4.13.0
     dependencies:
       '@tanstack/query-persist-client-core': 4.13.0_2j3mimmrnvztipmcuhvp72grqa
-      '@tanstack/react-query': 4.13.0_5qh23tcr3iha6376fuaqv4s6zm
+      '@tanstack/react-query': 4.13.0_7mlzgs3ao2geozfzw6sbsi5vki
     transitivePeerDependencies:
       - '@tanstack/query-core'
     dev: true
