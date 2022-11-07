@@ -7,7 +7,6 @@ import { chain as wagmiChain, Chain } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { ChainId } from '@carrot-kpi/sdk'
 import { CarrotCoreProvider } from '@carrot-kpi/react'
 import i18n from 'i18next'
 import { resources } from './i18n/resources'
@@ -16,9 +15,10 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from './i18n'
 
 const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
 
-const supportedChains = Object.values(wagmiChain).filter((chain) => {
-  return chain.id in ChainId
-})
+// FIXME: uncomment when Goerli works
+// const supportedChains = Object.values(wagmiChain).filter((chain) => {
+//   return chain.id in ChainId
+// })
 
 const getConnectors = (chains: Chain[]) => [
   new InjectedConnector({ chains }),
@@ -41,7 +41,8 @@ root.render(
         i18nInstance={i18n}
         i18nResources={resources}
         i18nDefaultNamespace={CARROT_KPI_FRONTEND_I18N_NAMESPACE}
-        supportedChains={supportedChains}
+        // FIXME: uncomment when Goerli works
+        supportedChains={[wagmiChain.sepolia]}
         providers={[infuraProvider({ apiKey: INFURA_PROJECT_ID })]}
         getConnectors={getConnectors}
       >
