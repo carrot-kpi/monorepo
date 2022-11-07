@@ -27,7 +27,7 @@ jobs:
         run: pnpm install
       - name: Build
         working-directory: ./packages/frontend/
-        run: pnpm --filter ./packages/frontend/ ipfs-build
+        run: pnpm ipfs-build --filter ./packages/frontend/
       - name: Ls
         run: cd ./packages/frontend && ls -l
       - name: Deploy to IPFS
