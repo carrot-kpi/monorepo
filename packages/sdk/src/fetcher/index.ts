@@ -103,10 +103,9 @@ export abstract class Fetcher extends CoreFetcher {
       if (!!isCID(cid) && allKpiTokenSpecificationCids.indexOf(cid) < 0)
         allKpiTokenSpecificationCids.push(cid)
     }
-    // TODO: fetch base.json in KPI token templates too
     const kpiTokenTemplateSpecifications = await CoreFetcher.fetchContentFromIpfs(
       allKpiTokenSpecificationCids.map((cid) => ({
-        cid,
+        cid: `${cid}/base.json`,
         validUntil: Date.now() + 86_400_000,
       }))
     )
@@ -144,10 +143,10 @@ export abstract class Fetcher extends CoreFetcher {
         KPI_TOKEN_TEMPLATE_FUNCTION,
         kpiTokenResult[i * 6 + 3]
       )[0]
-      const kpiTokenTemplateSpecification = JSON.parse(
-        kpiTokenTemplateSpecifications[kpiTokenTemplate.specification]
+      const rawKpiTokenTemplateSpecification = JSON.parse(
+        kpiTokenTemplateSpecifications[`${kpiTokenTemplate.specification}/base.json`]
       )
-      if (!kpiTokenTemplateSpecification) continue
+      if (!rawKpiTokenTemplateSpecification) continue
 
       const kpiTokenFinalized = KPI_TOKEN_INTERFACE.decodeFunctionResult(
         KPI_TOKEN_FINALIZED_FUNCTION,
@@ -183,7 +182,14 @@ export abstract class Fetcher extends CoreFetcher {
         kpiTokenTemplate.id.toNumber(),
         kpiTokenTemplate.addrezz,
         kpiTokenTemplate.version,
-        kpiTokenTemplateSpecification
+        new TemplateSpecification(
+          kpiTokenTemplate.specification,
+          rawKpiTokenTemplateSpecification.name,
+          rawKpiTokenTemplateSpecification.description,
+          rawKpiTokenTemplateSpecification.tags,
+          rawKpiTokenTemplateSpecification.repository,
+          rawKpiTokenTemplateSpecification.commitHash
+        )
       )
 
       const kpiTokenAddress = tokenAddresses[i]
@@ -285,6 +291,7 @@ export abstract class Fetcher extends CoreFetcher {
   }
 
   private static async fetchTemplates(
+    chainId: ChainId,
     managerContract: Contract,
     ids?: number[]
   ): Promise<Template[]> {
@@ -295,8 +302,6 @@ export abstract class Fetcher extends CoreFetcher {
       specification: string
     }[]
     if (ids && ids.length > 0) {
-      const { chainId } = await managerContract.provider.getNetwork()
-      enforce(chainId in ChainId, 'invalid chain id when trying to get templates by id')
       const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId]
       const multicall = new Contract(
         chainAddresses.multicall,
@@ -355,13 +360,15 @@ export abstract class Fetcher extends CoreFetcher {
   }
 
   public static async fetchKpiTokenTemplates(
-    chainId: ChainId,
     provider: providers.Provider,
     ids?: number[]
   ): Promise<Template[]> {
+    const { chainId } = await provider.getNetwork()
+    enforce(chainId in ChainId, `unsupported chain with id ${chainId}`)
     return await Fetcher.fetchTemplates(
+      chainId,
       new Contract(
-        CHAIN_ADDRESSES[chainId].kpiTokensManager,
+        CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
         KPI_TOKENS_MANAGER_ABI,
         provider
       ),
@@ -370,13 +377,15 @@ export abstract class Fetcher extends CoreFetcher {
   }
 
   public static async fetchOracleTemplates(
-    chainId: ChainId,
     provider: providers.Provider,
     ids?: number[]
   ): Promise<Template[]> {
+    const { chainId } = await provider.getNetwork()
+    enforce(chainId in ChainId, `unsupported chain with id ${chainId}`)
     return await Fetcher.fetchTemplates(
+      chainId,
       new Contract(
-        CHAIN_ADDRESSES[chainId].oraclesManager,
+        CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
         KPI_TOKENS_MANAGER_ABI,
         provider
       ),
