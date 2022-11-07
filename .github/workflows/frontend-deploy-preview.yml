@@ -27,7 +27,7 @@ jobs:
         run: pnpm install
       - name: Build
         working-directory: ./packages/frontend
-        run: pnpm ipfs-build
+        run: pnpm --filter ./packages/frontend ipfs-build
       - name: Deploy to IPFS
         uses: web3-storage/add-to-web3@v2
         id: web3
