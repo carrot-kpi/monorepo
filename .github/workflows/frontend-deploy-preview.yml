@@ -26,13 +26,13 @@ jobs:
       - name: Install dependencies
         run: pnpm -r install
       - name: Build SDK
-        run: pnpm build --filter ./packages/sdk
+        run: pnpm --filter ./packages/sdk build
       - name: Build UI
-        run: pnpm build --filter ./packages/ui
+        run: pnpm --filter ./packages/ui build
       - name: Build React
-        run: pnpm build --filter ./packages/react
+        run: pnpm --filter ./packages/react build
       - name: Build frontend
-        run: pnpm build --filter ./packages/frontend/
+        run: pnpm --filter ./packages/frontend/ build
       - name: Deploy to IPFS
         uses: web3-storage/add-to-web3@v2
         id: web3

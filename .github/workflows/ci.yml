@@ -30,12 +30,12 @@ jobs:
       - name: Test all packages
         run: pnpm test:all
       - name: Build SDK
-        run: pnpm build --filter ./packages/sdk
+        run: pnpm --filter ./packages/sdk build
       - name: Build UI
-        run: pnpm build --filter ./packages/ui
+        run: pnpm --filter ./packages/ui build
       - name: Build React
-        run: pnpm build --filter ./packages/react
+        run: pnpm --filter ./packages/react build
       - name: Build frontend
-        run: pnpm build --filter ./packages/frontend
+        run: pnpm --filter ./packages/frontend build
       - name: Size check all eligible packages
         run: pnpm build:all && pnpm size-check:all
