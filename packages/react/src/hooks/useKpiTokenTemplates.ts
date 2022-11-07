@@ -15,7 +15,7 @@ export function useKpiTokenTemplates(): { loading: boolean; templates: Template[
       if (!chain) return
       setLoading(true)
       try {
-        const templates = await Fetcher.fetchKpiTokenTemplates(chain.id, provider)
+        const templates = await Fetcher.fetchKpiTokenTemplates(provider)
         if (!cancelled) setTemplates(templates)
       } catch (error) {
         console.error('error fetching kpi token templates', error)

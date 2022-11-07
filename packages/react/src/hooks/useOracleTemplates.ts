@@ -18,7 +18,7 @@ export function useOracleTemplates(ids?: number[]): {
       if (!chain) return
       setLoading(true)
       try {
-        const templates = await Fetcher.fetchOracleTemplates(chain.id, provider, ids)
+        const templates = await Fetcher.fetchOracleTemplates(provider, ids)
         if (!cancelled) setTemplates(templates)
       } catch (error) {
         console.error('error fetching oracle templates', error)
