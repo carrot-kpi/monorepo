@@ -106,7 +106,7 @@ export abstract class Fetcher extends CoreFetcher {
     const kpiTokenTemplateSpecifications = await CoreFetcher.fetchContentFromIpfs(
       allKpiTokenSpecificationCids.map((cid) => ({
         cid: `${cid}/base.json`,
-        validUntil: Date.now() + 86_400_000,
+        validUntil: Number.MAX_SAFE_INTEGER,
       }))
     )
 
@@ -138,7 +138,9 @@ export abstract class Fetcher extends CoreFetcher {
     const oracles = await Fetcher.fetchOracles(provider, allOracleAddresses)
 
     const allKpiTokens: { [address: string]: KpiToken } = {}
-    outerLoop: for (let i = 0; kpiTokenAmounts.gt(i); i++) {
+    const iUpperLimit =
+      addresses && addresses.length > 0 ? addresses.length : kpiTokenAmounts.toNumber()
+    outerLoop: for (let i = 0; i < iUpperLimit; i++) {
       const kpiTokenTemplate = KPI_TOKEN_INTERFACE.decodeFunctionResult(
         KPI_TOKEN_TEMPLATE_FUNCTION,
         kpiTokenResult[i * 6 + 3]
