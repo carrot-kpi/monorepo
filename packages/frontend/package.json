@@ -12,7 +12,6 @@
   "scripts": {
     "lint": "prettier --check ./src && eslint --ext .tsx,.ts ./src",
     "lint:fix": "prettier --write ./src && eslint --fix --ext .tsx,.ts ./src",
-    "build": "echo 'not building frontend'",
     "clean": "rimraf ./build",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
     "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
