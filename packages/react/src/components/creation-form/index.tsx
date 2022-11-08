@@ -7,7 +7,9 @@ import { Address } from 'wagmi'
 
 interface CreationFormProps {
   template?: Template
-  onDone: (to: Address, data: string, value: BigNumber) => void
+  onDone:
+    | ((to: Address, data: string, value: BigNumber) => void)
+    | ((data: string, value: BigNumber) => void)
 }
 
 export function CreationForm({ template, onDone }: CreationFormProps): ReactElement {
