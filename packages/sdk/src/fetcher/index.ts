@@ -1,4 +1,4 @@
-import { BigNumber, Contract, providers, utils } from 'ethers'
+import { BigNumber, BigNumberish, Contract, providers, utils } from 'ethers'
 import {
   KPI_TOKENS_MANAGER_ABI,
   CHAIN_ADDRESSES,
@@ -295,7 +295,7 @@ export abstract class Fetcher extends CoreFetcher {
   private static async fetchTemplates(
     chainId: ChainId,
     managerContract: Contract,
-    ids?: number[]
+    ids?: BigNumberish[]
   ): Promise<Template[]> {
     let rawTemplates: {
       id: BigNumber
@@ -311,7 +311,7 @@ export abstract class Fetcher extends CoreFetcher {
         managerContract.provider
       )
       const [, result] = await multicall.callStatic.aggregate(
-        ids.map((id: number) => {
+        ids.map((id) => {
           return [
             managerContract.address,
             KPI_TOKENS_MANAGER_INTERFACE.encodeFunctionData(MANAGER_TEMPLATE_FUNCTION, [
@@ -363,7 +363,7 @@ export abstract class Fetcher extends CoreFetcher {
 
   public static async fetchKpiTokenTemplates(
     provider: providers.Provider,
-    ids?: number[]
+    ids?: BigNumberish[]
   ): Promise<Template[]> {
     const { chainId } = await provider.getNetwork()
     enforce(chainId in ChainId, `unsupported chain with id ${chainId}`)
@@ -380,7 +380,7 @@ export abstract class Fetcher extends CoreFetcher {
 
   public static async fetchOracleTemplates(
     provider: providers.Provider,
-    ids?: number[]
+    ids?: BigNumberish[]
   ): Promise<Template[]> {
     const { chainId } = await provider.getNetwork()
     enforce(chainId in ChainId, `unsupported chain with id ${chainId}`)
