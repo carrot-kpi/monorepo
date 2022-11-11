@@ -1,5 +1,5 @@
 {
-  "@carrot-kpi/react": "^0.13.0",
+  "@carrot-kpi/react": "^0.14.0",
   "@carrot-kpi/sdk": "^1.9.0",
   "ethers": "^5.7.1",
   "react": { "requiredVersion": "^18.2.0", "singleton": true },
