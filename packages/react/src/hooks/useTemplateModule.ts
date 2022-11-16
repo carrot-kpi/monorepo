@@ -12,7 +12,7 @@ export const useTemplateModule = (
     if (!template) return {}
     return {
       baseUrl: customBaseUrl || `${IpfsService.gateway}${template.specification.cid}`,
-      entry: `${template.specification.commitHash}${entryPostfix}`,
+      entry: `${template.specification.commitHash || ''}${entryPostfix}`,
     }
   }, [template, entryPostfix, customBaseUrl])
   const { loading: loadingFederatedModule, container } = useFederatedModuleContainer(
