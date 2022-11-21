@@ -4,5 +4,5 @@
   "ethers": "^5.7.1",
   "react": { "requiredVersion": "^18.2.0", "singleton": true },
   "react-dom": { "requiredVersion": "^18.2.0", "singleton": true },
-  "wagmi": "^0.7.7"
+  "wagmi": "^0.8.5"
 }
