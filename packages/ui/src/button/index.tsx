@@ -6,7 +6,7 @@ import { ReactNode } from 'react'
 export interface ButtonProps {
   variant: 'primary' | 'secondary'
   size: 'standard' | 'small'
-  label: ReactNode
+  children: ReactNode
 }
 
 const specBySize: Record<ButtonProps['size'], any> = {
@@ -55,7 +55,12 @@ const specByVariant = (theme: Theme): Record<ButtonProps['variant'], any> => {
   }
 }
 
-export const Button = ({ variant, size, label, ...props }: ButtonProps) => {
+export const Button = ({
+  children,
+  variant = 'primary',
+  size = 'standard',
+  ...props
+}: ButtonProps) => {
   return (
     <button
       {...props}
@@ -71,7 +76,7 @@ export const Button = ({ variant, size, label, ...props }: ButtonProps) => {
         }
       }}
     >
-      {label}
+      {children}
     </button>
   )
 }

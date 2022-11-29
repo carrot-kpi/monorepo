@@ -34,10 +34,11 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'square-pattern': "url('/src/assets/svgs/line-pattern.svg')",
+        'square-pattern': "url('/src/assets/line-pattern.svg')",
       },
       backgroundSize: {
         4: '4rem',
+        2: '2rem',
       },
     },
   },
