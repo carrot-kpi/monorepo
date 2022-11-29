@@ -12,6 +12,7 @@ import i18n from 'i18next'
 import { resources } from './i18n/resources'
 import { CarrotUIProvider } from '@carrot-kpi/ui'
 import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from './i18n'
+import './global.css'
 
 const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
 
