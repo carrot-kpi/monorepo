@@ -27,6 +27,7 @@ importers:
       '@typescript-eslint/parser': ^5.35.1
       autoprefixer: ^10.4.13
       buffer: ^6.0.3
+      class-variance-authority: ^0.3.0
       cross-env: ^7.0.3
       decimal.js-light: ^2.5.1
       eslint: ^8.23.1
@@ -52,6 +53,8 @@ importers:
       tailwindcss: ^3.2.4
       typescript: ^4.8.4
       wagmi: ^0.7.7
+    dependencies:
+      class-variance-authority: 0.3.0_typescript@4.8.4
     devDependencies:
       '@carrot-kpi/react': link:../react
       '@carrot-kpi/sdk': link:../sdk
@@ -12073,6 +12076,17 @@ packages:
       isobject: 3.0.1
       static-extend: 0.1.2
     dev: true
+
+  /class-variance-authority/0.3.0_typescript@4.8.4:
+    resolution: {integrity: sha512-TFO+pzY9Gedqv8crPhprd647wxhvfpKevPPjiMcteEWsnkHX9yZrD1xMY3ZhRZnLwHUHCCP0LYO6KZIVag/5wQ==}
+    peerDependencies:
+      typescript: '>= 4.5.5 < 5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 4.8.4
+    dev: false
 
   /clean-css/4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
@@ -25813,7 +25827,6 @@ packages:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /typescript/4.9.3:
     resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}

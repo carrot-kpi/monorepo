@@ -5,10 +5,14 @@ import { chain, useAccount, useConnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { useTranslation } from 'react-i18next'
 import { KpiToken } from '@carrot-kpi/sdk'
-import { LineSquaresGridBg } from '../../components/LineSquaresGridBg'
+import { GridPatternBg } from '../../components/ui/GridPatternBg'
 import { Button } from '@carrot-kpi/ui'
-import { PageWrapper } from '../../components/PageWrapper'
-import { MainTitle } from '../../components/Text'
+import { PageWrapper } from '../../components/ui/PageWrapper'
+import { MainTitle } from '../../components/ui/Text'
+import { PlusSignPattern } from '../../components/ui/PlusSignPattern'
+import { FeaturedCampaings } from '../../components/FeaturedCampaigns'
+import { DXdaoSideLink } from './hero/DXdaoSideLink'
+import { CardHorizontal } from './hero/CardsHorizontal'
 
 export const Home = () => {
   const { t } = useTranslation()
@@ -28,25 +32,32 @@ export const Home = () => {
 
   return (
     <>
-      <PageWrapper bgColor="bg-carrot-orange">
-        <LineSquaresGridBg />
-        <div className="py-24 space-y-12">
-          <MainTitle>Featured campaigns</MainTitle>
-          <div className="flex justify-between space-x-5 overflow-x-auto md:space-x-0 xl:overflow-hidden xl:mr-0 xl:space-x-20 2xl:space-x-32">
-            <div className="bg-black rounded-2xl h-96 w-80"></div>
-            <div className="bg-black rounded-2xl h-96 w-80"></div>
-            <div className="bg-black rounded-2xl h-96 w-80"></div>
+      <div className="relative bg-carrot-orange">
+        <GridPatternBg />
+        <PageWrapper>
+          <div className="relative py-24 space-y-12">
+            <MainTitle>Featured campaigns</MainTitle>
+            <CardHorizontal>
+              <FeaturedCampaings />
+            </CardHorizontal>
+            <div className="flex flex-col space-x-0 space-y-6 md:space-y-0 md:flex-row md:space-x-8">
+              <Button variant="primary" size="standard">
+                All campaigns
+              </Button>
+              <Button variant="secondary" size="standard">
+                Create campaign
+              </Button>
+            </div>
           </div>
-          <div className="flex flex-col space-x-0 space-y-6 md:space-y-0 md:flex-row md:space-x-8">
-            <Button variant="primary" size="standard">
-              All campaigns
-            </Button>
-            <Button variant="secondary" size="standard">
-              Create campaign
-            </Button>
-          </div>
+        </PageWrapper>
+        <div className="absolute left-4 top-1/3">
+          <DXdaoSideLink />
         </div>
-      </PageWrapper>
+        <PlusSignPattern y="top" x="left" />
+        <PlusSignPattern y="top" x="right" />
+        <PlusSignPattern y="bottom" x="left" />
+        <PlusSignPattern y="bottom" x="right" />
+      </div>
       {!isConnected &&
         connectors.map((connector) => (
           <button

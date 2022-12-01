@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Home } from '../home'
 import { Campaign } from '../campaign'
 import { Create } from '../create'
-import { Navbar } from '../../components/Navbar'
+import { Navbar } from '../../components/ui/Navbar'
 
 export function App() {
   return (

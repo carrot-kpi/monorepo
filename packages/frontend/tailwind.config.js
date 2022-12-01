@@ -33,6 +33,9 @@ module.exports = {
       'gray-100': '#F6F6F6',
     },
     extend: {
+      fontSize: {
+        '2xs': '10px',
+      },
       backgroundImage: {
         'square-pattern': "url('/src/assets/line-pattern.svg')",
       },
