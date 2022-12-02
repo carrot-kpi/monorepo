@@ -46,33 +46,38 @@ export const Create = () => {
     <>
       {loading && <>{t('create.loading')}...</>}
       {!loading && templates.length > 0 && (
-        <ul>
-          {templates.map((template: any) => (
-            <div key={template.id}>
-              <ul>
-                <li>
-                  {t('create.template.title')}: {template.specification.name}
-                </li>
-                <li>
-                  {t('create.template.version')}: {template.version.toString()}
-                </li>
-                <li>
-                  {t('create.template.id')}: {template.id.toString()}
-                </li>
-                <li>
-                  {t('create.template.description')}: {template.specification.description}
-                </li>
-              </ul>
-              <button
-                onClick={() => {
-                  setPickedTemplate(template)
-                }}
-              >
-                {t('create.template.use')}
-              </button>
-            </div>
-          ))}
-        </ul>
+        <>
+          Pick a KPI token template:
+          <br />
+          <ul>
+            {templates.map((template: any) => (
+              <div key={template.id}>
+                <ul>
+                  <li>
+                    {t('create.template.title')}: {template.specification.name}
+                  </li>
+                  <li>
+                    {t('create.template.version')}: {template.version.toString()}
+                  </li>
+                  <li>
+                    {t('create.template.id')}: {template.id.toString()}
+                  </li>
+                  <li>
+                    {t('create.template.description')}:{' '}
+                    {template.specification.description}
+                  </li>
+                </ul>
+                <button
+                  onClick={() => {
+                    setPickedTemplate(template)
+                  }}
+                >
+                  {t('create.template.use')}
+                </button>
+              </div>
+            ))}
+          </ul>
+        </>
       )}
       {!loading && templates.length === 0 && <>{t('create.noKpiToken')}</>}
     </>

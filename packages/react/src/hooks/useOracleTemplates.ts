@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Template, Fetcher } from '@carrot-kpi/sdk'
 import { useProvider, useNetwork } from 'wagmi'
+import { BigNumberish } from 'ethers'
 
-export function useOracleTemplates(ids?: number[]): {
+export function useOracleTemplates(ids?: BigNumberish[]): {
   loading: boolean
   templates: Template[]
 } {

@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Template, Fetcher } from '@carrot-kpi/sdk'
 import { useProvider, useNetwork } from 'wagmi'
+import { BigNumberish } from 'ethers'
 
-export function useKpiTokenTemplates(): { loading: boolean; templates: Template[] } {
+export function useKpiTokenTemplates(ids?: BigNumberish[]): {
+  loading: boolean
+  templates: Template[]
+} {
   const { chain } = useNetwork()
   const provider = useProvider()
 
@@ -15,7 +19,7 @@ export function useKpiTokenTemplates(): { loading: boolean; templates: Template[
       if (!chain) return
       setLoading(true)
       try {
-        const templates = await Fetcher.fetchKpiTokenTemplates(provider)
+        const templates = await Fetcher.fetchKpiTokenTemplates(provider, ids)
         if (!cancelled) setTemplates(templates)
       } catch (error) {
         console.error('error fetching kpi token templates', error)
@@ -27,7 +31,7 @@ export function useKpiTokenTemplates(): { loading: boolean; templates: Template[
     return () => {
       cancelled = true
     }
-  }, [chain, provider])
+  }, [chain, ids, provider])
 
   return { loading, templates }
 }

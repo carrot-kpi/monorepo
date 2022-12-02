@@ -1,4 +1,4 @@
-import { BigNumber, Contract, providers, utils } from 'ethers'
+import { BigNumber, BigNumberish, Contract, providers, utils } from 'ethers'
 import {
   KPI_TOKENS_MANAGER_ABI,
   CHAIN_ADDRESSES,
@@ -106,7 +106,7 @@ export abstract class Fetcher extends CoreFetcher {
     const kpiTokenTemplateSpecifications = await CoreFetcher.fetchContentFromIpfs(
       allKpiTokenSpecificationCids.map((cid) => ({
         cid: `${cid}/base.json`,
-        validUntil: Date.now() + 86_400_000,
+        validUntil: Number.MAX_SAFE_INTEGER,
       }))
     )
 
@@ -138,7 +138,9 @@ export abstract class Fetcher extends CoreFetcher {
     const oracles = await Fetcher.fetchOracles(provider, allOracleAddresses)
 
     const allKpiTokens: { [address: string]: KpiToken } = {}
-    outerLoop: for (let i = 0; kpiTokenAmounts.gt(i); i++) {
+    const iUpperLimit =
+      addresses && addresses.length > 0 ? addresses.length : kpiTokenAmounts.toNumber()
+    outerLoop: for (let i = 0; i < iUpperLimit; i++) {
       const kpiTokenTemplate = KPI_TOKEN_INTERFACE.decodeFunctionResult(
         KPI_TOKEN_TEMPLATE_FUNCTION,
         kpiTokenResult[i * 6 + 3]
@@ -293,7 +295,7 @@ export abstract class Fetcher extends CoreFetcher {
   private static async fetchTemplates(
     chainId: ChainId,
     managerContract: Contract,
-    ids?: number[]
+    ids?: BigNumberish[]
   ): Promise<Template[]> {
     let rawTemplates: {
       id: BigNumber
@@ -309,7 +311,7 @@ export abstract class Fetcher extends CoreFetcher {
         managerContract.provider
       )
       const [, result] = await multicall.callStatic.aggregate(
-        ids.map((id: number) => {
+        ids.map((id) => {
           return [
             managerContract.address,
             KPI_TOKENS_MANAGER_INTERFACE.encodeFunctionData(MANAGER_TEMPLATE_FUNCTION, [
@@ -361,7 +363,7 @@ export abstract class Fetcher extends CoreFetcher {
 
   public static async fetchKpiTokenTemplates(
     provider: providers.Provider,
-    ids?: number[]
+    ids?: BigNumberish[]
   ): Promise<Template[]> {
     const { chainId } = await provider.getNetwork()
     enforce(chainId in ChainId, `unsupported chain with id ${chainId}`)
@@ -378,7 +380,7 @@ export abstract class Fetcher extends CoreFetcher {
 
   public static async fetchOracleTemplates(
     provider: providers.Provider,
-    ids?: number[]
+    ids?: BigNumberish[]
   ): Promise<Template[]> {
     const { chainId } = await provider.getNetwork()
     enforce(chainId in ChainId, `unsupported chain with id ${chainId}`)

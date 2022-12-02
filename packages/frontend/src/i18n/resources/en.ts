@@ -15,4 +15,4 @@ export const en = {
     'create.noKpiToken': 'No KPI token',
     'campaign.loading': 'Loading',
   },
-}
+} as const

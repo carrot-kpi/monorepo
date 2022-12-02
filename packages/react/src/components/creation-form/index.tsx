@@ -7,14 +7,22 @@ import { Address } from 'wagmi'
 
 interface CreationFormProps {
   template?: Template
-  onDone: (to: Address, data: string, value: BigNumber) => void
+  customBaseUrl?: string
+  onDone:
+    | ((to: Address, data: string, value: BigNumber) => void)
+    | ((data: string, value: BigNumber) => void)
 }
 
-export function CreationForm({ template, onDone }: CreationFormProps): ReactElement {
+export function CreationForm({
+  template,
+  customBaseUrl,
+  onDone,
+}: CreationFormProps): ReactElement {
   return (
     <TemplateComponent
       type="creationForm"
       template={template}
+      customBaseUrl={customBaseUrl}
       props={{ template, onDone }}
     />
   )

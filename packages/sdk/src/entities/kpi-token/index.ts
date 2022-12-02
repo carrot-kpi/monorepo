@@ -1,6 +1,6 @@
-import { Template } from './template'
-import { Oracle } from './oracle'
-import { ChainId } from '../commons'
+import { Template } from '../template'
+import { Oracle } from '../oracle'
+import { ChainId } from '../../commons'
 
 export interface KpiTokenSpecification {
   ipfsHash: string

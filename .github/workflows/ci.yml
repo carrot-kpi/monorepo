@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
+        with:
+          version: latest
       - name: Setup Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v3
         with:
@@ -27,5 +29,13 @@ jobs:
         run: pnpm lint:all
       - name: Test all packages
         run: pnpm test:all
+      - name: Build SDK
+        run: pnpm --filter ./packages/sdk build
+      - name: Build UI
+        run: pnpm --filter ./packages/ui build
+      - name: Build React
+        run: pnpm --filter ./packages/react build
+      - name: Build frontend
+        run: pnpm --filter ./packages/frontend build
       - name: Size check all eligible packages
         run: pnpm build:all && pnpm size-check:all
