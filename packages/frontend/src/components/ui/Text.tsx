@@ -5,7 +5,7 @@ interface MainTitleProps {
 }
 
 export const MainTitle = ({ children }: MainTitleProps) => {
-  return <h1 className="text-5xl md:text-6xl font-bold">{children}</h1>
+  return <h1 className="text-5xl font-bold md:text-6xl">{children}</h1>
 }
 
 // interface TextProps {
