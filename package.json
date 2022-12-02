@@ -9,7 +9,6 @@
     "lint:all": "pnpm -r lint",
     "lint:fix:all": "pnpm -r lint:fix",
     "test:all": "pnpm -r test",
-    "build:all": "pnpm -r build",
     "size-check:all": "pnpm -r size-limit",
     "commitlint": "commitlint -e",
     "prepare": "husky install"

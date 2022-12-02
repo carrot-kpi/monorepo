@@ -3,6 +3,169 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_factory",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "AutomationNotSupported",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "Forbidden",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidIndices",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidSpecification",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidVersionBump",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NoKeyForTemplate",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NonExistentTemplate",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddressFactory",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddressTemplate",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "template",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "specification",
+        "type": "string"
+      }
+    ],
+    "name": "AddTemplate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "RemoveTemplate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "newSpecification",
+        "type": "string"
+      }
+    ],
+    "name": "UpdateTemplateSpecification",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newTemplate",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_newVersion",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "newSpecification",
+        "type": "string"
+      }
+    ],
+    "name": "UpgradeTemplate",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "_template",
         "type": "address"
       },
@@ -83,6 +246,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "factory",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -109,6 +285,19 @@
       }
     ],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -149,6 +338,13 @@
       }
     ],
     "name": "removeTemplate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -251,6 +447,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

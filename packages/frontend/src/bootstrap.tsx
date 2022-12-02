@@ -8,7 +8,6 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { CarrotCoreProvider } from '@carrot-kpi/react'
-import i18n from 'i18next'
 import { resources } from './i18n/resources'
 import { CarrotUIProvider } from '@carrot-kpi/ui'
 import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from './i18n'
@@ -39,7 +38,6 @@ root.render(
   <StrictMode>
     <HashRouter>
       <CarrotCoreProvider
-        i18nInstance={i18n}
         i18nResources={resources}
         i18nDefaultNamespace={CARROT_KPI_FRONTEND_I18N_NAMESPACE}
         // FIXME: uncomment when Goerli works

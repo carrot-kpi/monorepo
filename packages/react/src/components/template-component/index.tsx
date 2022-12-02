@@ -20,7 +20,7 @@ export function TemplateComponent({
   customBaseUrl,
   props = {},
 }: TemplateComponentProps) {
-  const { t, i18n } = useTranslation(CARROT_KPI_REACT_I18N_NAMESPACE)
+  const { t } = useTranslation(CARROT_KPI_REACT_I18N_NAMESPACE)
   const { loading, bundle, Component } = useTemplateModule(type, template, customBaseUrl)
 
   const [translateWithNamespace, setTranslateWithNamespace] =
@@ -29,11 +29,11 @@ export function TemplateComponent({
   useEffect(() => {
     if (loading || !template || !bundle || !Component) return
     const namespace = `${template.specification.cid}${type}`
-    addBundleForTemplate(i18n, namespace, bundle)
+    addBundleForTemplate(namespace, bundle)
     setTranslateWithNamespace(() => (key: any, options?: any) => {
       return t(key, { ...options, ns: namespace })
     })
-  }, [Component, bundle, t, i18n, loading, template, type])
+  }, [Component, bundle, t, loading, template, type])
 
   if (loading || !Component) return <>{t('loading')}...</>
   return <Component {...props} t={translateWithNamespace} />
