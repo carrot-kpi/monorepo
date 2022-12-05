@@ -1,21 +1,30 @@
 import React, { ReactNode } from 'react'
+import { cva } from 'class-variance-authority'
 
-interface MainTitleProps {
+const textStyles = cva(['font-sans'], {
+  variants: {
+    color: {
+      white: 'text-white',
+      black: 'text-black',
+    },
+    size: {
+      xs: ['text-xs'],
+      sm: ['text-sm'],
+    },
+  },
+  defaultVariants: {
+    color: 'black',
+    size: 'sm',
+  },
+})
+
+interface TextProps {
+  size?: 'xs' | 'sm'
+  color?: 'white' | 'black'
+  className?: string
   children: ReactNode
 }
 
-export const MainTitle = ({ children }: MainTitleProps) => {
-  return <h1 className="text-5xl font-bold md:text-6xl">{children}</h1>
+export const Text = ({ children, size, color, className }: TextProps) => {
+  return <p className={textStyles({ color, size, className })}>{children}</p>
 }
-
-// interface TextProps {
-//   size: string
-//   color: string
-//   weight: string
-//   uppercase: boolean
-//   children: ReactNode
-// }
-
-// export const Text = ({ children }: TextProps) => {
-//   return <h1>{children}</h1>
-// }
