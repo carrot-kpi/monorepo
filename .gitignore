@@ -144,3 +144,6 @@ dist
 *.vsix
 
 build
+
+# storybook build
+/packages/ui/storybook-static
