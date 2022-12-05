@@ -36,7 +36,7 @@ export const CampaignCard = ({
         <div className="flex items-center h-12 border-r border-gray-600">
           <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
         </div>
-        <TextMono className="px-4" color="white" caps>
+        <TextMono className="px-4" color="white" weight="medium" caps>
           {title}
         </TextMono>
       </div>

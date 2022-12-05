@@ -6,8 +6,8 @@ const textStyles = cva(['font-mono'], {
     caps: {
       true: ['uppercase'],
     },
-    bold: {
-      true: ['font-bold'],
+    weight: {
+      medium: ['font-medium'],
     },
     color: {
       white: 'text-white',
@@ -32,12 +32,21 @@ const textStyles = cva(['font-mono'], {
 interface TextProps {
   size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   color?: 'white' | 'black'
-  bold?: boolean
+  weight?: 'medium'
   caps?: boolean
   className?: string
   children: ReactNode
 }
 
-export const TextMono = ({ children, size, color, caps, bold, className }: TextProps) => {
-  return <p className={textStyles({ color, size, caps, bold, className })}>{children}</p>
+export const TextMono = ({
+  children,
+  size,
+  color,
+  caps,
+  weight,
+  className,
+}: TextProps) => {
+  return (
+    <p className={textStyles({ color, size, caps, weight, className })}>{children}</p>
+  )
 }
