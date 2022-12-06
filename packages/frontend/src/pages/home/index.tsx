@@ -35,7 +35,7 @@ export const Home = () => {
       <div className="relative bg-carrot-orange">
         <GridPatternBg />
         <PageWrapper>
-          <div className="relative py-24 space-y-12">
+          <div className="relative space-y-12 py-7 md:py-24">
             <MainTitle>Featured campaigns</MainTitle>
             <CardHorizontal>
               <FeaturedCampaings />
