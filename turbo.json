@@ -8,8 +8,8 @@
       "dependsOn": ["build"],
       "inputs": ["src/**/*.tsx", "src/**/*.ts"]
     },
-    "size-check": {
-      "dependsOn": ["test"]
+    "size-limit": {
+      "dependsOn": ["build", "test"]
     },
     "lint": {}
   }

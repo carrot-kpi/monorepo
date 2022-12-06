@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: pnpm -r install
 
-      - name: Build SDK
+      - name: Build
         run: pnpm build:all
 
       - name: Lint
