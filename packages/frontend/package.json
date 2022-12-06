@@ -72,6 +72,7 @@
     ]
   },
   "dependencies": {
+    "@fontsource/ibm-plex-mono": "^4.5.12",
     "class-variance-authority": "^0.3.0"
   }
 }
