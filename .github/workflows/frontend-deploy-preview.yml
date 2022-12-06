@@ -7,32 +7,33 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   ipfs-preview-build:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: latest
+
       - name: Setup Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{matrix.node-version}}
           cache: "pnpm"
+
       - name: Install dependencies
         run: pnpm -r install
+
       - name: Build SDK
-        run: pnpm --filter ./packages/sdk build
-      - name: Build UI
-        run: pnpm --filter ./packages/ui build
-      - name: Build React
-        run: pnpm --filter ./packages/react build
-      - name: Build frontend
-        run: pnpm --filter ./packages/frontend/ build
+        run: pnpm build:all
+
       - name: Deploy to IPFS
         uses: web3-storage/add-to-web3@v2
         id: web3

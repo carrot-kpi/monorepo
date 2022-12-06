@@ -7,35 +7,38 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   ci:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: latest
+
       - name: Setup Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{matrix.node-version}}
           cache: "pnpm"
+
       - name: Install dependencies
-        run: pnpm install
-      - name: Lint and all packages
-        run: pnpm lint:all
-      - name: Test all packages
-        run: pnpm test:all
+        run: pnpm -r install
+
       - name: Build SDK
-        run: pnpm --filter ./packages/sdk build
-      - name: Build UI
-        run: pnpm --filter ./packages/ui build
-      - name: Build React
-        run: pnpm --filter ./packages/react build
-      - name: Build frontend
-        run: pnpm --filter ./packages/frontend build
-      - name: Size check all eligible packages
-        run: pnpm build:all && pnpm size-check:all
+        run: pnpm build:all
+
+      - name: Lint
+        run: pnpm lint:all
+
+      - name: Test
+        run: pnpm test:all
+
+      - name: Size check
+        run: pnpm size-check:all
