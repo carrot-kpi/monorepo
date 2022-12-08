@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import { TextMono } from './TextMono'
 import { Logo } from './Logo'
+import { Button } from '@carrot-kpi/ui'
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <li className="flex items-start space-x-2 cursor-pointer">
@@ -27,7 +28,7 @@ export const Navbar = ({ bgColorClass }: NavbarProps) => {
             <NavLink>Community</NavLink>
           </ul>
         </nav>
-        <button className="px-4 py-2 border rounded-xl">Connect wallet</button>
+        <Button size="small">Connect wallet</Button>
       </div>
     </div>
   )
