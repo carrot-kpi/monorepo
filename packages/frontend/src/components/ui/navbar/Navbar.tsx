@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Logo } from '../Logo'
-import { Button } from '@carrot-kpi/ui'
+import { NavLink } from 'react-router-dom'
 import { cva } from 'class-variance-authority'
+import { Button } from '@carrot-kpi/ui'
+import { Logo } from '../Logo'
 import { GridPatternBg } from '../GridPatternBg'
-import { NavLink } from './NavLink'
 import { CloseMenuIcon } from './CloseMenuIcon'
 import { HamburguerMenuIcon } from './HamburguerMenuIcon'
 
@@ -52,27 +52,46 @@ const navLinksStyles = cva(['flex'], {
   },
 })
 
-interface NavbarProps {
-  bgColor?: 'green' | 'orange'
+interface LinkProps {
+  title: string
+  to: string
 }
 
-export const Navbar = ({ bgColor }: NavbarProps) => {
+interface NavbarProps {
+  bgColor?: 'green' | 'orange'
+  links?: LinkProps[]
+}
+
+export const Navbar = ({ bgColor, links }: NavbarProps) => {
   const [isOpen, setOpen] = useState(false)
+  const closeMenuIfOpen = isOpen ? () => setOpen(false) : () => {}
+
   return (
     <div className={navWrapperStyles({ isOpen, bgColor })}>
       <GridPatternBg className="md:hidden" />
       <div className={navbarStyles({ bgColor, isOpen })}>
-        <Logo />
-        <nav className={navStyles({ isOpen })}>
-          <ul className={navLinksStyles({ isOpen })}>
-            <NavLink>About</NavLink>
-            <NavLink>Campaigns</NavLink>
-            <NavLink>Community</NavLink>
-          </ul>
-        </nav>
-        <Button className="absolute top-96 md:static" size="small">
-          Connect wallet
-        </Button>
+        <NavLink to="/" onClick={closeMenuIfOpen}>
+          <Logo />
+        </NavLink>
+        {links && (
+          <nav className={navStyles({ isOpen })}>
+            <ul className={navLinksStyles({ isOpen })}>
+              {links.map((link) => (
+                <NavLink key={link.to} to={link.to} onClick={closeMenuIfOpen}>
+                  <li className="flex items-start space-x-2 cursor-pointer">
+                    <span className="font-mono text-2xl md:text-base">↳</span>
+                    <p className="font-mono text-black text-2xl hover:underline md:text-base uppercase underline-offset-[12px]">
+                      {link.title}
+                    </p>
+                  </li>
+                </NavLink>
+              ))}
+            </ul>
+          </nav>
+        )}
+        <div className="absolute top-[420px] md:static">
+          <Button size="small">Connect wallet</Button>
+        </div>
         <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
           {isOpen ? <CloseMenuIcon /> : <HamburguerMenuIcon />}
         </div>
