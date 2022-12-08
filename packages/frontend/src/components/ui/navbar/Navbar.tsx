@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { cva } from 'class-variance-authority'
 import { Button } from '@carrot-kpi/ui'
@@ -65,6 +65,12 @@ interface NavbarProps {
 export const Navbar = ({ bgColor, links }: NavbarProps) => {
   const [isOpen, setOpen] = useState(false)
   const closeMenuIfOpen = isOpen ? () => setOpen(false) : () => {}
+
+  // close menu on resize
+  useEffect(() => {
+    window.addEventListener('resize', () => setOpen(false), false)
+    console.log('resize')
+  }, [isOpen])
 
   return (
     <div className={navWrapperStyles({ isOpen, bgColor })}>
