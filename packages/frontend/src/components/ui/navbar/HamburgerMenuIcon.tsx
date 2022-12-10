@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const HamburguerMenuIcon = ({ color = 'black' }: { color?: string }) => (
+export const HamburgerMenuIcon = ({ color = 'black' }: { color?: string }) => (
   <svg
     width="36"
     height="36"

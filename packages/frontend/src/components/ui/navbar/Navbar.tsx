@@ -5,7 +5,7 @@ import { Button } from '@carrot-kpi/ui'
 import { Logo } from '../Logo'
 import { GridPatternBg } from '../GridPatternBg'
 import { CloseMenuIcon } from './CloseMenuIcon'
-import { HamburguerMenuIcon } from './HamburguerMenuIcon'
+import { HamburgerMenuIcon } from './HamburgerMenuIcon'
 
 const navWrapperStyles = cva([''], {
   variants: {
@@ -99,7 +99,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
           <Button size="small">Connect wallet</Button>
         </div>
         <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
-          {isOpen ? <CloseMenuIcon /> : <HamburguerMenuIcon />}
+          {isOpen ? <CloseMenuIcon /> : <HamburgerMenuIcon />}
         </div>
       </div>
     </div>
