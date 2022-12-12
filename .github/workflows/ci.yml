@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -24,18 +24,10 @@ jobs:
           node-version: ${{matrix.node-version}}
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
-      - name: Lint and all packages
-        run: pnpm lint:all
-      - name: Test all packages
-        run: pnpm test:all
-      - name: Build SDK
-        run: pnpm --filter ./packages/sdk build
-      - name: Build UI
-        run: pnpm --filter ./packages/ui build
-      - name: Build React
-        run: pnpm --filter ./packages/react build
-      - name: Build frontend
-        run: pnpm --filter ./packages/frontend build
-      - name: Size check all eligible packages
-        run: pnpm build:all && pnpm size-check:all
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Test
+        run: pnpm test
+      - name: Size check
+        run: pnpm size-limit

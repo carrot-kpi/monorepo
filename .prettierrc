@@ -1,0 +1,15 @@
+{
+  "tabWidth": 4,
+  "useTabs": false,
+  "proseWrap": "always",
+  "semi": true,
+  "overrides": [
+    {
+      "files": "*.{yaml,yml,md}",
+      "options": {
+        "printWidth": 100,
+        "tabWidth": 2
+      }
+    }
+  ]
+}

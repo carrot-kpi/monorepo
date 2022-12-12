@@ -24,7 +24,7 @@ const buttonStyles = cva(
   }
 )
 
-export interface ButtonProps {
+export interface CarrotButtonProps {
   onClick?: (event: React.MouseEvent) => void
   href?: string
   disabled?: boolean
@@ -44,7 +44,7 @@ export const Button = ({
   loading,
   children,
   className,
-}: ButtonProps) => {
+}: CarrotButtonProps) => {
   if (href) {
     return (
       <a className={buttonStyles({ size, variant, className })} href={href}>
