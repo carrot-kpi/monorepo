@@ -1,10 +1,7 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "include": ["./src/**/*", "./src/i18n/*.json"],
-  "compilerOptions": {
-    "jsx": "react",
-    "rootDir": "./src",
-    "outDir": "./dist"
-  },
-  "references": [{ "path": "../sdk" }, { "path": "../react" }, { "path": "../ui" }]
+    "extends": "tsconfig/react.json",
+    "include": ["./src/**/*"],
+    "compilerOptions": {
+        "outDir": "./dist"
+    }
 }
