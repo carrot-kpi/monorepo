@@ -19,8 +19,8 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "prettier --check ./src && eslint --ext .tsx,.ts ./src",
-    "lint:fix": "prettier --write ./src && eslint --fix --ext .tsx,.ts ./src",
+    "lint": "eslint --ext .tsx,.ts ./src",
+    "format": "eslint --fix --ext .tsx,.ts ./src",
     "build": "pnpm clean && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "test": "echo 'No tests' && exit 0",
@@ -29,9 +29,6 @@
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
-  },
-  "dependencies": {
-    "@fontsource/ibm-plex-mono": "^4.5.12"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.4"
@@ -54,14 +51,8 @@
     "@storybook/testing-library": "^0.0.13",
     "@types/react": "^18.0.21",
     "@types/rollup-plugin-peer-deps-external": "^2.2.1",
-    "@typescript-eslint/eslint-plugin": "^5.38.0",
-    "@typescript-eslint/parser": "^5.38.1",
     "babel-loader": "^8.2.5",
-    "eslint": "^8.23.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-react": "^7.31.8",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^2.7.1",
+    "eslint-config-custom": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "^3.0.2",
@@ -70,6 +61,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.34.0",
-    "size-limit": "^8.1.0"
+    "size-limit": "^8.1.0",
+    "tsconfig": "workspace:*"
   }
 }

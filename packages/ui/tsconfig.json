@@ -1,9 +1,7 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "tsconfig/ui.json",
   "include": ["./src/**/*"],
   "compilerOptions": {
-    "jsx": "react",
-    "rootDir": "./src",
     "outDir": "./dist"
   }
 }

@@ -1,20 +1,48 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, Theme } from '@emotion/react'
+import { Interpolation, jsx, Theme } from '@emotion/react'
 import { ReactNode } from 'react'
 
-export interface ButtonProps {
+export interface CarrotButtonProps {
   variant: 'primary' | 'secondary'
   size: 'standard' | 'small'
   children: ReactNode
 }
 
-const specBySize: Record<ButtonProps['size'], any> = {
+interface SizeSpec {
+  height: number
+  paddingLeft: number
+  paddingRight: number
+  borderRadius: number
+}
+
+const specBySize: Record<CarrotButtonProps['size'], SizeSpec> = {
   standard: { height: 64, paddingLeft: 24, paddingRight: 24, borderRadius: 16 },
   small: { height: 48, paddingLeft: 16, paddingRight: 16, borderRadius: 10 },
 }
 
-const specByVariant = (theme: Theme): Record<ButtonProps['variant'], any> => {
+interface VariantSpec {
+  border: string
+  backgroundColor: string
+
+  // TODO: once a typography component is developed, use it instead of these hardcoded styles
+  fontFamily: string
+  fontSize: number
+  fontWeight: number
+  lineHeight: number
+  letterSpacing: string
+  textAlign: string
+
+  ':hover': {
+    backgroundColor: string
+    color: string
+    borderColor: string
+  }
+}
+
+const specByVariant = (
+  theme: Theme
+): Record<CarrotButtonProps['variant'], VariantSpec> => {
   return {
     primary: {
       border: `1px solid ${theme.colors.gray10}`,
@@ -25,7 +53,7 @@ const specByVariant = (theme: Theme): Record<ButtonProps['variant'], any> => {
       fontSize: 16,
       fontWeight: 400,
       lineHeight: 24,
-      letterSpacing: 0,
+      letterSpacing: '0',
       textAlign: 'center',
 
       ':hover': {
@@ -60,11 +88,11 @@ export const Button = ({
   variant = 'primary',
   size = 'standard',
   ...props
-}: ButtonProps) => {
+}: CarrotButtonProps) => {
   return (
     <button
       {...props}
-      css={(theme) => {
+      css={(theme: Theme) => {
         return {
           ...specBySize[size],
           ...specByVariant(theme)[variant],
@@ -73,7 +101,7 @@ export const Button = ({
           cursor: 'pointer',
           textTransform: 'uppercase',
           transition: 'background-color .2s ease, color .2s ease, border-color .2s ease',
-        }
+        } as Interpolation<Theme>
       }}
     >
       {children}

@@ -3,4 +3,4 @@
 // lighter initial chunk, faster loading times and all those
 // good things
 
-import('./bootstrap')
+import("./bootstrap");
