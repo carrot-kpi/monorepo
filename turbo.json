@@ -5,7 +5,6 @@
             "dependsOn": ["^build"]
         },
         "test": {
-            "dependsOn": ["build"],
             "inputs": [
                 "src/**/*.{ts,tsx}",
                 "tests/**/*.{ts,tsx}",

@@ -20,7 +20,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .tsx,.ts ./src",
-    "format": "eslint --fix --ext .tsx,.ts ./src",
+    "format": "eslint --fix --ext .tsx,.ts,.js,.json ./",
     "build": "pnpm clean && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "test": "echo 'No tests' && exit 0",
