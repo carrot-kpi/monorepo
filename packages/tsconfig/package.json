@@ -1,0 +1,19 @@
+{
+    "name": "tsconfig",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "lint": "prettier --check .",
+        "format": "prettier --write ."
+    },
+    "files": [
+        "base.json",
+        "frontend.json",
+        "react.json",
+        "sdk.json",
+        "ui.json"
+    ],
+    "devDependencies": {
+        "tslib": "^2.4.1"
+    }
+}

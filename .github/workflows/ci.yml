@@ -7,38 +7,27 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   ci:
-    timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
-
+        node-version: [18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: latest
-
       - name: Setup Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{matrix.node-version}}
           cache: "pnpm"
-
       - name: Install dependencies
-        run: pnpm -r install
-
-      - name: Build
-        run: pnpm build:all
-
+        run: pnpm install --frozen-lockfile
       - name: Lint
-        run: pnpm lint:all
-
+        run: pnpm lint
       - name: Test
-        run: pnpm test:all
-
+        run: pnpm test
       - name: Size check
-        run: pnpm size-check:all
+        run: pnpm size-limit
