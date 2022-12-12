@@ -50,7 +50,6 @@
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "babel-jest": "^29.2.2",
         "eslint-config-custom": "workspace:*",
-        "ethers": "^5.7.0",
         "jest": "^29.2.2",
         "rimraf": "^3.0.2",
         "rollup": "^3.2.3",

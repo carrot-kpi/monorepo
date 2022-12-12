@@ -26,9 +26,6 @@ export default [
         file: join(__dirname, `./dist/index.js`),
         format: 'umd',
         name: 'CarrotKpiUi',
-        globals: {
-          '@emotion/react': 'emotionReact',
-        },
       },
       {
         file: join(__dirname, `./dist/index.mjs`),

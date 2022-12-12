@@ -25,10 +25,6 @@ export default [
                 file: join(__dirname, `./dist/index.js`),
                 format: "umd",
                 name: "CarrotKpiSdk",
-                globals: {
-                    ethers: "ethers",
-                    "decimal.js-light": "Decimal",
-                },
                 sourcemap: true,
             },
             {

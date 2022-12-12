@@ -32,14 +32,6 @@ export default [
                 file: join(__dirname, `./dist/index.js`),
                 format: "umd",
                 name: "CarrotKpiReact",
-                globals: {
-                    "@carrot-kpi/sdk": "CarrotKpiSdk",
-                    ethers: "ethers",
-                    i18next: "i18next",
-                    react: "React",
-                    "react-i18next": "ReactI18next",
-                    wagmi: "wagmi",
-                },
             },
             {
                 file: join(__dirname, `./dist/index.mjs`),
