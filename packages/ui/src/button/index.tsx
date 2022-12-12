@@ -3,10 +3,10 @@
 import { Interpolation, jsx, Theme } from '@emotion/react'
 import { ReactNode } from 'react'
 
-export interface ButtonProps {
+export interface CarrotButtonProps {
   variant: 'primary' | 'secondary'
   size: 'standard' | 'small'
-  label: ReactNode
+  children: ReactNode
 }
 
 interface SizeSpec {
@@ -16,7 +16,7 @@ interface SizeSpec {
   borderRadius: number
 }
 
-const specBySize: Record<ButtonProps['size'], SizeSpec> = {
+const specBySize: Record<CarrotButtonProps['size'], SizeSpec> = {
   standard: { height: 64, paddingLeft: 24, paddingRight: 24, borderRadius: 16 },
   small: { height: 48, paddingLeft: 16, paddingRight: 16, borderRadius: 10 },
 }
@@ -40,7 +40,9 @@ interface VariantSpec {
   }
 }
 
-const specByVariant = (theme: Theme): Record<ButtonProps['variant'], VariantSpec> => {
+const specByVariant = (
+  theme: Theme
+): Record<CarrotButtonProps['variant'], VariantSpec> => {
   return {
     primary: {
       border: `1px solid ${theme.colors.gray10}`,
@@ -81,7 +83,12 @@ const specByVariant = (theme: Theme): Record<ButtonProps['variant'], VariantSpec
   }
 }
 
-export const Button = ({ variant, size, label, ...props }: ButtonProps) => {
+export const Button = ({
+  children,
+  variant = 'primary',
+  size = 'standard',
+  ...props
+}: CarrotButtonProps) => {
   return (
     <button
       {...props}
@@ -97,7 +104,7 @@ export const Button = ({ variant, size, label, ...props }: ButtonProps) => {
         } as Interpolation<Theme>
       }}
     >
-      {label}
+      {children}
     </button>
   )
 }

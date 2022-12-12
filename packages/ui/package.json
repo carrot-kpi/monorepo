@@ -30,9 +30,6 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "dependencies": {
-    "@fontsource/ibm-plex-mono": "^4.5.12"
-  },
   "peerDependencies": {
     "@emotion/react": "^11.10.4"
   },
