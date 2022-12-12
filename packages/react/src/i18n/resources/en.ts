@@ -1,3 +1,3 @@
 export const en = {
-  loading: 'Loading',
-}
+    loading: "Loading",
+};

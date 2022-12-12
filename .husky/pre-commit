@@ -1,2 +1,3 @@
-pnpm lint:all
-pnpm test:all
+pnpm lint
+pnpm size-limit
+pnpm test
