@@ -162,6 +162,12 @@ importers:
       '@babel/core': ^7.19.3
       '@babel/preset-env': ^7.19.4
       '@babel/preset-typescript': ^7.18.6
+      '@ethersproject/address': ^5.7.0
+      '@ethersproject/bignumber': ^5.7.0
+      '@ethersproject/contracts': ^5.7.0
+      '@ethersproject/providers': ^5.7.2
+      '@ethersproject/units': ^5.7.0
+      '@ethersproject/wallet': ^5.7.0
       '@jest/globals': ^29.2.2
       '@rollup/plugin-commonjs': ^23.0.2
       '@rollup/plugin-json': ^5.0.1
@@ -185,6 +191,12 @@ importers:
       ts-jest: ^29.0.3
       tsconfig: workspace:*
     dependencies:
+      '@ethersproject/address': 5.7.0
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/contracts': 5.7.0
+      '@ethersproject/providers': 5.7.2
+      '@ethersproject/units': 5.7.0
+      '@ethersproject/wallet': 5.7.0
       decimal.js-light: 2.5.1
       ethers: 5.7.2
       multiformats: 9.9.0
@@ -8643,13 +8655,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.4.10
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint/8.4.10:
     resolution: {integrity: sha512-Sl/HOqN8NKPmhWo2VBEPm0nvHnu2LL3v9vKo8MEq0EtbJ4eVzGPl41VNPvn5E1i5poMk4/XD8UriLHpJvEP/Nw==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: true
 
@@ -24870,7 +24882,7 @@ packages:
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.0
-      terser: 5.15.1
+      terser: 5.16.0
       webpack: 5.75.0
     dev: true
 

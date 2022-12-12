@@ -1,4 +1,4 @@
-import { Wallet } from "ethers";
+import { Wallet } from "@ethersproject/wallet";
 import { Template, TemplateSpecification } from ".";
 
 describe("template", () => {
