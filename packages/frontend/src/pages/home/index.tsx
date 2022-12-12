@@ -42,10 +42,10 @@ export const Home = () => {
                             <FeaturedCampaings />
                         </CardHorizontal>
                         <div className="flex flex-col space-x-0 space-y-6 md:space-y-0 md:flex-row md:space-x-8">
-                            <Button variant="primary" size="standard">
+                            <Button variant="primary" size="big">
                                 All campaigns
                             </Button>
-                            <Button variant="secondary" size="standard">
+                            <Button variant="secondary" size="big">
                                 Create campaign
                             </Button>
                         </div>
