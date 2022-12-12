@@ -1,5 +1,4 @@
 {
-    "type": "module",
     "name": "@carrot-kpi/frontend",
     "license": "GPL-3.0-or-later",
     "version": "1.0.0-rc.2",

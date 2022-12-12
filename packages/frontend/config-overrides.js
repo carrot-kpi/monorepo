@@ -1,19 +1,19 @@
-import { GitRevisionPlugin } from "git-revision-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import WorkboxWebpackPlugin from "workbox-webpack-plugin";
-import { WebpackManifestPlugin } from "webpack-manifest-plugin";
-import { container } from "webpack";
-import { ProvidePlugin } from "webpack";
-import shared from "./shared-dependencies.json";
+const { GitRevisionPlugin } = require("git-revision-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
+const { ModuleFederationPlugin } = require("webpack").container;
+const { ProvidePlugin } = require("webpack");
+const shared = require("./shared-dependencies.json");
 
 // Used to make the build reproducible between different machines (IPFS-related)
-export default (config, env) => {
+module.exports = (config, env) => {
     config.resolve.fallback = {
         ...config.resolve.fallback,
         util: require.resolve("util/"),
     };
     config.plugins.push(
-        new container.ModuleFederationPlugin({
+        new ModuleFederationPlugin({
             name: "host",
             shared,
         }),
