@@ -1,10 +1,10 @@
 [
   {
     "path": "dist/index.js",
-    "limit": "30 kB"
+    "limit": "80 kB"
   },
   {
     "path": "dist/index.mjs",
-    "limit": "30 kB"
+    "limit": "80 kB"
   }
 ]
