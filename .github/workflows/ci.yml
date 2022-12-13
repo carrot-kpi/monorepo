@@ -73,4 +73,4 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            Deploy preview available [here](https://${{ steps.web3.outputs.cid }}.ipfs.w3s.link)
+            Deploy preview available [here](https://ipfs.io/ipfs/${{ steps.web3.outputs.cid }})
