@@ -6,6 +6,8 @@ import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
 import postcss from 'rollup-plugin-postcss'
 import { fileURLToPath } from 'url'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -16,16 +18,22 @@ export default [
       peerDepsExternal(),
       nodeResolve(),
       commonjs(),
-      postcss(),
+      postcss({
+        plugins: [tailwindcss, autoprefixer],
+        minimize: true,
+      }),
       typescript(),
       terser(),
     ],
-    external: ['@emotion/react'],
     output: [
       {
         file: join(__dirname, `./dist/index.js`),
         format: 'umd',
         name: 'CarrotKpiUi',
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDom',
+        },
       },
       {
         file: join(__dirname, `./dist/index.mjs`),
