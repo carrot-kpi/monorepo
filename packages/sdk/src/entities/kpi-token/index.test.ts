@@ -1,4 +1,4 @@
-import { Wallet } from "ethers";
+import { Wallet } from "@ethersproject/wallet";
 import { KpiToken, KpiTokenSpecification } from ".";
 import { ChainId } from "../../commons";
 import { Oracle } from "../oracle";

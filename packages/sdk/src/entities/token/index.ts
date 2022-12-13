@@ -1,4 +1,4 @@
-import { utils } from "ethers";
+import { isAddress, getAddress } from "@ethersproject/address";
 import { Currency } from "../currency";
 import { enforce } from "../../utils/invariant";
 
@@ -13,8 +13,8 @@ export class Token extends Currency {
         name: string
     ) {
         super(symbol, name, decimals);
-        enforce(utils.isAddress(address), `${address} is not a valid address.`);
-        this.address = utils.getAddress(address);
+        enforce(isAddress(address), `${address} is not a valid address.`);
+        this.address = getAddress(address);
     }
 
     public equals(other: Token): boolean {

@@ -1,5 +1,7 @@
 import { describe, test } from "@jest/globals";
-import { BigNumber, utils, Wallet } from "ethers";
+import { BigNumber } from "@ethersproject/bignumber";
+import { parseUnits } from "@ethersproject/units";
+import { Wallet } from "@ethersproject/wallet";
 import { ChainId } from "../../commons";
 import { Token } from "../token";
 import { Amount } from "./";
@@ -87,8 +89,8 @@ describe("token amount", () => {
         });
 
         test("correctly handles multiplying amounts from different tokens (case 2)", () => {
-            const value1 = utils.parseUnits("100", token2.decimals);
-            const value2 = utils.parseUnits("10", token1.decimals);
+            const value1 = parseUnits("100", token2.decimals);
+            const value2 = parseUnits("10", token1.decimals);
             const amount1 = new Amount(token2, value1);
             const amount2 = new Amount(token1, value2);
             const result = amount1.multiply(amount2);
@@ -104,8 +106,8 @@ describe("token amount", () => {
         });
 
         test("correctly handles multiplying amounts from different tokens (case 3)", () => {
-            const value1 = utils.parseUnits("10", token1.decimals);
-            const value2 = utils.parseUnits("100", token2.decimals);
+            const value1 = parseUnits("10", token1.decimals);
+            const value2 = parseUnits("100", token2.decimals);
             const amount1 = new Amount(token1, value1);
             const amount2 = new Amount(token2, value2);
             const result = amount1.multiply(amount2);
@@ -133,8 +135,8 @@ describe("token amount", () => {
         });
 
         test("correctly handles dividing amounts from different tokens (case 2)", () => {
-            const value1 = utils.parseUnits("100", token2.decimals);
-            const value2 = utils.parseUnits("10", token1.decimals);
+            const value1 = parseUnits("100", token2.decimals);
+            const value2 = parseUnits("10", token1.decimals);
             const amount1 = new Amount(token2, value1);
             const amount2 = new Amount(token1, value2);
             const result = amount1.divide(amount2);
@@ -150,8 +152,8 @@ describe("token amount", () => {
         });
 
         test("correctly handles dividing amounts from different tokens (case 3)", () => {
-            const value1 = utils.parseUnits("10", token1.decimals);
-            const value2 = utils.parseUnits("100", token2.decimals);
+            const value1 = parseUnits("10", token1.decimals);
+            const value2 = parseUnits("100", token2.decimals);
             const amount1 = new Amount(token1, value1);
             const amount2 = new Amount(token2, value2);
             const result = amount1.divide(amount2);

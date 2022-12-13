@@ -2,10 +2,10 @@
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
         "build": {
-            "dependsOn": ["^build"]
+            "dependsOn": ["^build"],
+            "outputs": ["dist/**", "build/**"]
         },
         "test": {
-            "dependsOn": ["build"],
             "inputs": [
                 "src/**/*.{ts,tsx}",
                 "tests/**/*.{ts,tsx}",

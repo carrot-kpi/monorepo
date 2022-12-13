@@ -1,4 +1,4 @@
-import { Wallet } from "ethers";
+import { Wallet } from "@ethersproject/wallet";
 import { Oracle } from ".";
 import { ChainId } from "../../commons";
 import { Template, TemplateSpecification } from "../template";
