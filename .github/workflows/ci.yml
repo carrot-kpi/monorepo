@@ -43,3 +43,34 @@ jobs:
         run: pnpm test
       - name: Size check
         run: pnpm size-limit
+      - name: Deploy to IPFS
+        uses: web3-storage/add-to-web3@v2
+        id: web3
+        with:
+          web3_token: ${{ secrets.WEB3_STORAGE_TOKEN }}
+          path_to_add: "./packages/frontend/build"
+      - name: Find previous PR comment
+        uses: peter-evans/find-comment@v2
+        if: ${{ github.event.pull_request != '' }}
+        id: find
+        continue-on-error: true
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: "github-actions[bot]"
+          body-includes: Deploy preview
+      - name: Update PR comment
+        if: ${{ github.event.pull_request != '' && steps.find.outputs.comment-id != '' }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.find.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Deploy preview available [here](https://${{ steps.web3.outputs.cid }}.ipfs.w3s.link)
+          edit-mode: replace
+      - name: Add PR comment
+        if: ${{ github.event.pull_request != '' && steps.find.outputs.comment-id == '' }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Deploy preview available [here](https://${{ steps.web3.outputs.cid }}.ipfs.w3s.link)
