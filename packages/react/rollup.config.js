@@ -32,6 +32,9 @@ export default [
                 file: join(__dirname, `./dist/index.js`),
                 format: "umd",
                 name: "CarrotKpiReact",
+                globals: {
+                    react: "React",
+                },
             },
             {
                 file: join(__dirname, `./dist/index.mjs`),
