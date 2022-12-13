@@ -44,7 +44,14 @@ export const Create = () => {
     if (transactionLoading) return <>Awaiting confirmation...</>;
     if (isSuccess) return <>Confirmed!</>;
     if (!!pickedTemplate)
-        return <CreationForm template={pickedTemplate} onDone={handleDone} />;
+        return (
+            <CreationForm
+                template={pickedTemplate}
+                onDone={handleDone}
+                // TODO: use a proper fallback component
+                fallback="Loading..."
+            />
+        );
     return (
         <>
             {loading && <>{t("create.loading")}...</>}

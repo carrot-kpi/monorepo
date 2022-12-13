@@ -28,15 +28,6 @@ export default [
     output: [
       {
         file: join(__dirname, `./dist/index.js`),
-        format: 'umd',
-        name: 'CarrotKpiUi',
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDom',
-        },
-      },
-      {
-        file: join(__dirname, `./dist/index.mjs`),
         format: 'es',
       },
     ],

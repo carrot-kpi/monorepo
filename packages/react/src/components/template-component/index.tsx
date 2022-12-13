@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { ReactNode } from "react";
 import { Template } from "@carrot-kpi/sdk";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
-import {
-    addBundleForTemplate,
-    CARROT_KPI_REACT_I18N_NAMESPACE,
-} from "../../i18n";
+import { addBundleForTemplate } from "../../i18n";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -15,6 +12,7 @@ interface TemplateComponentProps {
     type: "creationForm" | "page";
     template?: Template;
     customBaseUrl?: string;
+    fallback: ReactNode;
     props?: any;
 }
 
@@ -22,9 +20,10 @@ export function TemplateComponent({
     type,
     template,
     customBaseUrl,
+    fallback,
     props = {},
 }: TemplateComponentProps) {
-    const { t } = useTranslation(CARROT_KPI_REACT_I18N_NAMESPACE);
+    const { t, i18n } = useTranslation();
     const { loading, bundle, Component } = useTemplateModule(
         type,
         template,
@@ -37,12 +36,12 @@ export function TemplateComponent({
     useEffect(() => {
         if (loading || !template || !bundle || !Component) return;
         const namespace = `${template.specification.cid}${type}`;
-        addBundleForTemplate(namespace, bundle);
+        addBundleForTemplate(i18n, namespace, bundle);
         setTranslateWithNamespace(() => (key: any, options?: any) => {
             return t(key, { ...options, ns: namespace });
         });
-    }, [Component, bundle, t, loading, template, type]);
+    }, [Component, bundle, t, loading, template, type, i18n]);
 
-    if (loading || !Component) return <>{t("loading")}...</>;
+    if (loading || !Component) return <>{fallback}</>;
     return <Component {...props} t={translateWithNamespace} />;
 }

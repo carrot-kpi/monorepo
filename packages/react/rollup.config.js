@@ -27,19 +27,9 @@ export default [
                 },
             }),
         ],
-        output: [
-            {
-                file: join(__dirname, `./dist/index.js`),
-                format: "umd",
-                name: "CarrotKpiReact",
-                globals: {
-                    react: "React",
-                },
-            },
-            {
-                file: join(__dirname, `./dist/index.mjs`),
-                format: "es",
-            },
-        ],
+        output: {
+            file: join(__dirname, `./dist/index.js`),
+            format: "es",
+        },
     },
 ];

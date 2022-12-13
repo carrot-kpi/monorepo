@@ -8,9 +8,8 @@ import { infuraProvider } from "wagmi/providers/infura";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
-import { resources } from "./i18n/resources";
 import { CarrotUIProvider } from "@carrot-kpi/ui";
-import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "./i18n";
+import "./i18n";
 import "./global.css";
 
 import "@fontsource/ibm-plex-mono/400.css";
@@ -42,9 +41,6 @@ root.render(
     <StrictMode>
         <HashRouter>
             <CarrotCoreProvider
-                i18nResources={resources}
-                i18nDefaultNamespace={CARROT_KPI_FRONTEND_I18N_NAMESPACE}
-                // FIXME: uncomment when Goerli works
                 supportedChains={[wagmiChain.sepolia]}
                 providers={[infuraProvider({ apiKey: INFURA_PROJECT_ID })]}
                 getConnectors={getConnectors}
