@@ -1,4 +1,4 @@
-import { Wallet } from "ethers";
+import { Wallet } from "@ethersproject/wallet";
 import { currencyEquals, Token } from ".";
 import { ChainId } from "../../commons";
 import { Currency } from "../currency";

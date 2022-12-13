@@ -1,6 +1,7 @@
 import { Token, currencyEquals } from "../token";
 import { Currency } from "../currency";
-import { BigNumber, utils } from "ethers";
+import { BigNumber } from "@ethersproject/bignumber";
+import { formatUnits } from "@ethersproject/units";
 import Decimal from "decimal.js-light";
 import { enforce } from "../../utils";
 
@@ -11,7 +12,7 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
     public readonly raw: BigNumber;
 
     public constructor(currency: T, amount: BigNumber) {
-        super(new Decimal(utils.formatUnits(amount, currency.decimals)));
+        super(new Decimal(formatUnits(amount, currency.decimals)));
         this.currency = currency;
         this.raw = amount;
     }
