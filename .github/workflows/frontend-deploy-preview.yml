@@ -44,7 +44,7 @@ jobs:
       - name: Update or add PR comment
         uses: peter-evans/create-or-update-comment@v2
         with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
+          comment-id: ${{ steps.find.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             Deploy preview available [here](https://${{ steps.web3.outputs.cid }}.ipfs.w3s.link)
