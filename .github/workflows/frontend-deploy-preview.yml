@@ -35,6 +35,7 @@ jobs:
           path_to_add: "./packages/frontend/build"
       - name: Find previous PR comment
         uses: peter-evans/find-comment@v2
+        if: ${{ github.event.pull_request != '' }}
         id: find
         continue-on-error: true
         with:
@@ -42,7 +43,7 @@ jobs:
           comment-author: "github-actions[bot]"
           body-includes: Deploy preview
       - name: Update PR comment
-        if: ${{ steps.find.outputs.comment-id != '' }}
+        if: ${{ github.event.pull_request != '' && steps.find.outputs.comment-id != '' }}
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.find.outputs.comment-id }}
@@ -51,7 +52,7 @@ jobs:
             Deploy preview available [here](https://${{ steps.web3.outputs.cid }}.ipfs.w3s.link)
           edit-mode: replace
       - name: Add PR comment
-        if: ${{ steps.find.outputs.comment-id == '' }}
+        if: ${{ github.event.pull_request != '' && steps.find.outputs.comment-id == '' }}
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.pull_request.number }}
