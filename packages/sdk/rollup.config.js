@@ -23,12 +23,6 @@ export default [
         output: [
             {
                 file: join(__dirname, `./dist/index.js`),
-                format: "umd",
-                name: "CarrotKpiSdk",
-                sourcemap: true,
-            },
-            {
-                file: join(__dirname, `./dist/index.mjs`),
                 format: "es",
                 sourcemap: true,
             },
