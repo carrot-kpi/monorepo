@@ -1,5 +1,5 @@
 import React from "react";
-import { CampaignCard } from "./ui/CampaignCard";
+import { CampaignCard } from "../ui/campaign-card";
 
 // this will be fetched in the future
 const featuredCampaignsMockData = [

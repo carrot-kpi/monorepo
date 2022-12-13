@@ -1,5 +1,5 @@
 import React from "react";
-import { TextMono } from "./TextMono";
+import { TextMono } from "../text-mono";
 
 const CardRow = ({ title, value }: { title: string; value: string }) => (
     <div className="flex items-center justify-between w-full text-white border-t border-gray-600">
