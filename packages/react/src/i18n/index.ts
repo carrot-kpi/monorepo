@@ -1,27 +1,15 @@
-import i18next from "i18next";
-import { initReactI18next } from "react-i18next";
-
-export const CARROT_KPI_REACT_I18N_NAMESPACE = "@carrot-kpi/react";
-
-i18next.use(initReactI18next).init({
-    lng: "en",
-    fallbackLng: "en",
-    interpolation: {
-        escapeValue: false,
-    },
-});
+import type { i18n } from "i18next";
 
 export interface TemplateBundle {
     [language: string]: { [key: string]: string };
 }
 
 export const addBundleForTemplate = (
+    i18n: i18n,
     namespace: string,
     bundle: TemplateBundle
 ) => {
     Object.entries(bundle).forEach(([language, keys]) => {
-        i18next.addResourceBundle(language, namespace, keys);
+        i18n.addResourceBundle(language, namespace, keys);
     });
 };
-
-export { i18next };
