@@ -1,4 +1,4 @@
-import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "..";
+import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "../../constants";
 
 export const en = {
     [CARROT_KPI_FRONTEND_I18N_NAMESPACE]: {
