@@ -14,7 +14,7 @@
             "outputs": []
         },
         "size-limit": {
-            "dependsOn": ["build"]
+            "dependsOn": ["^build"]
         },
         "lint": {
             "outputs": []
