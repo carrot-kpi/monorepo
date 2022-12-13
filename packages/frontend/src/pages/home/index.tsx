@@ -5,14 +5,13 @@ import { chain, useAccount, useConnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { useTranslation } from "react-i18next";
 import { KpiToken } from "@carrot-kpi/sdk";
-import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
-import { Button } from "@carrot-kpi/ui";
+import { Button, PlusSignPattern } from "@carrot-kpi/ui";
 import { PageWrapper } from "../../components/ui/page-wrapper";
 import { MainTitle } from "../../components/ui/main-title";
-import { PlusSignPattern } from "../../components/ui/plus-sign-pattern";
 import { FeaturedCampaings } from "../../components/featured-campaigns";
 import { DXdaoSideLink } from "./hero/DXdaoSideLink";
 import { CardHorizontal } from "./hero/CardsHorizontal";
+import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
 
 export const Home = () => {
     const { t } = useTranslation();

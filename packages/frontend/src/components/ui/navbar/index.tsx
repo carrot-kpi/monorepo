@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Button, Logo } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import { Button } from "@carrot-kpi/ui";
-import { GridPatternBg } from "../grid-pattern-bg";
 import { CloseMenuIcon } from "./CloseMenuIcon";
 import { HamburgerMenuIcon } from "./HamburgerMenuIcon";
-import { Logo } from "../logo";
+import { GridPatternBg } from "../grid-pattern-bg";
 
 const navWrapperStyles = cva([""], {
     variants: {
