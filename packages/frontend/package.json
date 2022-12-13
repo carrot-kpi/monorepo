@@ -13,7 +13,7 @@
         "lint": "eslint --ext .tsx,.ts ./src",
         "format": "eslint --fix --ext .tsx,.ts,.js,.json ./",
         "clean": "rimraf ./build",
-        "build": "GENERATE_SOURCEMAP=false craco build",
+        "build": "pnpm clean && GENERATE_SOURCEMAP=false craco build",
         "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
         "size-limit": "size-limit",
         "start": "craco start"

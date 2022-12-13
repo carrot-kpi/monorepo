@@ -1,8 +1,5 @@
 name: CI
 on:
-  push:
-    branches:
-      - develop
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -43,3 +40,16 @@ jobs:
         run: pnpm test
       - name: Size check
         run: pnpm size-limit
+      - name: Deploy to IPFS
+        uses: web3-storage/add-to-web3@v2
+        id: web3
+        with:
+          web3_token: ${{ secrets.WEB3_STORAGE_TOKEN }}
+          path_to_add: "./packages/frontend/build"
+      - name: Add PR comment
+        if: ${{ github.event.pull_request != '' && steps.find.outputs.comment-id == '' }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Deploy preview available [here](https://ipfs.io/ipfs/${{ steps.web3.outputs.cid }})

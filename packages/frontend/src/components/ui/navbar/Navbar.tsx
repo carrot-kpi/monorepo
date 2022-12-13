@@ -64,19 +64,21 @@ interface NavbarProps {
 
 export const Navbar = ({ bgColor, links }: NavbarProps) => {
     const [isOpen, setOpen] = useState(false);
-    const closeMenuIfOpen = isOpen ? () => setOpen(false) : undefined;
+    const closeMenuOnResizeToDesktop = () => {
+        if (window.innerWidth > 700) {
+            setOpen(false);
+        }
+    };
 
-    // close menu on resize
     useEffect(() => {
-        window.addEventListener("resize", () => setOpen(false), false);
-        console.log("resize");
+        window.addEventListener("resize", closeMenuOnResizeToDesktop, false);
     }, [isOpen]);
 
     return (
         <div className={navWrapperStyles({ isOpen, bgColor })}>
             <GridPatternBg className="md:hidden" />
             <div className={navbarStyles({ bgColor, isOpen })}>
-                <NavLink to="/" onClick={closeMenuIfOpen}>
+                <NavLink to="/" onClick={() => setOpen(false)}>
                     <Logo />
                 </NavLink>
                 {links && (
@@ -86,7 +88,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                                 <NavLink
                                     key={link.to}
                                     to={link.to}
-                                    onClick={closeMenuIfOpen}
+                                    onClick={() => setOpen(false)}
                                 >
                                     <li className="flex items-start space-x-2 cursor-pointer">
                                         <span className="font-mono text-2xl md:text-base">

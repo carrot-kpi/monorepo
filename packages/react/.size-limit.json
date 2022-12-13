@@ -1,10 +1,6 @@
 [
-  {
-    "path": "dist/index.js",
-    "limit": "300 KB"
-  },
-  {
-    "path": "dist/index.mjs",
-    "limit": "300 KB"
-  }
+    {
+        "path": "dist/index.js",
+        "limit": "100 KB"
+    }
 ]

@@ -21,6 +21,7 @@ module.exports = {
             if (env !== "production") {
                 return config;
             }
+            config.output.publicPath = "auto";
             config.plugins = config.plugins.filter(
                 (plugin) => !(plugin instanceof WorkboxWebpackPlugin.GenerateSW)
             );
