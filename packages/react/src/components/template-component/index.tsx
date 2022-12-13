@@ -40,7 +40,7 @@ export function TemplateComponent({
         setTranslateWithNamespace(() => (key: any, options?: any) => {
             return t(key, { ...options, ns: namespace });
         });
-    }, [Component, bundle, t, loading, template, type]);
+    }, [Component, bundle, t, loading, template, type, i18n]);
 
     if (loading || !Component) return <>{fallback}</>;
     return <Component {...props} t={translateWithNamespace} />;
