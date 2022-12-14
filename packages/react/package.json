@@ -43,7 +43,6 @@
         "@rollup/plugin-json": "^5.0.1",
         "@rollup/plugin-node-resolve": "^15.0.1",
         "@size-limit/preset-small-lib": "^8.1.0",
-        "@size-limit/webpack-why": "^8.1.0",
         "@types/react": "^18.0.23",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "eslint-config-custom": "workspace:*",

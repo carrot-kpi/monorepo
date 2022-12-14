@@ -1,6 +1,6 @@
 [
     {
         "path": "build/",
-        "limit": "1 MB"
+        "limit": "5 MB"
     }
 ]
