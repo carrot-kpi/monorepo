@@ -3,7 +3,7 @@
     "name": "@carrot-kpi/sdk",
     "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
-    "version": "1.9.2",
+    "version": "1.10.0",
     "description": "An SDK for building applications on top of Carrot v1.",
     "main": "./dist/index.js",
     "module": "./dist/index.js",
@@ -26,7 +26,6 @@
         "build": "pnpm clean && rollup -c rollup.config.js",
         "clean": "rimraf ./dist",
         "test": "jest",
-        "prepublishOnly": "pnpm build",
         "size-limit": "size-limit",
         "analyze": "size-limit --why"
     },
