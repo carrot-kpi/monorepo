@@ -2,7 +2,7 @@
     "type": "module",
     "name": "@carrot-kpi/react",
     "author": "Federico Luzzi",
-    "version": "0.16.0",
+    "version": "0.17.0",
     "license": "GPL-3.0-or-later",
     "main": "./dist/index.js",
     "module": "./dist/index.js",
@@ -24,7 +24,6 @@
         "build": "pnpm clean && rollup -c rollup.config.js",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
-        "prepublishOnly": "pnpm build",
         "size-limit": "size-limit",
         "analyze": "size-limit --why"
     },
