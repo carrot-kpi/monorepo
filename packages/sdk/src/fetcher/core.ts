@@ -1,11 +1,17 @@
-import { CACHER } from "../commons";
-import { MULTICALL_ABI, ChainId, ERC20_ABI, CHAIN_ADDRESSES } from "../commons";
+import {
+    MULTICALL_ABI,
+    ChainId,
+    ERC20_ABI,
+    CHAIN_ADDRESSES,
+    CACHER,
+} from "../commons";
 import { cacheErc20Token, enforce, getCachedErc20Token, warn } from "../utils";
 import { ethers, Contract } from "ethers";
 import { Token } from "../entities/token";
 import BYTES_NAME_ERC20_ABI from "../abis/erc20-name-bytes.json";
 import BYTES_SYMBOL_ERC20_ABI from "../abis/erc20-symbol-bytes.json";
 import { IpfsService } from "../services";
+import { Fetcher } from ".";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new ethers.utils.Interface(ERC20_ABI);
@@ -176,39 +182,62 @@ export abstract class CoreFetcher {
         return { ...cachedTokens, ...fetchedTokens };
     }
 
-    public static async fetchContentFromIpfs(
-        cacheableCids: { cid: string; validUntil?: number }[]
-    ): Promise<{ [cid: string]: string }> {
+    private static async fetchContentFromIpfsWithLocalStorageCache(
+        cacheableCids: string[]
+    ) {
         const cachedCids: { [cid: string]: string } = {};
         const uncachedCids = [];
-        for (const wrappedCid of cacheableCids) {
-            const cachedContent = CACHER.get<string>(wrappedCid.cid);
-            if (!!cachedContent) cachedCids[wrappedCid.cid] = cachedContent;
-            else uncachedCids.push(wrappedCid);
+        for (const cid of cacheableCids) {
+            const cachedContent = CACHER.get<string>(cid);
+            if (!!cachedContent) cachedCids[cid] = cachedContent;
+            else uncachedCids.push(cid);
         }
         if (uncachedCids.length > 0) {
             const uncachedContent = await Promise.all(
-                uncachedCids.map(async (wrappedCid) => {
+                uncachedCids.map(async (cid) => {
                     const response = await fetch(
-                        `${IpfsService.gateway}${wrappedCid.cid}`
+                        `${IpfsService.gateway}${cid}`
                     );
                     const responseOk = response.ok;
-                    warn(
-                        responseOk,
-                        `could not fetch content with cid ${wrappedCid.cid}`
-                    );
+                    warn(responseOk, `could not fetch content with cid ${cid}`);
                     return {
-                        wrappedCid,
+                        cid,
                         content: responseOk ? await response.text() : null,
                     };
                 })
             );
-            for (const { wrappedCid, content } of uncachedContent) {
+            for (const { cid, content } of uncachedContent) {
                 if (!content) continue;
-                cachedCids[wrappedCid.cid] = content;
-                CACHER.set(wrappedCid.cid, content, wrappedCid.validUntil || 0);
+                cachedCids[cid] = content;
+                CACHER.set(cid, content, Number.MAX_SAFE_INTEGER);
             }
         }
         return cachedCids;
+    }
+
+    public static async fetchContentFromIpfs(
+        cids: string[]
+    ): Promise<{ [cid: string]: string }> {
+        if (process.env.NODE_ENV === "development")
+            return Fetcher.fetchContentFromIpfsWithLocalStorageCache(cids);
+        // we come here only if we are in production. in this case the service
+        // worker will handle the calls, so we can just not worry about it
+        const allContents = await Promise.all(
+            cids.map(async (cid) => {
+                const response = await fetch(`${IpfsService.gateway}${cid}`);
+                const responseOk = response.ok;
+                warn(responseOk, `could not fetch content with cid ${cid}`);
+                return {
+                    cid,
+                    content: responseOk ? await response.text() : null,
+                };
+            })
+        );
+        const contents: { [cid: string]: string } = {};
+        for (const { cid, content } of allContents) {
+            if (!content) continue;
+            contents[cid] = content;
+        }
+        return contents;
     }
 }

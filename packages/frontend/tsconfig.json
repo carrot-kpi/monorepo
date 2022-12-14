@@ -2,6 +2,6 @@
     "extends": "tsconfig/react.json",
     "include": ["./src/**/*"],
     "compilerOptions": {
-        "outDir": "./dist"
+        "lib": ["dom", "esnext", "webworker"]
     }
 }

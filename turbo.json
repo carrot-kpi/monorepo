@@ -16,9 +16,7 @@
         "start": {
             "dependsOn": ["^build"]
         },
-        "size-limit": {
-            "dependsOn": ["^build"]
-        },
+        "size-limit": {},
         "lint": {},
         "format": {}
     },

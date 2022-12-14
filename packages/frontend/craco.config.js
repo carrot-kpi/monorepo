@@ -1,14 +1,14 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const { ProvidePlugin } = require("webpack");
 const shared = require("./shared-dependencies.json");
+const { join } = require("path");
 
-// Used to make the build reproducible between different machines (IPFS-related)
 module.exports = {
     webpack: {
         configure: (config, { env }) => {
+            if (!config.ignoreWarnings) config.ignoreWarnings = [];
+            config.ignoreWarnings.push(/Failed to parse source map/);
             config.plugins.push(
                 new ModuleFederationPlugin({
                     name: "host",
@@ -18,13 +18,14 @@ module.exports = {
                     Buffer: ["buffer", "Buffer"],
                 })
             );
-            if (env !== "production") {
-                return config;
-            }
+            if (env !== "production") return config;
             config.output.publicPath = "auto";
-            config.plugins = config.plugins.filter(
-                (plugin) => !(plugin instanceof WorkboxWebpackPlugin.GenerateSW)
-            );
+            config.plugins
+                .push(
+                    new WorkboxWebpackPlugin.InjectManifest({
+                        swSrc: join(__dirname, "/src/sw.ts"),
+                    })
+                );
             return config;
         },
     },

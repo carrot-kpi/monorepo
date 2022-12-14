@@ -117,10 +117,7 @@ export abstract class Fetcher extends CoreFetcher {
         }
         const kpiTokenTemplateSpecifications =
             await CoreFetcher.fetchContentFromIpfs(
-                allKpiTokenSpecificationCids.map((cid) => ({
-                    cid: `${cid}/base.json`,
-                    validUntil: Number.MAX_SAFE_INTEGER,
-                }))
+                allKpiTokenSpecificationCids.map((cid) => `${cid}/base.json`)
             );
 
         const allKpiTokenDescriptionCids: string[] = [];
@@ -133,10 +130,7 @@ export abstract class Fetcher extends CoreFetcher {
                 allKpiTokenDescriptionCids.push(cid);
         }
         const kpiTokenDescriptions = await CoreFetcher.fetchContentFromIpfs(
-            allKpiTokenDescriptionCids.map((cid) => ({
-                cid,
-                validUntil: Number.MAX_SAFE_INTEGER,
-            }))
+            allKpiTokenDescriptionCids
         );
 
         const allOracleAddresses: string[] = [];
@@ -269,10 +263,7 @@ export abstract class Fetcher extends CoreFetcher {
         }
         const oracleTemplateSpecifications =
             await CoreFetcher.fetchContentFromIpfs(
-                allOracleSpecificationCids.map((cid) => ({
-                    cid: `${cid}/base.json`,
-                    validUntil: Date.now() + 86_400_000,
-                }))
+                allOracleSpecificationCids.map((cid) => `${cid}/base.json`)
             );
 
         const oracles: { [address: string]: Oracle } = {};
@@ -352,7 +343,7 @@ export abstract class Fetcher extends CoreFetcher {
             );
             rawTemplates = result.map(
                 // eslint-disable-next-line
-        (wrappedTemplate: any) =>
+                (wrappedTemplate: any) =>
                     KPI_TOKENS_MANAGER_INTERFACE.decodeFunctionResult(
                         MANAGER_TEMPLATE_FUNCTION,
                         wrappedTemplate
@@ -365,10 +356,9 @@ export abstract class Fetcher extends CoreFetcher {
         }
 
         const specifications = await CoreFetcher.fetchContentFromIpfs(
-            rawTemplates.map((rawTemplate) => ({
-                cid: `${rawTemplate.specification}/base.json`,
-                validUntil: Date.now() + 86_400_000,
-            }))
+            rawTemplates.map(
+                (rawTemplate) => `${rawTemplate.specification}/base.json`
+            )
         );
 
         return rawTemplates.map((rawTemplate) => {

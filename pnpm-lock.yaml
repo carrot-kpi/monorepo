@@ -45,6 +45,7 @@ importers:
       '@craco/craco': ^7.0.0
       '@emotion/react': ^11.10.4
       '@fontsource/ibm-plex-mono': ^4.5.13
+      '@popperjs/core': ^2.11.6
       '@size-limit/preset-app': ^8.1.0
       '@size-limit/webpack-why': ^8.1.0
       '@types/react': ^18.0.25
@@ -70,12 +71,15 @@ importers:
       tsconfig: workspace:*
       typescript: ^4.7.4
       wagmi: ^0.8.5
+      workbox-precaching: ^6.5.4
+      workbox-routing: ^6.5.4
     dependencies:
       '@carrot-kpi/react': link:../react
       '@carrot-kpi/sdk': link:../sdk
       '@carrot-kpi/ui': link:../ui
       '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
       '@fontsource/ibm-plex-mono': 4.5.13
+      '@popperjs/core': 2.11.6
       class-variance-authority: 0.4.0_typescript@4.9.4
       ethers: 5.7.2
       i18next: 22.4.5
@@ -103,6 +107,8 @@ importers:
       tailwindcss: 3.2.4_postcss@8.4.20
       tsconfig: link:../tsconfig
       typescript: 4.9.4
+      workbox-precaching: 6.5.4
+      workbox-routing: 6.5.4
 
   packages/react:
     specifiers:
@@ -4176,6 +4182,10 @@ packages:
       webpack: 5.75.0
       webpack-dev-server: 4.11.1_webpack@5.75.0
     dev: true
+
+  /@popperjs/core/2.11.6:
+    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
+    dev: false
 
   /@protobufjs/aspromise/1.1.2:
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
