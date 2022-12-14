@@ -8,7 +8,7 @@ import { BigNumber, providers } from "ethers";
 import { Address, usePrepareSendTransaction, useSendTransaction } from "wagmi";
 
 export const Create = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { loading, templates } = useKpiTokenTemplates();
     const [pickedTemplate, setPickedTemplate] = useState<Template | null>(null);
     const [creationTx, setCreationTx] = useState<
@@ -48,6 +48,7 @@ export const Create = () => {
             <CreationForm
                 template={pickedTemplate}
                 onDone={handleDone}
+                i18n={i18n}
                 // TODO: use a proper fallback component
                 fallback="Loading..."
             />

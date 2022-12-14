@@ -4,7 +4,7 @@ import { Template } from "@carrot-kpi/sdk";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { i18n } from "i18next";
 
 export type NamespacedTranslateFunction = (key: any, options?: any) => any;
 
@@ -13,6 +13,7 @@ interface TemplateComponentProps {
     template?: Template;
     customBaseUrl?: string;
     fallback: ReactNode;
+    i18n: i18n;
     props?: any;
 }
 
@@ -21,9 +22,9 @@ export function TemplateComponent({
     template,
     customBaseUrl,
     fallback,
+    i18n,
     props = {},
 }: TemplateComponentProps) {
-    const { t, i18n } = useTranslation();
     const { loading, bundle, Component } = useTemplateModule(
         type,
         template,
@@ -38,9 +39,9 @@ export function TemplateComponent({
         const namespace = `${template.specification.cid}${type}`;
         addBundleForTemplate(i18n, namespace, bundle);
         setTranslateWithNamespace(() => (key: any, options?: any) => {
-            return t(key, { ...options, ns: namespace });
+            return i18n.t(key, { ...options, ns: namespace });
         });
-    }, [Component, bundle, t, loading, template, type, i18n]);
+    }, [Component, bundle, loading, template, type, i18n]);
 
     if (loading || !Component) return <>{fallback}</>;
     return <Component {...props} t={translateWithNamespace} />;
