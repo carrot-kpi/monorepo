@@ -1,7 +1,7 @@
 {
   "name": "@carrot-kpi/ui",
   "author": "Federico Luzzi",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "GPL-3.0-or-later",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -23,14 +23,12 @@
     "build": "pnpm clean && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "test": "echo 'No tests' && exit 0",
-    "prepublishOnly": "pnpm build",
     "size-limit": "size-limit",
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@fontsource/ibm-plex-mono": "^4.5.12",
     "react": "^18.2.0"
