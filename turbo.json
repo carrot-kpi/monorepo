@@ -9,7 +9,8 @@
             "inputs": [
                 "src/**/*.{ts,tsx}",
                 "tests/**/*.{ts,tsx}",
-                "src/**/*.test.{ts,tsx}"
+                "src/**/*.test.{ts,tsx}",
+                "babel.config.json"
             ],
             "outputs": []
         },
