@@ -11,18 +11,16 @@
                 "tests/**/*.{ts,tsx}",
                 "src/**/*.test.{ts,tsx}",
                 "babel.config.json"
-            ],
-            "outputs": []
+            ]
+        },
+        "start": {
+            "dependsOn": ["^build"]
         },
         "size-limit": {
             "dependsOn": ["^build"]
         },
-        "lint": {
-            "outputs": []
-        },
-        "format": {
-            "outputs": []
-        }
+        "lint": {},
+        "format": {}
     },
     "globalEnv": ["NODE_ENV"]
 }
