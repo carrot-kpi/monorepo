@@ -5,12 +5,12 @@ import { chain, useAccount, useConnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { useTranslation } from "react-i18next";
 import { KpiToken } from "@carrot-kpi/sdk";
-import { GridPatternBg } from "../../components/ui/GridPatternBg";
+import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
 import { Button } from "@carrot-kpi/ui";
-import { PageWrapper } from "../../components/ui/PageWrapper";
-import { MainTitle } from "../../components/ui/MainTitle";
-import { PlusSignPattern } from "../../components/ui/PlusSignPattern";
-import { FeaturedCampaings } from "../../components/FeaturedCampaigns";
+import { PageWrapper } from "../../components/ui/page-wrapper";
+import { MainTitle } from "../../components/ui/main-title";
+import { PlusSignPattern } from "../../components/ui/plus-sign-pattern";
+import { FeaturedCampaings } from "../../components/featured-campaigns";
 import { DXdaoSideLink } from "./hero/DXdaoSideLink";
 import { CardHorizontal } from "./hero/CardsHorizontal";
 
