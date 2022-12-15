@@ -4,6 +4,7 @@ import { Home } from "../home";
 import { Campaign } from "../campaign";
 import { Create } from "../create";
 import { Navbar } from "../../components/ui/navbar";
+import { Footer } from "../../components/ui/footer";
 
 const navbarLinks = [
     {
@@ -29,6 +30,7 @@ export function App() {
                 <Route path="/campaigns/:address" element={<Campaign />} />
                 <Route path="/create" element={<Create />} />
             </Routes>
+            <Footer />
         </>
     );
 }

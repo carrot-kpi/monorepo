@@ -44,6 +44,8 @@ module.exports = {
             },
             backgroundImage: {
                 "square-pattern": "url('/src/assets/line-pattern.svg')",
+                "square-pattern-contrast":
+                    "url('/src/assets/line-pattern-contrast.svg')",
             },
             backgroundSize: {
                 4: "4rem",
