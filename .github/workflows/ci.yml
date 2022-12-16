@@ -50,4 +50,4 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            Deploy preview available [here](${{ steps.deploy.outputs.deployUrl }})
+            Deploy preview available [here](https://carrot-preview.on.fleek.co/)
