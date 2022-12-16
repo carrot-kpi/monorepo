@@ -9,7 +9,8 @@ are ready for use in production right out of the box.
 The library is generally made to be used on Carrot'd frontend and templates, but
 is free (as in freedom) to use for anyone.
 
-**NB: THE LIBRARY CURRRENTLY ONLY SUPPORTS ESM**
+**NB: THE LIBRARY CURRRENTLY ONLY SUPPORTS ESM, WITH THE ONLY EXCEPTION BEING
+THE TAILWIND PRESET, EXPORTED IN BOTH ES AND CJS FORMAT**
 
 ## Tech used
 

@@ -10,6 +10,8 @@
                 "src/**/*.{ts,tsx}",
                 "tests/**/*.{ts,tsx}",
                 "src/**/*.test.{ts,tsx}",
+                "src/**/*.sol",
+                "tests/**/*.sol",
                 "babel.config.json"
             ]
         },
@@ -17,9 +19,11 @@
             "dependsOn": ["^build"]
         },
         "release": {
-            "dependsOn": ["^build"]
+            "dependsOn": ["build"]
         },
-        "size-limit": {},
+        "size-limit": {
+            "dependsOn": ["build"]
+        },
         "lint": {},
         "format": {}
     },

@@ -18,11 +18,6 @@ import "@carrot-kpi/ui/styles.css";
 
 const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
 
-// FIXME: uncomment when Goerli works
-// const supportedChains = Object.values(wagmiChain).filter((chain) => {
-//   return chain.id in ChainId
-// })
-
 const getConnectors = (chains: Chain[]) => [
     new InjectedConnector({ chains }),
     new WalletConnectConnector({

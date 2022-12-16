@@ -75,10 +75,10 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
 
     return (
         <div className={navWrapperStyles({ isOpen, bgColor })}>
-            <GridPatternBg className="md:hidden" />
+            {isOpen && <GridPatternBg className="md:hidden" />}
             <div className={navbarStyles({ bgColor, isOpen })}>
                 <NavLink to="/" onClick={() => setOpen(false)}>
-                    <Logo />
+                    <Logo className="w-32 md:w-[188px]" />
                 </NavLink>
                 {links && (
                     <nav className={navStyles({ isOpen })}>
@@ -102,7 +102,11 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                         </ul>
                     </nav>
                 )}
-                <div className="absolute top-[420px] md:static">
+                <div
+                    className={`absolute top-[420px] md:static ${
+                        !isOpen && "hidden"
+                    }`}
+                >
                     <Button size="small">Connect wallet</Button>
                 </div>
                 <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
