@@ -13,13 +13,10 @@ if (!arg) {
 }
 
 const format = arg === "format";
-const ci = process.env.CI === "true";
 
-const srcBasePath = ci ? "packages/contracts/src" : resolve("./src");
-const testsBasePath = ci ? "packages/contracts/tests" : resolve("./tests");
-const scriptsBasePath = ci
-    ? "packages/contracts/scripts"
-    : resolve("./scripts");
+const srcBasePath = resolve("./src");
+const testsBasePath = resolve("./tests");
+const scriptsBasePath = resolve("./scripts");
 
 execSync(
     `forge fmt ${
