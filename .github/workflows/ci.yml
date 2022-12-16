@@ -25,6 +25,10 @@ jobs:
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Setup foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -40,14 +44,3 @@ jobs:
         run: pnpm test
       - name: Size check
         run: pnpm size-limit
-      - name: Deploy test site
-        id: deploy
-        uses: fleekhq/action-deploy@v1
-        with:
-          apiKey: ${{ secrets.FLEEK_API_KEY }}
-      - name: Add PR comment
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            Deploy preview available [here](https://carrot-preview.on.fleek.co/)

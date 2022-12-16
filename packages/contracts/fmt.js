@@ -14,9 +14,13 @@ if (!arg) {
 
 const format = arg === "format";
 
+const srcBasePath = resolve("./src");
+const testsBasePath = resolve("./tests");
+const scriptsBasePath = resolve("./scripts");
+
 execSync(
-    `forge fmt ${!format ? "--check" : ""} ${resolve(
-        "./src"
-    )}/**/*.sol ${resolve("./tests")}/**/*.sol ${resolve("./scripts")}/*.sol`,
+    `forge fmt ${
+        !format ? "--check" : ""
+    } ${srcBasePath}/**/*.sol ${testsBasePath}/**/*.sol ${scriptsBasePath}/*.sol`,
     { stdio: "inherit" }
 );
