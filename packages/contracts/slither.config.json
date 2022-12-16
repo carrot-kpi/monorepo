@@ -1,0 +1,13 @@
+{
+    "filter_paths": "lib",
+    "solc_remaps": [
+        "ds-test/=lib/ds-test/src/",
+        "forge-std/=lib/forge-std/src/",
+        "openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/",
+        "openzeppelin-contracts/=lib/openzeppelin-contracts/",
+        "oz-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+        "oz/=lib/openzeppelin-contracts/contracts/",
+        "tests/=tests/"
+    ],
+    "detectors_to_exclude": "naming-convention"
+}

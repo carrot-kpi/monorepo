@@ -16,6 +16,12 @@ importers:
       prettier: 2.8.1
       turbo: 1.6.3
 
+  packages/contracts:
+    specifiers:
+      rimraf: ^3.0.2
+    devDependencies:
+      rimraf: 3.0.2
+
   packages/eslint-config-custom:
     specifiers:
       '@typescript-eslint/eslint-plugin': ^5.45.1

@@ -1,14 +1,14 @@
 {
-  "site": {
-    "id": "f72f508d-c2c8-4012-ad2f-b37cd8d208c8",
-    "team": "304b5d3e-2846-484b-86ef-b12b34b46093",
-    "platform": "ipfs",
-    "source": "ipfs",
-    "name": "divine-truth-0571"
-  },
-  "build": {
-    "baseDir": "",
-    "publicDir": "packages/frontend/build",
-    "rootDir": ""
-  }
+    "site": {
+        "id": "f72f508d-c2c8-4012-ad2f-b37cd8d208c8",
+        "team": "304b5d3e-2846-484b-86ef-b12b34b46093",
+        "platform": "ipfs",
+        "source": "ipfs",
+        "name": "carrot-preview"
+    },
+    "build": {
+        "baseDir": "",
+        "publicDir": "packages/frontend/build",
+        "rootDir": ""
+    }
 }

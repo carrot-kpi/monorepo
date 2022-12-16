@@ -1,0 +1,21 @@
+{
+    "name": "@carrot-kpi/contracts",
+    "version": "0.1.0",
+    "description": "A smart contract solution to create scalar and boolean KPI tokens, by DXdao.",
+    "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
+    "license": "GPL-3.0-or-later",
+    "private": true,
+    "scripts": {
+        "lint": "./fmt.js lint",
+        "format": "./fmt.js format",
+        "build": "FOUNDRY_PROFILE=production forge build",
+        "clean": "rimraf out",
+        "test": "FOUNDRY_PROFILE=test forge test",
+        "test:coverage": "FOUNDRY_PROFILE=test forge coverage",
+        "test:gasreport": "FOUNDRY_PROFILE=test forge test --gas-report",
+        "snapshot": "FOUNDRY_PROFILE=test forge snapshot"
+    },
+    "devDependencies": {
+        "rimraf": "^3.0.2"
+    }
+}

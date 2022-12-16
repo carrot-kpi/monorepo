@@ -150,3 +150,12 @@ build
 
 # Turbo config
 .turbo
+
+.gas-snapshot*
+broadcast
+/*.sol
+/interfaces/*.sol
+*.tgz
+.env*
+!.env.example
+cache
