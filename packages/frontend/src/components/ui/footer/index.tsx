@@ -1,12 +1,15 @@
 import React from "react";
-import { Logo, TextMono } from "@carrot-kpi/ui";
+import { Logo } from "@carrot-kpi/ui";
 import { GridPatternBg } from "../grid-pattern-bg";
+import { FooterColumn } from "./footer-column";
+import { Link } from "react-router-dom";
 
 const footerContent = [
     {
         title: "About",
         links: [
             {
+                LinkComponent: Link,
                 title: "Faq",
                 url: "/faq",
             },
@@ -71,48 +74,13 @@ const footerContent = [
         links: [
             {
                 title: "Dune",
-                url: "/dash",
+                url: "https://dune.com/hagaetc/dxdao",
             },
         ],
     },
 ];
 
-type link = {
-    title: string;
-    url: string;
-};
-
-interface FooterColumnProps {
-    title: string;
-    links: link[];
-}
-
-const FooterColumn = ({ title, links }: FooterColumnProps) => (
-    <ul className="w-40">
-        <TextMono caps color="white">
-            {title}
-        </TextMono>
-        <div className="mt-6 space-y-3">
-            {links.map((link) => (
-                <a href={link.url} className="block" key={link.url}>
-                    <TextMono
-                        color="white"
-                        size="sm"
-                        className="cursor-pointer hover:underline"
-                    >
-                        {link.title}
-                    </TextMono>
-                </a>
-            ))}
-        </div>
-    </ul>
-);
-
-interface FooterProps {
-    title?: string;
-}
-
-export const Footer = ({}: FooterProps) => (
+export const Footer = () => (
     <div className="w-full py-16 bg-black md:py-24 lg:py-32">
         <div className="relative h-full mx-auto w-full md:w-[92%]">
             <GridPatternBg contrast fullSize />
