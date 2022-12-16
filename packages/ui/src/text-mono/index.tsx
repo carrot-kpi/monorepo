@@ -1,52 +1,54 @@
-import React, { ReactNode } from 'react'
-import { cva } from 'class-variance-authority'
+import React, { ReactNode } from "react";
+import { cva } from "class-variance-authority";
 
-const textStyles = cva(['font-mono'], {
-  variants: {
-    caps: {
-      true: ['uppercase'],
+const textStyles = cva(["font-mono"], {
+    variants: {
+        caps: {
+            true: ["uppercase"],
+        },
+        weight: {
+            medium: ["font-medium"],
+        },
+        color: {
+            white: "text-white",
+            black: "text-black",
+        },
+        size: {
+            "2xs": ["text-2xs"],
+            xs: ["text-xs"],
+            sm: ["text-sm"],
+            md: ["text-md"],
+            lg: ["text-lg"],
+            xl: ["text-xl"],
+            "2xl": ["text-2xl"],
+        },
     },
-    weight: {
-      medium: ['font-medium'],
+    defaultVariants: {
+        color: "black",
+        size: "md",
     },
-    color: {
-      white: 'text-white',
-      black: 'text-black',
-    },
-    size: {
-      '2xs': ['text-2xs'],
-      xs: ['text-xs'],
-      sm: ['text-sm'],
-      md: ['text-md'],
-      lg: ['text-lg'],
-      xl: ['text-xl'],
-      '2xl': ['text-2xl'],
-    },
-  },
-  defaultVariants: {
-    color: 'black',
-    size: 'md',
-  },
-})
+});
 
 export interface TextMonoProps {
-  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
-  color?: 'white' | 'black'
-  weight?: 'medium'
-  caps?: boolean
-  className?: string
-  children: ReactNode
+    size?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+    color?: "white" | "black";
+    weight?: "medium";
+    caps?: boolean;
+    className?: string;
+    children: ReactNode;
 }
 
 export const TextMono = ({
-  children,
-  size,
-  color,
-  caps,
-  weight,
-  className,
+    children,
+    size,
+    color,
+    caps,
+    weight,
+    className,
 }: TextMonoProps) => {
-  return (
-    <p className={textStyles({ color, size, caps, weight, className })}>{children}</p>
-  )
-}
+    return (
+        <p className={textStyles({ color, size, caps, weight, className })}>
+            {children}
+        </p>
+    );
+};

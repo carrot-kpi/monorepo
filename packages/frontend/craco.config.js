@@ -20,12 +20,11 @@ module.exports = {
             );
             if (env !== "production") return config;
             config.output.publicPath = "auto";
-            config.plugins
-                .push(
-                    new WorkboxWebpackPlugin.InjectManifest({
-                        swSrc: join(__dirname, "/src/sw.ts"),
-                    })
-                );
+            config.plugins.push(
+                new WorkboxWebpackPlugin.InjectManifest({
+                    swSrc: join(__dirname, "/src/sw.ts"),
+                })
+            );
             return config;
         },
     },

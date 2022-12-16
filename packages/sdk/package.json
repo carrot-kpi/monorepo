@@ -21,13 +21,13 @@
     },
     "repository": "https://github.com/carrot-kpi/frontend-monorepo.git",
     "scripts": {
-        "lint": "eslint --ext .tsx,.ts ./src",
-        "format": "eslint --fix --ext .tsx,.ts,.js,.json ./",
+        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,.md}'",
+        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,.md}'",
         "build": "pnpm clean && rollup -c rollup.config.js",
         "clean": "rimraf ./dist",
         "test": "jest",
         "size-limit": "size-limit",
-        "analyze": "size-limit --why"
+        "release": "pnpm publish"
     },
     "dependencies": {
         "@ethersproject/address": "^5.7.0",
