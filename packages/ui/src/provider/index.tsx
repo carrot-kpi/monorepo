@@ -1,9 +1,11 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from "react";
 
-import '../global.css'
+import "../global.css";
 
 interface CarrotUIProviderProps {
-  children: ReactNode
+    children: ReactNode;
 }
 
-export const CarrotUIProvider = ({ children }: CarrotUIProviderProps) => <>{children}</>
+export const CarrotUIProvider = ({ children }: CarrotUIProviderProps) => (
+    <>{children}</>
+);

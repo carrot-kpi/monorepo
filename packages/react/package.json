@@ -19,8 +19,8 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "eslint --ext .tsx,.ts ./src",
-        "format": "eslint --fix --ext .tsx,.ts,.js,.json ./",
+        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,.md}'",
+        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,.md}'",
         "build": "pnpm clean && rollup -c rollup.config.js",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
