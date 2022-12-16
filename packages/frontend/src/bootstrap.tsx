@@ -14,6 +14,7 @@ import "./global.css";
 
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
+import "@carrot-kpi/ui/styles.css";
 
 const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
 
