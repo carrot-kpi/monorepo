@@ -10,7 +10,7 @@ import autoprefixer from "autoprefixer";
 
 export default [
     {
-        input: [resolve("src/index.ts"), resolve("./tailwind.config.js")],
+        input: [resolve("src/index.ts")],
         plugins: [
             peerDepsExternal(),
             nodeResolve(),
@@ -25,8 +25,22 @@ export default [
         ],
         output: [
             {
-                dir: resolve("dist"),
+                file: resolve("dist/index.js"),
                 format: "es",
+            },
+        ],
+    },
+    {
+        input: [resolve("./tailwind.config.js")],
+        plugins: [peerDepsExternal(), nodeResolve(), commonjs(), terser()],
+        output: [
+            {
+                file: resolve("dist/tailwind.config.js"),
+                format: "es",
+            },
+            {
+                file: resolve("dist/tailwind.config.cjs"),
+                format: "cjs",
             },
         ],
     },
