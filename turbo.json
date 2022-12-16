@@ -10,6 +10,8 @@
                 "src/**/*.{ts,tsx}",
                 "tests/**/*.{ts,tsx}",
                 "src/**/*.test.{ts,tsx}",
+                "src/**/*.sol",
+                "tests/**/*.sol",
                 "babel.config.json"
             ]
         },
