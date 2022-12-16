@@ -13,10 +13,17 @@ if (!arg) {
 }
 
 const format = arg === "format";
+const ci = process.env.CI === "true";
+
+const srcBasePath = ci ? "packages/contracts/src" : resolve("./src");
+const testsBasePath = ci ? "packages/contracts/tests" : resolve("./tests");
+const scriptsBasePath = ci
+    ? "packages/contracts/scripts"
+    : resolve("./scripts");
 
 execSync(
-    `forge fmt ${!format ? "--check" : ""} ${resolve(
-        "./src"
-    )}/**/*.sol ${resolve("./tests")}/**/*.sol ${resolve("./scripts")}/*.sol`,
+    `forge fmt ${
+        !format ? "--check" : ""
+    } ${srcBasePath}/**/*.sol ${testsBasePath}/**/*.sol ${scriptsBasePath}/*.sol`,
     { stdio: "inherit" }
 );
