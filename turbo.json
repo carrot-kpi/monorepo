@@ -14,13 +14,13 @@
             ]
         },
         "start": {
-            "dependsOn": ["^build"]
+            "dependsOn": ["build"]
         },
         "release": {
-            "dependsOn": ["^build"]
+            "dependsOn": ["build"]
         },
         "size-limit": {
-            "dependsOn": ["^build"]
+            "dependsOn": ["build"]
         },
         "lint": {},
         "format": {}
