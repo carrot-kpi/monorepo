@@ -12,6 +12,7 @@
         "start": "turbo run start",
         "test": "turbo run test",
         "size-limit": "turbo run size-limit",
+        "release": "turbo run release",
         "commitlint": "commitlint -e",
         "prepare": "husky install"
     },

@@ -27,7 +27,7 @@
     "clean": "rimraf ./dist",
     "test": "echo 'No tests' && exit 0",
     "size-limit": "size-limit",
-    "analyze": "size-limit --why",
+    "release": "pnpm publish",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
