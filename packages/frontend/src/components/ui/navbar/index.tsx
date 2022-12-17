@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Button, Logo } from "@carrot-kpi/ui";
+import { Logo } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import { CloseMenuIcon } from "./CloseMenuIcon";
 import { HamburgerMenuIcon } from "./HamburgerMenuIcon";
 import { GridPatternBg } from "../grid-pattern-bg";
+import { ConnectWallet } from "../../connect-wallet";
 
 const navWrapperStyles = cva([""], {
     variants: {
@@ -63,14 +64,15 @@ interface NavbarProps {
 
 export const Navbar = ({ bgColor, links }: NavbarProps) => {
     const [isOpen, setOpen] = useState(false);
-    const closeMenuOnResizeToDesktop = () => {
-        if (window.innerWidth > 700) {
-            setOpen(false);
-        }
-    };
 
     useEffect(() => {
-        window.addEventListener("resize", closeMenuOnResizeToDesktop, false);
+        const closeMenuOnResizeToDesktop = () => {
+            if (window.innerWidth > 700) setOpen(false);
+        };
+        window.addEventListener("resize", closeMenuOnResizeToDesktop);
+        return () => {
+            window.removeEventListener("resize", closeMenuOnResizeToDesktop);
+        };
     }, [isOpen]);
 
     return (
@@ -107,7 +109,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                         !isOpen && "hidden"
                     } md:block`}
                 >
-                    <Button size="small">Connect wallet</Button>
+                    <ConnectWallet />
                 </div>
                 <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
                     {isOpen ? <CloseMenuIcon /> : <HamburgerMenuIcon />}

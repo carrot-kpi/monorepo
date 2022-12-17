@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useKpiTokens } from "@carrot-kpi/react";
 import { Link } from "react-router-dom";
-import { chain, useAccount, useConnect } from "wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
+import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
 import { KpiToken } from "@carrot-kpi/sdk";
 import { Button, PlusSignPattern } from "@carrot-kpi/ui";
@@ -16,12 +15,6 @@ import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
 export const Home = () => {
     const { t } = useTranslation();
     const { isConnected } = useAccount();
-    const { connect, connectors, isLoading, pendingConnector, error } =
-        useConnect({
-            connector: new InjectedConnector({
-                chains: [chain.sepolia, chain.goerli],
-            }),
-        });
     const { loading, kpiTokens } = useKpiTokens();
 
     const [kpiTokensArray, setKpiTokensArray] = useState<KpiToken[]>([]);
@@ -58,21 +51,6 @@ export const Home = () => {
                 <PlusSignPattern y="bottom" x="left" />
                 <PlusSignPattern y="bottom" x="right" />
             </div>
-            {!isConnected &&
-                connectors.map((connector) => (
-                    <button
-                        disabled={!connector.ready}
-                        key={connector.id}
-                        onClick={() => connect({ connector })}
-                    >
-                        {connector.name}
-                        {!connector.ready && " (unsupported)"}
-                        {isLoading &&
-                            connector.id === pendingConnector?.id &&
-                            " (connecting)"}
-                    </button>
-                ))}
-            {!!error && error.message}
             {isConnected && (
                 <Link to="/create">
                     <button>{t("home.createKpiToken")}</button>

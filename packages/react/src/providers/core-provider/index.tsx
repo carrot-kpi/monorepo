@@ -1,13 +1,12 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React from "react";
 import {
-    Chain,
     ChainProviderFn,
-    Client,
     configureChains,
     Connector,
     createClient,
     WagmiConfig,
 } from "wagmi";
+import { Chain } from "wagmi/chains";
 import { ReactNode } from "react";
 import { IpfsService } from "@carrot-kpi/sdk";
 
@@ -26,29 +25,16 @@ export const CarrotCoreProvider = ({
     getConnectors,
     ipfsGateway,
 }: CarrotCoreProviderProps) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [client, setClient] = useState<Client<any, any> | null>(null);
-
-    useEffect(() => {
-        const { provider, chains, webSocketProvider } = configureChains(
-            supportedChains,
-            providers
-        );
-        setClient(
-            createClient({
-                autoConnect: true,
-                connectors: getConnectors(chains),
-                provider,
-                webSocketProvider,
-            })
-        );
-    }, [getConnectors, providers, supportedChains]);
-
-    if (!client) return <></>;
-    if (!!ipfsGateway) IpfsService.gateway = ipfsGateway;
-    return (
-        <WagmiConfig client={client}>
-            <Suspense fallback="Loading">{children}</Suspense>
-        </WagmiConfig>
+    const { provider, chains, webSocketProvider } = configureChains(
+        supportedChains,
+        providers
     );
+    const client = createClient({
+        autoConnect: true,
+        connectors: getConnectors(chains),
+        provider,
+        webSocketProvider,
+    });
+    if (!!ipfsGateway) IpfsService.gateway = ipfsGateway;
+    return <WagmiConfig client={client}>{children}</WagmiConfig>;
 };
