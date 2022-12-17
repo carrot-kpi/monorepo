@@ -30,7 +30,7 @@ export const CampaignCard = ({
     rewards,
     timeLeft,
 }: CampaignCardProps) => (
-    <div className="bg-black min-w-[280px] rounded-2xl w-80 flex flex-col justify-between">
+    <div className="bg-black min-w-[340px] w-[340px] rounded-2xl w-80 flex flex-col justify-between">
         <div className="h-full">
             <div className="flex items-center w-full border-b border-gray-600">
                 <div className="flex items-center h-12 border-r border-gray-600">

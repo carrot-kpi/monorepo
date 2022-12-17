@@ -83,7 +83,7 @@ const footerContent = [
 export const Footer = () => (
     <div className="w-full py-16 bg-black md:py-24 lg:py-32">
         <div className="relative h-full mx-auto w-full md:w-[92%]">
-            <GridPatternBg contrast fullSize />
+            <GridPatternBg bg="black" fullSize />
             <div className="mx-auto py-14 md:py-24 xl:py-32 w-[90%]">
                 <Logo color="#EF692B" className="relative w-auto h-auto" />
             </div>
