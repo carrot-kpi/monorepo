@@ -105,7 +105,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                 <div
                     className={`absolute top-[420px] md:static ${
                         !isOpen && "hidden"
-                    }`}
+                    } md:block`}
                 >
                     <Button size="small">Connect wallet</Button>
                 </div>

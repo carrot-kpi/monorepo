@@ -6,6 +6,8 @@ import { Create } from "../create";
 import { Navbar } from "../../components/ui/navbar";
 import { Footer } from "../../components/ui/footer";
 import { IpfsService } from "@carrot-kpi/sdk";
+import { navbarLinks } from "./navbar-links";
+import { footerLinks } from "./footer-links";
 
 if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     navigator.serviceWorker
@@ -18,21 +20,6 @@ if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
         });
 }
 
-const navbarLinks = [
-    {
-        title: "About",
-        to: "/about",
-    },
-    {
-        title: "Campaigns",
-        to: "/campaigns",
-    },
-    {
-        title: "Community",
-        to: "/community",
-    },
-];
-
 export function App() {
     return (
         <>
@@ -42,7 +29,7 @@ export function App() {
                 <Route path="/campaigns/:address" element={<Campaign />} />
                 <Route path="/create" element={<Create />} />
             </Routes>
-            <Footer />
+            <Footer footerLinks={footerLinks} />
         </>
     );
 }
