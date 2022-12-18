@@ -7,7 +7,12 @@ import { infuraProvider } from "wagmi/providers/infura";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
 import { CarrotUIProvider } from "@carrot-kpi/ui";
 import { SUPPORTED_CHAINS } from "./constants";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+    darkTheme,
+    getDefaultWallets,
+    lightTheme,
+    RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
 import "./i18n";
 
 import "@fontsource/ibm-plex-mono/400.css";
@@ -35,10 +40,15 @@ root.render(
             <CarrotCoreProvider
                 supportedChains={SUPPORTED_CHAINS}
                 providers={[infuraProvider({ apiKey: INFURA_PROJECT_ID })]}
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 getConnectors={connectors}
             >
-                <RainbowKitProvider chains={SUPPORTED_CHAINS}>
+                <RainbowKitProvider
+                    chains={SUPPORTED_CHAINS}
+                    theme={{
+                        lightMode: lightTheme(),
+                        darkMode: darkTheme(),
+                    }}
+                >
                     <CarrotUIProvider>
                         <App />
                     </CarrotUIProvider>

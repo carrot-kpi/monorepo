@@ -23,7 +23,6 @@
         "@carrot-kpi/react": "workspace:*",
         "@carrot-kpi/sdk": "workspace:*",
         "@carrot-kpi/ui": "workspace:*",
-        "@emotion/react": "^11.10.4",
         "@fontsource/ibm-plex-mono": "^4.5.13",
         "@popperjs/core": "^2.11.6",
         "@rainbow-me/rainbowkit": "^0.8.1",

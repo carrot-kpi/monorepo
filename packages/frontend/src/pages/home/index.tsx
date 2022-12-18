@@ -37,9 +37,11 @@ export const Home = () => {
                             <Button variant="primary" size="big">
                                 All campaigns
                             </Button>
-                            <Button variant="secondary" size="big">
-                                Create campaign
-                            </Button>
+                            <Link to="/create">
+                                <Button variant="secondary" size="big">
+                                    Create campaign
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </PageWrapper>
