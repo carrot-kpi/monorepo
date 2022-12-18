@@ -8,7 +8,7 @@ module.exports = {
     '@storybook/addon-interactions',
   ],
   framework: '@storybook/react',
-  typescript: { reactDocgen: 'react-docgen' },
+  typescript: { reactDocgen: 'react-docgen-typescript' },
   core: {
     builder: '@storybook/builder-webpack5',
     disableTelemetry: true,
