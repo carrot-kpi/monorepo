@@ -10,6 +10,14 @@ remappings = [
     'forge-std/=lib/forge-std/src/',
     'tests/=tests/'
 ]
+test = 'tests'
+optimizer = false
+optimizer_runs = 0
+via_ir = false
+
+[profile.optimizer_details]
+constantOptimizer = false
+yul = false
 
 [profile.production]
 optimizer = true
@@ -19,13 +27,3 @@ via_ir = true
 [profile.production.optimizer_details]
 constantOptimizer = true
 yul = true
-
-[profile.test]
-test = 'tests'
-optimizer = false
-optimizer_runs = 0
-via_ir = false
-
-[profile.test.optimizer_details]
-constantOptimizer = false
-yul = false

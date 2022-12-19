@@ -1,0 +1,67 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+features:
+  - ipfsOnEthereumContracts
+  - fullTextSearch
+dataSources:
+  - kind: ethereum
+    name: KPITokensManager1
+    network: goerli
+    source:
+      abi: KPITokensManager1
+      address: "0x9bED1f20E296c186e287Bf3e443581e9F252aA75"
+      startBlock: 7669576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Template
+        - TemplateSpecification
+        - KPITokensManager1
+      abis:
+        - name: KPITokensManager1
+          file: ./abis/KPITokensManager1.json
+      eventHandlers:
+        - event: AddTemplate(indexed uint256,indexed address,string)
+          handler: handleAddTemplate
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: RemoveTemplate(indexed uint256,uint256)
+          handler: handleRemoveTemplate
+        - event: UpdateTemplateSpecification(indexed uint256,uint256,string)
+          handler: handleUpdateTemplateSpecification
+        - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
+          handler: handleUpgradeTemplate
+      file: ./src/kpi-token-templates-manager1.ts
+  - kind: ethereum
+    name: OraclesManager1
+    network: goerli
+    source:
+      abi: OraclesManager1
+      address: "0x839903e7829635dB2ba5E3F6355FD341F9Eec436"
+      startBlock: 7669578
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Template
+        - TemplateSpecification
+        - OraclesManager1
+      abis:
+        - name: OraclesManager1
+          file: ./abis/OraclesManager1.json
+      eventHandlers:
+        - event: AddTemplate(indexed uint256,indexed address,string)
+          handler: handleAddTemplate
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: RemoveTemplate(indexed uint256,uint256)
+          handler: handleRemoveTemplate
+        - event: UpdateTemplateSpecification(indexed uint256,uint256,string)
+          handler: handleUpdateTemplateSpecification
+        - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
+          handler: handleUpgradeTemplate
+      file: ./src/oracle-templates-manager1.ts

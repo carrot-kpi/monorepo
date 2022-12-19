@@ -2,13 +2,13 @@ import React, { ElementType } from "react";
 import { TextMono } from "@carrot-kpi/ui";
 import { FooterLink } from "../footer-link";
 
-interface LinkProps {
+export interface LinkProps {
     LinkComponent?: ElementType;
     title: string;
     url: string;
 }
 
-interface FooterColumnProps {
+export interface FooterColumnProps {
     title: string;
     links: LinkProps[];
 }

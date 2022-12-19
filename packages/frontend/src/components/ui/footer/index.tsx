@@ -1,86 +1,13 @@
 import React from "react";
 import { Logo } from "@carrot-kpi/ui";
 import { GridPatternBg } from "../grid-pattern-bg";
-import { FooterColumn } from "./footer-column";
-import { Link } from "react-router-dom";
+import { FooterColumn, FooterColumnProps } from "./footer-column";
 
-const footerContent = [
-    {
-        title: "About",
-        links: [
-            {
-                LinkComponent: Link,
-                title: "Faq",
-                url: "/faq",
-            },
-            {
-                title: "Twitter",
-                url: "/twitter",
-            },
-            {
-                title: "Keybase",
-                url: "/keybase",
-            },
-            {
-                title: "Forum",
-                url: "/forum",
-            },
-        ],
-    },
-    {
-        title: "Community",
-        links: [
-            {
-                title: "Discord",
-                url: "/Discord",
-            },
-            {
-                title: "Blog",
-                url: "/Blog",
-            },
-            {
-                title: "Jobs",
-                url: "/jobs",
-            },
-            {
-                title: "Brand Assets",
-                url: "/brand-assets",
-            },
-        ],
-    },
-    {
-        title: "Documentation",
-        links: [
-            {
-                title: "DIY Liq. Mining",
-                url: "/diy-liq-mining",
-            },
-            {
-                title: "Roadmap",
-                url: "/Roadmap",
-            },
-            {
-                title: "Audits",
-                url: "/audits",
-            },
-            {
-                title: "Token",
-                url: "/token",
-            },
-        ],
-    },
-    {
-        title: "Analytics",
-        links: [
-            {
-                title: "Dune",
-                url: "https://dune.com/hagaetc/dxdao",
-            },
-        ],
-    },
-];
+interface FooterProps {
+    footerLinks: FooterColumnProps[];
+}
 
-export const Footer = () => (
+export const Footer = ({ footerLinks }: FooterProps) => (
     <div className="w-full py-16 bg-black md:py-24 lg:py-32">
         <div className="relative h-full mx-auto w-full md:w-[92%]">
             <GridPatternBg bg="black" fullSize />
@@ -90,7 +17,7 @@ export const Footer = () => (
         </div>
         <div className="flex flex-col justify-between px-6 pt-8 space-y-24 md:pt-24 lg:pt-32 md:px-24 xl:px-32 xl:space-y-0 xl:flex-row 2xl:px-52">
             <div className="grid grid-cols-2 gap-8 xs:gap-10 md:gap-0 md:flex xl:space-x-6">
-                {footerContent.map(({ title, links }) => (
+                {footerLinks.map(({ title, links }) => (
                     <FooterColumn key={title} title={title} links={links} />
                 ))}
             </div>

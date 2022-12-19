@@ -8,12 +8,13 @@
     "scripts": {
         "lint": "./fmt.js lint",
         "format": "./fmt.js format",
-        "build": "FOUNDRY_PROFILE=production forge build",
+        "build": "forge build",
+        "build:production": "FOUNDRY_PROFILE=production forge build",
         "clean": "rimraf out",
-        "test": "FOUNDRY_PROFILE=test forge test",
-        "test:coverage": "FOUNDRY_PROFILE=test forge coverage",
-        "test:gasreport": "FOUNDRY_PROFILE=test forge test --gas-report",
-        "snapshot": "FOUNDRY_PROFILE=test forge snapshot"
+        "test": "forge test",
+        "test:coverage": "forge coverage",
+        "test:gasreport": "forge test --gas-report",
+        "snapshot": "forge snapshot"
     },
     "devDependencies": {
         "rimraf": "^3.0.2"
