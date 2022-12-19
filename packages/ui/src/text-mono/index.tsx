@@ -24,7 +24,6 @@ const textStyles = cva(["font-mono"], {
         },
     },
     defaultVariants: {
-        color: "black",
         size: "md",
     },
 });

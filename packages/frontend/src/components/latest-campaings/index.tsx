@@ -60,6 +60,7 @@ export const LatestCampaigns = ({ category }: { category: string }) => (
                     question={campaign.question}
                     rewards={campaign.rewards}
                     timeLeft={campaign.timeLeft}
+                    color="white"
                 />
             ))}
         </CardHorizontal>
