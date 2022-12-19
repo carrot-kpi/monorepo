@@ -1,0 +1,12 @@
+{
+    "goerli": {
+        "KPITokensManager1": {
+            "address": "0x9bED1f20E296c186e287Bf3e443581e9F252aA75",
+            "startBlock": 7669576
+        },
+        "OraclesManager1": {
+            "address": "0x839903e7829635dB2ba5E3F6355FD341F9Eec436",
+            "startBlock": 7669578
+        }
+    }
+}
