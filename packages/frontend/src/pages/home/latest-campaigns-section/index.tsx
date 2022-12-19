@@ -13,7 +13,7 @@ export const LatestCampaignsSection = () => {
                 <LatestCampaigns category="Defi" />
                 <LatestCampaigns category="Token price" />
                 <LatestCampaigns category="Predictions" />
-                <Button>View all</Button>
+                <Button>View all campaings</Button>
             </PageWrapper>
         </div>
     );

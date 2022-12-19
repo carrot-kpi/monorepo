@@ -2,7 +2,6 @@ import { TextMono } from "@carrot-kpi/ui";
 import React from "react";
 import { CardHorizontal } from "../ui/cards-horizontal";
 import { CampaignCard } from "../ui/campaign-card";
-import { PageWrapper } from "../ui/page-wrapper";
 
 // this will be fetched in the future
 const latestCampaignsMockData = [
@@ -50,11 +49,9 @@ const latestCampaignsMockData = [
 
 export const LatestCampaigns = ({ category }: { category: string }) => (
     <div className="space-y-6">
-        <PageWrapper>
-            <TextMono caps weight="medium">
-                {category}
-            </TextMono>
-        </PageWrapper>
+        <TextMono caps weight="medium">
+            {category}
+        </TextMono>
         <CardHorizontal>
             {latestCampaignsMockData.map((campaign) => (
                 <CampaignCard
