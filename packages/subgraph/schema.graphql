@@ -1,0 +1,38 @@
+type KPITokensManager @entity {
+    id: Bytes!
+    owner: Bytes!
+    templates: [Template!]!
+    templatesAmount: BigInt!
+}
+
+type OraclesManager @entity {
+    id: Bytes!
+    owner: Bytes!
+    templates: [Template!]!
+    templatesAmount: BigInt!
+}
+
+type _Schema_
+    @fulltext(
+        name: "templateSearch"
+        language: simple
+        algorithm: rank
+        include: [
+            {
+                entity: "Template"
+                fields: [{ name: "name" }, { name: "description" }]
+            }
+        ]
+    )
+
+type Template @entity {
+    id: Bytes!
+    address: Bytes!
+    version: BigInt!
+    name: String!
+    description: String!
+    tags: [String!]!
+    repository: String!
+    commitHash: String!
+    active: Boolean!
+}
