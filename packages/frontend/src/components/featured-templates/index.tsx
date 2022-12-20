@@ -14,6 +14,7 @@ const featuredTemplatesMockData = [
         creator: "0x24...7ae5",
         address: "0x01...K0E8",
         used: 420,
+        verified: true,
     },
     {
         id: 3,
@@ -25,6 +26,7 @@ const featuredTemplatesMockData = [
         creator: "0x33...7ae5",
         address: "0x19...C9W1",
         used: 172,
+        verified: true,
     },
     {
         id: 2,
@@ -36,6 +38,7 @@ const featuredTemplatesMockData = [
         creator: "0x73...2bA4",
         address: "0x19...C9W1",
         used: 321,
+        verified: true,
     },
     {
         id: 23,
@@ -62,6 +65,7 @@ export const FeaturedTemplates = () => (
                 creator={template.creator}
                 address={template.address}
                 used={template.used}
+                verified={template.verified}
                 color="white"
             />
         ))}

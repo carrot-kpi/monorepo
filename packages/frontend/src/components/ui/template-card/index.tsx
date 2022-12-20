@@ -2,6 +2,7 @@ import React from "react";
 import { TextMono } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import { correctColor } from "../campaign-card/utils";
+import { VerifiedIcon } from "../icons/verified-icon";
 
 interface TemplateCardProps {
     type: string;
@@ -11,6 +12,7 @@ interface TemplateCardProps {
     creator: string;
     address: string;
     used: number;
+    verified?: boolean;
     color?: "white" | "black";
 }
 
@@ -23,6 +25,7 @@ export const TemplateCard = ({
     creator,
     address,
     used,
+    verified,
 }: TemplateCardProps) => (
     <div className={templateCardStyles({ color })}>
         <CornerSquare y="top" x="left" />
@@ -44,18 +47,31 @@ export const TemplateCard = ({
         <div className="p-4">
             <TextMono>{description}</TextMono>
         </div>
-        <div className="p-4 space-y-4 border-t">
-            <Row title="oracle">{oracle}</Row>
-            <Row title="version">{version}</Row>
-        </div>
-        <div className="p-4 space-y-4 border-t">
-            <Row title="creator">{creator}</Row>
-            <Row title="address">{address}</Row>
-            <Row title="used">{used.toString()}</Row>
+        <div className="flex">
+            {verified && (
+                <div className="flex flex-col items-center justify-center w-12 border-t border-r">
+                    <div className="flex items-center space-x-2 -rotate-90">
+                        <VerifiedIcon />
+                        <TextMono caps size="sm">
+                            verified
+                        </TextMono>
+                    </div>
+                </div>
+            )}
+            <div className="flex-1">
+                <div className="p-4 space-y-4 border-t">
+                    <Row title="oracle">{oracle}</Row>
+                    <Row title="version">{version}</Row>
+                </div>
+                <div className="p-4 space-y-4 border-t">
+                    <Row title="creator">{creator}</Row>
+                    <Row title="address">{address}</Row>
+                    <Row title="used">{used.toString()}</Row>
+                </div>
+            </div>
         </div>
         <div className="flex items-center justify-center p-4 space-y-4 border-t">
             <button className="w-full font-mono font-medium uppercase">
-                {" "}
                 ↳ use template
             </button>
         </div>
