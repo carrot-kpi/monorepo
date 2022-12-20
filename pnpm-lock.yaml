@@ -60,6 +60,7 @@ importers:
       class-variance-authority: ^0.4.0
       cross-env: ^7.0.3
       eslint-config-custom: workspace:*
+      ethereum-blockies-base64: ^1.0.2
       ethers: ^5.7.1
       i18next: ^22.0.6
       ipfs-core: ^0.15.4
@@ -86,6 +87,7 @@ importers:
       '@popperjs/core': 2.11.6
       '@rainbow-me/rainbowkit': 0.8.1_jsakjzyraeekonzdx6rokcorea
       class-variance-authority: 0.4.0_typescript@4.9.4
+      ethereum-blockies-base64: 1.0.2
       ethers: 5.7.2
       i18next: 22.4.5
       ipfs-core: 0.15.4_jwwwwlkbq3ba655jrhgweyfzby
@@ -12236,6 +12238,12 @@ packages:
       ethereumjs-abi: github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0
       ethereumjs-util: 5.2.1
 
+  /ethereum-blockies-base64/1.0.2:
+    resolution: {integrity: sha512-Vg2HTm7slcWNKaRhCUl/L3b4KrB8ohQXdd5Pu3OI897EcR6tVRvUqdTwAyx+dnmoDzj8e2bwBLDQ50ByFmcz6w==}
+    dependencies:
+      pnglib: 0.0.1
+    dev: false
+
   /ethereum-bloom-filters/1.0.10:
     resolution: {integrity: sha512-rxJ5OFN3RwjQxDcFP2Z5+Q9ho4eIdEmSc2ht0fCu8Se9nbXjZ7/031uXoUYJ87KHCOdVeiUuwSnoS7hmYAGVHA==}
     dependencies:
@@ -19444,6 +19452,10 @@ packages:
   /pngjs/5.0.0:
     resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}
     engines: {node: '>=10.13.0'}
+    dev: false
+
+  /pnglib/0.0.1:
+    resolution: {integrity: sha512-95ChzOoYLOPIyVmL+Y6X+abKGXUJlvOVLkB1QQkyXl7Uczc6FElUy/x01NS7r2GX6GRezloO/ecCX9h4U9KadA==}
     dev: false
 
   /pnp-webpack-plugin/1.6.4_typescript@4.9.4:

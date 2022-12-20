@@ -27,6 +27,7 @@
         "@popperjs/core": "^2.11.6",
         "@rainbow-me/rainbowkit": "^0.8.1",
         "class-variance-authority": "^0.4.0",
+        "ethereum-blockies-base64": "^1.0.2",
         "ethers": "^5.7.1",
         "i18next": "^22.0.6",
         "ipfs-core": "^0.15.4",

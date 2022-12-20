@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Logo } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import { CloseMenuIcon } from "./CloseMenuIcon";
-import { HamburgerMenuIcon } from "./HamburgerMenuIcon";
+import { ReactComponent as CloseMenuIcon } from "../../../assets/x.svg";
+import { ReactComponent as HamburgerMenuIcon } from "../../../assets/menu.svg";
 import { GridPatternBg } from "../grid-pattern-bg";
 import { ConnectWallet } from "../../connect-wallet";
 
