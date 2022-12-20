@@ -16,7 +16,7 @@ export const ConnectWallet = () => {
     const { isLoading: loadingEnsAvatar, data: ensAvatar } = useEnsAvatar({
         address,
     });
-    const [/* loading, */ setLoading] = useState(false);
+    const [, /* loading, */ setLoading] = useState(false);
 
     const [avatar, setAvatar] = useState("");
 
@@ -28,7 +28,7 @@ export const ConnectWallet = () => {
 
     useEffect(() => {
         setLoading(loadingEnsAvatar || loadingEnsName);
-    }, [loadingEnsAvatar, loadingEnsName]);
+    }, [loadingEnsAvatar, loadingEnsName, setLoading]);
 
     return (
         <ConnectButton.Custom>
