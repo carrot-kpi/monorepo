@@ -12,6 +12,7 @@ interface CampaignCardProps {
     rewards: string;
     timeLeft: string;
     color?: "white" | "black";
+    isHolding?: boolean;
 }
 
 export const CampaignCard = ({
@@ -20,6 +21,7 @@ export const CampaignCard = ({
     rewards,
     timeLeft,
     color,
+    isHolding,
 }: CampaignCardProps) => (
     <div className={campaignCardStyles({ color })}>
         <div className="h-full">
@@ -27,14 +29,19 @@ export const CampaignCard = ({
                 <div className="flex items-center h-12 border-r border-gray-600">
                     <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                 </div>
-                <TextMono
-                    className="px-4"
-                    color={correctColor(color)}
-                    weight="medium"
-                    caps
-                >
-                    {title}
-                </TextMono>
+                <div className="flex items-center justify-between w-full px-4">
+                    <TextMono color={correctColor(color)} weight="medium" caps>
+                        {title}
+                    </TextMono>
+
+                    {isHolding && (
+                        <div className="flex items-center justify-center px-2 py-1 rounded bg-carrot-green">
+                            <TextMono weight="medium" size="2xs" caps>
+                                holding
+                            </TextMono>
+                        </div>
+                    )}
+                </div>
             </div>
             <div className="flex flex-col justify-between p-4 h-52">
                 <TextMono color={correctColor(color)}>{question}</TextMono>

@@ -6,20 +6,21 @@ import { CampaignCard } from "../ui/campaign-card";
 // this will be fetched in the future
 const latestCampaignsMockData = [
     {
-        id: 1,
-        title: "DXdao",
-        question:
-            "What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC?",
-        rewards: "$8,667.00",
-        timeLeft: "2D 13H 44M",
-    },
-    {
         id: 2,
         title: "COW PROTOCOL",
         question:
             "What will the average TVL for the COW token on Swapr Gnosis Chain be from Sep 1st 15:00 UTC to Sep 29th 15:00 UTC?",
         rewards: "$69,420.00",
         timeLeft: "12D 08H 32M",
+    },
+    {
+        id: 1,
+        title: "DXdao",
+        question:
+            "What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC?",
+        rewards: "$8,667.00",
+        timeLeft: "2D 13H 44M",
+        holder: true,
     },
     {
         id: 3,
@@ -29,6 +30,7 @@ const latestCampaignsMockData = [
         rewards: "$14,227.00",
         timeLeft: "99D 08H 32M",
     },
+
     {
         id: 4,
         title: "Klover",
@@ -61,6 +63,7 @@ export const LatestCampaigns = ({ category }: { category: string }) => (
                     rewards={campaign.rewards}
                     timeLeft={campaign.timeLeft}
                     color="white"
+                    isHolding={campaign.holder}
                 />
             ))}
         </CardHorizontal>
