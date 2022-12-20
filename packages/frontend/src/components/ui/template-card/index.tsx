@@ -59,11 +59,11 @@ export const TemplateCard = ({
                 </div>
             )}
             <div className="flex-1">
-                <div className="p-4 space-y-4 border-t">
+                <div className="p-4 space-y-3 border-t">
                     <Row title="oracle">{oracle}</Row>
                     <Row title="version">{version}</Row>
                 </div>
-                <div className="p-4 space-y-4 border-t">
+                <div className="p-4 space-y-3 border-t">
                     <Row title="creator">{creator}</Row>
                     <Row title="address">{address}</Row>
                     <Row title="used">{used.toString()}</Row>
