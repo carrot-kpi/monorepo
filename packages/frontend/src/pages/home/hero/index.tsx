@@ -26,7 +26,7 @@ export const Hero = () => (
                 </div>
             </div>
         </PageWrapper>
-        <div className="absolute left-4 top-1/3">
+        <div className="absolute invisible left-4 top-1/3 lg:visible ">
             <DXdaoSideLink />
         </div>
         <PlusSignPattern y="top" x="left" />
