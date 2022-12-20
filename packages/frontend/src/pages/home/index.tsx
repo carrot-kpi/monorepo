@@ -1,4 +1,6 @@
 import React from "react";
+import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
+import { PageWrapper } from "../../components/ui/page-wrapper";
 // import { useKpiTokens } from "@carrot-kpi/react";
 // import { chain, useAccount, useConnect } from "wagmi";
 // import { InjectedConnector } from "wagmi/connectors/injected";
@@ -6,6 +8,7 @@ import React from "react";
 // import { KpiToken } from "@carrot-kpi/sdk";
 import { Hero } from "./hero";
 import { LatestCampaignsSection } from "./latest-campaigns-section";
+import { TemplatesSection } from "./templates-section";
 
 export const Home = () => {
     // const { t } = useTranslation();
@@ -27,7 +30,14 @@ export const Home = () => {
     return (
         <>
             <Hero />
-            <LatestCampaignsSection />
+            <div className="relative py-32">
+                <GridPatternBg bg="white" fullSize />
+                <PageWrapper className="space-y-32">
+                    <LatestCampaignsSection />
+                    <TemplatesSection />
+                </PageWrapper>
+            </div>
+
             {/* {!isConnected &&
                 connectors.map((connector) => (
                     <button
