@@ -8,7 +8,9 @@ const gridPatterBgStyles = cva(
             bg: {
                 black: ["bg-square-pattern-contrast"],
                 orange: ["bg-square-pattern"],
-                white: ["bg-square-pattern-white-bg"],
+                white: [
+                    "bg-square-pattern-white-bg dark:bg-square-pattern-contrast",
+                ],
             },
         },
         defaultVariants: {

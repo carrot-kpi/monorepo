@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { cva } from "class-variance-authority";
 
-const titleStyles = cva(["font-sans", "font-bold"], {
+const titleStyles = cva(["font-sans", "font-bold", "dark:text-white"], {
     variants: {
         color: {
             white: "text-white",
@@ -21,7 +21,6 @@ const titleStyles = cva(["font-sans", "font-bold"], {
         },
     },
     defaultVariants: {
-        color: "black",
         size: "sm",
     },
 });

@@ -1,4 +1,5 @@
 import React from "react";
+import { isDarkMode } from "../../utils/colors";
 import { CardHorizontal } from "../ui/cards-horizontal";
 import { TemplateCard } from "../ui/template-card";
 
@@ -66,7 +67,7 @@ export const FeaturedTemplates = () => (
                 address={template.address}
                 used={template.used}
                 verified={template.verified}
-                color="white"
+                color={isDarkMode() ? "black" : "white"}
             />
         ))}
     </CardHorizontal>

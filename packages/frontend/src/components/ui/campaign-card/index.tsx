@@ -35,8 +35,13 @@ export const CampaignCard = ({
                     </TextMono>
 
                     {isHolding && (
-                        <div className="flex items-center justify-center px-2 py-1 rounded bg-carrot-green">
-                            <TextMono weight="medium" size="2xs" caps>
+                        <div className="flex items-center justify-center px-2 py-1 border rounded bg-carrot-green">
+                            <TextMono
+                                weight="medium"
+                                size="2xs"
+                                caps
+                                color="black"
+                            >
                                 holding
                             </TextMono>
                         </div>
@@ -72,8 +77,8 @@ const campaignCardStyles = cva(
     {
         variants: {
             color: {
-                black: ["bg-black"],
-                white: ["bg-white"],
+                black: ["bg-black border-white"],
+                white: ["bg-white border-gray-600"],
             },
         },
         defaultVariants: {
