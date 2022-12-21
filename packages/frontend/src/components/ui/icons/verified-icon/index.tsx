@@ -1,4 +1,5 @@
 import React from "react";
+import { correctColor } from "../../campaign-card/utils";
 
 export const VerifiedIcon = ({ color = "black" }: { color?: string }) => (
     <svg
@@ -16,7 +17,7 @@ export const VerifiedIcon = ({ color = "black" }: { color?: string }) => (
         />
         <path
             d="M6.66663 10.4166L8.74996 12.5L13.3333 7.91663"
-            stroke="white"
+            stroke={correctColor(color)}
             strokeLinecap="round"
         />
     </svg>

@@ -3,6 +3,8 @@ import { TextMono } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import { correctColor } from "../campaign-card/utils";
 import { VerifiedIcon } from "../icons/verified-icon";
+import { RowsWrapper } from "./template-row-wrapper";
+import { TemplateCardCorners } from "./template-card-corners";
 
 interface TemplateCardProps {
     type: string;
@@ -13,7 +15,7 @@ interface TemplateCardProps {
     address: string;
     used: number;
     verified?: boolean;
-    color?: "white" | "black";
+    color: "white" | "black";
 }
 
 export const TemplateCard = ({
@@ -26,57 +28,86 @@ export const TemplateCard = ({
     address,
     used,
     verified,
-}: TemplateCardProps) => (
-    <div className={templateCardStyles({ color })}>
-        <CornerSquare y="top" x="left" />
-        <CornerSquare y="top" x="right" />
-        <CornerSquare y="bottom" x="left" />
-        <CornerSquare y="bottom" x="right" />
-        <div className="h-full">
-            <div className="flex items-center w-full border-b border-gray-600">
-                <div className="flex items-center h-12 border-r border-gray-600">
-                    <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
-                </div>
-                <div className="flex items-center justify-between w-full px-4">
-                    <TextMono color={correctColor(color)} weight="medium" caps>
-                        {type}
-                    </TextMono>
-                </div>
-            </div>
-        </div>
-        <div className="p-4">
-            <TextMono>{description}</TextMono>
-        </div>
-        <div className="flex">
-            {verified && (
-                <div className="flex flex-col items-center justify-center w-12 border-t border-r">
-                    <div className="flex items-center space-x-2 -rotate-90">
-                        <VerifiedIcon />
-                        <TextMono caps size="sm">
-                            verified
+}: TemplateCardProps) => {
+    const correctBorderColor =
+        color === "black" ? "border-white" : "border-gray-600";
+    return (
+        <div className={templateCardStyles({ color })}>
+            <TemplateCardCorners color={correctColor(color)} />
+            <div className="h-full">
+                <div
+                    className={`flex items-center w-full border-b ${correctBorderColor}`}
+                >
+                    <div
+                        className={`flex items-center h-12 border-r ${correctBorderColor}`}
+                    >
+                        <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
+                    </div>
+                    <div className="flex items-center justify-between w-full px-4">
+                        <TextMono
+                            color={correctColor(color)}
+                            weight="medium"
+                            caps
+                        >
+                            {type}
                         </TextMono>
                     </div>
                 </div>
-            )}
-            <div className="flex-1">
-                <div className="p-4 space-y-3 border-t">
-                    <Row title="oracle">{oracle}</Row>
-                    <Row title="version">{version}</Row>
-                </div>
-                <div className="p-4 space-y-3 border-t">
-                    <Row title="creator">{creator}</Row>
-                    <Row title="address">{address}</Row>
-                    <Row title="used">{used.toString()}</Row>
+            </div>
+            <div className="p-4">
+                <TextMono color={correctColor(color)}>{description}</TextMono>
+            </div>
+            <div className="flex">
+                {verified && (
+                    <div
+                        className={`flex flex-col items-center justify-center w-12 border-t border-r ${correctBorderColor}`}
+                    >
+                        <div className="flex items-center space-x-2 -rotate-90">
+                            <VerifiedIcon color={correctColor(color)} />
+                            <TextMono
+                                caps
+                                size="sm"
+                                color={correctColor(color)}
+                            >
+                                verified
+                            </TextMono>
+                        </div>
+                    </div>
+                )}
+                <div className="flex-1">
+                    <RowsWrapper color={correctColor(color)}>
+                        <Row title="oracle" color={correctColor(color)}>
+                            {oracle}
+                        </Row>
+                        <Row title="version" color={correctColor(color)}>
+                            {version}
+                        </Row>
+                    </RowsWrapper>
+                    <RowsWrapper color={correctColor(color)}>
+                        <Row title="creator" color={correctColor(color)}>
+                            {creator}
+                        </Row>
+                        <Row title="address" color={correctColor(color)}>
+                            {address}
+                        </Row>
+                        <Row title="used" color={correctColor(color)}>
+                            {used.toString()}
+                        </Row>
+                    </RowsWrapper>
                 </div>
             </div>
+            <div
+                className={`flex items-center justify-center p-4 space-y-4 border-t ${correctBorderColor}`}
+            >
+                <button className="w-full">
+                    <TextMono color={correctColor(color)} caps weight="medium">
+                        ↳ use template
+                    </TextMono>
+                </button>
+            </div>
         </div>
-        <div className="flex items-center justify-center p-4 space-y-4 border-t">
-            <button className="w-full font-mono font-medium uppercase">
-                ↳ use template
-            </button>
-        </div>
-    </div>
-);
+    );
+};
 
 const templateCardStyles = cva(
     [
@@ -86,41 +117,27 @@ const templateCardStyles = cva(
         variants: {
             color: {
                 black: ["bg-black border-white"],
-                white: ["bg-white border-black"],
+                white: ["bg-white border-gray-600"],
             },
-        },
-        defaultVariants: {
-            color: "black",
         },
     }
 );
 
-const Row = ({ title, children }: { title: string; children: string }) => (
+const Row = ({
+    title,
+    children,
+    color,
+}: {
+    title: string;
+    children: string;
+    color?: "black" | "white";
+}) => (
     <div className="flex items-center justify-between">
-        <TextMono size="sm" className="capitalize">
+        <TextMono size="sm" className="capitalize" color={color}>
             {title}
         </TextMono>
-        <TextMono weight="medium">{children}</TextMono>
+        <TextMono weight="medium" color={color}>
+            {children}
+        </TextMono>
     </div>
 );
-
-const CornerSquare = ({
-    x,
-    y,
-}: {
-    y: "top" | "bottom";
-    x: "left" | "right";
-}) => <div className={cornerSquareStyles({ x, y })} />;
-
-const cornerSquareStyles = cva(["absolute w-2 h-2 bg-black"], {
-    variants: {
-        x: {
-            left: ["-left-1"],
-            right: ["-right-1"],
-        },
-        y: {
-            top: ["-top-1"],
-            bottom: ["-bottom-1"],
-        },
-    },
-});
