@@ -1,5 +1,5 @@
 import React from "react";
-import { correctColor } from "../../campaign-card/utils";
+import { correctColor } from "../../../../utils/colors";
 
 export const VerifiedIcon = ({ color = "black" }: { color?: string }) => (
     <svg

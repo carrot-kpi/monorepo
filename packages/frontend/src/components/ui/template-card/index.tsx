@@ -1,10 +1,10 @@
 import React from "react";
 import { TextMono } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import { correctColor } from "../campaign-card/utils";
 import { VerifiedIcon } from "../icons/verified-icon";
 import { RowsWrapper } from "./template-row-wrapper";
 import { TemplateCardCorners } from "./template-card-corners";
+import { correctColor } from "../../../utils/colors";
 
 interface TemplateCardProps {
     type: string;

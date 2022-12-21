@@ -3,8 +3,8 @@ import { TextMono } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import { CampaignCardRow } from "./campaign-card-row";
 import { CampaignCardTag } from "./campaign-card-tag";
-import { correctColor } from "./utils";
 import { CampaignCardButton } from "./campaign-card-button";
+import { correctColor } from "../../../utils/colors";
 
 interface CampaignCardProps {
     title: string;
