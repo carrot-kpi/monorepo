@@ -18,11 +18,27 @@ const buttonStyles = cva(
                 small: ["px-6 py-4 text-xs"],
                 xsmall: ["p-4 text-xs"],
             },
+            withDarkMode: {
+                true: "",
+            },
         },
         defaultVariants: {
             variant: "primary",
+            withDarkMode: true,
             size: "big",
         },
+        compoundVariants: [
+            {
+                variant: "primary",
+                withDarkMode: true,
+                class: "dark:bg-white dark:text-black",
+            },
+            // {
+            //     variant: "secondary",
+            //     withDarkMode: true,
+            //     class: "dark:bg-magenta dark:text-black",
+            // },
+        ],
     }
 );
 
@@ -31,6 +47,7 @@ export interface CarrotButtonProps {
     href?: string;
     disabled?: boolean;
     loading?: boolean;
+    withDarkMode?: boolean;
     className?: string;
     size?: "big" | "small" | "xsmall";
     variant?: "primary" | "secondary";
@@ -46,11 +63,17 @@ export const Button = ({
     loading,
     children,
     className,
+    withDarkMode,
 }: CarrotButtonProps) => {
     if (href) {
         return (
             <a
-                className={buttonStyles({ size, variant, className })}
+                className={buttonStyles({
+                    size,
+                    variant,
+                    withDarkMode,
+                    className,
+                })}
                 href={href}
             >
                 {children}
@@ -61,7 +84,7 @@ export const Button = ({
     return (
         <button
             disabled={disabled || loading}
-            className={buttonStyles({ size, variant, className })}
+            className={buttonStyles({ size, variant, withDarkMode, className })}
             onClick={onClick}
         >
             {children}

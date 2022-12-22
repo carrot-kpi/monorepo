@@ -107,7 +107,9 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                         !isOpen && "hidden"
                     } md:block`}
                 >
-                    <Button size="small">Connect wallet</Button>
+                    <Button size="small" withDarkMode={false}>
+                        Connect wallet
+                    </Button>
                 </div>
                 <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
                     {isOpen ? <CloseMenuIcon /> : <HamburgerMenuIcon />}
