@@ -12,6 +12,7 @@ interface CampaignCardProps {
     rewards: string;
     timeLeft: string;
     color?: "white" | "black";
+    sameBorder?: boolean;
     isHolding?: boolean;
 }
 
@@ -22,8 +23,14 @@ export const CampaignCard = ({
     timeLeft,
     color,
     isHolding,
+    sameBorder,
 }: CampaignCardProps) => (
-    <div className={campaignCardStyles({ color })}>
+    <div
+        className={campaignCardStyles({
+            color,
+            border: sameBorder ? "same" : color,
+        })}
+    >
         <div className="h-full">
             <div className="flex items-center w-full border-b border-gray-600">
                 <div className="flex items-center h-12 border-r border-gray-600">
@@ -77,12 +84,18 @@ const campaignCardStyles = cva(
     {
         variants: {
             color: {
-                black: ["bg-black border-white"],
-                white: ["bg-white border-gray-600"],
+                black: ["bg-black"],
+                white: ["bg-white"],
+            },
+            border: {
+                black: ["border-white"],
+                white: ["border-gray-600"],
+                same: ["border-gray-600"],
             },
         },
         defaultVariants: {
             color: "black",
+            border: "black",
         },
     }
 );

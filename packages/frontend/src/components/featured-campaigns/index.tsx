@@ -40,6 +40,7 @@ export const FeaturedCampaings = () => (
                 rewards={campaign.rewards}
                 timeLeft={campaign.timeLeft}
                 isHolding={campaign.holder}
+                sameBorder
             />
         ))}
     </>
