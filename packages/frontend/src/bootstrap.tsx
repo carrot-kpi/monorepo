@@ -6,6 +6,7 @@ import { App } from "./pages/app";
 import { infuraProvider } from "wagmi/providers/infura";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
 import { CarrotUIProvider } from "@carrot-kpi/ui";
+import { ChainId } from "@carrot-kpi/sdk";
 import { SUPPORTED_CHAINS } from "./constants";
 import {
     darkTheme,
@@ -24,9 +25,11 @@ import "./global.css";
 
 const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
 
+const supportedChainsArray = Object.values(SUPPORTED_CHAINS);
+
 const { connectors } = getDefaultWallets({
     appName: "Carrot KPI",
-    chains: SUPPORTED_CHAINS,
+    chains: supportedChainsArray,
 });
 
 __webpack_init_sharing__("default");
@@ -38,12 +41,15 @@ root.render(
     <StrictMode>
         <HashRouter>
             <CarrotCoreProvider
-                supportedChains={SUPPORTED_CHAINS}
+                supportedChains={supportedChainsArray}
                 providers={[infuraProvider({ apiKey: INFURA_PROJECT_ID })]}
                 getConnectors={connectors}
             >
                 <RainbowKitProvider
-                    chains={SUPPORTED_CHAINS}
+                    chains={supportedChainsArray}
+                    // TODO: make this so initial chain is either the one the user had previously
+                    // chosen (through local storage) or mainnet or a more sensible option
+                    initialChain={ChainId.SEPOLIA}
                     theme={{
                         lightMode: lightTheme(),
                         darkMode: darkTheme(),
