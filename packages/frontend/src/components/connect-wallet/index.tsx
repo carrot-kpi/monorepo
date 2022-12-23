@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@carrot-kpi/ui";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useTranslation } from "react-i18next";
@@ -7,10 +7,32 @@ import makeBlockie from "ethereum-blockies-base64";
 import { SUPPORTED_CHAINS } from "../../constants";
 import { ChainId } from "@carrot-kpi/sdk";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
+import { useClient } from "wagmi";
+
+interface ChainData {
+    id: ChainId;
+    name: string;
+}
 
 // TODO: handle loading
 export const ConnectWallet = () => {
     const { t } = useTranslation();
+    const { provider } = useClient();
+
+    const [chainDataFromProvider, setChainDataFromProvider] =
+        useState<ChainData>();
+
+    useEffect(() => {
+        let cancelled = false;
+        const fetchData = async () => {
+            const { chainId, name } = await provider.getNetwork();
+            if (!cancelled) setChainDataFromProvider({ id: chainId, name });
+        };
+        void fetchData();
+        return () => {
+            cancelled = true;
+        };
+    }, [provider]);
 
     return (
         <ConnectButton.Custom>
@@ -21,23 +43,24 @@ export const ConnectWallet = () => {
                 account,
                 chain,
             }) => {
-                const Logo = !!chain
-                    ? SUPPORTED_CHAINS[chain.id as ChainId].logo
-                    : null;
+                const chainId = chain?.id || chainDataFromProvider?.id;
+                const chainName = chain?.name || chainDataFromProvider?.name;
+                const Logo = !!chainId
+                    ? SUPPORTED_CHAINS[chainId as ChainId].logo
+                    : undefined;
                 return (
                     <div className="flex items-center">
                         <div
                             className="flex items-center mr-8 cursor-pointer"
                             onClick={openChainModal}
                         >
-                            {!!chain && !!Logo ? (
+                            {!!Logo ? (
                                 <div
                                     className="flex items-center justify-center w-8 h-8 mr-2 rounded-lg"
                                     style={{
                                         backgroundColor:
-                                            SUPPORTED_CHAINS[
-                                                chain.id as ChainId
-                                            ].iconBackgroundColor,
+                                            SUPPORTED_CHAINS[chainId as ChainId]
+                                                .iconBackgroundColor,
                                     }}
                                 >
                                     <Logo className="w-4 h-4" />
@@ -49,8 +72,8 @@ export const ConnectWallet = () => {
                                 <span className="text-black font-mono text-2xs">
                                     {t("connect.wallet.network")}
                                 </span>
-                                <span className="text-black font-mono text-sm">
-                                    {chain?.name}
+                                <span className="text-black font-mono text-sm capitalize">
+                                    {chainName}
                                 </span>
                             </div>
                             <CaretDown className="w-3" />
