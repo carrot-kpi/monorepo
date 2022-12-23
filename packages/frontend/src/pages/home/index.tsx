@@ -30,7 +30,7 @@ export const Home = () => {
     return (
         <>
             <Hero />
-            <div className="relative py-32">
+            <div className="relative py-32 dark:bg-black">
                 <GridPatternBg bg="white" fullSize />
                 <PageWrapper className="space-y-32">
                     <LatestCampaignsSection />

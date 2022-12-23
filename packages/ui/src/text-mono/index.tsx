@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { cva } from "class-variance-authority";
 
-const textStyles = cva(["font-mono"], {
+const textStyles = cva(["font-mono dark:text-white"], {
     variants: {
         caps: {
             true: ["cui-uppercase"],

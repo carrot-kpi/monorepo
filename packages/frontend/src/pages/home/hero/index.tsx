@@ -17,10 +17,10 @@ export const Hero = () => (
                     <FeaturedCampaings />
                 </CardHorizontal>
                 <div className="flex flex-col space-x-0 space-y-6 md:space-y-0 md:flex-row md:space-x-8">
-                    <Button variant="primary" size="big">
+                    <Button variant="primary" size="big" withDarkMode={false}>
                         All campaigns
                     </Button>
-                    <Button variant="secondary" size="big">
+                    <Button variant="secondary" size="big" withDarkMode={false}>
                         Create campaign
                     </Button>
                 </div>
