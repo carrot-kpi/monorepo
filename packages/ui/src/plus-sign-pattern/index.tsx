@@ -1,19 +1,22 @@
 import React from "react";
 import { cva } from "class-variance-authority";
 
-const plusSignPatternStyles = cva(["invisible", "md:visible", "absolute"], {
-    variants: {
-        x: {
-            left: ["left-4"],
-            right: ["right-4"],
+const plusSignPatternStyles = cva(
+    ["cui-invisible", "md:cui-visible", "cui-absolute"],
+    {
+        variants: {
+            x: {
+                left: ["cui-left-4"],
+                right: ["cui-right-4"],
+            },
+            y: {
+                top: ["cui-top-10"],
+                middle: ["cui-top-1/3"],
+                bottom: ["cui-bottom-10"],
+            },
         },
-        y: {
-            top: ["top-10"],
-            middle: ["top-1/3"],
-            bottom: ["bottom-10"],
-        },
-    },
-});
+    }
+);
 
 export interface PlusSignPatternProps {
     x?: "left" | "right";

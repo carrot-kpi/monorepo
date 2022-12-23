@@ -10,7 +10,6 @@ remappings = [
     'forge-std/=lib/forge-std/src/',
     'tests/=tests/'
 ]
-test = 'tests'
 optimizer = false
 optimizer_runs = 0
 via_ir = false

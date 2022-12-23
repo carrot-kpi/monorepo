@@ -20,7 +20,7 @@ export default {
 
 export const AllSizes = () => {
     return (
-        <div className="space-y-4">
+        <div className="cui-space-y-4">
             {sizes.map((size) => (
                 <TextMono key={size} size={size} color="black">
                     Featured campaigns

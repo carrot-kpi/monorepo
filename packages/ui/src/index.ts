@@ -1,3 +1,5 @@
+import "./global.css";
+
 export * from "./provider";
 export * from "./button";
 export * from "./text";

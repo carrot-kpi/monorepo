@@ -3,20 +3,20 @@ import { cva } from "class-variance-authority";
 
 const buttonStyles = cva(
     [
-        "font-mono rounded-2xl border border-black disabled:text-white disabled:bg-gray-400 disabled:border-gray-400",
+        "cui-font-mono cui-rounded-2xl cui-border cui-border-black disabled:cui-text-white disabled:cui-bg-gray-400 disabled:cui-border-gray-400",
     ],
     {
         variants: {
             variant: {
                 primary:
-                    "bg-black text-white hover:bg-carrot-orange hover:text-black",
+                    "cui-bg-black cui-text-white hover:cui-bg-carrot-orange hover:cui-text-black",
                 secondary:
-                    "bg-transparent hover:bg-black hover:text-white text-black",
+                    "cui-bg-transparent hover:cui-bg-black hover:cui-text-white cui-text-black",
             },
             size: {
-                big: ["px-6 py-5"],
-                small: ["px-6 py-4 text-xs"],
-                xsmall: ["p-4 text-xs"],
+                big: ["cui-px-6 cui-py-5"],
+                small: ["cui-px-6 cui-py-4 cui-text-xs"],
+                xsmall: ["cui-p-4 cui-text-xs"],
             },
         },
         defaultVariants: {

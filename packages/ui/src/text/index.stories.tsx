@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />;
 const sizes: ["sm", "xs"] = ["sm", "xs"];
 
 export const AllText = () => (
-    <div className="space-y-4">
+    <div className="cui-space-y-4">
         {sizes.map((size) => (
             <Text key={size} size={size} color="black">
                 Featured campaigns
