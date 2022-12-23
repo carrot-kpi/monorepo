@@ -9,6 +9,10 @@ declare const self: ServiceWorkerGlobalScope;
 // @ts-ignore: __WB_MANIFEST is a placeholder filled by workbox inject manifest plugin
 precacheAndRoute(self.__WB_MANIFEST);
 
+self.addEventListener("install", () => {
+    self.skipWaiting();
+});
+
 self.addEventListener("activate", (event: ExtendableEvent) => {
     const params = new URLSearchParams(location.search);
     const ipfsGateway = params.get("ipfsGateway");
