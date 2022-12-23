@@ -3,31 +3,36 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { HashRouter } from "react-router-dom";
 import { App } from "./pages/app";
-import { chain as wagmiChain, Chain } from "wagmi";
 import { infuraProvider } from "wagmi/providers/infura";
-import { InjectedConnector } from "wagmi/connectors/injected";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
 import { CarrotUIProvider } from "@carrot-kpi/ui";
+import { ChainId } from "@carrot-kpi/sdk";
+import { SUPPORTED_CHAINS } from "./constants";
+import {
+    darkTheme,
+    getDefaultWallets,
+    lightTheme,
+    RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
 import "./i18n";
 
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "@carrot-kpi/ui/styles.css";
+import "@rainbow-me/rainbowkit/styles.css";
+
+import "./global.css";
 
 import "./global.css";
 
 const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
 
-const getConnectors = (chains: Chain[]) => [
-    new InjectedConnector({ chains }),
-    new WalletConnectConnector({
-        chains,
-        options: {
-            qrcode: true,
-        },
-    }),
-];
+const supportedChainsArray = Object.values(SUPPORTED_CHAINS);
+
+const { connectors } = getDefaultWallets({
+    appName: "Carrot KPI",
+    chains: supportedChainsArray,
+});
 
 __webpack_init_sharing__("default");
 
@@ -38,13 +43,24 @@ root.render(
     <StrictMode>
         <HashRouter>
             <CarrotCoreProvider
-                supportedChains={[wagmiChain.sepolia]}
+                supportedChains={supportedChainsArray}
                 providers={[infuraProvider({ apiKey: INFURA_PROJECT_ID })]}
-                getConnectors={getConnectors}
+                getConnectors={connectors}
             >
-                <CarrotUIProvider>
-                    <App />
-                </CarrotUIProvider>
+                <RainbowKitProvider
+                    chains={supportedChainsArray}
+                    // TODO: make this so initial chain is either the one the user had previously
+                    // chosen (through local storage) or mainnet or a more sensible option
+                    initialChain={ChainId.SEPOLIA}
+                    theme={{
+                        lightMode: lightTheme(),
+                        darkMode: darkTheme(),
+                    }}
+                >
+                    <CarrotUIProvider>
+                        <App />
+                    </CarrotUIProvider>
+                </RainbowKitProvider>
             </CarrotCoreProvider>
         </HashRouter>
     </StrictMode>

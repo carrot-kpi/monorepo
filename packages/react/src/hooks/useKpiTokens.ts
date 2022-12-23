@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { KpiToken, Fetcher } from "@carrot-kpi/sdk";
-import { useProvider, useNetwork } from "wagmi";
+import { useProvider } from "wagmi";
 
 export function useKpiTokens(): {
     loading: boolean;
     kpiTokens: { [address: string]: KpiToken };
 } {
-    const { chain } = useNetwork();
     const provider = useProvider();
 
     const [kpiTokens, setKpiTokens] = useState<{ [address: string]: KpiToken }>(
@@ -17,7 +16,7 @@ export function useKpiTokens(): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain) return;
+            if (!provider) return;
             if (!cancelled) setLoading(true);
             try {
                 const kpiTokens = await Fetcher.fetchKpiTokens(provider);
@@ -32,7 +31,7 @@ export function useKpiTokens(): {
         return () => {
             cancelled = true;
         };
-    }, [chain, provider]);
+    }, [provider]);
 
     return { loading, kpiTokens };
 }
