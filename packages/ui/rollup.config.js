@@ -37,10 +37,12 @@ export default [
             {
                 file: resolve("dist/tailwind.config.js"),
                 format: "es",
+                exports: "auto",
             },
             {
                 file: resolve("dist/tailwind.config.cjs"),
                 format: "cjs",
+                exports: "auto",
             },
         ],
     },
