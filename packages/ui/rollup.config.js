@@ -31,16 +31,16 @@ export default [
         ],
     },
     {
-        input: [resolve("./tailwind.config.js")],
+        input: [resolve("./tailwind.preset.js")],
         plugins: [peerDepsExternal(), nodeResolve(), commonjs(), terser()],
         output: [
             {
-                file: resolve("dist/tailwind.config.js"),
+                file: resolve("dist/tailwind.preset.js"),
                 format: "es",
                 exports: "auto",
             },
             {
-                file: resolve("dist/tailwind.config.cjs"),
+                file: resolve("dist/tailwind.preset.cjs"),
                 format: "cjs",
                 exports: "auto",
             },
