@@ -1,7 +1,7 @@
 import React from "react";
 import { TextMono } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import { correctColor } from "../utils";
+import { correctColor } from "../../../../utils/colors";
 
 interface CampaignCardRowProps {
     color?: "white" | "black";
