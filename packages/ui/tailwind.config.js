@@ -53,5 +53,6 @@ module.exports = {
             },
         },
     },
+    prefix: "cui-",
     plugins: [],
 };
