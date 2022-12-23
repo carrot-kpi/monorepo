@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { HashRouter } from "react-router-dom";
 import { App } from "./pages/app";
-import { chain as wagmiChain, Chain } from "wagmi";
+import { Chain, sepolia } from "wagmi/chains";
 import { infuraProvider } from "wagmi/providers/infura";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
@@ -38,7 +38,7 @@ root.render(
     <StrictMode>
         <HashRouter>
             <CarrotCoreProvider
-                supportedChains={[wagmiChain.sepolia]}
+                supportedChains={[sepolia]}
                 providers={[infuraProvider({ apiKey: INFURA_PROJECT_ID })]}
                 getConnectors={getConnectors}
             >

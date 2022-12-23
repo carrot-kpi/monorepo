@@ -4,20 +4,20 @@ import { cva } from "class-variance-authority";
 const titleStyles = cva(["font-sans", "font-bold"], {
     variants: {
         color: {
-            white: "text-white",
-            black: "text-black",
+            white: "cui-text-white",
+            black: "cui-text-black",
         },
         size: {
-            sm: ["text-sm"],
-            xl: ["text-xl"],
-            "2xl": ["text-2xl"],
-            "3xl": ["text-3xl"],
-            "4xl": ["text-4xl"],
-            "5xl": ["text-5xl"],
-            "6xl": ["text-6xl"],
-            "7xl": ["text-7xl"],
-            "8xl": ["text-8xl"],
-            "9xl": ["text-9xl"],
+            sm: ["cui-text-sm"],
+            xl: ["cui-text-xl"],
+            "2xl": ["cui-text-2xl"],
+            "3xl": ["cui-text-3xl"],
+            "4xl": ["cui-text-4xl"],
+            "5xl": ["cui-text-5xl"],
+            "6xl": ["cui-text-6xl"],
+            "7xl": ["cui-text-7xl"],
+            "8xl": ["cui-text-8xl"],
+            "9xl": ["cui-text-9xl"],
         },
     },
     defaultVariants: {
