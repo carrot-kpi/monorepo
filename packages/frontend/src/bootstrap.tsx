@@ -10,11 +10,12 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
 import { CarrotUIProvider } from "@carrot-kpi/ui";
 import "./i18n";
-import "./global.css";
 
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "@carrot-kpi/ui/styles.css";
+
+import "./global.css";
 
 const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
 

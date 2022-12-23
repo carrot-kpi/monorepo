@@ -42,6 +42,8 @@ module.exports = {
                 "2xs": "10px",
             },
             backgroundImage: {
+                "square-pattern-white-bg":
+                    "url('/src/assets/line-pattern-white-bg.svg')",
                 "square-pattern": "url('/src/assets/line-pattern.svg')",
                 "square-pattern-contrast":
                     "url('/src/assets/line-pattern-contrast.svg')",
