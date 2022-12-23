@@ -4,12 +4,12 @@ import { cva } from "class-variance-authority";
 const textStyles = cva(["font-sans"], {
     variants: {
         color: {
-            white: "text-white",
-            black: "text-black",
+            white: "cui-text-white",
+            black: "cui-text-black",
         },
         size: {
-            xs: ["text-xs"],
-            sm: ["text-sm"],
+            xs: ["cui-text-xs"],
+            sm: ["cui-text-sm"],
         },
     },
     defaultVariants: {

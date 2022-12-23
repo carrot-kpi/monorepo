@@ -1,7 +1,5 @@
 import React, { ReactNode } from "react";
 
-import "../global.css";
-
 interface CarrotUIProviderProps {
     children: ReactNode;
 }

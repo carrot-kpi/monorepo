@@ -160,5 +160,7 @@ broadcast
 !.env.example
 cache
 
+tests/.latest.json
+
 generated
 .bin

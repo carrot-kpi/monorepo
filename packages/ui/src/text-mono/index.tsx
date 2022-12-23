@@ -4,23 +4,23 @@ import { cva } from "class-variance-authority";
 const textStyles = cva(["font-mono dark:text-white"], {
     variants: {
         caps: {
-            true: ["uppercase"],
+            true: ["cui-uppercase"],
         },
         weight: {
-            medium: ["font-medium"],
+            medium: ["cui-font-medium"],
         },
         color: {
-            white: "text-white",
-            black: "text-black",
+            white: "cui-text-white",
+            black: "cui-text-black",
         },
         size: {
-            "2xs": ["text-2xs"],
-            xs: ["text-xs"],
-            sm: ["text-sm"],
-            md: ["text-md"],
-            lg: ["text-lg"],
-            xl: ["text-xl"],
-            "2xl": ["text-2xl"],
+            "2xs": ["cui-text-2xs"],
+            xs: ["cui-text-xs"],
+            sm: ["cui-text-sm"],
+            md: ["cui-text-md"],
+            lg: ["cui-text-lg"],
+            xl: ["cui-text-xl"],
+            "2xl": ["cui-text-2xl"],
         },
     },
     defaultVariants: {
