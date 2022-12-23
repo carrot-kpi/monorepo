@@ -6,7 +6,7 @@ import {
     createClient,
     WagmiConfig,
 } from "wagmi";
-import { Chain } from "wagmi/chains";
+import { Chain } from "wagmi";
 import { ReactNode } from "react";
 import { IpfsService } from "@carrot-kpi/sdk";
 

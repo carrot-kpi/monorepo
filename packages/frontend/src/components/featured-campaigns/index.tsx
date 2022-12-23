@@ -10,6 +10,7 @@ const featuredCampaignsMockData = [
             "What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC?",
         rewards: "$8,667.00",
         timeLeft: "2D 13H 44M",
+        holder: true,
     },
     {
         id: 2,
@@ -38,6 +39,8 @@ export const FeaturedCampaings = () => (
                 question={campaign.question}
                 rewards={campaign.rewards}
                 timeLeft={campaign.timeLeft}
+                isHolding={campaign.holder}
+                sameBorder
             />
         ))}
     </>

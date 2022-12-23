@@ -1,27 +1,19 @@
 import React from "react";
 import { TextMono } from "@carrot-kpi/ui";
-
-const CardRow = ({ title, value }: { title: string; value: string }) => (
-    <div className="flex items-center justify-between w-full text-white border-t border-gray-600">
-        <TextMono color="white" size="sm" className="p-4 w-[40%]" caps>
-            {title}
-        </TextMono>
-        <TextMono
-            color="white"
-            size="sm"
-            className="text-right w-[60%] p-4 border-l border-gray-600"
-            caps
-        >
-            {value}
-        </TextMono>
-    </div>
-);
+import { cva } from "class-variance-authority";
+import { CampaignCardRow } from "./campaign-card-row";
+import { CampaignCardTag } from "./campaign-card-tag";
+import { CampaignCardButton } from "./campaign-card-button";
+import { correctColor } from "../../../utils/colors";
 
 interface CampaignCardProps {
     title: string;
     question: string;
     rewards: string;
     timeLeft: string;
+    color?: "white" | "black";
+    sameBorder?: boolean;
+    isHolding?: boolean;
 }
 
 export const CampaignCard = ({
@@ -29,35 +21,81 @@ export const CampaignCard = ({
     question,
     rewards,
     timeLeft,
+    color,
+    isHolding,
+    sameBorder,
 }: CampaignCardProps) => (
-    <div className="bg-black min-w-[280px] rounded-2xl w-80 flex flex-col justify-between">
+    <div
+        className={campaignCardStyles({
+            color,
+            border: sameBorder ? "same" : color,
+        })}
+    >
         <div className="h-full">
             <div className="flex items-center w-full border-b border-gray-600">
                 <div className="flex items-center h-12 border-r border-gray-600">
                     <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                 </div>
-                <TextMono className="px-4" color="white" weight="medium" caps>
-                    {title}
-                </TextMono>
+                <div className="flex items-center justify-between w-full px-4">
+                    <TextMono color={correctColor(color)} weight="medium" caps>
+                        {title}
+                    </TextMono>
+
+                    {isHolding && (
+                        <div className="flex items-center justify-center px-2 py-1 border rounded bg-carrot-green">
+                            <TextMono
+                                weight="medium"
+                                size="2xs"
+                                caps
+                                color="black"
+                            >
+                                holding
+                            </TextMono>
+                        </div>
+                    )}
+                </div>
             </div>
             <div className="flex flex-col justify-between p-4 h-52">
-                <TextMono color="white">{question}</TextMono>
+                <TextMono color={correctColor(color)}>{question}</TextMono>
                 <div className="flex items-center space-x-3">
-                    <button className="block p-1 font-mono text-xs text-white border border-white rounded-lg">
+                    <CampaignCardTag color={color}>
                         Template name
-                    </button>
-                    <button className="block p-1 font-mono text-xs text-white border border-white rounded-lg">
+                    </CampaignCardTag>
+                    <CampaignCardTag color={color}>
                         Gnosis Chain
-                    </button>
+                    </CampaignCardTag>
                 </div>
             </div>
         </div>
         <div>
-            <CardRow title="Rewards" value={rewards} />
-            <CardRow title="Time left" value={timeLeft} />
-            <button className="w-full py-5 font-mono text-white border-t border-gray-600">
+            <CampaignCardRow title="Rewards" value={rewards} color={color} />
+            <CampaignCardRow title="Time left" value={timeLeft} color={color} />
+            <CampaignCardButton color={color}>
                 ↳ VIEW CAMPAIGN
-            </button>
+            </CampaignCardButton>
         </div>
     </div>
+);
+
+const campaignCardStyles = cva(
+    [
+        " min-w-[340px] w-[340px] rounded-2xl flex flex-col justify-between border",
+    ],
+    {
+        variants: {
+            color: {
+                black: ["bg-black"],
+                white: ["bg-white"],
+            },
+            border: {
+                black: ["border-white"],
+                white: ["border-gray-600"],
+                same: ["border-gray-600"],
+            },
+        },
+        defaultVariants: {
+            color: "black",
+            border: "black",
+        },
+    }
 );

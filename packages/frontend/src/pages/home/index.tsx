@@ -1,58 +1,58 @@
-import React, { useEffect, useState } from "react";
-import { useKpiTokens } from "@carrot-kpi/react";
-import { Link } from "react-router-dom";
-import { useAccount } from "wagmi";
-import { useTranslation } from "react-i18next";
-import { KpiToken } from "@carrot-kpi/sdk";
-import { Button, PlusSignPattern } from "@carrot-kpi/ui";
-import { PageWrapper } from "../../components/ui/page-wrapper";
-import { MainTitle } from "../../components/ui/main-title";
-import { FeaturedCampaings } from "../../components/featured-campaigns";
-import { DXdaoSideLink } from "./hero/DXdaoSideLink";
-import { CardHorizontal } from "./hero/CardsHorizontal";
+import React from "react";
 import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
+import { PageWrapper } from "../../components/ui/page-wrapper";
+// import { useKpiTokens } from "@carrot-kpi/react";
+// import { chain, useAccount, useConnect } from "wagmi";
+// import { InjectedConnector } from "wagmi/connectors/injected";
+// import { useTranslation } from "react-i18next";
+// import { KpiToken } from "@carrot-kpi/sdk";
+import { Hero } from "./hero";
+import { LatestCampaignsSection } from "./latest-campaigns-section";
+import { TemplatesSection } from "./templates-section";
 
 export const Home = () => {
-    const { t } = useTranslation();
-    const { isConnected } = useAccount();
-    const { loading, kpiTokens } = useKpiTokens();
+    // const { t } = useTranslation();
+    // const { isConnected } = useAccount();
+    // const { connect, connectors, isLoading, pendingConnector, error } =
+    //     useConnect({
+    //         connector: new InjectedConnector({
+    //             chains: [chain.sepolia, chain.goerli],
+    //         }),
+    //     });
+    // const { loading, kpiTokens } = useKpiTokens();
 
-    const [kpiTokensArray, setKpiTokensArray] = useState<KpiToken[]>([]);
+    // const [kpiTokensArray, setKpiTokensArray] = useState<KpiToken[]>([]);
 
-    useEffect(() => {
-        setKpiTokensArray(Object.values(kpiTokens));
-    }, [kpiTokens]);
+    // useEffect(() => {
+    //     setKpiTokensArray(Object.values(kpiTokens));
+    // }, [kpiTokens]);
 
     return (
         <>
-            <div className="relative bg-carrot-orange">
-                <GridPatternBg />
-                <PageWrapper>
-                    <div className="relative space-y-12 py-7 md:py-24">
-                        <MainTitle>Featured campaigns</MainTitle>
-                        <CardHorizontal>
-                            <FeaturedCampaings />
-                        </CardHorizontal>
-                        <div className="flex flex-col space-x-0 space-y-6 md:space-y-0 md:flex-row md:space-x-8">
-                            <Button variant="primary" size="big">
-                                All campaigns
-                            </Button>
-                            <Link to="/create">
-                                <Button variant="secondary" size="big">
-                                    Create campaign
-                                </Button>
-                            </Link>
-                        </div>
-                    </div>
+            <Hero />
+            <div className="relative py-32 dark:bg-black">
+                <GridPatternBg bg="white" fullSize />
+                <PageWrapper className="space-y-32">
+                    <LatestCampaignsSection />
+                    <TemplatesSection />
                 </PageWrapper>
-                <div className="absolute left-4 top-1/3">
-                    <DXdaoSideLink />
-                </div>
-                <PlusSignPattern y="top" x="left" />
-                <PlusSignPattern y="top" x="right" />
-                <PlusSignPattern y="bottom" x="left" />
-                <PlusSignPattern y="bottom" x="right" />
             </div>
+
+            {/* {!isConnected &&
+                connectors.map((connector) => (
+                    <button
+                        disabled={!connector.ready}
+                        key={connector.id}
+                        onClick={() => connect({ connector })}
+                    >
+                        {connector.name}
+                        {!connector.ready && " (unsupported)"}
+                        {isLoading &&
+                            connector.id === pendingConnector?.id &&
+                            " (connecting)"}
+                    </button>
+                ))}
+            {!!error && error.message}
             {isConnected && (
                 <Link to="/create">
                     <button>{t("home.createKpiToken")}</button>
@@ -73,7 +73,7 @@ export const Home = () => {
             )}
             {!loading && kpiTokensArray.length === 0 && (
                 <>{t("home.noKpiToken")}</>
-            )}
+            )} */}
         </>
     );
 };

@@ -1,18 +1,20 @@
 import React from "react";
-
 import { cva } from "class-variance-authority";
 
 const gridPatterBgStyles = cva(
     ["w-full h-full  bg-[top_center] bg-2 md:bg-4"],
     {
         variants: {
-            contrast: {
-                true: ["bg-square-pattern-contrast"],
-                false: ["bg-square-pattern"],
+            bg: {
+                black: ["bg-square-pattern-contrast"],
+                orange: ["bg-square-pattern"],
+                white: [
+                    "bg-square-pattern-white-bg dark:bg-square-pattern-contrast",
+                ],
             },
         },
         defaultVariants: {
-            contrast: false,
+            bg: "orange",
         },
     }
 );
@@ -30,19 +32,19 @@ const containerStyles = cva(["absolute"], {
 });
 
 interface GridPatterBgProps {
-    contrast?: boolean;
+    bg?: "white" | "black" | "orange";
     fullSize?: boolean;
     className?: string;
 }
 
 export const GridPatternBg = ({
-    contrast,
+    bg,
     fullSize,
     className,
 }: GridPatterBgProps) => {
     return (
         <div className={containerStyles({ fullSize })}>
-            <div className={gridPatterBgStyles({ contrast, className })}></div>
+            <div className={gridPatterBgStyles({ bg, className })}></div>
         </div>
     );
 };
