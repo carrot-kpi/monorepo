@@ -14,8 +14,8 @@
             "import": "./dist/styles.css"
         },
         "./tailwind-preset": {
-            "import": "./dist/tailwind.config.js",
-            "require": "./dist/tailwind.config.cjs"
+            "import": "./dist/tailwind.preset.js",
+            "require": "./dist/tailwind.preset.cjs"
         }
     },
     "files": [

@@ -9,7 +9,7 @@
         "create-local": "graph create --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "remove-local": "graph remove --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 carrot-kpi/carrot-kpi-local",
-        "test": "echo \"make matchstick work\""
+        "test": "echo 'Make Matchstick work...'"
     },
     "dependencies": {
         "@graphprotocol/graph-cli": "0.37.1",
