@@ -1,0 +1,11 @@
+# file mainly geared towards the dappnode package
+
+version: "3.9"
+services:
+  carrot-ipfs-pinner.public.dappnode.eth:
+    build: .
+    image: "carrot-ipfs-pinner.public.dappnode.eth:0.1.0"
+    restart: unless-stopped
+    environment:
+      - IPFS_API_ENDPOINT
+      - WS_RPC_ENDPOINT

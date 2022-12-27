@@ -1,0 +1,22 @@
+version: "2"
+fields:
+  - id: ws-rpc-endpoint
+    target:
+      type: environment
+      name: WS_RPC_ENDPOINT
+      service: pinner
+    title: Websocket RPC endpoint
+    description: >-
+      A websocket RPC endpoint that gives access to a chain supported by
+      Carrot. If the given endpoint is not of a chain supported by Carrot, the
+      service won't start.
+    required: true
+  - id: ipfs-endpoint
+    target:
+      type: environment
+      name: IPFS_API_ENDPOINT
+      service:
+    title: IPFS API endpoint
+    description: >-
+      The IPFS API endpoint. Needed to pin Carrot KPI files.
+    required: true

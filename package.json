@@ -3,7 +3,7 @@
     "name": "@carrot-kpi/v1-monorepo",
     "version": "1.0.0",
     "description": "A monorepo for Carrot v1 packages.",
-    "author": "Federico Luzzi",
+    "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
     "license": "GPL-3.0-or-later",
     "scripts": {
         "build": "turbo run build",
