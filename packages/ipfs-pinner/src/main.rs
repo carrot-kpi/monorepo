@@ -6,7 +6,7 @@ mod telemetry;
 mod utils;
 
 use contracts::{
-    factory::{CreateTokenFilter, Factory},
+    factory::{CreateTokenFilter},
     templates_manager::{
         AddTemplateFilter, UpdateTemplateSpecificationFilter, UpgradeTemplateFilter,
     },
@@ -20,14 +20,25 @@ use eyre::{eyre, WrapErr};
 use handler::handle_log;
 use std::{env, sync::Arc};
 
+#[cfg(feature = "dotenv")]
+use dotenv::dotenv;
+
 use crate::{
     commons::{SupportedChainId, FACTORY_INFO, KPI_TOKENS_MANAGER_INFO, ORACLES_MANAGER_INFO},
     telemetry::{get_subscriber, init_subscriber},
 };
 
+#[cfg(feature = "dotenv")]
+fn load_env() {
+    dotenv().ok();
+}
+
 // TODO: maybe directly add TheGraph's node as a peer
 #[tokio::main]
 async fn main() -> eyre::Result<()> {
+    #[cfg(feature = "dotenv")]
+    load_env();
+
     let ws_rpc_endpoint = env::var("WS_RPC_ENDPOINT").wrap_err("no websocket rpc endpoint")?;
     let ipfs_api_endpoint = env::var("IPFS_API_ENDPOINT").wrap_err("no ipfs api endpoint")?;
 
