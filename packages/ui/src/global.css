@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .cui-scrollbar::-webkit-scrollbar {
+        @apply cui-w-3.5;
+    }
+
+    .cui-scrollbar::-webkit-scrollbar-thumb {
+        @apply cui-bg-slate-200;
+        @apply cui-rounded-full cui-border-[3px] cui-border-solid cui-border-transparent;
+        @apply cui-bg-clip-padding;
+    }
+}
