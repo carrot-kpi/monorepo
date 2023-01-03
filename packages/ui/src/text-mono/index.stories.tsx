@@ -3,14 +3,14 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { TextMono } from ".";
 
-const sizes: ["2xl", "xl", "lg", "md", "sm", "xs", "2xs"] = [
+const sizes: ["2xl", "xl", "lg", "md", "sm", "xs", "xxs"] = [
     "2xl",
     "xl",
     "lg",
     "md",
     "sm",
     "xs",
-    "2xs",
+    "xxs",
 ];
 
 export default {

@@ -14,7 +14,7 @@ const textStyles = cva(["font-mono dark:text-white"], {
             black: "cui-text-black",
         },
         size: {
-            "2xs": ["cui-text-2xs"],
+            xxs: ["cui-text-xxs"],
             xs: ["cui-text-xs"],
             sm: ["cui-text-sm"],
             md: ["cui-text-md"],
@@ -29,7 +29,7 @@ const textStyles = cva(["font-mono dark:text-white"], {
 });
 
 export interface TextMonoProps {
-    size?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     color?: "white" | "black";
     weight?: "medium";
     caps?: boolean;
