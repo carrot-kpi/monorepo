@@ -37,8 +37,9 @@ export const FeaturedCampaings = () => (
                 key={campaign.id}
                 title={campaign.title}
                 question={campaign.question}
-                rewards={campaign.rewards}
-                timeLeft={campaign.timeLeft}
+                expiration={parseInt(campaign.timeLeft)}
+                templateName="Template name"
+                tags={["Tag"]}
                 isHolding={campaign.holder}
                 sameBorder
             />
