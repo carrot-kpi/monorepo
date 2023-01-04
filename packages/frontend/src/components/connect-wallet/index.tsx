@@ -8,6 +8,7 @@ import { SUPPORTED_CHAINS } from "../../constants";
 import { ChainId } from "@carrot-kpi/sdk";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useClient } from "wagmi";
+import { ReactComponent as Error } from "../../assets/error.svg";
 
 interface ChainData {
     id: ChainId;
@@ -47,6 +48,9 @@ export const ConnectWallet = () => {
                 const chainName = chain?.name || chainDataFromProvider?.name;
                 const supportedChain =
                     !!chainId && !!SUPPORTED_CHAINS[chainId as ChainId];
+                const Logo = supportedChain
+                    ? SUPPORTED_CHAINS[chainId as ChainId].logo
+                    : Error;
                 return (
                     <div className="flex items-center">
                         <div
@@ -62,12 +66,8 @@ export const ConnectWallet = () => {
                                         : "#ff0000",
                                 }}
                             >
-                                {/* TODO: add icon in unsupported network case */}
-                                <div className="w-4 h-4">
-                                    {supportedChain &&
-                                        SUPPORTED_CHAINS[
-                                            chainId as ChainId
-                                        ].logo({})}
+                                <div className="flex items-center justify-center">
+                                    <Logo width={18} height={18} />
                                 </div>
                             </div>
                             <div className="flex flex-col mr-4">
