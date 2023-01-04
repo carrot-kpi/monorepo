@@ -8,6 +8,7 @@ import { SUPPORTED_CHAINS } from "../../constants";
 import { ChainId } from "@carrot-kpi/sdk";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useClient } from "wagmi";
+import { ReactComponent as Error } from "../../assets/error.svg";
 
 interface ChainData {
     id: ChainId;
@@ -45,35 +46,36 @@ export const ConnectWallet = () => {
             }) => {
                 const chainId = chain?.id || chainDataFromProvider?.id;
                 const chainName = chain?.name || chainDataFromProvider?.name;
-                const Logo = !!chainId
+                const supportedChain =
+                    !!chainId && !!SUPPORTED_CHAINS[chainId as ChainId];
+                const Logo = supportedChain
                     ? SUPPORTED_CHAINS[chainId as ChainId].logo
-                    : undefined;
+                    : Error;
                 return (
                     <div className="flex items-center">
                         <div
                             className="flex items-center mr-8 cursor-pointer"
                             onClick={openChainModal}
                         >
-                            {!!Logo ? (
-                                <div
-                                    className="flex items-center justify-center w-8 h-8 mr-2 rounded-lg"
-                                    style={{
-                                        backgroundColor:
-                                            SUPPORTED_CHAINS[chainId as ChainId]
-                                                .iconBackgroundColor,
-                                    }}
-                                >
-                                    <Logo className="w-4 h-4" />
+                            <div
+                                className="flex items-center justify-center w-8 h-8 mr-2 rounded-lg"
+                                style={{
+                                    backgroundColor: supportedChain
+                                        ? SUPPORTED_CHAINS[chainId as ChainId]
+                                              .iconBackgroundColor
+                                        : "#ff0000",
+                                }}
+                            >
+                                <div className="flex items-center justify-center">
+                                    <Logo width={18} height={18} />
                                 </div>
-                            ) : (
-                                <div className="w-8 h-8 mr-2 bg-black rounded-lg" />
-                            )}
+                            </div>
                             <div className="flex flex-col mr-4">
                                 <span className="font-mono text-black text-xxs">
                                     {t("connect.wallet.network")}
                                 </span>
                                 <span className="font-mono text-sm text-black capitalize">
-                                    {chainName}
+                                    {supportedChain ? chainName : "Unsupported"}
                                 </span>
                             </div>
                             <CaretDown className="w-3" />
