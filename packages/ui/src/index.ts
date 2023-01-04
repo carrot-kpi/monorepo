@@ -7,3 +7,4 @@ export * from "./text-mono";
 export * from "./title";
 export * from "./logo";
 export * from "./plus-sign-pattern";
+export * from "./markdown-input";

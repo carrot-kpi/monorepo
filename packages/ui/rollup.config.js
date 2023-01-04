@@ -7,6 +7,8 @@ import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
+import svgr from "@svgr/rollup";
+import url from "@rollup/plugin-url";
 
 export default [
     {
@@ -20,6 +22,8 @@ export default [
                 minimize: true,
                 extract: resolve("dist/styles.css"),
             }),
+            url(),
+            svgr(),
             typescript(),
             terser(),
         ],

@@ -1,6 +1,6 @@
 {
     "extends": "tsconfig/ui.json",
-    "include": ["./src/**/*"],
+    "include": ["./src/**/*", "./custom.d.ts"],
     "compilerOptions": {
         "outDir": "./dist"
     }
