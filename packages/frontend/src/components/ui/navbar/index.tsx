@@ -47,7 +47,9 @@ const navLinksStyles = cva(["flex"], {
     variants: {
         isOpen: {
             true: ["flex-col items-start space-y-8 relative"],
-            false: ["items-center space-x-8"],
+            false: [
+                "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2",
+            ],
         },
     },
 });
