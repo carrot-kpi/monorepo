@@ -8,6 +8,8 @@ export const en = {
         "home.loading": "Loading",
         "home.viewCampaign": "View",
         "home.noKpiToken": "No KPI token",
+        "home.templates": "Templates",
+        "create.campaign": "Create campaign",
         "create.loading": "Loading",
         "create.template.title": "Title",
         "create.template.version": "Version",
@@ -16,5 +18,6 @@ export const en = {
         "create.template.use": "Use",
         "create.noKpiToken": "No KPI token",
         "campaign.loading": "Loading",
+        loading: "Loading",
     },
 } as const;
