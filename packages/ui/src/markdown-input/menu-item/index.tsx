@@ -1,14 +1,14 @@
-import React, { ReactElement } from "react";
+import React, { FunctionComponent, ReactElement } from "react";
 
 interface MenuItemProps {
-    icon: string;
+    icon: FunctionComponent<React.SVGProps<SVGSVGElement>>;
     title: string;
     action: () => void;
     isActive: () => boolean;
 }
 
 export const MenuItem = ({
-    icon,
+    icon: Icon,
     title,
     action,
     isActive,
@@ -23,7 +23,7 @@ export const MenuItem = ({
             onClick={action}
             title={title}
         >
-            <img src={icon} />
+            <Icon />
         </button>
     );
 };
