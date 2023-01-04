@@ -40,7 +40,7 @@ module.exports = {
         },
         extend: {
             fontSize: {
-                "2xs": "10px",
+                xxs: "10px",
             },
             backgroundImage: {
                 "square-pattern-white-bg":

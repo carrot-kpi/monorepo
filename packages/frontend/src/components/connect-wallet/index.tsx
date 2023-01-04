@@ -66,13 +66,13 @@ export const ConnectWallet = () => {
                                     <Logo className="w-4 h-4" />
                                 </div>
                             ) : (
-                                <div className="w-8 h-8 mr-2 rounded-lg bg-black" />
+                                <div className="w-8 h-8 mr-2 bg-black rounded-lg" />
                             )}
                             <div className="flex flex-col mr-4">
-                                <span className="text-black font-mono text-2xs">
+                                <span className="font-mono text-black text-xxs">
                                     {t("connect.wallet.network")}
                                 </span>
-                                <span className="text-black font-mono text-sm capitalize">
+                                <span className="font-mono text-sm text-black capitalize">
                                     {chainName}
                                 </span>
                             </div>

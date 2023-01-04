@@ -40,12 +40,11 @@ export const CampaignCard = ({
                     <TextMono color={correctColor(color)} weight="medium" caps>
                         {title}
                     </TextMono>
-
                     {isHolding && (
                         <div className="flex items-center justify-center px-2 py-1 border rounded bg-carrot-green">
                             <TextMono
                                 weight="medium"
-                                size="2xs"
+                                size="xxs"
                                 caps
                                 color="black"
                             >
