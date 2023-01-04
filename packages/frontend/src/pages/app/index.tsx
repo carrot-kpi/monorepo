@@ -8,6 +8,7 @@ import { Footer } from "../../components/ui/footer";
 import { IpfsService } from "@carrot-kpi/sdk";
 import { navbarLinks } from "./navbar-links";
 import { footerLinks } from "./footer-links";
+import { CarrotMarquee } from "../../components/ui/carrot-marquee";
 
 if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     navigator.serviceWorker
@@ -29,6 +30,7 @@ export function App() {
                 <Route path="/campaigns/:address" element={<Campaign />} />
                 <Route path="/create" element={<Create />} />
             </Routes>
+            <CarrotMarquee />
             <Footer footerLinks={footerLinks} />
         </>
     );

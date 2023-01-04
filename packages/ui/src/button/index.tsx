@@ -9,7 +9,7 @@ const buttonStyles = cva(
         variants: {
             variant: {
                 primary:
-                    "cui-bg-black cui-text-white hover:cui-bg-carrot-orange hover:cui-text-black",
+                    "cui-bg-black cui-text-white hover:cui-bg-orange hover:cui-text-black",
                 secondary:
                     "cui-bg-transparent hover:cui-bg-black hover:cui-text-white cui-text-black",
             },

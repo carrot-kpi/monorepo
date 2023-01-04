@@ -10,8 +10,8 @@ import { ConnectWallet } from "../../connect-wallet";
 const navWrapperStyles = cva([""], {
     variants: {
         bgColor: {
-            green: ["bg-carrot-green"],
-            orange: ["bg-carrot-orange"],
+            green: ["bg-green"],
+            orange: ["bg-orange"],
         },
         isOpen: {
             true: ["fixed top-0 left-0 z-10 h-screen w-full"],
@@ -24,8 +24,8 @@ const navbarStyles = cva(
     {
         variants: {
             bgColor: {
-                green: ["bg-carrot-green"],
-                orange: ["bg-carrot-orange"],
+                green: ["bg-green"],
+                orange: ["bg-orange"],
             },
             isOpen: {
                 true: ["z-10"],
