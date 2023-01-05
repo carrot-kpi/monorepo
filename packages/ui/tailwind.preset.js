@@ -14,8 +14,8 @@ module.exports = {
         },
         colors: {
             // primary
-            "carrot-orange": "#EF692B",
-            "carrot-green": "#6CFF95",
+            orange: "#EF692B",
+            green: "#6CFF95",
             // secondary
             "orange-dark": "#D6602A",
             "green-dark": "#359650",

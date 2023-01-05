@@ -44,7 +44,7 @@ export const CampaignCard = ({
                         {title}
                     </TextMono>
                     {isHolding && (
-                        <div className="flex items-center justify-center px-2 py-1 border rounded bg-carrot-green">
+                        <div className="flex items-center justify-center px-2 py-1 border rounded bg-green">
                             <TextMono
                                 weight="medium"
                                 size="xxs"

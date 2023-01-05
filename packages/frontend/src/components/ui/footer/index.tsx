@@ -24,7 +24,7 @@ export const Footer = ({ footerLinks }: FooterProps) => (
             <div className="flex items-end">
                 <a
                     href="https://carrot-web-zeta.vercel.app/"
-                    className="px-6 py-5 font-mono text-black border border-black bg-carrot-orange rounded-2xl"
+                    className="px-6 py-5 font-mono text-black border border-black bg-orange rounded-2xl"
                 >
                     Carrot info page
                 </a>

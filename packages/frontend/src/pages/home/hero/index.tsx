@@ -8,7 +8,7 @@ import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
 
 export const Hero = () => (
-    <div className="relative bg-carrot-orange">
+    <div className="relative bg-orange">
         <GridPatternBg />
         <PageWrapper>
             <div className="relative space-y-12 py-7 md:py-24">
