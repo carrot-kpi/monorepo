@@ -16,5 +16,6 @@ export const en = {
         "create.template.use": "Use",
         "create.noKpiToken": "No KPI token",
         "campaign.loading": "Loading",
+        loading: "Loading",
     },
 } as const;
