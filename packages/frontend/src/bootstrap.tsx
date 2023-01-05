@@ -23,8 +23,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 import "./global.css";
 
-import "./global.css";
-
 const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
 
 const supportedChainsArray = Object.values(SUPPORTED_CHAINS);
