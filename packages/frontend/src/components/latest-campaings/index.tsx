@@ -2,7 +2,6 @@ import { TextMono } from "@carrot-kpi/ui";
 import React from "react";
 import { CardHorizontal } from "../ui/cards-horizontal";
 import { CampaignCard } from "../ui/campaign-card";
-import { isDarkMode } from "../../utils/colors";
 
 // this will be fetched in the future
 const latestCampaignsMockData = [
@@ -61,9 +60,9 @@ export const LatestCampaigns = ({ category }: { category: string }) => (
                     key={campaign.id}
                     title={campaign.title}
                     question={campaign.question}
-                    rewards={campaign.rewards}
-                    timeLeft={campaign.timeLeft}
-                    color={isDarkMode() ? "black" : "white"}
+                    expiration={parseInt(campaign.timeLeft)}
+                    templateName="Template name"
+                    tags={["Tag"]}
                     isHolding={campaign.holder}
                 />
             ))}

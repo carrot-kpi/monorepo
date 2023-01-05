@@ -5,13 +5,13 @@ import { VerifiedIcon } from "../icons/verified-icon";
 import { RowsWrapper } from "./template-row-wrapper";
 import { TemplateCardCorners } from "./template-card-corners";
 import { correctColor } from "../../../utils/colors";
+import { shortenAddress } from "../../../utils/address";
 
 interface TemplateCardProps {
-    type: string;
+    name: string;
     description: string;
-    oracle: string;
-    version: string;
-    creator: string;
+    version: number;
+    // creator: string;
     address: string;
     used: number;
     verified?: boolean;
@@ -19,12 +19,11 @@ interface TemplateCardProps {
 }
 
 export const TemplateCard = ({
-    type,
+    name,
     description,
-    oracle,
     version,
     color,
-    creator,
+    // creator,
     address,
     used,
     verified,
@@ -34,7 +33,7 @@ export const TemplateCard = ({
     return (
         <div className={templateCardStyles({ color })}>
             <TemplateCardCorners color={correctColor(color)} />
-            <div className="h-full">
+            <div>
                 <div
                     className={`flex items-center w-full border-b ${correctBorderColor}`}
                 >
@@ -49,13 +48,15 @@ export const TemplateCard = ({
                             weight="medium"
                             caps
                         >
-                            {type}
+                            {name}
                         </TextMono>
                     </div>
                 </div>
             </div>
-            <div className="p-4">
-                <TextMono color={correctColor(color)}>{description}</TextMono>
+            <div className="font-mono p-4 text-white">
+                <div className="line-clamp-3 h-[72px] overflow-ellipsis">
+                    {description}
+                </div>
             </div>
             <div className="flex">
                 {verified && (
@@ -76,19 +77,16 @@ export const TemplateCard = ({
                 )}
                 <div className="flex-1">
                     <RowsWrapper color={correctColor(color)}>
-                        <Row title="oracle" color={correctColor(color)}>
-                            {oracle}
-                        </Row>
                         <Row title="version" color={correctColor(color)}>
-                            {version}
+                            {version.toString()}
                         </Row>
                     </RowsWrapper>
                     <RowsWrapper color={correctColor(color)}>
-                        <Row title="creator" color={correctColor(color)}>
+                        {/* <Row title="creator" color={correctColor(color)}>
                             {creator}
-                        </Row>
+                        </Row> */}
                         <Row title="address" color={correctColor(color)}>
-                            {address}
+                            {shortenAddress(address)}
                         </Row>
                         <Row title="used" color={correctColor(color)}>
                             {used.toString()}

@@ -9,9 +9,9 @@ import { correctColor } from "../../../utils/colors";
 interface CampaignCardProps {
     title: string;
     question: string;
-    rewards: string;
-    timeLeft: string;
-    color?: "white" | "black";
+    expiration: number;
+    templateName: string;
+    tags: string[];
     sameBorder?: boolean;
     isHolding?: boolean;
 }
@@ -19,16 +19,15 @@ interface CampaignCardProps {
 export const CampaignCard = ({
     title,
     question,
-    rewards,
-    timeLeft,
-    color,
+    expiration,
+    templateName,
+    tags,
     isHolding,
     sameBorder,
 }: CampaignCardProps) => (
     <div
         className={campaignCardStyles({
-            color,
-            border: sameBorder ? "same" : color,
+            border: sameBorder ? "same" : "black",
         })}
     >
         <div className="h-full">
@@ -37,7 +36,11 @@ export const CampaignCard = ({
                     <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                 </div>
                 <div className="flex items-center justify-between w-full px-4">
-                    <TextMono color={correctColor(color)} weight="medium" caps>
+                    <TextMono
+                        color={correctColor("black")}
+                        weight="medium"
+                        caps
+                    >
                         {title}
                     </TextMono>
                     {isHolding && (
@@ -55,21 +58,28 @@ export const CampaignCard = ({
                 </div>
             </div>
             <div className="flex flex-col justify-between p-4 h-52">
-                <TextMono color={correctColor(color)}>{question}</TextMono>
+                <TextMono color={correctColor("black")}>{question}</TextMono>
                 <div className="flex items-center space-x-3">
-                    <CampaignCardTag color={color}>
-                        Template name
+                    <CampaignCardTag color={"black"}>
+                        {templateName}
                     </CampaignCardTag>
-                    <CampaignCardTag color={color}>
-                        Gnosis Chain
-                    </CampaignCardTag>
+                    {tags.map((tag) => (
+                        <CampaignCardTag key={tag} color={"black"}>
+                            {tag}
+                        </CampaignCardTag>
+                    ))}
                 </div>
             </div>
         </div>
         <div>
-            <CampaignCardRow title="Rewards" value={rewards} color={color} />
-            <CampaignCardRow title="Time left" value={timeLeft} color={color} />
-            <CampaignCardButton color={color}>
+            {/* TODO: rewards are template-specific */}
+            {/* <CampaignCardRow title="Rewards" value={rewards} color={"black"} /> */}
+            <CampaignCardRow
+                title="Time left"
+                value={expiration.toString()}
+                color={"black"}
+            />
+            <CampaignCardButton color={"black"}>
                 ↳ VIEW CAMPAIGN
             </CampaignCardButton>
         </div>

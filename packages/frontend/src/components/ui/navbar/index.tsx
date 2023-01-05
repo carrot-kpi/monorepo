@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Logo } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import { ReactComponent as CloseMenuIcon } from "../../../assets/x.svg";
-import { ReactComponent as HamburgerMenuIcon } from "../../../assets/menu.svg";
+import { ReactComponent as CloseIcon } from "../../../assets/x.svg";
+import { ReactComponent as MenuIcon } from "../../../assets/menu.svg";
 import { GridPatternBg } from "../grid-pattern-bg";
 import { ConnectWallet } from "../../connect-wallet";
 
@@ -47,7 +47,9 @@ const navLinksStyles = cva(["flex"], {
     variants: {
         isOpen: {
             true: ["flex-col items-start space-y-8 relative"],
-            false: ["items-center space-x-8"],
+            false: [
+                "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2",
+            ],
         },
     },
 });
@@ -112,7 +114,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                     <ConnectWallet />
                 </div>
                 <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
-                    {isOpen ? <CloseMenuIcon /> : <HamburgerMenuIcon />}
+                    {isOpen ? <CloseIcon /> : <MenuIcon />}
                 </div>
             </div>
         </div>
