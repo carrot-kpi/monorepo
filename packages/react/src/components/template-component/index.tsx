@@ -44,5 +44,5 @@ export function TemplateComponent({
     }, [Component, bundle, loading, template, type, i18n]);
 
     if (loading || !Component) return <>{fallback}</>;
-    return <Component {...props} t={translateWithNamespace} />;
+    return <Component {...props} i18n={i18n} t={translateWithNamespace} />;
 }
