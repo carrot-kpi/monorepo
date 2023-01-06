@@ -48,7 +48,7 @@ export const MarkdownInput = ({
                     {label}
                 </TextMono>
             </label>
-            <div className="cui-rounded-2xl cui-border cui-border-black">
+            <div className="cui-rounded-xxl cui-border cui-border-black">
                 {editor && <MenuBar editor={editor} />}
                 <EditorContent
                     className="cui-scrollbar cui-prose cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-outline-none"

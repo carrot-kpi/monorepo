@@ -1,13 +1,14 @@
 import React, { ReactNode } from "react";
 import { cva } from "class-variance-authority";
 
-const textStyles = cva(["font-mono dark:text-white"], {
+const textStyles = cva(["cui-font-mono cui-text-black dark:cui-text-white"], {
     variants: {
         caps: {
             true: ["cui-uppercase"],
         },
-        weight: {
-            medium: ["cui-font-medium"],
+        mediumWeight: {
+            true: ["cui-font-medium"],
+            false: [],
         },
         color: {
             white: "cui-text-white",
@@ -20,7 +21,7 @@ const textStyles = cva(["font-mono dark:text-white"], {
             md: ["cui-text-md"],
             lg: ["cui-text-lg"],
             xl: ["cui-text-xl"],
-            "2xl": ["cui-text-2xl"],
+            xxl: ["cui-text-xxl"],
         },
     },
     defaultVariants: {
@@ -29,9 +30,9 @@ const textStyles = cva(["font-mono dark:text-white"], {
 });
 
 export interface TextMonoProps {
-    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
     color?: "white" | "black";
-    weight?: "medium";
+    mediumWeight?: boolean;
     caps?: boolean;
     className?: string;
     children: ReactNode;
@@ -42,11 +43,19 @@ export const TextMono = ({
     size,
     color,
     caps,
-    weight,
+    mediumWeight,
     className,
 }: TextMonoProps) => {
     return (
-        <p className={textStyles({ color, size, caps, weight, className })}>
+        <p
+            className={textStyles({
+                color,
+                size,
+                caps,
+                mediumWeight,
+                className,
+            })}
+        >
             {children}
         </p>
     );

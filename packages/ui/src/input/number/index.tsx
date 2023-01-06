@@ -21,11 +21,11 @@ const inputStyles = cva(
                 md: ["cui-text-md"],
                 lg: ["cui-text-lg"],
                 xl: ["cui-text-xl"],
-                "2xl": ["cui-text-2xl"],
+                xxl: ["cui-text-xxl"],
             },
             border: {
                 true: [
-                    "cui-rounded-2xl cui-border cui-border-black dark:cui-border-white",
+                    "cui-rounded-xxl cui-border cui-border-black dark:cui-border-white",
                 ],
                 false: ["cui-border-none"],
             },
@@ -40,7 +40,7 @@ const inputStyles = cva(
 export interface NumberInputProps {
     id: string;
     value: number | string;
-    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
     label?: string;
     placeholder?: string;
     className?: string;

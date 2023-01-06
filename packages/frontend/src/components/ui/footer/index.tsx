@@ -15,7 +15,7 @@ export const Footer = ({ footerLinks }: FooterProps) => (
                 <Logo color="#EF692B" className="relative w-auto h-auto" />
             </div>
         </div>
-        <div className="flex flex-col justify-between px-6 pt-8 space-y-24 md:pt-24 lg:pt-32 md:px-24 xl:px-32 xl:space-y-0 xl:flex-row 2xl:px-52">
+        <div className="flex flex-col justify-between px-6 pt-8 space-y-24 md:pt-24 lg:pt-32 md:px-24 xl:px-32 xl:space-y-0 xl:flex-row xxl:px-52">
             <div className="grid grid-cols-2 gap-8 xs:gap-10 md:gap-0 md:flex xl:space-x-6">
                 {footerLinks.map(({ title, links }) => (
                     <FooterColumn key={title} title={title} links={links} />
@@ -24,7 +24,7 @@ export const Footer = ({ footerLinks }: FooterProps) => (
             <div className="flex items-end">
                 <a
                     href="https://carrot-web-zeta.vercel.app/"
-                    className="px-6 py-5 font-mono text-black border border-black bg-orange rounded-2xl"
+                    className="px-6 py-5 font-mono text-black border border-black bg-orange rounded-xxl"
                 >
                     Carrot info page
                 </a>

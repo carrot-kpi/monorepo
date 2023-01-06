@@ -11,10 +11,10 @@ const sizes: [
     "5xl",
     "4xl",
     "4xl",
-    "2xl",
+    "xxl",
     "xl",
     "sm"
-] = ["9xl", "8xl", "7xl", "6xl", "5xl", "4xl", "4xl", "2xl", "xl", "sm"];
+] = ["9xl", "8xl", "7xl", "6xl", "5xl", "4xl", "4xl", "xxl", "xl", "sm"];
 
 export default {
     title: "Title",
