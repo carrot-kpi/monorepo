@@ -15,7 +15,7 @@ const inputStyles = cva(
     {
         variants: {
             size: {
-                "2xs": ["cui-text-2xs"],
+                xxs: ["cui-text-xxs"],
                 xs: ["cui-text-xs"],
                 sm: ["cui-text-sm"],
                 md: ["cui-text-md"],
@@ -40,7 +40,7 @@ const inputStyles = cva(
 export interface NumberInputProps {
     id: string;
     value: number | string;
-    size?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     label?: string;
     placeholder?: string;
     className?: string;
