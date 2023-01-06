@@ -4,7 +4,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import React, { ReactElement } from "react";
 
 import { MenuBar } from "./menu-bar";
-import { TextMono } from "../text-mono";
+import { TextMono } from "../../text-mono";
 
 export interface MarkdownInputProps {
     id: string;

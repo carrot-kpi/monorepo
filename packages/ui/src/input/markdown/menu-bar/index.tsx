@@ -1,14 +1,14 @@
 import React, { Fragment, ReactElement } from "react";
 
 import { MenuItem } from "../menu-item";
-import { ReactComponent as H1Icon } from "../../assets/h1-icon.svg";
-import { ReactComponent as H2Icon } from "../../assets/h2-icon.svg";
-import { ReactComponent as BoldIcon } from "../../assets/bold-icon.svg";
-import { ReactComponent as CodeIcon } from "../../assets/code-icon.svg";
-import { ReactComponent as DoubleQuotesIcon } from "../../assets/double-quotes-icon.svg";
-import { ReactComponent as ItalicIcon } from "../../assets/italic-icon.svg";
-import { ReactComponent as ListOrderedIcon } from "../../assets/list-ordered-icon.svg";
-import { ReactComponent as ListUnorderedIcon } from "../../assets/list-unordered-icon.svg";
+import { ReactComponent as H1Icon } from "../../../assets/h1-icon.svg";
+import { ReactComponent as H2Icon } from "../../../assets/h2-icon.svg";
+import { ReactComponent as BoldIcon } from "../../../assets/bold-icon.svg";
+import { ReactComponent as CodeIcon } from "../../../assets/code-icon.svg";
+import { ReactComponent as DoubleQuotesIcon } from "../../../assets/double-quotes-icon.svg";
+import { ReactComponent as ItalicIcon } from "../../../assets/italic-icon.svg";
+import { ReactComponent as ListOrderedIcon } from "../../../assets/list-ordered-icon.svg";
+import { ReactComponent as ListUnorderedIcon } from "../../../assets/list-unordered-icon.svg";
 import { Editor } from "@tiptap/react";
 
 interface MenuBarProps {
