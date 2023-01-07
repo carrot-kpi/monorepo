@@ -10,7 +10,7 @@ import { cva } from "class-variance-authority";
 
 const inputStyles = cva(
     [
-        "cui-p-3 cui-font-mono cui-font-normal cui-outline-none cui-bg-white dark:cui-bg-black cui-text-black dark:cui-text-white",
+        "cui-p-3 cui-font-mono cui-font-normal cui-outline-none cui-bg-transparent cui-text-black dark:cui-text-white",
     ],
     {
         variants: {
