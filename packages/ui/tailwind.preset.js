@@ -43,6 +43,10 @@ module.exports = {
                 xxs: "10px",
                 xxl: "15px",
             },
+            borderRadius: {
+                xxs: "10px",
+                xxl: "15px",
+            },
             backgroundImage: {
                 "square-pattern-white-bg":
                     "url('/src/assets/line-pattern-white-bg.svg')",
