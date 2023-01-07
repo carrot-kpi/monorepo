@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement } from "react";
+import React, { ReactElement } from "react";
 
 import { MenuItem } from "../menu-item";
 import { ReactComponent as H1Icon } from "../../../assets/h1-icon.svg";
@@ -70,11 +70,9 @@ export const MenuBar = ({ editor }: MenuBarProps): ReactElement => {
     ];
 
     return (
-        <div className="cui-flex cui-content-center cui-gap-2.5 cui-border-b cui-border-black cui-p-2">
+        <div className="cui-flex cui-content-center cui-gap-2.5 cui-border-b cui-border-black dark:cui-border-white cui-p-2">
             {items.map((item, index) => (
-                <Fragment key={index}>
-                    <MenuItem {...item} />
-                </Fragment>
+                <MenuItem key={index} {...item} />
             ))}
         </div>
     );
