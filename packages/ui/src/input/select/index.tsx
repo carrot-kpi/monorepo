@@ -56,7 +56,7 @@ export type SelectProps = {
     options: SelectOption[];
     value: SelectOption | null;
     onChange: (value: SelectOption) => void;
-} & Omit<BaseInputProps, "onChange" | "value">;
+} & Omit<BaseInputProps, "onChange">;
 
 export const Select = ({
     id,
