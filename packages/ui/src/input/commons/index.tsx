@@ -38,8 +38,6 @@ export const inputStyles = cva(
     }
 );
 
-const labelStyles = cva(["cui-block cui-w-fit cui-mb-2"]);
-
 export interface LabelWrapperProps {
     id: string;
     label: string;
@@ -55,7 +53,10 @@ export const LabelWrapper = ({
 }: LabelWrapperProps): ReactElement => (
     <>
         {!!label && (
-            <label className={labelStyles({ className })} htmlFor={id}>
+            <label
+                className={`cui-block cui-w-fit cui-mb-2 ${className}`}
+                htmlFor={id}
+            >
                 <TextMono size="sm" className="cui-font-medium">
                     {label}
                 </TextMono>

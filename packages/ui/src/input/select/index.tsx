@@ -17,7 +17,6 @@ const arrowStyles = cva(
     {
         variants: {
             open: {
-                true: [],
                 false: ["cui-rotate-180"],
             },
         },
@@ -35,7 +34,6 @@ const optionStyles = cva(
         variants: {
             picked: {
                 true: ["cui-bg-gray-300 dark:cui-bg-gray-500"],
-                false: [],
             },
         },
         defaultVariants: {
