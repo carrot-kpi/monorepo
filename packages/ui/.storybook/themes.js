@@ -7,7 +7,6 @@ const createCustomThemeVariant = (base) => {
         brandUrl: "https://carrot.eth.limocom",
         brandImage: "/brand-image.svg",
         brandTarget: "_self",
-        fontBase: "IBM Plex Mono",
         colorPrimary: "#EF692B",
         colorSecondary: "#D6602A",
     });
