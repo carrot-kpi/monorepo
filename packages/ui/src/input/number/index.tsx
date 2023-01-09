@@ -1,21 +1,10 @@
 import React from "react";
 import { ReactElement } from "react";
-import {
-    NumericFormat,
-    NumericFormatProps,
-    OnValueChange,
-} from "react-number-format";
-import { BaseInput, BaseInputProps } from "../base";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
+import { BaseInputProps, inputStyles, LabelWrapper } from "../commons";
 
-type BaseProps = Omit<
-    BaseInputProps<OnValueChange, number | string | null>,
-    "onChange"
-> &
-    Omit<NumericFormatProps, "onValueChange" | "size" | "onChange">;
-
-export interface NumberInputProps extends BaseProps {
-    onChange: OnValueChange;
-}
+export type NumberInputProps = Omit<NumericFormatProps, "size"> &
+    BaseInputProps;
 
 export const NumberInput = ({
     id,
@@ -24,29 +13,21 @@ export const NumberInput = ({
     label,
     placeholder,
     border,
-    onChange,
-    ...numericFormatProps
+    className,
+    ...rest
 }: NumberInputProps): ReactElement => {
     return (
-        <BaseInput
-            id={id}
-            size={size}
-            value={value}
-            label={label}
-            placeholder={placeholder}
-            border={border}
-            onChange={undefined}
-            input={(baseProps) => (
-                <NumericFormat
-                    {...baseProps}
-                    type="text"
-                    defaultValue=""
-                    thousandSeparator=","
-                    decimalSeparator="."
-                    {...numericFormatProps}
-                    onValueChange={onChange}
-                />
-            )}
-        />
+        <LabelWrapper id={id} label={label}>
+            <NumericFormat
+                type="text"
+                defaultValue=""
+                thousandSeparator=","
+                decimalSeparator="."
+                value={value}
+                placeholder={placeholder}
+                {...rest}
+                className={inputStyles({ size, border, className })}
+            />
+        </LabelWrapper>
     );
 };

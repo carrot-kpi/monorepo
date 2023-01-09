@@ -1,31 +1,26 @@
-import React, { ChangeEventHandler } from "react";
+import React from "react";
 import { ReactElement } from "react";
-import { BaseInput, BaseInputProps } from "../base";
+import { BaseInputProps } from "../commons";
+import { inputStyles, LabelWrapper } from "../commons";
 
-export type TextInputProps = BaseInputProps<
-    string,
-    ChangeEventHandler<HTMLInputElement>
->;
+export type TextInputProps = BaseInputProps;
 
 export const TextInput = ({
     id,
-    size,
-    value,
     label,
-    placeholder,
+    size,
     border,
-    onChange,
+    className,
+    ...rest
 }: TextInputProps): ReactElement => {
     return (
-        <BaseInput
-            id={id}
-            size={size}
-            value={value}
-            label={label}
-            placeholder={placeholder}
-            border={border}
-            onChange={onChange}
-            input={(baseProps) => <input {...baseProps} />}
-        />
+        <LabelWrapper id={id} label={label}>
+            <input
+                id={id}
+                type="text"
+                {...rest}
+                className={inputStyles({ size, border, className })}
+            />
+        </LabelWrapper>
     );
 };

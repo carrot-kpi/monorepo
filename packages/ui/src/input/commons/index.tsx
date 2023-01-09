@@ -1,9 +1,15 @@
-import React, { InputHTMLAttributes } from "react";
+import React from "react";
 import { TextMono } from "../../text-mono";
-import { FunctionComponent, ReactElement } from "react";
+import { ReactElement } from "react";
 import { cva } from "class-variance-authority";
 
-const inputStyles = cva(
+export interface BaseInputProps extends LabelWrapperProps {
+    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+    placeholder?: string;
+    border?: boolean;
+}
+
+export const inputStyles = cva(
     [
         "cui-rounded-xxl cui-p-3 cui-font-mono cui-font-normal cui-outline-none cui-placeholder-opacity-20 dark:cui-placeholder-opacity-30 cui-text-black dark:cui-text-white cui-box-border",
     ],
@@ -32,50 +38,30 @@ const inputStyles = cva(
     }
 );
 
-interface CustomInputProps {
-    className: string;
-}
-
-export interface BaseInputProps<V, C> {
+export interface LabelWrapperProps {
     id: string;
-    input: FunctionComponent<
-        CustomInputProps &
-            Omit<
-                InputHTMLAttributes<HTMLInputElement>,
-                "onChange" | "value"
-            > & { onChange?: C; value?: V }
-    >;
-    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
     label: string;
-    border?: boolean;
-    placeholder: string;
-    value: V;
-    onChange?: C;
+    className?: string;
+    children: ReactElement;
 }
 
-export const BaseInput = <C, V>({
+export const LabelWrapper = ({
     id,
-    input: Input,
     label,
-    size,
-    border,
-    placeholder,
-    value,
-    onChange,
-}: BaseInputProps<C, V>): ReactElement => (
-    <div className="flex flex-col gap-2">
+    className,
+    children,
+}: LabelWrapperProps): ReactElement => (
+    <>
         {!!label && (
-            <label className="cui-block cui-mb-2" htmlFor={id}>
+            <label
+                className={`cui-block cui-w-fit cui-mb-2 ${className}`}
+                htmlFor={id}
+            >
                 <TextMono size="sm" className="cui-font-medium">
                     {label}
                 </TextMono>
             </label>
         )}
-        <Input
-            className={inputStyles({ size, border })}
-            placeholder={placeholder}
-            onChange={onChange}
-            value={value}
-        />
-    </div>
+        {children}
+    </>
 );
