@@ -52,6 +52,7 @@ const marqueeRowStyles = cva(
 const MarqueeRow = ({ children, color }: MarqueeProps) => (
     <div className={marqueeMainStyles({ color })}>
         <div className={marqueeRowStyles({ color })}>{children}</div>
+        <div className={marqueeRowStyles({ color })}>{children}</div>
     </div>
 );
 
