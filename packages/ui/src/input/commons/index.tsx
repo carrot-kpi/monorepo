@@ -5,6 +5,7 @@ import { cva } from "class-variance-authority";
 
 export interface BaseInputProps extends LabelWrapperProps {
     size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+    placeholder?: string;
     border?: boolean;
 }
 
