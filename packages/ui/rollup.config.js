@@ -24,7 +24,7 @@ export default [
             }),
             url(),
             svgr(),
-            typescript(),
+            typescript({ tsconfig: resolve("./tsconfig.build.json") }),
             terser(),
         ],
         output: [

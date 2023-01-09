@@ -4,7 +4,7 @@ import { ComponentMeta, Story } from "@storybook/react";
 import { NumberInput as NumberInputComponent, NumberInputProps } from ".";
 
 export default {
-    title: "NumberInput",
+    title: "Input/Number",
     component: NumberInputComponent,
 } as ComponentMeta<typeof NumberInputComponent>;
 
@@ -12,8 +12,8 @@ const Template: Story<NumberInputProps> = (props: NumberInputProps) => (
     <NumberInputComponent {...props} />
 );
 
-export const NumberInput: Story<NumberInputProps> = Template.bind({});
-NumberInput.args = {
+export const Number: Story<NumberInputProps> = Template.bind({});
+Number.args = {
     size: "md",
     label: "Number input",
     placeholder: "Number input",
