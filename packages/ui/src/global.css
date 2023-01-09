@@ -8,7 +8,7 @@
     }
 
     .cui-scrollbar::-webkit-scrollbar-thumb {
-        @apply cui-bg-slate-200;
+        @apply cui-bg-gray-400;
         @apply cui-rounded-full cui-border-[3px] cui-border-solid cui-border-transparent;
         @apply cui-bg-clip-padding;
     }
