@@ -1,46 +1,17 @@
 import React from "react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-
-import { TextMono } from ".";
-
-const sizes: ["2xl", "xl", "lg", "md", "sm", "xs", "xxs"] = [
-    "2xl",
-    "xl",
-    "lg",
-    "md",
-    "sm",
-    "xs",
-    "xxs",
-];
+import { ComponentMeta, Story } from "@storybook/react";
+import { TextMono as TextMonoComponent, TextMonoProps } from ".";
 
 export default {
     title: "TextMono",
-    component: TextMono,
-} as ComponentMeta<typeof TextMono>;
+    component: TextMonoComponent,
+} as ComponentMeta<typeof TextMonoComponent>;
 
-export const AllSizes = () => {
-    return (
-        <div className="cui-space-y-4">
-            {sizes.map((size) => (
-                <TextMono key={size} size={size} color="black">
-                    Featured campaigns
-                </TextMono>
-            ))}
-        </div>
-    );
-};
-
-const Template: ComponentStory<typeof TextMono> = (args) => (
-    <TextMono {...args} />
+const Template: Story<TextMonoProps> = (props: TextMonoProps) => (
+    <TextMonoComponent {...props} />
 );
 
-const commonArgTypes = {
-    weight: { control: "select", options: ["medium", "normal"] },
-    caps: { control: "boolean" },
-    color: { control: "select", options: ["black", "white"] },
-    size: { control: "select", options: sizes },
+export const TextMono: Story<TextMonoProps> = Template.bind({});
+TextMono.args = {
+    children: "Just a mono text",
 };
-
-export const TextMonoDefault = Template.bind({});
-TextMonoDefault.args = { children: "Featured Campaigns" };
-TextMonoDefault.argTypes = commonArgTypes;

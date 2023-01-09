@@ -36,17 +36,13 @@ export const CampaignCard = ({
                     <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                 </div>
                 <div className="flex items-center justify-between w-full px-4">
-                    <TextMono
-                        color={correctColor("black")}
-                        weight="medium"
-                        caps
-                    >
+                    <TextMono color={correctColor("black")} mediumWeight caps>
                         {title}
                     </TextMono>
                     {isHolding && (
                         <div className="flex items-center justify-center px-2 py-1 border rounded bg-green">
                             <TextMono
-                                weight="medium"
+                                mediumWeight
                                 size="xxs"
                                 caps
                                 color="black"
@@ -88,7 +84,7 @@ export const CampaignCard = ({
 
 const campaignCardStyles = cva(
     [
-        " min-w-[340px] w-[340px] rounded-2xl flex flex-col justify-between border",
+        " min-w-[340px] w-[340px] rounded-xxl flex flex-col justify-between border",
     ],
     {
         variants: {

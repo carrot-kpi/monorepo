@@ -4,7 +4,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import React, { ReactElement } from "react";
 
 import { MenuBar } from "./menu-bar";
-import { TextMono } from "../text-mono";
+import { TextMono } from "../../text-mono";
 
 export interface MarkdownInputProps {
     id: string;
@@ -28,7 +28,7 @@ export const MarkdownInput = ({
             Placeholder.configure({
                 placeholder: placeholder || "Write something",
                 emptyEditorClass:
-                    "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-50 cui-text-sm cui-font-normal",
+                    "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 dark:before:cui-opacity-20 cui-text-sm cui-font-normal cui-text-black dark:cui-text-white",
             }),
         ],
         editorProps: {
@@ -48,10 +48,10 @@ export const MarkdownInput = ({
                     {label}
                 </TextMono>
             </label>
-            <div className="cui-rounded-2xl cui-border cui-border-black">
+            <div className="cui-rounded-xxl cui-border cui-border-black dark:cui-border-white">
                 {editor && <MenuBar editor={editor} />}
                 <EditorContent
-                    className="cui-scrollbar cui-prose cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-outline-none"
+                    className="cui-scrollbar cui-prose cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-outline-none cui-cursor-text"
                     editor={editor}
                 />
             </div>

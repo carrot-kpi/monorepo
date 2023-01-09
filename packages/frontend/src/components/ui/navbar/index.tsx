@@ -94,10 +94,10 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                                     onClick={() => setOpen(false)}
                                 >
                                     <li className="flex items-start space-x-2 cursor-pointer">
-                                        <span className="font-mono text-2xl md:text-base">
+                                        <span className="font-mono text-xxl md:text-base">
                                             ↳
                                         </span>
-                                        <p className="font-mono text-black text-2xl hover:underline md:text-base uppercase underline-offset-[12px]">
+                                        <p className="font-mono text-black text-xxl hover:underline md:text-base uppercase underline-offset-[12px]">
                                             {link.title}
                                         </p>
                                     </li>

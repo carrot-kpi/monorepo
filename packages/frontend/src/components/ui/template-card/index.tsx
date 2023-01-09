@@ -43,11 +43,7 @@ export const TemplateCard = ({
                         <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                     </div>
                     <div className="flex items-center justify-between w-full px-4">
-                        <TextMono
-                            color={correctColor(color)}
-                            weight="medium"
-                            caps
-                        >
+                        <TextMono color={correctColor(color)} mediumWeight caps>
                             {name}
                         </TextMono>
                     </div>
@@ -98,7 +94,7 @@ export const TemplateCard = ({
                 className={`flex items-center justify-center p-4 space-y-4 border-t ${correctBorderColor}`}
             >
                 <button className="w-full">
-                    <TextMono color={correctColor(color)} caps weight="medium">
+                    <TextMono color={correctColor(color)} caps mediumWeight>
                         ↳ use template
                     </TextMono>
                 </button>
@@ -134,7 +130,7 @@ const Row = ({
         <TextMono size="sm" className="capitalize" color={color}>
             {title}
         </TextMono>
-        <TextMono weight="medium" color={color}>
+        <TextMono mediumWeight color={color}>
             {children}
         </TextMono>
     </div>

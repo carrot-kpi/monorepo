@@ -261,6 +261,7 @@ importers:
       '@storybook/react': ^6.5.13
       '@storybook/testing-library': ^0.0.13
       '@svgr/rollup': ^6.5.1
+      '@svgr/webpack': ^6.5.1
       '@tailwindcss/typography': ^0.5.8
       '@tiptap/extension-placeholder': 2.0.0-beta.209
       '@tiptap/react': 2.0.0-beta.209
@@ -271,10 +272,12 @@ importers:
       babel-loader: ^8.2.5
       class-variance-authority: ^0.3.0
       eslint-config-custom: workspace:*
+      file-loader: ^6.2.0
       postcss: ^8.4.19
       postcss-loader: ^7.0.2
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-number-format: ^5.1.2
       rimraf: ^3.0.2
       rollup: ^2.79.1
       rollup-plugin-peer-deps-external: ^2.2.4
@@ -303,6 +306,7 @@ importers:
       '@storybook/react': 6.5.14_yav2txqzmb32twxhhuuemgnk2q
       '@storybook/testing-library': 0.0.13_biqbaboplfbrettd7655fr4n2y
       '@svgr/rollup': 6.5.1
+      '@svgr/webpack': 6.5.1
       '@tailwindcss/typography': 0.5.8_tailwindcss@3.2.4
       '@tiptap/extension-placeholder': 2.0.0-beta.209_nv3r55gosyqqywjqk2ljir6ei4
       '@tiptap/react': 2.0.0-beta.209_q2znjafzmb4pvn25xzm5s3hjsu
@@ -313,10 +317,12 @@ importers:
       babel-loader: 8.3.0_ztqwsvkb6z73luspkai6ilstpu
       class-variance-authority: 0.3.0_typescript@4.9.4
       eslint-config-custom: link:../eslint-config-custom
+      file-loader: 6.2.0_webpack@5.75.0
       postcss: 8.4.20
       postcss-loader: 7.0.2_qxxfhhrl3yknjjmta266mo3u64
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-number-format: 5.1.2_biqbaboplfbrettd7655fr4n2y
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-peer-deps-external: 2.2.4_rollup@2.79.1
@@ -6522,6 +6528,22 @@ packages:
       '@svgr/plugin-jsx': 5.5.0
       '@svgr/plugin-svgo': 5.5.0
       loader-utils: 2.0.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@svgr/webpack/6.5.1:
+    resolution: {integrity: sha512-cQ/AsnBkXPkEK8cLbv4Dm7JGXq2XrumKnL1dRpJD9rIO2fTIlJI9a1uCciYG1F2aUsox/hJQyNGbt3soDxSRkA==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@babel/core': 7.20.5
+      '@babel/plugin-transform-react-constant-elements': 7.20.2_@babel+core@7.20.5
+      '@babel/preset-env': 7.20.2_@babel+core@7.20.5
+      '@babel/preset-react': 7.18.6_@babel+core@7.20.5
+      '@babel/preset-typescript': 7.18.6_@babel+core@7.20.5
+      '@svgr/core': 6.5.1
+      '@svgr/plugin-jsx': 6.5.1_@svgr+core@6.5.1
+      '@svgr/plugin-svgo': 6.5.1_@svgr+core@6.5.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -21683,6 +21705,17 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+
+  /react-number-format/5.1.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-NXm/MvZVjmPqrFbjAut/prCyBZ+pA+O+C12rDkWZrwS3JXz1J42RC1kpclkdnkx2KDjRCNFLb21FlwGcNBZddw==}
+    peerDependencies:
+      react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
+      react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: true
 
   /react-refresh/0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}

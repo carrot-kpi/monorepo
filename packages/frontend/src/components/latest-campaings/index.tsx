@@ -51,7 +51,7 @@ const latestCampaignsMockData = [
 
 export const LatestCampaigns = ({ category }: { category: string }) => (
     <div className="space-y-6">
-        <TextMono caps weight="medium">
+        <TextMono caps mediumWeight>
             {category}
         </TextMono>
         <CardHorizontal>

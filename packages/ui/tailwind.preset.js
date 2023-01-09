@@ -41,6 +41,11 @@ module.exports = {
         extend: {
             fontSize: {
                 xxs: "10px",
+                xxl: "15px",
+            },
+            borderRadius: {
+                xxs: "10px",
+                xxl: "15px",
             },
             backgroundImage: {
                 "square-pattern-white-bg":
