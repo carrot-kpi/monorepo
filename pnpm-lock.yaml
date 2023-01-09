@@ -18366,7 +18366,7 @@ packages:
   /metro-runtime/0.72.3:
     resolution: {integrity: sha512-3MhvDKfxMg2u7dmTdpFOfdR71NgNNo4tzAyJumDVQKwnHYHN44f2QFZQqpPBEmqhWlojNeOxsqFsjYgeyMx6VA==}
     dependencies:
-      '@babel/runtime': 7.20.6
+      '@babel/runtime': 7.20.7
       react-refresh: 0.4.3
 
   /metro-source-map/0.72.3:
