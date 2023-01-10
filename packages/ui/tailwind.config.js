@@ -4,16 +4,4 @@ module.exports = {
     presets: [require("./tailwind.preset.js")],
     prefix: "cui-",
     plugins: [require("@tailwindcss/typography")],
-    theme: {
-        extend: {
-            fontSize: {
-                xxs: "10px",
-                xxl: "15px",
-            },
-            borderRadius: {
-                xxs: "10px",
-                xxl: "15px",
-            },
-        },
-    },
 };
