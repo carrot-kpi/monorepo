@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 import { TextMono } from "../../text-mono";
 import { ReactElement } from "react";
 import { cva } from "class-variance-authority";
@@ -6,6 +6,7 @@ import { cva } from "class-variance-authority";
 export interface BaseInputProps extends LabelWrapperProps {
     size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
     placeholder?: string;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
     border?: boolean;
 }
 
