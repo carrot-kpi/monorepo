@@ -9,7 +9,7 @@ export interface SummaryProps {
     children: ReactElement;
 }
 
-const summaryStyles = cva(
+const accordionSummaryStyles = cva(
     [
         "hover:cui-cursor-pointer cui-flex cui-justify-between cui-select-none cui-p-3",
     ],
@@ -31,7 +31,7 @@ const expandIconStyles = cva([], {
     },
 });
 
-export const Summary = ({
+export const AccordionSummary = ({
     className,
     children,
     expandIcon,
@@ -43,7 +43,7 @@ export const Summary = ({
         <div
             onClick={toggle}
             {...rest}
-            className={summaryStyles({ expanded, className })}
+            className={accordionSummaryStyles({ expanded, className })}
         >
             {children}
             <div className={expandIconStyles({ expanded })}>

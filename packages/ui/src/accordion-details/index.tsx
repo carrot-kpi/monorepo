@@ -6,14 +6,14 @@ interface DetailsProps {
     children: ReactElement;
 }
 
-const detailsStyles = cva(["cui-p-3"], { variants: {} });
+const accordionDetailsStyles = cva(["cui-p-3"], { variants: {} });
 
-export const Details = ({
+export const AccordionDetails = ({
     className,
     children,
     ...rest
 }: DetailsProps): ReactElement => (
-    <div {...rest} className={detailsStyles({ className })}>
+    <div {...rest} className={accordionDetailsStyles({ className })}>
         {children}
     </div>
 );
