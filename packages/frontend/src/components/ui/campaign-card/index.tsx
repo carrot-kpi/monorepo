@@ -85,7 +85,7 @@ export const CampaignCard = ({
                     </TextMono>
                 </div>
                 <button className="w-full py-5 font-mono border-t border-gray-600">
-                    <TextMono>↳ VIEW CAMPAIGN</TextMono>
+                    <TextMono weight="medium">↳ VIEW CAMPAIGN</TextMono>
                 </button>
             </div>
         </div>
