@@ -16,8 +16,8 @@ const summaryStyles = cva(
     {
         variants: {
             expanded: {
-                true: ["cui-bg-green !cui-rounded-b-none"],
-                false: ["cui-bg-white"],
+                true: ["cui-bg-green dark:cui-bg-orange !cui-rounded-b-none"],
+                false: ["cui-bg-white dark:cui-bg-black"],
             },
         },
     }

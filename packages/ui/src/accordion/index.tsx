@@ -11,7 +11,7 @@ export interface AccordionProps {
 
 const accordionStyles = cva(
     [
-        "cui-font-mono odd:cui-border-t cui-border-r cui-border-l odd:cui-border-b cui-border-black [&:first-of-type>div:nth-child(1)]:cui-rounded-t-xxl [&:first-of-type]:cui-rounded-t-xxl [&:last-of-type]:cui-rounded-b-xxl [&:last-of-type>div:nth-child(1)]:cui-rounded-b-xxl",
+        "cui-font-mono odd:cui-border-t cui-border-r cui-border-l odd:cui-border-b cui-border-black dark:cui-border-white [&:first-of-type>div:nth-child(1)]:cui-rounded-t-xxl [&:first-of-type]:cui-rounded-t-xxl [&:last-of-type]:cui-rounded-b-xxl [&:last-of-type>div:nth-child(1)]:cui-rounded-b-xxl",
     ],
     {
         variants: {},
