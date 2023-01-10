@@ -44,7 +44,7 @@ export interface LabelWrapperProps {
     id: string;
     label: string;
     className?: string;
-    children: ReactElement;
+    children?: ReactElement;
 }
 
 export const LabelWrapper = ({
