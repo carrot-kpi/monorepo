@@ -15,8 +15,8 @@ export const parameters = {
     },
     darkMode: {
         stylePreview: true,
-        darkClass: "cui-dark",
-        lightClass: "cui-light",
+        darkClass: "dark",
+        lightClass: "light",
         dark,
         light,
     },

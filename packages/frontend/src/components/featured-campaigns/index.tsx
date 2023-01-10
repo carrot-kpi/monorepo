@@ -41,7 +41,8 @@ export const FeaturedCampaings = () => (
                 templateName="Template name"
                 tags={["Tag"]}
                 isHolding={campaign.holder}
-                sameBorder
+                dark
+                noBorder
             />
         ))}
     </>

@@ -2,6 +2,7 @@ import "./global.css";
 
 export * from "./provider";
 export * from "./button";
+export * from "./chip";
 export * from "./text";
 export * from "./text-mono";
 export * from "./title";
