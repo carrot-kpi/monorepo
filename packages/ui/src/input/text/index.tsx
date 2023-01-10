@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
 import { inputStyles, LabelWrapper } from "../commons";
 
-export type TextInputProps = BaseInputProps;
+export type TextInputProps = BaseInputProps<string>;
 
 export const TextInput = ({
     id,

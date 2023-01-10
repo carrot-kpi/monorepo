@@ -3,10 +3,11 @@ import { TextMono } from "../../text-mono";
 import { ReactElement } from "react";
 import { cva } from "class-variance-authority";
 
-export interface BaseInputProps extends LabelWrapperProps {
+export interface BaseInputProps<V> extends LabelWrapperProps {
     size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
+    value?: V;
     border?: boolean;
 }
 

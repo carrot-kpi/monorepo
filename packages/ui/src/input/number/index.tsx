@@ -4,7 +4,7 @@ import { NumericFormat, NumericFormatProps } from "react-number-format";
 import { BaseInputProps, inputStyles, LabelWrapper } from "../commons";
 
 export type NumberInputProps = Omit<NumericFormatProps, "size"> &
-    BaseInputProps;
+    BaseInputProps<string>;
 
 export const NumberInput = ({
     id,
