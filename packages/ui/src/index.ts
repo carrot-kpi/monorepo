@@ -8,3 +8,6 @@ export * from "./title";
 export * from "./logo";
 export * from "./plus-sign-pattern";
 export * from "./input";
+export * from "./accordion";
+export * from "./accordion-summary";
+export * from "./accordion-details";
