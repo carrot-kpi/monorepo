@@ -4,7 +4,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { TemplateCard } from "../../../components/ui/template-card";
-import { isDarkMode } from "../../../utils/colors";
 
 export const TemplatesSection = () => {
     const { t } = useTranslation();
@@ -25,7 +24,6 @@ export const TemplatesSection = () => {
                               address={template.address}
                               used={0}
                               verified
-                              color={isDarkMode() ? "black" : "white"}
                           />
                       ))}
             </CardHorizontal>

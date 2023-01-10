@@ -15,16 +15,15 @@ export interface FooterColumnProps {
 
 export const FooterColumn = ({ title, links }: FooterColumnProps) => (
     <ul className="w-40">
-        <TextMono caps color="white">
+        <TextMono className="text-white" caps>
             {title}
         </TextMono>
         <div className="mt-6 space-y-3">
             {links.map(({ LinkComponent, url, title }) => (
                 <FooterLink key={url} url={url} LinkComponent={LinkComponent}>
                     <TextMono
-                        color="white"
                         size="sm"
-                        className="cursor-pointer hover:underline"
+                        className="text-white cursor-pointer hover:underline"
                     >
                         {title}
                     </TextMono>

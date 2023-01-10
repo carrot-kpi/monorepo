@@ -1,10 +1,6 @@
 import React from "react";
 import { TextMono } from "@carrot-kpi/ui";
-import { cva } from "class-variance-authority";
-import { VerifiedIcon } from "../icons/verified-icon";
-import { RowsWrapper } from "./template-row-wrapper";
-import { TemplateCardCorners } from "./template-card-corners";
-import { correctColor } from "../../../utils/colors";
+import { ReactComponent as VerifiedIcon } from "../../../assets/verified.svg";
 import { shortenAddress } from "../../../utils/address";
 
 interface TemplateCardProps {
@@ -15,86 +11,60 @@ interface TemplateCardProps {
     address: string;
     used: number;
     verified?: boolean;
-    color: "white" | "black";
 }
 
 export const TemplateCard = ({
     name,
     description,
     version,
-    color,
     // creator,
     address,
     used,
     verified,
 }: TemplateCardProps) => {
-    const correctBorderColor =
-        color === "black" ? "border-white" : "border-gray-600";
     return (
-        <div className={templateCardStyles({ color })}>
-            <TemplateCardCorners color={correctColor(color)} />
+        <div className="relative min-w-[340px] w-[340px] flex flex-col justify-between border m-1 bg-white border-gray-600 dark:bg-black dark:border-white">
+            <div className="w-2 h-2 bg-black dark:bg-white absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2" />
+            <div className="w-2 h-2 bg-black dark:bg-white absolute top-0 left-full -translate-x-1/2 -translate-y-1/2" />
+            <div className="w-2 h-2 bg-black dark:bg-white absolute top-full left-full -translate-x-1/2 -translate-y-1/2" />
+            <div className="w-2 h-2 bg-black dark:bg-white absolute top-full left-0 -translate-x-1/2 -translate-y-1/2" />
             <div>
-                <div
-                    className={`flex items-center w-full border-b ${correctBorderColor}`}
-                >
-                    <div
-                        className={`flex items-center h-12 border-r ${correctBorderColor}`}
-                    >
+                <div className="flex items-center w-full border-b">
+                    <div className="flex items-center h-12 border-r">
                         <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                     </div>
                     <div className="flex items-center justify-between w-full px-4">
-                        <TextMono color={correctColor(color)} mediumWeight caps>
+                        <TextMono weight="medium" caps>
                             {name}
                         </TextMono>
                     </div>
                 </div>
             </div>
-            <div className="font-mono p-4 text-white">
+            <TextMono className="p-4">
                 <div className="line-clamp-3 h-[72px] overflow-ellipsis">
                     {description}
                 </div>
-            </div>
+            </TextMono>
             <div className="flex">
                 {verified && (
-                    <div
-                        className={`flex flex-col items-center justify-center w-12 border-t border-r ${correctBorderColor}`}
-                    >
+                    <div className="flex flex-col items-center justify-center w-12 border-t border-r">
                         <div className="flex items-center space-x-2 -rotate-90">
-                            <VerifiedIcon color={correctColor(color)} />
-                            <TextMono
-                                caps
-                                size="sm"
-                                color={correctColor(color)}
-                            >
+                            <VerifiedIcon />
+                            <TextMono caps size="sm">
                                 verified
                             </TextMono>
                         </div>
                     </div>
                 )}
                 <div className="flex-1">
-                    <RowsWrapper color={correctColor(color)}>
-                        <Row title="version" color={correctColor(color)}>
-                            {version.toString()}
-                        </Row>
-                    </RowsWrapper>
-                    <RowsWrapper color={correctColor(color)}>
-                        {/* <Row title="creator" color={correctColor(color)}>
-                            {creator}
-                        </Row> */}
-                        <Row title="address" color={correctColor(color)}>
-                            {shortenAddress(address)}
-                        </Row>
-                        <Row title="used" color={correctColor(color)}>
-                            {used.toString()}
-                        </Row>
-                    </RowsWrapper>
+                    <Row title="version">{version.toString()}</Row>
+                    <Row title="address">{shortenAddress(address)}</Row>
+                    <Row title="used">{used.toString()}</Row>
                 </div>
             </div>
-            <div
-                className={`flex items-center justify-center p-4 space-y-4 border-t ${correctBorderColor}`}
-            >
+            <div className="flex items-center justify-center p-4 space-y-4 border-t">
                 <button className="w-full">
-                    <TextMono color={correctColor(color)} caps mediumWeight>
+                    <TextMono caps weight="medium">
                         ↳ use template
                     </TextMono>
                 </button>
@@ -103,35 +73,11 @@ export const TemplateCard = ({
     );
 };
 
-const templateCardStyles = cva(
-    [
-        "relative min-w-[340px] w-[340px] flex flex-col justify-between border m-1",
-    ],
-    {
-        variants: {
-            color: {
-                black: ["bg-black border-white"],
-                white: ["bg-white border-gray-600"],
-            },
-        },
-    }
-);
-
-const Row = ({
-    title,
-    children,
-    color,
-}: {
-    title: string;
-    children: string;
-    color?: "black" | "white";
-}) => (
-    <div className="flex items-center justify-between">
-        <TextMono size="sm" className="capitalize" color={color}>
+const Row = ({ title, children }: { title: string; children: string }) => (
+    <div className="flex items-center justify-between p-4 border-t border-black dark:border-white">
+        <TextMono size="sm" className="capitalize">
             {title}
         </TextMono>
-        <TextMono mediumWeight color={color}>
-            {children}
-        </TextMono>
+        <TextMono weight="medium">{children}</TextMono>
     </div>
 );

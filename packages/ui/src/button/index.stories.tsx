@@ -4,7 +4,7 @@ import { ComponentMeta, Story } from "@storybook/react";
 import { Button as ButtonComponent, CarrotButtonProps } from ".";
 
 export default {
-    title: "Button",
+    title: "Input/Button",
     component: ButtonComponent,
 } as ComponentMeta<typeof ButtonComponent>;
 
