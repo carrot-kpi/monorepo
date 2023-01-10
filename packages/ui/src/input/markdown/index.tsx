@@ -1,7 +1,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
 import { TextMono } from "../../text-mono";
@@ -41,6 +41,16 @@ export const MarkdownInput = ({
         },
     });
 
+    const [focused, setFocused] = useState(false);
+
+    const handleFocus = useCallback(() => {
+        setFocused(true);
+    }, []);
+
+    const handleBlur = useCallback(() => {
+        setFocused(false);
+    }, []);
+
     return (
         <div className="cui-flex cui-min-h-full cui-flex-col cui-gap-2 cui-w-[500px]">
             <label className="cui-block" htmlFor={id}>
@@ -48,10 +58,14 @@ export const MarkdownInput = ({
                     {label}
                 </TextMono>
             </label>
-            <div className="cui-rounded-xxl cui-border cui-border-black dark:cui-border-white">
-                {editor && <MenuBar editor={editor} />}
+            <div
+                className="cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange"
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+            >
+                {editor && <MenuBar editor={editor} focused={focused} />}
                 <EditorContent
-                    className="cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-outline-none cui-cursor-text cui-text-black dark:cui-text-white"
+                    className="cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-cursor-text cui-text-black dark:cui-text-white focus:cui-outline-none"
                     editor={editor}
                 />
             </div>

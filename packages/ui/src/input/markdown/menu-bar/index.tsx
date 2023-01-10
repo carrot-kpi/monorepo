@@ -10,12 +10,27 @@ import { ReactComponent as ItalicIcon } from "../../../assets/italic-icon.svg";
 import { ReactComponent as ListOrderedIcon } from "../../../assets/list-ordered-icon.svg";
 import { ReactComponent as ListUnorderedIcon } from "../../../assets/list-unordered-icon.svg";
 import { Editor } from "@tiptap/react";
+import { cva } from "class-variance-authority";
+
+const rootStyles = cva(
+    [
+        "cui-flex cui-content-center cui-gap-2.5 cui-border-b cui-border-black dark:cui-border-white cui-p-2",
+    ],
+    {
+        variants: {
+            focused: {
+                true: ["cui-border-orange dark:cui-border-orange"],
+            },
+        },
+    }
+);
 
 interface MenuBarProps {
     editor: Editor;
+    focused?: boolean;
 }
 
-export const MenuBar = ({ editor }: MenuBarProps): ReactElement => {
+export const MenuBar = ({ editor, focused }: MenuBarProps): ReactElement => {
     const items = [
         {
             icon: H1Icon,
@@ -70,7 +85,7 @@ export const MenuBar = ({ editor }: MenuBarProps): ReactElement => {
     ];
 
     return (
-        <div className="cui-flex cui-content-center cui-gap-2.5 cui-border-b cui-border-black dark:cui-border-white cui-p-2">
+        <div className={rootStyles({ focused })}>
             {items.map((item, index) => (
                 <MenuItem key={index} {...item} />
             ))}
