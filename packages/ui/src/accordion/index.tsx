@@ -1,4 +1,3 @@
-import { cva } from "class-variance-authority";
 import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import { AccordionContextProvider } from "./context";
 
@@ -8,15 +7,6 @@ export interface AccordionProps {
     className?: string;
     children: ReactElement[];
 }
-
-const accordionStyles = cva(
-    [
-        "cui-font-mono odd:cui-border-t cui-border-r cui-border-l odd:cui-border-b cui-border-black dark:cui-border-white [&:first-of-type>div:nth-child(1)]:cui-rounded-t-xxl [&:first-of-type]:cui-rounded-t-xxl [&:last-of-type]:cui-rounded-b-xxl [&:last-of-type>div:nth-child(1)]:cui-rounded-b-xxl",
-    ],
-    {
-        variants: {},
-    }
-);
 
 export const Accordion = ({
     onChange,
@@ -59,7 +49,10 @@ export const Accordion = ({
     );
 
     return (
-        <div {...rest} className={accordionStyles({ className })}>
+        <div
+            {...rest}
+            className={`cui-font-mono odd:cui-border-t cui-border-r cui-border-l odd:cui-border-b cui-border-black dark:cui-border-white [&:first-of-type>div:nth-child(1)]:cui-rounded-t-xxl [&:first-of-type]:cui-rounded-t-xxl [&:last-of-type]:cui-rounded-b-xxl [&:last-of-type>div:nth-child(1)]:cui-rounded-b-xxl ${className}`}
+        >
             <AccordionContextProvider value={accordionContextValue}>
                 {summaryChildren}
             </AccordionContextProvider>
