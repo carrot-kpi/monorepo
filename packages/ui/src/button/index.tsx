@@ -2,7 +2,9 @@ import React, { ReactNode } from "react";
 import { cva } from "class-variance-authority";
 
 const buttonStyles = cva(
-    ["cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer"],
+    [
+        "cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
+    ],
     {
         variants: {
             variant: {
