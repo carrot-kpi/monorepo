@@ -1,6 +1,5 @@
 import React from "react";
-import { TextMono } from "@carrot-kpi/ui";
-import { CampaignCardTag } from "./campaign-card-tag";
+import { Chip, TextMono } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 
 const rootStyles = cva(
@@ -63,13 +62,9 @@ export const CampaignCard = ({
                 <div className="flex flex-col justify-between p-4 h-52">
                     <TextMono>{question}</TextMono>
                     <div className="flex items-center space-x-3">
-                        <CampaignCardTag color={"black"}>
-                            {templateName}
-                        </CampaignCardTag>
+                        <Chip>{templateName}</Chip>
                         {tags.map((tag) => (
-                            <CampaignCardTag key={tag} color={"black"}>
-                                {tag}
-                            </CampaignCardTag>
+                            <Chip key={tag}>{tag}</Chip>
                         ))}
                     </div>
                 </div>
