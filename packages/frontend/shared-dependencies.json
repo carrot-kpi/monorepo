@@ -1,7 +1,7 @@
 {
     "@carrot-kpi/react": "^0.20.0",
     "@carrot-kpi/sdk": "^1.12.0",
-    "@carrot-kpi/ui": "^0.8.2",
+    "@carrot-kpi/ui": "^0.8.3",
     "ethers": "^5.7.1",
     "react": { "requiredVersion": "^18.2.0", "singleton": true },
     "react-dom": { "requiredVersion": "^18.2.0", "singleton": true },
