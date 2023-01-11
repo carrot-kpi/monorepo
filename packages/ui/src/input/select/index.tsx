@@ -144,7 +144,7 @@ export const Select = ({
                         ...styles.popper,
                         width: anchorElement?.clientWidth,
                     }}
-                    className="cui-rounded-xxl cui-border cui-border-black dark:cui-border-white cui-bg-transparent"
+                    className="cui-rounded-xxl cui-border cui-border-black dark:cui-border-white cui-bg-white dark:cui-bg-black"
                     {...attributes.popper}
                 >
                     {options.map((option) => (
