@@ -18,6 +18,7 @@ export const en = {
         "create.template.use": "Use",
         "create.noKpiToken": "No KPI token",
         "campaign.loading": "Loading",
+        "templates.viewAll": "View all",
         loading: "Loading",
     },
 } as const;

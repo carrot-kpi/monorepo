@@ -2,6 +2,7 @@ import { useKpiTokenTemplates } from "@carrot-kpi/react";
 import { Button, Title } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { TemplateCard } from "../../../components/ui/template-card";
 
@@ -27,7 +28,9 @@ export const TemplatesSection = () => {
                           />
                       ))}
             </CardHorizontal>
-            <Button>{t("create.campaign")}</Button>
+            <Link to="/templates">
+                <Button>{t("templates.viewAll")}</Button>
+            </Link>
         </div>
     );
 };
