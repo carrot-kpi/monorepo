@@ -4,13 +4,11 @@ import React, {
     ReactNode,
     SVGProps,
 } from "react";
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
 import { ReactComponent as Spinner } from "../assets/spinner.svg";
 
 const buttonStyles = cva(
-    [
-        "cui-transition-colors cui-group cui-flex cui-items-center cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
-    ],
+    "cui-relative cui-transition-colors cui-group cui-flex cui-items-center cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
     {
         variants: {
             variant: {
@@ -20,35 +18,87 @@ const buttonStyles = cva(
                     "cui-border-black cui-bg-transparent cui-text-black hover:cui-border-white hover:cui-bg-black hover:cui-text-white dark:cui-border-white dark:cui-text-white hover:dark:cui-border-black hover:dark:cui-bg-white hover:dark:cui-text-black",
             },
             size: {
-                big: ["cui-px-6 cui-py-5"],
-                small: ["cui-px-6 cui-py-4 cui-text-s"],
-                xsmall: ["cui-p-4 cui-text-xs"],
+                big: "cui-px-6 cui-py-5",
+                small: "cui-px-6 cui-py-4 cui-text-s",
+                xsmall: "cui-p-4 cui-text-xs",
             },
         },
     }
 );
 
-const iconStyles = cva([], {
+const iconStyles = cva("", {
     variants: {
-        // variant: {
-        //     primary:
-        //         "cui-fill-white dark:cui-fill-black group-hover:cui-fill-black dark:group-hover:cui-fill-orange",
-        //     secondary:
-        //         "cui-fill-black dark:cui-fill-white group-hover:cui-fill-white dark:group-hover:cui-fill-black",
-        // },
         iconPlacement: {
             left: "cui-mr-2",
             right: "cui-ml-2",
         },
         size: {
-            big: ["cui-w-6 cui-h-6"],
-            small: ["cui-w-5 cui-h-5"],
-            xsmall: ["cui-w-4 cui-h-4"],
+            big: "cui-w-6 cui-h-6",
+            small: "cui-w-5 cui-h-5",
+            xsmall: "cui-w-4 cui-h-4",
         },
         loading: {
-            true: ["cui-animate-spin"],
+            true: "cui-animate-spin",
         },
     },
+});
+
+const spinnerWrapperStyles = cva("", {
+    variants: {
+        iconPlacement: {
+            left: "cui-mr-2",
+            right: "cui-ml-2",
+        },
+        hasIcon: {
+            false: "",
+        },
+        loading: {
+            true: "",
+        },
+        size: {
+            big: "cui-w-6 cui-h-6",
+            small: "cui-w-5 cui-h-5",
+            xsmall: "cui-w-4 cui-h-4",
+        },
+    },
+    compoundVariants: [
+        {
+            hasIcon: false,
+            loading: true,
+            className:
+                "cui-absolute cui-left-1/2 cui-transform -cui-translate-x-1/2",
+        },
+    ],
+});
+
+const spinnerStyles = cva("", {
+    variants: {
+        hasIcon: {
+            false: "!cui-m-0",
+        },
+        loading: {
+            true: "cui-animate-spin",
+        },
+    },
+});
+
+const wrapperStyles = cva("", {
+    variants: {
+        hasIcon: {
+            true: "",
+            false: "",
+        },
+        loading: {
+            true: "",
+        },
+    },
+    compoundVariants: [
+        {
+            hasIcon: false,
+            loading: true,
+            className: "cui-invisible",
+        },
+    ],
 });
 
 export interface CarrotButtonProps {
@@ -88,16 +138,29 @@ export const Button = ({
         ? ["a", { href }]
         : ["button", { onClick, disabled: disabled || loading }];
 
+    const hasIcon = !!Icon;
     let resolvedIcon;
     if (!!loading)
         resolvedIcon = (
-            <Spinner
-                className={iconStyles({
-                    iconPlacement,
-                    size,
+            <div
+                className={spinnerWrapperStyles({
+                    hasIcon,
                     loading,
+                    size,
+                    iconPlacement,
                 })}
-            />
+            >
+                <Spinner
+                    className={cx(
+                        iconStyles({
+                            iconPlacement,
+                            size,
+                            loading,
+                        }),
+                        spinnerStyles({ hasIcon, loading })
+                    )}
+                />
+            </div>
         );
     else if (!!Icon)
         resolvedIcon = <Icon className={iconStyles({ iconPlacement, size })} />;
@@ -105,7 +168,9 @@ export const Button = ({
     return (
         <Root {...sharedProps} {...props}>
             {iconPlacement === "left" && resolvedIcon}
-            <div>{children}</div>
+            <div className={wrapperStyles({ hasIcon, loading })}>
+                {children}
+            </div>
             {iconPlacement === "right" && resolvedIcon}
         </Root>
     );
