@@ -53,7 +53,7 @@ export const LabelWrapper = ({
     className,
     children,
 }: LabelWrapperProps): ReactElement => (
-    <>
+    <div>
         {!!label && (
             <label
                 className={`cui-block cui-w-fit cui-mb-2 ${className}`}
@@ -65,5 +65,5 @@ export const LabelWrapper = ({
             </label>
         )}
         {children}
-    </>
+    </div>
 );
