@@ -162,7 +162,7 @@ export const Button = ({
                 />
             </div>
         );
-    else if (!!Icon)
+    else if (!!hasIcon)
         resolvedIcon = <Icon className={iconStyles({ iconPlacement, size })} />;
 
     return (
