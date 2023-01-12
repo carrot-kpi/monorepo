@@ -35,7 +35,7 @@ The carrot design system with storybook
 To run it
 
 ```bash
- pnpm storybook
+ pnpm start
 ```
 
 ## SDK
