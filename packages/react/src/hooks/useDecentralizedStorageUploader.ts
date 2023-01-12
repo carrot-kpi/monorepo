@@ -1,6 +1,3 @@
-import { KpiTokenSpecification } from "@carrot-kpi/sdk";
-
-export type UploadableSpecification = Omit<KpiTokenSpecification, "ipfsHash">;
 export type DecentralizedStorageOption = "ipfs" | "playground";
 export type Uploader = (content: string) => Promise<string>;
 
