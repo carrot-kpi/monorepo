@@ -12,7 +12,7 @@ import { cva } from "class-variance-authority";
 
 const arrowStyles = cva(
     [
-        "cui-absolute cui-cursor-pointer cui-fill-black dark:cui-fill-white cui-right-4 cui-top-1/2 cui-transform -cui-translate-y-1/2",
+        "cui-absolute cui-pointer-events-none cui-cursor-pointer cui-fill-black dark:cui-fill-white cui-right-4 cui-top-1/2 cui-transform -cui-translate-y-1/2",
     ],
     {
         variants: {
@@ -28,7 +28,7 @@ const arrowStyles = cva(
 
 const optionStyles = cva(
     [
-        "cui-cursor-pointer first:cui-rounded-t-xxl last:cui-rounded-b-xxl cui-p-3 cui-font-mono cui-font-normal cui-outline-none cui-placeholder-opacity-20 dark:cui-placeholder-opacity-30 cui-text-black dark:cui-text-white cui-box-border hover:cui-bg-gray-600 dark:hover:cui-bg-gray-700",
+        "cui-cursor-pointer cui-p-3 cui-font-mono cui-font-normal cui-outline-none cui-placeholder-opacity-20 dark:cui-placeholder-opacity-30 cui-text-black dark:cui-text-white cui-box-border hover:cui-bg-gray-200 dark:hover:cui-bg-gray-700",
     ],
     {
         variants: {
@@ -71,12 +71,10 @@ export const Select = <O extends SelectOption>({
     renderOption,
     ...rest
 }: SelectProps<O>): ReactElement => {
-    const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(
-        null
-    );
-    const [popperElement, setPopperElement] = useState<HTMLUListElement | null>(
-        null
-    );
+    const [anchorElement, setAnchorElement] =
+        useState<HTMLDivElement | null>(null);
+    const [popperElement, setPopperElement] =
+        useState<HTMLUListElement | null>(null);
     const [open, setOpen] = useState(false);
 
     const { styles, attributes } = usePopper(anchorElement, popperElement, {
@@ -124,7 +122,7 @@ export const Select = <O extends SelectOption>({
     return (
         <div>
             <LabelWrapper id={id} label={label}>
-                <div className="cui-relative" ref={setAnchorElement}>
+                <div className="cui-relative cui-w-fit" ref={setAnchorElement}>
                     <input
                         id={id}
                         type="text"
@@ -154,7 +152,7 @@ export const Select = <O extends SelectOption>({
                         ...styles.popper,
                         width: anchorElement?.clientWidth,
                     }}
-                    className="cui-rounded-xxl cui-border cui-bg-white dark:cui-border-white cui-z-10"
+                    className="cui-rounded-xxl cui-border cui-bg-white dark:cui-bg-black dark:cui-border-white cui-z-10 cui-overflow-hidden"
                     {...attributes.popper}
                 >
                     {options.map((option) => {
