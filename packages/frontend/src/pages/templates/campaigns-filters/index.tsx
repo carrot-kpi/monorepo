@@ -3,7 +3,7 @@ import React from "react";
 
 const CheckboxInput = ({ title }: { title: string }) => (
     <div className="flex items-center space-x-2">
-        <input type="checkbox" name={title} id={title} />
+        <input type="checkbox" name={title} id={title} className="w-5 h-5" />
         <TextMono>{title}</TextMono>
     </div>
 );
@@ -15,10 +15,10 @@ const CheckboxWithTotals = ({
     title: string;
     total: number;
 }) => (
-    <div className="flex items-center justify-between">
+    <label className="flex items-center justify-between cursor-pointer">
         <CheckboxInput title={title} />
         <TextMono size="sm">{total}</TextMono>
-    </div>
+    </label>
 );
 
 const FiltersOptionsSection = ({ title }: { title: string }) => (
