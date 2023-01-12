@@ -4,7 +4,7 @@ import { ComponentMeta, Story } from "@storybook/react";
 import { Select as SelectComponent, SelectOption, SelectProps } from ".";
 
 export default {
-    title: "Select",
+    title: "Input/Select",
     component: SelectComponent,
 } as ComponentMeta<typeof SelectComponent>;
 
