@@ -12,12 +12,12 @@ import { cva } from "class-variance-authority";
 
 const arrowStyles = cva(
     [
-        "cui-absolute cui-cursor-pointer cui-fill-black dark:cui-fill-white cui-right-4 cui-top-1/2 cui-transform -cui-translate-y-1/2",
+        "cui-absolute cui-pointer-events-none cui-cursor-pointer cui-fill-black dark:cui-fill-white cui-right-4 cui-top-1/2 cui-transform -cui-translate-y-1/2",
     ],
     {
         variants: {
             open: {
-                false: ["cui-rotate-180"],
+                true: ["cui-rotate-180"],
             },
         },
         defaultVariants: {
@@ -28,12 +28,14 @@ const arrowStyles = cva(
 
 const optionStyles = cva(
     [
-        "cui-cursor-pointer first:cui-rounded-t-xxl last:cui-rounded-b-xxl cui-p-3 cui-font-mono cui-font-normal cui-outline-none cui-placeholder-opacity-20 dark:cui-placeholder-opacity-30 cui-text-black dark:cui-text-white cui-box-border",
+        "cui-cursor-pointer cui-p-3 cui-font-mono cui-font-normal cui-outline-none cui-placeholder-opacity-20 dark:cui-placeholder-opacity-30 cui-text-black dark:cui-text-white cui-box-border hover:cui-bg-gray-200 dark:hover:cui-bg-gray-700",
     ],
     {
         variants: {
             picked: {
-                true: ["cui-bg-gray-300 dark:cui-bg-gray-500"],
+                true: [
+                    "cui-bg-gray-300 hover:cui-bg-gray-300 dark:cui-bg-gray-600 dark:hover:cui-bg-gray-600",
+                ],
             },
         },
         defaultVariants: {
@@ -50,13 +52,14 @@ export interface SelectOption {
 
 export type ValueType = string | number;
 
-export type SelectProps = {
-    options: SelectOption[];
-    value: SelectOption | null;
-    onChange: (value: SelectOption) => void;
+export type SelectProps<O extends SelectOption = SelectOption> = {
+    options: O[];
+    value: O | null;
+    onChange: (value: O) => void;
+    renderOption?: (value: O) => ReactElement;
 } & Omit<BaseInputProps<unknown>, "onChange" | "value">;
 
-export const Select = ({
+export const Select = <O extends SelectOption>({
     id,
     size,
     label,
@@ -65,8 +68,9 @@ export const Select = ({
     value,
     onChange,
     className,
+    renderOption,
     ...rest
-}: SelectProps): ReactElement => {
+}: SelectProps<O>): ReactElement => {
     const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(
         null
     );
@@ -81,7 +85,7 @@ export const Select = ({
             {
                 name: "offset",
                 options: {
-                    offset: [0, 16],
+                    offset: [0, 8],
                 },
             },
         ],
@@ -89,15 +93,19 @@ export const Select = ({
 
     useEffect(() => {
         const handleCloseOnClick = (event: MouseEvent) => {
-            if (!open || !popperElement) return;
-            if (!popperElement.contains(event.target as Node)) setOpen(false);
+            if (!open || !popperElement || !anchorElement) return;
+            if (
+                !popperElement.contains(event.target as Node) &&
+                !anchorElement.contains(event.target as Node)
+            )
+                setOpen(false);
         };
 
         document.addEventListener("mousedown", handleCloseOnClick);
         return () => {
             document.removeEventListener("mousedown", handleCloseOnClick);
         };
-    }, [open, popperElement]);
+    }, [anchorElement, open, popperElement]);
 
     const handleClick = useCallback(() => {
         setOpen(!open);
@@ -107,17 +115,16 @@ export const Select = ({
         (event: SpecificMouseEvent<HTMLLIElement>) => {
             if (!event.target) return;
             const value = (event.target as HTMLLIElement).dataset.value;
-            if (!!onChange && !!value)
-                onChange(JSON.parse(value) as SelectOption);
+            if (!!onChange && !!value) onChange(JSON.parse(value) as O);
             setOpen(false);
         },
         [onChange]
     );
 
     return (
-        <div className="cui-inline-block">
+        <div>
             <LabelWrapper id={id} label={label}>
-                <div className="cui-relative" ref={setAnchorElement}>
+                <div className="cui-relative cui-w-fit" ref={setAnchorElement}>
                     <input
                         id={id}
                         type="text"
@@ -128,7 +135,10 @@ export const Select = ({
                         className={inputStyles({
                             size,
                             border,
-                            className: [className, "cui-cursor-pointer"],
+                            className: [
+                                "cui-w-fit cui-cursor-pointer dark:cui-bg-black cui-border-black",
+                                className,
+                            ],
                         })}
                     />
                     <ArrowDown
@@ -144,21 +154,29 @@ export const Select = ({
                         ...styles.popper,
                         width: anchorElement?.clientWidth,
                     }}
-                    className="cui-rounded-xxl cui-border cui-border-black dark:cui-border-white cui-bg-white dark:cui-bg-black"
+                    className="cui-rounded-xxl cui-border cui-bg-white dark:cui-bg-black dark:cui-border-white cui-z-10 cui-overflow-hidden"
                     {...attributes.popper}
                 >
-                    {options.map((option) => (
-                        <li
-                            className={optionStyles({
-                                picked: value?.value === option.value,
-                            })}
-                            onClick={handlePick}
-                            data-value={JSON.stringify(option)}
-                            key={option.label}
-                        >
-                            {option.label}
-                        </li>
-                    ))}
+                    {options.map((option) => {
+                        return (
+                            <li
+                                className={optionStyles({
+                                    picked: value?.value === option.value,
+                                })}
+                                onClick={handlePick}
+                                data-value={JSON.stringify(option)}
+                                key={option.label}
+                            >
+                                {!!renderOption ? (
+                                    <div className="cui-pointer-events-none">
+                                        {renderOption(option)}
+                                    </div>
+                                ) : (
+                                    option.label
+                                )}
+                            </li>
+                        );
+                    })}
                 </ul>
             )}
         </div>

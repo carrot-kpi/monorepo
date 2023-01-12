@@ -1,10 +1,14 @@
-import React, { ReactNode } from "react";
-import { cva } from "class-variance-authority";
+import React, {
+    ElementType,
+    FunctionComponent,
+    ReactNode,
+    SVGProps,
+} from "react";
+import { cva, cx } from "class-variance-authority";
+import { ReactComponent as Spinner } from "../assets/spinner.svg";
 
 const buttonStyles = cva(
-    [
-        "cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
-    ],
+    "cui-relative cui-transition-colors cui-group cui-flex cui-items-center cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
     {
         variants: {
             variant: {
@@ -14,13 +18,88 @@ const buttonStyles = cva(
                     "cui-border-black cui-bg-transparent cui-text-black hover:cui-border-white hover:cui-bg-black hover:cui-text-white dark:cui-border-white dark:cui-text-white hover:dark:cui-border-black hover:dark:cui-bg-white hover:dark:cui-text-black",
             },
             size: {
-                big: ["cui-px-6 cui-py-5"],
-                small: ["cui-px-6 cui-py-4 cui-text-s"],
-                xsmall: ["cui-p-4 cui-text-xs"],
+                big: "cui-px-6 cui-py-5",
+                small: "cui-px-6 cui-py-4 cui-text-s",
+                xsmall: "cui-p-4 cui-text-xs",
             },
         },
     }
 );
+
+const iconStyles = cva("", {
+    variants: {
+        iconPlacement: {
+            left: "cui-mr-2",
+            right: "cui-ml-2",
+        },
+        size: {
+            big: "cui-w-6 cui-h-6",
+            small: "cui-w-5 cui-h-5",
+            xsmall: "cui-w-4 cui-h-4",
+        },
+        loading: {
+            true: "cui-animate-spin",
+        },
+    },
+});
+
+const spinnerWrapperStyles = cva("", {
+    variants: {
+        iconPlacement: {
+            left: "cui-mr-2",
+            right: "cui-ml-2",
+        },
+        hasIcon: {
+            false: "",
+        },
+        loading: {
+            true: "",
+        },
+        size: {
+            big: "cui-w-6 cui-h-6",
+            small: "cui-w-5 cui-h-5",
+            xsmall: "cui-w-4 cui-h-4",
+        },
+    },
+    compoundVariants: [
+        {
+            hasIcon: false,
+            loading: true,
+            className:
+                "cui-absolute cui-left-1/2 cui-transform -cui-translate-x-1/2",
+        },
+    ],
+});
+
+const spinnerStyles = cva("", {
+    variants: {
+        hasIcon: {
+            false: "!cui-m-0",
+        },
+        loading: {
+            true: "cui-animate-spin",
+        },
+    },
+});
+
+const wrapperStyles = cva("", {
+    variants: {
+        hasIcon: {
+            true: "",
+            false: "",
+        },
+        loading: {
+            true: "",
+        },
+    },
+    compoundVariants: [
+        {
+            hasIcon: false,
+            loading: true,
+            className: "cui-invisible",
+        },
+    ],
+});
 
 export interface CarrotButtonProps {
     onClick?: (event: React.MouseEvent) => void;
@@ -28,6 +107,8 @@ export interface CarrotButtonProps {
     disabled?: boolean;
     loading?: boolean;
     className?: string;
+    icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
+    iconPlacement?: "left" | "right";
     size?: "big" | "small" | "xsmall";
     variant?: "primary" | "secondary";
     children: ReactNode;
@@ -42,29 +123,55 @@ export const Button = ({
     loading,
     children,
     className,
+    icon: Icon,
+    iconPlacement = "left",
 }: CarrotButtonProps) => {
-    if (href) {
-        return (
-            <a
-                className={buttonStyles({
+    const sharedProps = {
+        className: buttonStyles({
+            size,
+            variant,
+            className: [className, "cui-inline-block"],
+        }),
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [Root, props]: [ElementType, any] = !!href
+        ? ["a", { href }]
+        : ["button", { onClick, disabled: disabled || loading }];
+
+    const hasIcon = !!Icon;
+    let resolvedIcon;
+    if (!!loading)
+        resolvedIcon = (
+            <div
+                className={spinnerWrapperStyles({
+                    hasIcon,
+                    loading,
                     size,
-                    variant,
-                    className: [className, "cui-inline-block"],
+                    iconPlacement,
                 })}
-                href={href}
             >
-                {children}
-            </a>
+                <Spinner
+                    className={cx(
+                        iconStyles({
+                            iconPlacement,
+                            size,
+                            loading,
+                        }),
+                        spinnerStyles({ hasIcon, loading })
+                    )}
+                />
+            </div>
         );
-    }
+    else if (!!hasIcon)
+        resolvedIcon = <Icon className={iconStyles({ iconPlacement, size })} />;
 
     return (
-        <button
-            disabled={disabled || loading}
-            className={buttonStyles({ size, variant, className })}
-            onClick={onClick}
-        >
-            {children}
-        </button>
+        <Root {...sharedProps} {...props}>
+            {iconPlacement === "left" && resolvedIcon}
+            <div className={wrapperStyles({ hasIcon, loading })}>
+                {children}
+            </div>
+            {iconPlacement === "right" && resolvedIcon}
+        </Root>
     );
 };

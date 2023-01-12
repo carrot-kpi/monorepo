@@ -12,6 +12,7 @@ export interface MarkdownInputProps {
     placeholder?: string;
     value: string;
     onChange: (value: string) => void;
+    className?: string;
 }
 
 export const MarkdownInput = ({
@@ -20,6 +21,7 @@ export const MarkdownInput = ({
     placeholder,
     value,
     onChange,
+    className,
 }: MarkdownInputProps): ReactElement => {
     const editor = useEditor({
         content: value,
@@ -68,14 +70,14 @@ export const MarkdownInput = ({
     }, []);
 
     return (
-        <div className="cui-flex cui-min-h-full cui-flex-col cui-gap-2 cui-w-full">
-            <label className="cui-block" htmlFor={id}>
+        <div>
+            <label className="cui-block cui-mb-2" htmlFor={id}>
                 <TextMono size="sm" className="cui-font-medium">
                     {label}
                 </TextMono>
             </label>
             <div
-                className="cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange cui-bg-white dark:cui-bg-black"
+                className={`cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange cui-bg-white dark:cui-bg-black ${className}`}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >
