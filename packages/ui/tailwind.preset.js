@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const plugin = require("tailwindcss/plugin");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class", '[class~="dark"]'],
@@ -60,4 +63,10 @@ module.exports = {
             },
         },
     },
+    plugins: [
+        require("@tailwindcss/typography"),
+        plugin(({ matchVariant }) => {
+            matchVariant("cuis", (value) => `& .${value}`);
+        }),
+    ],
 };
