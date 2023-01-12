@@ -5,6 +5,8 @@ interface PageWrapperProps {
     className?: string;
 }
 
-export const PageWrapper = ({ children, className }: PageWrapperProps) => {
-    return <div className={`px-6 lg:px-32 ${className}`}>{children}</div>;
-};
+export const PageWrapper = ({ children, className }: PageWrapperProps) => (
+    <div className={`px-6 lg:px-32 ${className ? className : ""}`}>
+        {children}
+    </div>
+);
