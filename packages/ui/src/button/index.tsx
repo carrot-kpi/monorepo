@@ -8,7 +8,7 @@ import { cva, cx } from "class-variance-authority";
 import { ReactComponent as Spinner } from "../assets/spinner.svg";
 
 const buttonStyles = cva(
-    "cui-relative cui-transition-colors cui-group cui-flex cui-items-center cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
+    "cui-relative cui-w-fit cui-transition-colors cui-group cui-flex cui-items-center cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
     {
         variants: {
             variant: {
