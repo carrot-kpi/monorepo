@@ -1,6 +1,7 @@
 import React from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
+import { ReactComponent as TickIcon } from "../assets/tick.svg";
 import { Button as ButtonComponent, CarrotButtonProps } from ".";
 
 export default {
@@ -15,4 +16,5 @@ const Template: Story<CarrotButtonProps> = (props) => (
 export const Button: Story<CarrotButtonProps> = Template.bind({});
 Button.args = {
     children: "Button",
+    icon: TickIcon,
 };
