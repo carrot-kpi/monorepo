@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority";
 
 const buttonStyles = cva(
     [
-        "cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
+        "cui-w-fit cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
     ],
     {
         variants: {
