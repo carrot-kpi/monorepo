@@ -36,7 +36,6 @@ const optionStyles = cva(
                 true: [
                     "cui-bg-gray-300 hover:cui-bg-gray-300 dark:cui-bg-gray-600 dark:hover:cui-bg-gray-600",
                 ],
-                false: ["cui-bg-white dark:cui-bg-black"],
             },
         },
         defaultVariants: {
@@ -123,7 +122,7 @@ export const Select = <O extends SelectOption>({
     );
 
     return (
-        <>
+        <div>
             <LabelWrapper id={id} label={label}>
                 <div className="cui-relative" ref={setAnchorElement}>
                     <input
@@ -180,6 +179,6 @@ export const Select = <O extends SelectOption>({
                     })}
                 </ul>
             )}
-        </>
+        </div>
     );
 };
