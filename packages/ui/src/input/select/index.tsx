@@ -71,10 +71,12 @@ export const Select = <O extends SelectOption>({
     renderOption,
     ...rest
 }: SelectProps<O>): ReactElement => {
-    const [anchorElement, setAnchorElement] =
-        useState<HTMLDivElement | null>(null);
-    const [popperElement, setPopperElement] =
-        useState<HTMLUListElement | null>(null);
+    const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(
+        null
+    );
+    const [popperElement, setPopperElement] = useState<HTMLUListElement | null>(
+        null
+    );
     const [open, setOpen] = useState(false);
 
     const { styles, attributes } = usePopper(anchorElement, popperElement, {
