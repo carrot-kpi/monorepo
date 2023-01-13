@@ -35,7 +35,7 @@ export const MarkdownInput = ({
         ],
         editorProps: {
             attributes: {
-                class: "cui-prose cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full dark:cui-text-white prose-h1:dark:cui-text-white prose-h2:dark:cui-text-white prose-strong:dark:cui-text-white prose-blockquote:dark:cui-text-white",
+                class: "cui-prose cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full dark:cui-prose-invert prose-pre:dark:cui-bg-gray-700",
             },
         },
         onUpdate: ({ editor }) => {
