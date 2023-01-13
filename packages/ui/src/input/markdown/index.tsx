@@ -26,16 +26,32 @@ export const MarkdownInput = ({
     const editor = useEditor({
         content: value,
         extensions: [
-            StarterKit,
+            StarterKit.configure({
+                heading: {
+                    HTMLAttributes: {
+                        class: "dark:cui-text-white",
+                    },
+                },
+                bold: {
+                    HTMLAttributes: {
+                        class: "dark:cui-text-white",
+                    },
+                },
+                blockquote: {
+                    HTMLAttributes: {
+                        class: "dark:cui-text-white",
+                    },
+                },
+            }),
             Placeholder.configure({
                 placeholder,
                 emptyEditorClass:
-                    "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 dark:before:cui-opacity-20 cui-text-sm cui-font-normal cui-text-black dark:cui-text-white",
+                    "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 dark:before:cui-opacity-20 cui-text-sm cui-font-normal",
             }),
         ],
         editorProps: {
             attributes: {
-                class: "cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full",
+                class: "cui-prose cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full dark:cui-text-white",
             },
         },
         onUpdate: ({ editor }) => {
@@ -61,13 +77,13 @@ export const MarkdownInput = ({
                 </TextMono>
             </label>
             <div
-                className={`cui-w-fit cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange ${className}`}
+                className={`cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange cui-bg-white dark:cui-bg-black ${className}`}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >
                 {editor && <MenuBar editor={editor} focused={focused} />}
                 <EditorContent
-                    className="cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-cursor-text cui-text-black dark:cui-text-white focus:cui-outline-none"
+                    className="cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-cursor-text focus:cui-outline-none"
                     editor={editor}
                 />
             </div>
