@@ -26,23 +26,7 @@ export const MarkdownInput = ({
     const editor = useEditor({
         content: value,
         extensions: [
-            StarterKit.configure({
-                heading: {
-                    HTMLAttributes: {
-                        class: "dark:cui-text-white",
-                    },
-                },
-                bold: {
-                    HTMLAttributes: {
-                        class: "dark:cui-text-white",
-                    },
-                },
-                blockquote: {
-                    HTMLAttributes: {
-                        class: "dark:cui-text-white",
-                    },
-                },
-            }),
+            StarterKit.configure({}),
             Placeholder.configure({
                 placeholder,
                 emptyEditorClass:
@@ -51,7 +35,7 @@ export const MarkdownInput = ({
         ],
         editorProps: {
             attributes: {
-                class: "cui-prose cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full dark:cui-text-white",
+                class: "cui-prose cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full dark:cui-text-white prose-h1:dark:cui-text-white prose-h2:dark:cui-text-white prose-strong:dark:cui-text-white prose-blockquote:dark:cui-text-white",
             },
         },
         onUpdate: ({ editor }) => {
