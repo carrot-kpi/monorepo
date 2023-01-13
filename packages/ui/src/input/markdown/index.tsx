@@ -1,5 +1,4 @@
 import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import React, { ReactElement, useCallback, useState } from "react";
 
@@ -26,7 +25,6 @@ export const MarkdownInput = ({
     const editor = useEditor({
         content: value,
         extensions: [
-            StarterKit.configure({}),
             Placeholder.configure({
                 placeholder,
                 emptyEditorClass:
