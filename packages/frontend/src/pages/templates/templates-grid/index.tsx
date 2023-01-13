@@ -81,7 +81,7 @@ const campaignsMockData = [
 
 export const TemplatesGrid = () => {
     return (
-        <div className="max-w-6xl px-6 py-12 pb-32">
+        <div className="max-w-6xl px-3 py-12 pb-32">
             <div className="flex flex-wrap justify-center gap-4 lg:gap-5">
                 {campaignsMockData.map((campaign) => (
                     <CampaignCard
@@ -97,7 +97,7 @@ export const TemplatesGrid = () => {
                     />
                 ))}
             </div>
-            <div className="pt-8">
+            <div className="flex justify-center w-full pt-8 xl:justify-start">
                 <Pagination />
             </div>
         </div>
