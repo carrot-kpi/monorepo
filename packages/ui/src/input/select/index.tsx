@@ -122,9 +122,12 @@ export const Select = <O extends SelectOption>({
     );
 
     return (
-        <div>
+        <div className={className}>
             <LabelWrapper id={id} label={label}>
-                <div className="cui-relative cui-w-fit" ref={setAnchorElement}>
+                <div
+                    className="cui-select-wrapper cui-relative cui-w-fit"
+                    ref={setAnchorElement}
+                >
                     <input
                         id={id}
                         type="text"
@@ -135,14 +138,15 @@ export const Select = <O extends SelectOption>({
                         className={inputStyles({
                             size,
                             border,
-                            className: [
-                                "cui-w-fit cui-cursor-pointer dark:cui-bg-black cui-border-black",
-                                className,
-                            ],
+                            className:
+                                "cui-select-input cui-w-fit cui-cursor-pointer",
                         })}
                     />
                     <ArrowDown
-                        className={arrowStyles({ open })}
+                        className={arrowStyles({
+                            open,
+                            className: "cui-select-caret",
+                        })}
                         onClick={handleClick}
                     />
                 </div>
@@ -154,7 +158,7 @@ export const Select = <O extends SelectOption>({
                         ...styles.popper,
                         width: anchorElement?.clientWidth,
                     }}
-                    className="cui-rounded-xxl cui-border cui-bg-white dark:cui-bg-black dark:cui-border-white cui-z-10 cui-overflow-hidden"
+                    className="cui-select-dropdown cui-rounded-xxl cui-border cui-bg-white dark:cui-bg-black dark:cui-border-white cui-z-10 cui-overflow-hidden"
                     {...attributes.popper}
                 >
                     {options.map((option) => {
@@ -162,13 +166,14 @@ export const Select = <O extends SelectOption>({
                             <li
                                 className={optionStyles({
                                     picked: value?.value === option.value,
+                                    className: "cui-select-option",
                                 })}
                                 onClick={handlePick}
                                 data-value={JSON.stringify(option)}
                                 key={option.label}
                             >
                                 {!!renderOption ? (
-                                    <div className="cui-pointer-events-none">
+                                    <div className="cui-select-custom-option-wrapper cui-pointer-events-none">
                                         {renderOption(option)}
                                     </div>
                                 ) : (
