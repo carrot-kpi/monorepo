@@ -1,6 +1,9 @@
 import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import { AccordionContextProvider } from "./context";
 
+export * from "./details";
+export * from "./summary";
+
 export interface AccordionProps {
     onChange?: (event: React.MouseEvent, expanded: boolean) => void;
     expanded?: boolean;

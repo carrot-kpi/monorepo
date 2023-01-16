@@ -2,8 +2,8 @@ import React from "react";
 import { ComponentMeta } from "@storybook/react";
 
 import { Accordion, Accordion as AccordionComponent } from ".";
-import { AccordionSummary } from "../accordion-summary";
-import { AccordionDetails } from "../accordion-details";
+import { AccordionSummary } from "./summary";
+import { AccordionDetails } from "./details";
 import { TextMono } from "../text-mono";
 
 export default {
