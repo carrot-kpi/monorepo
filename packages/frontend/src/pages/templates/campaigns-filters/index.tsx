@@ -1,9 +1,22 @@
 import React from "react";
 import { FilterOptions } from "./filter-options";
+import { cva } from "class-variance-authority";
 
-export const CampaignsFilters = () => {
+const campaignsFiltersStyles = cva(
+    ["hidden", "p-12", "bg-white", "border-r", "border-gray-400"],
+    {
+        variants: {
+            filtersOpen: {
+                true: ["md:block"],
+                false: ["hidden"],
+            },
+        },
+    }
+);
+
+export const CampaignsFilters = ({ filtersOpen }: { filtersOpen: boolean }) => {
     return (
-        <div className="hidden p-12 bg-white border-r border-gray-400 md:block">
+        <div className={campaignsFiltersStyles({ filtersOpen })}>
             <div className="w-64 space-y-6">
                 {mockFiltersData.map((filter: any) => (
                     <FilterOptions

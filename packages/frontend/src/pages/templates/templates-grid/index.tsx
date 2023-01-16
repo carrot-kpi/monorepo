@@ -97,7 +97,7 @@ export const TemplatesGrid = () => {
                     />
                 ))}
             </div>
-            <div className="flex justify-center w-full pt-8 xl:justify-start">
+            <div className="flex justify-center w-full pt-8 lg:justify-start">
                 <Pagination />
             </div>
         </div>

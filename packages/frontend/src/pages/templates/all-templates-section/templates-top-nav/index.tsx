@@ -1,12 +1,21 @@
 import React from "react";
 
-export const TemplatesTopNav = () => {
+export const TemplatesTopNav = ({
+    toggleFilters,
+}: {
+    toggleFilters: () => void;
+}) => {
     return (
         <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12">
             <div className="flex flex-col items-center justify-between w-full md:flex-row">
                 <div className="flex flex-col w-full md:space-x-5 md:flex-row">
                     <div className="flex mb-4 space-x-5 md:mb-0">
-                        <div className="p-3 border rounded-xl ">FY</div>
+                        <div
+                            className="p-3 border rounded-xl "
+                            onClick={toggleFilters}
+                        >
+                            FY
+                        </div>
                         <div className="flex-grow p-3 border md:flex-initial rounded-xl">
                             Latest
                         </div>
