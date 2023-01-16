@@ -1,6 +1,46 @@
 import React from "react";
 import { CampaignCard } from "../../../components/ui/campaign-card";
 
+export const CampaignsGrid = () => {
+    return (
+        <div className="max-w-6xl px-3 py-12 pb-32">
+            <div className="flex flex-wrap justify-center gap-4 lg:gap-5">
+                {campaignsMockData.map((campaign) => (
+                    <CampaignCard
+                        key={campaign.id}
+                        title={campaign.title}
+                        question={campaign.question}
+                        expiration={parseInt(campaign.timeLeft)}
+                        templateName="Template name"
+                        tags={["Tag"]}
+                        isHolding={campaign.holder}
+                        dark
+                        noBorder
+                    />
+                ))}
+            </div>
+            <div className="flex justify-center w-full pt-8 lg:justify-start">
+                <Pagination />
+            </div>
+        </div>
+    );
+};
+
+const PaginationNumber = ({ number }: { number: string | number }) => (
+    <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
+        {number}
+    </div>
+);
+
+const Pagination = () => (
+    <div className="flex mt-6 space-x-4">
+        <PaginationNumber number={1} />
+        <PaginationNumber number={2} />
+        <PaginationNumber number={"..."} />
+        <PaginationNumber number={12} />
+    </div>
+);
+
 // this will be fetched in the future
 const campaignsMockData = [
     {
@@ -78,43 +118,3 @@ const campaignsMockData = [
         timeLeft: "99D 08H 32M",
     },
 ];
-
-export const TemplatesGrid = () => {
-    return (
-        <div className="max-w-6xl px-3 py-12 pb-32">
-            <div className="flex flex-wrap justify-center gap-4 lg:gap-5">
-                {campaignsMockData.map((campaign) => (
-                    <CampaignCard
-                        key={campaign.id}
-                        title={campaign.title}
-                        question={campaign.question}
-                        expiration={parseInt(campaign.timeLeft)}
-                        templateName="Template name"
-                        tags={["Tag"]}
-                        isHolding={campaign.holder}
-                        dark
-                        noBorder
-                    />
-                ))}
-            </div>
-            <div className="flex justify-center w-full pt-8 lg:justify-start">
-                <Pagination />
-            </div>
-        </div>
-    );
-};
-
-const PaginationNumber = ({ number }: { number: string | number }) => (
-    <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
-        {number}
-    </div>
-);
-
-const Pagination = () => (
-    <div className="flex mt-6 space-x-4">
-        <PaginationNumber number={1} />
-        <PaginationNumber number={2} />
-        <PaginationNumber number={"..."} />
-        <PaginationNumber number={12} />
-    </div>
-);

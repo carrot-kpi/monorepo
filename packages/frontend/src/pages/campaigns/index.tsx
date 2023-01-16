@@ -2,9 +2,9 @@ import { Title } from "@carrot-kpi/ui";
 import React from "react";
 import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
 import { Hero } from "./hero";
-import { AllTemplatesSection } from "./all-templates-section";
+import { AllCampaignsSection } from "./all-campaigns-section";
 
-export const Templates = () => {
+export const Campaigns = () => {
     return (
         <div>
             <Hero />
@@ -13,10 +13,10 @@ export const Templates = () => {
                 <div className="relative">
                     <div className="px-6 md:px-12">
                         <Title size="7xl" className="mb-24">
-                            Template in use
+                            All Campaigns
                         </Title>
                     </div>
-                    <AllTemplatesSection />
+                    <AllCampaignsSection />
                 </div>
             </div>
         </div>

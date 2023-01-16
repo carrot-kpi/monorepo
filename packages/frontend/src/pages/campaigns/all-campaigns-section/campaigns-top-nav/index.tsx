@@ -1,6 +1,6 @@
 import React from "react";
 
-export const TemplatesTopNav = ({
+export const CampaignsTopNav = ({
     toggleFilters,
 }: {
     toggleFilters: () => void;

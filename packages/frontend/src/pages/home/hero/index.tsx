@@ -6,6 +6,7 @@ import { MainTitle } from "../../../components/ui/main-title";
 import { PageWrapper } from "../../../components/ui/page-wrapper";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
+import { Link } from "react-router-dom";
 
 export const Hero = () => (
     <div className="relative bg-orange">
@@ -17,9 +18,11 @@ export const Hero = () => (
                     <FeaturedCampaings />
                 </CardHorizontal>
                 <div className="flex flex-col space-x-0 space-y-6 md:space-y-0 md:flex-row md:space-x-8">
-                    <Button variant="primary" size="big">
-                        All campaigns
-                    </Button>
+                    <Link to="/campaigns">
+                        <Button variant="primary" size="big">
+                            All campaigns
+                        </Button>
+                    </Link>
                     <Button variant="secondary" size="big">
                         Create campaign
                     </Button>

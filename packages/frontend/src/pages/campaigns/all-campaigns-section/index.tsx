@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { CampaignsFilters } from "../campaigns-filters";
-import { TemplatesGrid } from "../templates-grid";
-import { TemplatesTopNav } from "./templates-top-nav";
+import { CampaignsGrid } from "../campaigns-grid";
+import { CampaignsTopNav } from "./campaigns-top-nav";
 
-export const AllTemplatesSection = () => {
+export const AllCampaignsSection = () => {
     const [filtersOpen, setFilterOpen] = useState(true);
 
     const toggleFilters = () => {
@@ -13,10 +13,10 @@ export const AllTemplatesSection = () => {
 
     return (
         <div>
-            <TemplatesTopNav toggleFilters={toggleFilters} />
+            <CampaignsTopNav toggleFilters={toggleFilters} />
             <div className="flex">
                 <CampaignsFilters filtersOpen={filtersOpen} />
-                <TemplatesGrid />
+                <CampaignsGrid />
             </div>
         </div>
     );
