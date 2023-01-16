@@ -15,7 +15,7 @@ On the root folder run
 build packages
 
 ```bash
- pnpm build:all
+ pnpm build
 ```
 
 ## frontend
@@ -35,7 +35,7 @@ The carrot design system with storybook
 To run it
 
 ```bash
- npm run storybook
+ pnpm start
 ```
 
 ## SDK
