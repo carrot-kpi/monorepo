@@ -13,7 +13,7 @@ export interface BaseInputProps<V> extends LabelWrapperProps {
 
 export const inputStyles = cva(
     [
-        "cui-rounded-xxl cui-p-3 cui-font-mono cui-font-normal focus:cui-outline-none cui-placeholder-opacity-20 dark:cui-placeholder-opacity-30 cui-text-black dark:cui-text-white cui-box-border",
+        "cui-rounded-xxl cui-p-3 cui-font-mono cui-font-normal focus:cui-outline-none cui-placeholder-opacity-20 dark:cui-placeholder-opacity-30 cui-text-black dark:cui-text-white cui-box-border cui-bg-white dark:cui-bg-black",
     ],
     {
         variants: {
@@ -53,7 +53,7 @@ export const LabelWrapper = ({
     className,
     children,
 }: LabelWrapperProps): ReactElement => (
-    <>
+    <div>
         {!!label && (
             <label
                 className={`cui-block cui-w-fit cui-mb-2 ${className}`}
@@ -65,5 +65,5 @@ export const LabelWrapper = ({
             </label>
         )}
         {children}
-    </>
+    </div>
 );

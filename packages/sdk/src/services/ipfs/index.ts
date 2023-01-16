@@ -1,6 +1,6 @@
 import { CACHER } from "../../commons";
 
-export const DEFAULT_IPFS_GATEWAY = "https://ipfs.io/ipfs/";
+export const DEFAULT_IPFS_GATEWAY = "https://ipfs.carrot-kpi.dev/ipfs/";
 
 export class IpfsService {
     static readonly IPFS_GATEWAY_KEY = "ipfs-gateway";
