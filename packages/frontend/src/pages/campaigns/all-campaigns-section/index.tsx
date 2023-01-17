@@ -6,10 +6,7 @@ import { CampaignsTopNav } from "./campaigns-top-nav";
 export const AllCampaignsSection = () => {
     const [filtersOpen, setFilterOpen] = useState(true);
 
-    const toggleFilters = () => {
-        console.log("filtersOpen:", filtersOpen);
-        setFilterOpen(!filtersOpen);
-    };
+    const toggleFilters = () => setFilterOpen(!filtersOpen);
 
     return (
         <div>
