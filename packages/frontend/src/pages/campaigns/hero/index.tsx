@@ -9,7 +9,7 @@ export const Hero = () => (
     <div className="relative bg-orange">
         <GridPatternBg />
         <PageWrapper>
-            <div className="relative pb-16 mb-12 space-y-12 pt-7 md:py-24">
+            <div className="relative pb-16 space-y-12 pt-7 md:py-24">
                 <div className="grid gap-6 grid-area-hero md:gap-x-12 lg:items-start lg:flex-row">
                     <div className="grid-area-left">
                         <TemplateCard

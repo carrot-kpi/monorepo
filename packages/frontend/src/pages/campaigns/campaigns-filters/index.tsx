@@ -3,7 +3,14 @@ import { FilterOptions } from "./filter-options";
 import { cva } from "class-variance-authority";
 
 const campaignsFiltersStyles = cva(
-    ["hidden", "p-12", "bg-white", "border-r", "border-gray-400"],
+    [
+        "hidden",
+        "p-12",
+        "bg-white",
+        "border-r",
+        "border-gray-400",
+        "dark:bg-black",
+    ],
     {
         variants: {
             filtersOpen: {

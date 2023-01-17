@@ -16,7 +16,7 @@ export const CampaignsTopNav = ({
     });
 
     return (
-        <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12">
+        <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12 dark:bg-black">
             <div className="flex flex-col items-center justify-between w-full md:flex-row">
                 <div className="flex flex-col w-full md:space-x-5 md:flex-row">
                     <div className="flex mb-4 space-x-5 md:mb-0">
