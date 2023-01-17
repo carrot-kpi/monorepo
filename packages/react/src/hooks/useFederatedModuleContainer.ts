@@ -27,7 +27,10 @@ export const useFederatedModuleContainer = (
             let container = <RemoteContainer | undefined>(
                 window[entry as keyof Window]
             );
-            if (!!container && container.__initialized) return;
+            if (!!container && container.__initialized) {
+                setContainer(container);
+                return;
+            }
             if (!cancelled) setLoading(true);
             try {
                 const sanitizedBaseUrl = baseUrl.endsWith("/")
