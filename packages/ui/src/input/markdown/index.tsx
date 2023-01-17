@@ -1,7 +1,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import React, { ReactNode, ReactElement, useCallback, useState } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
 import { TextMono } from "../../text-mono";
