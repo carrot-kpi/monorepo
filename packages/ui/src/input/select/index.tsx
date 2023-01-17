@@ -44,6 +44,29 @@ const optionStyles = cva(
     }
 );
 
+const selectRootStyles = cva([""], {
+    variants: {
+        fullWidth: {
+            true: "w-full",
+        },
+    },
+    defaultVariants: {
+        fullWidth: false,
+    },
+});
+
+const selectAnchorStyles = cva(["cui-select-wrapper", "cui-relative"], {
+    variants: {
+        fullWidth: {
+            true: "cui-w-full",
+            false: "cui-w-fit",
+        },
+    },
+    defaultVariants: {
+        fullWidth: false,
+    },
+});
+
 export interface SelectOption {
     label: string;
     value: ValueType;
@@ -53,6 +76,7 @@ export interface SelectOption {
 export type ValueType = string | number;
 
 export type SelectProps<O extends SelectOption = SelectOption> = {
+    fullWidth?: boolean;
     options: O[];
     value: O | null;
     onChange: (value: O) => void;
@@ -69,6 +93,7 @@ export const Select = <O extends SelectOption>({
     onChange,
     className,
     renderOption,
+    fullWidth,
     ...rest
 }: SelectProps<O>): ReactElement => {
     const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(
@@ -122,10 +147,10 @@ export const Select = <O extends SelectOption>({
     );
 
     return (
-        <div className={className}>
+        <div className={selectRootStyles({ className, fullWidth })}>
             <LabelWrapper id={id} label={label}>
                 <div
-                    className="cui-select-wrapper cui-relative cui-w-fit"
+                    className={selectAnchorStyles({ fullWidth })}
                     ref={setAnchorElement}
                 >
                     <input
@@ -138,6 +163,7 @@ export const Select = <O extends SelectOption>({
                         className={inputStyles({
                             size,
                             border,
+                            fullWidth,
                             className:
                                 "cui-select-input cui-w-fit cui-cursor-pointer",
                         })}
