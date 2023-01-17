@@ -1,23 +1,44 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import React, { ReactElement, useCallback, useState } from "react";
+import React, { ReactNode, ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
 import { TextMono } from "../../text-mono";
+import { HelperTextWrapper } from "../commons";
+import { cva } from "class-variance-authority";
 
 export interface MarkdownInputProps {
     id: string;
     label: string;
+    error?: boolean;
+    helperText?: string;
     placeholder?: string;
     value: string;
     onChange: (value: string) => void;
     className?: string;
 }
 
+export const mardkdownInputContentStyles = cva(
+    [
+        "cui-rounded-b-xxl cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-cursor-text focus:cui-outline-none cui-bg-white dark:cui-bg-black",
+    ],
+    {
+        variants: {
+            error: {
+                true: [
+                    "cui-bg-red cui-bg-opacity-20 dark:cui-bg-red dark:cui-bg-opacity-20",
+                ],
+            },
+        },
+    }
+);
+
 export const MarkdownInput = ({
     id,
     label,
+    error = false,
+    helperText,
     placeholder,
     value,
     onChange,
@@ -61,16 +82,21 @@ export const MarkdownInput = ({
                 </TextMono>
             </label>
             <div
-                className={`cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange cui-bg-white dark:cui-bg-black ${className}`}
+                className={`cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange ${className}`}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >
                 {editor && <MenuBar editor={editor} focused={focused} />}
                 <EditorContent
-                    className="cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-cursor-text focus:cui-outline-none"
+                    className={mardkdownInputContentStyles({ error })}
                     editor={editor}
                 />
             </div>
+            {helperText && (
+                <HelperTextWrapper error={error}>
+                    {helperText}
+                </HelperTextWrapper>
+            )}
         </div>
     );
 };

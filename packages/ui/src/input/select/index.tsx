@@ -5,7 +5,12 @@ import React, {
     useState,
     MouseEvent as SpecificMouseEvent,
 } from "react";
-import { BaseInputProps, inputStyles, LabelWrapper } from "../commons";
+import {
+    BaseInputProps,
+    HelperTextWrapper,
+    inputStyles,
+    LabelWrapper,
+} from "../commons";
 import { usePopper } from "react-popper";
 import { ReactComponent as ArrowDown } from "../../assets/arrow-down.svg";
 import { cva } from "class-variance-authority";
@@ -55,6 +60,8 @@ export type ValueType = string | number;
 export type SelectProps<O extends SelectOption = SelectOption> = {
     options: O[];
     value: O | null;
+    helperText?: string;
+    error?: boolean;
     onChange: (value: O) => void;
     renderOption?: (value: O) => ReactElement;
 } & Omit<BaseInputProps<unknown>, "onChange" | "value">;
@@ -65,6 +72,8 @@ export const Select = <O extends SelectOption>({
     label,
     border,
     options,
+    helperText,
+    error = false,
     value,
     onChange,
     className,
@@ -136,6 +145,7 @@ export const Select = <O extends SelectOption>({
                         {...rest}
                         onClick={handleClick}
                         className={inputStyles({
+                            error,
                             size,
                             border,
                             className:
@@ -183,6 +193,11 @@ export const Select = <O extends SelectOption>({
                         );
                     })}
                 </ul>
+            )}
+            {helperText && (
+                <HelperTextWrapper error={error}>
+                    {helperText}
+                </HelperTextWrapper>
             )}
         </div>
     );

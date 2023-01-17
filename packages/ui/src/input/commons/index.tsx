@@ -1,9 +1,13 @@
 import React, { ChangeEventHandler } from "react";
 import { TextMono } from "../../text-mono";
+import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
+import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
 import { ReactElement } from "react";
 import { cva } from "class-variance-authority";
 
 export interface BaseInputProps<V> extends LabelWrapperProps {
+    error?: boolean;
+    helperText?: string;
     size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -17,6 +21,11 @@ export const inputStyles = cva(
     ],
     {
         variants: {
+            error: {
+                true: [
+                    "cui-bg-red cui-bg-opacity-20 dark:cui-bg-red dark:cui-bg-opacity-20",
+                ],
+            },
             size: {
                 xxs: ["cui-text-xxs"],
                 xs: ["cui-text-xs"],
@@ -65,5 +74,40 @@ export const LabelWrapper = ({
             </label>
         )}
         {children}
+    </div>
+);
+
+export interface HelperTextWrapperProps {
+    error?: boolean;
+    className?: string;
+    children: string;
+}
+
+const helperTextWrapperStyles = cva([
+    "cui-flex cui-items-center cui-gap-2 cui-mt-2",
+]);
+
+const helperTextStyles = cva([], {
+    variants: {
+        error: {
+            true: ["cui-text-red dark:cui-text-red"],
+        },
+    },
+});
+
+export const HelperTextWrapper = ({
+    error,
+    className,
+    children,
+}: HelperTextWrapperProps): ReactElement => (
+    <div className={helperTextWrapperStyles({ className })}>
+        {error ? (
+            <DangerIcon className="cui-stroke-red" />
+        ) : (
+            <InfoIcon className="cui-stroke-black dark:cui-stroke-white" />
+        )}
+        <TextMono className={helperTextStyles({ error })} size="xs">
+            {children}
+        </TextMono>
     </div>
 );
