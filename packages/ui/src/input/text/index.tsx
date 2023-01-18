@@ -17,19 +17,17 @@ export const TextInput = ({
 }: TextInputProps): ReactElement => {
     return (
         <LabelWrapper id={id} label={label}>
-            <>
-                <input
-                    id={id}
-                    type="text"
-                    {...rest}
-                    className={inputStyles({ error, size, border, className })}
-                />
-                {helperText && (
-                    <HelperTextWrapper error={error}>
-                        {helperText}
-                    </HelperTextWrapper>
-                )}
-            </>
+            <input
+                id={id}
+                type="text"
+                {...rest}
+                className={inputStyles({ error, size, border, className })}
+            />
+            {helperText && (
+                <HelperTextWrapper error={error}>
+                    {helperText}
+                </HelperTextWrapper>
+            )}
         </LabelWrapper>
     );
 };

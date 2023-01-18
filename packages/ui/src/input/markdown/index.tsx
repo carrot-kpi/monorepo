@@ -19,7 +19,7 @@ export interface MarkdownInputProps {
     className?: string;
 }
 
-export const mardkdownInputContentStyles = cva(
+export const markdownInputContentStyles = cva(
     [
         "cui-rounded-b-xxl cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-cursor-text focus:cui-outline-none cui-bg-white dark:cui-bg-black",
     ],
@@ -88,7 +88,7 @@ export const MarkdownInput = ({
             >
                 {editor && <MenuBar editor={editor} focused={focused} />}
                 <EditorContent
-                    className={mardkdownInputContentStyles({ error })}
+                    className={markdownInputContentStyles({ error })}
                     editor={editor}
                 />
             </div>

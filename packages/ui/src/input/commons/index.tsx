@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler, ReactNode } from "react";
 import { TextMono } from "../../text-mono";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
@@ -53,7 +53,7 @@ export interface LabelWrapperProps {
     id: string;
     label: string;
     className?: string;
-    children?: ReactElement;
+    children?: ReactNode;
 }
 
 export const LabelWrapper = ({

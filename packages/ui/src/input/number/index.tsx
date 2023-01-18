@@ -25,23 +25,21 @@ export const NumberInput = ({
 }: NumberInputProps): ReactElement => {
     return (
         <LabelWrapper id={id} label={label}>
-            <>
-                <NumericFormat
-                    type="text"
-                    defaultValue=""
-                    thousandSeparator=","
-                    decimalSeparator="."
-                    value={value}
-                    placeholder={placeholder}
-                    {...rest}
-                    className={inputStyles({ error, size, border, className })}
-                />
-                {helperText && (
-                    <HelperTextWrapper error={error}>
-                        {helperText}
-                    </HelperTextWrapper>
-                )}
-            </>
+            <NumericFormat
+                type="text"
+                defaultValue=""
+                thousandSeparator=","
+                decimalSeparator="."
+                value={value}
+                placeholder={placeholder}
+                {...rest}
+                className={inputStyles({ error, size, border, className })}
+            />
+            {helperText && (
+                <HelperTextWrapper error={error}>
+                    {helperText}
+                </HelperTextWrapper>
+            )}
         </LabelWrapper>
     );
 };
