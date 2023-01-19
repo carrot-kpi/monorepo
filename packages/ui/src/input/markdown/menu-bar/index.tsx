@@ -14,7 +14,7 @@ import { cva } from "class-variance-authority";
 
 const rootStyles = cva(
     [
-        "cui-flex cui-content-center cui-gap-2.5 cui-border-b cui-border-black dark:cui-border-white cui-p-2",
+        "cui-flex cui-content-center cui-gap-2.5 cui-border-b cui-border-black dark:cui-border-white cui-p-2 cui-rounded-t-xxl cui-bg-white dark:cui-bg-black",
     ],
     {
         variants: {
