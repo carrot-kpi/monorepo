@@ -13,7 +13,7 @@ export interface MarkdownInputProps {
     error?: boolean;
     helperText?: string;
     placeholder?: string;
-    value: string;
+    value?: string;
     onChange: (value: string) => void;
     className?: string;
 }
@@ -30,13 +30,27 @@ export const markdownInputRootStyles = cva([
 
 export const markdownInputContentStyles = cva(
     [
-        "cui-rounded-b-xxl cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-cursor-text focus:cui-outline-none cui-bg-white dark:cui-bg-black",
+        "cui-rounded-b-xxl",
+        "cui-scrollbar",
+        "cui-h-44",
+        "cui-overflow-y-auto",
+        "cui-overflow-x-hidden",
+        "cui-p-3",
+        "cui-text-sm",
+        "cui-font-normal",
+        "cui-cursor-text",
+        "focus:cui-outline-none",
+        "cui-bg-white",
+        "dark:cui-bg-black",
     ],
     {
         variants: {
             error: {
                 true: [
-                    "cui-bg-red cui-bg-opacity-20 dark:cui-bg-red dark:cui-bg-opacity-20",
+                    "cui-bg-red",
+                    "cui-bg-opacity-20",
+                    "dark:cui-bg-red",
+                    "dark:cui-bg-opacity-20",
                 ],
             },
         },
