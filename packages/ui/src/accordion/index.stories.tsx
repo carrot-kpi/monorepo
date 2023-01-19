@@ -7,7 +7,7 @@ import { AccordionDetails } from "./details";
 import { TextMono } from "../text-mono";
 
 export default {
-    title: "Accordions",
+    title: "Data display/Accordions",
     component: AccordionComponent,
 } as ComponentMeta<typeof AccordionComponent>;
 

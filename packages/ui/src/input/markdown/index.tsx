@@ -4,8 +4,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import React, { ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
-import { TextMono } from "../../text-mono";
-import { HelperTextWrapper } from "../commons";
+import { BaseInputWrapper } from "../commons";
 import { cva } from "class-variance-authority";
 
 export interface MarkdownInputProps {
@@ -18,6 +17,16 @@ export interface MarkdownInputProps {
     onChange: (value: string) => void;
     className?: string;
 }
+
+export const markdownInputRootStyles = cva([
+    "cui-rounded-xxl",
+    "cui-border",
+    "cui-border-black",
+    "dark:cui-border-white",
+    "focus-within:cui-outline-none",
+    "focus-within:cui-border-orange",
+    "dark:focus-within:cui-border-orange",
+]);
 
 export const markdownInputContentStyles = cva(
     [
@@ -75,14 +84,14 @@ export const MarkdownInput = ({
     }, []);
 
     return (
-        <div>
-            <label className="cui-block cui-mb-2" htmlFor={id}>
-                <TextMono size="sm" className="cui-font-medium">
-                    {label}
-                </TextMono>
-            </label>
+        <BaseInputWrapper
+            id={id}
+            label={label}
+            error={error}
+            helperText={helperText}
+        >
             <div
-                className={`cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange ${className}`}
+                className={markdownInputRootStyles({ className })}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >
@@ -92,11 +101,6 @@ export const MarkdownInput = ({
                     editor={editor}
                 />
             </div>
-            {helperText && (
-                <HelperTextWrapper error={error}>
-                    {helperText}
-                </HelperTextWrapper>
-            )}
-        </div>
+        </BaseInputWrapper>
     );
 };

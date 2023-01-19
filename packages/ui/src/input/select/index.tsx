@@ -5,24 +5,28 @@ import React, {
     useState,
     MouseEvent as SpecificMouseEvent,
 } from "react";
-import {
-    BaseInputProps,
-    HelperTextWrapper,
-    inputStyles,
-    LabelWrapper,
-} from "../commons";
+import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
 import { usePopper } from "react-popper";
-import { ReactComponent as ArrowDown } from "../../assets/arrow-down.svg";
+import { ReactComponent as ChevronUp } from "../../assets/chevron-up.svg";
 import { cva } from "class-variance-authority";
 
 const arrowStyles = cva(
     [
-        "cui-absolute cui-pointer-events-none cui-cursor-pointer cui-fill-black dark:cui-fill-white cui-right-4 cui-top-1/2 cui-transform -cui-translate-y-1/2",
+        "cui-select-caret",
+        "cui-absolute",
+        "cui-pointer-events-none",
+        "cui-cursor-pointer",
+        "cui-text-black",
+        "dark:cui-text-white",
+        "cui-right-4",
+        "cui-top-1/2",
+        "cui-transform",
+        "-cui-translate-y-1/2",
     ],
     {
         variants: {
             open: {
-                true: ["cui-rotate-180"],
+                false: ["cui-rotate-180"],
             },
         },
         defaultVariants: {
@@ -33,13 +37,27 @@ const arrowStyles = cva(
 
 const optionStyles = cva(
     [
-        "cui-cursor-pointer cui-p-3 cui-font-mono cui-font-normal cui-outline-none cui-placeholder-opacity-20 dark:cui-placeholder-opacity-30 cui-text-black dark:cui-text-white cui-box-border hover:cui-bg-gray-200 dark:hover:cui-bg-gray-700",
+        "cui-cursor-pointer",
+        "cui-p-3",
+        "cui-font-mono",
+        "cui-font-normal",
+        "cui-outline-none",
+        "cui-placeholder-opacity-20",
+        "dark:cui-placeholder-opacity-30",
+        "cui-text-black",
+        "dark:cui-text-white",
+        "cui-box-border",
+        "hover:cui-bg-gray-200",
+        "dark:hover:cui-bg-gray-700",
     ],
     {
         variants: {
             picked: {
                 true: [
-                    "cui-bg-gray-300 hover:cui-bg-gray-300 dark:cui-bg-gray-600 dark:hover:cui-bg-gray-600",
+                    "cui-bg-gray-300",
+                    "hover:cui-bg-gray-300",
+                    "dark:cui-bg-gray-600",
+                    "dark:hover:cui-bg-gray-600",
                 ],
             },
         },
@@ -132,7 +150,12 @@ export const Select = <O extends SelectOption>({
 
     return (
         <div className={className}>
-            <LabelWrapper id={id} label={label}>
+            <BaseInputWrapper
+                id={id}
+                label={label}
+                error={error}
+                helperText={helperText}
+            >
                 <div
                     className="cui-select-wrapper cui-relative cui-w-fit"
                     ref={setAnchorElement}
@@ -152,15 +175,14 @@ export const Select = <O extends SelectOption>({
                                 "cui-select-input cui-w-fit cui-cursor-pointer",
                         })}
                     />
-                    <ArrowDown
+                    <ChevronUp
                         className={arrowStyles({
                             open,
-                            className: "cui-select-caret",
                         })}
                         onClick={handleClick}
                     />
                 </div>
-            </LabelWrapper>
+            </BaseInputWrapper>
             {open && (
                 <ul
                     ref={setPopperElement}
@@ -193,11 +215,6 @@ export const Select = <O extends SelectOption>({
                         );
                     })}
                 </ul>
-            )}
-            {helperText && (
-                <HelperTextWrapper error={error}>
-                    {helperText}
-                </HelperTextWrapper>
             )}
         </div>
     );
