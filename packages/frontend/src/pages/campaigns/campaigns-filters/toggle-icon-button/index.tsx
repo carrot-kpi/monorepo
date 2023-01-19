@@ -15,9 +15,9 @@ export const ToggleIconButton = ({
     active,
     children,
 }: ToggleIconButtonProps) => (
-    <div className={ToggleIconButtonStyles({ active })} onClick={toggle}>
+    <button className={ToggleIconButtonStyles({ active })} onClick={toggle}>
         {children}
-    </div>
+    </button>
 );
 
 const ToggleIconButtonStyles = cva(

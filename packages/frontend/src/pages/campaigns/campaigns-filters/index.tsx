@@ -4,12 +4,12 @@ import { cva } from "class-variance-authority";
 
 const campaignsFiltersStyles = cva(
     [
-        "hidden",
+        "absolute md:relative",
+        "shadow md:shadow-none",
+        "w-full md:w-fit",
         "p-12",
         "bg-white",
-        "border-r",
-        "border-gray-400",
-        "dark:bg-black",
+        "border-r border-gray-400 dark:bg-black",
     ],
     {
         variants: {
@@ -24,7 +24,7 @@ const campaignsFiltersStyles = cva(
 export const CampaignsFilters = ({ filtersOpen }: { filtersOpen: boolean }) => {
     return (
         <div className={campaignsFiltersStyles({ filtersOpen })}>
-            <div className="w-64 space-y-6">
+            <div className="space-y-6 md:w-64">
                 {mockFiltersData.map((filter: any) => (
                     <FilterOptions
                         key={filter.title}
