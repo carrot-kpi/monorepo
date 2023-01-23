@@ -18,8 +18,8 @@ export const CampaignsTopNav = ({
     return (
         <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12 dark:bg-black">
             <div className="flex flex-col items-center justify-between w-full md:flex-row">
-                <div className="flex flex-col w-full gap-5 md:flex-row">
-                    <div className="flex gap-5 mb-4 md:mb-0">
+                <div className="flex flex-col w-full gap-5 mb-5 md:mb-0 md:flex-row">
+                    <div className="flex gap-5">
                         <div
                             className="p-3 border rounded-xl "
                             onClick={toggleFilters}
@@ -27,6 +27,7 @@ export const CampaignsTopNav = ({
                             FY
                         </div>
                         <Select
+                            fullWidth
                             label=""
                             id="campaigns-filter-order"
                             onChange={setCampaignsOrder}
@@ -44,8 +45,9 @@ export const CampaignsTopNav = ({
                             value={campaignsOrder}
                         />
                     </div>
-                    <div className="flex flex-row-reverse gap-5 mb-4 md:flex-row md:mb-0">
+                    <div className="flex flex-row-reverse gap-5 md:flex-row">
                         <Select
+                            fullWidth
                             label=""
                             id="campaigns-filter-state"
                             onChange={setCampaignState}

@@ -26,6 +26,9 @@ export const inputStyles = cva(
                 xl: ["cui-text-xl"],
                 xxl: ["cui-text-xxl"],
             },
+            fullWidth: {
+                true: ["cui-w-full"],
+            },
             border: {
                 true: [
                     "cui-border cui-border-black dark:cui-border-white focus:cui-border-orange dark:focus:cui-border-orange cui-bg-transparent",
@@ -36,6 +39,7 @@ export const inputStyles = cva(
         defaultVariants: {
             size: "md",
             border: true,
+            fullWidth: false,
         },
     }
 );
