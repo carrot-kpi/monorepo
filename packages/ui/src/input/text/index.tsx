@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
-import { inputStyles, LabelWrapper } from "../commons";
+import { inputStyles, BaseInputWrapper } from "../commons";
 
 export type TextInputProps = BaseInputProps<string>;
 
@@ -10,17 +10,24 @@ export const TextInput = ({
     label,
     size,
     border,
+    helperText,
+    error = false,
     className,
     ...rest
 }: TextInputProps): ReactElement => {
     return (
-        <LabelWrapper id={id} label={label}>
+        <BaseInputWrapper
+            id={id}
+            label={label}
+            error={error}
+            helperText={helperText}
+        >
             <input
                 id={id}
                 type="text"
                 {...rest}
-                className={inputStyles({ size, border, className })}
+                className={inputStyles({ error, size, border, className })}
             />
-        </LabelWrapper>
+        </BaseInputWrapper>
     );
 };
