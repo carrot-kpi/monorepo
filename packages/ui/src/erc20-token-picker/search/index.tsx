@@ -30,7 +30,12 @@ const tokenItemStyles = cva(
     {
         variants: {
             selected: {
-                true: ["cui-bg-gray-300", "hover:cui-bg-gray-300"],
+                true: [
+                    "cui-bg-gray-300",
+                    "hover:cui-bg-gray-300",
+                    "dark:cui-bg-gray-600",
+                    "dark:hover:cui-bg-gray-600",
+                ],
             },
         },
     }
@@ -238,8 +243,11 @@ export const Search = ({
                                         defaultSrcs={defaultLogoSrc}
                                         defaultText={symbol}
                                         ipfsGatewayURL={ipfsGatewayURL}
+                                        className={{
+                                            root: "cui-pointer-events-none",
+                                        }}
                                     />
-                                    <div className="cui-flex cui-flex-col cui-ml-3">
+                                    <div className="cui-flex cui-flex-col cui-ml-3 cui-pointer-events-none">
                                         <TextMono>{symbol}</TextMono>
                                         <TextMono
                                             size="xs"
