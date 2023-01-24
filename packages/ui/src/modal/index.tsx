@@ -8,6 +8,7 @@ const rootStyles = cva(
         "cui-left-0",
         "cui-w-screen",
         "cui-h-screen",
+        "cui-z-50",
         "cui-flex",
         "cui-justify-center",
         "cui-items-center",
