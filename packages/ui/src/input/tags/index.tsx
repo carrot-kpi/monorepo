@@ -73,7 +73,12 @@ export const TagsInput = ({
                 value={inputValue}
                 onChange={handleOnChange}
                 onKeyDown={handleTagCreate}
-                className={inputStyles({ error, size, border, className })}
+                className={inputStyles({
+                    error,
+                    size,
+                    border,
+                    className: className?.input,
+                })}
             />
             {tags.length > 0 && (
                 <div className={"cui-flex cui-flex-wrap cui-gap-2 cui-mt-2"}>
