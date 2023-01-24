@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, ReactNode } from "react";
-import { TextMono } from "../../text-mono";
+import { TextMono, TextMonoProps } from "../../text-mono";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
 import { ReactElement } from "react";
@@ -89,10 +89,19 @@ const helperTextStyles = cva([], {
 
 export interface BaseInputWrapperProps {
     id: string;
-    label: string;
+    label?: string;
     error?: boolean;
     helperText?: string;
-    className?: string;
+    className?: {
+        root?: string;
+        label?: string;
+        labelText?: TextMonoProps["className"];
+        helperTextContainer?: string;
+        helperTextIcon?: string;
+        helperText?: TextMonoProps["className"];
+        // should be applied when using the wrapper
+        input?: string;
+    };
     children?: ReactNode;
 }
 
@@ -104,26 +113,48 @@ export const BaseInputWrapper = ({
     className,
     children,
 }: BaseInputWrapperProps): ReactElement => (
-    <div>
+    <div className={className?.root}>
         {!!label && (
             <label
-                className={`cui-block cui-w-fit cui-mb-2 ${className}`}
+                className={`cui-block cui-w-fit cui-mb-2 ${className?.label}`}
                 htmlFor={id}
             >
-                <TextMono size="sm" className="cui-font-medium">
+                <TextMono
+                    size="sm"
+                    className={{
+                        root: `cui-font-medium`,
+                        ...className?.labelText,
+                    }}
+                >
                     {label}
                 </TextMono>
             </label>
         )}
         {children}
         {helperText && (
-            <div className={helperTextWrapperStyles({ className })}>
+            <div
+                className={helperTextWrapperStyles({
+                    className: className?.helperTextContainer,
+                })}
+            >
                 {error ? (
-                    <DangerIcon className="cui-stroke-red" />
+                    <DangerIcon
+                        className={`cui-stroke-red ${className?.helperTextIcon}`}
+                    />
                 ) : (
-                    <InfoIcon className="cui-stroke-black dark:cui-stroke-white" />
+                    <InfoIcon
+                        className={`cui-stroke-black dark:cui-stroke-white ${className?.helperTextIcon}`}
+                    />
                 )}
-                <TextMono className={helperTextStyles({ error })} size="xs">
+                <TextMono
+                    className={{
+                        root: helperTextStyles({
+                            error,
+                        }),
+                        ...className?.helperText,
+                    }}
+                    size="xs"
+                >
                     {helperText}
                 </TextMono>
             </div>

@@ -82,6 +82,13 @@ export type SelectProps<O extends SelectOption = SelectOption> = {
     error?: boolean;
     onChange: (value: O) => void;
     renderOption?: (value: O) => ReactElement;
+    className?: BaseInputProps<unknown>["className"] & {
+        inputRoot?: string;
+        wrapper?: string;
+        dropdownRoot?: string;
+        option?: string;
+        customOptionWrapper?: string;
+    };
 } & Omit<BaseInputProps<unknown>, "onChange" | "value">;
 
 export const Select = <O extends SelectOption>({
@@ -149,15 +156,16 @@ export const Select = <O extends SelectOption>({
     );
 
     return (
-        <div className={className}>
+        <div className={className?.root}>
             <BaseInputWrapper
                 id={id}
                 label={label}
                 error={error}
                 helperText={helperText}
+                className={{ root: className?.inputRoot }}
             >
                 <div
-                    className="cui-select-wrapper cui-relative cui-w-fit"
+                    className={`cui-relative cui-w-fit ${className?.wrapper}`}
                     ref={setAnchorElement}
                 >
                     <input
@@ -171,8 +179,7 @@ export const Select = <O extends SelectOption>({
                             error,
                             size,
                             border,
-                            className:
-                                "cui-select-input cui-w-fit cui-cursor-pointer",
+                            className: `cui-w-fit cui-cursor-pointer ${className?.input}`,
                         })}
                     />
                     <ChevronUp
@@ -190,7 +197,7 @@ export const Select = <O extends SelectOption>({
                         ...styles.popper,
                         width: anchorElement?.clientWidth,
                     }}
-                    className="cui-select-dropdown cui-rounded-xxl cui-border cui-bg-white dark:cui-bg-black dark:cui-border-white cui-z-10 cui-overflow-hidden"
+                    className={`cui-rounded-xxl cui-border cui-bg-white dark:cui-bg-black dark:cui-border-white cui-z-10 cui-overflow-hidden ${className?.dropdownRoot}`}
                     {...attributes.popper}
                 >
                     {options.map((option) => {
@@ -198,14 +205,16 @@ export const Select = <O extends SelectOption>({
                             <li
                                 className={optionStyles({
                                     picked: value?.value === option.value,
-                                    className: "cui-select-option",
+                                    className: className?.option,
                                 })}
                                 onClick={handlePick}
                                 data-value={JSON.stringify(option)}
                                 key={option.label}
                             >
                                 {!!renderOption ? (
-                                    <div className="cui-select-custom-option-wrapper cui-pointer-events-none">
+                                    <div
+                                        className={`cui-pointer-events-none ${className?.customOptionWrapper}`}
+                                    >
                                         {renderOption(option)}
                                     </div>
                                 ) : (

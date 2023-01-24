@@ -21,12 +21,18 @@ export const DateTimeInput = ({
             label={label}
             error={error}
             helperText={helperText}
+            className={className}
         >
             <input
                 id={id}
                 type="datetime-local"
                 {...rest}
-                className={inputStyles({ error, size, border, className })}
+                className={inputStyles({
+                    error,
+                    size,
+                    border,
+                    className: className?.input,
+                })}
             />
         </BaseInputWrapper>
     );

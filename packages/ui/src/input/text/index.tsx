@@ -21,12 +21,18 @@ export const TextInput = ({
             label={label}
             error={error}
             helperText={helperText}
+            className={className}
         >
             <input
                 id={id}
                 type="text"
                 {...rest}
-                className={inputStyles({ error, size, border, className })}
+                className={inputStyles({
+                    error,
+                    size,
+                    border,
+                    className: className?.input,
+                })}
             />
         </BaseInputWrapper>
     );
