@@ -121,10 +121,8 @@ export const BaseInputWrapper = ({
             >
                 <TextMono
                     size="sm"
-                    className={{
-                        root: `cui-font-medium`,
-                        ...className?.labelText,
-                    }}
+                    weight="medium"
+                    className={className?.labelText}
                 >
                     {label}
                 </TextMono>
