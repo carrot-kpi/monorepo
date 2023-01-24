@@ -20,7 +20,12 @@ const listItemStyles = cva(
     {
         variants: {
             selected: {
-                true: ["cui-bg-gray-300", "hover:cui-bg-gray-300"],
+                true: [
+                    "cui-bg-gray-300",
+                    "hover:cui-bg-gray-300",
+                    "dark:cui-bg-gray-600",
+                    "dark:hover:cui-bg-gray-600",
+                ],
             },
         },
     }
@@ -127,8 +132,17 @@ export const ManageLists = ({
                                         src={logoURI}
                                         defaultText={name}
                                         ipfsGatewayURL={ipfsGatewayURL}
+                                        className={{
+                                            root: "cui-pointer-events-none",
+                                        }}
                                     />
-                                    <TextMono>{name}</TextMono>
+                                    <TextMono
+                                        className={{
+                                            root: "cui-pointer-events-none",
+                                        }}
+                                    >
+                                        {name}
+                                    </TextMono>
                                 </li>
                             );
                         })}
