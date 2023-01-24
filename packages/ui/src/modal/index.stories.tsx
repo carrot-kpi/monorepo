@@ -25,7 +25,7 @@ const Template: Story<ModalProps> = (props: ModalProps) => {
         <>
             <Button onClick={handleClick}>Open</Button>
             <ModalComponent {...props} open={open} onDismiss={handleDismiss}>
-                <div className="cui-bg-white cui-p-3 cui-text-black cui-rounded-xl">
+                <div className="cui-bg-white dark:cui-bg-black cui-text-black dark:cui-white-black cui-p-3 cui-rounded-xl">
                     <TextMono>Hello world!</TextMono>
                 </div>
             </ModalComponent>
