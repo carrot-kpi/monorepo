@@ -107,10 +107,11 @@ export const Search = ({
             return !!tokenByAddress ? [tokenByAddress] : [];
         }
         const lowercaseSearchParts = debouncedSearchQuery
+            .trim()
             .toLowerCase()
             .split(/\s+/)
             .filter((s) => s.length > 0);
-        if (lowercaseSearchParts.length === 0) return filteredTokens;
+        if (lowercaseSearchParts.length === 0) return tokensInChain;
         const matchesSearch = (s: string): boolean => {
             const sParts = s
                 .toLowerCase()
