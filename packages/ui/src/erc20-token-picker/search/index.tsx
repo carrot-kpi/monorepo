@@ -36,7 +36,7 @@ const tokenItemStyles = cva(
     }
 );
 
-export interface CurrencySearchProps {
+export interface SearchProps {
     onDismiss?: () => void;
     onSelectedTokenChange?: (token: TokenInfoWithBalance) => void;
     selectedToken?: TokenInfoWithBalance | null;
@@ -61,7 +61,7 @@ export interface CurrencySearchProps {
     };
 }
 
-export const CurrencySearch = ({
+export const Search = ({
     onDismiss,
     onSelectedTokenChange,
     selectedToken,
@@ -71,7 +71,7 @@ export const CurrencySearch = ({
     ipfsGatewayURL,
     onManageLists,
     className,
-}: CurrencySearchProps) => {
+}: SearchProps) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
 

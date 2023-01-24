@@ -1,5 +1,5 @@
 import React, { useCallback, useLayoutEffect, useState } from "react";
-import { CurrencySearch, CurrencySearchProps } from "./search";
+import { Search, SearchProps } from "./search";
 import { Modal } from "../modal";
 import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
 import { ManageLists, ManageListsProps } from "./manage-lists";
@@ -20,7 +20,7 @@ export interface ERC20TokenPickerProps {
     selectedList?: TokenListWithBalance;
     onSelectedListChange?: (list: TokenListWithBalance) => void;
     className?: {
-        search: CurrencySearchProps["className"];
+        search: SearchProps["className"];
         manageLists: ManageListsProps["className"];
     };
 }
@@ -54,7 +54,7 @@ export function ERC20TokenPicker({
     return (
         <Modal open={open} onDismiss={onDismiss}>
             {currentView === "search" && (
-                <CurrencySearch
+                <Search
                     onDismiss={onDismiss}
                     onSelectedTokenChange={onSelectedTokenChange}
                     selectedToken={selectedToken}
