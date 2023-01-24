@@ -35,15 +35,25 @@
         "start": "start-storybook -p 6006",
         "build-storybook": "build-storybook"
     },
+    "dependencies": {
+        "@uniswap/token-lists": "1.0.0-beta.31",
+        "@ethersproject/address": "^5.7.0",
+        "@ethersproject/bignumber": "^5.7.0",
+        "@popperjs/core": "^2.11.6",
+        "@tiptap/extension-placeholder": "2.0.0-beta.209",
+        "@tiptap/react": "2.0.0-beta.209",
+        "@tiptap/starter-kit": "2.0.0-beta.209",
+        "class-variance-authority": "^0.3.0",
+        "react-number-format": "^5.1.2",
+        "react-popper": "^2.3.0",
+        "react-use": "^17.4.0"
+    },
     "peerDependencies": {
         "@fontsource/ibm-plex-mono": "^4.5.12",
         "react": "^18.2.0"
     },
     "devDependencies": {
         "@babel/core": "^7.19.3",
-        "@ethersproject/address": "^5.7.0",
-        "@ethersproject/bignumber": "^5.7.0",
-        "@popperjs/core": "^2.11.6",
         "@rollup/plugin-commonjs": "^22.0.2",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^14.1.0",
@@ -61,23 +71,15 @@
         "@svgr/rollup": "^6.5.1",
         "@svgr/webpack": "^6.5.1",
         "@tailwindcss/typography": "^0.5.8",
-        "@tiptap/extension-placeholder": "2.0.0-beta.209",
-        "@tiptap/react": "2.0.0-beta.209",
-        "@tiptap/starter-kit": "2.0.0-beta.209",
         "@types/react": "^18.0.21",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "autoprefixer": "^10.4.13",
         "babel-loader": "^8.2.5",
-        "class-variance-authority": "^0.3.0",
         "eslint-config-custom": "workspace:*",
         "file-loader": "^6.2.0",
         "postcss": "^8.4.19",
         "postcss-loader": "^7.0.2",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-number-format": "^5.1.2",
-        "react-popper": "^2.3.0",
-        "react-use": "^17.4.0",
         "rimraf": "^3.0.2",
         "rollup": "^2.79.1",
         "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -88,8 +90,5 @@
         "storybook-dark-mode": "^2.0.4",
         "tailwindcss": "^3.2.4",
         "tsconfig": "workspace:*"
-    },
-    "dependencies": {
-        "@uniswap/token-lists": "1.0.0-beta.31"
     }
 }
