@@ -219,7 +219,7 @@ export const Search = ({
             />
             <div className="cui-flex cui-w-full cui-h-96 cui-justify-center cui-items-center">
                 {sortedTokens.length > 0 ? (
-                    <ul className="cui-list-none cui-w-full cui-h-full cui-overflow-y-auto">
+                    <ul className="cui-list-none cui-w-full cui-h-full cui-overflow-y-auto cui-scrollbar">
                         {sortedTokens.map((token, index) => {
                             const { chainId, address, symbol, name, logoURI } =
                                 token;

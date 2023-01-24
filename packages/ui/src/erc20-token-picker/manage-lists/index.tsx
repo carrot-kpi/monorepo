@@ -114,7 +114,7 @@ export const ManageLists = ({
             />
             <div className="cui-flex cui-w-full cui-h-96 cui-justify-center cui-items-center">
                 {listsInChain.length > 0 ? (
-                    <ul className="cui-list-none cui-w-full cui-h-full cui-overflow-y-auto">
+                    <ul className="cui-list-none cui-w-full cui-h-full cui-overflow-y-auto cui-scrollbar">
                         {listsInChain.map((list, index) => {
                             const { name, version, logoURI } = list;
                             const selected =
