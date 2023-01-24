@@ -15,7 +15,7 @@ export interface FooterColumnProps {
 
 export const FooterColumn = ({ title, links }: FooterColumnProps) => (
     <ul className="w-40">
-        <TextMono className="text-white" caps>
+        <TextMono className={{ root: "text-white" }} caps>
             {title}
         </TextMono>
         <div className="mt-6 space-y-3">
@@ -23,7 +23,9 @@ export const FooterColumn = ({ title, links }: FooterColumnProps) => (
                 <FooterLink key={url} url={url} LinkComponent={LinkComponent}>
                     <TextMono
                         size="sm"
-                        className="text-white cursor-pointer hover:underline"
+                        className={{
+                            root: "text-white cursor-pointer hover:underline",
+                        }}
                     >
                         {title}
                     </TextMono>
