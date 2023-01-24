@@ -1,9 +1,16 @@
-import { cva, cx } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { resolveSrc } from "../utils/url";
 
 const rootStyles = cva(
-    ["cui-rounded-full", "cui-flex", "cui-justify-center", "cui-items-center"],
+    [
+        "cui-bg-black",
+        "dark:cui-bg-white",
+        "cui-rounded-full",
+        "cui-flex",
+        "cui-justify-center",
+        "cui-items-center",
+    ],
     {
         variants: {
             size: {
@@ -63,14 +70,7 @@ export const RemoteLogo = ({
         );
     }
     return (
-        <div
-            className={cx(
-                rootStyles({ size }),
-                "cui-bg-black",
-                "dark:cui-bg-white",
-                className?.root
-            )}
-        >
+        <div className={rootStyles({ size, className: className?.root })}>
             <div className="cui-font-mono cui-text-white dark:cui-text-black">
                 {resolvedDefaultText}
             </div>
