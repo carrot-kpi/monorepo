@@ -14,12 +14,13 @@ const rootStyles = cva(
         "cui-items-center",
         "cui-bg-black/30",
         "cui-backdrop-blur",
+        "cui-transition-opacity",
     ],
     {
         variants: {
             open: {
-                true: ["cui-block"],
-                false: ["cui-hidden"],
+                true: ["cui-opacity-100", "cui-pointer-events-auto"],
+                false: ["cui-opacity-0", "cui-pointer-events-none"],
             },
         },
     }
