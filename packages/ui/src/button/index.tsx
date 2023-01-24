@@ -8,14 +8,53 @@ import { cva, cx } from "class-variance-authority";
 import { ReactComponent as Spinner } from "../assets/spinner.svg";
 
 const buttonStyles = cva(
-    "cui-relative cui-w-fit cui-transition-colors cui-group cui-flex cui-items-center cui-font-mono cui-rounded-xxl cui-border cui-cursor-pointer cui-uppercase",
+    [
+        "cui-relative",
+        "cui-w-fit",
+        "cui-transition-colors",
+        "cui-group",
+        "cui-flex",
+        "cui-items-center",
+        "cui-font-mono",
+        "cui-rounded-xxl",
+        "cui-border",
+        "cui-cursor-pointer",
+        "cui-uppercase",
+    ],
     {
         variants: {
             variant: {
-                primary:
-                    "cui-border-black cui-bg-black cui-text-white hover:cui-bg-orange hover:cui-text-black disabled:cui-text-white disabled:cui-bg-gray-400 disabled:cui-border-gray-400 dark:cui-bg-orange dark:cui-text-black hover:dark:cui-bg-black hover:dark:cui-text-orange hover:dark:cui-border-orange disabled:dark:cui-text-gray-400 disabled:dark:cui-bg-gray-700 disabled:dark:cui-border-gray-700",
-                secondary:
-                    "cui-border-black cui-bg-transparent cui-text-black hover:cui-border-white hover:cui-bg-black hover:cui-text-white dark:cui-border-white dark:cui-text-white hover:dark:cui-border-black hover:dark:cui-bg-white hover:dark:cui-text-black",
+                primary: [
+                    "cui-border-black",
+                    "cui-bg-black",
+                    "cui-text-white",
+                    "hover:cui-bg-orange",
+                    "hover:cui-text-black",
+                    "disabled:cui-text-white",
+                    "disabled:cui-bg-gray-400",
+                    "disabled:cui-border-gray-400",
+                    "dark:cui-bg-orange",
+                    "dark:cui-text-black",
+                    "hover:dark:cui-bg-black",
+                    "hover:dark:cui-text-orange",
+                    "hover:dark:cui-border-orange",
+                    "disabled:dark:cui-text-gray-400",
+                    "disabled:dark:cui-bg-gray-700",
+                    "disabled:dark:cui-border-gray-700",
+                ],
+                secondary: [
+                    "cui-border-black",
+                    "cui-bg-transparent",
+                    "cui-text-black",
+                    "hover:cui-border-white",
+                    "hover:cui-bg-black",
+                    "hover:cui-text-white",
+                    "dark:cui-border-white",
+                    "dark:cui-text-white",
+                    "hover:dark:cui-border-black",
+                    "hover:dark:cui-bg-white",
+                    "hover:dark:cui-text-black",
+                ],
             },
             size: {
                 big: "cui-px-6 cui-py-5",
@@ -106,7 +145,11 @@ export interface CarrotButtonProps {
     href?: string;
     disabled?: boolean;
     loading?: boolean;
-    className?: string;
+    className?: {
+        root?: string;
+        icon?: string;
+        contentWrapper?: string;
+    };
     icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
     iconPlacement?: "left" | "right";
     size?: "big" | "small" | "xsmall";
@@ -130,7 +173,7 @@ export const Button = ({
         className: buttonStyles({
             size,
             variant,
-            className: [className, "cui-inline-block"],
+            className: `cui-flex cui-justify-center cui-items-center ${className?.root}`,
         }),
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -148,6 +191,7 @@ export const Button = ({
                     loading,
                     size,
                     iconPlacement,
+                    className: className?.icon,
                 })}
             >
                 <Spinner
@@ -157,18 +201,33 @@ export const Button = ({
                             size,
                             loading,
                         }),
-                        spinnerStyles({ hasIcon, loading })
+                        spinnerStyles({ hasIcon, loading }),
+                        className?.icon
                     )}
                 />
             </div>
         );
     else if (!!hasIcon)
-        resolvedIcon = <Icon className={iconStyles({ iconPlacement, size })} />;
+        resolvedIcon = (
+            <Icon
+                className={iconStyles({
+                    iconPlacement,
+                    size,
+                    className: className?.icon,
+                })}
+            />
+        );
 
     return (
         <Root {...sharedProps} {...props}>
             {iconPlacement === "left" && resolvedIcon}
-            <div className={wrapperStyles({ hasIcon, loading })}>
+            <div
+                className={wrapperStyles({
+                    hasIcon,
+                    loading,
+                    className: className?.contentWrapper,
+                })}
+            >
                 {children}
             </div>
             {iconPlacement === "right" && resolvedIcon}
