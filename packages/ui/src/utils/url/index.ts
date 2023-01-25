@@ -34,8 +34,8 @@ const resolveSingleSrc = (
         const name = match[1].toLowerCase();
         const path = match[3];
         return resolvedDefaultSrcs.concat(
-            `https://${name}eth.limo/${path}`,
-            `https://${name}eth.link/${path}`
+            `https://${name}.eth.limo/${path}`,
+            `https://${name}.eth.link/${path}`
         );
     }
     const protocol = src.split(":")[0].toLowerCase();
