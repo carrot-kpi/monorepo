@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 import React from "react";
 import { ReactElement } from "react";
-import { TextMono } from "../../../text-mono";
+import { TextMono, TextMonoProps } from "../../../text-mono";
 import { ReactComponent as RemoveIcon } from "../../../assets/remove-icon.svg";
 
 const tagStyles = cva([
@@ -17,13 +17,22 @@ const iconStyles = cva([
 
 export interface TagProps {
     text: string;
-    className?: string;
+    className?: {
+        root?: string;
+        text?: TextMonoProps["className"];
+        removeIcon?: string;
+    };
     onRemove: () => void;
 }
 
 export const Tag = ({ className, text, onRemove }: TagProps): ReactElement => (
-    <div className={tagStyles({ className })}>
-        <TextMono size="xs">{text.toUpperCase()}</TextMono>
-        <RemoveIcon className={iconStyles()} onClick={onRemove} />
+    <div className={tagStyles({ className: className?.root })}>
+        <TextMono size="xs" className={className?.text}>
+            {text.toUpperCase()}
+        </TextMono>
+        <RemoveIcon
+            className={iconStyles({ className: className?.removeIcon })}
+            onClick={onRemove}
+        />
     </div>
 );

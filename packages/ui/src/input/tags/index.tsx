@@ -1,10 +1,17 @@
+import { cva } from "class-variance-authority";
 import React, { useCallback, useEffect, useState } from "react";
 import { ReactElement } from "react";
 import { BaseInputProps, BaseInputWrapper, inputStyles } from "../commons";
-import { Tag } from "./tag";
+import { Tag, TagProps } from "./tag";
+
+const tagsWrapper = cva(["cui-flex", "cui-flex-wrap", "cui-gap-2", "cui-mt-2"]);
 
 export type TagsInputProps = Omit<BaseInputProps<string[]>, "onChange"> & {
     onChange: (tags: string[]) => void;
+    className?: BaseInputProps<unknown>["className"] & {
+        tagsWrapper?: string;
+        tag?: TagProps["className"];
+    };
 };
 
 export const TagsInput = ({
@@ -65,6 +72,7 @@ export const TagsInput = ({
             label={label}
             error={error || tagError}
             helperText={helperText || tagErrorMessage}
+            className={className}
         >
             <input
                 id={id}
@@ -81,12 +89,17 @@ export const TagsInput = ({
                 })}
             />
             {tags.length > 0 && (
-                <div className={"cui-flex cui-flex-wrap cui-gap-2 cui-mt-2"}>
+                <div
+                    className={tagsWrapper({
+                        className: className?.tagsWrapper,
+                    })}
+                >
                     {tags.map((tag, index) => (
                         <Tag
                             key={tag}
                             text={tag}
                             onRemove={() => handleTagRemove(index)}
+                            className={className?.tag}
                         />
                     ))}
                 </div>
