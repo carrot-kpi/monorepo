@@ -1,13 +1,28 @@
+import { cva } from "class-variance-authority";
 import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import { AccordionContextProvider } from "./context";
 
 export * from "./details";
 export * from "./summary";
 
+const rootStyles = cva([
+    "cui-font-mono",
+    "odd:cui-border-t",
+    "cui-border-r",
+    "cui-border-l",
+    "odd:cui-border-b",
+    "cui-border-black",
+    "dark:cui-border-white",
+    "[&:first-of-type>div:nth-child(1)]:cui-rounded-t-xxl",
+    "[&:first-of-type]:cui-rounded-t-xxl",
+    "[&:last-of-type]:cui-rounded-b-xxl",
+    "[&:last-of-type>div:nth-child(1)]:cui-rounded-b-xxl",
+]);
+
 export interface AccordionProps {
     onChange?: (event: React.MouseEvent, expanded: boolean) => void;
     expanded?: boolean;
-    className?: string;
+    className?: { root?: string };
     children: ReactElement[];
 }
 
@@ -52,10 +67,7 @@ export const Accordion = ({
     );
 
     return (
-        <div
-            {...rest}
-            className={`cui-font-mono odd:cui-border-t cui-border-r cui-border-l odd:cui-border-b cui-border-black dark:cui-border-white [&:first-of-type>div:nth-child(1)]:cui-rounded-t-xxl [&:first-of-type]:cui-rounded-t-xxl [&:last-of-type]:cui-rounded-b-xxl [&:last-of-type>div:nth-child(1)]:cui-rounded-b-xxl ${className}`}
-        >
+        <div {...rest} className={rootStyles({ className: className?.root })}>
             <AccordionContextProvider value={accordionContextValue}>
                 {summaryChildren}
             </AccordionContextProvider>
