@@ -46,10 +46,8 @@ export const TagsInput = ({
 
     const handleTagRemove = useCallback(
         (index: number) => {
-            if (!!value && value.length > 0) {
-                value.splice(index, 1);
-                onChange([...value]);
-            }
+            if (!!value && value.length > 0)
+                onChange(value.filter((_, i) => i !== index));
         },
         [onChange, value]
     );
