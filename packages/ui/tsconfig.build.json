@@ -3,6 +3,8 @@
     "include": ["./src/**/*", "./custom.d.ts"],
     "exclude": ["./src/**/*.stories.tsx"],
     "compilerOptions": {
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "declaration": true,
+        "rootDir": "./src"
     }
 }

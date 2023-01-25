@@ -73,12 +73,18 @@ export const CampaignCard = ({
                 {/* TODO: rewards are template-specific */}
                 {/* <CampaignCardRow title="Rewards" value={rewards} color={"black"} /> */}
                 <div className="flex items-center justify-between w-full  border-t border-gray-600">
-                    <TextMono size="sm" className="p-4 w-[40%]" caps>
+                    <TextMono
+                        size="sm"
+                        className={{ root: "p-4 w-[40%]" }}
+                        caps
+                    >
                         Time left
                     </TextMono>
                     <TextMono
                         size="sm"
-                        className="text-right w-[60%] p-4 border-l border-gray-600"
+                        className={{
+                            root: "text-right w-[60%] p-4 border-l border-gray-600",
+                        }}
                         caps
                     >
                         {expiration.toString()}

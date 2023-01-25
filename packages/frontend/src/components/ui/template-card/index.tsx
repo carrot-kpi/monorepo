@@ -40,7 +40,7 @@ export const TemplateCard = ({
                     </div>
                 </div>
             </div>
-            <TextMono className="p-4">
+            <TextMono className={{ root: "p-4" }}>
                 <div className="line-clamp-3 h-[72px] overflow-ellipsis">
                     {description}
                 </div>
@@ -75,7 +75,7 @@ export const TemplateCard = ({
 
 const Row = ({ title, children }: { title: string; children: string }) => (
     <div className="flex items-center justify-between p-4 border-t border-black dark:border-white">
-        <TextMono size="sm" className="capitalize">
+        <TextMono size="sm" caps>
             {title}
         </TextMono>
         <TextMono weight="medium">{children}</TextMono>

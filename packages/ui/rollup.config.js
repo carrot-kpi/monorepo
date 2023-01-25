@@ -2,7 +2,6 @@ import { resolve } from "path";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import tailwindcss from "tailwindcss";
@@ -15,17 +14,15 @@ export default [
         input: [resolve("src/index.ts")],
         plugins: [
             peerDepsExternal(),
-            nodeResolve(),
+            nodeResolve({ preferBuiltins: true }),
             commonjs(),
             postcss({
                 plugins: [tailwindcss, autoprefixer],
-                minimize: true,
                 extract: resolve("dist/styles.css"),
             }),
             url(),
             svgr(),
             typescript({ tsconfig: resolve("./tsconfig.build.json") }),
-            terser(),
         ],
         output: [
             {
@@ -36,7 +33,11 @@ export default [
     },
     {
         input: [resolve("./tailwind.preset.js")],
-        plugins: [peerDepsExternal(), nodeResolve(), commonjs(), terser()],
+        plugins: [
+            peerDepsExternal(),
+            nodeResolve({ preferBuiltins: true }),
+            commonjs(),
+        ],
         output: [
             {
                 file: resolve("dist/tailwind.preset.js"),

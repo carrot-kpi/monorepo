@@ -33,7 +33,12 @@ export const NumberInput = ({
                 value={value}
                 placeholder={placeholder}
                 {...rest}
-                className={inputStyles({ error, size, border, className })}
+                className={inputStyles({
+                    error,
+                    size,
+                    border,
+                    className: className?.input,
+                })}
             />
         </BaseInputWrapper>
     );

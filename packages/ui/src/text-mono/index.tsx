@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { cva } from "class-variance-authority";
 
-const textStyles = cva(["cui-font-mono cui-text-black dark:cui-text-white"], {
+const rootStyles = cva(["cui-font-mono cui-text-black dark:cui-text-white"], {
     variants: {
         caps: {
             true: ["cui-uppercase"],
@@ -25,7 +25,9 @@ export interface TextMonoProps {
     size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
     weight?: "medium";
     caps?: boolean;
-    className?: string;
+    className?: {
+        root: string;
+    };
     children: ReactNode;
 }
 
@@ -37,15 +39,15 @@ export const TextMono = ({
     className,
 }: TextMonoProps) => {
     return (
-        <p
-            className={textStyles({
+        <span
+            className={rootStyles({
                 size,
                 caps,
                 weight,
-                className,
+                className: className?.root,
             })}
         >
             {children}
-        </p>
+        </span>
     );
 };
