@@ -10,12 +10,15 @@ import { TextMono, TextMonoProps } from "../../text-mono";
 import { ReactComponent as X } from "../../assets/x.svg";
 import { Button, CarrotButtonProps } from "../../button";
 import { TextInput, TextInputProps } from "../../input/text";
-import { isAddress } from "@ethersproject/address";
 import { useDebounce } from "react-use";
 import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
 import { cva } from "class-variance-authority";
 import { RemoteLogo } from "../../remote-logo";
-import { getDefaultERC20TokenLogoURL } from "../../utils/erc20";
+import {
+    filterERC20Tokens,
+    getDefaultERC20TokenLogoURL,
+    sortERC20Tokens,
+} from "../../utils/erc20";
 
 const tokenItemStyles = cva(
     [
@@ -99,62 +102,11 @@ export const Search = ({
     }, [chainId, selectedList]);
 
     const filteredTokens: TokenInfoWithBalance[] = useMemo(() => {
-        if (tokensInChain.length === 0) return [];
-        if (!debouncedSearchQuery) return tokensInChain;
-        if (isAddress(debouncedSearchQuery)) {
-            const lowerCaseDebouncedSearchQuery =
-                debouncedSearchQuery.toLowerCase();
-            const tokenByAddress = tokensInChain.find(
-                (token) =>
-                    token.address.toLowerCase() ===
-                    lowerCaseDebouncedSearchQuery
-            );
-            return !!tokenByAddress ? [tokenByAddress] : [];
-        }
-        const lowercaseSearchParts = debouncedSearchQuery
-            .trim()
-            .toLowerCase()
-            .split(/\s+/)
-            .filter((s) => s.length > 0);
-        if (lowercaseSearchParts.length === 0) return tokensInChain;
-        const matchesSearch = (s: string): boolean => {
-            const sParts = s
-                .toLowerCase()
-                .split(/\s+/)
-                .filter((s) => s.length > 0);
-            return lowercaseSearchParts.every(
-                (p) => p.length === 0 || sParts.some((sp) => sp.includes(p))
-            );
-        };
-        return tokensInChain.filter((token) => {
-            const { symbol, name } = token;
-            return (
-                (symbol && matchesSearch(symbol)) ||
-                (name && matchesSearch(name))
-            );
-        });
+        return filterERC20Tokens(tokensInChain, debouncedSearchQuery);
     }, [debouncedSearchQuery, tokensInChain]);
 
     const sortedTokens: TokenInfoWithBalance[] = useMemo(() => {
-        return filteredTokens.sort((a, b) => {
-            const balanceA = a.balance;
-            const balanceB = b.balance;
-
-            let result = 0;
-            if (balanceA && balanceB)
-                result = balanceA.gt(balanceB)
-                    ? -1
-                    : balanceA.eq(balanceB)
-                    ? 0
-                    : 1;
-            else if (balanceA && balanceA.gt("0")) result = -1;
-            else if (balanceB && balanceB.gt("0")) result = 1;
-            if (result !== 0) return result;
-
-            if (a.symbol && b.symbol)
-                return a.symbol.toLowerCase() < b.symbol.toLowerCase() ? -1 : 1;
-            else return a.symbol ? -1 : b.symbol ? -1 : 0;
-        });
+        return sortERC20Tokens(filteredTokens);
     }, [filteredTokens]);
 
     const handleSearchChange = useCallback(
