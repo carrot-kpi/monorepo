@@ -8,7 +8,19 @@ import React, {
 import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
 import { usePopper } from "react-popper";
 import { ReactComponent as ChevronUp } from "../../assets/chevron-up.svg";
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+const wrapperStyles = cva(["cui-relative", "cui-w-fit"]);
+
+const dropdownRootStyles = cva([
+    "cui-rounded-xxl",
+    "cui-border",
+    "cui-bg-white",
+    "dark:cui-bg-black",
+    "dark:cui-border-white",
+    "cui-z-10",
+    "cui-overflow-hidden",
+]);
 
 const arrowStyles = cva(
     [
@@ -66,6 +78,8 @@ const optionStyles = cva(
         },
     }
 );
+
+const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
     label: string;
@@ -165,7 +179,7 @@ export const Select = <O extends SelectOption>({
                 className={{ root: className?.inputRoot }}
             >
                 <div
-                    className={`cui-relative cui-w-fit ${className?.wrapper}`}
+                    className={wrapperStyles({ className: className?.wrapper })}
                     ref={setAnchorElement}
                 >
                     <input
@@ -175,12 +189,15 @@ export const Select = <O extends SelectOption>({
                         value={value?.label || ""}
                         {...rest}
                         onClick={handleClick}
-                        className={inputStyles({
-                            error,
-                            size,
-                            border,
-                            className: `cui-w-fit cui-cursor-pointer ${className?.input}`,
-                        })}
+                        className={cx(
+                            inputStyles({
+                                error,
+                                size,
+                                border,
+                            }),
+                            "cui-w-fit cui-cursor-pointer",
+                            className?.input
+                        )}
                     />
                     <ChevronUp
                         className={arrowStyles({
@@ -197,7 +214,9 @@ export const Select = <O extends SelectOption>({
                         ...styles.popper,
                         width: anchorElement?.clientWidth,
                     }}
-                    className={`cui-rounded-xxl cui-border cui-bg-white dark:cui-bg-black dark:cui-border-white cui-z-10 cui-overflow-hidden ${className?.dropdownRoot}`}
+                    className={dropdownRootStyles({
+                        className: className?.dropdownRoot,
+                    })}
                     {...attributes.popper}
                 >
                     {options.map((option) => {
@@ -213,7 +232,10 @@ export const Select = <O extends SelectOption>({
                             >
                                 {!!renderOption ? (
                                     <div
-                                        className={`cui-pointer-events-none ${className?.customOptionWrapper}`}
+                                        className={customOptionWrapperStyles({
+                                            className:
+                                                className?.customOptionWrapper,
+                                        })}
                                     >
                                         {renderOption(option)}
                                     </div>
