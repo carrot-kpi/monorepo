@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import React from "react";
+import React, { useCallback } from "react";
 import { ReactElement } from "react";
 import { TextMono, TextMonoProps } from "../../../text-mono";
 import { ReactComponent as RemoveIcon } from "../../../assets/remove-icon.svg";
@@ -22,17 +22,29 @@ export interface TagProps {
         text?: TextMonoProps["className"];
         removeIcon?: string;
     };
-    onRemove: () => void;
+    index: number;
+    onRemove: (index: number) => void;
 }
 
-export const Tag = ({ className, text, onRemove }: TagProps): ReactElement => (
-    <div className={tagStyles({ className: className?.root })}>
-        <TextMono size="xs" className={className?.text}>
-            {text.toUpperCase()}
-        </TextMono>
-        <RemoveIcon
-            className={iconStyles({ className: className?.removeIcon })}
-            onClick={onRemove}
-        />
-    </div>
-);
+export const Tag = ({
+    className,
+    text,
+    index,
+    onRemove,
+}: TagProps): ReactElement => {
+    const handleRemove = useCallback(() => {
+        onRemove(index);
+    }, [index, onRemove]);
+
+    return (
+        <div className={tagStyles({ className: className?.root })}>
+            <TextMono size="xs" className={className?.text}>
+                {text.toUpperCase()}
+            </TextMono>
+            <RemoveIcon
+                className={iconStyles({ className: className?.removeIcon })}
+                onClick={handleRemove}
+            />
+        </div>
+    );
+};

@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ReactElement } from "react";
 import { BaseInputProps, BaseInputWrapper, inputStyles } from "../commons";
 import { Tag, TagProps } from "./tag";
@@ -26,14 +26,7 @@ export const TagsInput = ({
     onChange,
     ...rest
 }: TagsInputProps): ReactElement => {
-    const [tags, setTags] = useState<string[]>(value || []);
-    const [tagError, setTagError] = useState<boolean>(false);
-    const [tagErrorMessage, setTagErrorMessage] = useState<string>("");
     const [inputValue, setInputValue] = useState<string>("");
-
-    useEffect(() => {
-        onChange(tags);
-    }, [onChange, tags]);
 
     const handleOnChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,36 +35,31 @@ export const TagsInput = ({
         []
     );
 
-    const handleTagCreate = useCallback(
+    const handleKeyDown = useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>) => {
-            if (event.key !== "Enter") return;
-            if (inputValue === "") return;
-            if (tags.find((tag) => tag === inputValue)) {
-                setTagError(true);
-                setTagErrorMessage("Tag already existing");
-                return;
-            }
-
-            setTagError(false);
-            setTagErrorMessage("");
-            setTags((prevState) => [...prevState, inputValue]);
-            setInputValue("");
+            if (event.key !== "Enter" || !inputValue) return;
+            onChange(value ? [...value, inputValue] : [inputValue]);
+            if (!!inputValue) setInputValue("");
         },
-        [inputValue, tags]
+        [inputValue, onChange, value]
     );
 
-    const handleTagRemove = useCallback((indexToRemove: number) => {
-        setTags((prevStatus) =>
-            prevStatus.filter((_, index) => index !== indexToRemove)
-        );
-    }, []);
+    const handleTagRemove = useCallback(
+        (index: number) => {
+            if (!!value && value.length > 0) {
+                value.splice(index, 1);
+                onChange([...value]);
+            }
+        },
+        [onChange, value]
+    );
 
     return (
         <BaseInputWrapper
             id={id}
             label={label}
-            error={error || tagError}
-            helperText={helperText || tagErrorMessage}
+            error={error}
+            helperText={helperText}
             className={className}
         >
             <input
@@ -80,7 +68,7 @@ export const TagsInput = ({
                 {...rest}
                 value={inputValue}
                 onChange={handleOnChange}
-                onKeyDown={handleTagCreate}
+                onKeyDown={handleKeyDown}
                 className={inputStyles({
                     error,
                     size,
@@ -88,17 +76,18 @@ export const TagsInput = ({
                     className: className?.input,
                 })}
             />
-            {tags.length > 0 && (
+            {!!value && value.length > 0 && (
                 <div
                     className={tagsWrapper({
                         className: className?.tagsWrapper,
                     })}
                 >
-                    {tags.map((tag, index) => (
+                    {value.map((tag, index) => (
                         <Tag
-                            key={tag}
+                            key={tag + index}
                             text={tag}
-                            onRemove={() => handleTagRemove(index)}
+                            index={index}
+                            onRemove={handleTagRemove}
                             className={className?.tag}
                         />
                     ))}
