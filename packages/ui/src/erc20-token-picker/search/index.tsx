@@ -29,6 +29,7 @@ const rootStyles = cva([
     "cui-border-black",
     "dark:cui-border-white",
     "sm:cui-w-full",
+    "md:cui-min-w-[460px]",
     "md:cui-w-1/3",
     "lg:cui-w-1/4",
 ]);
@@ -281,19 +282,21 @@ export const Search = ({
                     <TextMono>Nothing</TextMono>
                 )}
             </div>
-            <Divider className={className?.divider} />
             {!!lists && lists.length > 0 && (
-                <div className="cui-p-3">
-                    <Button
-                        className={{
-                            root: "cui-w-full",
-                            ...className?.manageListsButton,
-                        }}
-                        onClick={onManageLists}
-                    >
-                        Manage token lists
-                    </Button>
-                </div>
+                <>
+                    <Divider className={className?.divider} />
+                    <div className="cui-p-3">
+                        <Button
+                            className={{
+                                root: "cui-w-full",
+                                ...className?.manageListsButton,
+                            }}
+                            onClick={onManageLists}
+                        >
+                            Manage token lists
+                        </Button>
+                    </div>
+                </>
             )}
         </div>
     );
