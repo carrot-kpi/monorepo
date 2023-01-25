@@ -40,9 +40,9 @@ export const RemoteLogo = ({
     ipfsGatewayURL,
     className,
 }: RemoteLogoProps) => {
-    const resolvedSrcs = useMemo(() => {
-        return resolveSrc(src, ipfsGatewayURL, defaultSrcs);
-    }, [defaultSrcs, ipfsGatewayURL, src]);
+    const [resolvedSrcs] = useState(
+        resolveSrc(src, ipfsGatewayURL, defaultSrcs)
+    );
     const [resolvedDefaultText, setResolvedDefaultText] = useState("");
     const [srcIndex, setSrcIndex] = useState(0);
 
