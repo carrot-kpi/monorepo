@@ -1,6 +1,10 @@
 [
     {
-        "path": "dist/index.js",
-        "limit": "150 KB"
+        "path": "./dist/index.js",
+        "limit": "200 KB"
+    },
+    {
+        "path": "./dist/styles.css",
+        "limit": "10 KB"
     }
 ]

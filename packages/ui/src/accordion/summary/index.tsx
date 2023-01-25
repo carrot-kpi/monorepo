@@ -4,12 +4,12 @@ import { useAccordionContext } from "../context";
 import { ReactComponent as ChevronUp } from "../../assets/chevron-up.svg";
 
 export interface SummaryProps {
-    className?: string;
+    className?: { root?: string };
     expandIcon?: ReactElement;
     children: ReactElement;
 }
 
-const accordionSummaryStyles = cva(
+const rootStyles = cva(
     [
         "hover:cui-cursor-pointer",
         "cui-flex",
@@ -52,7 +52,7 @@ export const AccordionSummary = ({
         <div
             onClick={toggle}
             {...rest}
-            className={accordionSummaryStyles({ expanded, className })}
+            className={rootStyles({ expanded, className: className?.root })}
         >
             {children}
             <div className={expandIconStyles({ expanded })}>

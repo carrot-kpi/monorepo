@@ -97,10 +97,7 @@ export const ConnectWallet = () => {
                                 </Button>
                             </>
                         ) : (
-                            <Button
-                                className="uppercase"
-                                onClick={openConnectModal}
-                            >
+                            <Button onClick={openConnectModal}>
                                 {t("connect.wallet")}
                             </Button>
                         )}

@@ -42,7 +42,7 @@ export const Hero = () => (
                         <Button
                             variant="primary"
                             size="big"
-                            className="w-full lg:w-auto"
+                            className={{ root: "w-full lg:w-auto" }}
                         >
                             CREATE CAMPAIGN
                         </Button>
