@@ -1,4 +1,14 @@
+import { cva } from "class-variance-authority";
 import React, { FunctionComponent, ReactElement } from "react";
+
+const rootStyles = cva([], {
+    variants: {
+        active: {
+            true: ["cui-rounded-md", "cui-border", "cui-border-gray-400"],
+            false: ["cui-border", "cui-border-transparent"],
+        },
+    },
+});
 
 interface MenuItemProps {
     icon: FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -15,11 +25,7 @@ export const MenuItem = ({
 }: MenuItemProps): ReactElement => {
     return (
         <button
-            className={`${
-                isActive()
-                    ? "cui-rounded-md cui-border cui-border-gray-400"
-                    : "cui-border cui-border-transparent"
-            }`}
+            className={rootStyles({ active: isActive() })}
             onClick={action}
             title={title}
         >
