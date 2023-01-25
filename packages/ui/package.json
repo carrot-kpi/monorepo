@@ -36,6 +36,7 @@
         "build-storybook": "build-storybook"
     },
     "dependencies": {
+        "@carrot-kpi/sdk": "workspace:*",
         "@ethersproject/address": "^5.7.0",
         "@ethersproject/bignumber": "^5.7.0",
         "@popperjs/core": "^2.11.6",
