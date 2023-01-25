@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
 
-export type NumberInputProps = Omit<NumericFormatProps, "size"> &
+export type NumberInputProps = Omit<NumericFormatProps, "size" | "className"> &
     BaseInputProps<string>;
 
 export const NumberInput = ({
@@ -24,6 +24,7 @@ export const NumberInput = ({
             label={label}
             error={error}
             helperText={helperText}
+            className={className}
         >
             <NumericFormat
                 type="text"
