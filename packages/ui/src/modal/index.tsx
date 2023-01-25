@@ -19,8 +19,16 @@ const rootStyles = cva(
     {
         variants: {
             open: {
-                true: ["cui-opacity-100", "cui-pointer-events-auto"],
-                false: ["cui-opacity-0", "cui-pointer-events-none"],
+                true: [
+                    "cui-will-change-contents",
+                    "cui-opacity-100",
+                    "cui-pointer-events-auto",
+                ],
+                false: [
+                    "cui-will-change-auto",
+                    "cui-opacity-0",
+                    "cui-pointer-events-none",
+                ],
             },
         },
     }
