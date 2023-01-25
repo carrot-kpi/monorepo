@@ -4,7 +4,45 @@ import { ReactComponent as X } from "../../assets/x.svg";
 import { ReactComponent as ChevronLeft } from "../../assets/chevron-left.svg";
 import { TokenListWithBalance } from "../types";
 import { cva } from "class-variance-authority";
-import { RemoteLogo } from "../../remote-logo";
+import { RemoteLogo, RemoteLogoProps } from "../../remote-logo";
+import { Divider, DividerProps } from "../divider";
+
+const rootStyles = cva([
+    "cui-bg-white",
+    "dark:cui-bg-black",
+    "cui-rounded-xl",
+    "cui-border",
+    "cui-border-black",
+    "dark:cui-border-white",
+    "sm:cui-w-full",
+    "md:cui-w-1/3",
+    "lg:cui-w-1/4",
+]);
+
+const headerStyles = cva([
+    "cui-p-3",
+    "cui-flex",
+    "cui-justify-between",
+    "cui-items-center",
+]);
+
+const iconStyles = cva(["cui-cursor-pointer"]);
+
+const listWrapperStyles = cva([
+    "cui-flex",
+    "cui-w-full",
+    "cui-h-96",
+    "cui-justify-center",
+    "cui-items-center",
+]);
+
+const listStyles = cva([
+    "cui-list-none",
+    "cui-w-full",
+    "cui-h-full",
+    "cui-overflow-y-auto",
+    "cui-scrollbar",
+]);
 
 const listItemStyles = cva(
     [
@@ -41,14 +79,17 @@ export interface ManageListsProps {
     onSearch: () => void;
     className?: {
         root?: string;
-        headerContainer?: string;
+        header?: string;
         title?: TextMonoProps["className"];
         closeIcon?: string;
         backIcon?: string;
-        divider?: string;
-        listContainer?: string;
+        divider?: DividerProps["className"];
+        listWrapper?: string;
+        list?: string;
         listItem?: string;
-        emptyListContainer?: string;
+        listItemIcon?: RemoteLogoProps["className"];
+        listItemText?: TextMonoProps["className"];
+        emptyListText?: TextMonoProps["className"];
     };
 }
 
@@ -85,15 +126,17 @@ export const ManageLists = ({
     );
 
     return (
-        <div
-            className={`cui-bg-white dark:cui-bg-black cui-rounded-xl cui-border cui-border-black dark:cui-border-white sm:cui-w-full md:cui-w-1/3 lg:cui-w-1/4 ${className?.root}`}
-        >
+        <div className={rootStyles({ className: className?.root })}>
             <div
-                className={`cui-p-3 cui-flex cui-justify-between cui-items-center ${className?.headerContainer}`}
+                className={headerStyles({
+                    className: className?.header,
+                })}
             >
                 <div className="cui-flex cui-items-center cui-gap-3">
                     <ChevronLeft
-                        className={`cui-cursor-pointer ${className?.backIcon}`}
+                        className={iconStyles({
+                            className: className?.backIcon,
+                        })}
                         onClick={onSearch}
                     />
                     <TextMono
@@ -105,16 +148,18 @@ export const ManageLists = ({
                     </TextMono>
                 </div>
                 <X
-                    className={`cui-cursor-pointer ${className?.closeIcon}`}
+                    className={iconStyles({ className: className?.closeIcon })}
                     onClick={onDismiss}
                 />
             </div>
+            <Divider className={className?.divider} />
             <div
-                className={`cui-h-[1px] cui-w-full cui-bg-black dark:cui-bg-white ${className?.divider}`}
-            />
-            <div className="cui-flex cui-w-full cui-h-96 cui-justify-center cui-items-center">
+                className={listWrapperStyles({
+                    className: className?.listWrapper,
+                })}
+            >
                 {listsInChain.length > 0 ? (
-                    <ul className="cui-list-none cui-w-full cui-h-full cui-overflow-y-auto cui-scrollbar">
+                    <ul className={listStyles({ className: className?.list })}>
                         {listsInChain.map((list, index) => {
                             const { name, version, logoURI } = list;
                             const selected =
@@ -124,7 +169,10 @@ export const ManageLists = ({
                             return (
                                 <li
                                     key={name + version}
-                                    className={listItemStyles({ selected })}
+                                    className={listItemStyles({
+                                        selected,
+                                        className: className?.listItem,
+                                    })}
                                     data-index={index}
                                     onClick={handleListClick}
                                 >
@@ -134,11 +182,13 @@ export const ManageLists = ({
                                         ipfsGatewayURL={ipfsGatewayURL}
                                         className={{
                                             root: "cui-pointer-events-none",
+                                            ...className?.listItemIcon,
                                         }}
                                     />
                                     <TextMono
                                         className={{
                                             root: "cui-pointer-events-none",
+                                            ...className?.listItemText,
                                         }}
                                     >
                                         {name}
@@ -148,7 +198,9 @@ export const ManageLists = ({
                         })}
                     </ul>
                 ) : (
-                    <TextMono>Nothing</TextMono>
+                    <TextMono className={className?.emptyListText}>
+                        Nothing
+                    </TextMono>
                 )}
             </div>
         </div>

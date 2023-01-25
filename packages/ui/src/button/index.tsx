@@ -15,6 +15,7 @@ const buttonStyles = cva(
         "cui-group",
         "cui-flex",
         "cui-items-center",
+        "cui-justify-center",
         "cui-font-mono",
         "cui-rounded-xxl",
         "cui-border",
@@ -147,6 +148,7 @@ export interface CarrotButtonProps {
     loading?: boolean;
     className?: {
         root?: string;
+        iconWrapper?: string;
         icon?: string;
         contentWrapper?: string;
     };
@@ -173,7 +175,7 @@ export const Button = ({
         className: buttonStyles({
             size,
             variant,
-            className: `cui-flex cui-justify-center cui-items-center ${className?.root}`,
+            className: className?.root,
         }),
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -191,7 +193,7 @@ export const Button = ({
                     loading,
                     size,
                     iconPlacement,
-                    className: className?.icon,
+                    className: className?.iconWrapper,
                 })}
             >
                 <Spinner

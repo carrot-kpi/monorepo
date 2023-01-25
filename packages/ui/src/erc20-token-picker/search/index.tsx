@@ -13,14 +13,54 @@ import { TextInput, TextInputProps } from "../../input/text";
 import { useDebounce } from "react-use";
 import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
 import { cva } from "class-variance-authority";
-import { RemoteLogo } from "../../remote-logo";
+import { RemoteLogo, RemoteLogoProps } from "../../remote-logo";
 import {
     filterERC20Tokens,
     getDefaultERC20TokenLogoURL,
     sortERC20Tokens,
 } from "../../utils/erc20";
+import { Divider, DividerProps } from "../divider";
 
-const tokenItemStyles = cva(
+const rootStyles = cva([
+    "cui-bg-white",
+    "dark:cui-bg-black",
+    "cui-rounded-xl",
+    "cui-border",
+    "cui-border-black",
+    "dark:cui-border-white",
+    "sm:cui-w-full",
+    "md:cui-w-1/3",
+    "lg:cui-w-1/4",
+]);
+
+const headerStyles = cva([
+    "cui-p-3",
+    "cui-flex",
+    "cui-justify-between",
+    "cui-items-center",
+]);
+
+const inputContainerStyles = cva(["cui-p-3"]);
+
+const iconStyles = cva(["cui-cursor-pointer"]);
+
+const listWrapperStyles = cva([
+    "cui-flex",
+    "cui-w-full",
+    "cui-h-96",
+    "cui-justify-center",
+    "cui-items-center",
+]);
+
+const listStyles = cva([
+    "cui-list-none",
+    "cui-w-full",
+    "cui-h-full",
+    "cui-overflow-y-auto",
+    "cui-scrollbar",
+]);
+
+const listItemStyles = cva(
     [
         "cui-flex",
         "cui-items-center",
@@ -55,16 +95,20 @@ export interface SearchProps {
     onManageLists: () => void;
     className?: {
         root?: string;
-        headerContainer?: string;
+        header?: string;
         title?: TextMonoProps["className"];
         closeIcon?: string;
-        divider?: string;
-        inputContainer?: string;
+        divider?: DividerProps["className"];
+        inputWrapper?: string;
         input?: TextInputProps["className"];
-        listContainer?: string;
+        listWrapper?: string;
+        list?: string;
         listItem?: string;
-        emptyListContainer?: string;
-        manageListsButtonContainer?: string;
+        listItemIcon?: RemoteLogoProps["className"];
+        listItemTextPrimary?: TextMonoProps["className"];
+        listItemTextSecondary?: TextMonoProps["className"];
+        emptyListText?: string;
+        manageListsButtonWrapper?: string;
         manageListsButton?: CarrotButtonProps["className"];
     };
 }
@@ -133,10 +177,14 @@ export const Search = ({
 
     return (
         <div
-            className={`cui-bg-white dark:cui-bg-black cui-rounded-xl cui-border cui-border-black dark:cui-border-white sm:cui-w-full md:cui-w-1/3 lg:cui-w-1/4 ${className?.root}`}
+            className={rootStyles({
+                className: className?.root,
+            })}
         >
             <div
-                className={`cui-p-3 cui-flex cui-justify-between cui-items-center ${className?.headerContainer}`}
+                className={headerStyles({
+                    className: className?.header,
+                })}
             >
                 <TextMono
                     weight="medium"
@@ -146,14 +194,16 @@ export const Search = ({
                     Select a token
                 </TextMono>
                 <X
-                    className={`cui-cursor-pointer ${className?.closeIcon}`}
+                    className={iconStyles({ className: className?.closeIcon })}
                     onClick={onDismiss}
                 />
             </div>
+            <Divider className={className?.divider} />
             <div
-                className={`cui-h-[1px] cui-w-full cui-bg-black dark:cui-bg-white ${className?.divider}`}
-            />
-            <div className={`cui-p-3 ${className?.inputContainer}`}>
+                className={inputContainerStyles({
+                    className: className?.inputWrapper,
+                })}
+            >
                 <TextInput
                     id="token-search"
                     placeholder="Search..."
@@ -166,12 +216,14 @@ export const Search = ({
                     }}
                 />
             </div>
+            <Divider className={className?.divider} />
             <div
-                className={`cui-h-[1px] cui-w-full cui-bg-black dark:cui-bg-white ${className?.divider}`}
-            />
-            <div className="cui-flex cui-w-full cui-h-96 cui-justify-center cui-items-center">
+                className={listWrapperStyles({
+                    className: className?.listWrapper,
+                })}
+            >
                 {sortedTokens.length > 0 ? (
-                    <ul className="cui-list-none cui-w-full cui-h-full cui-overflow-y-auto cui-scrollbar">
+                    <ul className={listStyles({ className: className?.list })}>
                         {sortedTokens.map((token, index) => {
                             const { chainId, address, symbol, name, logoURI } =
                                 token;
@@ -186,7 +238,10 @@ export const Search = ({
                             return (
                                 <li
                                     key={address}
-                                    className={tokenItemStyles({ selected })}
+                                    className={listItemStyles({
+                                        selected,
+                                        className: className?.listItem,
+                                    })}
                                     data-index={index}
                                     onClick={handleTokenClick}
                                 >
@@ -197,14 +252,22 @@ export const Search = ({
                                         ipfsGatewayURL={ipfsGatewayURL}
                                         className={{
                                             root: "cui-pointer-events-none",
+                                            ...className?.listItemIcon,
                                         }}
                                     />
                                     <div className="cui-flex cui-flex-col cui-ml-3 cui-pointer-events-none">
-                                        <TextMono>{symbol}</TextMono>
+                                        <TextMono
+                                            className={
+                                                className?.listItemTextPrimary
+                                            }
+                                        >
+                                            {symbol}
+                                        </TextMono>
                                         <TextMono
                                             size="xs"
                                             className={{
                                                 root: "cui-text-gray-600 dark:cui-text-gray-200",
+                                                ...className?.listItemTextSecondary,
                                             }}
                                         >
                                             {name}
