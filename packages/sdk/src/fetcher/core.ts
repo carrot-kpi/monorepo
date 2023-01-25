@@ -196,7 +196,7 @@ export abstract class CoreFetcher {
             const uncachedContent = await Promise.all(
                 uncachedCids.map(async (cid) => {
                     const response = await fetch(
-                        `${IpfsService.gateway}/ipfs${cid}`
+                        `${IpfsService.gateway}/ipfs/${cid}`
                     );
                     const responseOk = response.ok;
                     warn(responseOk, `could not fetch content with cid ${cid}`);
@@ -225,7 +225,7 @@ export abstract class CoreFetcher {
         const allContents = await Promise.all(
             cids.map(async (cid) => {
                 const response = await fetch(
-                    `${IpfsService.gateway}/ipfs${cid}`
+                    `${IpfsService.gateway}/ipfs/${cid}`
                 );
                 const responseOk = response.ok;
                 warn(responseOk, `could not fetch content with cid ${cid}`);

@@ -13,7 +13,7 @@ export const useTemplateModule = (
         return {
             baseUrl:
                 customBaseUrl ||
-                `${IpfsService.gateway}/ipfs${template.specification.cid}`,
+                `${IpfsService.gateway}/ipfs/${template.specification.cid}`,
             entry: `${template.specification.commitHash || ""}${entryPostfix}`,
         };
     }, [template, entryPostfix, customBaseUrl]);

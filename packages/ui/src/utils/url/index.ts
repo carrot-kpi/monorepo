@@ -46,15 +46,15 @@ const resolveSingleSrc = (
             return resolvedDefaultSrcs.concat("https" + src.substring(4), src);
         case "ipfs": {
             if (!ipfsGatewayURL) return [];
-            const hash = src.match(/^ipfs:(\/\/)?(.*)$/i)?.[2];
-            return resolvedDefaultSrcs.concat(`${ipfsGatewayURL}${hash}/`);
+            const cid = src.match(/^ipfs:(\/\/)?(.*)$/i)?.[2];
+            return resolvedDefaultSrcs.concat(`${ipfsGatewayURL}/ipfs/${cid}`);
         }
         case "ipns": {
             if (!ipfsGatewayURL) return [];
             const name = src.match(/^ipns:(\/\/)?(.*)$/i)?.[2];
             return resolvedDefaultSrcs.concat(
-                `${ipfsGatewayURL}/ipns/${name}/`,
-                `https://ipfs.io/ipns/${name}/`
+                `${ipfsGatewayURL}/ipns/${name}`,
+                `https://ipfs.io/ipns/${name}`
             );
         }
         default:
