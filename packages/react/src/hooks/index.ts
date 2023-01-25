@@ -7,3 +7,4 @@ export * from "./useNativeCurrency";
 export * from "./useOracle";
 export * from "./useOracleTemplates";
 export * from "./useTemplateModule";
+export * from "./useTokenLists";
