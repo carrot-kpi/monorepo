@@ -1,32 +1,18 @@
 import React from "react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, Story } from "@storybook/react";
 
-import { Text } from ".";
+import { Text as TextComponent, TextProps } from ".";
 
 export default {
-    title: "Text Component",
-    component: Text,
-} as ComponentMeta<typeof Text>;
+    title: "Data display/Text",
+    component: TextComponent,
+} as ComponentMeta<typeof TextComponent>;
 
-const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />;
-
-const sizes: ["sm", "xs"] = ["sm", "xs"];
-
-export const AllText = () => (
-    <div className="cui-space-y-4">
-        {sizes.map((size) => (
-            <Text key={size} size={size} color="black">
-                Featured campaigns
-            </Text>
-        ))}
-    </div>
-);
-
-const commonArgTypes = {
-    color: { control: "select", options: ["black", "white"] },
-    size: { control: "select", options: sizes },
+const Template: Story<TextProps> = (props: TextProps) => {
+    return <TextComponent {...props} />;
 };
 
-export const TextDefault = Template.bind({});
-TextDefault.args = { children: "Featured Campaigns" };
-TextDefault.argTypes = commonArgTypes;
+export const Text: Story<TextProps> = Template.bind({});
+Text.args = {
+    children: "Some text",
+};

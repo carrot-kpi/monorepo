@@ -10,7 +10,7 @@ const titleStyles = cva(["font-sans", "font-bold", "dark:text-white"], {
         size: {
             sm: ["cui-text-sm"],
             xl: ["cui-text-xl"],
-            xxl: ["cui-text-xxl"],
+            "2xl": ["cui-text-2xl"],
             "3xl": ["cui-text-3xl"],
             "4xl": ["cui-text-4xl"],
             "5xl": ["cui-text-5xl"],
@@ -29,7 +29,7 @@ export interface TitleProps {
     size?:
         | "sm"
         | "xl"
-        | "xxl"
+        | "2xl"
         | "3xl"
         | "4xl"
         | "5xl"

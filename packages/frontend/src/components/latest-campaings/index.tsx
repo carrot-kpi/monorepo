@@ -1,4 +1,4 @@
-import { TextMono } from "@carrot-kpi/ui";
+import { Text } from "@carrot-kpi/ui";
 import React from "react";
 import { CardHorizontal } from "../ui/cards-horizontal";
 import { CampaignCard } from "../ui/campaign-card";
@@ -51,9 +51,9 @@ const latestCampaignsMockData = [
 
 export const LatestCampaigns = ({ category }: { category: string }) => (
     <div className="space-y-6">
-        <TextMono caps weight="medium">
+        <Text mono uppercase weight="medium">
             {category}
-        </TextMono>
+        </Text>
         <CardHorizontal>
             {latestCampaignsMockData.map((campaign) => (
                 <CampaignCard

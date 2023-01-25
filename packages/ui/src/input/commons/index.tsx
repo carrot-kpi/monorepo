@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, ReactNode } from "react";
-import { TextMono, TextMonoProps } from "../../text-mono";
+import { Text, TextProps } from "../../text";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
 import { ReactElement } from "react";
@@ -8,7 +8,7 @@ import { cva } from "class-variance-authority";
 export interface BaseInputProps<V> extends BaseInputWrapperProps {
     error?: boolean;
     helperText?: string;
-    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+    size?: TextProps["size"];
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
     value?: V;
@@ -41,13 +41,13 @@ export const inputStyles = cva(
                 ],
             },
             size: {
-                xxs: ["cui-text-xxs"],
+                "2xs": ["cui-text-2xs"],
                 xs: ["cui-text-xs"],
                 sm: ["cui-text-sm"],
-                md: ["cui-text-md"],
+                md: ["cui-text-base"],
                 lg: ["cui-text-lg"],
                 xl: ["cui-text-xl"],
-                xxl: ["cui-text-xxl"],
+                "2xl": ["cui-text-2xl"],
             },
             border: {
                 true: [
@@ -106,10 +106,10 @@ export interface BaseInputWrapperProps {
     className?: {
         root?: string;
         label?: string;
-        labelText?: TextMonoProps["className"];
+        labelText?: TextProps["className"];
         helperTextContainer?: string;
         helperTextIcon?: string;
-        helperText?: TextMonoProps["className"];
+        helperText?: TextProps["className"];
         // should be applied when using the wrapper
         input?: string;
     };
@@ -130,13 +130,14 @@ export const BaseInputWrapper = ({
                 className={labelStyles({ className: className?.label })}
                 htmlFor={id}
             >
-                <TextMono
+                <Text
+                    mono
                     size="sm"
                     weight="medium"
                     className={className?.labelText}
                 >
                     {label}
-                </TextMono>
+                </Text>
             </label>
         )}
         {children}
@@ -161,7 +162,8 @@ export const BaseInputWrapper = ({
                         })}
                     />
                 )}
-                <TextMono
+                <Text
+                    mono
                     className={{
                         root: helperTextStyles({
                             error,
@@ -171,7 +173,7 @@ export const BaseInputWrapper = ({
                     size="xs"
                 >
                     {helperText}
-                </TextMono>
+                </Text>
             </div>
         )}
     </div>

@@ -6,7 +6,7 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { TextMono, TextMonoProps } from "../../text-mono";
+import { Text, TextProps } from "../../text";
 import { ReactComponent as X } from "../../assets/x.svg";
 import { Button, CarrotButtonProps } from "../../button";
 import { TextInput, TextInputProps } from "../../input/text";
@@ -25,9 +25,6 @@ const rootStyles = cva([
     "cui-bg-white",
     "dark:cui-bg-black",
     "cui-rounded-xl",
-    "cui-border",
-    "cui-border-black",
-    "dark:cui-border-white",
     "sm:cui-w-full",
     "md:cui-min-w-[460px]",
     "md:cui-w-1/3",
@@ -35,13 +32,13 @@ const rootStyles = cva([
 ]);
 
 const headerStyles = cva([
-    "cui-p-3",
+    "cui-p-4",
     "cui-flex",
     "cui-justify-between",
     "cui-items-center",
 ]);
 
-const inputContainerStyles = cva(["cui-p-3"]);
+const inputContainerStyles = cva(["cui-p-5"]);
 
 const iconStyles = cva(["cui-cursor-pointer"]);
 
@@ -51,6 +48,8 @@ const listWrapperStyles = cva([
     "cui-h-96",
     "cui-justify-center",
     "cui-items-center",
+    "cui-overflow-hidden",
+    "cui-rounded-b-xl",
 ]);
 
 const listStyles = cva([
@@ -64,9 +63,11 @@ const listStyles = cva([
 const listItemStyles = cva(
     [
         "cui-flex",
-        "cui-items-center",
+        "cui-flex-col",
+        "cui-gap-1",
+        "cui-justify-center",
         "cui-h-16",
-        "cui-p-3",
+        "cui-p-5",
         "hover:cui-bg-gray-200",
         "dark:hover:cui-bg-gray-700",
         "cui-cursor-pointer",
@@ -97,7 +98,7 @@ export interface SearchProps {
     className?: {
         root?: string;
         header?: string;
-        title?: TextMonoProps["className"];
+        title?: TextProps["className"];
         closeIcon?: string;
         divider?: DividerProps["className"];
         inputWrapper?: string;
@@ -106,8 +107,8 @@ export interface SearchProps {
         list?: string;
         listItem?: string;
         listItemIcon?: RemoteLogoProps["className"];
-        listItemTextPrimary?: TextMonoProps["className"];
-        listItemTextSecondary?: TextMonoProps["className"];
+        listItemTextPrimary?: TextProps["className"];
+        listItemTextSecondary?: TextProps["className"];
         emptyListText?: string;
         manageListsButtonWrapper?: string;
         manageListsButton?: CarrotButtonProps["className"];
@@ -187,13 +188,9 @@ export const Search = ({
                     className: className?.header,
                 })}
             >
-                <TextMono
-                    weight="medium"
-                    size="lg"
-                    className={className?.title}
-                >
+                <Text mono weight="bold" size="xl" className={className?.title}>
                     Select a token
-                </TextMono>
+                </Text>
                 <X
                     className={iconStyles({ className: className?.closeIcon })}
                     onClick={onDismiss}
@@ -246,46 +243,48 @@ export const Search = ({
                                     data-index={index}
                                     onClick={handleTokenClick}
                                 >
-                                    <RemoteLogo
-                                        src={logoURI}
-                                        defaultSrcs={defaultLogoSrc}
-                                        defaultText={symbol}
-                                        ipfsGatewayURL={ipfsGatewayURL}
-                                        className={{
-                                            root: "cui-pointer-events-none",
-                                            ...className?.listItemIcon,
-                                        }}
-                                    />
-                                    <div className="cui-flex cui-flex-col cui-ml-3 cui-pointer-events-none">
-                                        <TextMono
+                                    <div className="cui-flex cui-gap-2 cui-pointer-events-none">
+                                        <RemoteLogo
+                                            src={logoURI}
+                                            size="sm"
+                                            defaultSrcs={defaultLogoSrc}
+                                            defaultText={symbol}
+                                            ipfsGatewayURL={ipfsGatewayURL}
+                                            className={{
+                                                root: "cui-pointer-events-none",
+                                                ...className?.listItemIcon,
+                                            }}
+                                        />
+                                        <Text
+                                            mono
                                             className={
                                                 className?.listItemTextPrimary
                                             }
                                         >
                                             {symbol}
-                                        </TextMono>
-                                        <TextMono
-                                            size="xs"
-                                            className={{
-                                                root: "cui-text-gray-600 dark:cui-text-gray-200",
-                                                ...className?.listItemTextSecondary,
-                                            }}
-                                        >
-                                            {name}
-                                        </TextMono>
+                                        </Text>
                                     </div>
+                                    <Text
+                                        mono
+                                        size="xs"
+                                        className={{
+                                            root: `cui-text-gray-600 dark:cui-text-gray-200 cui-pointer-events-none ${className?.listItemTextSecondary?.root}`,
+                                        }}
+                                    >
+                                        {name}
+                                    </Text>
                                 </li>
                             );
                         })}
                     </ul>
                 ) : (
-                    <TextMono>Nothing</TextMono>
+                    <Text mono>Nothing</Text>
                 )}
             </div>
             {!!lists && lists.length > 1 && (
                 <>
                     <Divider className={className?.divider} />
-                    <div className="cui-p-3">
+                    <div className="cui-p-5">
                         <Button
                             className={{
                                 root: "cui-w-full",

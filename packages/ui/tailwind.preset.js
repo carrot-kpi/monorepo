@@ -39,10 +39,6 @@ module.exports = {
             "gray-100": "#F6F6F6",
         },
         extend: {
-            fontSize: {
-                xxs: "10px",
-                xxl: "15px",
-            },
             borderRadius: {
                 xxs: "10px",
                 xxl: "15px",

@@ -1,5 +1,5 @@
 import React, { MouseEvent, useCallback, useMemo } from "react";
-import { TextMono, TextMonoProps } from "../../text-mono";
+import { Text, TextProps } from "../../text";
 import { ReactComponent as X } from "../../assets/x.svg";
 import { ReactComponent as ChevronLeft } from "../../assets/chevron-left.svg";
 import { TokenListWithBalance } from "../types";
@@ -80,7 +80,7 @@ export interface ManageListsProps {
     className?: {
         root?: string;
         header?: string;
-        title?: TextMonoProps["className"];
+        title?: TextProps["className"];
         closeIcon?: string;
         backIcon?: string;
         divider?: DividerProps["className"];
@@ -88,8 +88,8 @@ export interface ManageListsProps {
         list?: string;
         listItem?: string;
         listItemIcon?: RemoteLogoProps["className"];
-        listItemText?: TextMonoProps["className"];
-        emptyListText?: TextMonoProps["className"];
+        listItemText?: TextProps["className"];
+        emptyListText?: TextProps["className"];
     };
 }
 
@@ -139,13 +139,14 @@ export const ManageLists = ({
                         })}
                         onClick={onSearch}
                     />
-                    <TextMono
+                    <Text
+                        mono
                         weight="medium"
                         size="lg"
                         className={className?.title}
                     >
                         Select a list
-                    </TextMono>
+                    </Text>
                 </div>
                 <X
                     className={iconStyles({ className: className?.closeIcon })}
@@ -185,22 +186,23 @@ export const ManageLists = ({
                                             ...className?.listItemIcon,
                                         }}
                                     />
-                                    <TextMono
+                                    <Text
+                                        mono
                                         className={{
                                             root: "cui-pointer-events-none",
                                             ...className?.listItemText,
                                         }}
                                     >
                                         {name}
-                                    </TextMono>
+                                    </Text>
                                 </li>
                             );
                         })}
                     </ul>
                 ) : (
-                    <TextMono className={className?.emptyListText}>
+                    <Text mono className={className?.emptyListText}>
                         Nothing
-                    </TextMono>
+                    </Text>
                 )}
             </div>
         </div>

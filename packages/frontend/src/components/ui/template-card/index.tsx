@@ -1,5 +1,5 @@
 import React from "react";
-import { TextMono } from "@carrot-kpi/ui";
+import { Text } from "@carrot-kpi/ui";
 import { ReactComponent as VerifiedIcon } from "../../../assets/verified.svg";
 import { shortenAddress } from "../../../utils/address";
 
@@ -34,25 +34,25 @@ export const TemplateCard = ({
                         <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                     </div>
                     <div className="flex items-center justify-between w-full px-4">
-                        <TextMono weight="medium" caps>
+                        <Text mono weight="medium" uppercase>
                             {name}
-                        </TextMono>
+                        </Text>
                     </div>
                 </div>
             </div>
-            <TextMono className={{ root: "p-4" }}>
+            <Text mono className={{ root: "p-4" }}>
                 <div className="line-clamp-3 h-[72px] overflow-ellipsis">
                     {description}
                 </div>
-            </TextMono>
+            </Text>
             <div className="flex">
                 {verified && (
                     <div className="flex flex-col items-center justify-center w-12 border-t border-r">
                         <div className="flex items-center space-x-2 -rotate-90">
                             <VerifiedIcon />
-                            <TextMono caps size="sm">
+                            <Text mono uppercase size="sm">
                                 verified
-                            </TextMono>
+                            </Text>
                         </div>
                     </div>
                 )}
@@ -64,9 +64,9 @@ export const TemplateCard = ({
             </div>
             <div className="flex items-center justify-center p-4 space-y-4 border-t">
                 <button className="w-full">
-                    <TextMono caps weight="medium">
+                    <Text mono uppercase weight="medium">
                         ↳ use template
-                    </TextMono>
+                    </Text>
                 </button>
             </div>
         </div>
@@ -75,9 +75,11 @@ export const TemplateCard = ({
 
 const Row = ({ title, children }: { title: string; children: string }) => (
     <div className="flex items-center justify-between p-4 border-t border-black dark:border-white">
-        <TextMono size="sm" caps>
+        <Text mono size="sm" uppercase>
             {title}
-        </TextMono>
-        <TextMono weight="medium">{children}</TextMono>
+        </Text>
+        <Text mono weight="medium">
+            {children}
+        </Text>
     </div>
 );

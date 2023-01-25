@@ -4,7 +4,7 @@ import { ComponentMeta } from "@storybook/react";
 import { Accordion, Accordion as AccordionComponent } from ".";
 import { AccordionSummary } from "./summary";
 import { AccordionDetails } from "./details";
-import { TextMono } from "../text-mono";
+import { Text } from "../text";
 
 export default {
     title: "Data display/Accordions",
@@ -15,72 +15,72 @@ export const Accordions = () => (
     <div>
         <Accordion>
             <AccordionSummary>
-                <TextMono size="md" weight="medium">
+                <Text mono size="md" weight="medium">
                     First accordion
-                </TextMono>
+                </Text>
             </AccordionSummary>
             <AccordionDetails>
-                <TextMono size="sm">
+                <Text mono size="sm">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Suspendisse malesuada lacus ex, sit amet blandit leo
                     lobortis eget.
-                </TextMono>
+                </Text>
             </AccordionDetails>
         </Accordion>
         <Accordion>
             <AccordionSummary>
-                <TextMono size="md" weight="medium">
+                <Text mono size="md" weight="medium">
                     Second accordion
-                </TextMono>
+                </Text>
             </AccordionSummary>
             <AccordionDetails>
-                <TextMono size="sm">
+                <Text mono size="sm">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Suspendisse malesuada lacus ex, sit amet blandit leo
                     lobortis eget.
-                </TextMono>
+                </Text>
             </AccordionDetails>
         </Accordion>
         <Accordion>
             <AccordionSummary>
-                <TextMono size="md" weight="medium">
+                <Text mono size="md" weight="medium">
                     Third accordion
-                </TextMono>
+                </Text>
             </AccordionSummary>
             <AccordionDetails>
-                <TextMono size="sm">
+                <Text mono size="sm">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Suspendisse malesuada lacus ex, sit amet blandit leo
                     lobortis eget.
-                </TextMono>
+                </Text>
             </AccordionDetails>
         </Accordion>
         <Accordion>
             <AccordionSummary>
-                <TextMono size="md" weight="medium">
+                <Text mono size="md" weight="medium">
                     Fourth accordion
-                </TextMono>
+                </Text>
             </AccordionSummary>
             <AccordionDetails>
-                <TextMono size="sm">
+                <Text mono size="sm">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Suspendisse malesuada lacus ex, sit amet blandit leo
                     lobortis eget.
-                </TextMono>
+                </Text>
             </AccordionDetails>
         </Accordion>
         <Accordion>
             <AccordionSummary>
-                <TextMono size="md" weight="medium">
+                <Text mono size="md" weight="medium">
                     Fifth accordion
-                </TextMono>
+                </Text>
             </AccordionSummary>
             <AccordionDetails>
-                <TextMono size="sm">
+                <Text mono size="sm">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Suspendisse malesuada lacus ex, sit amet blandit leo
                     lobortis eget.
-                </TextMono>
+                </Text>
             </AccordionDetails>
         </Accordion>
     </div>

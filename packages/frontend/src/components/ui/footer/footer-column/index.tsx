@@ -1,5 +1,5 @@
 import React, { ElementType } from "react";
-import { TextMono } from "@carrot-kpi/ui";
+import { Text } from "@carrot-kpi/ui";
 import { FooterLink } from "../footer-link";
 
 export interface LinkProps {
@@ -15,20 +15,21 @@ export interface FooterColumnProps {
 
 export const FooterColumn = ({ title, links }: FooterColumnProps) => (
     <ul className="w-40">
-        <TextMono className={{ root: "text-white" }} caps>
+        <Text mono className={{ root: "text-white" }} uppercase>
             {title}
-        </TextMono>
+        </Text>
         <div className="mt-6 space-y-3">
             {links.map(({ LinkComponent, url, title }) => (
                 <FooterLink key={url} url={url} LinkComponent={LinkComponent}>
-                    <TextMono
+                    <Text
+                        mono
                         size="sm"
                         className={{
                             root: "text-white cursor-pointer hover:underline",
                         }}
                     >
                         {title}
-                    </TextMono>
+                    </Text>
                 </FooterLink>
             ))}
         </div>

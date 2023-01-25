@@ -11,5 +11,4 @@ export * from "./plus-sign-pattern";
 export * from "./provider";
 export * from "./remote-logo";
 export * from "./text";
-export * from "./text-mono";
 export * from "./title";

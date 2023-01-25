@@ -1,5 +1,5 @@
 import React from "react";
-import { Chip, TextMono } from "@carrot-kpi/ui";
+import { Chip, Text } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 
 const rootStyles = cva(
@@ -47,20 +47,20 @@ export const CampaignCard = ({
                         <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                     </div>
                     <div className="flex items-center justify-between w-full px-4">
-                        <TextMono weight="medium" caps>
+                        <Text mono weight="medium" uppercase>
                             {title}
-                        </TextMono>
+                        </Text>
                         {isHolding && (
                             <div className="flex items-center justify-center px-2 py-1 border rounded bg-green">
-                                <TextMono weight="medium" size="xxs" caps>
+                                <Text mono weight="medium" size="2xs" uppercase>
                                     holding
-                                </TextMono>
+                                </Text>
                             </div>
                         )}
                     </div>
                 </div>
                 <div className="flex flex-col justify-between p-4 h-52">
-                    <TextMono>{question}</TextMono>
+                    <Text mono>{question}</Text>
                     <div className="flex items-center space-x-3">
                         <Chip>{templateName}</Chip>
                         {tags.map((tag) => (
@@ -73,25 +73,29 @@ export const CampaignCard = ({
                 {/* TODO: rewards are template-specific */}
                 {/* <CampaignCardRow title="Rewards" value={rewards} color={"black"} /> */}
                 <div className="flex items-center justify-between w-full  border-t border-gray-600">
-                    <TextMono
+                    <Text
+                        mono
                         size="sm"
                         className={{ root: "p-4 w-[40%]" }}
-                        caps
+                        uppercase
                     >
                         Time left
-                    </TextMono>
-                    <TextMono
+                    </Text>
+                    <Text
+                        mono
                         size="sm"
                         className={{
                             root: "text-right w-[60%] p-4 border-l border-gray-600",
                         }}
-                        caps
+                        uppercase
                     >
                         {expiration.toString()}
-                    </TextMono>
+                    </Text>
                 </div>
                 <button className="w-full py-5 font-mono border-t border-gray-600">
-                    <TextMono weight="medium">↳ VIEW CAMPAIGN</TextMono>
+                    <Text mono weight="medium">
+                        ↳ VIEW CAMPAIGN
+                    </Text>
                 </button>
             </div>
         </div>
