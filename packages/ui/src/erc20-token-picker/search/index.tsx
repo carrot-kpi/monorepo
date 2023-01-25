@@ -282,7 +282,7 @@ export const Search = ({
                     <TextMono>Nothing</TextMono>
                 )}
             </div>
-            {!!lists && lists.length > 0 && (
+            {!!lists && lists.length > 1 && (
                 <>
                     <Divider className={className?.divider} />
                     <div className="cui-p-3">
