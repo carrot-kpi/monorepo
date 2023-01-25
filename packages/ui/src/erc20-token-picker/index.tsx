@@ -4,6 +4,8 @@ import { Modal } from "../modal";
 import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
 import { ManageLists, ManageListsProps } from "./manage-lists";
 
+export * from "./types";
+
 type ERC20TokenPickerView =
     | "search"
     | "import-token"
