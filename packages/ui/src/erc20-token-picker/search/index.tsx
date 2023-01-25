@@ -281,9 +281,7 @@ export const Search = ({
                     <TextMono>Nothing</TextMono>
                 )}
             </div>
-            <div
-                className={`cui-h-[1px] cui-w-full cui-bg-black dark:cui-bg-white ${className?.divider}`}
-            />
+            <Divider className={className?.divider} />
             {!!lists && lists.length > 0 && (
                 <div className="cui-p-3">
                     <Button

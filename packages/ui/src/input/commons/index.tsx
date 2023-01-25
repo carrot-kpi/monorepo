@@ -72,12 +72,23 @@ export const inputStyles = cva(
     }
 );
 
+const labelStyles = cva(["cui-block", "cui-w-fit", "cui-mb-2"]);
+
 const helperTextWrapperStyles = cva([
     "cui-flex",
     "cui-items-center",
     "cui-gap-2",
     "cui-mt-2",
 ]);
+
+const helperTextIconStyles = cva([], {
+    variants: {
+        variant: {
+            danger: ["cui-stroke-red"],
+            info: ["cui-stroke-black", "dark:cui-stroke-white"],
+        },
+    },
+});
 
 const helperTextStyles = cva([], {
     variants: {
@@ -116,7 +127,7 @@ export const BaseInputWrapper = ({
     <div className={className?.root}>
         {!!label && (
             <label
-                className={`cui-block cui-w-fit cui-mb-2 ${className?.label}`}
+                className={labelStyles({ className: className?.label })}
                 htmlFor={id}
             >
                 <TextMono
@@ -137,11 +148,17 @@ export const BaseInputWrapper = ({
             >
                 {error ? (
                     <DangerIcon
-                        className={`cui-stroke-red ${className?.helperTextIcon}`}
+                        className={helperTextIconStyles({
+                            variant: "danger",
+                            className: className?.helperTextIcon,
+                        })}
                     />
                 ) : (
                     <InfoIcon
-                        className={`cui-stroke-black dark:cui-stroke-white ${className?.helperTextIcon}`}
+                        className={helperTextIconStyles({
+                            variant: "info",
+                            className: className?.helperTextIcon,
+                        })}
                     />
                 )}
                 <TextMono
