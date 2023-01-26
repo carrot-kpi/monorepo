@@ -25,14 +25,17 @@ export const CampaignsFilters = ({ filtersOpen }: { filtersOpen: boolean }) => {
     return (
         <div className={campaignsFiltersStyles({ filtersOpen })}>
             <div className="space-y-6 md:w-64">
-                {mockFiltersData.map((filter: any) => (
-                    <FilterOptions
-                        key={filter.title}
-                        title={filter.title}
-                        type={filter.type}
-                        data={filter.data}
-                    />
-                ))}
+                {
+                    // eslint-disable-next-line
+                    mockFiltersData.map((filter: any) => (
+                        <FilterOptions
+                            key={filter.title}
+                            title={filter.title}
+                            type={filter.type}
+                            data={filter.data}
+                        />
+                    ))
+                }
             </div>
         </div>
     );
