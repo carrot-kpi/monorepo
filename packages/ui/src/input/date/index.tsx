@@ -8,7 +8,7 @@ export type DateInputProps = BaseInputProps<string>;
 export const DateInput = ({
     id,
     label,
-    size,
+    variant,
     border,
     helperText,
     error = false,
@@ -29,7 +29,7 @@ export const DateInput = ({
                 {...rest}
                 className={inputStyles({
                     error,
-                    size,
+                    variant,
                     border,
                     className: className?.input,
                 })}

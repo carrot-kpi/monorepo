@@ -128,7 +128,7 @@ export type SelectProps<O extends SelectOption = SelectOption> = {
 
 export const Select = <O extends SelectOption>({
     id,
-    size,
+    variant,
     label,
     border,
     options,
@@ -221,7 +221,7 @@ export const Select = <O extends SelectOption>({
                         className={cx(
                             inputStyles({
                                 error,
-                                size,
+                                variant,
                                 border,
                                 fullWidth,
                             }),

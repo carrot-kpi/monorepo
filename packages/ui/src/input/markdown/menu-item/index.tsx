@@ -4,7 +4,7 @@ import React, { FunctionComponent, ReactElement } from "react";
 const rootStyles = cva([], {
     variants: {
         active: {
-            true: ["cui-rounded-md", "cui-border", "cui-border-gray-400"],
+            true: ["cui-rounded-base", "cui-border", "cui-border-gray-400"],
             false: ["cui-border", "cui-border-transparent"],
         },
     },

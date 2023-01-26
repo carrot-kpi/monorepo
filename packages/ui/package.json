@@ -1,7 +1,7 @@
 {
     "name": "@carrot-kpi/ui",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
-    "version": "0.13.3",
+    "version": "0.14.0",
     "license": "GPL-3.0-or-later",
     "main": "./dist/index.js",
     "module": "./dist/index.js",
@@ -36,17 +36,21 @@
         "build-storybook": "build-storybook"
     },
     "dependencies": {
+        "@carrot-kpi/sdk": "workspace:*",
         "@ethersproject/address": "^5.7.0",
         "@ethersproject/bignumber": "^5.7.0",
         "@popperjs/core": "^2.11.6",
         "@tiptap/extension-placeholder": "2.0.0-beta.209",
         "@tiptap/react": "2.0.0-beta.209",
         "@tiptap/starter-kit": "2.0.0-beta.209",
+        "@types/react-virtualized-auto-sizer": "^1.0.1",
         "@uniswap/token-lists": "1.0.0-beta.31",
         "class-variance-authority": "^0.3.0",
         "react-number-format": "^5.1.2",
         "react-popper": "^2.3.0",
-        "react-use": "^17.4.0"
+        "react-use": "^17.4.0",
+        "react-virtualized-auto-sizer": "^1.0.7",
+        "react-window": "^1.8.8"
     },
     "peerDependencies": {
         "@fontsource/ibm-plex-mono": "^4.5.12",
@@ -54,6 +58,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.19.3",
+        "@fontsource/inter": "^4.5.15",
         "@rollup/plugin-commonjs": "^22.0.2",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^14.1.0",
@@ -72,6 +77,7 @@
         "@svgr/webpack": "^6.5.1",
         "@tailwindcss/typography": "^0.5.8",
         "@types/react": "^18.0.21",
+        "@types/react-window": "^1.8.5",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "autoprefixer": "^10.4.13",
         "babel-loader": "^8.2.5",

@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, ReactNode } from "react";
-import { TextMono, TextMonoProps } from "../../text-mono";
+import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
 import { ReactElement } from "react";
@@ -8,7 +8,7 @@ import { cva } from "class-variance-authority";
 export interface BaseInputProps<V> extends BaseInputWrapperProps {
     error?: boolean;
     helperText?: string;
-    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+    variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
     value?: V;
@@ -40,14 +40,14 @@ export const inputStyles = cva(
                     "dark:cui-bg-opacity-20",
                 ],
             },
-            size: {
-                xxs: ["cui-text-xxs"],
+            variant: {
+                "2xs": ["cui-text-2xs"],
                 xs: ["cui-text-xs"],
                 sm: ["cui-text-sm"],
-                md: ["cui-text-md"],
+                md: ["cui-text-base"],
                 lg: ["cui-text-lg"],
                 xl: ["cui-text-xl"],
-                xxl: ["cui-text-xxl"],
+                "2xl": ["cui-text-2xl"],
             },
             fullWidth: {
                 true: ["cui-w-full"],
@@ -68,15 +68,11 @@ export const inputStyles = cva(
                 ],
             },
         },
-        defaultVariants: {
-            size: "md",
-            border: true,
-            fullWidth: false,
-        },
+        defaultVariants: { variant: "md", border: true, fullWidth: false },
     }
 );
 
-const labelStyles = cva(["cui-block", "cui-w-fit", "cui-mb-2"]);
+const labelStyles = cva(["cui-block", "cui-w-fit", "cui-mb-1"]);
 
 const helperTextWrapperStyles = cva([
     "cui-flex",
@@ -110,10 +106,10 @@ export interface BaseInputWrapperProps {
     className?: {
         root?: string;
         label?: string;
-        labelText?: TextMonoProps["className"];
+        labelText?: TypographyProps["className"];
         helperTextContainer?: string;
         helperTextIcon?: string;
-        helperText?: TextMonoProps["className"];
+        helperText?: TypographyProps["className"];
         // should be applied when using the wrapper
         input?: string;
     };
@@ -134,13 +130,13 @@ export const BaseInputWrapper = ({
                 className={labelStyles({ className: className?.label })}
                 htmlFor={id}
             >
-                <TextMono
-                    size="sm"
+                <Typography
+                    variant="xs"
                     weight="medium"
                     className={className?.labelText}
                 >
                     {label}
-                </TextMono>
+                </Typography>
             </label>
         )}
         {children}
@@ -165,17 +161,17 @@ export const BaseInputWrapper = ({
                         })}
                     />
                 )}
-                <TextMono
+                <Typography
+                    variant="xs"
                     className={{
                         root: helperTextStyles({
                             error,
                         }),
                         ...className?.helperText,
                     }}
-                    size="xs"
                 >
                     {helperText}
-                </TextMono>
+                </Typography>
             </div>
         )}
     </div>

@@ -5,6 +5,10 @@
             "dependsOn": ["^build"],
             "outputs": ["dist/**", "build/**"]
         },
+        "build-storybook": {
+            "dependsOn": ["^build"],
+            "outputs": ["storybook-static/**"]
+        },
         "test": {
             "inputs": [
                 "src/**/*.{ts,tsx}",
@@ -18,8 +22,8 @@
         "start": {
             "dependsOn": ["^build"]
         },
-        "release": {
-            "dependsOn": ["build"]
+        "publish": {
+            "dependsOn": ["^build"]
         },
         "size-limit": {
             "dependsOn": ["build"]
