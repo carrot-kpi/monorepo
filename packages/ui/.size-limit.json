@@ -1,7 +1,7 @@
 [
     {
         "path": "./dist/index.js",
-        "limit": "200 KB"
+        "limit": "230 KB"
     },
     {
         "path": "./dist/styles.css",

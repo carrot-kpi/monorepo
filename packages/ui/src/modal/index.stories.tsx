@@ -3,7 +3,7 @@ import { ComponentMeta, Story } from "@storybook/react";
 
 import { Modal as ModalComponent, ModalProps } from ".";
 import { Button } from "../button";
-import { TextMono } from "../text-mono";
+import { Typography } from "../typography";
 
 export default {
     title: "Utils/Modal",
@@ -26,7 +26,7 @@ const Template: Story<ModalProps> = (props: ModalProps) => {
             <Button onClick={handleClick}>Open</Button>
             <ModalComponent {...props} open={open} onDismiss={handleDismiss}>
                 <div className="cui-bg-white dark:cui-bg-black cui-text-black dark:cui-white-black cui-p-3 cui-rounded-xl">
-                    <TextMono>Hello world!</TextMono>
+                    <Typography>Hello world!</Typography>
                 </div>
             </ModalComponent>
         </>

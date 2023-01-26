@@ -19,8 +19,16 @@ const rootStyles = cva(
     {
         variants: {
             open: {
-                true: ["cui-opacity-100", "cui-pointer-events-auto"],
-                false: ["cui-opacity-0", "cui-pointer-events-none"],
+                true: [
+                    "cui-will-change-contents",
+                    "cui-opacity-100",
+                    "cui-pointer-events-auto",
+                ],
+                false: [
+                    "cui-will-change-auto",
+                    "cui-opacity-0",
+                    "cui-pointer-events-none",
+                ],
             },
         },
     }
@@ -46,9 +54,14 @@ export const Modal = ({ open, onDismiss, children, className }: ModalProps) => {
             )
                 onDismiss();
         };
+        const handleCloseOnKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onDismiss();
+        };
         document.addEventListener("mousedown", handleCloseOnClick);
+        document.addEventListener("keydown", handleCloseOnKeyDown);
         return () => {
             document.removeEventListener("mousedown", handleCloseOnClick);
+            document.removeEventListener("keydown", handleCloseOnKeyDown);
         };
     }, [onDismiss, open]);
 

@@ -14,10 +14,11 @@ const rootStyles = cva(
     {
         variants: {
             size: {
-                md: ["cui-text-xxs", "cui-w-7", "cui-h-7"],
+                sm: ["cui-text-2xs", "cui-w-6", "cui-h-6"],
+                md: ["cui-text-2xs", "cui-w-7", "cui-h-7"],
                 lg: ["cui-text-xs", "cui-w-8", "cui-h-8"],
                 xl: ["cui-text-sm", "cui-w-9", "cui-h-9"],
-                xxl: ["cui-text-md", "cui-w-10", "cui-h-10"],
+                "2xl": ["cui-text-base", "cui-w-10", "cui-h-10"],
             },
         },
     }
@@ -26,7 +27,7 @@ const rootStyles = cva(
 export interface RemoteLogoProps {
     src?: string | string[] | null;
     defaultSrcs?: string | string[] | null;
-    size?: "md" | "lg" | "xl" | "xxl";
+    size?: "sm" | "md" | "lg" | "xl" | "2xl";
     defaultText?: string | null;
     ipfsGatewayURL?: string | null;
     className?: { root: string };

@@ -40,6 +40,18 @@ const Template: Story<ERC20TokenPickerProps> = (
                 lists={[mockList as TokenListWithBalance]}
                 selectedList={mockList as TokenListWithBalance}
                 chainId={1}
+                messages={{
+                    search: {
+                        title: "Title tokens",
+                        inputPlaceholder: "Placeholder",
+                        noTokens: "No tokens",
+                        manageLists: "Manage lists",
+                    },
+                    manageLists: {
+                        title: "Title list",
+                        noTokens: "No tokens",
+                    },
+                }}
             />
         </>
     );

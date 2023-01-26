@@ -1,5 +1,5 @@
 import { useKpiTokens } from "@carrot-kpi/react";
-import { Button, Title } from "@carrot-kpi/ui";
+import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { CampaignCard } from "../../../components/ui/campaign-card";
@@ -11,7 +11,7 @@ export const LatestCampaignsSection = () => {
 
     return (
         <div className="relative space-y-16">
-            <Title size="6xl">Latest Campaigns</Title>
+            <Typography variant="h2">Latest Campaigns</Typography>
             {loading ? (
                 <>{t("loading")}</>
             ) : (

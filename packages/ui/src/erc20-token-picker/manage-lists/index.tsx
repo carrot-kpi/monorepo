@@ -1,5 +1,5 @@
 import React, { MouseEvent, useCallback, useMemo } from "react";
-import { TextMono, TextMonoProps } from "../../text-mono";
+import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as X } from "../../assets/x.svg";
 import { ReactComponent as ChevronLeft } from "../../assets/chevron-left.svg";
 import { TokenListWithBalance } from "../types";
@@ -11,16 +11,15 @@ const rootStyles = cva([
     "cui-bg-white",
     "dark:cui-bg-black",
     "cui-rounded-xl",
-    "cui-border",
-    "cui-border-black",
-    "dark:cui-border-white",
+    "cui-h-[60vh]",
     "sm:cui-w-full",
+    "md:cui-min-w-[460px]",
     "md:cui-w-1/3",
     "lg:cui-w-1/4",
 ]);
 
 const headerStyles = cva([
-    "cui-p-3",
+    "cui-p-4",
     "cui-flex",
     "cui-justify-between",
     "cui-items-center",
@@ -51,19 +50,18 @@ const listItemStyles = cva(
         "cui-gap-3",
         "cui-h-16",
         "cui-p-3",
-        "hover:cui-bg-gray-200",
-        "dark:hover:cui-bg-gray-700",
         "cui-cursor-pointer",
     ],
     {
         variants: {
             selected: {
                 true: [
-                    "cui-bg-gray-300",
-                    "hover:cui-bg-gray-300",
+                    "cui-bg-gray-200",
+                    "hover:cui-bg-gray-200",
                     "dark:cui-bg-gray-600",
                     "dark:hover:cui-bg-gray-600",
                 ],
+                false: ["hover:cui-bg-gray-100", "dark:hover:cui-bg-gray-700"],
             },
         },
     }
@@ -80,7 +78,7 @@ export interface ManageListsProps {
     className?: {
         root?: string;
         header?: string;
-        title?: TextMonoProps["className"];
+        title?: TypographyProps["className"];
         closeIcon?: string;
         backIcon?: string;
         divider?: DividerProps["className"];
@@ -88,8 +86,12 @@ export interface ManageListsProps {
         list?: string;
         listItem?: string;
         listItemIcon?: RemoteLogoProps["className"];
-        listItemText?: TextMonoProps["className"];
-        emptyListText?: TextMonoProps["className"];
+        listItemText?: TypographyProps["className"];
+        emptyListText?: TypographyProps["className"];
+    };
+    messages: {
+        title: string;
+        noTokens: string;
     };
 }
 
@@ -102,6 +104,7 @@ export const ManageLists = ({
     ipfsGatewayURL,
     onSearch,
     className,
+    messages,
 }: ManageListsProps) => {
     const listsInChain = useMemo(() => {
         if (!lists || lists.length === 0 || !chainId) return [];
@@ -139,13 +142,9 @@ export const ManageLists = ({
                         })}
                         onClick={onSearch}
                     />
-                    <TextMono
-                        weight="medium"
-                        size="lg"
-                        className={className?.title}
-                    >
-                        Select a list
-                    </TextMono>
+                    <Typography variant="h5" className={className?.title}>
+                        {messages.title}
+                    </Typography>
                 </div>
                 <X
                     className={iconStyles({ className: className?.closeIcon })}
@@ -185,22 +184,22 @@ export const ManageLists = ({
                                             ...className?.listItemIcon,
                                         }}
                                     />
-                                    <TextMono
+                                    <Typography
                                         className={{
                                             root: "cui-pointer-events-none",
                                             ...className?.listItemText,
                                         }}
                                     >
                                         {name}
-                                    </TextMono>
+                                    </Typography>
                                 </li>
                             );
                         })}
                     </ul>
                 ) : (
-                    <TextMono className={className?.emptyListText}>
-                        Nothing
-                    </TextMono>
+                    <Typography className={className?.emptyListText}>
+                        {messages.noTokens}
+                    </Typography>
                 )}
             </div>
         </div>

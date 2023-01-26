@@ -25,6 +25,10 @@ export interface ERC20TokenPickerProps {
         search: SearchProps["className"];
         manageLists: ManageListsProps["className"];
     };
+    messages: {
+        search: SearchProps["messages"];
+        manageLists: ManageListsProps["messages"];
+    };
 }
 
 export function ERC20TokenPicker({
@@ -37,6 +41,7 @@ export function ERC20TokenPicker({
     selectedList,
     onSelectedListChange,
     className,
+    messages,
 }: ERC20TokenPickerProps) {
     const [currentView, setCurrentView] =
         useState<ERC20TokenPickerView>("search");
@@ -57,6 +62,7 @@ export function ERC20TokenPicker({
         <Modal open={open} onDismiss={onDismiss}>
             {currentView === "search" && (
                 <Search
+                    open={open}
                     onDismiss={onDismiss}
                     onSelectedTokenChange={onSelectedTokenChange}
                     selectedToken={selectedToken}
@@ -65,6 +71,7 @@ export function ERC20TokenPicker({
                     selectedList={selectedList}
                     onManageLists={handleManageListsClick}
                     className={className?.search}
+                    messages={messages.search}
                 />
             )}
             {currentView === "manage-lists" && (
@@ -76,6 +83,7 @@ export function ERC20TokenPicker({
                     chainId={chainId}
                     onSearch={handleSearchClick}
                     className={className?.manageLists}
+                    messages={messages.manageLists}
                 />
             )}
         </Modal>
