@@ -22,7 +22,7 @@
             "dependsOn": ["^build"]
         },
         "size-limit": {
-            "dependsOn": ["^build"]
+            "dependsOn": ["build"]
         },
         "lint": {},
         "format": {}
