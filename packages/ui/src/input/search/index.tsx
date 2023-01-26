@@ -1,20 +1,34 @@
+import { cx } from "class-variance-authority";
 import React from "react";
 import { ReactComponent as SearchIcon } from "../../assets/search-icon.svg";
 import { inputStyles } from "../commons";
 
 export interface SearchInputProps {
     onChange: () => void;
+    className?: {
+        root?: string;
+        icon?: string;
+        input?: string;
+    };
 }
 
-export const SearchInput = ({ onChange }: SearchInputProps) => (
-    <div className="cui-relative cui-w-full md:cui-w-fit">
-        <div className="cui-absolute cui-top-3 cui-left-3">
+export const SearchInput = ({ onChange, className }: SearchInputProps) => (
+    <div
+        className={cx("cui-relative cui-w-full md:cui-w-fit", className?.root)}
+    >
+        <div
+            className={cx("cui-absolute cui-top-3 cui-left-3", className?.icon)}
+        >
             <SearchIcon />
         </div>
         <input
             onChange={onChange}
             type="search"
-            className={inputStyles({ className: "cui-pl-12 cui-w-full" })}
+            className={cx(
+                inputStyles(),
+                "cui-pl-12 cui-w-full",
+                className?.input
+            )}
             placeholder="Search by name"
         />
     </div>
