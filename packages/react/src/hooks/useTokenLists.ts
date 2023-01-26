@@ -1,4 +1,4 @@
-import { uriToHttps, IpfsService, parseENSAddress } from "@carrot-kpi/sdk";
+import { uriToHttps, IpfsService, parseENSName } from "@carrot-kpi/sdk";
 import { TokenList } from "@uniswap/token-lists";
 import { useEffect, useState } from "react";
 
@@ -16,7 +16,7 @@ export const useTokenLists = (
             try {
                 lists = await Promise.all(
                     urls.map(async (url) => {
-                        const parsedENSName = parseENSAddress(url);
+                        const parsedENSName = parseENSName(url);
                         let resolvedUrls: string[];
                         if (!!parsedENSName) {
                             const { name, path } = parsedENSName;

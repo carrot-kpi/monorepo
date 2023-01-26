@@ -1,4 +1,4 @@
-import { parseENSAddress, uriToHttps } from "@carrot-kpi/sdk";
+import { parseENSName, uriToHttps } from "@carrot-kpi/sdk";
 
 export const resolveSrc = (
     src?: string | string[] | null,
@@ -29,7 +29,7 @@ const resolveSingleSrc = (
         : typeof defaultSrc === "string"
         ? [defaultSrc]
         : defaultSrc;
-    const parsedENSName = parseENSAddress(src);
+    const parsedENSName = parseENSName(src);
     if (!!parsedENSName) {
         const { name, path } = parsedENSName;
         const lowerCaseName = name.toLowerCase();

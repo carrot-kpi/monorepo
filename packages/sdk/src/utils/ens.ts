@@ -1,6 +1,6 @@
 export const ENS_NAME_REGEX = /^(([a-zA-Z0-9]+\.)+)eth(\/.*)?$/;
 
-export const parseENSAddress = (
+export const parseENSName = (
     ensAddress: string
 ): { name: string; path?: string } | null => {
     const match = ensAddress.match(ENS_NAME_REGEX);
