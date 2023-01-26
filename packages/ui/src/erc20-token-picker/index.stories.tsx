@@ -49,7 +49,7 @@ const Template: Story<ERC20TokenPickerProps> = (
                     },
                     manageLists: {
                         title: "Title list",
-                        noTokens: "No tokens",
+                        noLists: "No tokens",
                     },
                 }}
             />
