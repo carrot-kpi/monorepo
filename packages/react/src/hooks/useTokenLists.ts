@@ -2,6 +2,21 @@ import { uriToHttps, IpfsService, parseENSName } from "@carrot-kpi/sdk";
 import { TokenList } from "@uniswap/token-lists";
 import { useEffect, useState } from "react";
 
+const fetchList = async (url: string): Promise<TokenList | null> => {
+    let response;
+    try {
+        response = await fetch(url, {
+            credentials: "omit",
+        });
+    } catch (error) {
+        console.warn(`failed to fetch  ${url}`, error);
+        return null;
+    }
+    if (!response.ok) return null;
+    // TODO: should we validate the token list's schema?
+    return (await response.json()) as TokenList;
+};
+
 export const useTokenLists = (
     urls?: string[]
 ): { loading: boolean; lists: TokenList[] } => {
@@ -29,30 +44,20 @@ export const useTokenLists = (
                             resolvedUrls = uriToHttps(url, IpfsService.gateway);
                         }
                         for (let i = 0; i < resolvedUrls.length; i++) {
-                            const resolvedUrl = resolvedUrls[i];
-                            let response;
-                            try {
-                                response = await fetch(resolvedUrl, {
-                                    credentials: "omit",
-                                });
-                            } catch (error) {
-                                console.warn(
-                                    `failed to fetch  ${resolvedUrl}`,
-                                    error
-                                );
-                                continue;
-                            }
-                            if (!response.ok) continue;
-                            // TODO: should we validate the token list's schema?
-                            return await response.json();
+                            const fetchedList = await fetchList(
+                                resolvedUrls[i]
+                            );
+                            if (fetchedList === null) continue;
+                            return fetchedList;
                         }
+                        return null;
                         console.warn("unrecognized list url", url);
                     })
                 );
             } finally {
                 setLoading(false);
             }
-            setLists(lists);
+            setLists(lists.filter((list) => list !== null) as TokenList[]);
         };
         void fetchLists();
     }, [urls]);
