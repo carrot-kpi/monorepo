@@ -1,6 +1,6 @@
 import { Select, SelectOption } from "@carrot-kpi/ui";
 import React, { useState } from "react";
-import { ToggleIconButton } from "../../../../components/ui/toggle-icon-button";
+import { ToggleIconButton } from "../../../components/ui/toggle-icon-button";
 import { ToggleFiltersButton } from "./toggle-filters-button";
 
 interface CampaignsTopNavProps {
@@ -8,7 +8,7 @@ interface CampaignsTopNavProps {
     filtersOpen: boolean;
 }
 
-export const CampaignsTopNav = ({
+export const CampaignsFiltersTopNav = ({
     toggleFilters,
     filtersOpen,
 }: CampaignsTopNavProps) => {

@@ -2,7 +2,7 @@ import React from "react";
 import {
     ToggleIconButton,
     ToggleButtonProps,
-} from "../../../../../components/ui/toggle-icon-button";
+} from "../../../../components/ui/toggle-icon-button";
 
 export const ToggleFiltersButton = ({ toggle, active }: ToggleButtonProps) => (
     <ToggleIconButton toggle={toggle} active={active}>

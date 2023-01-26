@@ -2,26 +2,15 @@ import React from "react";
 import { FilterOptions } from "./filter-options";
 import { cva } from "class-variance-authority";
 
-const campaignsFiltersStyles = cva(
-    [
-        "absolute md:relative",
-        "shadow md:shadow-none",
-        "w-full md:w-fit",
-        "p-12",
-        "bg-white",
-        "border-r border-gray-400 dark:bg-black",
-    ],
-    {
-        variants: {
-            filtersOpen: {
-                true: ["md:block"],
-                false: ["hidden"],
-            },
-        },
-    }
-);
+interface CampaignsFiltersOptionsProps {
+    toggleFilters: () => void;
+    filtersOpen: boolean;
+}
 
-export const CampaignsFilters = ({ filtersOpen }: { filtersOpen: boolean }) => {
+export const CampaignsFiltersOptions = ({
+    filtersOpen,
+    toggleFilters,
+}: CampaignsFiltersOptionsProps) => {
     return (
         <div className={campaignsFiltersStyles({ filtersOpen })}>
             <div className="space-y-6 md:w-64">
@@ -34,9 +23,33 @@ export const CampaignsFilters = ({ filtersOpen }: { filtersOpen: boolean }) => {
                     />
                 ))}
             </div>
+            <button
+                className="w-full mt-12 hover:underline md:hidden"
+                onClick={toggleFilters}
+            >
+                close filters
+            </button>
         </div>
     );
 };
+
+const campaignsFiltersStyles = cva(
+    [
+        "absolute md:relative",
+        "shadow md:shadow-none",
+        "w-full md:w-fit",
+        "p-12",
+        "bg-white",
+        "border-r border-gray-400 dark:bg-black",
+    ],
+    {
+        variants: {
+            filtersOpen: {
+                false: ["hidden"],
+            },
+        },
+    }
+);
 
 const mockFiltersData = [
     {
