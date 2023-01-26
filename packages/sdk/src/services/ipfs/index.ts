@@ -7,8 +7,8 @@ export class IpfsService {
 
     static set gateway(ipfsGateway: string) {
         ipfsGateway = ipfsGateway.endsWith("/")
-            ? ipfsGateway
-            : `${ipfsGateway}/`;
+            ? ipfsGateway.slice(0, ipfsGateway.length)
+            : ipfsGateway;
         CACHER.set(this.IPFS_GATEWAY_KEY, ipfsGateway, Number.MAX_SAFE_INTEGER);
     }
 
