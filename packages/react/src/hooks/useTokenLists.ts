@@ -27,9 +27,9 @@ export const useTokenLists = (
         const fetchLists = async () => {
             if (!urls || urls.length === 0) return;
             setLoading(true);
-            let lists = [];
+            let listResults = [];
             try {
-                lists = await Promise.all(
+                listResults = await Promise.allSettled(
                     urls.map(async (url) => {
                         const parsedENSName = parseENSName(url);
                         let resolvedUrls: string[];
@@ -50,14 +50,19 @@ export const useTokenLists = (
                             if (fetchedList === null) continue;
                             return fetchedList;
                         }
-                        return null;
-                        console.warn("unrecognized list url", url);
+                        throw new Error(`unrecognized list url ${url}`);
                     })
                 );
             } finally {
                 setLoading(false);
             }
-            setLists(lists.filter((list) => list !== null) as TokenList[]);
+            setLists(
+                listResults.reduce((accumulator: TokenList[], result) => {
+                    if (result.status === "fulfilled")
+                        accumulator.push(result.value);
+                    return accumulator;
+                }, [])
+            );
         };
         void fetchLists();
     }, [urls]);
