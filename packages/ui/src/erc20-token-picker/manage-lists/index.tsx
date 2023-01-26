@@ -11,16 +11,15 @@ const rootStyles = cva([
     "cui-bg-white",
     "dark:cui-bg-black",
     "cui-rounded-xl",
-    "cui-border",
-    "cui-border-black",
-    "dark:cui-border-white",
+    "cui-h-[60vh]",
     "sm:cui-w-full",
+    "md:cui-min-w-[460px]",
     "md:cui-w-1/3",
     "lg:cui-w-1/4",
 ]);
 
 const headerStyles = cva([
-    "cui-p-3",
+    "cui-p-4",
     "cui-flex",
     "cui-justify-between",
     "cui-items-center",
@@ -51,19 +50,18 @@ const listItemStyles = cva(
         "cui-gap-3",
         "cui-h-16",
         "cui-p-3",
-        "hover:cui-bg-gray-200",
-        "dark:hover:cui-bg-gray-700",
         "cui-cursor-pointer",
     ],
     {
         variants: {
             selected: {
                 true: [
-                    "cui-bg-gray-300",
-                    "hover:cui-bg-gray-300",
+                    "cui-bg-gray-200",
+                    "hover:cui-bg-gray-200",
                     "dark:cui-bg-gray-600",
                     "dark:hover:cui-bg-gray-600",
                 ],
+                false: ["hover:cui-bg-gray-100", "dark:hover:cui-bg-gray-700"],
             },
         },
     }
@@ -91,6 +89,10 @@ export interface ManageListsProps {
         listItemText?: TypographyProps["className"];
         emptyListText?: TypographyProps["className"];
     };
+    messages: {
+        title: string;
+        noTokens: string;
+    };
 }
 
 export const ManageLists = ({
@@ -102,6 +104,7 @@ export const ManageLists = ({
     ipfsGatewayURL,
     onSearch,
     className,
+    messages,
 }: ManageListsProps) => {
     const listsInChain = useMemo(() => {
         if (!lists || lists.length === 0 || !chainId) return [];
@@ -140,7 +143,7 @@ export const ManageLists = ({
                         onClick={onSearch}
                     />
                     <Typography variant="h5" className={className?.title}>
-                        Select a list
+                        {messages.title}
                     </Typography>
                 </div>
                 <X
@@ -195,7 +198,7 @@ export const ManageLists = ({
                     </ul>
                 ) : (
                     <Typography className={className?.emptyListText}>
-                        Nothing
+                        {messages.noTokens}
                     </Typography>
                 )}
             </div>

@@ -4,6 +4,7 @@ import React, {
     useCallback,
     useEffect,
     useMemo,
+    useRef,
     useState,
 } from "react";
 import { Typography, TypographyProps } from "../../typography";
@@ -20,11 +21,16 @@ import {
     sortERC20Tokens,
 } from "../../utils/erc20";
 import { Divider, DividerProps } from "../divider";
+import { FixedSizeList } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 const rootStyles = cva([
+    "cui-flex",
+    "cui-flex-col",
     "cui-bg-white",
     "dark:cui-bg-black",
     "cui-rounded-xl",
+    "cui-h-[60vh]",
     "sm:cui-w-full",
     "md:cui-min-w-[460px]",
     "md:cui-w-1/3",
@@ -42,23 +48,18 @@ const inputContainerStyles = cva(["cui-p-5"]);
 
 const iconStyles = cva(["cui-cursor-pointer"]);
 
-const listWrapperStyles = cva([
-    "cui-flex",
-    "cui-w-full",
-    "cui-h-96",
-    "cui-justify-center",
-    "cui-items-center",
-    "cui-overflow-hidden",
-    "cui-rounded-b-xl",
-]);
+const listWrapperStyles = cva(
+    ["cui-w-full", "cui-grow", "cui-overflow-hidden"],
+    {
+        variants: {
+            empty: {
+                true: ["cui-flex", "cui-justify-center", "cui-items-center"],
+            },
+        },
+    }
+);
 
-const listStyles = cva([
-    "cui-list-none",
-    "cui-w-full",
-    "cui-h-full",
-    "cui-overflow-y-auto",
-    "cui-scrollbar",
-]);
+const listStyles = cva(["cui-scrollbar"]);
 
 const listItemStyles = cva(
     [
@@ -68,25 +69,25 @@ const listItemStyles = cva(
         "cui-justify-center",
         "cui-h-16",
         "cui-p-5",
-        "hover:cui-bg-gray-200",
-        "dark:hover:cui-bg-gray-700",
         "cui-cursor-pointer",
     ],
     {
         variants: {
             selected: {
                 true: [
-                    "cui-bg-gray-300",
-                    "hover:cui-bg-gray-300",
+                    "cui-bg-gray-200",
+                    "hover:cui-bg-gray-200",
                     "dark:cui-bg-gray-600",
                     "dark:hover:cui-bg-gray-600",
                 ],
+                false: ["hover:cui-bg-gray-100", "dark:hover:cui-bg-gray-700"],
             },
         },
     }
 );
 
 export interface SearchProps {
+    open?: boolean;
     onDismiss?: () => void;
     onSelectedTokenChange?: (token: TokenInfoWithBalance) => void;
     selectedToken?: TokenInfoWithBalance | null;
@@ -113,9 +114,16 @@ export interface SearchProps {
         manageListsButtonWrapper?: string;
         manageListsButton?: CarrotButtonProps["className"];
     };
+    messages: {
+        title: string;
+        inputPlaceholder: string;
+        noTokens: string;
+        manageLists: string;
+    };
 }
 
 export const Search = ({
+    open,
     onDismiss,
     onSelectedTokenChange,
     selectedToken,
@@ -125,14 +133,18 @@ export const Search = ({
     ipfsGatewayURL,
     onManageLists,
     className,
+    messages,
 }: SearchProps) => {
+    const fixedListRef = useRef<FixedSizeList>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
 
     useEffect(() => {
+        if (!open) return;
         setSearchQuery("");
         setDebouncedSearchQuery("");
-    }, []);
+        if (!!fixedListRef.current) fixedListRef.current.scrollTo(0);
+    }, [open]);
 
     useDebounce(
         () => {
@@ -158,6 +170,7 @@ export const Search = ({
     const handleSearchChange = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             setSearchQuery(event.target.value);
+            if (!!fixedListRef.current) fixedListRef.current.scrollTo(0);
         },
         [setSearchQuery]
     );
@@ -189,7 +202,7 @@ export const Search = ({
                 })}
             >
                 <Typography variant="h5" className={className?.title}>
-                    Select a token
+                    {messages.title}
                 </Typography>
                 <X
                     className={iconStyles({ className: className?.closeIcon })}
@@ -204,7 +217,7 @@ export const Search = ({
             >
                 <TextInput
                     id="token-search"
-                    placeholder="Search..."
+                    placeholder={messages.inputPlaceholder}
                     value={searchQuery}
                     onChange={handleSearchChange}
                     className={{
@@ -217,69 +230,99 @@ export const Search = ({
             <Divider className={className?.divider} />
             <div
                 className={listWrapperStyles({
+                    empty: sortedTokens.length === 0,
                     className: className?.listWrapper,
                 })}
             >
                 {sortedTokens.length > 0 ? (
-                    <ul className={listStyles({ className: className?.list })}>
-                        {sortedTokens.map((token, index) => {
-                            const { chainId, address, symbol, name, logoURI } =
-                                token;
-                            const defaultLogoSrc = getDefaultERC20TokenLogoURL(
-                                chainId,
-                                address
-                            );
-                            const selected =
-                                !!selectedToken &&
-                                chainId === selectedToken.chainId &&
-                                address === selectedToken.address;
+                    <AutoSizer>
+                        {({ height, width }) => {
                             return (
-                                <li
-                                    key={address}
-                                    className={listItemStyles({
-                                        selected,
-                                        className: className?.listItem,
+                                <FixedSizeList
+                                    ref={fixedListRef}
+                                    height={height}
+                                    width={width}
+                                    itemCount={sortedTokens.length}
+                                    itemData={sortedTokens}
+                                    itemSize={72}
+                                    className={listStyles({
+                                        className: className?.list,
                                     })}
-                                    data-index={index}
-                                    onClick={handleTokenClick}
                                 >
-                                    <div className="cui-flex cui-gap-2 cui-pointer-events-none">
-                                        <RemoteLogo
-                                            src={logoURI}
-                                            size="sm"
-                                            defaultSrcs={defaultLogoSrc}
-                                            defaultText={symbol}
-                                            ipfsGatewayURL={ipfsGatewayURL}
-                                            className={{
-                                                root: "cui-pointer-events-none",
-                                                ...className?.listItemIcon,
-                                            }}
-                                        />
-                                        <Typography
-                                            className={
-                                                className?.listItemTextPrimary
-                                            }
-                                        >
-                                            {symbol}
-                                        </Typography>
-                                    </div>
-                                    <Typography
-                                        variant="xs"
-                                        className={{
-                                            root: `cui-text-gray-600 dark:cui-text-gray-200 cui-pointer-events-none ${className?.listItemTextSecondary?.root}`,
-                                        }}
-                                    >
-                                        {name}
-                                    </Typography>
-                                </li>
+                                    {({ index, style }) => {
+                                        const {
+                                            chainId,
+                                            address,
+                                            symbol,
+                                            name,
+                                            logoURI,
+                                        } = sortedTokens[index];
+                                        const defaultLogoSrc =
+                                            getDefaultERC20TokenLogoURL(
+                                                chainId,
+                                                address
+                                            );
+                                        const selected =
+                                            !!selectedToken &&
+                                            chainId === selectedToken.chainId &&
+                                            address === selectedToken.address;
+
+                                        return (
+                                            <li
+                                                key={address}
+                                                className={listItemStyles({
+                                                    selected,
+                                                    className:
+                                                        className?.listItem,
+                                                })}
+                                                style={style}
+                                                data-index={index}
+                                                onClick={handleTokenClick}
+                                            >
+                                                <div className="cui-flex cui-gap-2 cui-pointer-events-none">
+                                                    <RemoteLogo
+                                                        src={logoURI}
+                                                        size="sm"
+                                                        defaultSrcs={
+                                                            defaultLogoSrc
+                                                        }
+                                                        defaultText={symbol}
+                                                        ipfsGatewayURL={
+                                                            ipfsGatewayURL
+                                                        }
+                                                        className={{
+                                                            root: "cui-pointer-events-none",
+                                                            ...className?.listItemIcon,
+                                                        }}
+                                                    />
+                                                    <Typography
+                                                        className={
+                                                            className?.listItemTextPrimary
+                                                        }
+                                                    >
+                                                        {symbol}
+                                                    </Typography>
+                                                </div>
+                                                <Typography
+                                                    variant="xs"
+                                                    className={{
+                                                        root: `cui-text-gray-600 dark:cui-text-gray-200 cui-pointer-events-none ${className?.listItemTextSecondary?.root}`,
+                                                    }}
+                                                >
+                                                    {name}
+                                                </Typography>
+                                            </li>
+                                        );
+                                    }}
+                                </FixedSizeList>
                             );
-                        })}
-                    </ul>
+                        }}
+                    </AutoSizer>
                 ) : (
-                    <Typography>Nothing</Typography>
+                    <Typography>{messages.noTokens}</Typography>
                 )}
             </div>
-            {!!lists && lists.length > 1 && (
+            {!!lists && lists.length > 0 && (
                 <>
                     <Divider className={className?.divider} />
                     <div className="cui-p-5">
@@ -290,7 +333,7 @@ export const Search = ({
                             }}
                             onClick={onManageLists}
                         >
-                            Manage token lists
+                            {messages.manageLists}
                         </Button>
                     </div>
                 </>
