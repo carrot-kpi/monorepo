@@ -91,7 +91,7 @@ export interface ManageListsProps {
     };
     messages: {
         title: string;
-        noTokens: string;
+        noLists: string;
     };
 }
 
@@ -198,7 +198,7 @@ export const ManageLists = ({
                     </ul>
                 ) : (
                     <Typography className={className?.emptyListText}>
-                        {messages.noTokens}
+                        {messages.noLists}
                     </Typography>
                 )}
             </div>
