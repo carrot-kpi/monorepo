@@ -7,6 +7,7 @@ export interface SearchInputProps {
     onChange: () => void;
     className?: {
         root?: string;
+        iconWrapper?: string;
         icon?: string;
         input?: string;
     };
@@ -17,9 +18,12 @@ export const SearchInput = ({ onChange, className }: SearchInputProps) => (
         className={cx("cui-relative cui-w-full md:cui-w-fit", className?.root)}
     >
         <div
-            className={cx("cui-absolute cui-top-3 cui-left-3", className?.icon)}
+            className={cx(
+                "cui-absolute cui-top-3 cui-left-3",
+                className?.iconWrapper
+            )}
         >
-            <SearchIcon />
+            <SearchIcon className={className?.icon} />
         </div>
         <input
             onChange={onChange}
