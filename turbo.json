@@ -18,11 +18,11 @@
         "start": {
             "dependsOn": ["^build"]
         },
-        "release": {
-            "dependsOn": ["build"]
+        "publish": {
+            "dependsOn": ["^build"]
         },
         "size-limit": {
-            "dependsOn": ["build"]
+            "dependsOn": ["^build"]
         },
         "lint": {},
         "format": {}
