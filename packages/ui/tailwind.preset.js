@@ -3,14 +3,8 @@ module.exports = {
     darkMode: ["class", '[class~="dark"]'],
     theme: {
         fontFamily: {
-            sans: [
-                "Helvetica",
-                "ui-sans-serif",
-                "system-ui",
-                "Arial",
-                "sans-serif",
-            ],
-            mono: ["IBM Plex Mono", "ui-monospace", "SFMono-Regular"],
+            sans: ["Inter", "ui-sans-serif", "sans-serif"],
+            mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
         },
         colors: {
             // primary
@@ -37,6 +31,21 @@ module.exports = {
             "gray-300": "#CBCBCB",
             "gray-200": "#E9E9E9",
             "gray-100": "#F6F6F6",
+        },
+        fontSize: {
+            "2xs": ["0.625rem", { lineHeight: "0.9375rem" }],
+            xs: ["0.75rem", { lineHeight: "1.125rem" }],
+            sm: ["0.875rem", { lineHeight: "1.311rem" }],
+            base: ["1rem", { lineHeight: "1.5rem" }],
+            lg: ["1.1875rem", { lineHeight: "1.78125rem" }],
+            xl: ["1.375rem", { lineHeight: "2.0625rem" }],
+            "2xl": ["1.5rem", { lineHeight: "2.25rem" }],
+            h1: ["4.3125rem", { lineHeight: "4.355625rem" }],
+            h2: ["3rem", { lineHeight: "3.03rem" }],
+            h3: ["2.5rem", { lineHeight: "2.525rem" }],
+            h4: ["1.75rem", { lineHeight: "1.7675rem" }],
+            h5: ["1.5rem", { lineHeight: "1.515rem" }],
+            h6: ["1.14285714286rem", { lineHeight: "1.37142857143rem" }],
         },
         extend: {
             borderRadius: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "@carrot-kpi/ui";
+import { Typography } from "@carrot-kpi/ui";
 import { ReactComponent as VerifiedIcon } from "../../../assets/verified.svg";
 import { shortenAddress } from "../../../utils/address";
 
@@ -34,25 +34,25 @@ export const TemplateCard = ({
                         <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                     </div>
                     <div className="flex items-center justify-between w-full px-4">
-                        <Text mono weight="medium" uppercase>
+                        <Typography weight="medium" uppercase>
                             {name}
-                        </Text>
+                        </Typography>
                     </div>
                 </div>
             </div>
-            <Text mono className={{ root: "p-4" }}>
+            <Typography className={{ root: "p-4" }}>
                 <div className="line-clamp-3 h-[72px] overflow-ellipsis">
                     {description}
                 </div>
-            </Text>
+            </Typography>
             <div className="flex">
                 {verified && (
                     <div className="flex flex-col items-center justify-center w-12 border-t border-r">
                         <div className="flex items-center space-x-2 -rotate-90">
                             <VerifiedIcon />
-                            <Text mono uppercase size="sm">
+                            <Typography uppercase variant="sm">
                                 verified
-                            </Text>
+                            </Typography>
                         </div>
                     </div>
                 )}
@@ -64,9 +64,9 @@ export const TemplateCard = ({
             </div>
             <div className="flex items-center justify-center p-4 space-y-4 border-t">
                 <button className="w-full">
-                    <Text mono uppercase weight="medium">
+                    <Typography uppercase weight="medium">
                         ↳ use template
-                    </Text>
+                    </Typography>
                 </button>
             </div>
         </div>
@@ -75,11 +75,9 @@ export const TemplateCard = ({
 
 const Row = ({ title, children }: { title: string; children: string }) => (
     <div className="flex items-center justify-between p-4 border-t border-black dark:border-white">
-        <Text mono size="sm" uppercase>
+        <Typography variant="sm" uppercase>
             {title}
-        </Text>
-        <Text mono weight="medium">
-            {children}
-        </Text>
+        </Typography>
+        <Typography weight="medium">{children}</Typography>
     </div>
 );

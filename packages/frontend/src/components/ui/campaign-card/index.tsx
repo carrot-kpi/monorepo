@@ -1,5 +1,5 @@
 import React from "react";
-import { Chip, Text } from "@carrot-kpi/ui";
+import { Chip, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 
 const rootStyles = cva(
@@ -47,20 +47,24 @@ export const CampaignCard = ({
                         <div className="w-6 h-6 mx-3 rounded-full bg-blue"></div>
                     </div>
                     <div className="flex items-center justify-between w-full px-4">
-                        <Text mono weight="medium" uppercase>
+                        <Typography weight="medium" uppercase>
                             {title}
-                        </Text>
+                        </Typography>
                         {isHolding && (
                             <div className="flex items-center justify-center px-2 py-1 border rounded bg-green">
-                                <Text mono weight="medium" size="2xs" uppercase>
+                                <Typography
+                                    weight="medium"
+                                    variant="2xs"
+                                    uppercase
+                                >
                                     holding
-                                </Text>
+                                </Typography>
                             </div>
                         )}
                     </div>
                 </div>
                 <div className="flex flex-col justify-between p-4 h-52">
-                    <Text mono>{question}</Text>
+                    <Typography>{question}</Typography>
                     <div className="flex items-center space-x-3">
                         <Chip>{templateName}</Chip>
                         {tags.map((tag) => (
@@ -73,29 +77,25 @@ export const CampaignCard = ({
                 {/* TODO: rewards are template-specific */}
                 {/* <CampaignCardRow title="Rewards" value={rewards} color={"black"} /> */}
                 <div className="flex items-center justify-between w-full  border-t border-gray-600">
-                    <Text
-                        mono
-                        size="sm"
+                    <Typography
+                        variant="sm"
                         className={{ root: "p-4 w-[40%]" }}
                         uppercase
                     >
                         Time left
-                    </Text>
-                    <Text
-                        mono
-                        size="sm"
+                    </Typography>
+                    <Typography
+                        variant="sm"
                         className={{
                             root: "text-right w-[60%] p-4 border-l border-gray-600",
                         }}
                         uppercase
                     >
                         {expiration.toString()}
-                    </Text>
+                    </Typography>
                 </div>
                 <button className="w-full py-5 font-mono border-t border-gray-600">
-                    <Text mono weight="medium">
-                        ↳ VIEW CAMPAIGN
-                    </Text>
+                    <Typography weight="medium">↳ VIEW CAMPAIGN</Typography>
                 </button>
             </div>
         </div>

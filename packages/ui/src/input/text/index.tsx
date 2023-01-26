@@ -8,7 +8,7 @@ export type TextInputProps = BaseInputProps<string>;
 export const TextInput = ({
     id,
     label,
-    size,
+    variant,
     border,
     helperText,
     error = false,
@@ -29,7 +29,7 @@ export const TextInput = ({
                 {...rest}
                 className={inputStyles({
                     error,
-                    size,
+                    variant,
                     border,
                     className: className?.input,
                 })}

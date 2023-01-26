@@ -6,7 +6,7 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { Text, TextProps } from "../../text";
+import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as X } from "../../assets/x.svg";
 import { Button, CarrotButtonProps } from "../../button";
 import { TextInput, TextInputProps } from "../../input/text";
@@ -98,7 +98,7 @@ export interface SearchProps {
     className?: {
         root?: string;
         header?: string;
-        title?: TextProps["className"];
+        title?: TypographyProps["className"];
         closeIcon?: string;
         divider?: DividerProps["className"];
         inputWrapper?: string;
@@ -107,8 +107,8 @@ export interface SearchProps {
         list?: string;
         listItem?: string;
         listItemIcon?: RemoteLogoProps["className"];
-        listItemTextPrimary?: TextProps["className"];
-        listItemTextSecondary?: TextProps["className"];
+        listItemTextPrimary?: TypographyProps["className"];
+        listItemTextSecondary?: TypographyProps["className"];
         emptyListText?: string;
         manageListsButtonWrapper?: string;
         manageListsButton?: CarrotButtonProps["className"];
@@ -188,9 +188,9 @@ export const Search = ({
                     className: className?.header,
                 })}
             >
-                <Text mono weight="bold" size="xl" className={className?.title}>
+                <Typography variant="h5" className={className?.title}>
                     Select a token
-                </Text>
+                </Typography>
                 <X
                     className={iconStyles({ className: className?.closeIcon })}
                     onClick={onDismiss}
@@ -255,30 +255,28 @@ export const Search = ({
                                                 ...className?.listItemIcon,
                                             }}
                                         />
-                                        <Text
-                                            mono
+                                        <Typography
                                             className={
                                                 className?.listItemTextPrimary
                                             }
                                         >
                                             {symbol}
-                                        </Text>
+                                        </Typography>
                                     </div>
-                                    <Text
-                                        mono
-                                        size="xs"
+                                    <Typography
+                                        variant="xs"
                                         className={{
                                             root: `cui-text-gray-600 dark:cui-text-gray-200 cui-pointer-events-none ${className?.listItemTextSecondary?.root}`,
                                         }}
                                     >
                                         {name}
-                                    </Text>
+                                    </Typography>
                                 </li>
                             );
                         })}
                     </ul>
                 ) : (
-                    <Text mono>Nothing</Text>
+                    <Typography>Nothing</Typography>
                 )}
             </div>
             {!!lists && lists.length > 1 && (

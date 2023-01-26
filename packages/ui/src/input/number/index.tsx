@@ -8,7 +8,7 @@ export type NumberInputProps = Omit<NumericFormatProps, "size" | "className"> &
 
 export const NumberInput = ({
     id,
-    size,
+    variant,
     value,
     label,
     placeholder,
@@ -36,7 +36,7 @@ export const NumberInput = ({
                 {...rest}
                 className={inputStyles({
                     error,
-                    size,
+                    variant,
                     border,
                     className: className?.input,
                 })}

@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, ReactNode } from "react";
-import { Text, TextProps } from "../../text";
+import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
 import { ReactElement } from "react";
@@ -8,7 +8,7 @@ import { cva } from "class-variance-authority";
 export interface BaseInputProps<V> extends BaseInputWrapperProps {
     error?: boolean;
     helperText?: string;
-    size?: TextProps["size"];
+    variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
     value?: V;
@@ -40,7 +40,7 @@ export const inputStyles = cva(
                     "dark:cui-bg-opacity-20",
                 ],
             },
-            size: {
+            variant: {
                 "2xs": ["cui-text-2xs"],
                 xs: ["cui-text-xs"],
                 sm: ["cui-text-sm"],
@@ -65,14 +65,11 @@ export const inputStyles = cva(
                 ],
             },
         },
-        defaultVariants: {
-            size: "md",
-            border: true,
-        },
+        defaultVariants: { variant: "md", border: true },
     }
 );
 
-const labelStyles = cva(["cui-block", "cui-w-fit", "cui-mb-2"]);
+const labelStyles = cva(["cui-block", "cui-w-fit", "cui-mb-1"]);
 
 const helperTextWrapperStyles = cva([
     "cui-flex",
@@ -106,10 +103,10 @@ export interface BaseInputWrapperProps {
     className?: {
         root?: string;
         label?: string;
-        labelText?: TextProps["className"];
+        labelText?: TypographyProps["className"];
         helperTextContainer?: string;
         helperTextIcon?: string;
-        helperText?: TextProps["className"];
+        helperText?: TypographyProps["className"];
         // should be applied when using the wrapper
         input?: string;
     };
@@ -130,14 +127,13 @@ export const BaseInputWrapper = ({
                 className={labelStyles({ className: className?.label })}
                 htmlFor={id}
             >
-                <Text
-                    mono
-                    size="sm"
+                <Typography
+                    variant="xs"
                     weight="medium"
                     className={className?.labelText}
                 >
                     {label}
-                </Text>
+                </Typography>
             </label>
         )}
         {children}
@@ -162,18 +158,17 @@ export const BaseInputWrapper = ({
                         })}
                     />
                 )}
-                <Text
-                    mono
+                <Typography
+                    variant="xs"
                     className={{
                         root: helperTextStyles({
                             error,
                         }),
                         ...className?.helperText,
                     }}
-                    size="xs"
                 >
                     {helperText}
-                </Text>
+                </Typography>
             </div>
         )}
     </div>

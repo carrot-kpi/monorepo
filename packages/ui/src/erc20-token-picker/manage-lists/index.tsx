@@ -1,5 +1,5 @@
 import React, { MouseEvent, useCallback, useMemo } from "react";
-import { Text, TextProps } from "../../text";
+import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as X } from "../../assets/x.svg";
 import { ReactComponent as ChevronLeft } from "../../assets/chevron-left.svg";
 import { TokenListWithBalance } from "../types";
@@ -80,7 +80,7 @@ export interface ManageListsProps {
     className?: {
         root?: string;
         header?: string;
-        title?: TextProps["className"];
+        title?: TypographyProps["className"];
         closeIcon?: string;
         backIcon?: string;
         divider?: DividerProps["className"];
@@ -88,8 +88,8 @@ export interface ManageListsProps {
         list?: string;
         listItem?: string;
         listItemIcon?: RemoteLogoProps["className"];
-        listItemText?: TextProps["className"];
-        emptyListText?: TextProps["className"];
+        listItemText?: TypographyProps["className"];
+        emptyListText?: TypographyProps["className"];
     };
 }
 
@@ -139,14 +139,9 @@ export const ManageLists = ({
                         })}
                         onClick={onSearch}
                     />
-                    <Text
-                        mono
-                        weight="medium"
-                        size="lg"
-                        className={className?.title}
-                    >
+                    <Typography variant="h5" className={className?.title}>
                         Select a list
-                    </Text>
+                    </Typography>
                 </div>
                 <X
                     className={iconStyles({ className: className?.closeIcon })}
@@ -186,23 +181,22 @@ export const ManageLists = ({
                                             ...className?.listItemIcon,
                                         }}
                                     />
-                                    <Text
-                                        mono
+                                    <Typography
                                         className={{
                                             root: "cui-pointer-events-none",
                                             ...className?.listItemText,
                                         }}
                                     >
                                         {name}
-                                    </Text>
+                                    </Typography>
                                 </li>
                             );
                         })}
                     </ul>
                 ) : (
-                    <Text mono className={className?.emptyListText}>
+                    <Typography className={className?.emptyListText}>
                         Nothing
-                    </Text>
+                    </Typography>
                 )}
             </div>
         </div>

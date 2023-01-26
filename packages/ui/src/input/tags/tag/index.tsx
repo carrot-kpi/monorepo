@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 import React, { useCallback } from "react";
 import { ReactElement } from "react";
-import { Text, TextProps } from "../../../text";
+import { Typography, TypographyProps } from "../../../typography";
 import { ReactComponent as RemoveIcon } from "../../../assets/remove-icon.svg";
 
 const tagStyles = cva([
@@ -19,7 +19,7 @@ export interface TagProps {
     text: string;
     className?: {
         root?: string;
-        text?: TextProps["className"];
+        text?: TypographyProps["className"];
         removeIcon?: string;
     };
     index: number;
@@ -38,9 +38,9 @@ export const Tag = ({
 
     return (
         <div className={tagStyles({ className: className?.root })}>
-            <Text mono size="xs" className={className?.text}>
-                {text.toUpperCase()}
-            </Text>
+            <Typography variant="xs" uppercase className={className?.text}>
+                {text}
+            </Typography>
             <RemoveIcon
                 className={iconStyles({ className: className?.removeIcon })}
                 onClick={handleRemove}

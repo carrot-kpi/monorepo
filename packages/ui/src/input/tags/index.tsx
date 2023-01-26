@@ -17,7 +17,7 @@ export type TagsInputProps = Omit<BaseInputProps<string[]>, "onChange"> & {
 export const TagsInput = ({
     id,
     label,
-    size,
+    variant,
     border,
     helperText,
     error = false,
@@ -69,7 +69,7 @@ export const TagsInput = ({
                 onKeyDown={handleKeyDown}
                 className={inputStyles({
                     error,
-                    size,
+                    variant,
                     border,
                     className: className?.input,
                 })}

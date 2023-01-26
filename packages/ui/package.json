@@ -55,6 +55,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.19.3",
+        "@fontsource/inter": "^4.5.15",
         "@rollup/plugin-commonjs": "^22.0.2",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^14.1.0",
