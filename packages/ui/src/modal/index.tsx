@@ -54,9 +54,14 @@ export const Modal = ({ open, onDismiss, children, className }: ModalProps) => {
             )
                 onDismiss();
         };
+        const handleCloseOnKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onDismiss();
+        };
         document.addEventListener("mousedown", handleCloseOnClick);
+        document.addEventListener("keydown", handleCloseOnKeyDown);
         return () => {
             document.removeEventListener("mousedown", handleCloseOnClick);
+            document.removeEventListener("keydown", handleCloseOnKeyDown);
         };
     }, [onDismiss, open]);
 
