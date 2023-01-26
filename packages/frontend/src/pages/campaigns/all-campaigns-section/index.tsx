@@ -10,10 +10,7 @@ export const AllCampaignsSection = () => {
 
     return (
         <div>
-            <CampaignsTopNav
-                toggleFilters={toggleFilters}
-                filtersOpen={filtersOpen}
-            />
+            <CampaignsTopNav toggleFilters={toggleFilters} />
             <div className="flex">
                 <CampaignsFilters filtersOpen={filtersOpen} />
                 <CampaignsGrid />
