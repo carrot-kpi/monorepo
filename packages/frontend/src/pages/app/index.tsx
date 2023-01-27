@@ -8,6 +8,7 @@ import { Footer } from "../../components/ui/footer";
 import { navbarLinks } from "./navbar-links";
 import { footerLinks } from "./footer-links";
 import { CarrotMarquee } from "../../components/ui/carrot-marquee";
+import { Campaigns } from "../campaigns";
 
 export function App() {
     return (
@@ -17,6 +18,7 @@ export function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/campaigns/:address" element={<Campaign />} />
                 <Route path="/create" element={<Create />} />
+                <Route path="/campaigns" element={<Campaigns />} />
             </Routes>
             <CarrotMarquee />
             <Footer footerLinks={footerLinks} />

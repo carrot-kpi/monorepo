@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.grid-area-hero {
+    grid-template-areas: "right-top" "left" "right";
+}
+
+.grid-area-left {
+    grid-area: left;
+}
+
+.grid-area-right-top {
+    grid-area: right-top;
+}
+
+.grid-area-right {
+    grid-area: right;
+}
+
+@media (min-width: 600px) {
+    .grid-area-hero {
+        grid-template-areas: "left right-top right-top" "left right right" "left right right";
+    }
+}

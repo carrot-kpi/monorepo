@@ -2,6 +2,7 @@ import { useKpiTokens } from "@carrot-kpi/react";
 import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { CampaignCard } from "../../../components/ui/campaign-card";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 
@@ -30,7 +31,9 @@ export const LatestCampaignsSection = () => {
                     </CardHorizontal>
                 </div>
             )}
-            <Button>View all campaings</Button>
+            <Link to="/campaigns">
+                <Button>View all campaings</Button>
+            </Link>
         </div>
     );
 };

@@ -27,7 +27,7 @@ export const TemplatesSection = () => {
                           />
                       ))}
             </CardHorizontal>
-            <Button>{t("create.campaign")}</Button>
+            <Button>{t("templates.viewAll")}</Button>
         </div>
     );
 };

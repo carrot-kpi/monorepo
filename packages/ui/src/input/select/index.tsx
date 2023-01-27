@@ -10,8 +10,6 @@ import { usePopper } from "react-popper";
 import { ReactComponent as ChevronUp } from "../../assets/chevron-up.svg";
 import { cva, cx } from "class-variance-authority";
 
-const wrapperStyles = cva(["cui-relative", "cui-w-fit"]);
-
 const dropdownRootStyles = cva([
     "cui-rounded-xxl",
     "cui-border",
@@ -79,6 +77,28 @@ const optionStyles = cva(
     }
 );
 
+const selectRootStyles = cva([""], {
+    variants: {
+        fullWidth: {
+            true: "w-full",
+        },
+    },
+    defaultVariants: {
+        fullWidth: false,
+    },
+});
+
+const selectAnchorStyles = cva(["cui-select-wrapper", "cui-relative"], {
+    variants: {
+        fullWidth: {
+            true: "cui-w-full",
+            false: "cui-w-fit",
+        },
+    },
+    defaultVariants: {
+        fullWidth: false,
+    },
+});
 const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
@@ -90,6 +110,7 @@ export interface SelectOption {
 export type ValueType = string | number;
 
 export type SelectProps<O extends SelectOption = SelectOption> = {
+    fullWidth?: boolean;
     options: O[];
     value: O | null;
     helperText?: string;
@@ -117,6 +138,7 @@ export const Select = <O extends SelectOption>({
     onChange,
     className,
     renderOption,
+    fullWidth,
     ...rest
 }: SelectProps<O>): ReactElement => {
     const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(
@@ -170,7 +192,14 @@ export const Select = <O extends SelectOption>({
     );
 
     return (
-        <div className={className?.root}>
+        <div
+            className={cx(
+                selectRootStyles({
+                    fullWidth,
+                }),
+                className?.root
+            )}
+        >
             <BaseInputWrapper
                 id={id}
                 label={label}
@@ -179,7 +208,7 @@ export const Select = <O extends SelectOption>({
                 className={{ root: className?.inputRoot }}
             >
                 <div
-                    className={wrapperStyles({ className: className?.wrapper })}
+                    className={selectAnchorStyles({ fullWidth })}
                     ref={setAnchorElement}
                 >
                     <input
@@ -194,8 +223,9 @@ export const Select = <O extends SelectOption>({
                                 error,
                                 variant,
                                 border,
+                                fullWidth,
                             }),
-                            "cui-w-fit cui-cursor-pointer",
+                            "cui-cursor-pointer",
                             className?.input
                         )}
                     />
@@ -232,10 +262,10 @@ export const Select = <O extends SelectOption>({
                             >
                                 {!!renderOption ? (
                                     <div
-                                        className={customOptionWrapperStyles({
-                                            className:
-                                                className?.customOptionWrapper,
-                                        })}
+                                        className={cx(
+                                            customOptionWrapperStyles(),
+                                            className?.customOptionWrapper
+                                        )}
                                     >
                                         {renderOption(option)}
                                     </div>
