@@ -1,7 +1,6 @@
-import { Button, PlusSignPattern, TextMono } from "@carrot-kpi/ui";
+import { Button, PlusSignPattern, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { GridPatternBg } from "../../../components/ui/grid-pattern-bg";
-import { MainTitle } from "../../../components/ui/main-title";
 import { PageWrapper } from "../../../components/ui/page-wrapper";
 import { TemplateCard } from "../../../components/ui/template-card";
 
@@ -22,9 +21,9 @@ export const Hero = () => (
                         />
                     </div>
                     <div className="max-w-xl space-y-5 grid-area-top-right">
-                        <MainTitle size="small">
+                        <Typography variant="h1">
                             ERC20 Generic Template
-                        </MainTitle>
+                        </Typography>
                         <div className="flex justify-between space-x-4 space-y-0 md:justify-start">
                             <Button variant="secondary" size="xsmall">
                                 share
@@ -35,14 +34,14 @@ export const Hero = () => (
                         </div>
                     </div>
                     <div className="max-w-xl col-span-8 space-y-5 grid-area-right">
-                        <TextMono>
+                        <Typography>
                             Come in, develop a Carrot template, upload it to
                             IPFS and submit it to the official registry.
-                        </TextMono>
+                        </Typography>
                         <Button
                             variant="primary"
                             size="big"
-                            className="w-full lg:w-auto"
+                            className={{ root: "w-full lg:w-auto" }}
                         >
                             CREATE CAMPAIGN
                         </Button>

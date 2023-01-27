@@ -1,23 +1,31 @@
 import React from "react";
 import { ReactElement } from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
-import { BaseInputProps, inputStyles, LabelWrapper } from "../commons";
+import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
 
-export type NumberInputProps = Omit<NumericFormatProps, "size"> &
+export type NumberInputProps = Omit<NumericFormatProps, "size" | "className"> &
     BaseInputProps<string>;
 
 export const NumberInput = ({
     id,
-    size,
+    variant,
     value,
     label,
     placeholder,
     border,
+    helperText,
+    error = false,
     className,
     ...rest
 }: NumberInputProps): ReactElement => {
     return (
-        <LabelWrapper id={id} label={label}>
+        <BaseInputWrapper
+            id={id}
+            label={label}
+            error={error}
+            helperText={helperText}
+            className={className}
+        >
             <NumericFormat
                 type="text"
                 defaultValue=""
@@ -26,8 +34,13 @@ export const NumberInput = ({
                 value={value}
                 placeholder={placeholder}
                 {...rest}
-                className={inputStyles({ size, border, className })}
+                className={inputStyles({
+                    error,
+                    variant,
+                    border,
+                    className: className?.input,
+                })}
             />
-        </LabelWrapper>
+        </BaseInputWrapper>
     );
 };

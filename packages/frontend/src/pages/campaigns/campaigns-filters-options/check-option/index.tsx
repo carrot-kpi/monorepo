@@ -1,10 +1,10 @@
 import React from "react";
-import { TextMono } from "@carrot-kpi/ui";
+import { Typography } from "@carrot-kpi/ui";
 
 const CheckboxInput = ({ title }: { title: string }) => (
     <div className="flex items-center space-x-2">
         <input type="checkbox" name={title} id={title} className="w-5 h-5" />
-        <TextMono>{title}</TextMono>
+        <Typography>{title}</Typography>
     </div>
 );
 
@@ -17,6 +17,6 @@ export const CheckOption = ({
 }) => (
     <label className="flex items-center justify-between cursor-pointer">
         <CheckboxInput title={title} />
-        <TextMono size="sm">{total}</TextMono>
+        <Typography variant="sm">{total}</Typography>
     </label>
 );

@@ -4,20 +4,64 @@ import Placeholder from "@tiptap/extension-placeholder";
 import React, { ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
-import { TextMono } from "../../text-mono";
+import { BaseInputWrapper } from "../commons";
+import { cva } from "class-variance-authority";
 
 export interface MarkdownInputProps {
     id: string;
     label: string;
+    error?: boolean;
+    helperText?: string;
     placeholder?: string;
-    value: string;
+    value?: string;
     onChange: (value: string) => void;
     className?: string;
 }
 
+export const markdownInputRootStyles = cva([
+    "cui-rounded-xxl",
+    "cui-border",
+    "cui-border-black",
+    "dark:cui-border-white",
+    "focus-within:cui-outline-none",
+    "focus-within:cui-border-orange",
+    "dark:focus-within:cui-border-orange",
+]);
+
+export const markdownInputContentStyles = cva(
+    [
+        "cui-rounded-b-xxl",
+        "cui-scrollbar",
+        "cui-h-44",
+        "cui-overflow-y-auto",
+        "cui-overflow-x-hidden",
+        "cui-p-3",
+        "cui-text-sm",
+        "cui-font-normal",
+        "cui-cursor-text",
+        "focus:cui-outline-none",
+        "cui-bg-white",
+        "dark:cui-bg-black",
+    ],
+    {
+        variants: {
+            error: {
+                true: [
+                    "cui-bg-red",
+                    "cui-bg-opacity-20",
+                    "dark:cui-bg-red",
+                    "dark:cui-bg-opacity-20",
+                ],
+            },
+        },
+    }
+);
+
 export const MarkdownInput = ({
     id,
     label,
+    error = false,
+    helperText,
     placeholder,
     value,
     onChange,
@@ -54,23 +98,23 @@ export const MarkdownInput = ({
     }, []);
 
     return (
-        <div>
-            <label className="cui-block cui-mb-2" htmlFor={id}>
-                <TextMono size="sm" className="cui-font-medium">
-                    {label}
-                </TextMono>
-            </label>
+        <BaseInputWrapper
+            id={id}
+            label={label}
+            error={error}
+            helperText={helperText}
+        >
             <div
-                className={`cui-rounded-xxl cui-border cui-border-black dark:cui-border-white focus-within:cui-outline-none focus-within:cui-border-orange dark:focus-within:cui-border-orange cui-bg-white dark:cui-bg-black ${className}`}
+                className={markdownInputRootStyles({ className })}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >
                 {editor && <MenuBar editor={editor} focused={focused} />}
                 <EditorContent
-                    className="cui-scrollbar cui-h-44 cui-overflow-y-auto cui-overflow-x-hidden cui-p-3 cui-text-sm cui-font-normal cui-cursor-text focus:cui-outline-none"
+                    className={markdownInputContentStyles({ error })}
                     editor={editor}
                 />
             </div>
-        </div>
+        </BaseInputWrapper>
     );
 };

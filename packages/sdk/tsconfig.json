@@ -2,6 +2,7 @@
     "extends": "tsconfig/sdk.json",
     "include": ["./src/**/*", "./src/abis/*.json"],
     "compilerOptions": {
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "rootDir": "./src"
     }
 }

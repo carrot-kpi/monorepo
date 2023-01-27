@@ -1,12 +1,12 @@
 import React from "react";
-import { TextMono } from "@carrot-kpi/ui";
+import { Typography } from "@carrot-kpi/ui";
 import { FilterDataProps } from "../filter-options";
 
 export const Slider = ({ value, total }: FilterDataProps) => (
     <section>
         <div className="flex justify-between">
-            <TextMono size="sm">{value}</TextMono>
-            <TextMono size="sm">{total}</TextMono>
+            <Typography variant="sm">{value}</Typography>
+            <Typography variant="sm">{total}</Typography>
         </div>
         <div className="w-full px-6">
             <div className="relative w-full h-1 bg-black">

@@ -1,7 +1,10 @@
+import { cva } from "class-variance-authority";
 import React, { ReactElement } from "react";
 
+const rootStyles = cva(["cui-p-3"]);
+
 interface DetailsProps {
-    className?: string;
+    className?: { root?: string };
     children: ReactElement;
 }
 
@@ -10,7 +13,7 @@ export const AccordionDetails = ({
     children,
     ...rest
 }: DetailsProps): ReactElement => (
-    <div {...rest} className={`cui-p-3 ${className}`}>
+    <div {...rest} className={rootStyles({ className: className?.root })}>
         {children}
     </div>
 );

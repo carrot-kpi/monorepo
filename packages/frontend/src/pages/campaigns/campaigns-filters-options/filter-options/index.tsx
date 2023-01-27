@@ -1,4 +1,4 @@
-import { TextMono } from "@carrot-kpi/ui";
+import { Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { CheckOption } from "../check-option";
 import { Slider } from "../slider";
@@ -16,9 +16,9 @@ export type FilterDataProps = {
 
 export const FilterOptions = ({ title, data, type }: FiltersDataProps) => (
     <div className="w-full">
-        <TextMono size="lg" weight="medium" caps>
+        <Typography variant="lg" weight="medium" uppercase>
             {title}
-        </TextMono>
+        </Typography>
         <div className="py-6 space-y-4 border-b">
             {data.map(({ value, total }) =>
                 type === "slider" ? (
