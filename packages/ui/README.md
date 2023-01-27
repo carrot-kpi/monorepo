@@ -3,21 +3,22 @@
 Carrot UI is an open source React component library that implements Carrot KPI's
 design system.
 
-It includes a (eventually) comprehensive collection of prebuilt components that
-are ready for use in production right out of the box.
+It includes a collection of prebuilt components that are ready for use in
+production right out of the box.
 
-The library is generally made to be used on Carrot'd frontend and templates, but
-is free (as in freedom) to use for anyone.
+The library is generally made to be used on Carrot frontend and templates, but
+it is free (as in freedom) to use for anyone.
 
 **NB: THE LIBRARY CURRRENTLY ONLY SUPPORTS ESM, WITH THE ONLY EXCEPTION BEING
 THE TAILWIND PRESET, EXPORTED IN BOTH ES AND CJS FORMAT**
 
 ## Tech used
 
-The library is developed with pure Typescript, with the styling done through
-TailwindCSS and the bundling done through Rollup. We have a workflow that tries
-to keep under control both the overall formatting of the code to keep it
-consistent and the size of the final bundle (which is currently minimized).
+The library is developed in React with Typescript, the styling done through
+TailwindCSS and the bundling done using Rollup. We have a workflow that tries to
+keep under control both the overall formatting of the code to keep it consistent
+and the size of the final bundle (even though it is meant to be used with
+bundlers that will tree-shake the final result).
 
 ## Getting started
 
@@ -34,6 +35,7 @@ the library through Fontsource:
 
 ```
 pnpm install @fontsource/ibm-plex-mono
+pnpm install @fontsource/inter
 ```
 
 In order to use the library in your app, simply wrap it with the exported
@@ -42,8 +44,17 @@ In order to use the library in your app, simply wrap it with the exported
 ```
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/ibm-plex-mono/700.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/700.css";
 import "@carrot-kpi/ui/styles.css";
 ```
+
+## Documentation
+
+The library components are documented using Storybook, but the final result is
+still not officially published anywhere as of now.
 
 ## TailwindCSS
 
