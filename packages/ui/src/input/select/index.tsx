@@ -8,7 +8,17 @@ import React, {
 import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
 import { usePopper } from "react-popper";
 import { ReactComponent as ChevronUp } from "../../assets/chevron-up.svg";
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+const dropdownRootStyles = cva([
+    "cui-rounded-xxl",
+    "cui-border",
+    "cui-bg-white",
+    "dark:cui-bg-black",
+    "dark:cui-border-white",
+    "cui-z-10",
+    "cui-overflow-hidden",
+]);
 
 const arrowStyles = cva(
     [
@@ -89,6 +99,7 @@ const selectAnchorStyles = cva(["cui-select-wrapper", "cui-relative"], {
         fullWidth: false,
     },
 });
+const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
     label: string;
@@ -106,11 +117,18 @@ export type SelectProps<O extends SelectOption = SelectOption> = {
     error?: boolean;
     onChange: (value: O) => void;
     renderOption?: (value: O) => ReactElement;
+    className?: BaseInputProps<unknown>["className"] & {
+        inputRoot?: string;
+        wrapper?: string;
+        dropdownRoot?: string;
+        option?: string;
+        customOptionWrapper?: string;
+    };
 } & Omit<BaseInputProps<unknown>, "onChange" | "value">;
 
 export const Select = <O extends SelectOption>({
     id,
-    size,
+    variant,
     label,
     border,
     options,
@@ -174,13 +192,20 @@ export const Select = <O extends SelectOption>({
     );
 
     return (
-        <div className={selectRootStyles({ className, fullWidth })}>
+        <div
+            className={cx(
+                selectRootStyles({
+                    fullWidth,
+                }),
+                className?.root
+            )}
+        >
             <BaseInputWrapper
                 id={id}
                 label={label}
                 error={error}
                 helperText={helperText}
-                className="cui-w-full"
+                className={{ root: className?.inputRoot }}
             >
                 <div
                     className={selectAnchorStyles({ fullWidth })}
@@ -193,13 +218,16 @@ export const Select = <O extends SelectOption>({
                         value={value?.label || ""}
                         {...rest}
                         onClick={handleClick}
-                        className={inputStyles({
-                            error,
-                            size,
-                            border,
-                            fullWidth,
-                            className: "cui-select-input cui-cursor-pointer",
-                        })}
+                        className={cx(
+                            inputStyles({
+                                error,
+                                variant,
+                                border,
+                                fullWidth,
+                            }),
+                            "cui-cursor-pointer",
+                            className?.input
+                        )}
                     />
                     <ChevronUp
                         className={arrowStyles({
@@ -216,7 +244,9 @@ export const Select = <O extends SelectOption>({
                         ...styles.popper,
                         width: anchorElement?.clientWidth,
                     }}
-                    className="cui-select-dropdown cui-rounded-xxl cui-border cui-bg-white dark:cui-bg-black dark:cui-border-white cui-z-10 cui-overflow-hidden"
+                    className={dropdownRootStyles({
+                        className: className?.dropdownRoot,
+                    })}
                     {...attributes.popper}
                 >
                     {options.map((option) => {
@@ -224,14 +254,19 @@ export const Select = <O extends SelectOption>({
                             <li
                                 className={optionStyles({
                                     picked: value?.value === option.value,
-                                    className: "cui-select-option",
+                                    className: className?.option,
                                 })}
                                 onClick={handlePick}
                                 data-value={JSON.stringify(option)}
                                 key={option.label}
                             >
                                 {!!renderOption ? (
-                                    <div className="cui-select-custom-option-wrapper cui-pointer-events-none">
+                                    <div
+                                        className={cx(
+                                            customOptionWrapperStyles(),
+                                            className?.customOptionWrapper
+                                        )}
+                                    >
                                         {renderOption(option)}
                                     </div>
                                 ) : (

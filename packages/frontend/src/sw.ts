@@ -14,9 +14,6 @@ self.addEventListener("install", () => {
 });
 
 self.addEventListener("activate", (event: ExtendableEvent) => {
-    const params = new URLSearchParams(location.search);
-    const ipfsGateway = params.get("ipfsGateway");
-    self.ipfsGateway = ipfsGateway || undefined;
     event.waitUntil(
         new Promise<void>((resolve, reject) => {
             create()
@@ -55,8 +52,9 @@ const urlToCID = async (url: URL): Promise<string | null> => {
 };
 
 registerRoute(
-    ({ request }) => {
-        return self.ipfsGateway && request.url.startsWith(self.ipfsGateway);
+    ({ url }) => {
+        // TODO: handle ipns
+        return url.pathname.startsWith("/ipfs");
     },
     {
         handle: async (options): Promise<Response> => {

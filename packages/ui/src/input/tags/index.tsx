@@ -1,16 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { cva } from "class-variance-authority";
+import React, { useCallback, useState } from "react";
 import { ReactElement } from "react";
 import { BaseInputProps, BaseInputWrapper, inputStyles } from "../commons";
-import { Tag } from "./tag";
+import { Tag, TagProps } from "./tag";
+
+const tagsWrapper = cva(["cui-flex", "cui-flex-wrap", "cui-gap-2", "cui-mt-2"]);
 
 export type TagsInputProps = Omit<BaseInputProps<string[]>, "onChange"> & {
     onChange: (tags: string[]) => void;
+    className?: BaseInputProps<unknown>["className"] & {
+        tagsWrapper?: string;
+        tag?: TagProps["className"];
+    };
 };
 
 export const TagsInput = ({
     id,
     label,
-    size,
+    variant,
     border,
     helperText,
     error = false,
@@ -19,14 +26,7 @@ export const TagsInput = ({
     onChange,
     ...rest
 }: TagsInputProps): ReactElement => {
-    const [tags, setTags] = useState<string[]>(value || []);
-    const [tagError, setTagError] = useState<boolean>(false);
-    const [tagErrorMessage, setTagErrorMessage] = useState<string>("");
     const [inputValue, setInputValue] = useState<string>("");
-
-    useEffect(() => {
-        onChange(tags);
-    }, [onChange, tags]);
 
     const handleOnChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,36 +35,30 @@ export const TagsInput = ({
         []
     );
 
-    const handleTagCreate = useCallback(
+    const handleKeyDown = useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>) => {
-            if (event.key !== "Enter") return;
-            if (inputValue === "") return;
-            if (tags.find((tag) => tag === inputValue)) {
-                setTagError(true);
-                setTagErrorMessage("Tag already existing");
-                return;
-            }
-
-            setTagError(false);
-            setTagErrorMessage("");
-            setTags((prevState) => [...prevState, inputValue]);
-            setInputValue("");
+            if (event.key !== "Enter" || !inputValue) return;
+            onChange(value ? [...value, inputValue] : [inputValue]);
+            if (!!inputValue) setInputValue("");
         },
-        [inputValue, tags]
+        [inputValue, onChange, value]
     );
 
-    const handleTagRemove = useCallback((indexToRemove: number) => {
-        setTags((prevStatus) =>
-            prevStatus.filter((_, index) => index !== indexToRemove)
-        );
-    }, []);
+    const handleTagRemove = useCallback(
+        (index: number) => {
+            if (!!value && value.length > 0)
+                onChange(value.filter((_, i) => i !== index));
+        },
+        [onChange, value]
+    );
 
     return (
         <BaseInputWrapper
             id={id}
             label={label}
-            error={error || tagError}
-            helperText={helperText || tagErrorMessage}
+            error={error}
+            helperText={helperText}
+            className={className}
         >
             <input
                 id={id}
@@ -72,16 +66,27 @@ export const TagsInput = ({
                 {...rest}
                 value={inputValue}
                 onChange={handleOnChange}
-                onKeyDown={handleTagCreate}
-                className={inputStyles({ error, size, border, className })}
+                onKeyDown={handleKeyDown}
+                className={inputStyles({
+                    error,
+                    variant,
+                    border,
+                    className: className?.input,
+                })}
             />
-            {tags.length > 0 && (
-                <div className={"cui-flex cui-flex-wrap cui-gap-2 cui-mt-2"}>
-                    {tags.map((tag, index) => (
+            {!!value && value.length > 0 && (
+                <div
+                    className={tagsWrapper({
+                        className: className?.tagsWrapper,
+                    })}
+                >
+                    {value.map((tag, index) => (
                         <Tag
-                            key={tag}
+                            key={tag + index}
                             text={tag}
-                            onRemove={() => handleTagRemove(index)}
+                            index={index}
+                            onRemove={handleTagRemove}
+                            className={className?.tag}
                         />
                     ))}
                 </div>

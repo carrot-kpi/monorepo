@@ -1,5 +1,5 @@
 import { useKpiTokenTemplates } from "@carrot-kpi/react";
-import { Button, Title } from "@carrot-kpi/ui";
+import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
@@ -11,7 +11,7 @@ export const TemplatesSection = () => {
 
     return (
         <div className="relative space-y-16">
-            <Title size="6xl">{t("home.templates")}</Title>
+            <Typography variant="h2">{t("home.templates")}</Typography>
             <CardHorizontal>
                 {loading
                     ? t("loading")

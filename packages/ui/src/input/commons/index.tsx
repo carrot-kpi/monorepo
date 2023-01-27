@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, ReactNode } from "react";
-import { TextMono } from "../../text-mono";
+import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
 import { ReactElement } from "react";
@@ -8,7 +8,7 @@ import { cva } from "class-variance-authority";
 export interface BaseInputProps<V> extends BaseInputWrapperProps {
     error?: boolean;
     helperText?: string;
-    size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+    variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
     value?: V;
@@ -40,14 +40,14 @@ export const inputStyles = cva(
                     "dark:cui-bg-opacity-20",
                 ],
             },
-            size: {
-                xxs: ["cui-text-xxs"],
+            variant: {
+                "2xs": ["cui-text-2xs"],
                 xs: ["cui-text-xs"],
                 sm: ["cui-text-sm"],
-                md: ["cui-text-md"],
+                md: ["cui-text-base"],
                 lg: ["cui-text-lg"],
                 xl: ["cui-text-xl"],
-                xxl: ["cui-text-xxl"],
+                "2xl": ["cui-text-2xl"],
             },
             fullWidth: {
                 true: ["cui-w-full"],
@@ -68,13 +68,11 @@ export const inputStyles = cva(
                 ],
             },
         },
-        defaultVariants: {
-            size: "md",
-            border: true,
-            fullWidth: false,
-        },
+        defaultVariants: { variant: "md", border: true, fullWidth: false },
     }
 );
+
+const labelStyles = cva(["cui-block", "cui-w-fit", "cui-mb-1"]);
 
 const helperTextWrapperStyles = cva([
     "cui-flex",
@@ -82,6 +80,15 @@ const helperTextWrapperStyles = cva([
     "cui-gap-2",
     "cui-mt-2",
 ]);
+
+const helperTextIconStyles = cva([], {
+    variants: {
+        variant: {
+            danger: ["cui-stroke-red"],
+            info: ["cui-stroke-black", "dark:cui-stroke-white"],
+        },
+    },
+});
 
 const helperTextStyles = cva([], {
     variants: {
@@ -93,10 +100,19 @@ const helperTextStyles = cva([], {
 
 export interface BaseInputWrapperProps {
     id: string;
-    label: string;
+    label?: string;
     error?: boolean;
     helperText?: string;
-    className?: string;
+    className?: {
+        root?: string;
+        label?: string;
+        labelText?: TypographyProps["className"];
+        helperTextContainer?: string;
+        helperTextIcon?: string;
+        helperText?: TypographyProps["className"];
+        // should be applied when using the wrapper
+        input?: string;
+    };
     children?: ReactNode;
 }
 
@@ -108,28 +124,54 @@ export const BaseInputWrapper = ({
     className,
     children,
 }: BaseInputWrapperProps): ReactElement => (
-    <div>
+    <div className={className?.root}>
         {!!label && (
             <label
-                className={`cui-block cui-w-fit cui-mb-2 ${className}`}
+                className={labelStyles({ className: className?.label })}
                 htmlFor={id}
             >
-                <TextMono size="sm" className="cui-font-medium">
+                <Typography
+                    variant="xs"
+                    weight="medium"
+                    className={className?.labelText}
+                >
                     {label}
-                </TextMono>
+                </Typography>
             </label>
         )}
         {children}
         {helperText && (
-            <div className={helperTextWrapperStyles({ className })}>
+            <div
+                className={helperTextWrapperStyles({
+                    className: className?.helperTextContainer,
+                })}
+            >
                 {error ? (
-                    <DangerIcon className="cui-stroke-red" />
+                    <DangerIcon
+                        className={helperTextIconStyles({
+                            variant: "danger",
+                            className: className?.helperTextIcon,
+                        })}
+                    />
                 ) : (
-                    <InfoIcon className="cui-stroke-black dark:cui-stroke-white" />
+                    <InfoIcon
+                        className={helperTextIconStyles({
+                            variant: "info",
+                            className: className?.helperTextIcon,
+                        })}
+                    />
                 )}
-                <TextMono className={helperTextStyles({ error })} size="xs">
+                <Typography
+                    variant="xs"
+                    className={{
+                        root: helperTextStyles({
+                            error,
+                        }),
+                        ...className?.helperText,
+                    }}
+                >
                     {helperText}
-                </TextMono>
+                </Typography>
             </div>
         )}
     </div>

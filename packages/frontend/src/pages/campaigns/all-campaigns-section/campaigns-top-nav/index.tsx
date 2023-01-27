@@ -1,12 +1,18 @@
 import { SearchInput } from "@carrot-kpi/ui";
 import { Select, SelectOption } from "@carrot-kpi/ui";
 import React, { useState } from "react";
+import { ToggleIconButton } from "../../../../components/ui/toggle-icon-button";
+import { ToggleFiltersButton } from "./toggle-filters-button";
+
+interface CampaignsTopNavProps {
+    toggleFilters: () => void;
+    filtersOpen: boolean;
+}
 
 export const CampaignsTopNav = ({
     toggleFilters,
-}: {
-    toggleFilters: () => void;
-}) => {
+    filtersOpen,
+}: CampaignsTopNavProps) => {
     const [campaignsOrder, setCampaignsOrder] = useState<SelectOption>({
         value: 1,
         label: "Latest",
@@ -25,12 +31,10 @@ export const CampaignsTopNav = ({
             <div className="flex flex-col items-center justify-between w-full md:flex-row">
                 <div className="flex flex-col w-full gap-5 mb-5 md:mb-0 md:flex-row">
                     <div className="flex gap-5">
-                        <div
-                            className="p-3 border rounded-xl "
-                            onClick={toggleFilters}
-                        >
-                            FY
-                        </div>
+                        <ToggleFiltersButton
+                            toggle={toggleFilters}
+                            active={filtersOpen}
+                        />
                         <Select
                             fullWidth
                             label=""
@@ -69,7 +73,12 @@ export const CampaignsTopNav = ({
                             placeholder="Latest"
                             value={campaignsState}
                         />
-                        <div className="p-3 border rounded-xl">MY</div>
+                        <ToggleIconButton
+                            toggle={() => console.log("Toggled MY")}
+                            active={false}
+                        >
+                            MY
+                        </ToggleIconButton>
                     </div>
                 </div>
                 <SearchInput onChange={handleSearchQuery} />

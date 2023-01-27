@@ -71,7 +71,7 @@ export const ConnectWallet = () => {
                                 </div>
                             </div>
                             <div className="flex flex-col mr-4">
-                                <span className="font-mono text-black text-xxs">
+                                <span className="font-mono text-black text-2xs">
                                     {t("connect.wallet.network")}
                                 </span>
                                 <span className="font-mono text-sm text-black capitalize">
@@ -97,10 +97,7 @@ export const ConnectWallet = () => {
                                 </Button>
                             </>
                         ) : (
-                            <Button
-                                className="uppercase"
-                                onClick={openConnectModal}
-                            >
+                            <Button onClick={openConnectModal}>
                                 {t("connect.wallet")}
                             </Button>
                         )}
