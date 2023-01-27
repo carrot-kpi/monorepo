@@ -77,28 +77,7 @@ const optionStyles = cva(
     }
 );
 
-const selectRootStyles = cva([""], {
-    variants: {
-        fullWidth: {
-            true: "w-full",
-        },
-    },
-    defaultVariants: {
-        fullWidth: false,
-    },
-});
-
-const selectAnchorStyles = cva(["cui-select-wrapper", "cui-relative"], {
-    variants: {
-        fullWidth: {
-            true: "cui-w-full",
-            false: "cui-w-fit",
-        },
-    },
-    defaultVariants: {
-        fullWidth: false,
-    },
-});
+const selectAnchorStyles = cva(["cui-select-wrapper", "cui-relative"]);
 const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
@@ -208,7 +187,9 @@ export const Select = <O extends SelectOption>({
                 className={{ root: className?.inputRoot }}
             >
                 <div
-                    className={cx(selectAnchorStyles(), className?.wrapper)}
+                    className={selectAnchorStyles({
+                        className: className?.wrapper,
+                    })}
                     ref={setAnchorElement}
                 >
                     <input
@@ -223,7 +204,6 @@ export const Select = <O extends SelectOption>({
                                 error,
                                 variant,
                                 border,
-                                fullWidth,
                             }),
                             "cui-cursor-pointer",
                             className?.input
