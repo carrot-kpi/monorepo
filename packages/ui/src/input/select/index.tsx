@@ -77,28 +77,7 @@ const optionStyles = cva(
     }
 );
 
-const selectRootStyles = cva([""], {
-    variants: {
-        fullWidth: {
-            true: "w-full",
-        },
-    },
-    defaultVariants: {
-        fullWidth: false,
-    },
-});
-
-const selectAnchorStyles = cva(["cui-select-wrapper", "cui-relative"], {
-    variants: {
-        fullWidth: {
-            true: "cui-w-full",
-            false: "cui-w-fit",
-        },
-    },
-    defaultVariants: {
-        fullWidth: false,
-    },
-});
+const selectAnchorStyles = cva(["cui-select-wrapper", "cui-relative"]);
 const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
@@ -110,7 +89,6 @@ export interface SelectOption {
 export type ValueType = string | number;
 
 export type SelectProps<O extends SelectOption = SelectOption> = {
-    fullWidth?: boolean;
     options: O[];
     value: O | null;
     helperText?: string;
@@ -138,7 +116,6 @@ export const Select = <O extends SelectOption>({
     onChange,
     className,
     renderOption,
-    fullWidth,
     ...rest
 }: SelectProps<O>): ReactElement => {
     const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(
@@ -192,14 +169,7 @@ export const Select = <O extends SelectOption>({
     );
 
     return (
-        <div
-            className={cx(
-                selectRootStyles({
-                    fullWidth,
-                }),
-                className?.root
-            )}
-        >
+        <div className={className?.root}>
             <BaseInputWrapper
                 id={id}
                 label={label}
@@ -208,7 +178,9 @@ export const Select = <O extends SelectOption>({
                 className={{ root: className?.inputRoot }}
             >
                 <div
-                    className={selectAnchorStyles({ fullWidth })}
+                    className={selectAnchorStyles({
+                        className: className?.wrapper,
+                    })}
                     ref={setAnchorElement}
                 >
                     <input
@@ -223,7 +195,6 @@ export const Select = <O extends SelectOption>({
                                 error,
                                 variant,
                                 border,
-                                fullWidth,
                             }),
                             "cui-cursor-pointer",
                             className?.input
