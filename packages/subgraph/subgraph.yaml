@@ -1,28 +1,57 @@
-specVersion: 0.0.5
+specVersion: 0.0.6
 schema:
   file: ./schema.graphql
 features:
   - ipfsOnEthereumContracts
   - fullTextSearch
 dataSources:
-  - kind: ethereum
-    name: KPITokensManager1
+  - kind: ethereum/contract
+    name: Factory
     network: goerli
     source:
-      abi: KPITokensManager1
-      address: "0x9bED1f20E296c186e287Bf3e443581e9F252aA75"
-      startBlock: 7669576
+      abi: Factory
+      address: "0x59429Bcc86FF13f9B66Af412Ff62dD2c9eF8e607"
+      startBlock: 7669575
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Template
-        - TemplateSpecification
-        - KPITokensManager1
+        - Oracle
+        - KPIToken
       abis:
-        - name: KPITokensManager1
-          file: ./abis/KPITokensManager1.json
+        - name: Factory
+          file: ./abis/Factory.json
+        - name: KPITokensManager
+          file: ./abis/KPITokensManager.json
+        - name: OraclesManager
+          file: ./abis/OraclesManager.json
+      eventHandlers:
+        - event: CreateToken(address)
+          handler: handleCreateToken
+        - event: SetKpiTokensManager(address)
+          handler: handleSetKPITokensManager
+        - event: SetOraclesManager(address)
+          handler: handleSetOraclesManager
+        - event: SetFeeReceiver(address)
+          handler: handleSetFeeReceiver
+      file: ./src/factory.ts
+templates:
+  - kind: ethereum/contract
+    network: goerli
+    name: KPITokensManager
+    source:
+      abi: KPITokensManager
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - KPITokenTemplate
+        - KPITokensManager
+      abis:
+        - name: KPITokensManager
+          file: ./abis/KPITokensManager.json
       eventHandlers:
         - event: AddTemplate(indexed uint256,indexed address,string)
           handler: handleAddTemplate
@@ -34,25 +63,22 @@ dataSources:
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
-      file: ./src/kpi-token-templates-manager1.ts
-  - kind: ethereum
-    name: OraclesManager1
+      file: ./src/kpi-tokens-manager.ts
+  - kind: ethereum/contract
     network: goerli
+    name: OraclesManager
     source:
-      abi: OraclesManager1
-      address: "0x839903e7829635dB2ba5E3F6355FD341F9Eec436"
-      startBlock: 7669578
+      abi: OraclesManager
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Template
-        - TemplateSpecification
-        - OraclesManager1
+        - OracleTemplate
+        - OraclesManager
       abis:
-        - name: OraclesManager1
-          file: ./abis/OraclesManager1.json
+        - name: OraclesManager
+          file: ./abis/OraclesManager.json
       eventHandlers:
         - event: AddTemplate(indexed uint256,indexed address,string)
           handler: handleAddTemplate
@@ -64,4 +90,45 @@ dataSources:
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
-      file: ./src/oracle-templates-manager1.ts
+      file: ./src/oracles-manager.ts
+  - kind: ethereum/contract
+    network: goerli
+    name: KPIToken
+    source:
+      abi: KPIToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Oracle
+        - KPIToken
+      abis:
+        - name: KPIToken
+          file: ./abis/KPIToken.json
+      eventHandlers:
+        - event: Initialize()
+          handler: handleInitialize
+        - event: Finalize(indexed address,uint256)
+          handler: handleFinalize
+      file: ./src/kpi-token.ts
+  - kind: ethereum/contract
+    network: goerli
+    name: Oracle
+    source:
+      abi: Oracle
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Oracle
+      abis:
+        - name: Oracle
+          file: ./abis/Oracle.json
+      eventHandlers:
+        - event: Initialize(indexed address,indexed uint256)
+          handler: handleInitialize
+        - event: Finalize(uint256)
+          handler: handleFinalize
+      file: ./src/oracle.ts
