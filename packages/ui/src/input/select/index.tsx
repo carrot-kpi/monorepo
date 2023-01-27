@@ -208,7 +208,7 @@ export const Select = <O extends SelectOption>({
                 className={{ root: className?.inputRoot }}
             >
                 <div
-                    className={selectAnchorStyles({ fullWidth })}
+                    className={cx(selectAnchorStyles(), className?.wrapper)}
                     ref={setAnchorElement}
                 >
                     <input
