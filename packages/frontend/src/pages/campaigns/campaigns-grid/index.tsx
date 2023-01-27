@@ -3,8 +3,8 @@ import { CampaignCard } from "../../../components/ui/campaign-card";
 
 export const CampaignsGrid = () => {
     return (
-        <div className="max-w-6xl px-3 py-12 pb-32">
-            <div className="flex flex-wrap justify-center gap-4 lg:gap-5">
+        <div className="w-full flex flex-col items-center sm:mx-3 md:mx-4 lg:mx-5 mt-12 mb-32">
+            <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-7">
                 {campaignsMockData.map((campaign) => (
                     <CampaignCard
                         key={campaign.id}
@@ -14,14 +14,10 @@ export const CampaignsGrid = () => {
                         templateName="Template name"
                         tags={["Tag"]}
                         isHolding={campaign.holder}
-                        dark
-                        noBorder
                     />
                 ))}
             </div>
-            <div className="flex justify-center w-full pt-8 lg:justify-start">
-                <Pagination />
-            </div>
+            <Pagination />
         </div>
     );
 };

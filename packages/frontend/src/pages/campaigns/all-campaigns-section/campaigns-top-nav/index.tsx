@@ -31,7 +31,6 @@ export const CampaignsTopNav = ({
                             active={filtersOpen}
                         />
                         <Select
-                            fullWidth
                             label=""
                             id="campaigns-filter-order"
                             onChange={setCampaignsOrder}
@@ -51,7 +50,6 @@ export const CampaignsTopNav = ({
                     </div>
                     <div className="flex flex-row-reverse gap-5 md:flex-row">
                         <Select
-                            fullWidth
                             label=""
                             id="campaigns-filter-state"
                             onChange={setCampaignState}
