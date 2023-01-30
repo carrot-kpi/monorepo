@@ -20,6 +20,7 @@ export const TemplatesSection = () => {
                               key={template.id}
                               name={template.specification.name}
                               description={template.specification.description}
+                              tags={template.specification.tags}
                               version={template.version}
                               address={template.address}
                               used={0}
