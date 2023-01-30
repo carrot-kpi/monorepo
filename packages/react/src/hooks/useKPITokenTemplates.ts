@@ -4,7 +4,7 @@ import { useProvider, useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
 import { usePreferences } from "./usePreferences";
 
-export function useKpiTokenTemplates(ids?: BigNumberish[]): {
+export function useKPITokenTemplates(ids?: BigNumberish[]): {
     loading: boolean;
     templates: Template[];
 } {
@@ -21,7 +21,7 @@ export function useKpiTokenTemplates(ids?: BigNumberish[]): {
             if (!chain) return;
             setLoading(true);
             try {
-                const templates = await Fetcher.fetchKpiTokenTemplates(
+                const templates = await Fetcher.fetchKPITokenTemplates(
                     provider,
                     preferDecentralization,
                     ids
