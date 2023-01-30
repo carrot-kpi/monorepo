@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, ReactNode } from "react";
+import React, { ChangeEventHandler, FocusEventHandler, ReactNode } from "react";
 import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
@@ -11,8 +11,10 @@ export interface BaseInputProps<V> extends BaseInputWrapperProps {
     variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
+    onBlur?: FocusEventHandler<HTMLInputElement>;
     value?: V;
     border?: boolean;
+    autoComplete?: "on" | "off";
 }
 
 export const inputStyles = cva(
