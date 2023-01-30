@@ -1,10 +1,10 @@
 import React, { MouseEvent, useCallback, useMemo } from "react";
-import { Typography, TypographyProps } from "../../typography";
+import { Typography, TypographyProps } from "../../data-display/typography";
 import { ReactComponent as X } from "../../assets/x.svg";
 import { ReactComponent as ChevronLeft } from "../../assets/chevron-left.svg";
 import { TokenListWithBalance } from "../types";
 import { cva } from "class-variance-authority";
-import { RemoteLogo, RemoteLogoProps } from "../../remote-logo";
+import { RemoteLogo, RemoteLogoProps } from "../../data-display/remote-logo";
 import { Divider, DividerProps } from "../divider";
 
 const rootStyles = cva([

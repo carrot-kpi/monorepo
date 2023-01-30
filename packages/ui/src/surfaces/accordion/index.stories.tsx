@@ -4,10 +4,10 @@ import { ComponentMeta } from "@storybook/react";
 import { Accordion, Accordion as AccordionComponent } from ".";
 import { AccordionSummary } from "./summary";
 import { AccordionDetails } from "./details";
-import { Typography } from "../typography";
+import { Typography } from "../../data-display/typography";
 
 export default {
-    title: "Data display/Accordions",
+    title: "Surfaces/Accordions",
     component: AccordionComponent,
 } as ComponentMeta<typeof AccordionComponent>;
 

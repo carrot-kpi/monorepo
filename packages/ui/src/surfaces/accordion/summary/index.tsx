@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 import React, { ReactElement } from "react";
 import { useAccordionContext } from "../context";
-import { ReactComponent as ChevronUp } from "../../assets/chevron-up.svg";
+import { ReactComponent as ChevronUp } from "../../../assets/chevron-up.svg";
 
 export interface SummaryProps {
     className?: { root?: string };

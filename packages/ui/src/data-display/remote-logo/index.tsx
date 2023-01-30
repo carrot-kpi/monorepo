@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import React, { useCallback, useEffect, useState } from "react";
-import { resolveSrc } from "../utils/url";
+import { resolveSrc } from "../../utils/url";
 
 const rootStyles = cva(
     [

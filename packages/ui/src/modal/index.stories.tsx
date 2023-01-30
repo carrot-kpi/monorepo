@@ -3,7 +3,7 @@ import { ComponentMeta, Story } from "@storybook/react";
 
 import { Modal as ModalComponent, ModalProps } from ".";
 import { Button } from "../button";
-import { Typography } from "../typography";
+import { Typography } from "../data-display/typography";
 
 export default {
     title: "Utils/Modal",
