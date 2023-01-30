@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { KpiToken, Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
+import { usePreferences } from "./usePreferences";
 
 export function useKpiToken(kpiTokenAddress?: string): {
     loading: boolean;
     kpiToken: KpiToken | null;
 } {
+    const { preferDecentralization } = usePreferences();
     const { chain } = useNetwork();
     const provider = useProvider();
 
@@ -19,7 +21,11 @@ export function useKpiToken(kpiTokenAddress?: string): {
             if (!cancelled) setLoading(true);
             try {
                 const kpiToken = (
-                    await Fetcher.fetchKpiTokens(provider, [kpiTokenAddress])
+                    await Fetcher.fetchKpiTokens(
+                        provider,
+                        preferDecentralization,
+                        [kpiTokenAddress]
+                    )
                 )[kpiTokenAddress];
                 if (!kpiToken) return;
                 if (!cancelled) setKpiToken(kpiToken);
@@ -36,7 +42,7 @@ export function useKpiToken(kpiTokenAddress?: string): {
         return () => {
             cancelled = true;
         };
-    }, [chain, kpiTokenAddress, provider]);
+    }, [chain, kpiTokenAddress, preferDecentralization, provider]);
 
     return { loading, kpiToken };
 }

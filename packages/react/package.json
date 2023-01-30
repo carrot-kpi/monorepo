@@ -12,9 +12,6 @@
             "import": "./dist/index.js"
         }
     },
-    "files": [
-        "dist"
-    ],
     "publishConfig": {
         "access": "public"
     },
