@@ -11,8 +11,10 @@ export interface BaseInputProps<V> extends BaseInputWrapperProps {
     variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
+    onBlur?: FocusEventHandler<HTMLInputElement>;
     value?: V;
     border?: boolean;
+    autoComplete?: "on" | "off";
 }
 
 export const inputStyles = cva(
