@@ -16,11 +16,13 @@ const rootStyles = cva([
 
 export interface ChipProps {
     children: ReactNode;
-    className?: { root?: string };
+    className?: { root?: string; text?: string };
 }
 
 export const Chip = ({ children, className }: ChipProps) => (
     <div className={rootStyles({ className: className?.root })}>
-        <Typography variant="sm">{children}</Typography>
+        <Typography className={{ root: className?.text }} variant="sm">
+            {children}
+        </Typography>
     </div>
 );
