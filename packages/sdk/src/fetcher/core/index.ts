@@ -5,6 +5,7 @@ import {
     CHAIN_ADDRESSES,
     CACHER,
     KPI_TOKEN_ABI,
+    ORACLE_ABI,
 } from "../../commons";
 import {
     cacheERC20Token,
@@ -66,6 +67,16 @@ class Fetcher implements ICoreFetcher {
         const chainId = (await provider.getNetwork()).chainId as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return new Contract(address, KPI_TOKEN_ABI, provider).callStatic.data();
+    }
+
+    public async fetchOracleData(
+        provider: Provider,
+        address: string
+    ): Promise<string> {
+        enforce(isAddress(address), `malformed address ${address}`);
+        const chainId = (await provider.getNetwork()).chainId as ChainId;
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        return new Contract(address, ORACLE_ABI, provider).callStatic.data();
     }
 
     public async fetchERC20Tokens(

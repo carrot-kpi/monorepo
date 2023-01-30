@@ -6,6 +6,7 @@ import { Oracle } from "../entities/oracle";
 import { IFullCarrotFetcher } from "./abstraction";
 import { OnChainFetcher } from "./on-chain";
 import { SubgraphFetcher } from "./subgraph";
+import { CoreFetcher } from "./core";
 
 class FullFetcher implements IFullCarrotFetcher {
     private async shouldUseSubgraph(
@@ -71,6 +72,20 @@ class FullFetcher implements IFullCarrotFetcher {
         return useSubgraph
             ? SubgraphFetcher.fetchOracleTemplates(provider, ids)
             : OnChainFetcher.fetchOracleTemplates(provider, ids);
+    }
+
+    async fetchKPITokenData(
+        provider: Provider,
+        address: string
+    ): Promise<string> {
+        return CoreFetcher.fetchKPITokenData(provider, address);
+    }
+
+    async fetchOracleData(
+        provider: Provider,
+        address: string
+    ): Promise<string> {
+        return CoreFetcher.fetchOracleData(provider, address);
     }
 }
 

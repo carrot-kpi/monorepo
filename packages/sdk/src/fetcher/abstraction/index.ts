@@ -65,4 +65,8 @@ export interface IFullCarrotFetcher {
         preferDecentralization?: boolean,
         ids?: BigNumberish[]
     ): Promise<Template[]>;
+
+    fetchKPITokenData(provider: Provider, address: string): Promise<string>;
+
+    fetchOracleData(provider: Provider, address: string): Promise<string>;
 }
