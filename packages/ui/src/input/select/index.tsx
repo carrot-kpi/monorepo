@@ -171,14 +171,7 @@ export const Select = <O extends SelectOption>({
     );
 
     return (
-        <div
-            className={cx(
-                selectRootStyles({
-                    fullWidth,
-                }),
-                className?.root
-            )}
-        >
+        <div className={className?.root}>
             <BaseInputWrapper
                 id={id}
                 label={label}
