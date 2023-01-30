@@ -24,7 +24,7 @@ export const CampaignsFiltersOptions = ({
                 ))}
             </div>
             <button
-                className="w-full mt-12 hover:underline md:hidden"
+                className="w-full p-1 mt-12 border rounded-lg hover:underline md:hidden"
                 onClick={toggleFilters}
             >
                 close filters
