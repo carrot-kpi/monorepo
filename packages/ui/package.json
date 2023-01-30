@@ -18,9 +18,6 @@
             "require": "./dist/tailwind.preset.cjs"
         }
     },
-    "files": [
-        "dist"
-    ],
     "publishConfig": {
         "access": "public"
     },
