@@ -66,11 +66,13 @@ export function handleCreateToken(event: CreateTokenEvent): void {
     const context = new DataSourceContext();
     context.setBytes(
         CONTEXT_KEY_KPI_TOKENS_MANAGER_BYTES_ADDRESS,
-        factory.kpiTokensManager
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        factory.kpiTokensManager!
     );
     context.setBytes(
         CONTEXT_KEY_ORACLES_MANAGER_BYTES_ADDRESS,
-        factory.oraclesManager
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        factory.oraclesManager!
     );
     KPITokenTemplate.createWithContext(event.params.token, context);
     factory.kpiTokensAmount = factory.kpiTokensAmount.plus(BI_1);

@@ -27,6 +27,7 @@ export function createTemplate(
     template.address = address;
     template.managerId = id;
     template.version = version;
+    template.specificationCid = specificationCid;
 
     const specification = cidToSpecification(specificationCid);
     if (specification === null) {

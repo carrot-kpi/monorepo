@@ -93,6 +93,7 @@ function createKPIToken(address: Address): KPIToken | null {
         log.error("could not get description for cid {}", [descriptionCid]);
         return null;
     }
+    kpiToken.descriptionCid = descriptionCid;
     kpiToken.title = description.title;
     kpiToken.description = description.description;
     kpiToken.tags = description.tags;

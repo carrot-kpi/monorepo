@@ -61,6 +61,7 @@ type KPITokenTemplate @entity {
     address: Bytes!
     managerId: BigInt!
     version: BigInt!
+    specificationCid: String!
     name: String!
     description: String!
     tags: [String!]!
@@ -76,6 +77,7 @@ type OracleTemplate @entity {
     address: Bytes!
     managerId: BigInt!
     version: BigInt!
+    specificationCid: String!
     name: String!
     description: String!
     tags: [String!]!
@@ -97,6 +99,7 @@ type KPIToken @entity {
     id: Bytes!
     owner: Bytes!
     template: KPITokenTemplate!
+    descriptionCid: String!
     title: String!
     description: String!
     tags: [String!]!
