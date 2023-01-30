@@ -17,8 +17,7 @@ export class KpiToken {
         public readonly oracles: Oracle[],
         public readonly specification: KpiTokenSpecification,
         public readonly expiration: number,
-        public readonly finalized: boolean,
-        public readonly rawData: string
+        public readonly finalized: boolean
     ) {}
 
     public get expired(): boolean {

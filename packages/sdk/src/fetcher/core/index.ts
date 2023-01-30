@@ -4,23 +4,26 @@ import {
     ERC20_ABI,
     CHAIN_ADDRESSES,
     CACHER,
-} from "../commons";
-import { cacheErc20Token, enforce, getCachedErc20Token, warn } from "../utils";
-import { ethers, Contract } from "ethers";
-import { Token } from "../entities/token";
-import BYTES_NAME_ERC20_ABI from "../abis/erc20-name-bytes.json";
-import BYTES_SYMBOL_ERC20_ABI from "../abis/erc20-symbol-bytes.json";
-import { IpfsService } from "../services";
-import { Fetcher } from ".";
+} from "../../commons";
+import {
+    cacheErc20Token,
+    enforce,
+    getCachedErc20Token,
+    warn,
+} from "../../utils";
+import { Contract } from "@ethersproject/contracts";
+import { Interface } from "@ethersproject/abi";
+import { Provider } from "@ethersproject/providers";
+import { Token } from "../../entities/token";
+import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes.json";
+import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes.json";
+import { IpfsService } from "../../services";
+import { ICoreFetcher } from "../abstraction";
 
 // erc20 related interfaces
-const STANDARD_ERC20_INTERFACE = new ethers.utils.Interface(ERC20_ABI);
-const BYTES_NAME_ERC20_INTERFACE = new ethers.utils.Interface(
-    BYTES_NAME_ERC20_ABI
-);
-const BYTES_SYMBOL_ERC20_INTERFACE = new ethers.utils.Interface(
-    BYTES_SYMBOL_ERC20_ABI
-);
+const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
+const BYTES_NAME_ERC20_INTERFACE = new Interface(BYTES_NAME_ERC20_ABI);
+const BYTES_SYMBOL_ERC20_INTERFACE = new Interface(BYTES_SYMBOL_ERC20_ABI);
 
 // erc20 related functions
 const ERC20_NAME_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction("name()");
@@ -52,10 +55,10 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
         BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()")
     );
 
-export abstract class CoreFetcher {
-    public static async fetchErc20Tokens(
+class Fetcher implements ICoreFetcher {
+    public async fetchErc20Tokens(
         addresses: string[],
-        provider: ethers.providers.Provider
+        provider: Provider
     ): Promise<{ [address: string]: Token }> {
         const chainId = (await provider.getNetwork()).chainId as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
@@ -182,7 +185,7 @@ export abstract class CoreFetcher {
         return { ...cachedTokens, ...fetchedTokens };
     }
 
-    private static async fetchContentFromIpfsWithLocalStorageCache(
+    private async fetchContentFromIpfsWithLocalStorageCache(
         cacheableCids: string[]
     ) {
         const cachedCids: { [cid: string]: string } = {};
@@ -215,11 +218,11 @@ export abstract class CoreFetcher {
         return cachedCids;
     }
 
-    public static async fetchContentFromIpfs(
+    public async fetchContentFromIpfs(
         cids: string[]
     ): Promise<{ [cid: string]: string }> {
         if (process.env.NODE_ENV === "development")
-            return Fetcher.fetchContentFromIpfsWithLocalStorageCache(cids);
+            return this.fetchContentFromIpfsWithLocalStorageCache(cids);
         // we come here only if we are in production. in this case the service
         // worker will handle the calls, so we can just not worry about it
         const allContents = await Promise.all(
@@ -243,3 +246,5 @@ export abstract class CoreFetcher {
         return contents;
     }
 }
+
+export const CoreFetcher = new Fetcher();

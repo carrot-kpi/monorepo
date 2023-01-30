@@ -26,17 +26,10 @@ describe("oracle", () => {
 
     test("instantiates correctly", () => {
         const address = Wallet.createRandom().address;
-        const oracle = new Oracle(
-            ChainId.GOERLI,
-            address,
-            template,
-            false,
-            "Oracle raw data"
-        );
+        const oracle = new Oracle(ChainId.GOERLI, address, template, false);
         expect(oracle.chainId).toBe(ChainId.GOERLI);
         expect(oracle.address).toEqual(address);
         expect(oracle.template).toBe(template);
         expect(oracle.finalized).toBeFalsy();
-        expect(oracle.rawData).toEqual("Oracle raw data");
     });
 });

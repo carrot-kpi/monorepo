@@ -29,8 +29,7 @@ describe("kpi token", () => {
             ChainId.GOERLI,
             Wallet.createRandom().address,
             template,
-            false,
-            "Oracle raw data"
+            false
         );
         kpiTokenSpecification = {
             ipfsHash: "IPFS hash",
@@ -49,8 +48,7 @@ describe("kpi token", () => {
             [oracle],
             kpiTokenSpecification,
             123456789,
-            false,
-            "Kpi token raw data"
+            false
         );
         expect(kpiToken.chainId).toBe(ChainId.GOERLI);
         expect(kpiToken.address).toBe(kpiTokenAddress);
@@ -59,7 +57,6 @@ describe("kpi token", () => {
         expect(kpiToken.specification).toBe(kpiTokenSpecification);
         expect(kpiToken.expiration).toBe(123456789);
         expect(kpiToken.finalized).toBeFalsy();
-        expect(kpiToken.rawData).toEqual("Kpi token raw data");
     });
 
     describe("expired", () => {
@@ -74,8 +71,7 @@ describe("kpi token", () => {
                 [oracle],
                 kpiTokenSpecification,
                 Math.floor(pastDate.getTime() / 1000),
-                false,
-                "Kpi token raw data"
+                false
             );
             expect(kpiToken.expired).toBeTruthy();
         });
@@ -91,8 +87,7 @@ describe("kpi token", () => {
                 [oracle],
                 kpiTokenSpecification,
                 Math.floor(futureDate.getTime() / 1000),
-                false,
-                "Kpi token raw data"
+                false
             );
             expect(kpiToken.expired).toBeFalsy();
         });
