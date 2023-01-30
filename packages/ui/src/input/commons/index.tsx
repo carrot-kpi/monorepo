@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, ReactNode } from "react";
+import React, { FocusEventHandler, ChangeEventHandler, ReactNode } from "react";
 import { Typography, TypographyProps } from "../../data-display/typography";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
