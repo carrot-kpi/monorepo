@@ -1,5 +1,5 @@
 import { Wallet } from "@ethersproject/wallet";
-import { KpiToken, KpiTokenSpecification } from ".";
+import { KPIToken, KPITokenSpecification } from ".";
 import { ChainId } from "../../commons";
 import { Oracle } from "../oracle";
 import { Template, TemplateSpecification } from "../template";
@@ -8,7 +8,7 @@ describe("kpi token", () => {
     let templateSpecification: TemplateSpecification;
     let template: Template;
     let oracle: Oracle;
-    let kpiTokenSpecification: KpiTokenSpecification;
+    let kpiTokenSpecification: KPITokenSpecification;
 
     beforeAll(() => {
         templateSpecification = new TemplateSpecification(
@@ -41,7 +41,7 @@ describe("kpi token", () => {
 
     test("instantiates correctly", () => {
         const kpiTokenAddress = Wallet.createRandom().address;
-        const kpiToken = new KpiToken(
+        const kpiToken = new KPIToken(
             ChainId.GOERLI,
             kpiTokenAddress,
             template,
@@ -64,7 +64,7 @@ describe("kpi token", () => {
             const pastDate = new Date();
             pastDate.setDate(-2);
 
-            const kpiToken = new KpiToken(
+            const kpiToken = new KPIToken(
                 ChainId.GOERLI,
                 Wallet.createRandom().address,
                 template,
@@ -80,7 +80,7 @@ describe("kpi token", () => {
             const futureDate = new Date();
             futureDate.setDate(futureDate.getDate() + 1);
 
-            const kpiToken = new KpiToken(
+            const kpiToken = new KPIToken(
                 ChainId.GOERLI,
                 Wallet.createRandom().address,
                 template,

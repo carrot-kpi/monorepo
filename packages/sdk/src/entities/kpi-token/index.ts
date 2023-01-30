@@ -2,20 +2,20 @@ import { Template } from "../template";
 import { Oracle } from "../oracle";
 import { ChainId } from "../../commons";
 
-export interface KpiTokenSpecification {
+export interface KPITokenSpecification {
     ipfsHash: string;
     title: string;
     description: string;
     tags: string[];
 }
 
-export class KpiToken {
+export class KPIToken {
     constructor(
         public readonly chainId: ChainId,
         public readonly address: string,
         public readonly template: Template,
         public readonly oracles: Oracle[],
-        public readonly specification: KpiTokenSpecification,
+        public readonly specification: KPITokenSpecification,
         public readonly expiration: number,
         public readonly finalized: boolean
     ) {}

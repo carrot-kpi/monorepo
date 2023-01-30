@@ -12,7 +12,7 @@ import {
     ChainId,
     ORACLES_MANAGER_ABI,
 } from "../../commons";
-import { KpiToken } from "../../entities/kpi-token";
+import { KPIToken } from "../../entities/kpi-token";
 import { Template, TemplateSpecification } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { isCID, enforce } from "../../utils";
@@ -68,10 +68,10 @@ class Fetcher implements IPartialCarrotFetcher {
         return true;
     }
 
-    public async fetchKpiTokens(
+    public async fetchKPITokens(
         provider: Provider,
         addresses?: string[]
-    ): Promise<{ [address: string]: KpiToken }> {
+    ): Promise<{ [address: string]: KPIToken }> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
@@ -105,7 +105,7 @@ class Fetcher implements IPartialCarrotFetcher {
             })
         );
 
-        const allKpiTokenTemplateSpecificationCids: string[] = [];
+        const allKPITokenTemplateSpecificationCids: string[] = [];
         for (let i = 2; i < kpiTokenResult.length; i += 5) {
             const cid = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_TEMPLATE_FUNCTION,
@@ -113,28 +113,28 @@ class Fetcher implements IPartialCarrotFetcher {
             )[0].specification;
             if (
                 !!isCID(cid) &&
-                allKpiTokenTemplateSpecificationCids.indexOf(cid) < 0
+                allKPITokenTemplateSpecificationCids.indexOf(cid) < 0
             )
-                allKpiTokenTemplateSpecificationCids.push(cid);
+                allKPITokenTemplateSpecificationCids.push(cid);
         }
         const kpiTokenTemplateSpecifications =
-            await CoreFetcher.fetchContentFromIpfs(
-                allKpiTokenTemplateSpecificationCids.map(
+            await CoreFetcher.fetchContentFromIPFS(
+                allKPITokenTemplateSpecificationCids.map(
                     (cid) => `${cid}/base.json`
                 )
             );
 
-        const allKpiTokenDescriptionCids: string[] = [];
+        const allKPITokenDescriptionCids: string[] = [];
         for (let i = 1; i < kpiTokenResult.length; i += 5) {
             const cid = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_DESCRIPTION_FUNCTION,
                 kpiTokenResult[i]
             )[0];
-            if (!!isCID(cid) && allKpiTokenDescriptionCids.indexOf(cid) < 0)
-                allKpiTokenDescriptionCids.push(cid);
+            if (!!isCID(cid) && allKPITokenDescriptionCids.indexOf(cid) < 0)
+                allKPITokenDescriptionCids.push(cid);
         }
-        const kpiTokenDescriptions = await CoreFetcher.fetchContentFromIpfs(
-            allKpiTokenDescriptionCids
+        const kpiTokenDescriptions = await CoreFetcher.fetchContentFromIPFS(
+            allKPITokenDescriptionCids
         );
 
         const allOracleAddresses: string[] = [];
@@ -148,7 +148,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
         const oracles = await this.fetchOracles(provider, allOracleAddresses);
 
-        const allKpiTokens: { [address: string]: KpiToken } = {};
+        const allKPITokens: { [address: string]: KPIToken } = {};
         const iUpperLimit =
             addresses && addresses.length > 0
                 ? addresses.length
@@ -158,12 +158,12 @@ class Fetcher implements IPartialCarrotFetcher {
                 KPI_TOKEN_TEMPLATE_FUNCTION,
                 kpiTokenResult[i * 5 + 2]
             )[0];
-            const rawKpiTokenTemplateSpecification = JSON.parse(
+            const rawKPITokenTemplateSpecification = JSON.parse(
                 kpiTokenTemplateSpecifications[
                     `${kpiTokenTemplate.specification}/base.json`
                 ]
             );
-            if (!rawKpiTokenTemplateSpecification) continue;
+            if (!rawKPITokenTemplateSpecification) continue;
 
             const kpiTokenFinalized = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_FINALIZED_FUNCTION,
@@ -201,16 +201,16 @@ class Fetcher implements IPartialCarrotFetcher {
                 kpiTokenTemplate.version,
                 new TemplateSpecification(
                     kpiTokenTemplate.specification,
-                    rawKpiTokenTemplateSpecification.name,
-                    rawKpiTokenTemplateSpecification.description,
-                    rawKpiTokenTemplateSpecification.tags,
-                    rawKpiTokenTemplateSpecification.repository,
-                    rawKpiTokenTemplateSpecification.commitHash
+                    rawKPITokenTemplateSpecification.name,
+                    rawKPITokenTemplateSpecification.description,
+                    rawKPITokenTemplateSpecification.tags,
+                    rawKPITokenTemplateSpecification.repository,
+                    rawKPITokenTemplateSpecification.commitHash
                 )
             );
 
             const kpiTokenAddress = tokenAddresses[i];
-            allKpiTokens[kpiTokenAddress] = new KpiToken(
+            allKPITokens[kpiTokenAddress] = new KPIToken(
                 chainId,
                 kpiTokenAddress,
                 template,
@@ -220,7 +220,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 kpiTokenFinalized
             );
         }
-        return allKpiTokens;
+        return allKPITokens;
     }
 
     public async fetchOracles(
@@ -267,7 +267,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 allOracleSpecificationCids.push(cid);
         }
         const oracleTemplateSpecifications =
-            await CoreFetcher.fetchContentFromIpfs(
+            await CoreFetcher.fetchContentFromIPFS(
                 allOracleSpecificationCids.map((cid) => `${cid}/base.json`)
             );
 
@@ -356,7 +356,7 @@ class Fetcher implements IPartialCarrotFetcher {
             rawTemplates = await managerContract.enumerate(0, templatesAmount);
         }
 
-        const specifications = await CoreFetcher.fetchContentFromIpfs(
+        const specifications = await CoreFetcher.fetchContentFromIPFS(
             rawTemplates.map(
                 (rawTemplate) => `${rawTemplate.specification}/base.json`
             )
@@ -382,7 +382,7 @@ class Fetcher implements IPartialCarrotFetcher {
         });
     }
 
-    public async fetchKpiTokenTemplates(
+    public async fetchKPITokenTemplates(
         provider: Provider,
         ids?: BigNumberish[]
     ): Promise<Template[]> {

@@ -1,6 +1,6 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 import { Provider } from "@ethersproject/providers";
-import { KpiToken } from "../../entities/kpi-token";
+import { KPIToken } from "../../entities/kpi-token";
 import { IPartialCarrotFetcher } from "../abstraction";
 import {
     KPITokenData,
@@ -53,7 +53,7 @@ const mapRawOracle = (chainId: ChainId, rawOracle: OracleData) => {
 };
 
 const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
-    return new KpiToken(
+    return new KPIToken(
         chainId,
         getAddress(rawKPIToken.rawAddress),
         mapRawTemplate(rawKPIToken.template),
@@ -76,10 +76,10 @@ class Fetcher implements IPartialCarrotFetcher {
         return !!SUBGRAPH_URL[chainId];
     }
 
-    public async fetchKpiTokens(
+    public async fetchKPITokens(
         provider: Provider,
         addresses?: string[]
-    ): Promise<{ [address: string]: KpiToken }> {
+    ): Promise<{ [address: string]: KPIToken }> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
@@ -93,7 +93,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 fromIndex + PAGE_SIZE > finalIndex
                     ? finalIndex
                     : fromIndex + PAGE_SIZE;
-            const kpiTokens: { [address: string]: KpiToken } = {};
+            const kpiTokens: { [address: string]: KPIToken } = {};
             while (toIndex < addressesLength) {
                 const addressesChunk = addresses
                     .slice(fromIndex, toIndex)
@@ -116,7 +116,7 @@ class Fetcher implements IPartialCarrotFetcher {
             }
             return kpiTokens;
         } else {
-            const kpiTokens: { [address: string]: KpiToken } = {};
+            const kpiTokens: { [address: string]: KPIToken } = {};
             let lastID = "";
             let page: KPITokenData[] = [];
             do {
@@ -197,7 +197,7 @@ class Fetcher implements IPartialCarrotFetcher {
         }
     }
 
-    public async fetchKpiTokenTemplates(
+    public async fetchKPITokenTemplates(
         provider: Provider,
         ids?: BigNumberish[]
     ): Promise<Template[]> {

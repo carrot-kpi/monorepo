@@ -1,6 +1,6 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 import { Provider } from "@ethersproject/providers";
-import { KpiToken } from "../entities/kpi-token";
+import { KPIToken } from "../entities/kpi-token";
 import { Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
 import { IFullCarrotFetcher } from "./abstraction";
@@ -17,18 +17,18 @@ class FullFetcher implements IFullCarrotFetcher {
         return SubgraphFetcher.supportedInChain(chainId);
     }
 
-    async fetchKpiTokens(
+    async fetchKPITokens(
         provider: Provider,
         preferDecentralization = false,
         addresses?: string[]
-    ): Promise<{ [address: string]: KpiToken }> {
+    ): Promise<{ [address: string]: KPIToken }> {
         const useSubgraph = await this.shouldUseSubgraph(
             provider,
             preferDecentralization
         );
         return useSubgraph
-            ? SubgraphFetcher.fetchKpiTokens(provider, addresses)
-            : OnChainFetcher.fetchKpiTokens(provider, addresses);
+            ? SubgraphFetcher.fetchKPITokens(provider, addresses)
+            : OnChainFetcher.fetchKPITokens(provider, addresses);
     }
 
     async fetchOracles(
@@ -45,7 +45,7 @@ class FullFetcher implements IFullCarrotFetcher {
             : OnChainFetcher.fetchOracles(provider, addresses);
     }
 
-    async fetchKpiTokenTemplates(
+    async fetchKPITokenTemplates(
         provider: Provider,
         preferDecentralization = false,
         ids?: BigNumberish[]
@@ -55,8 +55,8 @@ class FullFetcher implements IFullCarrotFetcher {
             preferDecentralization
         );
         return useSubgraph
-            ? SubgraphFetcher.fetchKpiTokenTemplates(provider, ids)
-            : OnChainFetcher.fetchKpiTokenTemplates(provider, ids);
+            ? SubgraphFetcher.fetchKPITokenTemplates(provider, ids)
+            : OnChainFetcher.fetchKPITokenTemplates(provider, ids);
     }
 
     async fetchOracleTemplates(

@@ -4,11 +4,12 @@ import {
     ERC20_ABI,
     CHAIN_ADDRESSES,
     CACHER,
+    KPI_TOKEN_ABI,
 } from "../../commons";
 import {
-    cacheErc20Token,
+    cacheERC20Token,
     enforce,
-    getCachedErc20Token,
+    getCachedERC20Token,
     warn,
 } from "../../utils";
 import { Contract } from "@ethersproject/contracts";
@@ -17,8 +18,9 @@ import { Provider } from "@ethersproject/providers";
 import { Token } from "../../entities/token";
 import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes.json";
 import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes.json";
-import { IpfsService } from "../../services";
+import { IPFSService } from "../../services";
 import { ICoreFetcher } from "../abstraction";
+import { isAddress } from "@ethersproject/address";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
@@ -56,9 +58,19 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
     );
 
 class Fetcher implements ICoreFetcher {
-    public async fetchErc20Tokens(
-        addresses: string[],
-        provider: Provider
+    public async fetchKPITokenData(
+        provider: Provider,
+        address: string
+    ): Promise<string> {
+        enforce(isAddress(address), `malformed address ${address}`);
+        const chainId = (await provider.getNetwork()).chainId as ChainId;
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        return new Contract(address, KPI_TOKEN_ABI, provider).callStatic.data();
+    }
+
+    public async fetchERC20Tokens(
+        provider: Provider,
+        addresses: string[]
     ): Promise<{ [address: string]: Token }> {
         const chainId = (await provider.getNetwork()).chainId as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
@@ -70,7 +82,7 @@ class Fetcher implements ICoreFetcher {
                 },
                 address
             ) => {
-                const cachedToken = getCachedErc20Token(chainId, address);
+                const cachedToken = getCachedERC20Token(chainId, address);
                 if (!!cachedToken)
                     accumulator.cachedTokens[address] = cachedToken;
                 else accumulator.missingTokens.push(address);
@@ -169,7 +181,7 @@ class Fetcher implements ICoreFetcher {
                         symbol,
                         name
                     );
-                    cacheErc20Token(token);
+                    cacheERC20Token(token);
                     accumulator[missingToken] = token;
                 } catch (error) {
                     console.error(
@@ -185,7 +197,7 @@ class Fetcher implements ICoreFetcher {
         return { ...cachedTokens, ...fetchedTokens };
     }
 
-    private async fetchContentFromIpfsWithLocalStorageCache(
+    private async fetchContentFromIPFSWithLocalStorageCache(
         cacheableCids: string[]
     ) {
         const cachedCids: { [cid: string]: string } = {};
@@ -199,7 +211,7 @@ class Fetcher implements ICoreFetcher {
             const uncachedContent = await Promise.all(
                 uncachedCids.map(async (cid) => {
                     const response = await fetch(
-                        `${IpfsService.gateway}/ipfs/${cid}`
+                        `${IPFSService.gateway}/ipfs/${cid}`
                     );
                     const responseOk = response.ok;
                     warn(responseOk, `could not fetch content with cid ${cid}`);
@@ -218,17 +230,17 @@ class Fetcher implements ICoreFetcher {
         return cachedCids;
     }
 
-    public async fetchContentFromIpfs(
+    public async fetchContentFromIPFS(
         cids: string[]
     ): Promise<{ [cid: string]: string }> {
         if (process.env.NODE_ENV === "development")
-            return this.fetchContentFromIpfsWithLocalStorageCache(cids);
+            return this.fetchContentFromIPFSWithLocalStorageCache(cids);
         // we come here only if we are in production. in this case the service
         // worker will handle the calls, so we can just not worry about it
         const allContents = await Promise.all(
             cids.map(async (cid) => {
                 const response = await fetch(
-                    `${IpfsService.gateway}/ipfs/${cid}`
+                    `${IPFSService.gateway}/ipfs/${cid}`
                 );
                 const responseOk = response.ok;
                 warn(responseOk, `could not fetch content with cid ${cid}`);

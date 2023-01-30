@@ -1,34 +1,36 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 import { Provider } from "@ethersproject/providers";
 import { ChainId } from "../../commons";
-import { KpiToken } from "../../entities/kpi-token";
+import { KPIToken } from "../../entities/kpi-token";
 import { Oracle } from "../../entities/oracle";
 import { Template } from "../../entities/template";
 import { Token } from "../../entities/token";
 
 export interface ICoreFetcher {
-    fetchErc20Tokens(
-        addresses: string[],
-        provider: Provider
+    fetchERC20Tokens(
+        provider: Provider,
+        addresses: string[]
     ): Promise<{ [address: string]: Token }>;
 
-    fetchContentFromIpfs(cids: string[]): Promise<{ [cid: string]: string }>;
+    fetchContentFromIPFS(cids: string[]): Promise<{ [cid: string]: string }>;
+
+    fetchKPITokenData(provider: Provider, address: string): Promise<string>;
 }
 
 export interface IPartialCarrotFetcher {
     supportedInChain(chainId: ChainId): boolean;
 
-    fetchKpiTokens(
+    fetchKPITokens(
         provider: Provider,
         addresses?: string[]
-    ): Promise<{ [address: string]: KpiToken }>;
+    ): Promise<{ [address: string]: KPIToken }>;
 
     fetchOracles(
         provider: Provider,
         addresses?: string[]
     ): Promise<{ [address: string]: Oracle }>;
 
-    fetchKpiTokenTemplates(
+    fetchKPITokenTemplates(
         provider: Provider,
         ids?: BigNumberish[]
     ): Promise<Template[]>;
@@ -40,11 +42,11 @@ export interface IPartialCarrotFetcher {
 }
 
 export interface IFullCarrotFetcher {
-    fetchKpiTokens(
+    fetchKPITokens(
         provider: Provider,
         preferDecentralization?: boolean,
         addresses?: string[]
-    ): Promise<{ [address: string]: KpiToken }>;
+    ): Promise<{ [address: string]: KPIToken }>;
 
     fetchOracles(
         provider: Provider,
@@ -52,7 +54,7 @@ export interface IFullCarrotFetcher {
         addresses?: string[]
     ): Promise<{ [address: string]: Oracle }>;
 
-    fetchKpiTokenTemplates(
+    fetchKPITokenTemplates(
         provider: Provider,
         preferDecentralization?: boolean,
         ids?: BigNumberish[]

@@ -9,7 +9,7 @@ import {
 import { Chain } from "wagmi";
 // import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { ReactNode } from "react";
-import { IpfsService } from "@carrot-kpi/sdk";
+import { IPFSService } from "@carrot-kpi/sdk";
 import { PreferencesProvider } from "../../contexts/preferences";
 // import { usePreferences } from "../../hooks/usePreferences";
 
@@ -64,7 +64,7 @@ export const CarrotCoreProvider = ({
     getConnectors,
     ipfsGateway,
 }: CarrotCoreProviderProps) => {
-    if (!!ipfsGateway) IpfsService.gateway = ipfsGateway;
+    if (!!ipfsGateway) IPFSService.gateway = ipfsGateway;
     return (
         <PreferencesProvider>
             <WagmiSetup
