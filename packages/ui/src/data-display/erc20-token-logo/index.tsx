@@ -1,6 +1,6 @@
 import React from "react";
-import { RemoteLogo, RemoteLogoProps } from "../remote-logo";
-import { getDefaultERC20TokenLogoURL } from "../utils/erc20";
+import { RemoteLogo, RemoteLogoProps } from "../../data-display/remote-logo";
+import { getDefaultERC20TokenLogoURL } from "../../utils/erc20";
 
 export type ERC20TokenLogoProps = {
     chainId: number;

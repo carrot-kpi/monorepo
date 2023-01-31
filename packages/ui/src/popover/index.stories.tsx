@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
 import { Popover as PopoverComponent, PopoverProps } from ".";
-import { Typography } from "../typography";
+import { Typography } from "../data-display/typography";
 
 export default {
     title: "Utils/Popover",

@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
-import { ReactComponent as TickIcon } from "../assets/tick.svg";
+import { ReactComponent as TickIcon } from "../../assets/tick.svg";
 import { Button as ButtonComponent, ButtonProps } from ".";
 
 export default {

@@ -1,9 +1,9 @@
 import React, {
     ChangeEventHandler,
-    InputHTMLAttributes,
     ReactNode,
+    InputHTMLAttributes,
 } from "react";
-import { Typography, TypographyProps } from "../../typography";
+import { Typography, TypographyProps } from "../../data-display/typography";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
 import { ReactElement } from "react";

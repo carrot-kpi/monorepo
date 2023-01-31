@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 import React, { useCallback } from "react";
 import { ReactElement } from "react";
-import { Typography, TypographyProps } from "../../../typography";
+import { Typography, TypographyProps } from "../../../data-display/typography";
 import { ReactComponent as RemoveIcon } from "../../../assets/remove-icon.svg";
 
 const tagStyles = cva([
