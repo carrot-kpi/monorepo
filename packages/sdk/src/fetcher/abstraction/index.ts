@@ -13,8 +13,6 @@ export interface ICoreFetcher {
     ): Promise<{ [address: string]: Token }>;
 
     fetchContentFromIPFS(cids: string[]): Promise<{ [cid: string]: string }>;
-
-    fetchKPITokenData(provider: Provider, address: string): Promise<string>;
 }
 
 export interface IPartialCarrotFetcher {
@@ -70,8 +68,4 @@ export interface IFullCarrotFetcher {
         preferDecentralization?: boolean,
         ids?: BigNumberish[]
     ): Promise<Template[]>;
-
-    fetchKPITokenData(provider: Provider, address: string): Promise<string>;
-
-    fetchOracleData(provider: Provider, address: string): Promise<string>;
 }

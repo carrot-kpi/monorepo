@@ -121,7 +121,6 @@ importers:
       '@carrot-kpi/sdk': workspace:*
       '@ethersproject/bignumber': ^5.7.0
       '@rollup/plugin-commonjs': ^23.0.2
-      '@rollup/plugin-json': ^5.0.1
       '@rollup/plugin-node-resolve': ^15.0.1
       '@size-limit/preset-small-lib': ^8.1.0
       '@types/react': ^18.0.23
@@ -144,7 +143,6 @@ importers:
       '@uniswap/token-lists': 1.0.0-beta.31
     devDependencies:
       '@rollup/plugin-commonjs': 23.0.4_rollup@3.7.4
-      '@rollup/plugin-json': 5.0.2_rollup@3.7.4
       '@rollup/plugin-node-resolve': 15.0.1_rollup@3.7.4
       '@size-limit/preset-small-lib': 8.1.0_size-limit@8.1.0
       '@types/react': 18.0.26
@@ -175,7 +173,6 @@ importers:
       '@ethersproject/wallet': ^5.7.0
       '@jest/globals': ^29.2.2
       '@rollup/plugin-commonjs': ^23.0.2
-      '@rollup/plugin-json': ^5.0.1
       '@rollup/plugin-node-resolve': ^15.0.1
       '@size-limit/preset-small-lib': ^8.1.0
       '@types/jest': ^29.2.1
@@ -208,7 +205,6 @@ importers:
       '@ethersproject/abi': 5.7.0
       '@jest/globals': 29.3.1
       '@rollup/plugin-commonjs': 23.0.4_rollup@3.7.4
-      '@rollup/plugin-json': 5.0.2_rollup@3.7.4
       '@rollup/plugin-node-resolve': 15.0.1_rollup@3.7.4
       '@size-limit/preset-small-lib': 8.1.0_size-limit@8.1.0
       '@types/jest': 29.2.4
@@ -255,7 +251,6 @@ importers:
       '@fontsource/inter': ^4.5.15
       '@popperjs/core': ^2.11.6
       '@rollup/plugin-commonjs': ^22.0.2
-      '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^14.1.0
       '@rollup/plugin-url': ^8.0.1
       '@size-limit/preset-small-lib': ^8.1.0
@@ -323,7 +318,6 @@ importers:
       '@ethersproject/address': 5.7.0
       '@fontsource/inter': 4.5.15
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.79.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 14.1.0_rollup@2.79.1
       '@rollup/plugin-url': 8.0.1_rollup@2.79.1
       '@size-limit/preset-small-lib': 8.1.0_size-limit@8.1.0
@@ -4535,28 +4529,6 @@ packages:
       glob: 8.0.3
       is-reference: 1.2.1
       magic-string: 0.26.7
-      rollup: 3.7.4
-    dev: true
-
-  /@rollup/plugin-json/4.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
-      rollup: 2.79.1
-    dev: true
-
-  /@rollup/plugin-json/5.0.2_rollup@3.7.4:
-    resolution: {integrity: sha512-D1CoOT2wPvadWLhVcmpkDnesTzjhNIQRWLsc3fA49IFOP2Y84cFOOJ+nKGYedvXHKUsPeq07HR4hXpBBr+CHlA==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 5.0.2_rollup@3.7.4
       rollup: 3.7.4
     dev: true
 

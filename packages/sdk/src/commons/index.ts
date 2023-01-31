@@ -1,10 +1,10 @@
-import FACTORY_ABI from "../abis/factory.json";
-import KPI_TOKEN_ABI from "../abis/kpi-token.json";
-import ORACLE_ABI from "../abis/oracle.json";
-import KPI_TOKENS_MANAGER_ABI from "../abis/kpi-tokens-manager.json";
-import ORACLES_MANAGER_ABI from "../abis/oracles-manager.json";
-import MULTICALL_ABI from "../abis/multicall.json";
-import ERC20_ABI from "../abis/erc20.json";
+import FACTORY_ABI from "../abis/factory";
+import KPI_TOKEN_ABI from "../abis/kpi-token";
+import ORACLE_ABI from "../abis/oracle";
+import KPI_TOKENS_MANAGER_ABI from "../abis/kpi-tokens-manager";
+import ORACLES_MANAGER_ABI from "../abis/oracles-manager";
+import MULTICALL_ABI from "../abis/multicall";
+import ERC20_ABI from "../abis/erc20";
 import { Cacher } from "../cacher";
 
 export enum ChainId {

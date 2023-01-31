@@ -82,20 +82,6 @@ class FullFetcher implements IFullCarrotFetcher {
             ? SubgraphFetcher.fetchOracleTemplates(provider, ids)
             : OnChainFetcher.fetchOracleTemplates(provider, ids);
     }
-
-    async fetchKPITokenData(
-        provider: Provider,
-        address: string
-    ): Promise<string> {
-        return CoreFetcher.fetchKPITokenData(provider, address);
-    }
-
-    async fetchOracleData(
-        provider: Provider,
-        address: string
-    ): Promise<string> {
-        return CoreFetcher.fetchOracleData(provider, address);
-    }
 }
 
 export const Fetcher = new FullFetcher();
