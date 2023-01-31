@@ -1,4 +1,4 @@
-import { useKpiTokenTemplates } from "@carrot-kpi/react";
+import { useKPITokenTemplates } from "@carrot-kpi/react";
 import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -7,7 +7,7 @@ import { TemplateCard } from "../../../components/ui/template-card";
 
 export const TemplatesSection = () => {
     const { t } = useTranslation();
-    const { loading, templates } = useKpiTokenTemplates();
+    const { loading, templates } = useKPITokenTemplates();
 
     return (
         <div className="relative space-y-16">

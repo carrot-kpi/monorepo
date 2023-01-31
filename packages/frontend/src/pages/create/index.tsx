@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { useKpiTokenTemplates } from "@carrot-kpi/react";
+import { useKPITokenTemplates } from "@carrot-kpi/react";
 import { Template } from "@carrot-kpi/sdk";
 import { useState } from "react";
 import { CreationForm } from "@carrot-kpi/react";
@@ -9,7 +9,7 @@ import { Address, usePrepareSendTransaction, useSendTransaction } from "wagmi";
 
 export const Create = () => {
     const { t, i18n } = useTranslation();
-    const { loading, templates } = useKpiTokenTemplates();
+    const { loading, templates } = useKPITokenTemplates();
     const [pickedTemplate, setPickedTemplate] = useState<Template | null>(null);
     const [creationTx, setCreationTx] = useState<
         providers.TransactionRequest & {

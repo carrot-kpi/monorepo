@@ -1,4 +1,4 @@
-import { useKpiTokens } from "@carrot-kpi/react";
+import { useKPITokens } from "@carrot-kpi/react";
 import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -8,7 +8,7 @@ import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 
 export const LatestCampaignsSection = () => {
     const { t } = useTranslation();
-    const { loading, kpiTokens } = useKpiTokens();
+    const { loading, kpiTokens } = useKPITokens();
 
     return (
         <div className="relative space-y-16">
