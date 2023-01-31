@@ -23,7 +23,7 @@ export type BaseInputProps<V> = PartialBaseInputProps<V> &
     BaseInputWrapperProps &
     Omit<
         InputHTMLAttributes<HTMLInputElement>,
-        keyof PartialBaseInputProps<V> | keyof BaseInputWrapperProps
+        keyof PartialBaseInputProps<V> | keyof BaseInputWrapperProps | "ref"
     >;
 
 export const inputStyles = cva(
