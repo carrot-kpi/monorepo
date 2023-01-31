@@ -283,7 +283,7 @@ export const Search = ({
                                                     <RemoteLogo
                                                         src={logoURI}
                                                         size="sm"
-                                                        defaultSrcs={
+                                                        defaultSrc={
                                                             defaultLogoSrc
                                                         }
                                                         defaultText={symbol}
