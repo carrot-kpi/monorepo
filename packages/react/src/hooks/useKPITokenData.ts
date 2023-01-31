@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react";
-import { KpiToken, Fetcher } from "@carrot-kpi/sdk";
-import { useProvider, useNetwork } from "wagmi";
+import { Fetcher } from "@carrot-kpi/sdk";
+import { useProvider } from "wagmi";
 
-export function useKpiToken(kpiTokenAddress?: string): {
+export function useKPITokenData(kpiTokenAddress?: string): {
     loading: boolean;
-    kpiToken: KpiToken | null;
+    data: string;
 } {
-    const { chain } = useNetwork();
     const provider = useProvider();
 
-    const [kpiToken, setKpiToken] = useState<KpiToken | null>(null);
+    const [data, setData] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !kpiTokenAddress) return;
+            if (!kpiTokenAddress) return;
             if (!cancelled) setLoading(true);
             try {
-                const kpiToken = (
-                    await Fetcher.fetchKpiTokens(provider, [kpiTokenAddress])
-                )[kpiTokenAddress];
-                if (!kpiToken) return;
-                if (!cancelled) setKpiToken(kpiToken);
+                const data = await Fetcher.fetchKPITokenData(
+                    provider,
+                    kpiTokenAddress
+                );
+                if (!data) return;
+                if (!cancelled) setData(data);
             } catch (error) {
                 console.error(
                     `error fetching kpi token at address ${kpiTokenAddress}`,
@@ -36,7 +36,7 @@ export function useKpiToken(kpiTokenAddress?: string): {
         return () => {
             cancelled = true;
         };
-    }, [chain, kpiTokenAddress, provider]);
+    }, [kpiTokenAddress, provider]);
 
-    return { loading, kpiToken };
+    return { loading, data };
 }

@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as X } from "../../assets/x.svg";
-import { Button, CarrotButtonProps } from "../../button";
+import { Button, ButtonProps } from "../../button";
 import { TextInput, TextInputProps } from "../../input/text";
 import { useDebounce } from "react-use";
 import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
@@ -112,7 +112,7 @@ export interface SearchProps {
         listItemTextSecondary?: TypographyProps["className"];
         emptyListText?: string;
         manageListsButtonWrapper?: string;
-        manageListsButton?: CarrotButtonProps["className"];
+        manageListsButton?: ButtonProps["className"];
     };
     messages: {
         title: string;
@@ -283,7 +283,7 @@ export const Search = ({
                                                     <RemoteLogo
                                                         src={logoURI}
                                                         size="sm"
-                                                        defaultSrcs={
+                                                        defaultSrc={
                                                             defaultLogoSrc
                                                         }
                                                         defaultText={symbol}

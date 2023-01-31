@@ -4,23 +4,29 @@ import {
     ERC20_ABI,
     CHAIN_ADDRESSES,
     CACHER,
-} from "../commons";
-import { cacheErc20Token, enforce, getCachedErc20Token, warn } from "../utils";
-import { ethers, Contract } from "ethers";
-import { Token } from "../entities/token";
-import BYTES_NAME_ERC20_ABI from "../abis/erc20-name-bytes.json";
-import BYTES_SYMBOL_ERC20_ABI from "../abis/erc20-symbol-bytes.json";
-import { IpfsService } from "../services";
-import { Fetcher } from ".";
+    KPI_TOKEN_ABI,
+    ORACLE_ABI,
+} from "../../commons";
+import {
+    cacheERC20Token,
+    enforce,
+    getCachedERC20Token,
+    warn,
+} from "../../utils";
+import { Contract } from "@ethersproject/contracts";
+import { Interface } from "@ethersproject/abi";
+import { Provider } from "@ethersproject/providers";
+import { Token } from "../../entities/token";
+import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes.json";
+import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes.json";
+import { IPFSService } from "../../services";
+import { ICoreFetcher } from "../abstraction";
+import { isAddress } from "@ethersproject/address";
 
 // erc20 related interfaces
-const STANDARD_ERC20_INTERFACE = new ethers.utils.Interface(ERC20_ABI);
-const BYTES_NAME_ERC20_INTERFACE = new ethers.utils.Interface(
-    BYTES_NAME_ERC20_ABI
-);
-const BYTES_SYMBOL_ERC20_INTERFACE = new ethers.utils.Interface(
-    BYTES_SYMBOL_ERC20_ABI
-);
+const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
+const BYTES_NAME_ERC20_INTERFACE = new Interface(BYTES_NAME_ERC20_ABI);
+const BYTES_SYMBOL_ERC20_INTERFACE = new Interface(BYTES_SYMBOL_ERC20_ABI);
 
 // erc20 related functions
 const ERC20_NAME_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction("name()");
@@ -52,10 +58,31 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
         BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()")
     );
 
-export abstract class CoreFetcher {
-    public static async fetchErc20Tokens(
-        addresses: string[],
-        provider: ethers.providers.Provider
+// TODO: check if validation can be extracted in its own function
+class Fetcher implements ICoreFetcher {
+    public async fetchKPITokenData(
+        provider: Provider,
+        address: string
+    ): Promise<string> {
+        enforce(isAddress(address), `malformed address ${address}`);
+        const chainId = (await provider.getNetwork()).chainId as ChainId;
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        return new Contract(address, KPI_TOKEN_ABI, provider).callStatic.data();
+    }
+
+    public async fetchOracleData(
+        provider: Provider,
+        address: string
+    ): Promise<string> {
+        enforce(isAddress(address), `malformed address ${address}`);
+        const chainId = (await provider.getNetwork()).chainId as ChainId;
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        return new Contract(address, ORACLE_ABI, provider).callStatic.data();
+    }
+
+    public async fetchERC20Tokens(
+        provider: Provider,
+        addresses: string[]
     ): Promise<{ [address: string]: Token }> {
         const chainId = (await provider.getNetwork()).chainId as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
@@ -67,7 +94,7 @@ export abstract class CoreFetcher {
                 },
                 address
             ) => {
-                const cachedToken = getCachedErc20Token(chainId, address);
+                const cachedToken = getCachedERC20Token(chainId, address);
                 if (!!cachedToken)
                     accumulator.cachedTokens[address] = cachedToken;
                 else accumulator.missingTokens.push(address);
@@ -166,7 +193,7 @@ export abstract class CoreFetcher {
                         symbol,
                         name
                     );
-                    cacheErc20Token(token);
+                    cacheERC20Token(token);
                     accumulator[missingToken] = token;
                 } catch (error) {
                     console.error(
@@ -182,7 +209,7 @@ export abstract class CoreFetcher {
         return { ...cachedTokens, ...fetchedTokens };
     }
 
-    private static async fetchContentFromIpfsWithLocalStorageCache(
+    private async fetchContentFromIPFSWithLocalStorageCache(
         cacheableCids: string[]
     ) {
         const cachedCids: { [cid: string]: string } = {};
@@ -196,7 +223,7 @@ export abstract class CoreFetcher {
             const uncachedContent = await Promise.all(
                 uncachedCids.map(async (cid) => {
                     const response = await fetch(
-                        `${IpfsService.gateway}/ipfs/${cid}`
+                        `${IPFSService.gateway}/ipfs/${cid}`
                     );
                     const responseOk = response.ok;
                     warn(responseOk, `could not fetch content with cid ${cid}`);
@@ -215,17 +242,17 @@ export abstract class CoreFetcher {
         return cachedCids;
     }
 
-    public static async fetchContentFromIpfs(
+    public async fetchContentFromIPFS(
         cids: string[]
     ): Promise<{ [cid: string]: string }> {
         if (process.env.NODE_ENV === "development")
-            return Fetcher.fetchContentFromIpfsWithLocalStorageCache(cids);
+            return this.fetchContentFromIPFSWithLocalStorageCache(cids);
         // we come here only if we are in production. in this case the service
         // worker will handle the calls, so we can just not worry about it
         const allContents = await Promise.all(
             cids.map(async (cid) => {
                 const response = await fetch(
-                    `${IpfsService.gateway}/ipfs/${cid}`
+                    `${IPFSService.gateway}/ipfs/${cid}`
                 );
                 const responseOk = response.ok;
                 warn(responseOk, `could not fetch content with cid ${cid}`);
@@ -243,3 +270,5 @@ export abstract class CoreFetcher {
         return contents;
     }
 }
+
+export const CoreFetcher = new Fetcher();

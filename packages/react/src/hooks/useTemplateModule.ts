@@ -1,4 +1,4 @@
-import { IpfsService, Template } from "@carrot-kpi/sdk";
+import { IPFSService, Template } from "@carrot-kpi/sdk";
 import { TemplateBundle } from "../i18n";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
@@ -13,7 +13,7 @@ export const useTemplateModule = (
         return {
             baseUrl:
                 customBaseUrl ||
-                `${IpfsService.gateway}/ipfs/${template.specification.cid}`,
+                `${IPFSService.gateway}/ipfs/${template.specification.cid}`,
             entry: `${template.specification.commitHash || ""}${entryPostfix}`,
         };
     }, [template, entryPostfix, customBaseUrl]);

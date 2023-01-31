@@ -1,6 +1,5 @@
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
-const { ProvidePlugin } = require("webpack");
 const shared = require("./shared-dependencies.json");
 const { join } = require("path");
 
@@ -13,11 +12,12 @@ module.exports = {
                 new ModuleFederationPlugin({
                     name: "host",
                     shared,
-                }),
-                new ProvidePlugin({
-                    Buffer: ["buffer", "Buffer"],
                 })
             );
+            config.resolve.fallback = {
+                ...config.resolve.fallback,
+                buffer: require.resolve("buffer/"),
+            };
             if (env !== "production") return config;
             config.output.publicPath = "auto";
             config.plugins.push(

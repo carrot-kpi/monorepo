@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Template, Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
+import { usePreferences } from "./usePreferences";
 
 export function useOracleTemplates(ids?: BigNumberish[]): {
     loading: boolean;
     templates: Template[];
 } {
+    const { preferDecentralization } = usePreferences();
     const { chain } = useNetwork();
     const provider = useProvider();
 
@@ -21,6 +23,7 @@ export function useOracleTemplates(ids?: BigNumberish[]): {
             try {
                 const templates = await Fetcher.fetchOracleTemplates(
                     provider,
+                    preferDecentralization,
                     ids
                 );
                 if (!cancelled) setTemplates(templates);
@@ -34,7 +37,7 @@ export function useOracleTemplates(ids?: BigNumberish[]): {
         return () => {
             cancelled = true;
         };
-    }, [chain, provider, ids]);
+    }, [chain, provider, preferDecentralization, ids]);
 
     return { loading, templates };
 }

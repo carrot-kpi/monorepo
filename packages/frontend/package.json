@@ -24,6 +24,7 @@
         "@carrot-kpi/sdk": "workspace:*",
         "@carrot-kpi/ui": "workspace:*",
         "@fontsource/ibm-plex-mono": "^4.5.13",
+        "@fontsource/inter": "^4.5.15",
         "@popperjs/core": "^2.11.6",
         "@rainbow-me/rainbowkit": "^0.8.1",
         "class-variance-authority": "^0.4.0",
@@ -40,7 +41,6 @@
     },
     "devDependencies": {
         "@craco/craco": "^7.0.0",
-        "@fontsource/inter": "^4.5.15",
         "@size-limit/file": "^8.1.0",
         "@tailwindcss/line-clamp": "^0.4.2",
         "@types/react": "^18.0.25",

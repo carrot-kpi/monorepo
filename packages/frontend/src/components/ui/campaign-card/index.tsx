@@ -63,8 +63,16 @@ export const CampaignCard = ({
                         )}
                     </div>
                 </div>
-                <div className="flex flex-col justify-between p-4 h-52">
-                    <Typography>{question}</Typography>
+                <div className="flex flex-col justify-between p-4">
+                    <div className="h-32 mb-2">
+                        <Typography
+                            className={{
+                                root: "line-clamp-5 overflow-hidden",
+                            }}
+                        >
+                            {question}
+                        </Typography>
+                    </div>
                     <div className="flex items-center space-x-3">
                         <Chip>{templateName}</Chip>
                         {tags.map((tag) => (

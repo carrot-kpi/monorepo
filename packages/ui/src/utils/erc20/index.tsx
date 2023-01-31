@@ -1,4 +1,4 @@
-import { isAddress } from "@ethersproject/address";
+import { getAddress, isAddress } from "@ethersproject/address";
 import { TokenInfoWithBalance } from "../../erc20-token-picker/types";
 
 const TRUST_WALLET_CHAIN: { [chainId: number]: string } = {
@@ -12,10 +12,12 @@ export const getDefaultERC20TokenLogoURL = (
     chainId?: number,
     address?: string
 ): string | null => {
-    if (!chainId || !address) return null;
+    if (!chainId || !address || !isAddress(address)) return null;
     const prefix = TRUST_WALLET_CHAIN[chainId];
     if (!prefix) return null;
-    return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/${prefix}/assets/${address}/logo.png`;
+    return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/${prefix}/assets/${getAddress(
+        address
+    )}/logo.png`;
 };
 
 export const filterERC20Tokens = (

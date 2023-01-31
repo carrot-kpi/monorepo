@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Fetcher, Oracle } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
+import { usePreferences } from "./usePreferences";
 
 export function useOracle(oracleAddress?: string): {
     loading: boolean;
     oracle: Oracle | null;
 } {
+    const { preferDecentralization } = usePreferences();
     const { chain } = useNetwork();
     const provider = useProvider();
 
@@ -19,7 +21,11 @@ export function useOracle(oracleAddress?: string): {
             if (!cancelled) setLoading(true);
             try {
                 const fetchedOracle = (
-                    await Fetcher.fetchOracles(provider, [oracleAddress])
+                    await Fetcher.fetchOracles(
+                        provider,
+                        preferDecentralization,
+                        [oracleAddress]
+                    )
                 )[oracleAddress];
                 if (!fetchedOracle) return;
                 if (!cancelled) setOracle(fetchedOracle);
@@ -36,7 +42,7 @@ export function useOracle(oracleAddress?: string): {
         return () => {
             cancelled = true;
         };
-    }, [chain, oracleAddress, provider]);
+    }, [chain, oracleAddress, preferDecentralization, provider]);
 
     return { loading, oracle };
 }
