@@ -1,4 +1,9 @@
-import React, { ElementType, ReactNode } from "react";
+import React, {
+    ElementType,
+    forwardRef,
+    HTMLAttributes,
+    ReactNode,
+} from "react";
 import { cva } from "class-variance-authority";
 
 const rootStyles = cva(["cui-text-black dark:cui-text-white"], {
@@ -44,13 +49,29 @@ type TypographyVariant =
     | "h5"
     | "h6";
 
-export interface TypographyProps {
+interface BaseTypographyProps {
     variant?: TypographyVariant;
     weight?: "normal" | "medium" | "bold";
     uppercase?: boolean;
     className?: { root?: string };
     children: ReactNode;
 }
+
+export type TypographyProps = Omit<
+    HTMLAttributes<
+        BaseTypographyProps["variant"] extends
+            | "h6"
+            | "h5"
+            | "h4"
+            | "h3"
+            | "h2"
+            | "h1"
+            ? HTMLHeadingElement
+            : HTMLParagraphElement
+    >,
+    keyof BaseTypographyProps
+> &
+    BaseTypographyProps;
 
 const COMPONENT_MAP: Record<TypographyVariant, ElementType> = {
     "2xs": "p",
@@ -68,13 +89,17 @@ const COMPONENT_MAP: Record<TypographyVariant, ElementType> = {
     h6: "h6",
 };
 
-export const Typography = ({
-    variant = "md",
-    weight,
-    uppercase,
-    className,
-    children,
-}: TypographyProps) => {
+export const Typography = forwardRef(function Typography(
+    {
+        variant = "md",
+        weight,
+        uppercase,
+        className,
+        children,
+        ...rest
+    }: TypographyProps,
+    ref
+) {
     const Root = COMPONENT_MAP[variant];
 
     return (
@@ -85,8 +110,10 @@ export const Typography = ({
                 uppercase,
                 className: className?.root,
             })}
+            {...rest}
+            ref={ref}
         >
             {children}
         </Root>
     );
-};
+});

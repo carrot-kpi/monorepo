@@ -5,7 +5,7 @@ import { warn } from "./invariant";
 export const erc20TokenCachingKey = (chainId: number, address: string) =>
     `erc20-${chainId}-${address}`;
 
-interface SerializedErc20Token {
+interface SerializedERC20Token {
     chainId: number;
     address: string;
     decimals: number;
@@ -13,12 +13,12 @@ interface SerializedErc20Token {
     name: string;
 }
 
-export const cacheErc20Token = (token: Token, validUntil?: number) => {
+export const cacheERC20Token = (token: Token, validUntil?: number) => {
     if (!validUntil || validUntil < Date.now()) {
         validUntil = Date.now() + 172_800_000; // 2 days by default
         warn(true, `invalid valid until while caching erc20 token`);
     }
-    CACHER.set<SerializedErc20Token>(
+    CACHER.set<SerializedERC20Token>(
         `erc20-${token.chainId}-${token.address}`,
         {
             chainId: token.chainId,
@@ -31,19 +31,19 @@ export const cacheErc20Token = (token: Token, validUntil?: number) => {
     );
 };
 
-export const getCachedErc20Token = (
+export const getCachedERC20Token = (
     chainId: number,
     address: string
 ): Token | undefined => {
-    const serializedErc20Token = CACHER.get<SerializedErc20Token>(
+    const serializedERC20Token = CACHER.get<SerializedERC20Token>(
         erc20TokenCachingKey(chainId, address)
     );
-    if (!!!serializedErc20Token) return;
+    if (!!!serializedERC20Token) return;
     return new Token(
-        serializedErc20Token.chainId,
-        serializedErc20Token.address,
-        serializedErc20Token.decimals,
-        serializedErc20Token.symbol,
-        serializedErc20Token.name
+        serializedERC20Token.chainId,
+        serializedERC20Token.address,
+        serializedERC20Token.decimals,
+        serializedERC20Token.symbol,
+        serializedERC20Token.name
     );
 };

@@ -26,7 +26,7 @@ const rootStyles = cva(
 
 export interface RemoteLogoProps {
     src?: string | string[] | null;
-    defaultSrcs?: string | string[] | null;
+    defaultSrc?: string | string[] | null;
     size?: "sm" | "md" | "lg" | "xl" | "2xl";
     defaultText?: string | null;
     ipfsGatewayURL?: string | null;
@@ -35,14 +35,14 @@ export interface RemoteLogoProps {
 
 export const RemoteLogo = ({
     src,
-    defaultSrcs,
+    defaultSrc,
     size = "md",
     defaultText = "?",
     ipfsGatewayURL,
     className,
 }: RemoteLogoProps) => {
     const [resolvedSrcs] = useState(
-        resolveSrc(src, ipfsGatewayURL, defaultSrcs)
+        resolveSrc(src, ipfsGatewayURL, defaultSrc)
     );
     const [resolvedDefaultText, setResolvedDefaultText] = useState("");
     const [srcIndex, setSrcIndex] = useState(0);

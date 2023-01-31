@@ -15,6 +15,7 @@ export const Hero = () => (
                             used={10}
                             name="GENERIC ERC20 TEMPLATE"
                             description="This template allows you to create a generic erc-20 with conditional rules."
+                            tags={["Test"]}
                             address="0xF71364a7939ff3312363a12daB7cd405cbD31659"
                             verified
                             version={1}

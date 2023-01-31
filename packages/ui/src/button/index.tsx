@@ -1,6 +1,7 @@
 import React, {
     ElementType,
     FunctionComponent,
+    HTMLAttributes,
     ReactNode,
     SVGProps,
 } from "react";
@@ -141,7 +142,7 @@ const wrapperStyles = cva("", {
     ],
 });
 
-export interface CarrotButtonProps {
+interface BaseButtonProps {
     onClick?: (event: React.MouseEvent) => void;
     href?: string;
     disabled?: boolean;
@@ -159,6 +160,16 @@ export interface CarrotButtonProps {
     children: ReactNode;
 }
 
+export type ButtonProps = Omit<
+    HTMLAttributes<
+        BaseButtonProps["href"] extends string
+            ? HTMLAnchorElement
+            : HTMLButtonElement
+    >,
+    keyof BaseButtonProps
+> &
+    BaseButtonProps;
+
 export const Button = ({
     href,
     variant = "primary",
@@ -170,7 +181,8 @@ export const Button = ({
     className,
     icon: Icon,
     iconPlacement = "left",
-}: CarrotButtonProps) => {
+    ...rest
+}: ButtonProps) => {
     const sharedProps = {
         className: buttonStyles({
             size,
@@ -221,7 +233,7 @@ export const Button = ({
         );
 
     return (
-        <Root {...sharedProps} {...props}>
+        <Root {...sharedProps} {...props} {...rest}>
             {iconPlacement === "left" && resolvedIcon}
             <div
                 className={wrapperStyles({
