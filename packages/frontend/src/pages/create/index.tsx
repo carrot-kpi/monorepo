@@ -94,7 +94,7 @@ export const Create = () => {
                 </>
             )}
             {!loading && templates.length === 0 && (
-                <>{t("create.noKpiToken")}</>
+                <>{t("create.noKPIToken")}</>
             )}
         </>
     );
