@@ -4,11 +4,12 @@ import React, {
     useEffect,
     useState,
     MouseEvent as SpecificMouseEvent,
+    useRef,
 } from "react";
 import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
-import { usePopper } from "react-popper";
 import { ReactComponent as ChevronUp } from "../../assets/chevron-up.svg";
 import { cva, cx } from "class-variance-authority";
+import { Popover } from "../../popover";
 
 const dropdownRootStyles = cva([
     "cui-rounded-xxl",
@@ -77,7 +78,7 @@ const optionStyles = cva(
     }
 );
 
-const selectAnchorStyles = cva(["cui-select-wrapper", "cui-relative"]);
+const selectAnchorStyles = cva(["cui-w-fit", "cui-relative"]);
 const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
@@ -118,32 +119,16 @@ export const Select = <O extends SelectOption>({
     renderOption,
     ...rest
 }: SelectProps<O>): ReactElement => {
-    const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(
-        null
-    );
-    const [popperElement, setPopperElement] = useState<HTMLUListElement | null>(
-        null
-    );
+    const anchorRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
-
-    const { styles, attributes } = usePopper(anchorElement, popperElement, {
-        placement: "bottom",
-        modifiers: [
-            {
-                name: "offset",
-                options: {
-                    offset: [0, 8],
-                },
-            },
-        ],
-    });
 
     useEffect(() => {
         const handleCloseOnClick = (event: MouseEvent) => {
-            if (!open || !popperElement || !anchorElement) return;
+            if (!open || !dropdownRef.current || !anchorRef.current) return;
             if (
-                !popperElement.contains(event.target as Node) &&
-                !anchorElement.contains(event.target as Node)
+                !dropdownRef.current.contains(event.target as Node) &&
+                !anchorRef.current.contains(event.target as Node)
             )
                 setOpen(false);
         };
@@ -152,7 +137,7 @@ export const Select = <O extends SelectOption>({
         return () => {
             document.removeEventListener("mousedown", handleCloseOnClick);
         };
-    }, [anchorElement, open, popperElement]);
+    }, [open]);
 
     const handleClick = useCallback(() => {
         setOpen(!open);
@@ -181,7 +166,7 @@ export const Select = <O extends SelectOption>({
                     className={selectAnchorStyles({
                         className: className?.wrapper,
                     })}
-                    ref={setAnchorElement}
+                    ref={anchorRef}
                 >
                     <input
                         id={id}
@@ -208,18 +193,18 @@ export const Select = <O extends SelectOption>({
                     />
                 </div>
             </BaseInputWrapper>
-            {open && (
-                <ul
-                    ref={setPopperElement}
-                    style={{
-                        ...styles.popper,
-                        width: anchorElement?.clientWidth,
-                    }}
-                    className={dropdownRootStyles({
+            <Popover
+                anchor={anchorRef.current}
+                open={open}
+                placement="bottom"
+                className={{
+                    root: dropdownRootStyles({
                         className: className?.dropdownRoot,
-                    })}
-                    {...attributes.popper}
-                >
+                    }),
+                }}
+                ref={dropdownRef}
+            >
+                <ul style={{ width: anchorRef.current?.clientWidth }}>
                     {options.map((option) => {
                         return (
                             <li
@@ -247,7 +232,7 @@ export const Select = <O extends SelectOption>({
                         );
                     })}
                 </ul>
-            )}
+            </Popover>
         </div>
     );
 };
