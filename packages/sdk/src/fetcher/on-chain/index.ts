@@ -63,6 +63,7 @@ const ORACLE_FINALIZED_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
     ORACLE_FINALIZED_FUNCTION
 );
 
+// TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
     public supportedInChain(): boolean {
         return true;

@@ -71,6 +71,7 @@ const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
     );
 };
 
+// TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
     public supportedInChain(chainId: ChainId): boolean {
         return !!SUBGRAPH_URL[chainId];

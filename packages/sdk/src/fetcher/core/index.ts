@@ -58,6 +58,7 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
         BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()")
     );
 
+// TODO: check if validation can be extracted in its own function
 class Fetcher implements ICoreFetcher {
     public async fetchKPITokenData(
         provider: Provider,
