@@ -1,4 +1,8 @@
-import React, { ChangeEventHandler, HTMLAttributes, ReactNode } from "react";
+import React, {
+    ChangeEventHandler,
+    InputHTMLAttributes,
+    ReactNode,
+} from "react";
 import { Typography, TypographyProps } from "../../typography";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
@@ -18,7 +22,7 @@ export interface PartialBaseInputProps<V> {
 export type BaseInputProps<V> = PartialBaseInputProps<V> &
     BaseInputWrapperProps &
     Omit<
-        HTMLAttributes<HTMLInputElement>,
+        InputHTMLAttributes<HTMLInputElement>,
         keyof PartialBaseInputProps<V> | keyof BaseInputWrapperProps
     >;
 
