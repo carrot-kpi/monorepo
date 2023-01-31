@@ -4,7 +4,6 @@ import { Typography } from "../typography";
 
 const rootStyles = cva([
     "cui-bg-transparent",
-    "cui-cursor-default",
     "cui-p-1",
     "cui-px-2",
     "cui-text-xs",
