@@ -42,6 +42,11 @@ export interface IPartialCarrotFetcher {
 }
 
 export interface IFullCarrotFetcher {
+    fetchERC20Tokens(
+        provider: Provider,
+        addresses: string[]
+    ): Promise<{ [address: string]: Token }>;
+
     fetchKPITokens(
         provider: Provider,
         preferDecentralization?: boolean,

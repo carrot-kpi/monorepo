@@ -7,6 +7,7 @@ import { IFullCarrotFetcher } from "./abstraction";
 import { OnChainFetcher } from "./on-chain";
 import { SubgraphFetcher } from "./subgraph";
 import { CoreFetcher } from "./core";
+import { Token } from "../entities/token";
 
 class FullFetcher implements IFullCarrotFetcher {
     private async shouldUseSubgraph(
@@ -16,6 +17,14 @@ class FullFetcher implements IFullCarrotFetcher {
         if (preferDecentralization) return false;
         const { chainId } = await provider.getNetwork();
         return SubgraphFetcher.supportedInChain(chainId);
+    }
+
+    async fetchERC20Tokens(
+        provider: Provider,
+        addresses?: string[]
+    ): Promise<{ [address: string]: Token }> {
+        if (!addresses || addresses.length === 0) return {};
+        return CoreFetcher.fetchERC20Tokens(provider, addresses);
     }
 
     async fetchKPITokens(
