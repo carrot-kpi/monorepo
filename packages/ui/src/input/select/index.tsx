@@ -5,6 +5,8 @@ import React, {
     useState,
     MouseEvent as SpecificMouseEvent,
     useRef,
+    forwardRef,
+    ForwardedRef,
 } from "react";
 import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
 import { ReactComponent as ChevronUp } from "../../assets/chevron-up.svg";
@@ -105,20 +107,23 @@ export type SelectProps<O extends SelectOption = SelectOption> = {
     };
 } & Omit<BaseInputProps<unknown>, "onChange" | "value">;
 
-export const Select = <O extends SelectOption>({
-    id,
-    variant,
-    label,
-    border,
-    options,
-    helperText,
-    error = false,
-    value,
-    onChange,
-    className,
-    renderOption,
-    ...rest
-}: SelectProps<O>): ReactElement => {
+const Component = <O extends SelectOption>(
+    {
+        id,
+        variant,
+        label,
+        border,
+        options,
+        helperText,
+        error = false,
+        value,
+        onChange,
+        className,
+        renderOption,
+        ...rest
+    }: SelectProps<O>,
+    ref: ForwardedRef<HTMLInputElement>
+): ReactElement => {
     const anchorRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
@@ -173,6 +178,7 @@ export const Select = <O extends SelectOption>({
                         type="text"
                         readOnly
                         value={value?.label || ""}
+                        ref={ref}
                         {...rest}
                         onClick={handleClick}
                         className={cx(
@@ -236,3 +242,5 @@ export const Select = <O extends SelectOption>({
         </div>
     );
 };
+
+export const Select = forwardRef(Component);
