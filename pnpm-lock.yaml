@@ -304,7 +304,6 @@ importers:
       tsconfig: workspace:*
     dependencies:
       '@carrot-kpi/sdk': link:../sdk
-      '@ethersproject/address': 5.7.0
       '@ethersproject/bignumber': 5.7.0
       '@fontsource/ibm-plex-mono': 4.5.13
       '@popperjs/core': 2.11.6
@@ -321,6 +320,7 @@ importers:
       react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
     devDependencies:
       '@babel/core': 7.20.5
+      '@ethersproject/address': 5.7.0
       '@fontsource/inter': 4.5.15
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
