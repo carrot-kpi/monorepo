@@ -1,6 +1,5 @@
 import "./global.css";
 
-export * from "./button";
 export * from "./erc20-token-picker";
 export * from "./data-display";
 export * from "./input";

@@ -6,7 +6,7 @@ import { CardContent } from "./content";
 import { Chip, Typography } from "../../data-display";
 import { CardTitle } from "./title";
 import { CardActions } from "./actions";
-import { Button } from "../../button";
+import { Button } from "../../input";
 
 export default {
     title: "Surfaces/Card",

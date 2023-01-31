@@ -6,7 +6,7 @@ import React, {
     SVGProps,
 } from "react";
 import { cva, cx } from "class-variance-authority";
-import { ReactComponent as Spinner } from "../assets/spinner.svg";
+import { ReactComponent as Spinner } from "../../assets/spinner.svg";
 
 const buttonStyles = cva(
     [
