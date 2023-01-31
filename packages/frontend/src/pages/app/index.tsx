@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Home } from "../home";
-import { Campaign } from "../campaign";
+import { Page } from "../page";
 import { Create } from "../create";
 import { Navbar } from "../../components/ui/navbar";
 import { Footer } from "../../components/ui/footer";
@@ -16,7 +16,7 @@ export function App() {
             <Navbar bgColor="orange" links={navbarLinks} />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/campaigns/:address" element={<Campaign />} />
+                <Route path="/campaigns/:address" element={<Page />} />
                 <Route path="/create" element={<Create />} />
                 <Route path="/campaigns" element={<Campaigns />} />
             </Routes>
