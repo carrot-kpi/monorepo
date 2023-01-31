@@ -8,5 +8,5 @@ export * from "./useOracle";
 export * from "./useOracleTemplates";
 export * from "./useTemplateModule";
 export * from "./useTokenLists";
-export * from "./useWatchKPITokenData";
-export * from "./useWatchOracleData";
+export * from "./useWatchData";
+export * from "./useWatchKPITokenOwner";

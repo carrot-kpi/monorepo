@@ -3,7 +3,6 @@ import { ReactElement } from "react";
 import { TemplateComponent } from "../../template-component";
 import { useOracle } from "../../../hooks/useOracle";
 import { i18n } from "i18next";
-import { useOracleData } from "../../../hooks/useOracleData";
 
 interface OraclePageProps {
     i18n: i18n;
@@ -16,11 +15,9 @@ export function Oracle({
     i18n,
     fallback,
 }: OraclePageProps): ReactElement {
-    const { loading: loadingOracle, oracle } = useOracle(address);
-    const { loading: loadingOracleData, data } = useOracleData(address);
+    const { loading: loading, oracle } = useOracle(address);
 
-    if (loadingOracle || loadingOracleData || !oracle || !data)
-        return <>{fallback}</>;
+    if (loading || !oracle) return <>{fallback}</>;
     return (
         <TemplateComponent
             type="page"

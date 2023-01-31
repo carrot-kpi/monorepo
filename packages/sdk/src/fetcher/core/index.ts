@@ -4,8 +4,6 @@ import {
     ERC20_ABI,
     CHAIN_ADDRESSES,
     CACHER,
-    KPI_TOKEN_ABI,
-    ORACLE_ABI,
 } from "../../commons";
 import {
     cacheERC20Token,
@@ -17,11 +15,10 @@ import { Contract } from "@ethersproject/contracts";
 import { Interface } from "@ethersproject/abi";
 import { Provider } from "@ethersproject/providers";
 import { Token } from "../../entities/token";
-import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes.json";
-import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes.json";
+import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
+import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
 import { IPFSService } from "../../services";
 import { ICoreFetcher } from "../abstraction";
-import { isAddress } from "@ethersproject/address";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
@@ -60,26 +57,6 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements ICoreFetcher {
-    public async fetchKPITokenData(
-        provider: Provider,
-        address: string
-    ): Promise<string> {
-        enforce(isAddress(address), `malformed address ${address}`);
-        const chainId = (await provider.getNetwork()).chainId as ChainId;
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        return new Contract(address, KPI_TOKEN_ABI, provider).callStatic.data();
-    }
-
-    public async fetchOracleData(
-        provider: Provider,
-        address: string
-    ): Promise<string> {
-        enforce(isAddress(address), `malformed address ${address}`);
-        const chainId = (await provider.getNetwork()).chainId as ChainId;
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        return new Contract(address, ORACLE_ABI, provider).callStatic.data();
-    }
-
     public async fetchERC20Tokens(
         provider: Provider,
         addresses: string[]
