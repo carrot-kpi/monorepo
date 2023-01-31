@@ -3,8 +3,8 @@ import { CampaignCard } from "../../../components/ui/campaign-card";
 
 export const CampaignsGrid = () => {
     return (
-        <div className="w-full flex flex-col items-center sm:mx-3 md:mx-4 lg:mx-5 mt-12 mb-32">
-            <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-7">
+        <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
+            <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-7">
                 {campaignsMockData.map((campaign) => (
                     <CampaignCard
                         key={campaign.id}
