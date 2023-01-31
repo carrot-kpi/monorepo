@@ -51,6 +51,7 @@ export const CampaignsTopNav = ({
                             ]}
                             placeholder="Latest"
                             value={campaignsOrder}
+                            className={{ root: "w-full", input: "w-full" }}
                         />
                     </div>
                     <div className="flex flex-row-reverse gap-5 md:flex-row">
@@ -70,6 +71,7 @@ export const CampaignsTopNav = ({
                             ]}
                             placeholder="Latest"
                             value={campaignsState}
+                            className={{ root: "w-full", input: "w-full" }}
                         />
                         <ToggleIconButton
                             toggle={() => console.log("Toggled MY")}

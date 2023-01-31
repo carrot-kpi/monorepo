@@ -36,6 +36,12 @@ export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
     },
 };
 
+export const SUBGRAPH_URL: Record<ChainId, string | null> = {
+    [ChainId.GOERLI]:
+        "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-kpi-goerli",
+    [ChainId.SEPOLIA]: null,
+};
+
 export {
     FACTORY_ABI,
     KPI_TOKEN_ABI,

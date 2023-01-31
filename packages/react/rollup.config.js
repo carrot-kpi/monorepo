@@ -7,7 +7,12 @@ import typescript from "rollup-plugin-typescript2";
 export default [
     {
         input: resolve("src/index.ts"),
-        plugins: [peerDepsExternal(), nodeResolve(), commonjs(), typescript()],
+        plugins: [
+            peerDepsExternal(),
+            nodeResolve({ preferBuiltins: true }),
+            commonjs(),
+            typescript(),
+        ],
         output: {
             file: resolve("dist/index.js"),
             format: "es",

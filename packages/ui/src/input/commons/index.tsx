@@ -1,11 +1,15 @@
-import React, { ChangeEventHandler, ReactNode } from "react";
-import { Typography, TypographyProps } from "../../typography";
+import React, {
+    ChangeEventHandler,
+    ReactNode,
+    InputHTMLAttributes,
+} from "react";
+import { Typography, TypographyProps } from "../../data-display/typography";
 import { ReactComponent as DangerIcon } from "../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../assets/info-icon.svg";
 import { ReactElement } from "react";
 import { cva } from "class-variance-authority";
 
-export interface BaseInputProps<V> extends BaseInputWrapperProps {
+export interface PartialBaseInputProps<V> {
     error?: boolean;
     helperText?: string;
     variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
@@ -14,6 +18,13 @@ export interface BaseInputProps<V> extends BaseInputWrapperProps {
     value?: V;
     border?: boolean;
 }
+
+export type BaseInputProps<V> = PartialBaseInputProps<V> &
+    BaseInputWrapperProps &
+    Omit<
+        InputHTMLAttributes<HTMLInputElement>,
+        keyof PartialBaseInputProps<V> | keyof BaseInputWrapperProps | "ref"
+    >;
 
 export const inputStyles = cva(
     [

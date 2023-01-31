@@ -1,5 +1,5 @@
 import { Wallet } from "@ethersproject/wallet";
-import { KpiToken, KpiTokenSpecification } from ".";
+import { KPIToken, KPITokenSpecification } from ".";
 import { ChainId } from "../../commons";
 import { Oracle } from "../oracle";
 import { Template, TemplateSpecification } from "../template";
@@ -8,7 +8,7 @@ describe("kpi token", () => {
     let templateSpecification: TemplateSpecification;
     let template: Template;
     let oracle: Oracle;
-    let kpiTokenSpecification: KpiTokenSpecification;
+    let kpiTokenSpecification: KPITokenSpecification;
 
     beforeAll(() => {
         templateSpecification = new TemplateSpecification(
@@ -29,8 +29,7 @@ describe("kpi token", () => {
             ChainId.GOERLI,
             Wallet.createRandom().address,
             template,
-            false,
-            "Oracle raw data"
+            false
         );
         kpiTokenSpecification = {
             ipfsHash: "IPFS hash",
@@ -42,15 +41,14 @@ describe("kpi token", () => {
 
     test("instantiates correctly", () => {
         const kpiTokenAddress = Wallet.createRandom().address;
-        const kpiToken = new KpiToken(
+        const kpiToken = new KPIToken(
             ChainId.GOERLI,
             kpiTokenAddress,
             template,
             [oracle],
             kpiTokenSpecification,
             123456789,
-            false,
-            "Kpi token raw data"
+            false
         );
         expect(kpiToken.chainId).toBe(ChainId.GOERLI);
         expect(kpiToken.address).toBe(kpiTokenAddress);
@@ -59,7 +57,6 @@ describe("kpi token", () => {
         expect(kpiToken.specification).toBe(kpiTokenSpecification);
         expect(kpiToken.expiration).toBe(123456789);
         expect(kpiToken.finalized).toBeFalsy();
-        expect(kpiToken.rawData).toEqual("Kpi token raw data");
     });
 
     describe("expired", () => {
@@ -67,15 +64,14 @@ describe("kpi token", () => {
             const pastDate = new Date();
             pastDate.setDate(-2);
 
-            const kpiToken = new KpiToken(
+            const kpiToken = new KPIToken(
                 ChainId.GOERLI,
                 Wallet.createRandom().address,
                 template,
                 [oracle],
                 kpiTokenSpecification,
                 Math.floor(pastDate.getTime() / 1000),
-                false,
-                "Kpi token raw data"
+                false
             );
             expect(kpiToken.expired).toBeTruthy();
         });
@@ -84,15 +80,14 @@ describe("kpi token", () => {
             const futureDate = new Date();
             futureDate.setDate(futureDate.getDate() + 1);
 
-            const kpiToken = new KpiToken(
+            const kpiToken = new KPIToken(
                 ChainId.GOERLI,
                 Wallet.createRandom().address,
                 template,
                 [oracle],
                 kpiTokenSpecification,
                 Math.floor(futureDate.getTime() / 1000),
-                false,
-                "Kpi token raw data"
+                false
             );
             expect(kpiToken.expired).toBeFalsy();
         });

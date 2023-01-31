@@ -7,14 +7,14 @@ import React, {
     useRef,
     useState,
 } from "react";
-import { Typography, TypographyProps } from "../../typography";
+import { Typography, TypographyProps } from "../../data-display/typography";
 import { ReactComponent as X } from "../../assets/x.svg";
-import { Button, CarrotButtonProps } from "../../button";
+import { Button, ButtonProps } from "../../input/button";
 import { TextInput, TextInputProps } from "../../input/text";
 import { useDebounce } from "react-use";
 import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
 import { cva } from "class-variance-authority";
-import { RemoteLogo, RemoteLogoProps } from "../../remote-logo";
+import { RemoteLogo, RemoteLogoProps } from "../../data-display/remote-logo";
 import {
     filterERC20Tokens,
     getDefaultERC20TokenLogoURL,
@@ -112,7 +112,7 @@ export interface SearchProps {
         listItemTextSecondary?: TypographyProps["className"];
         emptyListText?: string;
         manageListsButtonWrapper?: string;
-        manageListsButton?: CarrotButtonProps["className"];
+        manageListsButton?: ButtonProps["className"];
     };
     messages: {
         title: string;
@@ -283,7 +283,7 @@ export const Search = ({
                                                     <RemoteLogo
                                                         src={logoURI}
                                                         size="sm"
-                                                        defaultSrcs={
+                                                        defaultSrc={
                                                             defaultLogoSrc
                                                         }
                                                         defaultText={symbol}

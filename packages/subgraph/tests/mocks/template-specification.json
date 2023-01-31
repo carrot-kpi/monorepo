@@ -1,7 +1,0 @@
-{
-    "name": "Test name",
-    "description": "Test description",
-    "tags": ["Test tag"],
-    "repository": "Test repository",
-    "commitHash": "Test commit hash"
-}

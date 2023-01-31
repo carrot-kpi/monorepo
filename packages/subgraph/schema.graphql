@@ -1,38 +1,109 @@
+type _Schema_
+    @fulltext(
+        name: "oracleTemplateSearch"
+        language: simple
+        algorithm: rank
+        include: [
+            {
+                entity: "OracleTemplate"
+                fields: [{ name: "name" }, { name: "description" }]
+            }
+        ]
+    )
+    @fulltext(
+        name: "kpiTokenTemplateSearch"
+        language: simple
+        algorithm: rank
+        include: [
+            {
+                entity: "KPITokenTemplate"
+                fields: [{ name: "name" }, { name: "description" }]
+            }
+        ]
+    )
+    @fulltext(
+        name: "kpiTokenSearch"
+        language: simple
+        algorithm: rank
+        include: [
+            {
+                entity: "KPIToken"
+                fields: [{ name: "title" }, { name: "description" }]
+            }
+        ]
+    )
+
+type Factory @entity {
+    id: Bytes!
+    owner: Bytes!
+    kpiTokensManager: KPITokensManager
+    oraclesManager: OraclesManager
+    feeReceiver: Bytes!
+    kpiTokensAmount: BigInt!
+}
+
 type KPITokensManager @entity {
     id: Bytes!
     owner: Bytes!
-    templates: [Template!]!
+    templates: [KPITokenTemplate!]! @derivedFrom(field: "manager")
     templatesAmount: BigInt!
 }
 
 type OraclesManager @entity {
     id: Bytes!
     owner: Bytes!
-    templates: [Template!]!
+    templates: [OracleTemplate!]! @derivedFrom(field: "manager")
     templatesAmount: BigInt!
 }
 
-type _Schema_
-    @fulltext(
-        name: "templateSearch"
-        language: simple
-        algorithm: rank
-        include: [
-            {
-                entity: "Template"
-                fields: [{ name: "name" }, { name: "description" }]
-            }
-        ]
-    )
-
-type Template @entity {
+type KPITokenTemplate @entity {
     id: Bytes!
     address: Bytes!
+    managerId: BigInt!
     version: BigInt!
+    specificationCid: String!
     name: String!
     description: String!
     tags: [String!]!
     repository: String!
     commitHash: String!
     active: Boolean!
+    manager: KPITokensManager!
+    kpiTokens: [KPIToken!]! @derivedFrom(field: "template")
+}
+
+type OracleTemplate @entity {
+    id: Bytes!
+    address: Bytes!
+    managerId: BigInt!
+    version: BigInt!
+    specificationCid: String!
+    name: String!
+    description: String!
+    tags: [String!]!
+    repository: String!
+    commitHash: String!
+    active: Boolean!
+    manager: OraclesManager!
+    oracles: [Oracle!]! @derivedFrom(field: "template")
+}
+
+type Oracle @entity {
+    id: Bytes!
+    kpiToken: KPIToken!
+    template: OracleTemplate!
+    finalized: Boolean!
+}
+
+type KPIToken @entity {
+    id: Bytes!
+    owner: Bytes!
+    template: KPITokenTemplate!
+    descriptionCid: String!
+    title: String!
+    description: String!
+    tags: [String!]!
+    finalized: Boolean!
+    expiration: Int!
+    oracles: [Oracle!]! @derivedFrom(field: "kpiToken")
 }

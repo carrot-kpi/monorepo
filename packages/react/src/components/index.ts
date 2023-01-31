@@ -1,4 +1,3 @@
-export * from "./campaign";
 export * from "./creation-form";
-export * from "./oracle";
+export * from "./pages";
 export * from "./template-component";

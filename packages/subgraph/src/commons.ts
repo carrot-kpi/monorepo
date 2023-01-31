@@ -6,11 +6,34 @@ import {
     json,
     log,
 } from "@graphprotocol/graph-ts";
-import { Template } from "../generated/schema";
 
-export function templateId(onChainId: BigInt, onChainVersion: BigInt): Bytes {
+export const ADDRESS_ZERO = Address.fromHexString(
+    "0x0000000000000000000000000000000000000000"
+);
+export const ADDRESS_ONE = Address.fromHexString(
+    "0x0000000000000000000000000000000000000001"
+);
+export const BI_0 = BigInt.fromI32(0);
+export const BI_1 = BigInt.fromI32(1);
+
+export const CONTEXT_KEY_KPI_TOKENS_MANAGER_BYTES_ADDRESS =
+    "KPI_TOKENS_MANAGER_BYTES_ADDRESS";
+export const CONTEXT_KEY_ORACLES_MANAGER_BYTES_ADDRESS =
+    "ORACLES_MANAGER_BYTES_ADDRESS";
+
+export function addressToBytes(address: Address): Bytes {
+    return Bytes.fromHexString(address.toHex());
+}
+
+export function templateId(
+    managerAddress: Address,
+    onChainId: BigInt,
+    onChainVersion: BigInt
+): Bytes {
     return Bytes.fromHexString(
-        onChainId.toHex().concat(onChainVersion.toHex())
+        managerAddress
+            .toHex()
+            .concat(onChainId.toHex().concat(onChainVersion.toHex()))
     );
 }
 
@@ -94,34 +117,4 @@ export function cidToSpecification(cid: string): TemplateSpecification | null {
         repository.toString(),
         commitHash.toString()
     );
-}
-
-export function createTemplate(
-    id: BigInt,
-    version: BigInt,
-    address: Address,
-    specificationCid: string
-): Template | null {
-    const specification = cidToSpecification(specificationCid);
-    if (specification === null) {
-        log.error("could not get specification for cid {}", [specificationCid]);
-        return null;
-    }
-
-    const template = new Template(templateId(id, version));
-    template.address = address;
-    template.version = version;
-
-    template.name = specification.name;
-    template.description = specification.description;
-    template.tags = specification.tags;
-    template.repository = specification.repository;
-    template.commitHash = specification.commitHash;
-    template.active = true;
-
-    return template;
-}
-
-export function getTemplate(id: BigInt, version: BigInt): Template | null {
-    return Template.load(templateId(id, version));
 }

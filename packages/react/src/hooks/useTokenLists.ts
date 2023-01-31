@@ -1,4 +1,4 @@
-import { uriToHttps, IpfsService, parseENSName } from "@carrot-kpi/sdk";
+import { uriToHttps, IPFSService, parseENSName } from "@carrot-kpi/sdk";
 import { TokenList } from "@uniswap/token-lists";
 import { useEffect, useState } from "react";
 
@@ -41,7 +41,7 @@ export const useTokenLists = (
                                 `https://${lowerCaseName}.eth.link/${path}`,
                             ];
                         } else {
-                            resolvedUrls = uriToHttps(url, IpfsService.gateway);
+                            resolvedUrls = uriToHttps(url, IPFSService.gateway);
                         }
                         for (let i = 0; i < resolvedUrls.length; i++) {
                             const fetchedList = await fetchList(

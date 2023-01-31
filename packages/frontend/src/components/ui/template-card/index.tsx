@@ -1,11 +1,12 @@
 import React from "react";
-import { Typography } from "@carrot-kpi/ui";
+import { Chip, Typography } from "@carrot-kpi/ui";
 import { ReactComponent as VerifiedIcon } from "../../../assets/verified.svg";
 import { shortenAddress } from "../../../utils/address";
 
 interface TemplateCardProps {
     name: string;
     description: string;
+    tags: string[];
     version: number;
     // creator: string;
     address: string;
@@ -16,6 +17,7 @@ interface TemplateCardProps {
 export const TemplateCard = ({
     name,
     description,
+    tags,
     version,
     // creator,
     address,
@@ -40,11 +42,22 @@ export const TemplateCard = ({
                     </div>
                 </div>
             </div>
-            <Typography className={{ root: "p-4" }}>
-                <div className="line-clamp-3 h-[72px] overflow-ellipsis">
-                    {description}
+            <div className="flex flex-col justify-between p-4">
+                <div className="h-20 mb-2">
+                    <Typography
+                        className={{
+                            root: "line-clamp-3 overflow-hidden",
+                        }}
+                    >
+                        {description}
+                    </Typography>
                 </div>
-            </Typography>
+                <div className="flex items-center space-x-3">
+                    {tags.map((tag) => (
+                        <Chip key={tag}>{tag}</Chip>
+                    ))}
+                </div>
+            </div>
             <div className="flex">
                 {verified && (
                     <div className="flex flex-col items-center justify-center w-12 border-t border-r">
