@@ -1,3 +1,4 @@
+import { SearchInput } from "@carrot-kpi/ui";
 import { Select, SelectOption } from "@carrot-kpi/ui";
 import React, { useState } from "react";
 import { ToggleIconButton } from "../../../../components/ui/toggle-icon-button";
@@ -20,6 +21,10 @@ export const CampaignsTopNav = ({
         value: 1,
         label: "Active",
     });
+
+    const handleSearchQuery = () => {
+        console.log("search input");
+    };
 
     return (
         <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12 dark:bg-black">
@@ -76,10 +81,9 @@ export const CampaignsTopNav = ({
                         </ToggleIconButton>
                     </div>
                 </div>
-                <input
-                    type="search"
-                    className="w-full p-2 border rounded md:w-auto"
-                    placeholder="Search by name"
+                <SearchInput
+                    id="search-input-campaigns"
+                    onChange={handleSearchQuery}
                 />
             </div>
         </div>

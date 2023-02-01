@@ -6,3 +6,4 @@ export * from "./number";
 export * from "./select";
 export * from "./text";
 export * from "./tags";
+export * from "./search";
