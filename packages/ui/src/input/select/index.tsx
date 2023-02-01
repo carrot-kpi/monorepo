@@ -92,7 +92,6 @@ export interface SelectOption {
 export type ValueType = string | number;
 
 export type SelectProps<O extends SelectOption = SelectOption> = {
-    fullWidth?: boolean;
     options: O[];
     value: O | null;
     helperText?: string;
