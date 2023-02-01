@@ -81,7 +81,10 @@ export const CampaignsTopNav = ({
                         </ToggleIconButton>
                     </div>
                 </div>
-                <SearchInput onChange={handleSearchQuery} />
+                <SearchInput
+                    id="search-input-campaigns"
+                    onChange={handleSearchQuery}
+                />
             </div>
         </div>
     );
