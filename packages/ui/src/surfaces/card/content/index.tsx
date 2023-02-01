@@ -2,7 +2,6 @@ import { cva } from "class-variance-authority";
 import React, { ReactElement, ReactNode } from "react";
 
 const rootStyles = cva([
-    "cui-p-4",
     "cui-border-b",
     "cui-border-black",
     "dark:cui-border-white",
