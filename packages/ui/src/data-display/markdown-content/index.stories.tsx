@@ -1,19 +1,22 @@
 import React from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
-import { Markdown as MarkdownComponent, MarkdownProps } from ".";
+import {
+    MarkdownContent as MarkdownContentComponent,
+    MarkdownContentProps,
+} from ".";
 
 export default {
-    title: "Data display/Markdown",
-    component: MarkdownComponent,
-} as ComponentMeta<typeof MarkdownComponent>;
+    title: "Data display/Markdown Content",
+    component: MarkdownContentComponent,
+} as ComponentMeta<typeof MarkdownContentComponent>;
 
-const Template: Story<MarkdownProps> = (props: MarkdownProps) => (
-    <MarkdownComponent {...props} />
+const Template: Story<MarkdownContentProps> = (props: MarkdownContentProps) => (
+    <MarkdownContentComponent {...props} />
 );
 
-export const Markdown: Story<MarkdownProps> = Template.bind({});
-Markdown.args = {
+export const MarkdownContent: Story<MarkdownContentProps> = Template.bind({});
+MarkdownContent.args = {
     children: (
         <>
             <h1>Title</h1>
