@@ -11,8 +11,28 @@ export default {
 
 const Template: Story<ButtonProps> = (props) => <ButtonComponent {...props} />;
 
-export const Button: Story<ButtonProps> = Template.bind({});
-Button.args = {
+export const Default: Story<ButtonProps> = Template.bind({});
+Default.args = {
+    children: "just a button",
+};
+
+export const WithIcon: Story<ButtonProps> = Template.bind({});
+WithIcon.args = {
     children: "Button",
     icon: TickIcon,
+    iconPlacement: "left",
+};
+
+export const IconOnly: Story<ButtonProps> = Template.bind({});
+IconOnly.args = {
+    icon: TickIcon,
+    size: "xsmall",
+};
+
+export const Secondary: Story<ButtonProps> = Template.bind({});
+Secondary.args = {
+    children: "Secondary",
+    variant: "secondary",
+    icon: TickIcon,
+    size: "xsmall",
 };

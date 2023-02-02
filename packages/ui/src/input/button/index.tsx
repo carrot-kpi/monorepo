@@ -8,6 +8,117 @@ import React, {
 import { cva, cx } from "class-variance-authority";
 import { ReactComponent as Spinner } from "../../assets/spinner.svg";
 
+interface BaseButtonProps {
+    onClick?: (event: React.MouseEvent) => void;
+    href?: string;
+    disabled?: boolean;
+    loading?: boolean;
+    className?: {
+        root?: string;
+        iconWrapper?: string;
+        icon?: string;
+        contentWrapper?: string;
+    };
+    icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
+    iconPlacement?: "left" | "right";
+    size?: "big" | "small" | "xsmall";
+    variant?: "primary" | "secondary";
+    active?: boolean;
+    children?: ReactNode;
+}
+
+export type ButtonProps = Omit<
+    HTMLAttributes<
+        BaseButtonProps["href"] extends string
+            ? HTMLAnchorElement
+            : HTMLButtonElement
+    >,
+    keyof BaseButtonProps
+> &
+    BaseButtonProps;
+
+export const Button = ({
+    href,
+    variant = "primary",
+    size = "big",
+    disabled,
+    onClick,
+    loading,
+    children,
+    className,
+    active = false,
+    icon: Icon,
+    iconPlacement,
+    ...rest
+}: ButtonProps) => {
+    const sharedProps = {
+        className: buttonStyles({
+            active,
+            size,
+            variant,
+            className: className?.root,
+        }),
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [Root, props]: [ElementType, any] = !!href
+        ? ["a", { href }]
+        : ["button", { onClick, disabled: disabled || loading }];
+
+    const hasIcon = !!Icon;
+    let resolvedIcon;
+    if (!!loading)
+        resolvedIcon = (
+            <div
+                className={spinnerWrapperStyles({
+                    hasIcon,
+                    loading,
+                    size,
+                    className: className?.iconWrapper,
+                })}
+            >
+                <Spinner
+                    className={cx(
+                        iconStyles({
+                            size,
+                            loading,
+                        }),
+                        spinnerStyles({ hasIcon, loading }),
+                        className?.icon
+                    )}
+                />
+            </div>
+        );
+    else if (!!hasIcon)
+        resolvedIcon = (
+            <Icon
+                className={iconStyles({
+                    size,
+                    className: className?.icon,
+                })}
+            />
+        );
+
+    return (
+        <Root {...sharedProps} {...props} {...rest}>
+            {children && iconPlacement === "left" && resolvedIcon}
+            {children ? (
+                <div
+                    className={wrapperStyles({
+                        hasIcon,
+                        loading,
+                        className: className?.contentWrapper,
+                    })}
+                >
+                    {children}
+                </div>
+            ) : (
+                resolvedIcon
+            )}
+            {children && iconPlacement === "right" && resolvedIcon}
+        </Root>
+    );
+};
+
 const buttonStyles = cva(
     [
         "cui-relative",
@@ -22,12 +133,13 @@ const buttonStyles = cva(
         "cui-border",
         "cui-cursor-pointer",
         "cui-uppercase",
+        "cui-border-black",
     ],
     {
         variants: {
             variant: {
                 primary: [
-                    "cui-border-black",
+                    "",
                     "cui-bg-black",
                     "cui-text-white",
                     "hover:cui-bg-orange",
@@ -45,12 +157,8 @@ const buttonStyles = cva(
                     "disabled:dark:cui-border-gray-700",
                 ],
                 secondary: [
-                    "cui-border-black",
-                    "cui-bg-transparent",
                     "cui-text-black",
-                    "hover:cui-border-white",
-                    "hover:cui-bg-black",
-                    "hover:cui-text-white",
+
                     "dark:cui-border-white",
                     "dark:cui-text-white",
                     "hover:dark:cui-border-black",
@@ -63,16 +171,39 @@ const buttonStyles = cva(
                 small: "cui-px-6 cui-py-4 cui-text-s",
                 xsmall: "cui-p-4 cui-text-xs",
             },
+            active: {
+                true: [],
+            },
         },
+        defaultVariants: {
+            active: false,
+        },
+        compoundVariants: [
+            {
+                variant: "secondary",
+                active: true,
+                className: [
+                    "cui-bg-green",
+                    "hover:cui-bg-black",
+                    "hover:cui-text-white",
+                ],
+            },
+            {
+                variant: "secondary",
+                active: false,
+                className: [
+                    "cui-bg-transparent",
+                    "hover:cui-border-white",
+                    "hover:cui-bg-black",
+                    "hover:cui-text-white",
+                ],
+            },
+        ],
     }
 );
 
-const iconStyles = cva("", {
+const iconStyles = cva(["only:cui-m-0", "first:cui-mr-2", "last:cui-ml-2"], {
     variants: {
-        iconPlacement: {
-            left: "cui-mr-2",
-            right: "cui-ml-2",
-        },
         size: {
             big: "cui-w-6 cui-h-6",
             small: "cui-w-5 cui-h-5",
@@ -84,33 +215,32 @@ const iconStyles = cva("", {
     },
 });
 
-const spinnerWrapperStyles = cva("", {
-    variants: {
-        iconPlacement: {
-            left: "cui-mr-2",
-            right: "cui-ml-2",
+const spinnerWrapperStyles = cva(
+    ["only:cui-m-0", "first:cui-mr-2", "last:cui-ml-2"],
+    {
+        variants: {
+            hasIcon: {
+                false: "",
+            },
+            loading: {
+                true: "",
+            },
+            size: {
+                big: "cui-w-6 cui-h-6",
+                small: "cui-w-5 cui-h-5",
+                xsmall: "cui-w-4 cui-h-4",
+            },
         },
-        hasIcon: {
-            false: "",
-        },
-        loading: {
-            true: "",
-        },
-        size: {
-            big: "cui-w-6 cui-h-6",
-            small: "cui-w-5 cui-h-5",
-            xsmall: "cui-w-4 cui-h-4",
-        },
-    },
-    compoundVariants: [
-        {
-            hasIcon: false,
-            loading: true,
-            className:
-                "cui-absolute cui-left-1/2 cui-transform -cui-translate-x-1/2",
-        },
-    ],
-});
+        compoundVariants: [
+            {
+                hasIcon: false,
+                loading: true,
+                className:
+                    "cui-absolute cui-left-1/2 cui-transform -cui-translate-x-1/2",
+            },
+        ],
+    }
+);
 
 const spinnerStyles = cva("", {
     variants: {
@@ -141,110 +271,3 @@ const wrapperStyles = cva("", {
         },
     ],
 });
-
-interface BaseButtonProps {
-    onClick?: (event: React.MouseEvent) => void;
-    href?: string;
-    disabled?: boolean;
-    loading?: boolean;
-    className?: {
-        root?: string;
-        iconWrapper?: string;
-        icon?: string;
-        contentWrapper?: string;
-    };
-    icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
-    iconPlacement?: "left" | "right";
-    size?: "big" | "small" | "xsmall";
-    variant?: "primary" | "secondary";
-    children: ReactNode;
-}
-
-export type ButtonProps = Omit<
-    HTMLAttributes<
-        BaseButtonProps["href"] extends string
-            ? HTMLAnchorElement
-            : HTMLButtonElement
-    >,
-    keyof BaseButtonProps
-> &
-    BaseButtonProps;
-
-export const Button = ({
-    href,
-    variant = "primary",
-    size = "big",
-    disabled,
-    onClick,
-    loading,
-    children,
-    className,
-    icon: Icon,
-    iconPlacement = "left",
-    ...rest
-}: ButtonProps) => {
-    const sharedProps = {
-        className: buttonStyles({
-            size,
-            variant,
-            className: className?.root,
-        }),
-    };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [Root, props]: [ElementType, any] = !!href
-        ? ["a", { href }]
-        : ["button", { onClick, disabled: disabled || loading }];
-
-    const hasIcon = !!Icon;
-    let resolvedIcon;
-    if (!!loading)
-        resolvedIcon = (
-            <div
-                className={spinnerWrapperStyles({
-                    hasIcon,
-                    loading,
-                    size,
-                    iconPlacement,
-                    className: className?.iconWrapper,
-                })}
-            >
-                <Spinner
-                    className={cx(
-                        iconStyles({
-                            iconPlacement,
-                            size,
-                            loading,
-                        }),
-                        spinnerStyles({ hasIcon, loading }),
-                        className?.icon
-                    )}
-                />
-            </div>
-        );
-    else if (!!hasIcon)
-        resolvedIcon = (
-            <Icon
-                className={iconStyles({
-                    iconPlacement,
-                    size,
-                    className: className?.icon,
-                })}
-            />
-        );
-
-    return (
-        <Root {...sharedProps} {...props} {...rest}>
-            {iconPlacement === "left" && resolvedIcon}
-            <div
-                className={wrapperStyles({
-                    hasIcon,
-                    loading,
-                    className: className?.contentWrapper,
-                })}
-            >
-                {children}
-            </div>
-            {iconPlacement === "right" && resolvedIcon}
-        </Root>
-    );
-};
