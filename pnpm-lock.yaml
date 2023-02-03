@@ -276,7 +276,7 @@ importers:
       '@uniswap/token-lists': 1.0.0-beta.31
       autoprefixer: ^10.4.13
       babel-loader: ^8.2.5
-      class-variance-authority: ^0.3.0
+      class-variance-authority: ^0.4.0
       eslint-config-custom: workspace:*
       file-loader: ^6.2.0
       postcss: ^8.4.19
@@ -307,7 +307,7 @@ importers:
       '@tiptap/starter-kit': 2.0.0-beta.209_mr3bhnmfox2kjnahwbtgkxt4cy
       '@types/react-virtualized-auto-sizer': 1.0.1
       '@uniswap/token-lists': 1.0.0-beta.31
-      class-variance-authority: 0.3.0_typescript@4.9.4
+      class-variance-authority: 0.4.0_typescript@4.9.4
       react-number-format: 5.1.2_biqbaboplfbrettd7655fr4n2y
       react-popper: 2.3.0_r6q5zrenym2zg7je7hgi674bti
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
@@ -10113,17 +10113,6 @@ packages:
       define-property: 0.2.5
       isobject: 3.0.1
       static-extend: 0.1.2
-
-  /class-variance-authority/0.3.0_typescript@4.9.4:
-    resolution: {integrity: sha512-TFO+pzY9Gedqv8crPhprd647wxhvfpKevPPjiMcteEWsnkHX9yZrD1xMY3ZhRZnLwHUHCCP0LYO6KZIVag/5wQ==}
-    peerDependencies:
-      typescript: '>= 4.5.5 < 5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      typescript: 4.9.4
-    dev: false
 
   /class-variance-authority/0.4.0_typescript@4.9.4:
     resolution: {integrity: sha512-74enNN8O9ZNieycac/y8FxqgyzZhZbxmCitAtAeUrLPlxjSd5zA7LfpprmxEcOmQBnaGs5hYhiSGnJ0mqrtBLQ==}

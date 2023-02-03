@@ -36,3 +36,21 @@ Secondary.args = {
     icon: TickIcon,
     size: "xsmall",
 };
+
+export const Active: Story<ButtonProps> = Template.bind({});
+Active.args = {
+    children: "I'm active",
+    icon: TickIcon,
+    iconPlacement: "left",
+    size: "xsmall",
+    active: true,
+};
+
+export const ActiveSecondary: Story<ButtonProps> = Template.bind({});
+ActiveSecondary.args = {
+    children: "secondary with active",
+    icon: TickIcon,
+    iconPlacement: "left",
+    size: "xsmall",
+    active: true,
+};

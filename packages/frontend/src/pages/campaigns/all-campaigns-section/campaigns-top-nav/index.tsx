@@ -77,7 +77,6 @@ export const CampaignsTopNav = ({
                             variant="secondary"
                             onClick={() => console.log("Toggled MY")}
                             size="xsmall"
-                            active
                         >
                             MY
                         </Button>
