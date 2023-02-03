@@ -154,11 +154,14 @@ const buttonStyles = cva(
                 variant: "primary",
                 active: false,
                 className: [
+                    // light mode
                     "cui-bg-black cui-text-white",
                     "hover:cui-bg-orange hover:cui-text-black",
-                    "disabled:cui-text-white disabled:cui-bg-gray-400 disabled:cui-border-gray-400 disabled:dark:cui-text-gray-400 disabled:dark:cui-bg-gray-700 disabled:dark:cui-border-gray-700",
+                    "disabled:cui-text-white disabled:cui-bg-gray-400 disabled:cui-border-gray-400",
+                    // dark mode
                     "dark:cui-bg-orange dark:cui-text-black",
                     "hover:dark:cui-bg-black hover:dark:cui-text-orange hover:dark:cui-border-orange",
+                    "disabled:dark:cui-text-gray-400 disabled:dark:cui-bg-gray-700 disabled:dark:cui-border-gray-700",
                 ],
             },
             {
@@ -166,6 +169,7 @@ const buttonStyles = cva(
                 active: false,
                 className: [
                     "cui-text-black",
+                    // dark mode
                     "dark:cui-border-white dark:cui-text-white",
                     "hover:dark:cui-border-black hover:dark:cui-bg-white hover:dark:cui-text-black",
                 ],
