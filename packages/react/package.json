@@ -18,14 +18,14 @@
     "scripts": {
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,.md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,.md}'",
-        "build": "pnpm clean && rollup -c rollup.config.js",
+        "build": "yarn clean && rollup -c rollup.config.js",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
         "size-limit": "size-limit",
-        "release": "pnpm publish"
+        "release": "yarn publish"
     },
     "dependencies": {
-        "@carrot-kpi/sdk": "workspace:*",
+        "@carrot-kpi/sdk": "*",
         "@ethersproject/bignumber": "^5.7.0",
         "@uniswap/token-lists": "1.0.0-beta.31"
     },
@@ -41,7 +41,7 @@
         "@size-limit/preset-small-lib": "^8.1.0",
         "@types/react": "^18.0.23",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
-        "eslint-config-custom": "workspace:*",
+        "eslint-config-custom": "*",
         "i18next": "^22.0.6",
         "react": "^18.2.0",
         "react-i18next": "^12.0.0",
@@ -50,7 +50,7 @@
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-typescript2": "^0.34.0",
         "size-limit": "^8.1.0",
-        "tsconfig": "workspace:*",
+        "tsconfig": "*",
         "wagmi": "^0.9.5"
     }
 }

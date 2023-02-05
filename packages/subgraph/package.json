@@ -4,7 +4,7 @@
     "scripts": {
         "codegen": "graph codegen",
         "clean": "rimraf generated build",
-        "build": "pnpm clean && pnpm codegen && graph build",
+        "build": "yarn clean && yarn codegen && graph build",
         "deploy:goerli": "graph deploy --product hosted-service --network goerli carrot-kpi/carrot-kpi-goerli",
         "create-local": "graph create --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "remove-local": "graph remove --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
@@ -16,7 +16,7 @@
         "@graphprotocol/graph-ts": "0.28.1"
     },
     "devDependencies": {
-        "eslint-config-custom": "workspace:*",
+        "eslint-config-custom": "*",
         "matchstick-as": "0.5.0",
         "rimraf": "^3.0.2"
     }
