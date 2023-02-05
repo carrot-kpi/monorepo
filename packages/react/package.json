@@ -41,6 +41,7 @@
         "@size-limit/preset-small-lib": "^8.1.0",
         "@types/react": "^18.0.23",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
+        "eslint": "^8.33.0",
         "eslint-config-custom": "*",
         "i18next": "^22.0.6",
         "react": "^18.2.0",
