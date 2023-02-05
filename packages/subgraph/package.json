@@ -11,11 +11,9 @@
         "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 carrot-kpi/carrot-kpi-local",
         "test": "echo 'Make Matchstick work...'"
     },
-    "dependencies": {
-        "@graphprotocol/graph-cli": "0.37.1",
-        "@graphprotocol/graph-ts": "0.28.1"
-    },
     "devDependencies": {
+        "@graphprotocol/graph-cli": "0.37.1",
+        "@graphprotocol/graph-ts": "0.28.1",
         "eslint-config-custom": "*",
         "matchstick-as": "0.5.0",
         "rimraf": "^3.0.2"
