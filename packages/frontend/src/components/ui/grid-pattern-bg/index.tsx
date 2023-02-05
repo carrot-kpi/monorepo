@@ -1,23 +1,15 @@
 import React from "react";
 import { cva } from "class-variance-authority";
+import squarePatternLight from "../../../assets/square-pattern-light.svg";
+import squarePatternDark from "../../../assets/square-pattern-dark.svg";
 
-const gridPatterBgStyles = cva(
-    ["w-full h-full  bg-[top_center] bg-2 md:bg-4"],
-    {
-        variants: {
-            bg: {
-                black: ["bg-square-pattern-contrast"],
-                orange: ["bg-square-pattern"],
-                white: [
-                    "bg-square-pattern-white-bg dark:bg-square-pattern-contrast",
-                ],
-            },
-        },
-        defaultVariants: {
-            bg: "orange",
-        },
-    }
-);
+type Background = "white" | "black" | "orange";
+
+const URL_MAP: Record<Background, string> = {
+    orange: squarePatternLight,
+    white: squarePatternLight,
+    black: squarePatternDark,
+};
 
 const containerStyles = cva(["absolute"], {
     variants: {
@@ -32,19 +24,24 @@ const containerStyles = cva(["absolute"], {
 });
 
 interface GridPatterBgProps {
-    bg?: "white" | "black" | "orange";
+    bg?: Background;
     fullSize?: boolean;
     className?: string;
 }
 
 export const GridPatternBg = ({
-    bg,
+    bg = "orange",
     fullSize,
     className,
 }: GridPatterBgProps) => {
+    const bgURL = bg ? URL_MAP[bg] : undefined;
+
     return (
         <div className={containerStyles({ fullSize })}>
-            <div className={gridPatterBgStyles({ bg, className })}></div>
+            <div
+                style={!!bgURL ? { backgroundImage: `url(${bgURL})` } : {}}
+                className={`w-full h-full bg-[top_center] bg-2 md:bg-4 ${className}`}
+            ></div>
         </div>
     );
 };

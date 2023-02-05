@@ -12,6 +12,7 @@ export const Hero = () => (
                 <div className="grid gap-6 grid-area-hero md:gap-x-12 lg:items-start lg:flex-row">
                     <div className="grid-area-left">
                         <TemplateCard
+                            id={1}
                             used={10}
                             name="GENERIC ERC20 TEMPLATE"
                             description="This template allows you to create a generic erc-20 with conditional rules."

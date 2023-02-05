@@ -9,11 +9,8 @@ module.exports = {
                 "marquee-yellow": "marquee 138s linear infinite",
             },
             backgroundImage: {
-                "square-pattern-white-bg":
-                    "url('/src/assets/line-pattern-white-bg.svg')",
-                "square-pattern": "url('/src/assets/line-pattern.svg')",
-                "square-pattern-contrast":
-                    "url('/src/assets/line-pattern-contrast.svg')",
+                "square-pattern-light": "url('/src/assets/square-pattern-light.svg')",
+                "square-pattern-dark": "url('/src/assets/square-pattern-dark.svg')",
             },
             keyframes: {
                 marquee: {

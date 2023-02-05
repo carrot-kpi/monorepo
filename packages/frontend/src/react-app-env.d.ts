@@ -6,17 +6,16 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "./constants";
 import { IPFS } from "ipfs-core";
 
 declare global {
-    function __webpack_init_sharing__(arg: string): void;
+    const __PREVIEW_MODE__: boolean;
 
     interface WorkerGlobalScope {
         ipfs: IPFS;
-        ipfsGateway: string | undefined;
     }
 }
 
 declare module "i18next" {
     interface CustomTypeOptions {
         defaultNS: typeof CARROT_KPI_FRONTEND_I18N_NAMESPACE;
-        resources: typeof resources["en"];
+        resources: (typeof resources)["en"];
     }
 }

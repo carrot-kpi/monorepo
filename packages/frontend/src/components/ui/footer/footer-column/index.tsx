@@ -1,26 +1,15 @@
-import React, { ElementType } from "react";
+import React from "react";
 import { Typography } from "@carrot-kpi/ui";
-import { FooterLink } from "../footer-link";
+import { FooterLink } from "../../../../constants";
 
-export interface LinkProps {
-    LinkComponent?: ElementType;
-    title: string;
-    url: string;
-}
-
-export interface FooterColumnProps {
-    title: string;
-    links: LinkProps[];
-}
-
-export const FooterColumn = ({ title, links }: FooterColumnProps) => (
+export const FooterLinks = ({ title, links }: FooterLink) => (
     <ul className="w-40">
         <Typography className={{ root: "text-white" }} uppercase>
             {title}
         </Typography>
         <div className="mt-6 space-y-3">
-            {links.map(({ LinkComponent, url, title }) => (
-                <FooterLink key={url} url={url} LinkComponent={LinkComponent}>
+            {links.map(({ Component, to, title }) => {
+                const content = (
                     <Typography
                         variant="sm"
                         className={{
@@ -29,8 +18,17 @@ export const FooterColumn = ({ title, links }: FooterColumnProps) => (
                     >
                         {title}
                     </Typography>
-                </FooterLink>
-            ))}
+                );
+                return !!Component ? (
+                    <Component to={to} className="block" key={to}>
+                        {content}
+                    </Component>
+                ) : (
+                    <a href={to} className="block" key={to}>
+                        {content}
+                    </a>
+                );
+            })}
         </div>
     </ul>
 );

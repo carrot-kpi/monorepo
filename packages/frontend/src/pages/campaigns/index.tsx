@@ -1,13 +1,12 @@
 import { Typography } from "@carrot-kpi/ui";
 import React from "react";
+import { Layout } from "../../components/layout";
 import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
-// import { Hero } from "./hero";
 import { AllCampaignsSection } from "./all-campaigns-section";
 
 export const Campaigns = () => {
     return (
-        <div>
-            {/* <Hero /> */}
+        <Layout>
             <div className="relative pt-32 dark:bg-black">
                 <GridPatternBg bg="white" fullSize />
                 <div className="relative">
@@ -17,6 +16,6 @@ export const Campaigns = () => {
                     <AllCampaignsSection />
                 </div>
             </div>
-        </div>
+        </Layout>
     );
 };

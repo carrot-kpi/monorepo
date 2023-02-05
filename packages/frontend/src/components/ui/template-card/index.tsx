@@ -2,8 +2,10 @@ import React from "react";
 import { Chip, Typography } from "@carrot-kpi/ui";
 import { ReactComponent as VerifiedIcon } from "../../../assets/verified.svg";
 import { shortenAddress } from "../../../utils/address";
+import { Link } from "react-router-dom";
 
 interface TemplateCardProps {
+    id: number;
     name: string;
     description: string;
     tags: string[];
@@ -15,6 +17,7 @@ interface TemplateCardProps {
 }
 
 export const TemplateCard = ({
+    id,
     name,
     description,
     tags,
@@ -76,11 +79,11 @@ export const TemplateCard = ({
                 </div>
             </div>
             <div className="flex items-center justify-center p-4 space-y-4 border-t">
-                <button className="w-full">
+                <Link to={`/create/${id}`}>
                     <Typography uppercase weight="medium">
                         ↳ use template
                     </Typography>
-                </button>
+                </Link>
             </div>
         </div>
     );
