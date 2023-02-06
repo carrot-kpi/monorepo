@@ -5,12 +5,14 @@ module.exports = {
     theme: {
         extend: {
             animation: {
-                "marquee-green": "marquee 207s linear infinite",
-                "marquee-yellow": "marquee 138s linear infinite",
+                "marquee-slow": "marquee 207s linear infinite",
+                "marquee-fast": "marquee 138s linear infinite",
             },
             backgroundImage: {
-                "square-pattern-light": "url('/src/assets/square-pattern-light.svg')",
-                "square-pattern-dark": "url('/src/assets/square-pattern-dark.svg')",
+                "square-pattern-light":
+                    "url('/src/assets/square-pattern-light.svg')",
+                "square-pattern-dark":
+                    "url('/src/assets/square-pattern-dark.svg')",
             },
             keyframes: {
                 marquee: {
