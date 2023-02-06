@@ -5,7 +5,9 @@
     "description": "A monorepo for Carrot v1 packages.",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
     "license": "GPL-3.0-or-later",
-    "workspaces": ["packages/*"],
+    "workspaces": [
+        "packages/*"
+    ],
     "scripts": {
         "build": "turbo run build",
         "build-frontend-library": "turbo run build-library --filter @carrot-kpi/frontend",
