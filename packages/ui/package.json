@@ -1,7 +1,7 @@
 {
     "name": "@carrot-kpi/ui",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
-    "version": "0.17.0",
+    "version": "0.18.0",
     "license": "GPL-3.0-or-later",
     "main": "./dist/index.js",
     "module": "./dist/index.js",
