@@ -1,60 +1,16 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import { useKPITokenTemplates } from "@carrot-kpi/react";
 import { Template } from "@carrot-kpi/sdk";
-import { useState } from "react";
-import { CreationForm } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
-import { BigNumber, providers } from "ethers";
-import { Address, usePrepareSendTransaction, useSendTransaction } from "wagmi";
+import { Link } from "react-router-dom";
+import { Layout } from "../../components/layout";
 
 export const Create = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const { loading, templates } = useKPITokenTemplates();
-    const [pickedTemplate, setPickedTemplate] = useState<Template | null>(null);
-    const [creationTx, setCreationTx] = useState<
-        providers.TransactionRequest & {
-            to: string;
-        }
-    >({
-        to: "",
-        data: "",
-        value: BigNumber.from("0"),
-    });
 
-    const { config } = usePrepareSendTransaction({
-        request: creationTx,
-    });
-    const {
-        sendTransaction,
-        isLoading: transactionLoading,
-        isSuccess,
-    } = useSendTransaction(config);
-
-    const handleDone = useCallback(
-        (to: Address, data: string, value: BigNumber) => {
-            setCreationTx({ to, data, value });
-        },
-        []
-    );
-
-    useEffect(() => {
-        if (sendTransaction) sendTransaction();
-    }, [sendTransaction]);
-
-    if (transactionLoading) return <>Awaiting confirmation...</>;
-    if (isSuccess) return <>Confirmed!</>;
-    if (!!pickedTemplate)
-        return (
-            <CreationForm
-                template={pickedTemplate}
-                onDone={handleDone}
-                i18n={i18n}
-                // TODO: use a proper fallback component
-                fallback="Loading..."
-            />
-        );
     return (
-        <>
+        <Layout>
             {loading && <>{t("create.loading")}...</>}
             {!loading && templates.length > 0 && (
                 <>
@@ -81,13 +37,9 @@ export const Create = () => {
                                         {template.specification.description}
                                     </li>
                                 </ul>
-                                <button
-                                    onClick={() => {
-                                        setPickedTemplate(template);
-                                    }}
-                                >
+                                <Link to={`/create/${template.id}`}>
                                     {t("create.template.use")}
-                                </button>
+                                </Link>
                             </div>
                         ))}
                     </ul>
@@ -96,6 +48,6 @@ export const Create = () => {
             {!loading && templates.length === 0 && (
                 <>{t("create.noKPIToken")}</>
             )}
-        </>
+        </Layout>
     );
 };

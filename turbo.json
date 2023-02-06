@@ -5,6 +5,10 @@
             "dependsOn": ["^build"],
             "outputs": ["dist/**", "build/**"]
         },
+        "build-library": {
+            "dependsOn": ["^build"],
+            "outputs": ["dist/**"]
+        },
         "build-storybook": {
             "dependsOn": ["^build"],
             "outputs": ["storybook-static/**"]

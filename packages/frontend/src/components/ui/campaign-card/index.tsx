@@ -1,6 +1,7 @@
 import React from "react";
 import { Chip, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
+import { Link } from "react-router-dom";
 
 const rootStyles = cva(
     [
@@ -19,6 +20,7 @@ const rootStyles = cva(
 );
 
 interface CampaignCardProps {
+    address: string;
     title: string;
     question: string;
     expiration: number;
@@ -30,6 +32,7 @@ interface CampaignCardProps {
 }
 
 export const CampaignCard = ({
+    address,
     title,
     question,
     expiration,
@@ -102,9 +105,16 @@ export const CampaignCard = ({
                         {expiration.toString()}
                     </Typography>
                 </div>
-                <button className="w-full py-5 font-mono border-t border-gray-600">
-                    <Typography weight="medium">↳ VIEW CAMPAIGN</Typography>
-                </button>
+                <Link to={`/campaigns/${address}`}>
+                    <Typography
+                        weight="medium"
+                        className={{
+                            root: "w-full py-5 font-mono border-t border-gray-600 text-center",
+                        }}
+                    >
+                        ↳ VIEW CAMPAIGN
+                    </Typography>
+                </Link>
             </div>
         </div>
     </div>

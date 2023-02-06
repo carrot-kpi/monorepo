@@ -1,10 +1,11 @@
 import React from "react";
 import { Logo } from "@carrot-kpi/ui";
 import { GridPatternBg } from "../grid-pattern-bg";
-import { FooterColumn, FooterColumnProps } from "./footer-column";
+import { FooterLink } from "../../../constants";
+import { FooterLinks } from "./footer-column";
 
 interface FooterProps {
-    footerLinks: FooterColumnProps[];
+    footerLinks: FooterLink[];
 }
 
 export const Footer = ({ footerLinks }: FooterProps) => (
@@ -18,7 +19,7 @@ export const Footer = ({ footerLinks }: FooterProps) => (
         <div className="flex flex-col justify-between px-6 pt-8 space-y-24 md:pt-24 lg:pt-32 md:px-24 xl:px-32 xl:space-y-0 xl:flex-row xxl:px-52">
             <div className="grid grid-cols-2 gap-8 xs:gap-10 md:gap-0 md:flex xl:space-x-6">
                 {footerLinks.map(({ title, links }) => (
-                    <FooterColumn key={title} title={title} links={links} />
+                    <FooterLinks key={title} title={title} links={links} />
                 ))}
             </div>
             <div className="flex items-end">

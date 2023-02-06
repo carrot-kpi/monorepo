@@ -34,6 +34,7 @@ export const FeaturedCampaings = () => (
     <>
         {featuredCampaignsMockData.map((campaign) => (
             <CampaignCard
+                address={campaign.id.toString()}
                 key={campaign.id}
                 title={campaign.title}
                 question={campaign.question}

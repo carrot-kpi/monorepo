@@ -2,17 +2,25 @@ import React from "react";
 import { KPITokenPage } from "@carrot-kpi/react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Layout } from "../../components/layout";
 
-export const Page = () => {
+interface PageProps {
+    customBaseURL?: string;
+}
+
+export const Page = ({ customBaseURL }: PageProps) => {
     const { address } = useParams();
     const { i18n } = useTranslation();
 
     return (
-        <KPITokenPage
-            address={address}
-            i18n={i18n}
-            // TODO: use a proper fallback component
-            fallback="Loading..."
-        />
+        <Layout>
+            <KPITokenPage
+                address={address}
+                i18n={i18n}
+                // TODO: use a proper fallback component
+                fallback="Loading..."
+                customBaseURL={customBaseURL}
+            />
+        </Layout>
     );
 };

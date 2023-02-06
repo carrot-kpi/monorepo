@@ -1,5 +1,5 @@
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-const { ModuleFederationPlugin } = require("webpack").container;
+const webpack = require("webpack");
 const shared = require("./shared-dependencies.json");
 const { join } = require("path");
 
@@ -7,13 +7,18 @@ module.exports = {
     webpack: {
         configure: (config, { env }) => {
             if (!config.ignoreWarnings) config.ignoreWarnings = [];
-            config.ignoreWarnings.push(/Failed to parse source map/);
             config.plugins.push(
-                new ModuleFederationPlugin({
+                new webpack.container.ModuleFederationPlugin({
                     name: "host",
                     shared,
                 })
             );
+            config.plugins.push(
+                new webpack.DefinePlugin({
+                    __PREVIEW_MODE__: JSON.stringify(false),
+                })
+            );
+            config.ignoreWarnings.push(/Failed to parse source map/);
             config.resolve.fallback = {
                 ...config.resolve.fallback,
                 buffer: require.resolve("buffer/"),
