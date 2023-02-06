@@ -9,14 +9,14 @@ const rootStyles = cva([
     "prose-pre:dark:cui-bg-gray-700",
 ]);
 
-export interface MarkdownContentProps {
+export interface MarkdownProps {
     children: ReactNode | ReactNode[];
     className?: { root?: string };
 }
 
-export const MarkdownContent = ({
+export const Markdown = ({
     children,
     className,
-}: MarkdownContentProps): ReactElement => (
+}: MarkdownProps): ReactElement => (
     <div className={rootStyles({ className: className?.root })}>{children}</div>
 );
