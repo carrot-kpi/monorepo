@@ -14,7 +14,8 @@
             "import": "./dist/styles.css"
         },
         "./shared-dependencies.json": {
-            "import": "./shared-dependencies.json"
+            "import": "./shared-dependencies.json",
+            "require": "./shared-dependencies.json"
         }
     },
     "publishConfig": {
