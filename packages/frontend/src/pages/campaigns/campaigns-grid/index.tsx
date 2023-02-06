@@ -7,6 +7,7 @@ export const CampaignsGrid = () => {
             <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-7">
                 {campaignsMockData.map((campaign) => (
                     <CampaignCard
+                        address={campaign.id.toString()}
                         key={campaign.id}
                         title={campaign.title}
                         question={campaign.question}

@@ -8,14 +8,14 @@ interface OraclePageProps {
     i18n: i18n;
     fallback: ReactNode;
     address?: string;
-    customBaseUrl?: string;
+    customBaseURL?: string;
 }
 
 export function OraclePage({
     address,
     i18n,
     fallback,
-    customBaseUrl,
+    customBaseURL,
 }: OraclePageProps): ReactElement {
     const { loading: loading, oracle } = useOracle(address);
 
@@ -24,7 +24,7 @@ export function OraclePage({
         <TemplateComponent
             type="page"
             template={oracle.template}
-            customBaseUrl={customBaseUrl}
+            customBaseURL={customBaseURL}
             fallback={fallback}
             i18n={i18n}
             props={{ oracle }}

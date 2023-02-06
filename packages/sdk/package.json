@@ -20,11 +20,11 @@
     "scripts": {
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,.md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,.md}'",
-        "build": "pnpm clean && rollup -c rollup.config.js",
+        "build": "yarn clean && rollup -c rollup.config.js",
         "clean": "rimraf ./dist",
         "test": "jest",
         "size-limit": "size-limit",
-        "release": "pnpm publish"
+        "release": "yarn publish"
     },
     "dependencies": {
         "@ethersproject/address": "^5.7.0",
@@ -48,7 +48,7 @@
         "@types/jest": "^29.2.1",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "babel-jest": "^29.2.2",
-        "eslint-config-custom": "workspace:*",
+        "eslint-config-custom": "*",
         "jest": "^29.2.2",
         "rimraf": "^3.0.2",
         "rollup": "^3.2.3",
@@ -56,6 +56,6 @@
         "rollup-plugin-typescript2": "^0.34.0",
         "size-limit": "^8.1.0",
         "ts-jest": "^29.0.3",
-        "tsconfig": "workspace:*"
+        "tsconfig": "*"
     }
 }

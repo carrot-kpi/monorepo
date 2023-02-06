@@ -1,4 +1,3 @@
-import { CarrotUIProvider } from "../src/provider";
 import { dark, light } from "./themes";
 
 import "@fontsource/ibm-plex-mono/400.css";
@@ -25,13 +24,3 @@ export const parameters = {
         light,
     },
 };
-
-const withCarrotUIProvider = (Story, context) => {
-    return (
-        <CarrotUIProvider>
-            <Story {...context} />
-        </CarrotUIProvider>
-    );
-};
-
-export const decorators = [withCarrotUIProvider];

@@ -8,14 +8,14 @@ interface KPITokenPageProps {
     address?: string;
     i18n: i18n;
     fallback: ReactNode;
-    customBaseUrl?: string;
+    customBaseURL?: string;
 }
 
 export function KPITokenPage({
     address,
     fallback,
     i18n,
-    customBaseUrl,
+    customBaseURL,
 }: KPITokenPageProps): ReactElement {
     const { loading, kpiToken } = useKPIToken(address);
 
@@ -24,7 +24,7 @@ export function KPITokenPage({
         <TemplateComponent
             type="page"
             template={kpiToken.template}
-            customBaseUrl={customBaseUrl}
+            customBaseURL={customBaseURL}
             fallback={fallback}
             i18n={i18n}
             props={{ kpiToken }}

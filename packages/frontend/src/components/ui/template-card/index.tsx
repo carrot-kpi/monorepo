@@ -2,25 +2,17 @@ import React from "react";
 import { Chip, Typography } from "@carrot-kpi/ui";
 import { ReactComponent as VerifiedIcon } from "../../../assets/verified.svg";
 import { shortenAddress } from "../../../utils/address";
+import { Link } from "react-router-dom";
+import { Template } from "@carrot-kpi/sdk";
 
 interface TemplateCardProps {
-    name: string;
-    description: string;
-    tags: string[];
-    version: number;
-    // creator: string;
-    address: string;
+    template: Template;
     used: number;
     verified?: boolean;
 }
 
 export const TemplateCard = ({
-    name,
-    description,
-    tags,
-    version,
-    // creator,
-    address,
+    template,
     used,
     verified,
 }: TemplateCardProps) => {
@@ -37,7 +29,7 @@ export const TemplateCard = ({
                     </div>
                     <div className="flex items-center justify-between w-full px-4">
                         <Typography weight="medium" uppercase>
-                            {name}
+                            {template.specification.name}
                         </Typography>
                     </div>
                 </div>
@@ -49,11 +41,11 @@ export const TemplateCard = ({
                             root: "line-clamp-3 overflow-hidden",
                         }}
                     >
-                        {description}
+                        {template.specification.description}
                     </Typography>
                 </div>
                 <div className="flex items-center space-x-3">
-                    {tags.map((tag) => (
+                    {template.specification.tags.map((tag) => (
                         <Chip key={tag}>{tag}</Chip>
                     ))}
                 </div>
@@ -70,17 +62,19 @@ export const TemplateCard = ({
                     </div>
                 )}
                 <div className="flex-1">
-                    <Row title="version">{version.toString()}</Row>
-                    <Row title="address">{shortenAddress(address)}</Row>
+                    <Row title="version">{template.version.toString()}</Row>
+                    <Row title="address">
+                        {shortenAddress(template.address)}
+                    </Row>
                     <Row title="used">{used.toString()}</Row>
                 </div>
             </div>
             <div className="flex items-center justify-center p-4 space-y-4 border-t">
-                <button className="w-full">
+                <Link to={`/create/${template.id}`} state={{ template }}>
                     <Typography uppercase weight="medium">
                         ↳ use template
                     </Typography>
-                </button>
+                </Link>
             </div>
         </div>
     );

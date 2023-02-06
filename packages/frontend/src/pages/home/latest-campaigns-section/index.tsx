@@ -11,7 +11,7 @@ export const LatestCampaignsSection = () => {
     const { loading, kpiTokens } = useKPITokens();
 
     return (
-        <div className="relative space-y-16">
+        <div className="relative flex flex-col gap-16">
             <Typography variant="h2">Latest Campaigns</Typography>
             {loading ? (
                 <>{t("loading")}</>
@@ -20,6 +20,7 @@ export const LatestCampaignsSection = () => {
                     <CardHorizontal>
                         {Object.values(kpiTokens).map((kpiToken) => (
                             <CampaignCard
+                                address={kpiToken.address}
                                 key={kpiToken.address}
                                 title={kpiToken.specification.title}
                                 question={kpiToken.specification.description}

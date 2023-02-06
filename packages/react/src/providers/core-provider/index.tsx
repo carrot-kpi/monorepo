@@ -54,7 +54,7 @@ interface CarrotCoreProviderProps {
     supportedChains: Chain[];
     providers: ChainProviderFn[];
     getConnectors: (chains: Chain[]) => Connector[];
-    ipfsGateway?: string;
+    ipfsGatewayURL?: string;
 }
 
 export const CarrotCoreProvider = ({
@@ -62,9 +62,9 @@ export const CarrotCoreProvider = ({
     supportedChains,
     providers,
     getConnectors,
-    ipfsGateway,
+    ipfsGatewayURL,
 }: CarrotCoreProviderProps) => {
-    if (!!ipfsGateway) IPFSService.gateway = ipfsGateway;
+    if (!!ipfsGatewayURL) IPFSService.gateway = ipfsGatewayURL;
     return (
         <PreferencesProvider>
             <WagmiSetup

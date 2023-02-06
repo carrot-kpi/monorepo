@@ -8,7 +8,7 @@ import { i18n } from "i18next";
 
 interface CreationFormProps {
     template?: Template;
-    customBaseUrl?: string;
+    customBaseURL?: string;
     i18n: i18n;
     fallback: ReactNode;
     onDone:
@@ -18,7 +18,7 @@ interface CreationFormProps {
 
 export function CreationForm({
     template,
-    customBaseUrl,
+    customBaseURL,
     i18n,
     fallback,
     onDone,
@@ -27,7 +27,7 @@ export function CreationForm({
         <TemplateComponent
             type="creationForm"
             template={template}
-            customBaseUrl={customBaseUrl}
+            customBaseURL={customBaseURL}
             i18n={i18n}
             fallback={fallback}
             props={{ template, onDone }}

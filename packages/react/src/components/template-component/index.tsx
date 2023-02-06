@@ -11,7 +11,7 @@ export type NamespacedTranslateFunction = (key: any, options?: any) => any;
 interface TemplateComponentProps {
     type: "creationForm" | "page";
     template?: Template;
-    customBaseUrl?: string;
+    customBaseURL?: string;
     fallback: ReactNode;
     i18n: i18n;
     props?: any;
@@ -20,7 +20,7 @@ interface TemplateComponentProps {
 export function TemplateComponent({
     type,
     template,
-    customBaseUrl,
+    customBaseURL,
     fallback,
     i18n,
     props = {},
@@ -28,7 +28,7 @@ export function TemplateComponent({
     const { loading, bundle, Component } = useTemplateModule(
         type,
         template,
-        customBaseUrl
+        customBaseURL
     );
 
     const [translateWithNamespace, setTranslateWithNamespace] =
