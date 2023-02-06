@@ -14,5 +14,5 @@ export const ToggleFiltersButton = ({ toggle, active }: ToggleButtonProps) => (
         size="xsmall"
         icon={FiltersIcon}
         active={active}
-    ></Button>
+    />
 );
