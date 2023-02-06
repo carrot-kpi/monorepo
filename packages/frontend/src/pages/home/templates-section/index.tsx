@@ -11,6 +11,7 @@ interface TemplatesSectionProps {
 
 export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
     const { t } = useTranslation();
+    // FIXME: instead of a useMemo, have a useKPITokenTemplate hook which fetches a single template
     const ids = useMemo(() => {
         return !templateId ? [] : [templateId];
     }, [templateId]);
