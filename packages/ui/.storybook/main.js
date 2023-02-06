@@ -66,6 +66,16 @@ module.exports = {
             },
         });
 
+        config.resolve = {
+            ...config.resolve,
+            alias: {
+                "lodash/debounce": path.join(
+                    __dirname,
+                    "../../../node_modules/lodash.debounce/index.js"
+                ),
+            },
+        };
+
         return config;
     },
 };

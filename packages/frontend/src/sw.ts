@@ -1,6 +1,5 @@
 import { precacheAndRoute } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
-import { create } from "ipfs-core";
 import { isCID } from "@carrot-kpi/sdk";
 
 declare const self: ServiceWorkerGlobalScope;
@@ -11,35 +10,13 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 self.addEventListener("install", () => {
     self.skipWaiting();
+    self.clients.claim();
 });
 
-self.addEventListener("activate", (event: ExtendableEvent) => {
-    event.waitUntil(
-        new Promise<void>((resolve, reject) => {
-            create()
-                .then((instance) => {
-                    self.ipfs = instance;
-                    resolve();
-                })
-                .catch(reject);
-        })
-    );
-});
-
-const fileToString = async (
-    source: AsyncIterable<Uint8Array>
-): Promise<string> => {
-    const contents: Uint8Array[] = [];
-    for await (const chunk of source) contents.push(chunk);
-    if (contents.length !== 1) throw new Error("unexpected contents length");
-    return new String(contents[0]) as string;
-};
-
-const urlToCID = async (url: URL): Promise<string | null> => {
+const urlToCID = (url: URL): string | null => {
     // handle path-based gateways
-    if (url.pathname.startsWith("/ipfs")) {
+    if (url.pathname.startsWith("/ipfs") || url.pathname.startsWith("/ipns"))
         return url.pathname;
-    }
     const cidFromSubdomain = url.hostname.split(".")[0];
     if (isCID(cidFromSubdomain)) {
         const withPrefix = `/ipfs/${cidFromSubdomain}`;
@@ -51,19 +28,19 @@ const urlToCID = async (url: URL): Promise<string | null> => {
     return null;
 };
 
-registerRoute(
-    ({ url }) => {
-        // TODO: handle ipns
-        return url.pathname.startsWith("/ipfs");
+const IPFS_CACHE_NAME = "ipfs-cache";
+
+registerRoute(({ url }) => !!urlToCID(url), {
+    handle: async (options): Promise<Response> => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const cid = urlToCID(options.url)!;
+        let response = await caches.match(cid);
+        if (!!response) return response;
+        response = await fetch(options.request);
+        // don't cache the response if bad
+        if (!response.ok) return response;
+        const cache = await caches.open(IPFS_CACHE_NAME); //create dynamic cache
+        cache.put(cid, response.clone());
+        return response;
     },
-    {
-        handle: async (options): Promise<Response> => {
-            const cid = await urlToCID(options.url);
-            if (!cid) return await fetch(options.request);
-            const stat = await self.ipfs.files.stat(cid);
-            if (stat.type === "file")
-                return new Response(await fileToString(self.ipfs.cat(cid)));
-            return await fetch(options.request);
-        },
-    }
-);
+});

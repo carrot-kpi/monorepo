@@ -57,6 +57,7 @@ export const LatestCampaigns = ({ category }: { category: string }) => (
         <CardHorizontal>
             {latestCampaignsMockData.map((campaign) => (
                 <CampaignCard
+                    address={campaign.id.toString()}
                     key={campaign.id}
                     title={campaign.title}
                     question={campaign.question}

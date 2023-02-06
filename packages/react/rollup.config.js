@@ -9,7 +9,7 @@ export default [
         input: resolve("src/index.ts"),
         plugins: [
             peerDepsExternal(),
-            nodeResolve({ preferBuiltins: true }),
+            nodeResolve({ preferBuiltins: true, rootDir: resolve("../..") }),
             commonjs(),
             typescript(),
         ],

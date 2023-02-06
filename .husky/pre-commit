@@ -1,2 +1,2 @@
-pnpm lint
-pnpm test
+yarn lint
+yarn test

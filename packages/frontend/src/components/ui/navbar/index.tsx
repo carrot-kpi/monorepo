@@ -38,7 +38,7 @@ const navStyles = cva([], {
     variants: {
         isOpen: {
             true: ["absolute flex flex-col top-28 left-0 px-6 py-16  w-full"],
-            false: ["hidden md:flex "],
+            false: ["hidden md:flex"],
         },
     },
 });
@@ -59,7 +59,7 @@ interface LinkProps {
     to: string;
 }
 
-interface NavbarProps {
+export interface NavbarProps {
     bgColor?: "green" | "orange";
     links?: LinkProps[];
 }
@@ -109,7 +109,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                 <div
                     className={`absolute top-[420px] md:static ${
                         !isOpen && "hidden"
-                    } md:block`}
+                    } md:block md:top-auto`}
                 >
                     <ConnectWallet />
                 </div>
