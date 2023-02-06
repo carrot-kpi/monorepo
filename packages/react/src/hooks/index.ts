@@ -6,6 +6,8 @@ export * from "./useKPITokenTemplates";
 export * from "./useNativeCurrency";
 export * from "./useOracle";
 export * from "./useOracleTemplates";
+export * from "./usePreferences";
+export * from "./usePreferencesSetters";
 export * from "./useTemplateModule";
 export * from "./useTokenLists";
 export * from "./useWatchData";

@@ -24,13 +24,8 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
                     ? t("loading")
                     : templates.map((template) => (
                           <TemplateCard
-                              id={template.id}
                               key={template.id}
-                              name={template.specification.name}
-                              description={template.specification.description}
-                              tags={template.specification.tags}
-                              version={template.version}
-                              address={template.address}
+                              template={template}
                               used={0}
                               verified
                           />
