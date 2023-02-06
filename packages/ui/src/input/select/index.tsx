@@ -80,7 +80,7 @@ const optionStyles = cva(
     }
 );
 
-const selectAnchorStyles = cva(["cui-w-fit", "cui-relative"]);
+const selectAnchorStyles = cva(["cui-relative"]);
 const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
 
 export interface SelectOption {

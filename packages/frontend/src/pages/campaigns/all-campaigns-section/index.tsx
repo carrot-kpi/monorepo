@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CampaignsFiltersOptions } from "../campaigns-filters-options";
 import { CampaignsGrid } from "../campaigns-grid";
-import { CampaignsFiltersTopNav } from "../campaigns-filters-top-nav";
+import { CampaignsTopNav } from "./campaigns-top-nav";
 
 export const AllCampaignsSection = () => {
     const [filtersOpen, setFilterOpen] = useState(false);
@@ -17,7 +17,7 @@ export const AllCampaignsSection = () => {
 
     return (
         <div>
-            <CampaignsFiltersTopNav
+            <CampaignsTopNav
                 toggleFilters={toggleFilters}
                 filtersOpen={filtersOpen}
             />
