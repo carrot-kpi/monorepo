@@ -12,6 +12,9 @@
         },
         "./styles.css": {
             "import": "./dist/styles.css"
+        },
+        "./shared-dependencies.json": {
+            "import": "./shared-dependencies.json"
         }
     },
     "publishConfig": {
