@@ -1,7 +1,7 @@
+import { Button } from "@carrot-kpi/ui";
 import { SearchInput } from "@carrot-kpi/ui";
 import { Select, SelectOption } from "@carrot-kpi/ui";
 import React, { useState } from "react";
-import { ToggleIconButton } from "../../../../components/ui/toggle-icon-button";
 import { ToggleFiltersButton } from "./toggle-filters-button";
 
 interface CampaignsTopNavProps {
@@ -32,8 +32,8 @@ export const CampaignsTopNav = ({
                 <div className="flex flex-col w-full gap-5 mb-5 md:mb-0 md:flex-row">
                     <div className="flex gap-5">
                         <ToggleFiltersButton
-                            toggle={toggleFilters}
                             active={filtersOpen}
+                            toggle={toggleFilters}
                         />
                         <Select
                             label=""
@@ -73,12 +73,13 @@ export const CampaignsTopNav = ({
                             value={campaignsState}
                             className={{ root: "w-full", input: "w-full" }}
                         />
-                        <ToggleIconButton
-                            toggle={() => console.log("Toggled MY")}
-                            active={false}
+                        <Button
+                            variant="secondary"
+                            onClick={() => console.log("Toggled MY")}
+                            size="xsmall"
                         >
                             MY
-                        </ToggleIconButton>
+                        </Button>
                     </div>
                 </div>
                 <SearchInput
