@@ -1,5 +1,5 @@
 import React from "react";
-import { Chip, Typography } from "@carrot-kpi/ui";
+import { Chip, Timer, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import { Link } from "react-router-dom";
 
@@ -85,8 +85,6 @@ export const CampaignCard = ({
                 </div>
             </div>
             <div>
-                {/* TODO: rewards are template-specific */}
-                {/* <CampaignCardRow title="Rewards" value={rewards} color={"black"} /> */}
                 <div className="flex items-center justify-between w-full  border-t border-gray-600">
                     <Typography
                         variant="sm"
@@ -95,15 +93,9 @@ export const CampaignCard = ({
                     >
                         Time left
                     </Typography>
-                    <Typography
-                        variant="sm"
-                        className={{
-                            root: "text-right w-[60%] p-4 border-l border-gray-600",
-                        }}
-                        uppercase
-                    >
-                        {expiration.toString()}
-                    </Typography>
+                    <div className="w-[60%] p-4 border-l border-gray-600 flex justify-end">
+                        <Timer to={expiration} countdown icon />
+                    </div>
                 </div>
                 <Link to={`/campaigns/${address}`}>
                     <Typography
