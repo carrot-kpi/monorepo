@@ -48,6 +48,16 @@ module.exports = {
             h6: ["1.14285714286rem", { lineHeight: "1.37142857143rem" }],
         },
         extend: {
+            height({ theme }) {
+                const fontSize = theme("fontSize");
+                return Object.entries(fontSize).reduce(
+                    (accumulator, [key, value]) => {
+                        accumulator[key] = value[0];
+                        return accumulator;
+                    },
+                    {}
+                );
+            },
             borderRadius: {
                 xxs: "10px",
                 xxl: "15px",
