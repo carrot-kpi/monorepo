@@ -67,21 +67,17 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                         </div>
                     )}
                     <div className="flex items-center space-x-3">
-                        <Chip>
-                            {!!kpiToken ? (
-                                kpiToken.template.specification.name
-                            ) : (
-                                <Skeleton width={80} />
-                            )}
-                        </Chip>
+                        {!!kpiToken ? (
+                            <Chip>{kpiToken.template.specification.name}</Chip>
+                        ) : (
+                            <Skeleton variant="xl" width={80} />
+                        )}
                         {!!kpiToken ? (
                             kpiToken.specification.tags.map((tag) => (
                                 <Chip key={tag}>{tag}</Chip>
                             ))
                         ) : (
-                            <Chip>
-                                <Skeleton width={60} />
-                            </Chip>
+                            <Skeleton variant="xl" width={60} />
                         )}
                     </div>
                 </div>
