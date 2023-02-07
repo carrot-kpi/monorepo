@@ -18,6 +18,7 @@ import { HashRouter } from "react-router-dom";
 import { Chain, ChainProviderFn, Connector } from "wagmi";
 import { StandaloneSetup } from "./components/standalone-setup";
 import { PreviewSetup } from "./components/preview-setup";
+import { ThemeUpdater } from "./updaters";
 
 interface RootProps {
     supportedChains?: Chain[];
@@ -39,6 +40,7 @@ export const Root = ({
     return (
         <StrictMode>
             <HashRouter>
+                <ThemeUpdater />
                 {__PREVIEW_MODE__ ? (
                     <PreviewSetup
                         supportedChains={supportedChains}

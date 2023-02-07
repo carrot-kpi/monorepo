@@ -18,7 +18,7 @@ export const KPITokenTemplateCard = ({
             <div className="w-2 h-2 bg-black dark:bg-white absolute top-full left-full -translate-x-1/2 -translate-y-1/2" />
             <div className="w-2 h-2 bg-black dark:bg-white absolute top-full left-0 -translate-x-1/2 -translate-y-1/2" />
             <div>
-                <div className="h-12 flex items-center w-full border-b">
+                <div className="h-12 flex items-center w-full border-b border-gray-600 dark:border-white">
                     <div className="flex items-center justify-between w-full px-4">
                         {!!template ? (
                             <Typography weight="medium" uppercase>
@@ -96,7 +96,7 @@ export const KPITokenTemplateCard = ({
                 to={!!template ? `/create/${template.id}` : ""}
                 state={{ template }}
             >
-                <div className="h-16 flex items-center justify-center p-4 space-y-4 border-t">
+                <div className="h-16 flex items-center justify-center p-4 space-y-4 border-t border-gray-600 dark:border-white">
                     {!!template ? (
                         <Typography weight="medium">↳ USE TEMPLATE</Typography>
                     ) : (

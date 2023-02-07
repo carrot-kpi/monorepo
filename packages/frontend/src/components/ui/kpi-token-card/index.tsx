@@ -92,7 +92,17 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                 </div>
                 <div className="flex items-center justify-end px-4 h-12 w-[60%] border-l border-gray-600">
                     {!!kpiToken ? (
-                        <Timer to={kpiToken.expiration} countdown icon />
+                        kpiToken.expiration < Date.now() ? (
+                            <Typography
+                                weight="medium"
+                                uppercase
+                                className={{ root: "text-red" }}
+                            >
+                                Expired
+                            </Typography>
+                        ) : (
+                            <Timer to={kpiToken.expiration} countdown icon />
+                        )
                     ) : (
                         <Skeleton width="60%" />
                     )}

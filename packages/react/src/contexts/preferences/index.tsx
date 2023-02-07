@@ -49,8 +49,8 @@ export const PreferencesProvider = ({
             PREFERENCES_CACHER_KEY
         );
         if (!cachedPreferences) return;
-        // TODO: validate this
-        setTheme(cachedPreferences.theme || "system");
+        // TODO: validate this, and set to system by default
+        setTheme(cachedPreferences.theme || "light");
         setPreferDecentralization(!!cachedPreferences.preferDecentralization);
     }, []);
 
