@@ -128,6 +128,7 @@ class Fetcher implements IPartialCarrotFetcher {
                         { limit: PAGE_SIZE, lastID }
                     );
                 page = rawTokens;
+                if (page.length === 0) break;
                 page.forEach((rawKPIToken) => {
                     const kpiToken = mapRawKPIToken(chainId, rawKPIToken);
                     kpiTokens[kpiToken.address] = kpiToken;
@@ -188,6 +189,7 @@ class Fetcher implements IPartialCarrotFetcher {
                     { limit: PAGE_SIZE, lastID }
                 );
                 page = result.oracles;
+                if (page.length === 0) break;
                 page.forEach((rawOracle) => {
                     const oracle = mapRawOracle(chainId, rawOracle);
                     oracles[oracle.address] = oracle;
@@ -253,6 +255,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 );
                 if (!manager) return [];
                 page = manager.templates;
+                if (page.length === 0) break;
                 page.forEach((rawTemplate) => {
                     templates.push(mapRawTemplate(rawTemplate));
                 });
@@ -317,6 +320,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 );
                 if (!manager) return [];
                 page = manager.templates;
+                if (page.length === 0) break;
                 page.forEach((rawTemplate) => {
                     templates.push(mapRawTemplate(rawTemplate));
                 });
