@@ -28,7 +28,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             >
                 <div
                     className={cx(
-                        "cui-absolute cui-top-3 cui-left-3",
+                        "cui-absolute cui-top-3 cui-left-3 dark:cui-text-white",
                         className?.iconWrapper
                     )}
                 >
