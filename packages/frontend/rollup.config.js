@@ -29,7 +29,15 @@ export default [
                 extract: resolve("./dist/styles.css"),
             }),
             url(),
-            svgr(),
+            svgr({
+                prettier: false,
+                svgo: false,
+                svgoConfig: {
+                    plugins: [{ removeViewBox: false }],
+                },
+                titleProp: true,
+                ref: true,
+            }),
             json(),
             typescript(),
         ],
