@@ -43,6 +43,10 @@ export function TemplateComponent({
         });
     }, [Component, bundle, loading, template, type, i18n]);
 
-    if (loading || !Component) return <>{fallback}</>;
-    return <Component {...props} i18n={i18n} t={translateWithNamespace} />;
+    if (loading || !template || !Component) return <>{fallback}</>;
+    return (
+        <div id={template.specification.commitHash}>
+            <Component {...props} i18n={i18n} t={translateWithNamespace} />;
+        </div>
+    );
 }
