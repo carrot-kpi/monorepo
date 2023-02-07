@@ -28,6 +28,10 @@ For the default (incomplete) installation simply use the following command:
 
 ```
 pnpm install @carrot-kpi/ui
+// or
+yarn add @carrot-kpi/ui
+// or
+npm install @carrot-kpi/ui
 ```
 
 To make the installation complete you can just install the missing fonts used in
@@ -36,10 +40,15 @@ the library through Fontsource:
 ```
 pnpm install @fontsource/ibm-plex-mono
 pnpm install @fontsource/inter
+// or
+yarn add @fontsource/ibm-plex-mono
+yarn add @fontsource/inter
+// or
+npm install @fontsource/ibm-plex-mono
+npm install @fontsource/inter
 ```
 
-In order to use the library in your app, simply wrap it with the exported
-`CarrotUIProvider`, and add the following in your entrypoint:
+The library is ready to use after adding the following to your entrypoint:
 
 ```
 import "@fontsource/ibm-plex-mono/400.css";
