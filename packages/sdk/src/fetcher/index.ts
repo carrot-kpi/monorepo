@@ -4,7 +4,7 @@ import { Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
 import {
     FetchERC20TokensParams,
-    FullFetcherFetchEntityParams,
+    FullFetcherFetchEntitiesParams,
     FullFetcherFetchTemplatesParams,
     IFullCarrotFetcher,
 } from "./abstraction";
@@ -12,6 +12,8 @@ import { OnChainFetcher } from "./on-chain";
 import { SubgraphFetcher } from "./subgraph";
 import { CoreFetcher } from "./core";
 import { Token } from "../entities/token";
+
+export * from "./abstraction";
 
 class FullFetcher implements IFullCarrotFetcher {
     private async shouldUseSubgraph({
@@ -38,7 +40,9 @@ class FullFetcher implements IFullCarrotFetcher {
         provider,
         preferDecentralization,
         addresses,
-    }: FullFetcherFetchEntityParams): Promise<{ [address: string]: KPIToken }> {
+    }: FullFetcherFetchEntitiesParams): Promise<{
+        [address: string]: KPIToken;
+    }> {
         const useSubgraph = await this.shouldUseSubgraph({
             provider,
             preferDecentralization,
@@ -52,7 +56,7 @@ class FullFetcher implements IFullCarrotFetcher {
         provider,
         preferDecentralization,
         addresses,
-    }: FullFetcherFetchEntityParams): Promise<{ [address: string]: Oracle }> {
+    }: FullFetcherFetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
         const useSubgraph = await this.shouldUseSubgraph({
             provider,
             preferDecentralization,

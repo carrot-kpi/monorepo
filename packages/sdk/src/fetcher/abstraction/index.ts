@@ -29,7 +29,7 @@ export interface SupportedInChainParams {
     chainId: ChainId;
 }
 
-export interface FetchEntityParams {
+export interface FetchEntitiesParams {
     provider: Provider;
     addresses?: string[];
 }
@@ -48,11 +48,11 @@ export interface IPartialCarrotFetcher {
     supportedInChain(params: SupportedInChainParams): boolean;
 
     fetchKPITokens(
-        params: FetchEntityParams
+        params: FetchEntitiesParams
     ): Promise<{ [address: string]: KPIToken }>;
 
     fetchOracles(
-        params: FetchEntityParams
+        params: FetchEntitiesParams
     ): Promise<{ [address: string]: Oracle }>;
 
     fetchKPITokenTemplates(params: FetchTemplatesParams): Promise<Template[]>;
@@ -64,7 +64,7 @@ export interface DecentralizationParams {
     preferDecentralization?: boolean;
 }
 
-export type FullFetcherFetchEntityParams = FetchEntityParams &
+export type FullFetcherFetchEntitiesParams = FetchEntitiesParams &
     DecentralizationParams;
 
 export type FullFetcherFetchTemplatesParams = FetchTemplatesParams &
@@ -76,11 +76,11 @@ export interface IFullCarrotFetcher {
     ): Promise<{ [address: string]: Token }>;
 
     fetchKPITokens(
-        params: FullFetcherFetchEntityParams
+        params: FullFetcherFetchEntitiesParams
     ): Promise<{ [address: string]: KPIToken }>;
 
     fetchOracles(
-        params: FullFetcherFetchEntityParams
+        params: FullFetcherFetchEntitiesParams
     ): Promise<{ [address: string]: Oracle }>;
 
     fetchKPITokenTemplates(
