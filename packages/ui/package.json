@@ -24,7 +24,7 @@
     "scripts": {
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,md}'",
-        "build": "yarn clean && rollup -c rollup.config.js",
+        "build": "yarn clean && rollup -c rollup.config.mjs",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
         "size-limit": "size-limit",
