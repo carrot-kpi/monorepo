@@ -28,10 +28,9 @@ export const LatestCampaignsSection = () => {
                     </>
                 ) : (
                     Object.values(kpiTokens).map((kpiToken) => (
-                        <KPITokenCard
-                            key={kpiToken.address}
-                            kpiToken={kpiToken}
-                        />
+                        <div key={kpiToken.address} className="snap-center">
+                            <KPITokenCard kpiToken={kpiToken} />
+                        </div>
                     ))
                 )}
             </CardHorizontal>

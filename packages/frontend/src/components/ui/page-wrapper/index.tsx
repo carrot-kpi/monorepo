@@ -5,7 +5,7 @@ interface PageWrapperProps {
     className?: string;
 }
 
-const pageWrapperStyles = cva(["px-6", "lg:px-32"], {
+const pageWrapperStyles = cva(["px-3", "lg:px-32"], {
     variants: {},
 });
 

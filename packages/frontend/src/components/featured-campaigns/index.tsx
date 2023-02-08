@@ -57,7 +57,7 @@ export const FeaturedCampaings = () => {
                     false
                 );
                 return (
-                    <div className="dark" key={index}>
+                    <div className="dark snap-center" key={index}>
                         <KPITokenCard kpiToken={kpiToken} noBorder />
                     </div>
                 );

@@ -67,7 +67,7 @@ module.exports = {
                 2: "2rem",
             },
             gridTemplateColumns: {
-                campaigns: "repeat(auto-fit, minmax(300px, 1fr))",
+                campaigns: "repeat(auto-fit, minmax(320px, 1fr))",
             },
         },
     },

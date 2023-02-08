@@ -8,6 +8,7 @@ export const en = {
         "home.loading": "Loading",
         "home.viewCampaign": "View",
         "home.noKPIToken": "No KPI token",
+        "home.featuredCampaigns": "Featured campaigns",
         "home.templates": "Templates",
         "home.latestCampaigns": "Latest Campaigns",
         "create.campaign": "Create campaign",
