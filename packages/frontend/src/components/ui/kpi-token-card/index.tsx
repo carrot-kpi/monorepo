@@ -28,7 +28,7 @@ interface KPITokenCardProps {
 export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
     return (
         <div className={rootStyles({ noBorder })}>
-            <div className="h-60">
+            <div className="h-64">
                 <div className="h-12 flex items-center w-full border-b border-gray-600 p-4">
                     {/* TODO: handle logo fetching for creators */}
                     {/* {!!kpiToken && (
@@ -49,7 +49,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                         )}
                     </div>
                 </div>
-                <div className="h-48 flex flex-col justify-between p-4">
+                <div className="h-52 flex flex-col justify-between p-4">
                     {!!kpiToken ? (
                         <Typography
                             className={{
