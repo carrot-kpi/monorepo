@@ -12,7 +12,7 @@ export const KPITokenTemplateCard = ({
     template,
 }: KPITokenTemplateCardProps) => {
     return (
-        <div className="relative min-w-[340px] w-[340px] flex flex-col justify-between border m-1 bg-white border-gray-600 dark:bg-black dark:border-white">
+        <div className="relative min-w-[320px] w-[320px] flex flex-col justify-between border m-1 bg-white border-gray-600 dark:bg-black dark:border-white">
             <div className="w-2 h-2 bg-black dark:bg-white absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2" />
             <div className="w-2 h-2 bg-black dark:bg-white absolute top-0 left-full -translate-x-1/2 -translate-y-1/2" />
             <div className="w-2 h-2 bg-black dark:bg-white absolute top-full left-full -translate-x-1/2 -translate-y-1/2" />

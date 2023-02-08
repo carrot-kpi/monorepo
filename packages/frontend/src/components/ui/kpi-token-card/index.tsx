@@ -6,7 +6,7 @@ import { KPIToken } from "@carrot-kpi/sdk";
 
 const rootStyles = cva(
     [
-        "min-w-[340px] w-[340px] rounded-xxl flex flex-col justify-between border bg-white border-black dark:bg-black dark:border-white",
+        "min-w-[320px] w-[320px] rounded-xxl flex flex-col justify-between border bg-white border-black dark:bg-black dark:border-white",
     ],
     {
         variants: {
