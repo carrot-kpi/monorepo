@@ -45,7 +45,7 @@ export function TemplateComponent({
 
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
-        <div id={template.specification.commitHash}>
+        <div id={`carrot-template-${template.specification.commitHash}`}>
             <Component {...props} i18n={i18n} t={translateWithNamespace} />
         </div>
     );
