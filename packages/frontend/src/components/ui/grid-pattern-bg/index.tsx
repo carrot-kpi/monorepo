@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cva } from "class-variance-authority";
 import squarePatternLight from "../../../assets/square-pattern-light.svg";
 import squarePatternDark from "../../../assets/square-pattern-dark.svg";
+import { usePreferences } from "@carrot-kpi/react";
 
 type Background = "white" | "black" | "orange";
 
@@ -30,16 +31,50 @@ interface GridPatterBgProps {
 }
 
 export const GridPatternBg = ({
-    bg = "orange",
+    bg,
     fullSize,
     className,
 }: GridPatterBgProps) => {
-    const bgURL = bg ? URL_MAP[bg] : undefined;
+    const { theme } = usePreferences();
+
+    const [chosenBg, setChosenBg] = useState(bg);
+
+    useEffect(() => {
+        if (!!bg) {
+            setChosenBg(bg);
+            return;
+        }
+        if (theme === "dark") {
+            setChosenBg("black");
+            return;
+        }
+        if (theme === "light") {
+            setChosenBg("white");
+            return;
+        }
+        let cancelled = false;
+        const match = window.matchMedia("(prefers-color-scheme: light)");
+        const handleChange = () => {
+            if (!cancelled) setChosenBg(match.matches ? "white" : "black");
+        };
+
+        match.addEventListener("change", handleChange);
+        setChosenBg(match.matches ? "white" : "black");
+
+        return () => {
+            cancelled = true;
+            match.removeEventListener("change", handleChange);
+        };
+    }, [bg, theme]);
 
     return (
         <div className={containerStyles({ fullSize })}>
             <div
-                style={!!bgURL ? { backgroundImage: `url(${bgURL})` } : {}}
+                style={
+                    !!chosenBg
+                        ? { backgroundImage: `url(${URL_MAP[chosenBg]})` }
+                        : {}
+                }
                 className={`w-full h-full bg-[top_center] bg-2 md:bg-4 ${className}`}
             ></div>
         </div>

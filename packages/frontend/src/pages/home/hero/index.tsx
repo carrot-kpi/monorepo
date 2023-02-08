@@ -8,11 +8,16 @@ import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
 
 export const Hero = () => (
-    <div className="relative bg-orange">
-        <GridPatternBg />
+    <div className="relative light bg-orange">
+        <GridPatternBg bg="orange" />
         <PageWrapper>
             <div className="relative space-y-12 py-7 md:py-24">
-                <Typography variant="h1">Featured campaigns</Typography>
+                <Typography
+                    variant="h1"
+                    className={{ root: "dark:text-black" }}
+                >
+                    Featured campaigns
+                </Typography>
                 <CardHorizontal>
                     <FeaturedCampaings />
                 </CardHorizontal>

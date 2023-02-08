@@ -15,7 +15,7 @@ export const Home = ({ templateId }: HomeProps) => {
         <Layout>
             <Hero />
             <div className="relative py-32 dark:bg-black">
-                <GridPatternBg bg="white" fullSize />
+                <GridPatternBg fullSize />
                 <PageWrapper className="space-y-32">
                     <LatestCampaignsSection />
                     <TemplatesSection templateId={templateId} />

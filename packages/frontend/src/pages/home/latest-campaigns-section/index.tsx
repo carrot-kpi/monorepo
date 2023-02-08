@@ -1,37 +1,34 @@
 import { useKPITokens } from "@carrot-kpi/react";
 import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { CampaignCard } from "../../../components/ui/campaign-card";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
+import { KPITokenCard } from "../../../components/ui/kpi-token-card";
 
 export const LatestCampaignsSection = () => {
-    const { t } = useTranslation();
     const { loading, kpiTokens } = useKPITokens();
 
     return (
         <div className="relative flex flex-col gap-16">
             <Typography variant="h2">Latest Campaigns</Typography>
-            {loading ? (
-                <>{t("loading")}</>
-            ) : (
-                <div className="space-y-6">
-                    <CardHorizontal>
-                        {Object.values(kpiTokens).map((kpiToken) => (
-                            <CampaignCard
-                                address={kpiToken.address}
-                                key={kpiToken.address}
-                                title={kpiToken.specification.title}
-                                question={kpiToken.specification.description}
-                                templateName={`${kpiToken.template.specification.name} v${kpiToken.template.version}`}
-                                tags={kpiToken.specification.tags}
-                                expiration={kpiToken.expiration}
-                            />
-                        ))}
-                    </CardHorizontal>
-                </div>
-            )}
+            <CardHorizontal>
+                {loading ? (
+                    <>
+                        <KPITokenCard />
+                        <KPITokenCard />
+                        <KPITokenCard />
+                        <KPITokenCard />
+                        <KPITokenCard />
+                    </>
+                ) : (
+                    Object.values(kpiTokens).map((kpiToken) => (
+                        <KPITokenCard
+                            key={kpiToken.address}
+                            kpiToken={kpiToken}
+                        />
+                    ))
+                )}
+            </CardHorizontal>
             <Link to="/campaigns">
                 <Button>View all campaings</Button>
             </Link>

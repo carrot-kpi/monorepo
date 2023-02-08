@@ -8,7 +8,7 @@ export const Campaigns = () => {
     return (
         <Layout>
             <div className="relative pt-32 dark:bg-black">
-                <GridPatternBg bg="white" fullSize />
+                <GridPatternBg fullSize />
                 <div className="relative">
                     <div className="px-6 mb-24 md:px-12">
                         <Typography variant="h1">All Campaigns</Typography>

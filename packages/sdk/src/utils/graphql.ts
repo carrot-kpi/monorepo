@@ -18,5 +18,5 @@ export const query = async <R>(
             `response not ok while executing subgraph query: ${await response.text()}`
         );
     }
-    return (await response.json()) as R;
+    return (await response.json()).data as R;
 };
