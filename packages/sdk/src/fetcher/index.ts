@@ -31,7 +31,7 @@ class FullFetcher implements IFullCarrotFetcher {
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
         if (!addresses || addresses.length === 0) return {};
-        return CoreFetcher.fetchERC20Tokens(provider, addresses);
+        return CoreFetcher.fetchERC20Tokens({ provider, addresses });
     }
 
     async fetchKPITokens({
