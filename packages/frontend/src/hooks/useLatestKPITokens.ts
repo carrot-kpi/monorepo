@@ -23,6 +23,7 @@ export function useLatestKPITokens(limit = 5): {
             try {
                 const kpiTokensAmount = await Fetcher.fetchKPITokensAmount({
                     provider,
+                    preferDecentralization,
                 });
                 const fromIndex = Math.max(kpiTokensAmount - limit, 0);
                 const kpiTokenAddresses = await Fetcher.fetchKPITokenAddresses({
@@ -33,6 +34,7 @@ export function useLatestKPITokens(limit = 5): {
                 });
                 const kpiTokens = await Fetcher.fetchKPITokens({
                     provider,
+                    preferDecentralization,
                     addresses: kpiTokenAddresses,
                 });
                 if (!cancelled)
