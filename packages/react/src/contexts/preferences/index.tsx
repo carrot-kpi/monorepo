@@ -23,7 +23,8 @@ export interface Preferences {
 const PREFERENCES_CACHER_KEY = "preferences";
 
 const DEFAULT_PREFERENCES: Preferences = {
-    values: { theme: "system", preferDecentralization: false },
+    // FIXME: use system as default
+    values: { theme: "light", preferDecentralization: false },
     /* eslint-disable @typescript-eslint/no-empty-function */
     setTheme: () => {},
     setPreferDecentralization: () => {},
@@ -40,7 +41,8 @@ interface PreferencesProviderProps {
 export const PreferencesProvider = ({
     children,
 }: PreferencesProviderProps): ReactElement => {
-    const [theme, setTheme] = useState<CacheablePreferences["theme"]>("system");
+    // FIXME: system should be the default choice
+    const [theme, setTheme] = useState<CacheablePreferences["theme"]>("light");
     const [preferDecentralization, setPreferDecentralization] =
         useState<CacheablePreferences["preferDecentralization"]>(false);
 
