@@ -1,4 +1,4 @@
-import { Button, PlusSignPattern, Typography } from "@carrot-kpi/ui";
+import { Button, PlusSignPattern } from "@carrot-kpi/ui";
 import React from "react";
 import { FeaturedCampaings } from "../../../components/featured-campaigns";
 import { GridPatternBg } from "../../../components/ui/grid-pattern-bg";
@@ -6,18 +6,16 @@ import { PageWrapper } from "../../../components/ui/page-wrapper";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
+import { ResponsiveHeader } from "../../../components/ui/responsive-header";
 
 export const Hero = () => (
     <div className="relative light bg-orange">
         <GridPatternBg bg="orange" />
         <PageWrapper>
             <div className="relative space-y-12 py-7 md:py-24">
-                <Typography
-                    variant="h1"
-                    className={{ root: "dark:text-black" }}
-                >
+                <ResponsiveHeader autoAlign variant="h1">
                     Featured campaigns
-                </Typography>
+                </ResponsiveHeader>
                 <CardHorizontal>
                     <FeaturedCampaings />
                 </CardHorizontal>

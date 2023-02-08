@@ -1,16 +1,22 @@
 import { useKPITokens } from "@carrot-kpi/react";
-import { Button, Typography } from "@carrot-kpi/ui";
+import { Button } from "@carrot-kpi/ui";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
+import { ResponsiveHeader } from "../../../components/ui/responsive-header";
 
 export const LatestCampaignsSection = () => {
     const { loading, kpiTokens } = useKPITokens();
+    const { t } = useTranslation();
 
     return (
         <div className="relative flex flex-col gap-16">
-            <Typography variant="h2">Latest Campaigns</Typography>
+            {/* TODO: add i18n */}
+            <ResponsiveHeader autoAlign variant="h2">
+                {t("home.latestCampaigns")}
+            </ResponsiveHeader>
             <CardHorizontal>
                 {loading ? (
                     <>

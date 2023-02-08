@@ -56,8 +56,8 @@ export const CampaignsGrid = () => {
     const { chain } = useNetwork();
 
     return (
-        <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5 p-4">
-            <div className="w-full gap-5 justify-items-center grid grid-cols-campaigns">
+        <div className="flex flex-col items-center w-full mt-12 mb-32 p-2 sm:mx-3 md:mx-4 lg:mx-5 sm:p-5">
+            <div className="w-full gap-2 justify-items-center grid grid-cols-campaigns sm:gap-5">
                 {MOCKED_DATA.map(({ title, description }, index) => {
                     if (!chain) return <KPITokenCard key={index} noBorder />;
                     const template = new Template(
