@@ -18,6 +18,8 @@ import { isCID, enforce } from "../../utils";
 import { CoreFetcher } from "../core";
 import {
     FetchEntitiesParams,
+    FetchKPITokenAddressesParams,
+    FetchKPITokensAmountParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
@@ -72,6 +74,40 @@ class Fetcher implements IPartialCarrotFetcher {
         return true;
     }
 
+    public async fetchKPITokensAmount({
+        provider,
+    }: FetchKPITokensAmountParams): Promise<number> {
+        const { chainId } = await provider.getNetwork();
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const factoryContract = new Contract(
+            chainAddresses.factory,
+            FACTORY_ABI,
+            provider
+        );
+        return (await factoryContract.kpiTokensAmount()).toNumber();
+    }
+
+    public async fetchKPITokenAddresses({
+        provider,
+        fromIndex,
+        toIndex,
+    }: FetchKPITokenAddressesParams): Promise<string[]> {
+        const { chainId } = await provider.getNetwork();
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const factoryContract = new Contract(
+            chainAddresses.factory,
+            FACTORY_ABI,
+            provider
+        );
+        const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
+        const finalToIndex = !toIndex
+            ? await this.fetchKPITokensAmount({ provider })
+            : toIndex;
+        return await factoryContract.enumerate(finalFromIndex, finalToIndex);
+    }
+
     public async fetchKPITokens({
         provider,
         addresses,
@@ -90,8 +126,8 @@ class Fetcher implements IPartialCarrotFetcher {
             provider
         );
 
-        const kpiTokenAmounts = await factoryContract.kpiTokensAmount();
-        if (kpiTokenAmounts.isZero()) return {};
+        const kpiTokenAmounts = await this.fetchKPITokensAmount({ provider });
+        if (kpiTokenAmounts === 0) return {};
         const tokenAddresses =
             addresses && addresses.length > 0
                 ? addresses
@@ -159,7 +195,7 @@ class Fetcher implements IPartialCarrotFetcher {
         const iUpperLimit =
             addresses && addresses.length > 0
                 ? addresses.length
-                : kpiTokenAmounts.toNumber();
+                : kpiTokenAmounts;
         outerLoop: for (let i = 0; i < iUpperLimit; i++) {
             const kpiTokenTemplate = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_TEMPLATE_FUNCTION,

@@ -72,6 +72,34 @@ const KPITokenDataFields = `
     finalized
 `;
 
+export interface GetKPITokensAmountQueryResponse {
+    factory?: {
+        kpiTokensAmount: string;
+    };
+}
+
+export const GetKPITokensAmountQuery = `
+    query getKPITokensAmountInFactory($factoryAddress: ID!) {
+        factory(id: $factoryAddress) {
+            kpiTokensAmount
+        }
+    }
+`;
+
+export interface GetKPITokenAddressesQueryResponse {
+    tokens?: {
+        rawAddress: string;
+    }[];
+}
+
+export const GetKPITokenAddressesQuery = `
+    query getKPITokenAddresses($skip: Int!, $limit: Int!) {
+        tokens: kpitokens(skip: $skip, limit: $limit) {
+            rawAddress: id
+        }
+    }
+`;
+
 export interface GetKPITokensQueryResponse {
     tokens: KPITokenData[];
 }

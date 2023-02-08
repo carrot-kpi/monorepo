@@ -29,6 +29,16 @@ export interface SupportedInChainParams {
     chainId: ChainId;
 }
 
+export interface FetchKPITokensAmountParams {
+    provider: Provider;
+}
+
+export interface FetchKPITokenAddressesParams {
+    provider: Provider;
+    fromIndex?: number;
+    toIndex?: number;
+}
+
 export interface FetchEntitiesParams {
     provider: Provider;
     addresses?: string[];
@@ -47,6 +57,12 @@ export interface FetchTemplateParams {
 export interface IPartialCarrotFetcher {
     supportedInChain(params: SupportedInChainParams): boolean;
 
+    fetchKPITokensAmount(params: FetchKPITokensAmountParams): Promise<number>;
+
+    fetchKPITokenAddresses(
+        params: FetchKPITokenAddressesParams
+    ): Promise<string[]>;
+
     fetchKPITokens(
         params: FetchEntitiesParams
     ): Promise<{ [address: string]: KPIToken }>;
@@ -64,6 +80,12 @@ export interface DecentralizationParams {
     preferDecentralization?: boolean;
 }
 
+export type FullFetcherFetchKPITokensAmountParams = FetchKPITokensAmountParams &
+    DecentralizationParams;
+
+export type FullFetcherFetchKPITokenAddressesParams =
+    FetchKPITokenAddressesParams & DecentralizationParams;
+
 export type FullFetcherFetchEntitiesParams = FetchEntitiesParams &
     DecentralizationParams;
 
@@ -74,6 +96,14 @@ export interface IFullCarrotFetcher {
     fetchERC20Tokens(
         params: FetchERC20TokensParams
     ): Promise<{ [address: string]: Token }>;
+
+    fetchKPITokensAmount(
+        params: FullFetcherFetchKPITokensAmountParams
+    ): Promise<number>;
+
+    fetchKPITokenAddresses(
+        params: FetchKPITokenAddressesParams
+    ): Promise<string[]>;
 
     fetchKPITokens(
         params: FullFetcherFetchEntitiesParams

@@ -5,6 +5,8 @@ import { Oracle } from "../entities/oracle";
 import {
     FetchERC20TokensParams,
     FullFetcherFetchEntitiesParams,
+    FullFetcherFetchKPITokenAddressesParams,
+    FullFetcherFetchKPITokensAmountParams,
     FullFetcherFetchTemplatesParams,
     IFullCarrotFetcher,
 } from "./abstraction";
@@ -28,12 +30,48 @@ class FullFetcher implements IFullCarrotFetcher {
         return SubgraphFetcher.supportedInChain({ chainId });
     }
 
-    async fetchERC20Tokens({
+    public async fetchERC20Tokens({
         provider,
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
         if (!addresses || addresses.length === 0) return {};
         return CoreFetcher.fetchERC20Tokens({ provider, addresses });
+    }
+
+    public async fetchKPITokensAmount({
+        provider,
+        preferDecentralization,
+    }: FullFetcherFetchKPITokensAmountParams): Promise<number> {
+        const useSubgraph = await this.shouldUseSubgraph({
+            provider,
+            preferDecentralization,
+        });
+        return useSubgraph
+            ? SubgraphFetcher.fetchKPITokensAmount({ provider })
+            : OnChainFetcher.fetchKPITokensAmount({ provider });
+    }
+
+    public async fetchKPITokenAddresses({
+        provider,
+        preferDecentralization,
+        fromIndex,
+        toIndex,
+    }: FullFetcherFetchKPITokenAddressesParams): Promise<string[]> {
+        const useSubgraph = await this.shouldUseSubgraph({
+            provider,
+            preferDecentralization,
+        });
+        return useSubgraph
+            ? SubgraphFetcher.fetchKPITokenAddresses({
+                  provider,
+                  fromIndex,
+                  toIndex,
+              })
+            : OnChainFetcher.fetchKPITokenAddresses({
+                  provider,
+                  fromIndex,
+                  toIndex,
+              });
     }
 
     async fetchKPITokens({
