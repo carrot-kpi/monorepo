@@ -19,13 +19,13 @@ export function useKPITokenTemplates(ids?: BigNumberish[]): {
         let cancelled = false;
         async function fetchData(): Promise<void> {
             if (!chain) return;
-            setLoading(true);
+            if (!cancelled) setLoading(true);
             try {
-                const templates = await Fetcher.fetchKPITokenTemplates(
+                const templates = await Fetcher.fetchKPITokenTemplates({
                     provider,
                     preferDecentralization,
-                    ids
-                );
+                    ids,
+                });
                 if (!cancelled) setTemplates(templates);
             } catch (error) {
                 console.error("error fetching kpi token templates", error);

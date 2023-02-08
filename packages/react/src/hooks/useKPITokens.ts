@@ -21,10 +21,10 @@ export function useKPITokens(): {
             if (!provider) return;
             if (!cancelled) setLoading(true);
             try {
-                const kpiTokens = await Fetcher.fetchKPITokens(
+                const kpiTokens = await Fetcher.fetchKPITokens({
                     provider,
-                    preferDecentralization
-                );
+                    preferDecentralization,
+                });
                 if (!cancelled) setKPITokens(kpiTokens);
             } catch (error) {
                 console.error("error fetching kpi tokens", error);

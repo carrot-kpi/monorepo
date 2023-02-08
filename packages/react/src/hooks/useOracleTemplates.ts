@@ -19,13 +19,13 @@ export function useOracleTemplates(ids?: BigNumberish[]): {
         let cancelled = false;
         const fetchData = async (): Promise<void> => {
             if (!chain) return;
-            setLoading(true);
+            if (!cancelled) setLoading(true);
             try {
-                const templates = await Fetcher.fetchOracleTemplates(
+                const templates = await Fetcher.fetchOracleTemplates({
                     provider,
                     preferDecentralization,
-                    ids
-                );
+                    ids,
+                });
                 if (!cancelled) setTemplates(templates);
             } catch (error) {
                 console.error("error fetching oracle templates", error);

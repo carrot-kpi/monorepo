@@ -21,11 +21,11 @@ export function useKPIToken(kpiTokenAddress?: string): {
             if (!cancelled) setLoading(true);
             try {
                 const kpiToken = (
-                    await Fetcher.fetchKPITokens(
+                    await Fetcher.fetchKPITokens({
                         provider,
                         preferDecentralization,
-                        [kpiTokenAddress]
-                    )
+                        addresses: [kpiTokenAddress],
+                    })
                 )[kpiTokenAddress];
                 if (!kpiToken) return;
                 if (!cancelled) setKPIToken(kpiToken);
