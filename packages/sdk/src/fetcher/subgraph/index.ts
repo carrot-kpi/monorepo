@@ -1,7 +1,10 @@
-import { BigNumberish } from "@ethersproject/bignumber";
-import { Provider } from "@ethersproject/providers";
 import { KPIToken } from "../../entities/kpi-token";
-import { IPartialCarrotFetcher } from "../abstraction";
+import {
+    FetchEntityParams,
+    FetchTemplatesParams,
+    IPartialCarrotFetcher,
+    SupportedInChainParams,
+} from "../abstraction";
 import {
     KPITokenData,
     TemplateData,
@@ -73,14 +76,14 @@ const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
-    public supportedInChain(chainId: ChainId): boolean {
+    public supportedInChain({ chainId }: SupportedInChainParams): boolean {
         return !!SUBGRAPH_URL[chainId];
     }
 
-    public async fetchKPITokens(
-        provider: Provider,
-        addresses?: string[]
-    ): Promise<{ [address: string]: KPIToken }> {
+    public async fetchKPITokens({
+        provider,
+        addresses,
+    }: FetchEntityParams): Promise<{ [address: string]: KPIToken }> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
@@ -139,10 +142,10 @@ class Fetcher implements IPartialCarrotFetcher {
         }
     }
 
-    public async fetchOracles(
-        provider: Provider,
-        addresses?: string[]
-    ): Promise<{ [address: string]: Oracle }> {
+    public async fetchOracles({
+        provider,
+        addresses,
+    }: FetchEntityParams): Promise<{ [address: string]: Oracle }> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
@@ -200,10 +203,10 @@ class Fetcher implements IPartialCarrotFetcher {
         }
     }
 
-    public async fetchKPITokenTemplates(
-        provider: Provider,
-        ids?: BigNumberish[]
-    ): Promise<Template[]> {
+    public async fetchKPITokenTemplates({
+        provider,
+        ids,
+    }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
@@ -265,10 +268,10 @@ class Fetcher implements IPartialCarrotFetcher {
         }
     }
 
-    public async fetchOracleTemplates(
-        provider: Provider,
-        ids?: BigNumberish[]
-    ): Promise<Template[]> {
+    public async fetchOracleTemplates({
+        provider,
+        ids,
+    }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];

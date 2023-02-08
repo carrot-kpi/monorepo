@@ -1,6 +1,5 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
-import { Provider } from "@ethersproject/providers";
 import { Interface } from "@ethersproject/abi";
 import {
     KPI_TOKENS_MANAGER_ABI,
@@ -17,7 +16,11 @@ import { Template, TemplateSpecification } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { isCID, enforce } from "../../utils";
 import { CoreFetcher } from "../core";
-import { IPartialCarrotFetcher } from "../abstraction";
+import {
+    FetchEntityParams,
+    FetchTemplatesParams,
+    IPartialCarrotFetcher,
+} from "../abstraction";
 
 // platform related interfaces
 const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI);
@@ -69,10 +72,10 @@ class Fetcher implements IPartialCarrotFetcher {
         return true;
     }
 
-    public async fetchKPITokens(
-        provider: Provider,
-        addresses?: string[]
-    ): Promise<{ [address: string]: KPIToken }> {
+    public async fetchKPITokens({
+        provider,
+        addresses,
+    }: FetchEntityParams): Promise<{ [address: string]: KPIToken }> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
@@ -147,7 +150,10 @@ class Fetcher implements IPartialCarrotFetcher {
                 )[0]
             );
 
-        const oracles = await this.fetchOracles(provider, allOracleAddresses);
+        const oracles = await this.fetchOracles({
+            provider,
+            addresses: allOracleAddresses,
+        });
 
         const allKPITokens: { [address: string]: KPIToken } = {};
         const iUpperLimit =
@@ -224,10 +230,10 @@ class Fetcher implements IPartialCarrotFetcher {
         return allKPITokens;
     }
 
-    public async fetchOracles(
-        provider: Provider,
-        addresses?: string[]
-    ): Promise<{ [address: string]: Oracle }> {
+    public async fetchOracles({
+        provider,
+        addresses,
+    }: FetchEntityParams): Promise<{ [address: string]: Oracle }> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
@@ -383,10 +389,10 @@ class Fetcher implements IPartialCarrotFetcher {
         });
     }
 
-    public async fetchKPITokenTemplates(
-        provider: Provider,
-        ids?: BigNumberish[]
-    ): Promise<Template[]> {
+    public async fetchKPITokenTemplates({
+        provider,
+        ids,
+    }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
@@ -400,17 +406,17 @@ class Fetcher implements IPartialCarrotFetcher {
         );
     }
 
-    public async fetchOracleTemplates(
-        provider: Provider,
-        ids?: BigNumberish[]
-    ): Promise<Template[]> {
+    public async fetchOracleTemplates({
+        provider,
+        ids,
+    }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
             new Contract(
                 CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
-                KPI_TOKENS_MANAGER_ABI,
+                ORACLES_MANAGER_ABI,
                 provider
             ),
             ids
