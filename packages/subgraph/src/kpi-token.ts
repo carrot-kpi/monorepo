@@ -76,6 +76,7 @@ function createKPIToken(address: Address): KPIToken | null {
     kpiToken.owner = kpiTokenContract.owner();
     kpiToken.finalized = false;
     kpiToken.expiration = kpiTokenContract.expiration().toI32();
+    kpiToken.creationTimestamp = kpiTokenContract.creationTimestamp().toI32();
 
     const kpiTokenTemplateStruct = kpiTokenContract.template();
     const kpiTokensManagerAddress = Address.fromBytes(

@@ -105,5 +105,6 @@ type KPIToken @entity {
     tags: [String!]!
     finalized: Boolean!
     expiration: Int!
+    creationTimestamp: Int!
     oracles: [Oracle!]! @derivedFrom(field: "kpiToken")
 }
