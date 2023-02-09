@@ -1,4 +1,5 @@
 export * from "./button";
+export * from "./checkbox";
 export * from "./date";
 export * from "./date-time";
 export * from "./markdown";
