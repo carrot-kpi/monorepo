@@ -30,9 +30,9 @@ export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
     },
     [ChainId.SEPOLIA]: {
         multicall: "0xcA11bde05977b3631167028862bE2a173976CA11",
-        factory: "0xD3Fe5d463dD1fd943CCC2271F2ea980B898B5DA3",
-        kpiTokensManager: "0xD6e88c910329fE3597498772eB94991a0630306d",
-        oraclesManager: "0xe3dA4E4b76C4ed3e4227db20F20d1F25A4507f9b",
+        factory: "0x8d98758EfF88Dc944035B0618a8412C400E71C72",
+        kpiTokensManager: "0x2043D9aa54e333c52dB22a8AFbFCbdcE35958f42",
+        oraclesManager: "0x22d8655b405F6a8D6Bb7c5838AaF187a32158B07",
     },
 };
 
