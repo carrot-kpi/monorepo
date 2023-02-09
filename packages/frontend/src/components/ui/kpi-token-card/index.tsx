@@ -96,7 +96,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                         <Skeleton variant="xl" width={60} />
                     )}
                 </div>
-                <div className="h-12 flex items-center justify-between w-full border-t border-gray-600">
+                <div className="h-12 flex items-center justify-between w-full border-t border-black dark:border-white">
                     <div className="flex items-center px-4 h-12 w-[40%]">
                         {!!kpiToken ? (
                             <Typography uppercase>Time left</Typography>
@@ -104,7 +104,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                             <Skeleton width="60%" />
                         )}
                     </div>
-                    <div className="flex items-center justify-end px-4 h-12 w-[60%] border-l border-gray-600">
+                    <div className="flex items-center justify-end px-4 h-12 w-[60%] border-l border-black dark:border-white">
                         {!!kpiToken ? (
                             kpiToken.expiration < Date.now() ? (
                                 <Typography
