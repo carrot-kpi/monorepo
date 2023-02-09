@@ -1,9 +1,8 @@
 import { useKPITokenTemplates } from "@carrot-kpi/react";
-import { Button } from "@carrot-kpi/ui";
+import { Button, ResponsiveHeader } from "@carrot-kpi/ui";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
-import { ResponsiveHeader } from "../../../components/ui/responsive-header";
 import { KPITokenTemplateCard } from "../../../components/ui/template-card";
 
 interface TemplatesSectionProps {

@@ -1,4 +1,4 @@
-import { Button } from "@carrot-kpi/ui";
+import { Button, ResponsiveHeader } from "@carrot-kpi/ui";
 import React from "react";
 import { FeaturedCampaings } from "../../../components/featured-campaigns";
 import { GridPatternBg } from "../../../components/ui/grid-pattern-bg";
@@ -6,7 +6,6 @@ import { PageWrapper } from "../../../components/ui/page-wrapper";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
-import { ResponsiveHeader } from "../../../components/ui/responsive-header";
 import { ReactComponent as Plus } from "../../../assets/plus.svg";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";

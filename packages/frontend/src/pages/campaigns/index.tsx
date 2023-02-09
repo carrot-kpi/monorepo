@@ -1,8 +1,8 @@
+import { ResponsiveHeader } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
 import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
-import { ResponsiveHeader } from "../../components/ui/responsive-header";
 import { AllCampaignsSection } from "./all-campaigns-section";
 
 export const Campaigns = () => {
