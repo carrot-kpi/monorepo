@@ -25,6 +25,7 @@ import {
     GetKPITokensAmountQueryResponse,
     GetKPITokensAmountQuery,
     GetKPITokenAddressesQueryResponse,
+    GetKPITokenAddressesQuery,
 } from "./queries";
 import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
 import { enforce } from "../../utils";
@@ -121,7 +122,7 @@ class Fetcher implements IPartialCarrotFetcher {
             : toIndex;
         const { tokens } = await query<GetKPITokenAddressesQueryResponse>(
             subgraphURL,
-            GetKPITokensAmountQuery,
+            GetKPITokenAddressesQuery,
             { skip: finalFromIndex, limit: finalToIndex }
         );
         return !tokens
