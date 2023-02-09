@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Logo } from "@carrot-kpi/ui";
+import { ReactComponent as Logo } from "../../../assets/logo.svg";
 import { cva } from "class-variance-authority";
 import { ReactComponent as CloseIcon } from "../../../assets/x.svg";
 import { ReactComponent as MenuIcon } from "../../../assets/menu.svg";
@@ -82,7 +82,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
             {isOpen && <GridPatternBg className="md:hidden" />}
             <div className={navbarStyles({ bgColor, isOpen })}>
                 <NavLink to="/" onClick={() => setOpen(false)}>
-                    <Logo className="w-32 md:w-[188px]" />
+                    <Logo className="w-32 h-auto md:w-[188px] text-black" />
                 </NavLink>
                 {links && (
                     <nav className={navStyles({ isOpen })}>

@@ -66,6 +66,9 @@ module.exports = {
                 4: "4rem",
                 2: "2rem",
             },
+            gridTemplateColumns: {
+                campaigns: "repeat(auto-fit, minmax(320px, 1fr))",
+            },
         },
     },
     plugins: [require("@tailwindcss/typography")],

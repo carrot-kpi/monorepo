@@ -1,5 +1,5 @@
 import { getAddress, isAddress } from "@ethersproject/address";
-import { TokenInfoWithBalance } from "../../erc20-token-picker/types";
+import { TokenInfoWithBalance } from "../../components/evm/erc20-token-picker/types";
 
 const TRUST_WALLET_CHAIN: { [chainId: number]: string } = {
     100: "xdai",

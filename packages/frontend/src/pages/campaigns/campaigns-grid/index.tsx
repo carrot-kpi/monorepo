@@ -8,7 +8,22 @@ const MOCKED_DATA = [
     {
         title: "DXdao",
         description:
-            "What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC?",
+            "<h2>Swapr average TVL</h2>What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC? <code><pre>some code here</pre></code>",
+    },
+    {
+        title: "COW PROTOCOL",
+        description:
+            "<h2>COW token average TVL</h2>What will the average TVL for the COW token on Swapr Gnosis Chain be from Sep 1st 15:00 UTC to Sep 29th 15:00 UTC?",
+    },
+    {
+        title: "Hopr",
+        description:
+            "What will the average TVL for the Swapr Gnosis Chain HOPR-XDAI pair be from Apr 14th 15:00 UTC to May 12th 15:00 UTC?",
+    },
+    {
+        title: "DXdao",
+        description:
+            "<h2>Swapr average TVL</h2>What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC? <code><pre>some code here</pre></code>",
     },
     {
         title: "COW PROTOCOL",
@@ -23,32 +38,17 @@ const MOCKED_DATA = [
     {
         title: "DXdao",
         description:
-            "What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC?",
+            "<h2>Swapr average TVL</h2>What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC? <code><pre>some code here</pre></code>",
     },
     {
         title: "COW PROTOCOL",
         description:
-            "What will the average TVL for the COW token on Swapr Gnosis Chain be from Sep 1st 15:00 UTC to Sep 29th 15:00 UTC?",
+            "What will the average TVL for the COW token on Swapr Gnosis Chain be from Sep 1st 15:00 UTC to Sep 29th 15:00 UTC?<ul><li>COW</li><li>TVL</li></ul>",
     },
     {
         title: "Hopr",
         description:
-            "What will the average TVL for the Swapr Gnosis Chain HOPR-XDAI pair be from Apr 14th 15:00 UTC to May 12th 15:00 UTC?",
-    },
-    {
-        title: "DXdao",
-        description:
-            "What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC?",
-    },
-    {
-        title: "COW PROTOCOL",
-        description:
-            "What will the average TVL for the COW token on Swapr Gnosis Chain be from Sep 1st 15:00 UTC to Sep 29th 15:00 UTC?",
-    },
-    {
-        title: "Hopr",
-        description:
-            "What will the average TVL for the Swapr Gnosis Chain HOPR-XDAI pair be from Apr 14th 15:00 UTC to May 12th 15:00 UTC?",
+            "What will the <strong>average TVL</strong> for the Swapr <strong>Gnosis</strong> Chain <strong>HOPR-XDAI</strong> pair be from Apr 14th 15:00 UTC to May 12th 15:00 UTC?",
     },
 ];
 
@@ -56,8 +56,8 @@ export const CampaignsGrid = () => {
     const { chain } = useNetwork();
 
     return (
-        <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
-            <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-7">
+        <div className="flex flex-col items-center w-full mt-12 mb-32 p-2 sm:mx-3 md:mx-4 lg:mx-5 sm:p-5">
+            <div className="w-full gap-2 justify-items-center grid grid-cols-campaigns sm:gap-5">
                 {MOCKED_DATA.map(({ title, description }, index) => {
                     if (!chain) return <KPITokenCard key={index} noBorder />;
                     const template = new Template(
