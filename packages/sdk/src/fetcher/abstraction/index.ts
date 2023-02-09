@@ -6,66 +6,118 @@ import { Oracle } from "../../entities/oracle";
 import { Template } from "../../entities/template";
 import { Token } from "../../entities/token";
 
+export interface FetchERC20TokensParams {
+    provider: Provider;
+    addresses: string[];
+}
+
+export interface FetchContentFromIPFSParams {
+    cids: string[];
+}
+
 export interface ICoreFetcher {
     fetchERC20Tokens(
-        provider: Provider,
-        addresses: string[]
+        params: FetchERC20TokensParams
     ): Promise<{ [address: string]: Token }>;
 
-    fetchContentFromIPFS(cids: string[]): Promise<{ [cid: string]: string }>;
+    fetchContentFromIPFS(
+        params: FetchContentFromIPFSParams
+    ): Promise<{ [cid: string]: string }>;
+}
+
+export interface SupportedInChainParams {
+    chainId: ChainId;
+}
+
+export interface FetchKPITokensAmountParams {
+    provider: Provider;
+}
+
+export interface FetchKPITokenAddressesParams {
+    provider: Provider;
+    fromIndex?: number;
+    toIndex?: number;
+}
+
+export interface FetchEntitiesParams {
+    provider: Provider;
+    addresses?: string[];
+}
+
+export interface FetchTemplatesParams {
+    provider: Provider;
+    ids?: BigNumberish[];
+}
+
+export interface FetchTemplateParams {
+    provider: Provider;
+    id?: BigNumberish;
 }
 
 export interface IPartialCarrotFetcher {
-    supportedInChain(chainId: ChainId): boolean;
+    supportedInChain(params: SupportedInChainParams): boolean;
+
+    fetchKPITokensAmount(params: FetchKPITokensAmountParams): Promise<number>;
+
+    fetchKPITokenAddresses(
+        params: FetchKPITokenAddressesParams
+    ): Promise<string[]>;
 
     fetchKPITokens(
-        provider: Provider,
-        addresses?: string[]
+        params: FetchEntitiesParams
     ): Promise<{ [address: string]: KPIToken }>;
 
     fetchOracles(
-        provider: Provider,
-        addresses?: string[]
+        params: FetchEntitiesParams
     ): Promise<{ [address: string]: Oracle }>;
 
-    fetchKPITokenTemplates(
-        provider: Provider,
-        ids?: BigNumberish[]
-    ): Promise<Template[]>;
+    fetchKPITokenTemplates(params: FetchTemplatesParams): Promise<Template[]>;
 
-    fetchOracleTemplates(
-        provider: Provider,
-        ids?: BigNumberish[]
-    ): Promise<Template[]>;
+    fetchOracleTemplates(params: FetchTemplatesParams): Promise<Template[]>;
 }
+
+export interface DecentralizationParams {
+    preferDecentralization?: boolean;
+}
+
+export type FullFetcherFetchKPITokensAmountParams = FetchKPITokensAmountParams &
+    DecentralizationParams;
+
+export type FullFetcherFetchKPITokenAddressesParams =
+    FetchKPITokenAddressesParams & DecentralizationParams;
+
+export type FullFetcherFetchEntitiesParams = FetchEntitiesParams &
+    DecentralizationParams;
+
+export type FullFetcherFetchTemplatesParams = FetchTemplatesParams &
+    DecentralizationParams;
 
 export interface IFullCarrotFetcher {
     fetchERC20Tokens(
-        provider: Provider,
-        addresses: string[]
+        params: FetchERC20TokensParams
     ): Promise<{ [address: string]: Token }>;
 
+    fetchKPITokensAmount(
+        params: FullFetcherFetchKPITokensAmountParams
+    ): Promise<number>;
+
+    fetchKPITokenAddresses(
+        params: FetchKPITokenAddressesParams
+    ): Promise<string[]>;
+
     fetchKPITokens(
-        provider: Provider,
-        preferDecentralization?: boolean,
-        addresses?: string[]
+        params: FullFetcherFetchEntitiesParams
     ): Promise<{ [address: string]: KPIToken }>;
 
     fetchOracles(
-        provider: Provider,
-        preferDecentralization?: boolean,
-        addresses?: string[]
+        params: FullFetcherFetchEntitiesParams
     ): Promise<{ [address: string]: Oracle }>;
 
     fetchKPITokenTemplates(
-        provider: Provider,
-        preferDecentralization?: boolean,
-        ids?: BigNumberish[]
+        params: FullFetcherFetchTemplatesParams
     ): Promise<Template[]>;
 
     fetchOracleTemplates(
-        provider: Provider,
-        preferDecentralization?: boolean,
-        ids?: BigNumberish[]
+        params: FullFetcherFetchTemplatesParams
     ): Promise<Template[]>;
 }

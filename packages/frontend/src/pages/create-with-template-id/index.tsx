@@ -40,11 +40,11 @@ export const CreateWithTemplateId = ({
         const fetchData = async () => {
             if (!cancelled) setLoading(true);
             try {
-                const templates = await Fetcher.fetchKPITokenTemplates(
+                const templates = await Fetcher.fetchKPITokenTemplates({
                     provider,
                     preferDecentralization,
-                    [templateId]
-                );
+                    ids: [templateId],
+                });
                 if (templates.length === 0)
                     console.warn(`no template with id ${templateId} found`);
                 if (!cancelled) setTemplate(templates[0]);
