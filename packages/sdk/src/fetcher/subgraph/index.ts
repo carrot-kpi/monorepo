@@ -76,6 +76,7 @@ const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
             tags: rawKPIToken.tags,
         },
         parseInt(rawKPIToken.expiration),
+        parseInt(rawKPIToken.creationTimestamp),
         rawKPIToken.finalized
     );
 };
