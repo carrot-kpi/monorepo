@@ -18,6 +18,6 @@
         "eslint-plugin-react": "^7.32.2"
     },
     "devDependencies": {
-        "prettier": "^2.8.3"
+        "prettier": "^2.8.4"
     }
 }

@@ -13,12 +13,15 @@ import {
 } from "../../utils";
 import { Contract } from "@ethersproject/contracts";
 import { Interface } from "@ethersproject/abi";
-import { Provider } from "@ethersproject/providers";
 import { Token } from "../../entities/token";
 import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
 import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
 import { IPFSService } from "../../services";
-import { ICoreFetcher } from "../abstraction";
+import {
+    FetchContentFromIPFSParams,
+    FetchERC20TokensParams,
+    ICoreFetcher,
+} from "../abstraction";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
@@ -57,10 +60,10 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements ICoreFetcher {
-    public async fetchERC20Tokens(
-        provider: Provider,
-        addresses: string[]
-    ): Promise<{ [address: string]: Token }> {
+    public async fetchERC20Tokens({
+        provider,
+        addresses,
+    }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
         const chainId = (await provider.getNetwork()).chainId as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const { cachedTokens, missingTokens } = addresses.reduce(
@@ -219,9 +222,9 @@ class Fetcher implements ICoreFetcher {
         return cachedCids;
     }
 
-    public async fetchContentFromIPFS(
-        cids: string[]
-    ): Promise<{ [cid: string]: string }> {
+    public async fetchContentFromIPFS({
+        cids,
+    }: FetchContentFromIPFSParams): Promise<{ [cid: string]: string }> {
         if (process.env.NODE_ENV === "development")
             return this.fetchContentFromIPFSWithLocalStorageCache(cids);
         // we come here only if we are in production. in this case the service

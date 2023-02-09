@@ -21,11 +21,11 @@ export function useOracle(oracleAddress?: string): {
             if (!cancelled) setLoading(true);
             try {
                 const fetchedOracle = (
-                    await Fetcher.fetchOracles(
+                    await Fetcher.fetchOracles({
                         provider,
                         preferDecentralization,
-                        [oracleAddress]
-                    )
+                        addresses: [oracleAddress],
+                    })
                 )[oracleAddress];
                 if (!fetchedOracle) return;
                 if (!cancelled) setOracle(fetchedOracle);
