@@ -60,12 +60,12 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                     )} */}
             </CardTitle>
             <CardContent>
-                <div className="h-56 max-h-56">
-                    <div className="h-40 flex flex-col justify-between p-4 overflow-hidden">
+                <div className="h-58">
+                    <div className="h-40 overflow-hidden px-4 pt-4">
                         {!!kpiToken ? (
                             <Markdown
                                 className={{
-                                    root: "prose-sm prose-headings:mt-0",
+                                    root: "prose prose-headings:mt-0 line-clamp-5 overflow-hidden",
                                 }}
                             >
                                 <div
@@ -85,19 +85,25 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                             </div>
                         )}
                     </div>
-                    <div className="h-16 flex items-center gap-3 p-4">
-                        {!!kpiToken ? (
-                            <Chip>{kpiToken.template.specification.name}</Chip>
-                        ) : (
-                            <Skeleton variant="xl" width={80} />
-                        )}
-                        {!!kpiToken ? (
-                            kpiToken.specification.tags.map((tag) => (
-                                <Chip key={tag}>{tag}</Chip>
-                            ))
-                        ) : (
-                            <Skeleton variant="xl" width={60} />
-                        )}
+                    <div className="relative h-16 py-4">
+                        <div className="absolute pointer-events-none top-0 left-0 w-full h-full shadow-horizontal-scroller shadow-white dark:shadow-black" />
+                        <div className="flex gap-3 overflow-x-auto px-4 scrollbar-none">
+                            {!!kpiToken ? (
+                                <>
+                                    <Chip>
+                                        {kpiToken.template.specification.name}
+                                    </Chip>
+                                    {kpiToken.specification.tags.map((tag) => (
+                                        <Chip key={tag}>{tag}</Chip>
+                                    ))}
+                                </>
+                            ) : (
+                                <>
+                                    <Skeleton variant="xl" width={80} />
+                                    <Skeleton variant="xl" width={60} />
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <div className="h-12 flex items-center justify-between w-full border-t border-black dark:border-white">

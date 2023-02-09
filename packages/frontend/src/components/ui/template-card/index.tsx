@@ -30,8 +30,8 @@ export const KPITokenTemplateCard = ({
                     </div>
                 </div>
             </div>
-            <div className="h-42 flex flex-col justify-between p-4">
-                <div className="h-20 mb-2">
+            <div className="h-42">
+                <div className="h-26 px-4 pt-4">
                     {!!template ? (
                         <Typography
                             className={{
@@ -48,14 +48,17 @@ export const KPITokenTemplateCard = ({
                         </div>
                     )}
                 </div>
-                <div className="h-6 flex items-center space-x-3">
-                    {!!template ? (
-                        template.specification.tags.map((tag) => (
-                            <Chip key={tag}>{tag}</Chip>
-                        ))
-                    ) : (
-                        <Skeleton variant="xl" width={80} />
-                    )}
+                <div className="relative h-16 py-4">
+                    <div className="absolute pointer-events-none top-0 left-0 w-full h-full shadow-horizontal-scroller shadow-white dark:shadow-black" />
+                    <div className="flex gap-3 overflow-x-auto px-4 scrollbar-none">
+                        {!!template ? (
+                            template.specification.tags.map((tag) => (
+                                <Chip key={tag}>{tag}</Chip>
+                            ))
+                        ) : (
+                            <Skeleton variant="xl" width={80} />
+                        )}
+                    </div>
                 </div>
             </div>
             <div className="flex flex-col">
