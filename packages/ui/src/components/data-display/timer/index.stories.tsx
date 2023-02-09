@@ -2,7 +2,7 @@ import React from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
 import { Timer as TimerComponent, TimerProps } from ".";
-import { DAY_MS } from "../../utils/formatting";
+import { DAY_MS } from "../../../utils/formatting";
 
 export default {
     title: "Data display/Timer",

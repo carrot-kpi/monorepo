@@ -5,7 +5,7 @@ import {
     ERC20TokenPicker as ERC20TokenPickerComponent,
     ERC20TokenPickerProps,
 } from ".";
-import { Button } from "../input";
+import { Button } from "../../input";
 import mockList from "./mock-list.json";
 import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
 
