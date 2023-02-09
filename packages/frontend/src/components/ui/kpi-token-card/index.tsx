@@ -60,41 +60,45 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                     )} */}
             </CardTitle>
             <CardContent>
-                <div className="h-40 flex flex-col justify-between p-4 overflow-hidden">
-                    {!!kpiToken ? (
-                        <Markdown
-                            className={{ root: "prose-sm prose-headings:mt-0" }}
-                        >
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html: sanitizeHtml(
-                                        kpiToken.specification.description
-                                    ),
+                <div className="h-56 max-h-56">
+                    <div className="h-40 flex flex-col justify-between p-4 overflow-hidden">
+                        {!!kpiToken ? (
+                            <Markdown
+                                className={{
+                                    root: "prose-sm prose-headings:mt-0",
                                 }}
-                            />
-                        </Markdown>
-                    ) : (
-                        <div className="flex flex-col gap-3">
-                            <Skeleton width="100%" />
-                            <Skeleton width="100%" />
-                            <Skeleton width="100%" />
-                            <Skeleton width="20%" />
-                        </div>
-                    )}
-                </div>
-                <div className="h-16 flex items-center gap-3 p-4">
-                    {!!kpiToken ? (
-                        <Chip>{kpiToken.template.specification.name}</Chip>
-                    ) : (
-                        <Skeleton variant="xl" width={80} />
-                    )}
-                    {!!kpiToken ? (
-                        kpiToken.specification.tags.map((tag) => (
-                            <Chip key={tag}>{tag}</Chip>
-                        ))
-                    ) : (
-                        <Skeleton variant="xl" width={60} />
-                    )}
+                            >
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: sanitizeHtml(
+                                            kpiToken.specification.description
+                                        ),
+                                    }}
+                                />
+                            </Markdown>
+                        ) : (
+                            <div className="flex flex-col gap-3">
+                                <Skeleton width="100%" />
+                                <Skeleton width="100%" />
+                                <Skeleton width="100%" />
+                                <Skeleton width="20%" />
+                            </div>
+                        )}
+                    </div>
+                    <div className="h-16 flex items-center gap-3 p-4">
+                        {!!kpiToken ? (
+                            <Chip>{kpiToken.template.specification.name}</Chip>
+                        ) : (
+                            <Skeleton variant="xl" width={80} />
+                        )}
+                        {!!kpiToken ? (
+                            kpiToken.specification.tags.map((tag) => (
+                                <Chip key={tag}>{tag}</Chip>
+                            ))
+                        ) : (
+                            <Skeleton variant="xl" width={60} />
+                        )}
+                    </div>
                 </div>
                 <div className="h-12 flex items-center justify-between w-full border-t border-black dark:border-white">
                     <div className="flex items-center px-4 h-12 w-[40%]">
@@ -128,17 +132,23 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                 </div>
             </CardContent>
             <CardActions className={{ root: "justify-center" }}>
-                <Link to={!!kpiToken ? `/campaigns/${kpiToken.address}` : ""}>
-                    <div className="flex justify-center items-center w-full">
-                        {!!kpiToken ? (
+                <div className="flex justify-center items-center w-full">
+                    {!!kpiToken ? (
+                        <Link
+                            to={
+                                !!kpiToken
+                                    ? `/campaigns/${kpiToken.address}`
+                                    : ""
+                            }
+                        >
                             <Typography weight="medium">
                                 ↳ VIEW CAMPAIGN
                             </Typography>
-                        ) : (
-                            <Skeleton width="40%" />
-                        )}
-                    </div>
-                </Link>
+                        </Link>
+                    ) : (
+                        <Skeleton width="40%" />
+                    )}
+                </div>
             </CardActions>
         </Card>
     );
