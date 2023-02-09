@@ -45,6 +45,7 @@ export interface KPITokenData {
     description: string;
     tags: string[];
     expiration: string;
+    creationTimestamp: string;
     template: TemplateData;
     oracles: OracleData[];
     finalized: boolean;
@@ -59,6 +60,7 @@ const KPITokenDataFields = `
     tags
     finalized
     expiration
+    creationTimestamp
     template {
         ${TemplateDataFields}
     }

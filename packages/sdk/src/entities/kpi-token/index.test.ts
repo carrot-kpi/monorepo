@@ -48,6 +48,7 @@ describe("kpi token", () => {
             [oracle],
             kpiTokenSpecification,
             123456789,
+            123456788,
             false
         );
         expect(kpiToken.chainId).toBe(ChainId.GOERLI);
@@ -71,6 +72,7 @@ describe("kpi token", () => {
                 [oracle],
                 kpiTokenSpecification,
                 Math.floor(pastDate.getTime() / 1000),
+                Math.floor(pastDate.getTime() / 1000) - 1,
                 false
             );
             expect(kpiToken.expired).toBeTruthy();
@@ -87,6 +89,7 @@ describe("kpi token", () => {
                 [oracle],
                 kpiTokenSpecification,
                 Math.floor(futureDate.getTime() / 1000),
+                Math.floor(futureDate.getTime() / 1000) - 1,
                 false
             );
             expect(kpiToken.expired).toBeFalsy();
