@@ -1,6 +1,9 @@
 import { cva } from "class-variance-authority";
 import React, { ReactElement } from "react";
-import { matchChildByName } from "../../../utils/components";
+import { matchChildByType } from "../../../utils/components";
+import { CardActions } from "./actions";
+import { CardContent } from "./content";
+import { CardTitle } from "./title";
 
 export * from "./title";
 export * from "./content";
@@ -23,28 +26,23 @@ export interface CardProps {
     children: ReactElement | ReactElement[];
 }
 
-type CardComponents = "CardContent" | "CardTitle" | "CardActions";
-
 export const Card = ({ className, children }: CardProps): ReactElement => {
     const childrenArray = React.Children.toArray(children);
 
     const titleChildren = childrenArray.find((child) =>
-        matchChildByName<CardComponents>(child, "CardTitle")
+        matchChildByType(child, CardTitle)
     );
     const contentChildren = childrenArray.find((child) =>
-        matchChildByName<CardComponents>(child, "CardContent")
+        matchChildByType(child, CardContent)
     );
     const actionsChildren = childrenArray.find((child) =>
-        matchChildByName<CardComponents>(child, "CardActions")
+        matchChildByType(child, CardActions)
     );
 
     return (
         <div className={rootStyles({ className: className?.root })}>
             {titleChildren && (
-                <div className="cui-flex cui-items-center cui-border-b cui-border-black dark:cui-border-white [&:last-of-type]:cui-border-none">
-                    <div className="cui-p-3">
-                        <div className="cui-rounded-full cui-bg-blue cui-h-6 cui-w-6" />
-                    </div>
+                <div className="h-12 cui-flex cui-items-center cui-border-b cui-border-black dark:cui-border-white [&:last-of-type]:cui-border-none">
                     {titleChildren}
                 </div>
             )}

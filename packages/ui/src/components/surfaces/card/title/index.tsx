@@ -6,7 +6,6 @@ const rootStyles = cva([
     "cui-flex",
     "cui-items-center",
     "cui-justify-between",
-    "cui-border-l",
     "cui-border-black",
     "dark:cui-border-white",
     "cui-p-3",

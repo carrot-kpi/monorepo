@@ -2,7 +2,7 @@ import React from "react";
 import { cva } from "class-variance-authority";
 
 const rootStyles = cva(
-    ["cui-bg-gray-300 dark:cui-bg-gray-600 cui-animate-pulse"],
+    ["cui-bg-gray-200 dark:cui-bg-gray-600 cui-animate-pulse"],
     {
         variants: {
             circular: {
