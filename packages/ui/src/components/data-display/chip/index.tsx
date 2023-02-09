@@ -11,6 +11,7 @@ const rootStyles = cva([
     "cui-border",
     "cui-border-black",
     "dark:cui-border-white",
+    "cui-whitespace-nowrap",
 ]);
 
 export interface ChipProps {
