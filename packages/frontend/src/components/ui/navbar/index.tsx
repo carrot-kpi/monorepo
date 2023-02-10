@@ -20,7 +20,12 @@ const navWrapperStyles = cva([""], {
 });
 
 const navbarStyles = cva(
-    ["relative flex items-center justify-between px-6 py-8 md:py-11 lg:px-32"],
+    [
+        "relative",
+        "flex items-center justify-between",
+        "px-6 py-8 md:py-11",
+        "transition-all ease-in delay-75",
+    ],
     {
         variants: {
             bgColor: {
@@ -37,7 +42,7 @@ const navbarStyles = cva(
 const navStyles = cva([], {
     variants: {
         isOpen: {
-            true: ["absolute flex flex-col top-28 left-0 px-6 py-16  w-full"],
+            true: ["absolute flex flex-col top-28 left-0 px-6 py-16 w-full"],
             false: ["hidden md:flex"],
         },
     },
@@ -62,9 +67,12 @@ interface LinkProps {
 export interface NavbarProps {
     bgColor?: "green" | "orange";
     links?: LinkProps[];
+    className?: {
+        nav?: string;
+    };
 }
 
-export const Navbar = ({ bgColor, links }: NavbarProps) => {
+export const Navbar = ({ bgColor, links, className }: NavbarProps) => {
     const [isOpen, setOpen] = useState(false);
 
     useEffect(() => {
@@ -80,7 +88,13 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
     return (
         <div className={navWrapperStyles({ isOpen, bgColor })}>
             {isOpen && <GridPatternBg className="md:hidden" />}
-            <div className={navbarStyles({ bgColor, isOpen })}>
+            <div
+                className={navbarStyles({
+                    bgColor,
+                    isOpen,
+                    className: className?.nav,
+                })}
+            >
                 <NavLink to="/" onClick={() => setOpen(false)}>
                     <Logo className="w-32 h-auto md:w-[188px] text-black" />
                 </NavLink>
