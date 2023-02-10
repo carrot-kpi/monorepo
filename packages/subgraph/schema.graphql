@@ -5,7 +5,7 @@ type _Schema_
         algorithm: rank
         include: [
             {
-                entity: "OracleTemplate"
+                entity: "OracleTemplateSpecification"
                 fields: [{ name: "name" }, { name: "description" }]
             }
         ]
@@ -16,7 +16,7 @@ type _Schema_
         algorithm: rank
         include: [
             {
-                entity: "KPITokenTemplate"
+                entity: "KPITokenTemplateSpecification"
                 fields: [{ name: "name" }, { name: "description" }]
             }
         ]
@@ -27,7 +27,7 @@ type _Schema_
         algorithm: rank
         include: [
             {
-                entity: "KPIToken"
+                entity: "KPITokenDescription"
                 fields: [{ name: "title" }, { name: "description" }]
             }
         ]
@@ -56,20 +56,36 @@ type OraclesManager @entity {
     templatesAmount: BigInt!
 }
 
+type KPITokenTemplateSpecification @entity(immutable: true) {
+    id: Bytes!
+    name: String!
+    description: String!
+    tags: [String!]!
+    repository: String!
+    commitHash: String!
+    template: KPITokenTemplate! @derivedFrom(field: "specification")
+}
+
 type KPITokenTemplate @entity {
     id: Bytes!
     address: Bytes!
     managerId: BigInt!
     version: BigInt!
     specificationCid: String!
+    specification: KPITokenTemplateSpecification!
+    active: Boolean!
+    manager: KPITokensManager!
+    kpiTokens: [KPIToken!]! @derivedFrom(field: "template")
+}
+
+type OracleTemplateSpecification @entity(immutable: true) {
+    id: Bytes!
     name: String!
     description: String!
     tags: [String!]!
     repository: String!
     commitHash: String!
-    active: Boolean!
-    manager: KPITokensManager!
-    kpiTokens: [KPIToken!]! @derivedFrom(field: "template")
+    template: OracleTemplate! @derivedFrom(field: "specification")
 }
 
 type OracleTemplate @entity {
@@ -78,11 +94,7 @@ type OracleTemplate @entity {
     managerId: BigInt!
     version: BigInt!
     specificationCid: String!
-    name: String!
-    description: String!
-    tags: [String!]!
-    repository: String!
-    commitHash: String!
+    specification: OracleTemplateSpecification!
     active: Boolean!
     manager: OraclesManager!
     oracles: [Oracle!]! @derivedFrom(field: "template")
@@ -95,14 +107,20 @@ type Oracle @entity {
     finalized: Boolean!
 }
 
+type KPITokenDescription @entity(immutable: true) {
+    id: Bytes!
+    title: String!
+    description: String!
+    tags: [String!]!
+    kpiToken: KPIToken! @derivedFrom(field: "description")
+}
+
 type KPIToken @entity {
     id: Bytes!
     owner: Bytes!
     template: KPITokenTemplate!
     descriptionCid: String!
-    title: String!
-    description: String!
-    tags: [String!]!
+    description: KPITokenDescription!
     finalized: Boolean!
     expiration: Int!
     creationTimestamp: Int!

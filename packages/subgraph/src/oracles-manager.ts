@@ -1,4 +1,4 @@
-import { Address, BigInt, log } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
 import {
     AddTemplate as AddTemplateEvent,
     OraclesManager as OraclesManagerContract,
@@ -9,9 +9,17 @@ import {
 } from "../generated/templates/OraclesManager/OraclesManager";
 import { OraclesManager, OracleTemplate } from "../generated/schema";
 import { addressToBytes, BI_0, BI_1, templateId } from "./commons";
-import { cidToSpecification } from "./commons";
+import { OracleTemplateSpecification } from "../generated/templates";
 
-export function createTemplate(
+function cidToSpecification(cid: string): Bytes {
+    const specificationBaseJSONCid = cid.endsWith("/")
+        ? cid.concat("base.json")
+        : cid.concat("/base.json");
+    OracleTemplateSpecification.create(specificationBaseJSONCid);
+    return Bytes.fromUTF8(specificationBaseJSONCid);
+}
+
+function createTemplate(
     managerAddress: Address,
     id: BigInt,
     version: BigInt,
@@ -28,17 +36,7 @@ export function createTemplate(
     template.managerId = id;
     template.version = version;
     template.specificationCid = specificationCid;
-
-    const specification = cidToSpecification(specificationCid);
-    if (specification === null) {
-        log.error("could not get specification for cid {}", [specificationCid]);
-        return null;
-    }
-    template.name = specification.name;
-    template.description = specification.description;
-    template.tags = specification.tags;
-    template.repository = specification.repository;
-    template.commitHash = specification.commitHash;
+    template.specification = cidToSpecification(specificationCid);
     template.active = true;
     template.manager = manager.id;
 
@@ -162,18 +160,7 @@ export function handleUpdateTemplateSpecification(
         ]);
         return;
     }
-
-    const specificationCid = event.params.newSpecification;
-    const specification = cidToSpecification(specificationCid);
-    if (specification === null) {
-        log.error("could not get specification for cid {}", [specificationCid]);
-        return;
-    }
-    template.name = specification.name;
-    template.description = specification.description;
-    template.tags = specification.tags;
-    template.repository = specification.repository;
-    template.commitHash = specification.commitHash;
+    template.specification = cidToSpecification(event.params.newSpecification);
     template.save();
 }
 

@@ -10,8 +10,8 @@ dataSources:
     network: goerli
     source:
       abi: Factory
-      address: "0x59429Bcc86FF13f9B66Af412Ff62dD2c9eF8e607"
-      startBlock: 7669575
+      address: "0xF451feb55eeA54EeF90AcB301212b80E03d82819"
+      startBlock: 8467102
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -132,3 +132,33 @@ templates:
         - event: Finalize(uint256)
           handler: handleFinalize
       file: ./src/oracle.ts
+  - kind: file/ipfs
+    name: KPITokenTemplateSpecification
+    mapping:
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/ipfs.ts
+      handler: handleKPITokenTemplateSpecification
+      entities:
+        - KPITokenTemplateSpecification
+      abis: []
+  - kind: file/ipfs
+    name: KPITokenDescription
+    mapping:
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/ipfs.ts
+      handler: handleKPITokenDescription
+      entities:
+        - KPITokenDescription
+      abis: []
+  - kind: file/ipfs
+    name: OracleTemplateSpecification
+    mapping:
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/ipfs.ts
+      handler: handleOracleTemplateSpecification
+      entities:
+        - OracleTemplateSpecification
+      abis: []
