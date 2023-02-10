@@ -1,4 +1,4 @@
-import React, { MouseEvent, useCallback, useMemo } from "react";
+import React, { MouseEvent, useCallback } from "react";
 import { Typography, TypographyProps } from "../../../data-display/typography";
 import { ReactComponent as X } from "../../../../assets/x.svg";
 import { ReactComponent as ChevronLeft } from "../../../../assets/chevron-left.svg";
@@ -100,32 +100,24 @@ export const ManageLists = ({
     onSelectedListChange,
     selectedList,
     lists,
-    chainId,
     ipfsGatewayURL,
     onSearch,
     className,
     messages,
 }: ManageListsProps) => {
-    const listsInChain = useMemo(() => {
-        if (!lists || lists.length === 0 || !chainId) return [];
-        return lists.filter((list) =>
-            list.tokens.some((token) => token.chainId === chainId)
-        );
-    }, [chainId, lists]);
-
     const handleListClick = useCallback(
         (event: MouseEvent) => {
-            if (!onSelectedListChange || !event.target) return;
+            if (!onSelectedListChange || !lists || !event.target) return;
             const index = (event.target as HTMLLIElement).dataset.index;
             if (index !== undefined) {
                 const parsedIndex = parseInt(index);
                 if (parsedIndex >= 0) {
-                    onSelectedListChange(listsInChain[parsedIndex]);
+                    onSelectedListChange(lists[parsedIndex]);
                     if (!!onDismiss) onDismiss();
                 }
             }
         },
-        [listsInChain, onDismiss, onSelectedListChange]
+        [lists, onDismiss, onSelectedListChange]
     );
 
     return (
@@ -157,9 +149,9 @@ export const ManageLists = ({
                     className: className?.listWrapper,
                 })}
             >
-                {listsInChain.length > 0 ? (
+                {!!lists && lists.length > 0 ? (
                     <ul className={listStyles({ className: className?.list })}>
-                        {listsInChain.map((list, index) => {
+                        {lists.map((list, index) => {
                             const { name, version, logoURI } = list;
                             const selected =
                                 !!selectedList &&
