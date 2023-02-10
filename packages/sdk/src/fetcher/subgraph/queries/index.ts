@@ -4,11 +4,13 @@ export interface TemplateData {
     rawAddress: string;
     version: number;
     specificationCid: string;
-    name: string;
-    description: string;
-    tags: string[];
-    repository: string;
-    commitHash: string;
+    specification: {
+        name: string;
+        description: string;
+        tags: string[];
+        repository: string;
+        commitHash: string;
+    };
 }
 
 export const TemplateDataFields = `
@@ -17,11 +19,13 @@ export const TemplateDataFields = `
     rawAddress: address
     version
     specificationCid
-    name
-    description
-    tags
-    repository
-    commitHash
+    specification {
+        name
+        description
+        tags
+        repository
+        commitHash
+    }
 `;
 
 export interface OracleData {
@@ -41,9 +45,11 @@ const OracleDataFields = `
 export interface KPITokenData {
     rawAddress: string;
     descriptionCid: string;
-    title: string;
-    description: string;
-    tags: string[];
+    description: {
+        title: string;
+        description: string;
+        tags: string[];
+    };
     expiration: string;
     creationTimestamp: string;
     template: TemplateData;
@@ -55,9 +61,11 @@ const KPITokenDataFields = `
     rawAddress: id
     owner
     descriptionCid
-    title
-    description
-    tags
+    description {
+        title
+        description
+        tags
+    }
     finalized
     expiration
     creationTimestamp

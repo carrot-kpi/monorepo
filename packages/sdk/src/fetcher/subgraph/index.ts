@@ -43,11 +43,11 @@ const mapRawTemplate = (rawOracleTemplate: TemplateData) => {
         rawOracleTemplate.version,
         new TemplateSpecification(
             rawOracleTemplate.specificationCid,
-            rawOracleTemplate.name,
-            rawOracleTemplate.description,
-            rawOracleTemplate.tags,
-            rawOracleTemplate.repository,
-            rawOracleTemplate.commitHash
+            rawOracleTemplate.specification.name,
+            rawOracleTemplate.specification.description,
+            rawOracleTemplate.specification.tags,
+            rawOracleTemplate.specification.repository,
+            rawOracleTemplate.specification.commitHash
         )
     );
 };
@@ -71,9 +71,9 @@ const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
         }),
         {
             ipfsHash: rawKPIToken.descriptionCid,
-            title: rawKPIToken.title,
-            description: rawKPIToken.description,
-            tags: rawKPIToken.tags,
+            title: rawKPIToken.description.title,
+            description: rawKPIToken.description.description,
+            tags: rawKPIToken.description.tags,
         },
         parseInt(rawKPIToken.expiration),
         parseInt(rawKPIToken.creationTimestamp),
@@ -307,6 +307,7 @@ class Fetcher implements IPartialCarrotFetcher {
                         lastID,
                     }
                 );
+                console.log("from SDK", manager);
                 if (!manager) return [];
                 page = manager.templates;
                 if (page.length === 0) break;
