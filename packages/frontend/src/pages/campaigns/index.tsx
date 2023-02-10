@@ -14,7 +14,7 @@ export const Campaigns = () => {
                 <GridPatternBg fullSize />
                 <div className="relative">
                     <div className="px-6 mb-24 md:px-12">
-                        <ResponsiveHeader autoAlign variant="h1">
+                        <ResponsiveHeader variant="h1">
                             {t("campaign.all")}
                         </ResponsiveHeader>
                     </div>

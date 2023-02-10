@@ -18,7 +18,7 @@ export const LatestCampaignsSection = () => {
 
     return (
         <div className="relative flex flex-col gap-16">
-            <ResponsiveHeader autoAlign variant="h2">
+            <ResponsiveHeader variant="h2">
                 {t("home.latestCampaigns")}
             </ResponsiveHeader>
             <CardHorizontal>
