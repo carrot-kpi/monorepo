@@ -160,6 +160,7 @@ export function handleUpdateTemplateSpecification(
         ]);
         return;
     }
+    template.specificationCid = event.params.newSpecification;
     template.specification = cidToSpecification(event.params.newSpecification);
     template.save();
 }

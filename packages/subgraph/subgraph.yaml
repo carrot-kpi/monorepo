@@ -142,6 +142,7 @@ templates:
       entities:
         - KPITokenTemplateSpecification
       abis: []
+    network: goerli
   - kind: file/ipfs
     name: KPITokenDescription
     mapping:
@@ -152,6 +153,7 @@ templates:
       entities:
         - KPITokenDescription
       abis: []
+    network: goerli
   - kind: file/ipfs
     name: OracleTemplateSpecification
     mapping:
@@ -162,3 +164,4 @@ templates:
       entities:
         - OracleTemplateSpecification
       abis: []
+    network: goerli
