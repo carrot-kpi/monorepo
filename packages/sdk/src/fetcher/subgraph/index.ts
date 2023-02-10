@@ -33,42 +33,70 @@ import { getAddress } from "@ethersproject/address";
 import { Template, TemplateSpecification } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/graphql";
+import { CoreFetcher } from "../core";
 
 const PAGE_SIZE = 100;
 
-const mapRawTemplate = (rawOracleTemplate: TemplateData) => {
+const mapRawTemplate = async (rawOracleTemplate: TemplateData) => {
+    let name, description, tags, repository, commitHash;
+    if (
+        !rawOracleTemplate.specification.name ||
+        !rawOracleTemplate.specification.description ||
+        !rawOracleTemplate.specification.tags ||
+        !rawOracleTemplate.specification.repository ||
+        !rawOracleTemplate.specification.commitHash
+    ) {
+        const cid = rawOracleTemplate.specificationCid;
+        const rawSpecification = (
+            await CoreFetcher.fetchContentFromIPFS({ cids: [cid] })
+        )[cid];
+        const specification = JSON.parse(rawSpecification);
+        name = specification.name;
+        description = specification.description;
+        tags = specification.tags;
+        repository = specification.repository;
+        commitHash = specification.commitHash;
+    } else {
+        name = rawOracleTemplate.specification.name;
+        description = rawOracleTemplate.specification.description;
+        tags = rawOracleTemplate.specification.tags;
+        repository = rawOracleTemplate.specification.repository;
+        commitHash = rawOracleTemplate.specification.commitHash;
+    }
     return new Template(
         parseInt(rawOracleTemplate.managerId),
         getAddress(rawOracleTemplate.rawAddress),
         rawOracleTemplate.version,
         new TemplateSpecification(
             rawOracleTemplate.specificationCid,
-            rawOracleTemplate.specification.name,
-            rawOracleTemplate.specification.description,
-            rawOracleTemplate.specification.tags,
-            rawOracleTemplate.specification.repository,
-            rawOracleTemplate.specification.commitHash
+            name,
+            description,
+            tags,
+            repository,
+            commitHash
         )
     );
 };
 
-const mapRawOracle = (chainId: ChainId, rawOracle: OracleData) => {
+const mapRawOracle = async (chainId: ChainId, rawOracle: OracleData) => {
     return new Oracle(
         chainId,
         getAddress(rawOracle.rawAddress),
-        mapRawTemplate(rawOracle.template),
+        await mapRawTemplate(rawOracle.template),
         rawOracle.finalized
     );
 };
 
-const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
+const mapRawKPIToken = async (chainId: ChainId, rawKPIToken: KPITokenData) => {
     return new KPIToken(
         chainId,
         getAddress(rawKPIToken.rawAddress),
-        mapRawTemplate(rawKPIToken.template),
-        rawKPIToken.oracles.map((rawOracle) => {
-            return mapRawOracle(chainId, rawOracle);
-        }),
+        await mapRawTemplate(rawKPIToken.template),
+        await Promise.all(
+            rawKPIToken.oracles.map(async (rawOracle) => {
+                return mapRawOracle(chainId, rawOracle);
+            })
+        ),
         {
             ipfsHash: rawKPIToken.descriptionCid,
             title: rawKPIToken.description.title,
@@ -159,10 +187,15 @@ class Fetcher implements IPartialCarrotFetcher {
                         GetKPITokenByAddressesQuery,
                         { addresses: addressesChunk }
                     );
-                rawKPITokens.forEach((rawKPIToken) => {
-                    const kpiToken = mapRawKPIToken(chainId, rawKPIToken);
-                    kpiTokens[kpiToken.address] = kpiToken;
-                });
+                await Promise.all(
+                    rawKPITokens.map(async (rawKPIToken) => {
+                        const kpiToken = await mapRawKPIToken(
+                            chainId,
+                            rawKPIToken
+                        );
+                        kpiTokens[kpiToken.address] = kpiToken;
+                    })
+                );
                 fromIndex += PAGE_SIZE;
                 toIndex =
                     fromIndex + PAGE_SIZE > finalIndex
@@ -183,10 +216,15 @@ class Fetcher implements IPartialCarrotFetcher {
                     );
                 page = rawTokens;
                 if (page.length === 0) break;
-                page.forEach((rawKPIToken) => {
-                    const kpiToken = mapRawKPIToken(chainId, rawKPIToken);
-                    kpiTokens[kpiToken.address] = kpiToken;
-                });
+                await Promise.all(
+                    page.map(async (rawKPIToken) => {
+                        const kpiToken = await mapRawKPIToken(
+                            chainId,
+                            rawKPIToken
+                        );
+                        kpiTokens[kpiToken.address] = kpiToken;
+                    })
+                );
                 lastID = page[page.length - 1].rawAddress;
             } while (page.length === PAGE_SIZE);
             return kpiTokens;
@@ -221,10 +259,12 @@ class Fetcher implements IPartialCarrotFetcher {
                         GetOracleByAddressesQuery,
                         { addresses: addressesChunk }
                     );
-                rawOracles.forEach((rawOracle) => {
-                    const oracle = mapRawOracle(chainId, rawOracle);
-                    oracles[oracle.address] = oracle;
-                });
+                await Promise.all(
+                    rawOracles.map(async (rawOracle) => {
+                        const oracle = await mapRawOracle(chainId, rawOracle);
+                        oracles[oracle.address] = oracle;
+                    })
+                );
                 fromIndex += PAGE_SIZE;
                 toIndex =
                     fromIndex + PAGE_SIZE > finalIndex
@@ -244,10 +284,12 @@ class Fetcher implements IPartialCarrotFetcher {
                 );
                 page = result.oracles;
                 if (page.length === 0) break;
-                page.forEach((rawOracle) => {
-                    const oracle = mapRawOracle(chainId, rawOracle);
-                    oracles[oracle.address] = oracle;
-                });
+                await Promise.all(
+                    page.map(async (rawOracle) => {
+                        const oracle = await mapRawOracle(chainId, rawOracle);
+                        oracles[oracle.address] = oracle;
+                    })
+                );
                 lastID = page[page.length - 1].rawAddress;
             } while (page.length === PAGE_SIZE);
             return oracles;
@@ -283,9 +325,11 @@ class Fetcher implements IPartialCarrotFetcher {
                     { managerAddress, ids: idsChunk }
                 );
                 if (!manager) return [];
-                manager.templates.forEach((rawTemplate) => {
-                    templates.push(mapRawTemplate(rawTemplate));
-                });
+                await Promise.all(
+                    manager.templates.map(async (rawTemplate) => {
+                        templates.push(await mapRawTemplate(rawTemplate));
+                    })
+                );
                 fromIndex += PAGE_SIZE;
                 toIndex =
                     fromIndex + PAGE_SIZE > finalIndex
@@ -311,9 +355,11 @@ class Fetcher implements IPartialCarrotFetcher {
                 if (!manager) return [];
                 page = manager.templates;
                 if (page.length === 0) break;
-                page.forEach((rawTemplate) => {
-                    templates.push(mapRawTemplate(rawTemplate));
-                });
+                await Promise.all(
+                    page.map(async (rawTemplate) => {
+                        templates.push(await mapRawTemplate(rawTemplate));
+                    })
+                );
                 lastID = page[page.length - 1].id;
             } while (page.length === PAGE_SIZE);
             return templates;
@@ -349,9 +395,11 @@ class Fetcher implements IPartialCarrotFetcher {
                     { managerAddress, ids: idsChunk }
                 );
                 if (!manager) return [];
-                manager.templates.forEach((rawTemplate) => {
-                    templates.push(mapRawTemplate(rawTemplate));
-                });
+                await Promise.all(
+                    manager.templates.map(async (rawTemplate) => {
+                        templates.push(await mapRawTemplate(rawTemplate));
+                    })
+                );
                 fromIndex += PAGE_SIZE;
                 toIndex =
                     fromIndex + PAGE_SIZE > finalIndex
@@ -376,9 +424,11 @@ class Fetcher implements IPartialCarrotFetcher {
                 if (!manager) return [];
                 page = manager.templates;
                 if (page.length === 0) break;
-                page.forEach((rawTemplate) => {
-                    templates.push(mapRawTemplate(rawTemplate));
-                });
+                await Promise.all(
+                    page.map(async (rawTemplate) => {
+                        templates.push(await mapRawTemplate(rawTemplate));
+                    })
+                );
                 lastID = page[page.length - 1].id;
             } while (page.length === PAGE_SIZE);
             return templates;

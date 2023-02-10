@@ -57,9 +57,9 @@ templates:
           handler: handleAddTemplate
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: RemoveTemplate(indexed uint256,uint256)
+        - event: RemoveTemplate(indexed uint256)
           handler: handleRemoveTemplate
-        - event: UpdateTemplateSpecification(indexed uint256,uint256,string)
+        - event: UpdateTemplateSpecification(indexed uint256,string)
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
@@ -84,9 +84,9 @@ templates:
           handler: handleAddTemplate
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: RemoveTemplate(indexed uint256,uint256)
+        - event: RemoveTemplate(indexed uint256)
           handler: handleRemoveTemplate
-        - event: UpdateTemplateSpecification(indexed uint256,uint256,string)
+        - event: UpdateTemplateSpecification(indexed uint256,string)
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
