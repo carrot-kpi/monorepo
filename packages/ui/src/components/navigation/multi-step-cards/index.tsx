@@ -5,6 +5,9 @@ import { matchChildByType } from "../../../utils/components";
 import { StepCard, StepCardProps } from "./step-card";
 import { NextStepPreview, NextStepPreviewProps } from "./step-preview";
 
+export * from "./step-card";
+export * from "./step-preview";
+
 const rootStyles = cva([
     "cui-w-full",
     "cui-max-w-xl",
