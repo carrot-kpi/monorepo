@@ -35,9 +35,9 @@ function createTemplate(
     template.address = address;
     template.managerId = id;
     template.version = version;
-    template.specificationCid = specificationCid;
     template.active = true;
     template.manager = manager.id;
+    template.specificationCid = specificationCid;
     template.specification = cidToSpecification(specificationCid);
 
     return template;
@@ -141,7 +141,7 @@ export function handleRemoveTemplate(event: RemoveTemplateEvent): void {
         ]);
         return;
     }
-    template.active = true;
+    template.active = false;
     template.save();
 }
 
