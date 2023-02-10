@@ -58,11 +58,11 @@ type OraclesManager @entity {
 
 type KPITokenTemplateSpecification @entity(immutable: true) {
     id: Bytes!
-    name: String!
-    description: String!
-    tags: [String!]!
-    repository: String!
-    commitHash: String!
+    name: String
+    description: String
+    tags: [String!]
+    repository: String
+    commitHash: String
     template: KPITokenTemplate! @derivedFrom(field: "specification")
 }
 
@@ -80,11 +80,11 @@ type KPITokenTemplate @entity {
 
 type OracleTemplateSpecification @entity(immutable: true) {
     id: Bytes!
-    name: String!
-    description: String!
-    tags: [String!]!
-    repository: String!
-    commitHash: String!
+    name: String
+    description: String
+    tags: [String!]
+    repository: String
+    commitHash: String
     template: OracleTemplate! @derivedFrom(field: "specification")
 }
 
@@ -109,9 +109,9 @@ type Oracle @entity {
 
 type KPITokenDescription @entity(immutable: true) {
     id: Bytes!
-    title: String!
-    description: String!
-    tags: [String!]!
+    title: String
+    description: String
+    tags: [String!]
     kpiToken: KPIToken! @derivedFrom(field: "description")
 }
 
