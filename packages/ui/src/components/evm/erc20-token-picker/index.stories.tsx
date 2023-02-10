@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
 import {
@@ -6,7 +6,6 @@ import {
     ERC20TokenPickerProps,
 } from ".";
 import { Button } from "../../input";
-import mockList from "./mock-list.json";
 import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
 
 export default {
@@ -19,6 +18,26 @@ const Template: Story<ERC20TokenPickerProps> = (
 ) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState<TokenInfoWithBalance | null>(null);
+    const [list, setList] = useState<TokenListWithBalance | null>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        const fetchData = async () => {
+            const response = await fetch(
+                "https://carrot-kpi.dev/token-list.json"
+            );
+            if (!response.ok) {
+                console.warn("could not fetch carrot token list");
+                return;
+            }
+            if (!cancelled)
+                setList((await response.json()) as TokenListWithBalance);
+        };
+        void fetchData();
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     const handleClick = useCallback(() => {
         setOpen(!open);
@@ -28,31 +47,38 @@ const Template: Story<ERC20TokenPickerProps> = (
         setOpen(false);
     }, []);
 
+    console.log(list);
+
     return (
         <>
-            <Button onClick={handleClick}>Open</Button>
-            <ERC20TokenPickerComponent
-                {...props}
-                selectedToken={value}
-                onSelectedTokenChange={setValue}
-                open={open}
-                onDismiss={handleDismiss}
-                lists={[mockList as TokenListWithBalance]}
-                selectedList={mockList as TokenListWithBalance}
-                chainId={1}
-                messages={{
-                    search: {
-                        title: "Title tokens",
-                        inputPlaceholder: "Placeholder",
-                        noTokens: "No tokens",
-                        manageLists: "Manage lists",
-                    },
-                    manageLists: {
-                        title: "Title list",
-                        noLists: "No tokens",
-                    },
-                }}
-            />
+            <Button onClick={handleClick} loading={!list}>
+                Open
+            </Button>
+            {!!list && (
+                <ERC20TokenPickerComponent
+                    {...props}
+                    selectedToken={value}
+                    onSelectedTokenChange={setValue}
+                    open={open}
+                    onDismiss={handleDismiss}
+                    lists={[list]}
+                    selectedList={list}
+                    // Goerli
+                    chainId={5}
+                    messages={{
+                        search: {
+                            title: "Title tokens",
+                            inputPlaceholder: "Placeholder",
+                            noTokens: "No tokens",
+                            manageLists: "Manage lists",
+                        },
+                        manageLists: {
+                            title: "Title list",
+                            noLists: "No lists",
+                        },
+                    }}
+                />
+            )}
         </>
     );
 };
