@@ -80,7 +80,7 @@ const optionStyles = cva(
     }
 );
 
-const selectAnchorStyles = cva(["cui-relative"]);
+const selectAnchorStyles = cva(["cui-relative", "cui-w-fit"]);
 const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
@@ -243,4 +243,6 @@ const Component = <O extends SelectOption>(
     );
 };
 
-export const Select = forwardRef(Component);
+export const Select = forwardRef(Component) as <O extends SelectOption>(
+    props: SelectProps<O> & { ref?: React.ForwardedRef<HTMLSelectElement> }
+) => ReturnType<typeof Component>;
