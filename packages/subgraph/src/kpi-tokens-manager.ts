@@ -182,14 +182,6 @@ export function handleUpgradeTemplate(event: UpgradeTemplateEvent): void {
     oldTemplate.active = false;
     oldTemplate.save();
 
-    const newSpecificationCid = event.params.newSpecification;
-    const specification = cidToSpecification(newSpecificationCid);
-    if (specification === null) {
-        log.error("could not get specification for cid {}", [
-            newSpecificationCid,
-        ]);
-        return;
-    }
     const newTemplate = createTemplate(
         event.address,
         event.params.id,
