@@ -54,6 +54,7 @@ export const FeaturedCampaings = () => {
                         tags: ["mocked-tag"],
                     },
                     Date.now() + 1_000_000,
+                    Date.now(),
                     false
                 );
                 return (
