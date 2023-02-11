@@ -11,9 +11,9 @@ import {
     templateId,
 } from "./commons";
 
-function createOracle(address: Address): Oracle {
-    const oracle = new Oracle(addressToBytes(address));
-    const oracleContract = OracleContract.bind(address);
+export function handleInitialize(event: InitializeEvent): void {
+    const oracle = new Oracle(addressToBytes(event.address));
+    const oracleContract = OracleContract.bind(event.address);
     const context = dataSource.context();
 
     oracle.kpiToken = addressToBytes(oracleContract.kpiToken());
@@ -28,18 +28,6 @@ function createOracle(address: Address): Oracle {
         oracleTemplateStruct.id,
         oracleTemplateStruct.version
     );
-
-    return oracle;
-}
-
-export function handleInitialize(event: InitializeEvent): void {
-    const oracle = createOracle(event.address);
-    if (oracle === null) {
-        log.error("could not create oracle with address {}", [
-            event.address.toString(),
-        ]);
-        return;
-    }
     oracle.save();
 }
 

@@ -5,19 +5,16 @@ import {
     KPIToken as KPITokenContract,
 } from "../generated/templates/KPIToken/KPIToken";
 import { KPIToken } from "../generated/schema";
-import {
-    KPITokenDescription,
-    Oracle as OracleTemplate,
-} from "../generated/templates";
+import { KPITokenDescription, Oracle } from "../generated/templates";
 import {
     addressToBytes,
     CONTEXT_KEY_KPI_TOKENS_MANAGER_BYTES_ADDRESS,
     templateId,
 } from "./commons";
 
-function createKPIToken(address: Address): KPIToken | null {
-    const kpiToken = new KPIToken(addressToBytes(address));
-    const kpiTokenContract = KPITokenContract.bind(address);
+export function handleInitialize(event: InitializeEvent): void {
+    const kpiToken = new KPIToken(addressToBytes(event.address));
+    const kpiTokenContract = KPITokenContract.bind(event.address);
     const context = dataSource.context();
 
     kpiToken.owner = kpiTokenContract.owner();
@@ -41,23 +38,10 @@ function createKPIToken(address: Address): KPIToken | null {
     kpiToken.description = Bytes.fromUTF8(descriptionCid);
 
     const oracleAddresses = kpiTokenContract.oracles();
-    for (let i = 0; i < oracleAddresses.length; i++) {
-        const oracleAddress = oracleAddresses[i];
-        OracleTemplate.create(oracleAddress);
-        kpiToken.oracles.push(addressToBytes(oracleAddress));
-    }
+    for (let i = 0; i < oracleAddresses.length; i++)
+        // context contains the oracles manager address passed in from the factory
+        Oracle.createWithContext(oracleAddresses[i], context);
 
-    return kpiToken;
-}
-
-export function handleInitialize(event: InitializeEvent): void {
-    const kpiToken = createKPIToken(event.address);
-    if (kpiToken === null) {
-        log.error("could not create kpi token with address {}", [
-            event.address.toString(),
-        ]);
-        return;
-    }
     kpiToken.save();
 }
 
