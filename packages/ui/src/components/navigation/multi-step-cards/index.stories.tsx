@@ -4,7 +4,7 @@ import { ComponentMeta } from "@storybook/react";
 import { MultiStepCards as MultiStepCardsComponent } from ".";
 import { StepCard } from "./step-card";
 import { Typography } from "../../data-display";
-import { TextInput } from "../../input";
+import { Button, TextInput } from "../../input";
 
 export default {
     title: "Navigation/Multi Step Cards",
@@ -27,12 +27,8 @@ export const MultiStepCards = () => {
 
     return (
         <MultiStepCardsComponent activeStep={step}>
-            <StepCard
-                step={1}
-                title="Nice step title"
-                onNextStep={handleStepNext}
-            >
-                <div className="cui-flex cui-flex-col cui-gap-3">
+            <StepCard step={1} title="Nice step title">
+                <div className="cui-flex cui-flex-col cui-gap-6">
                     <Typography variant="h3" weight="medium">
                         Step content
                     </Typography>
@@ -49,15 +45,15 @@ export const MultiStepCards = () => {
                         label="Mome input"
                         className={{ input: "cui-w-full" }}
                     />
+                    <div className="cui-flex cui-justify-end">
+                        <Button onClick={handleStepNext} size="small">
+                            NEXT
+                        </Button>
+                    </div>
                 </div>
             </StepCard>
-            <StepCard
-                step={2}
-                title="Another nice step title"
-                onNextStep={handleStepNext}
-                onPreviousStep={handleStepPrevious}
-            >
-                <div className="cui-flex cui-flex-col cui-gap-3">
+            <StepCard step={2} title="Another nice step title">
+                <div className="cui-flex cui-flex-col cui-gap-6">
                     <TextInput
                         id="text-input"
                         label="Add some input"
@@ -68,22 +64,32 @@ export const MultiStepCards = () => {
                         label="Mome input"
                         className={{ input: "cui-w-full" }}
                     />
+                    <div className="cui-flex cui-justify-between">
+                        <Button onClick={handleStepPrevious} size="small">
+                            PREVIOUS
+                        </Button>
+                        <Button onClick={handleStepNext} size="small">
+                            NEXT
+                        </Button>
+                    </div>
                 </div>
             </StepCard>
-            <StepCard
-                step={3}
-                title="More step title"
-                onNextStep={handleStepNext}
-                onPreviousStep={handleStepPrevious}
-                nextButtonLabel="CONFIRM"
-            >
-                <div className="cui-flex cui-flex-col cui-gap-3">
+            <StepCard step={3} title="More step title">
+                <div className="cui-flex cui-flex-col cui-gap-6">
                     <Typography variant="lg" weight="medium">
                         More step content
                     </Typography>
                     <Typography variant="lg" weight="medium">
                         More step content
                     </Typography>
+                    <div className="cui-flex cui-justify-between">
+                        <Button onClick={handleStepPrevious} size="small">
+                            PREVIOUS
+                        </Button>
+                        <Button onClick={handleStepNext} size="small">
+                            DONE
+                        </Button>
+                    </div>
                 </div>
             </StepCard>
         </MultiStepCardsComponent>
