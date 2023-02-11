@@ -65,7 +65,7 @@ type KPITokenTemplate @entity {
     managerId: BigInt!
     version: BigInt!
     specificationCid: String!
-    specification: KPITokenTemplateSpecification!
+    specification: KPITokenTemplateSpecification
     templateSet: KPITokenTemplateSet!
     kpiTokens: [KPIToken!]! @derivedFrom(field: "template")
 }
@@ -90,10 +90,10 @@ type KPIToken @entity {
     owner: Bytes!
     template: KPITokenTemplate!
     descriptionCid: String!
-    description: KPITokenDescription!
+    description: KPITokenDescription
     finalized: Boolean!
-    expiration: Int!
-    creationTimestamp: Int!
+    expiration: BigInt!
+    creationTimestamp: BigInt!
     oracles: [Oracle!]! @derivedFrom(field: "kpiToken")
 }
 
@@ -120,7 +120,7 @@ type OracleTemplate @entity {
     managerId: BigInt!
     version: BigInt!
     specificationCid: String!
-    specification: OracleTemplateSpecification!
+    specification: OracleTemplateSpecification
     templateSet: OracleTemplateSet!
     oracles: [Oracle!]! @derivedFrom(field: "template")
 }
