@@ -42,20 +42,6 @@ type Factory @entity {
     kpiTokensAmount: BigInt!
 }
 
-type KPITokensManager @entity {
-    id: Bytes!
-    owner: Bytes!
-    templates: [KPITokenTemplate!]! @derivedFrom(field: "manager")
-    templatesAmount: BigInt!
-}
-
-type OraclesManager @entity {
-    id: Bytes!
-    owner: Bytes!
-    templates: [OracleTemplate!]! @derivedFrom(field: "manager")
-    templatesAmount: BigInt!
-}
-
 type KPITokenTemplateSpecification @entity(immutable: true) {
     id: Bytes!
     name: String
@@ -66,6 +52,13 @@ type KPITokenTemplateSpecification @entity(immutable: true) {
     template: KPITokenTemplate! @derivedFrom(field: "specification")
 }
 
+type KPITokenTemplateSet @entity {
+    id: Bytes!
+    templates: [KPITokenTemplate!]! @derivedFrom(field: "templateSet")
+    active: Boolean!
+    manager: KPITokensManager!
+}
+
 type KPITokenTemplate @entity {
     id: Bytes!
     address: Bytes!
@@ -73,38 +66,15 @@ type KPITokenTemplate @entity {
     version: BigInt!
     specificationCid: String!
     specification: KPITokenTemplateSpecification!
-    active: Boolean!
-    manager: KPITokensManager!
+    templateSet: KPITokenTemplateSet!
     kpiTokens: [KPIToken!]! @derivedFrom(field: "template")
 }
 
-type OracleTemplateSpecification @entity(immutable: true) {
+type KPITokensManager @entity {
     id: Bytes!
-    name: String
-    description: String
-    tags: [String!]
-    repository: String
-    commitHash: String
-    template: OracleTemplate! @derivedFrom(field: "specification")
-}
-
-type OracleTemplate @entity {
-    id: Bytes!
-    address: Bytes!
-    managerId: BigInt!
-    version: BigInt!
-    specificationCid: String!
-    specification: OracleTemplateSpecification!
-    active: Boolean!
-    manager: OraclesManager!
-    oracles: [Oracle!]! @derivedFrom(field: "template")
-}
-
-type Oracle @entity {
-    id: Bytes!
-    kpiToken: KPIToken!
-    template: OracleTemplate!
-    finalized: Boolean!
+    owner: Bytes!
+    templateSets: [KPITokenTemplateSet!]! @derivedFrom(field: "manager")
+    templatesAmount: BigInt!
 }
 
 type KPITokenDescription @entity(immutable: true) {
@@ -125,4 +95,46 @@ type KPIToken @entity {
     expiration: Int!
     creationTimestamp: Int!
     oracles: [Oracle!]! @derivedFrom(field: "kpiToken")
+}
+
+type OracleTemplateSpecification @entity(immutable: true) {
+    id: Bytes!
+    name: String
+    description: String
+    tags: [String!]
+    repository: String
+    commitHash: String
+    template: OracleTemplate! @derivedFrom(field: "specification")
+}
+
+type OracleTemplateSet @entity {
+    id: Bytes!
+    templates: [OracleTemplate!]! @derivedFrom(field: "templateSet")
+    active: Boolean!
+    manager: OraclesManager!
+}
+
+type OracleTemplate @entity {
+    id: Bytes!
+    address: Bytes!
+    managerId: BigInt!
+    version: BigInt!
+    specificationCid: String!
+    specification: OracleTemplateSpecification!
+    templateSet: OracleTemplateSet!
+    oracles: [Oracle!]! @derivedFrom(field: "template")
+}
+
+type OraclesManager @entity {
+    id: Bytes!
+    owner: Bytes!
+    templateSets: [OracleTemplateSet!]! @derivedFrom(field: "manager")
+    templatesAmount: BigInt!
+}
+
+type Oracle @entity {
+    id: Bytes!
+    kpiToken: KPIToken!
+    template: OracleTemplate!
+    finalized: Boolean!
 }

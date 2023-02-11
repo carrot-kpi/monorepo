@@ -18,6 +18,14 @@ export function addressToBytes(address: Address): Bytes {
     return Bytes.fromHexString(address.toHex());
 }
 
+export function bytesToAddress(bytes: Bytes): Address {
+    return Address.fromBytes(bytes);
+}
+
+export function i32ToBytes(i32: i32): Bytes {
+    return Bytes.fromI32(i32);
+}
+
 export function templateId(
     managerAddress: Address,
     onChainId: BigInt,

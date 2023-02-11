@@ -24,9 +24,9 @@ export interface ChainAddresses {
 export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
     [ChainId.GOERLI]: {
         multicall: "0xcA11bde05977b3631167028862bE2a173976CA11",
-        factory: "0xF451feb55eeA54EeF90AcB301212b80E03d82819",
-        kpiTokensManager: "0xAcAFe7928cDd2E02bd508a4827b62649726f9460",
-        oraclesManager: "0x35030D4680C339Dd5a043C23f99Ee45ce66198CA",
+        factory: "0x9fa71dF5AEa30B488839984EDC8efe57DBc3e8C7",
+        kpiTokensManager: "0xB7B626f643AeDCCD39112A30E4A95c16bA3d05C7",
+        oraclesManager: "0xC3afEab48E0A7f2C3809f8Dd9674E526B11754cd",
     },
     [ChainId.SEPOLIA]: {
         multicall: "0xcA11bde05977b3631167028862bE2a173976CA11",

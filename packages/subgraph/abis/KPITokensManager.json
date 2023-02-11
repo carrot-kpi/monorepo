@@ -126,6 +126,12 @@
                 "internalType": "string",
                 "name": "newSpecification",
                 "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "version",
+                "type": "uint256"
             }
         ],
         "name": "UpdateTemplateSpecification",
@@ -149,7 +155,7 @@
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "_newVersion",
+                "name": "newVersion",
                 "type": "uint256"
             },
             {

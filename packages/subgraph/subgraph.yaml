@@ -10,8 +10,8 @@ dataSources:
     network: goerli
     source:
       abi: Factory
-      address: "0xF451feb55eeA54EeF90AcB301212b80E03d82819"
-      startBlock: 8467102
+      address: "0x9fa71dF5AEa30B488839984EDC8efe57DBc3e8C7"
+      startBlock: 8470313
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -59,7 +59,7 @@ templates:
           handler: handleOwnershipTransferred
         - event: RemoveTemplate(indexed uint256)
           handler: handleRemoveTemplate
-        - event: UpdateTemplateSpecification(indexed uint256,string)
+        - event: UpdateTemplateSpecification(indexed uint256,string,uint256)
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
@@ -86,7 +86,7 @@ templates:
           handler: handleOwnershipTransferred
         - event: RemoveTemplate(indexed uint256)
           handler: handleRemoveTemplate
-        - event: UpdateTemplateSpecification(indexed uint256,string)
+        - event: UpdateTemplateSpecification(indexed uint256,string,uint256)
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate

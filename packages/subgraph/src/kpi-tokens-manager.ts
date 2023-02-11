@@ -7,8 +7,19 @@ import {
     UpdateTemplateSpecification as UpdateTemplateSpecificationEvent,
     UpgradeTemplate as UpgradeTemplateEvent,
 } from "../generated/templates/KPITokensManager/KPITokensManager";
-import { KPITokensManager, KPITokenTemplate } from "../generated/schema";
-import { addressToBytes, BI_0, BI_1, templateId } from "./commons";
+import {
+    KPITokensManager,
+    KPITokenTemplate,
+    KPITokenTemplateSet,
+} from "../generated/schema";
+import {
+    addressToBytes,
+    BI_0,
+    BI_1,
+    bytesToAddress,
+    i32ToBytes,
+    templateId,
+} from "./commons";
 import { KPITokenTemplateSpecification } from "../generated/templates";
 
 function cidToSpecification(cid: string): Bytes {
@@ -35,12 +46,28 @@ function createTemplate(
     template.address = address;
     template.managerId = id;
     template.version = version;
-    template.active = true;
-    template.manager = manager.id;
     template.specificationCid = specificationCid;
     template.specification = cidToSpecification(specificationCid);
+    template.templateSet = getTemplateSet(managerAddress, id).id;
 
     return template;
+}
+
+function getTemplateSet(
+    managerAddress: Address,
+    managerId: BigInt
+): KPITokenTemplateSet {
+    const id = addressToBytes(managerAddress).concat(
+        i32ToBytes(managerId.toI32())
+    );
+    let templateSet = KPITokenTemplateSet.load(id);
+    if (templateSet == null) {
+        templateSet = new KPITokenTemplateSet(id);
+        templateSet.manager = addressToBytes(managerAddress);
+        templateSet.active = true;
+        templateSet.save();
+    }
+    return templateSet;
 }
 
 export function getTemplate(
@@ -129,20 +156,22 @@ export function handleOwnershipTransferred(
 }
 
 export function handleRemoveTemplate(event: RemoveTemplateEvent): void {
-    const template = getTemplate(
-        event.address,
-        event.params.id,
-        event.params.version
+    const templateSet = getTemplateSet(
+        bytesToAddress(event.address),
+        event.params.id
     );
-    if (template === null) {
-        log.error("could not find removed template with id {} and version {}", [
+    if (templateSet === null) {
+        log.error("could not find removed template set with id {}", [
             event.params.id.toString(),
-            event.params.version.toString(),
         ]);
         return;
     }
-    template.active = false;
-    template.save();
+    templateSet.active = false;
+    templateSet.save();
+
+    const manager = getKPITokensManager(event.address);
+    manager.templatesAmount = manager.templatesAmount.minus(BI_1);
+    manager.save();
 }
 
 export function handleUpdateTemplateSpecification(
@@ -166,22 +195,6 @@ export function handleUpdateTemplateSpecification(
 }
 
 export function handleUpgradeTemplate(event: UpgradeTemplateEvent): void {
-    const oldTemplateVersion = event.params.newVersion.minus(BI_1);
-    const oldTemplate = getTemplate(
-        event.address,
-        event.params.id,
-        oldTemplateVersion
-    );
-    if (oldTemplate === null) {
-        log.error(
-            "could not deactivate upgraded template with id {} and version {}",
-            [event.params.id.toString(), event.params.newVersion.toString()]
-        );
-        return;
-    }
-    oldTemplate.active = false;
-    oldTemplate.save();
-
     const newTemplate = createTemplate(
         event.address,
         event.params.id,

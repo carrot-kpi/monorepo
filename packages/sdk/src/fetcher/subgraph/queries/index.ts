@@ -151,31 +151,35 @@ export const GetOraclesQuery = `
 `;
 
 export interface GetTemplatesQueryResponse {
-    manager?: { templates: TemplateData[] };
+    manager?: { templateSets: { templates: TemplateData[] }[] };
 }
 
-export const GetKPITokenTemplatesOfManagerByIdQuery = `
+export const GetLatestVersionKPITokenTemplatesOfManagerByIdQuery = `
     query getKPITokenTemplatesOfManagerById(
         $managerAddress: ID!
         $ids: [BigInt!]!
     ) {
         manager: kpitokensManager(id: $managerAddress) {
-            templates(where: { managerId_in: $ids }) {
-                ${TemplateDataFields}
+            templateSets(where: { id_in: $ids }) {
+                templates(orderBy: version, orderDirection: desc, first: 1) {
+                    ${TemplateDataFields}
+                }
             }
         }
     }
 `;
 
-export const GetKPITokenTemplatesOfManagerQuery = `
+export const GetLatestVersionKPITokenTemplatesOfManagerQuery = `
     query getKPITokenTemplatesOfManager(
         $managerAddress: ID!
         $limit: Int!
         $lastID: Bytes
     ) {
         manager: kpitokensManager(id: $managerAddress) {
-            templates(first: $limit, where: { id_gt: $lastID }) {
-                ${TemplateDataFields}
+            templateSets(first: $limit, where: { id_gt: $lastID }) {
+                templates(orderBy: version, orderDirection: desc, first: 1) {
+                    ${TemplateDataFields}
+                }
             }
         }
     }
@@ -184,8 +188,10 @@ export const GetKPITokenTemplatesOfManagerQuery = `
 export const GetOracleTemplatesOfManagerByIdQuery = `
     query getOracleTemplatesOfManagerById($managerAddress: ID!, $ids: [BigInt!]!) {
         manager: oraclesManager(id: $managerAddress) {
-            templates(where: { managerId_in: $ids }) {
-                ${TemplateDataFields}
+            templateSets(where: { id_in: $ids }) {
+                templates(orderBy: version, orderDirection: desc, first: 1) {
+                    ${TemplateDataFields}
+                }
             }
         }
     }
@@ -198,8 +204,10 @@ export const GetOracleTemplatesOfManagerQuery = `
         $lastID: Bytes
     ) {
         manager: oraclesManager(id: $managerAddress) {
-            templates(first: $limit, where: { id_gt: $lastID }) {
-                ${TemplateDataFields}
+            templateSets(where: { id_gt: $lastID }) {
+                templates(orderBy: version, orderDirection: desc, first: 1) {
+                    ${TemplateDataFields}
+                }
             }
         }
     }

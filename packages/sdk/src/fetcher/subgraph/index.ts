@@ -18,8 +18,8 @@ import {
     GetOraclesQueryResponse,
     GetOraclesQuery,
     GetTemplatesQueryResponse,
-    GetKPITokenTemplatesOfManagerByIdQuery,
-    GetKPITokenTemplatesOfManagerQuery,
+    GetLatestVersionKPITokenTemplatesOfManagerByIdQuery,
+    GetLatestVersionKPITokenTemplatesOfManagerQuery,
     GetOracleTemplatesOfManagerByIdQuery,
     GetOracleTemplatesOfManagerQuery,
     GetKPITokensAmountQueryResponse,
@@ -321,13 +321,16 @@ class Fetcher implements IPartialCarrotFetcher {
                 const idsChunk = ids.slice(fromIndex, toIndex);
                 const { manager } = await query<GetTemplatesQueryResponse>(
                     subgraphURL,
-                    GetKPITokenTemplatesOfManagerByIdQuery,
+                    GetLatestVersionKPITokenTemplatesOfManagerByIdQuery,
                     { managerAddress, ids: idsChunk }
                 );
-                if (!manager) return [];
+                if (!manager || manager.templateSets.length === 0) return [];
                 await Promise.all(
-                    manager.templates.map(async (rawTemplate) => {
-                        templates.push(await mapRawTemplate(rawTemplate));
+                    manager.templateSets.map(async (templateSet) => {
+                        if (templateSet.templates.length === 0) return;
+                        templates.push(
+                            await mapRawTemplate(templateSet.templates[0])
+                        );
                     })
                 );
                 fromIndex += PAGE_SIZE;
@@ -344,7 +347,7 @@ class Fetcher implements IPartialCarrotFetcher {
             do {
                 const { manager } = await query<GetTemplatesQueryResponse>(
                     subgraphURL,
-                    GetKPITokenTemplatesOfManagerQuery,
+                    GetLatestVersionKPITokenTemplatesOfManagerQuery,
                     {
                         managerAddress,
                         limit: PAGE_SIZE,
@@ -352,8 +355,15 @@ class Fetcher implements IPartialCarrotFetcher {
                     }
                 );
                 console.log("from SDK", manager);
-                if (!manager) return [];
-                page = manager.templates;
+                if (!manager || manager.templateSets.length === 0) return [];
+                page = manager.templateSets.reduce(
+                    (accumulator: TemplateData[], templateSet) => {
+                        if (templateSet.templates.length > 0)
+                            accumulator.push(templateSet.templates[0]);
+                        return accumulator;
+                    },
+                    []
+                );
                 if (page.length === 0) break;
                 await Promise.all(
                     page.map(async (rawTemplate) => {
@@ -394,10 +404,13 @@ class Fetcher implements IPartialCarrotFetcher {
                     GetOracleTemplatesOfManagerByIdQuery,
                     { managerAddress, ids: idsChunk }
                 );
-                if (!manager) return [];
+                if (!manager || manager.templateSets.length === 0) return [];
                 await Promise.all(
-                    manager.templates.map(async (rawTemplate) => {
-                        templates.push(await mapRawTemplate(rawTemplate));
+                    manager.templateSets.map(async (templateSet) => {
+                        if (templateSet.templates.length === 0) return;
+                        templates.push(
+                            await mapRawTemplate(templateSet.templates[0])
+                        );
                     })
                 );
                 fromIndex += PAGE_SIZE;
@@ -422,7 +435,14 @@ class Fetcher implements IPartialCarrotFetcher {
                     }
                 );
                 if (!manager) return [];
-                page = manager.templates;
+                page = manager.templateSets.reduce(
+                    (accumulator: TemplateData[], templateSet) => {
+                        if (templateSet.templates.length > 0)
+                            accumulator.push(templateSet.templates[0]);
+                        return accumulator;
+                    },
+                    []
+                );
                 if (page.length === 0) break;
                 await Promise.all(
                     page.map(async (rawTemplate) => {
