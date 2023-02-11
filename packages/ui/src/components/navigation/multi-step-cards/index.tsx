@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import React, { useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { ReactElement } from "react";
 import { matchChildByType } from "../../../utils/components";
 import { StepCard, StepCardProps } from "./step-card";
@@ -23,7 +23,7 @@ const stepsPreviewContainerStyles = cva([
 ]);
 
 export interface MultiStepCardsProps {
-    children: ReactElement | ReactElement[];
+    children: ReactNode | ReactNode[];
     activeStep?: number;
     className?: {
         root?: string;
