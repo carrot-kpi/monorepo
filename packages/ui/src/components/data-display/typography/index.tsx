@@ -23,8 +23,18 @@ const rootStyles = cva(["cui-text-black dark:cui-text-white"], {
             h5: ["cui-font-sans", "cui-font-bold", "cui-text-h5"],
             h4: ["cui-font-sans", "cui-font-bold", "cui-text-h4"],
             h3: ["cui-font-sans", "cui-font-bold", "cui-text-h3"],
-            h2: ["cui-font-sans", "cui-font-bold", "cui-text-h2"],
-            h1: ["cui-font-sans", "cui-font-bold", "cui-text-h1"],
+            h2: [
+                "cui-font-sans",
+                "cui-font-bold",
+                "cui-text-h3",
+                "md:cui-text-h2",
+            ],
+            h1: [
+                "cui-font-sans",
+                "cui-font-bold",
+                "cui-text-h3",
+                "md:cui-text-h1",
+            ],
         },
         weight: {
             normal: ["cui-font-normal"],
