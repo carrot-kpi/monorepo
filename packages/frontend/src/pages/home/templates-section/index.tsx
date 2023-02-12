@@ -1,9 +1,8 @@
 import { useKPITokenTemplates } from "@carrot-kpi/react";
-import { Button } from "@carrot-kpi/ui";
+import { Button, Typography } from "@carrot-kpi/ui";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
-import { ResponsiveHeader } from "../../../components/ui/responsive-header";
 import { KPITokenTemplateCard } from "../../../components/ui/template-card";
 
 interface TemplatesSectionProps {
@@ -20,9 +19,7 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
 
     return (
         <div className="relative space-y-16">
-            <ResponsiveHeader autoAlign variant="h2">
-                {t("home.templates")}
-            </ResponsiveHeader>
+            <Typography variant="h2">{t("home.templates")}</Typography>
             <CardHorizontal>
                 {loading ? (
                     <>

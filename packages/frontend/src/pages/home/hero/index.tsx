@@ -1,12 +1,10 @@
-import { Button } from "@carrot-kpi/ui";
+import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { FeaturedCampaings } from "../../../components/featured-campaigns";
 import { GridPatternBg } from "../../../components/ui/grid-pattern-bg";
-import { PageWrapper } from "../../../components/ui/page-wrapper";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
-import { ResponsiveHeader } from "../../../components/ui/responsive-header";
 import { ReactComponent as Plus } from "../../../assets/plus.svg";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
@@ -29,28 +27,27 @@ export const Hero = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="relative light bg-orange">
+        <div className="relative bg-orange">
             <GridPatternBg bg="orange" />
-            <PageWrapper>
-                <div className="relative space-y-12 py-7 md:py-24">
-                    <ResponsiveHeader autoAlign variant="h1">
-                        {t("home.featuredCampaigns")}
-                    </ResponsiveHeader>
-                    <CardHorizontal>
-                        <FeaturedCampaings />
-                    </CardHorizontal>
-                    <div className="flex flex-col space-x-0 space-y-6 md:space-y-0 md:flex-row md:space-x-8">
-                        <Link to="/campaigns">
-                            <Button variant="primary" size="big">
-                                All campaigns
-                            </Button>
-                        </Link>
-                        <Button variant="secondary" size="big">
-                            Create campaign
-                        </Button>
-                    </div>
+            <div className="relative space-y-12 pt-7 pb-16 md:pt-24 md:pb-32">
+                <Typography
+                    variant="h1"
+                    className={{ root: "px-6 md:px-10 lg:px-32" }}
+                >
+                    {t("home.featuredCampaigns")}
+                </Typography>
+                <CardHorizontal className="px-6 md:px-10 lg:px-32">
+                    <FeaturedCampaings />
+                </CardHorizontal>
+                <div className="px-6 md:px-10 lg:px-32 flex flex-col space-x-0 md:space-x-8 space-y-4 md:space-y-0 md:flex-row">
+                    <Button variant="primary" size="big">
+                        <Link to="/campaigns">All campaigns</Link>
+                    </Button>
+                    <Button variant="secondary" size="big">
+                        Create campaign
+                    </Button>
                 </div>
-            </PageWrapper>
+            </div>
             <div className="absolute invisible left-4 top-1/3 lg:visible ">
                 <DXdaoSideLink />
             </div>

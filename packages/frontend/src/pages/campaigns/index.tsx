@@ -1,12 +1,11 @@
 import { useKPITokens, usePage } from "@carrot-kpi/react";
-import { Button, SelectOption } from "@carrot-kpi/ui";
+import { Button, SelectOption, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
 import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
 import { KPITokenCard } from "../../components/ui/kpi-token-card";
-import { ResponsiveHeader } from "../../components/ui/responsive-header";
 import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
@@ -128,9 +127,9 @@ export const Campaigns = () => {
                 <GridPatternBg fullSize />
                 <div className="relative">
                     <div className="px-6 py-16 md:px-10">
-                        <ResponsiveHeader autoAlign variant="h1">
+                        <Typography variant="h1">
                             {t("campaign.all")}
-                        </ResponsiveHeader>
+                        </Typography>
                     </div>
                     <CampaignsTopNav
                         ordering={ordering}
