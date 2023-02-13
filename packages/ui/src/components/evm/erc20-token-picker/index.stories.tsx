@@ -47,8 +47,6 @@ const Template: Story<ERC20TokenPickerProps> = (
         setOpen(false);
     }, []);
 
-    console.log(list);
-
     return (
         <>
             <Button onClick={handleClick} loading={!list}>
