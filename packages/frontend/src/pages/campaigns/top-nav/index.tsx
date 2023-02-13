@@ -42,7 +42,11 @@ CampaignsTopNavProps) => {
                             options={orderingOptions}
                             placeholder="Latest"
                             value={ordering}
-                            className={{ root: "w-full", input: "w-full" }}
+                            className={{
+                                root: "w-full",
+                                wrapper: "w-full",
+                                input: "w-full",
+                            }}
                         />
                     </div>
                     <div className="flex flex-row-reverse gap-5 md:flex-row">
@@ -53,7 +57,11 @@ CampaignsTopNavProps) => {
                             options={stateOptions}
                             placeholder="Latest"
                             value={state}
-                            className={{ root: "w-full", input: "w-full" }}
+                            className={{
+                                root: "w-full",
+                                wrapper: "w-full",
+                                input: "w-full",
+                            }}
                         />
                     </div>
                 </div>
