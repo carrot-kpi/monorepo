@@ -55,6 +55,7 @@ type KPITokenTemplateSpecification @entity(immutable: true) {
 type KPITokenTemplateSet @entity {
     id: Bytes!
     templates: [KPITokenTemplate!]! @derivedFrom(field: "templateSet")
+    managerId: BigInt!
     active: Boolean!
     manager: KPITokensManager!
 }
@@ -110,6 +111,7 @@ type OracleTemplateSpecification @entity(immutable: true) {
 type OracleTemplateSet @entity {
     id: Bytes!
     templates: [OracleTemplate!]! @derivedFrom(field: "templateSet")
+    managerId: BigInt!
     active: Boolean!
     manager: OraclesManager!
 }
