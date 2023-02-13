@@ -4,11 +4,13 @@ export interface TemplateData {
     rawAddress: string;
     version: number;
     specificationCid: string;
-    name: string;
-    description: string;
-    tags: string[];
-    repository: string;
-    commitHash: string;
+    specification?: {
+        name?: string;
+        description?: string;
+        tags?: string[];
+        repository?: string;
+        commitHash?: string;
+    };
 }
 
 export const TemplateDataFields = `
@@ -17,11 +19,13 @@ export const TemplateDataFields = `
     rawAddress: address
     version
     specificationCid
-    name
-    description
-    tags
-    repository
-    commitHash
+    specification {
+        name
+        description
+        tags
+        repository
+        commitHash
+    }
 `;
 
 export interface OracleData {
@@ -41,10 +45,13 @@ const OracleDataFields = `
 export interface KPITokenData {
     rawAddress: string;
     descriptionCid: string;
-    title: string;
-    description: string;
-    tags: string[];
+    description?: {
+        title?: string;
+        description?: string;
+        tags?: string[];
+    };
     expiration: string;
+    creationTimestamp: string;
     template: TemplateData;
     oracles: OracleData[];
     finalized: boolean;
@@ -54,11 +61,14 @@ const KPITokenDataFields = `
     rawAddress: id
     owner
     descriptionCid
-    title
-    description
-    tags
+    description {
+        title
+        description
+        tags
+    }
     finalized
     expiration
+    creationTimestamp
     template {
         ${TemplateDataFields}
     }
@@ -141,31 +151,35 @@ export const GetOraclesQuery = `
 `;
 
 export interface GetTemplatesQueryResponse {
-    manager?: { templates: TemplateData[] };
+    manager?: { templateSets: { templates: TemplateData[] }[] };
 }
 
-export const GetKPITokenTemplatesOfManagerByIdQuery = `
+export const GetLatestVersionKPITokenTemplatesOfManagerByIdQuery = `
     query getKPITokenTemplatesOfManagerById(
         $managerAddress: ID!
         $ids: [BigInt!]!
     ) {
         manager: kpitokensManager(id: $managerAddress) {
-            templates(where: { managerId_in: $ids }) {
-                ${TemplateDataFields}
+            templateSets(where: { id_in: $ids }) {
+                templates(orderBy: version, orderDirection: desc, first: 1) {
+                    ${TemplateDataFields}
+                }
             }
         }
     }
 `;
 
-export const GetKPITokenTemplatesOfManagerQuery = `
+export const GetLatestVersionKPITokenTemplatesOfManagerQuery = `
     query getKPITokenTemplatesOfManager(
         $managerAddress: ID!
         $limit: Int!
         $lastID: Bytes
     ) {
         manager: kpitokensManager(id: $managerAddress) {
-            templates(first: $limit, where: { id_gt: $lastID }) {
-                ${TemplateDataFields}
+            templateSets(first: $limit, where: { id_gt: $lastID }) {
+                templates(orderBy: version, orderDirection: desc, first: 1) {
+                    ${TemplateDataFields}
+                }
             }
         }
     }
@@ -174,8 +188,10 @@ export const GetKPITokenTemplatesOfManagerQuery = `
 export const GetOracleTemplatesOfManagerByIdQuery = `
     query getOracleTemplatesOfManagerById($managerAddress: ID!, $ids: [BigInt!]!) {
         manager: oraclesManager(id: $managerAddress) {
-            templates(where: { managerId_in: $ids }) {
-                ${TemplateDataFields}
+            templateSets(where: { id_in: $ids }) {
+                templates(orderBy: version, orderDirection: desc, first: 1) {
+                    ${TemplateDataFields}
+                }
             }
         }
     }
@@ -188,8 +204,10 @@ export const GetOracleTemplatesOfManagerQuery = `
         $lastID: Bytes
     ) {
         manager: oraclesManager(id: $managerAddress) {
-            templates(first: $limit, where: { id_gt: $lastID }) {
-                ${TemplateDataFields}
+            templateSets(where: { id_gt: $lastID }) {
+                templates(orderBy: version, orderDirection: desc, first: 1) {
+                    ${TemplateDataFields}
+                }
             }
         }
     }

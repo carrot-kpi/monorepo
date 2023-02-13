@@ -59,16 +59,6 @@ const MarqueeRow = ({ children, color }: MarqueeProps) => (
 export const CarrotMarquee = () => {
     return (
         <div>
-            <MarqueeRow color="orange">
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-            </MarqueeRow>
             <MarqueeRow color="yellow">
                 <YellowLogos />
                 <YellowLogos />
@@ -78,6 +68,16 @@ export const CarrotMarquee = () => {
                 <YellowLogos />
                 <YellowLogos />
                 <YellowLogos />
+            </MarqueeRow>
+            <MarqueeRow color="orange">
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
             </MarqueeRow>
         </div>
     );

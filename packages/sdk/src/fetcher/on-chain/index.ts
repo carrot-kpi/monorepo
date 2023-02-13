@@ -39,6 +39,9 @@ const KPI_TOKEN_DESCRIPTION_FUNCTION =
 const KPI_TOKEN_ORACLES_FUNCTION = KPI_TOKEN_INTERFACE.getFunction("oracles()");
 const KPI_TOKEN_EXPIRATION_FUNCTION =
     KPI_TOKEN_INTERFACE.getFunction("expiration()");
+const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION = KPI_TOKEN_INTERFACE.getFunction(
+    "creationTimestamp()"
+);
 
 const ORACLE_TEMPLATE_FUNCTION = ORACLE_INTERFACE.getFunction("template()");
 const ORACLE_FINALIZED_FUNCTION =
@@ -60,6 +63,10 @@ const KPI_TOKEN_ORACLES_FUNCTION_DATA = KPI_TOKEN_INTERFACE.encodeFunctionData(
 );
 const KPI_TOKEN_EXPIRATION_FUNCTION_DATA =
     KPI_TOKEN_INTERFACE.encodeFunctionData(KPI_TOKEN_EXPIRATION_FUNCTION);
+const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA =
+    KPI_TOKEN_INTERFACE.encodeFunctionData(
+        KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION
+    );
 
 const ORACLE_TEMPLATE_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
     ORACLE_TEMPLATE_FUNCTION
@@ -141,6 +148,7 @@ class Fetcher implements IPartialCarrotFetcher {
                     [address, KPI_TOKEN_TEMPLATE_FUNCTION_DATA],
                     [address, KPI_TOKEN_ORACLES_FUNCTION_DATA],
                     [address, KPI_TOKEN_EXPIRATION_FUNCTION_DATA],
+                    [address, KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA],
                 ];
             })
         );
@@ -230,6 +238,11 @@ class Fetcher implements IPartialCarrotFetcher {
                 KPI_TOKEN_EXPIRATION_FUNCTION,
                 kpiTokenResult[i * 5 + 4]
             )[0].toNumber();
+            const kpiTokenCreationTimestamp =
+                KPI_TOKEN_INTERFACE.decodeFunctionResult(
+                    KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION,
+                    kpiTokenResult[i * 5 + 5]
+                )[0].toNumber();
 
             const kpiTokenOracles: Oracle[] = [];
             for (const address of kpiTokenOracleAddresses) {
@@ -260,6 +273,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 kpiTokenOracles,
                 description,
                 kpiTokenExpiration,
+                kpiTokenCreationTimestamp,
                 kpiTokenFinalized
             );
         }

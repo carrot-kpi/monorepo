@@ -1,6 +1,6 @@
 import { Button } from "@carrot-kpi/ui";
 import React from "react";
-import { ReactComponent as FiltersIcon } from "../../../../../assets/filters-icon.svg";
+import { ReactComponent as FiltersIcon } from "../../../../assets/filters-icon.svg";
 
 interface ToggleButtonProps {
     toggle: () => void;

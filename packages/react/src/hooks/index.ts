@@ -8,6 +8,7 @@ export * from "./useNativeCurrency";
 export * from "./useOracle";
 export * from "./useOracleTemplate";
 export * from "./useOracleTemplates";
+export * from "./usePage";
 export * from "./usePreferences";
 export * from "./usePreferencesSetters";
 export * from "./useTemplateModule";

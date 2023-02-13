@@ -16,7 +16,7 @@ const containerStyles = cva(["absolute"], {
     variants: {
         fullSize: {
             true: ["w-full h-full top-0"],
-            false: ["md:h-[72.5%] w-[92.45%] h-[65%] top-0 md:top-8 left-[5%]"],
+            false: ["w-[92.45%] h-[72.5%] top-0 md:top-8 left-[5%]"],
         },
     },
     defaultVariants: {
@@ -75,8 +75,8 @@ export const GridPatternBg = ({
                         ? { backgroundImage: `url(${URL_MAP[chosenBg]})` }
                         : {}
                 }
-                className={`w-full h-full bg-[top_center] bg-2 md:bg-4 ${className}`}
-            ></div>
+                className={`w-full h-full bg-center bg-2 md:bg-4 ${className}`}
+            />
         </div>
     );
 };

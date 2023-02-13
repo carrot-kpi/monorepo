@@ -1,4 +1,4 @@
-import { Address, BigInt, log } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
 import {
     AddTemplate as AddTemplateEvent,
     KPITokensManager as KPITokensManagerContract,
@@ -7,11 +7,29 @@ import {
     UpdateTemplateSpecification as UpdateTemplateSpecificationEvent,
     UpgradeTemplate as UpgradeTemplateEvent,
 } from "../generated/templates/KPITokensManager/KPITokensManager";
-import { KPITokensManager, KPITokenTemplate } from "../generated/schema";
-import { addressToBytes, BI_0, BI_1, templateId } from "./commons";
-import { cidToSpecification } from "./commons";
+import {
+    KPITokensManager,
+    KPITokenTemplate,
+    KPITokenTemplateSet,
+} from "../generated/schema";
+import {
+    addressToBytes,
+    BI_0,
+    BI_1,
+    bytesToAddress,
+    cidToSpecificationURI,
+    i32ToBytes,
+    templateId,
+} from "./commons";
+import { KPITokenTemplateSpecification } from "../generated/templates";
 
-export function createTemplate(
+function cidToSpecification(cid: string): Bytes {
+    const specificationBaseJSONCid = cidToSpecificationURI(cid);
+    KPITokenTemplateSpecification.create(specificationBaseJSONCid);
+    return Bytes.fromUTF8(specificationBaseJSONCid);
+}
+
+function createTemplate(
     managerAddress: Address,
     id: BigInt,
     version: BigInt,
@@ -28,21 +46,27 @@ export function createTemplate(
     template.managerId = id;
     template.version = version;
     template.specificationCid = specificationCid;
-
-    const specification = cidToSpecification(specificationCid);
-    if (specification === null) {
-        log.error("could not get specification for cid {}", [specificationCid]);
-        return null;
-    }
-    template.name = specification.name;
-    template.description = specification.description;
-    template.tags = specification.tags;
-    template.repository = specification.repository;
-    template.commitHash = specification.commitHash;
-    template.active = true;
-    template.manager = manager.id;
+    template.specification = cidToSpecification(specificationCid);
+    template.templateSet = getTemplateSet(managerAddress, id).id;
 
     return template;
+}
+
+function getTemplateSet(
+    managerAddress: Address,
+    managerId: BigInt
+): KPITokenTemplateSet {
+    const id = addressToBytes(managerAddress).concat(
+        i32ToBytes(managerId.toI32())
+    );
+    let templateSet = KPITokenTemplateSet.load(id);
+    if (templateSet == null) {
+        templateSet = new KPITokenTemplateSet(id);
+        templateSet.manager = addressToBytes(managerAddress);
+        templateSet.active = true;
+        templateSet.save();
+    }
+    return templateSet;
 }
 
 export function getTemplate(
@@ -131,20 +155,22 @@ export function handleOwnershipTransferred(
 }
 
 export function handleRemoveTemplate(event: RemoveTemplateEvent): void {
-    const template = getTemplate(
-        event.address,
-        event.params.id,
-        event.params.version
+    const templateSet = getTemplateSet(
+        bytesToAddress(event.address),
+        event.params.id
     );
-    if (template === null) {
-        log.error("could not find removed template with id {} and version {}", [
+    if (templateSet === null) {
+        log.error("could not find removed template set with id {}", [
             event.params.id.toString(),
-            event.params.version.toString(),
         ]);
         return;
     }
-    template.active = true;
-    template.save();
+    templateSet.active = false;
+    templateSet.save();
+
+    const manager = getKPITokensManager(event.address);
+    manager.templatesAmount = manager.templatesAmount.minus(BI_1);
+    manager.save();
 }
 
 export function handleUpdateTemplateSpecification(
@@ -162,46 +188,12 @@ export function handleUpdateTemplateSpecification(
         ]);
         return;
     }
-
-    const specificationCid = event.params.newSpecification;
-    const specification = cidToSpecification(specificationCid);
-    if (specification === null) {
-        log.error("could not get specification for cid {}", [specificationCid]);
-        return;
-    }
-    template.name = specification.name;
-    template.description = specification.description;
-    template.tags = specification.tags;
-    template.repository = specification.repository;
-    template.commitHash = specification.commitHash;
+    template.specificationCid = event.params.newSpecification;
+    template.specification = cidToSpecification(event.params.newSpecification);
     template.save();
 }
 
 export function handleUpgradeTemplate(event: UpgradeTemplateEvent): void {
-    const oldTemplateVersion = event.params.newVersion.minus(BI_1);
-    const oldTemplate = getTemplate(
-        event.address,
-        event.params.id,
-        oldTemplateVersion
-    );
-    if (oldTemplate === null) {
-        log.error(
-            "could not deactivate upgraded template with id {} and version {}",
-            [event.params.id.toString(), event.params.newVersion.toString()]
-        );
-        return;
-    }
-    oldTemplate.active = false;
-    oldTemplate.save();
-
-    const newSpecificationCid = event.params.newSpecification;
-    const specification = cidToSpecification(newSpecificationCid);
-    if (specification === null) {
-        log.error("could not get specification for cid {}", [
-            newSpecificationCid,
-        ]);
-        return;
-    }
     const newTemplate = createTemplate(
         event.address,
         event.params.id,
