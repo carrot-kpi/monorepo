@@ -8,12 +8,11 @@ export const ConnectWallet = () => {
         <ConnectWalletButton />
     ) : (
         <ConnectButton.Custom>
-            {({ openConnectModal, openAccountModal, openChainModal }) => {
+            {({ openConnectModal, openAccountModal }) => {
                 return (
                     <ConnectWalletButton
                         openConnectModal={openConnectModal}
                         openAccountModal={openAccountModal}
-                        openChainModal={openChainModal}
                     />
                 );
             }}
