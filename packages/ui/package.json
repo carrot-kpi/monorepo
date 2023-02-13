@@ -45,6 +45,8 @@
         "class-variance-authority": "^0.4.0",
         "react-number-format": "^5.1.2",
         "react-popper": "^2.3.0",
+        "react-spring": "^9.6.1",
+        "react-spring-carousel": "^2.0.19",
         "react-use": "^17.4.0",
         "react-virtualized-auto-sizer": "^1.0.7",
         "react-window": "^1.8.8"
