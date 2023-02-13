@@ -112,8 +112,6 @@ export const Carousel = ({
         }
     });
 
-    console.log({ itemsCount, activeItem, finalItemsPerSlide });
-
     return (
         <div className={rootStyles({ className: className?.root })}>
             <div
