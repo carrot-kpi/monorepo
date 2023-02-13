@@ -38,7 +38,7 @@ export function templateId(
     );
 }
 
-export function cidToSpecificationURI(cid: string) {
+export function cidToSpecificationURI(cid: string): string {
     return cid.endsWith("/")
         ? cid.concat("base.json")
         : cid.concat("/base.json");
