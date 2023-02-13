@@ -32,7 +32,7 @@ import { enforce } from "../../utils";
 import { getAddress } from "@ethersproject/address";
 import { Template, TemplateSpecification } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
-import { query } from "../../utils/graphql";
+import { query } from "../../utils/subgraph";
 import { CoreFetcher } from "../core";
 
 const PAGE_SIZE = 100;
@@ -350,7 +350,11 @@ class Fetcher implements IPartialCarrotFetcher {
                 if (!manager || manager.templateSets.length === 0) return [];
                 await Promise.all(
                     manager.templateSets.map(async (templateSet) => {
-                        if (templateSet.templates.length === 0) return;
+                        if (
+                            !templateSet.templates ||
+                            templateSet.templates.length === 0
+                        )
+                            return;
                         templates.push(
                             await mapRawTemplate(templateSet.templates[0])
                         );
@@ -380,7 +384,10 @@ class Fetcher implements IPartialCarrotFetcher {
                 if (!manager || manager.templateSets.length === 0) return [];
                 page = manager.templateSets.reduce(
                     (accumulator: TemplateData[], templateSet) => {
-                        if (templateSet.templates.length > 0)
+                        if (
+                            !!templateSet.templates &&
+                            templateSet.templates.length > 0
+                        )
                             accumulator.push(templateSet.templates[0]);
                         return accumulator;
                     },
@@ -429,7 +436,11 @@ class Fetcher implements IPartialCarrotFetcher {
                 if (!manager || manager.templateSets.length === 0) return [];
                 await Promise.all(
                     manager.templateSets.map(async (templateSet) => {
-                        if (templateSet.templates.length === 0) return;
+                        if (
+                            !templateSet.templates ||
+                            templateSet.templates.length === 0
+                        )
+                            return;
                         templates.push(
                             await mapRawTemplate(templateSet.templates[0])
                         );
@@ -459,7 +470,10 @@ class Fetcher implements IPartialCarrotFetcher {
                 if (!manager) return [];
                 page = manager.templateSets.reduce(
                     (accumulator: TemplateData[], templateSet) => {
-                        if (templateSet.templates.length > 0)
+                        if (
+                            !!templateSet.templates &&
+                            templateSet.templates.length > 0
+                        )
                             accumulator.push(templateSet.templates[0]);
                         return accumulator;
                     },
