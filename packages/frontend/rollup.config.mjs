@@ -22,8 +22,12 @@ export default [
                 },
             }),
             peerDepsExternal(),
-            nodeResolve({ preferBuiltins: false, rootDir: resolve("../..") }),
             commonjs(),
+            nodeResolve({
+                preferBuiltins: false,
+                browser: true,
+                rootDir: resolve("../.."),
+            }),
             postcss({
                 plugins: [tailwindcss, autoprefixer],
                 extract: resolve("./dist/styles.css"),
