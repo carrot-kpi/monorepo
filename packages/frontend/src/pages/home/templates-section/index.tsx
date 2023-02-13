@@ -30,9 +30,10 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
                     </>
                 ) : (
                     templates.map((template) => (
-                        <div key={template.id} className="snap-center">
-                            <KPITokenTemplateCard template={template} />
-                        </div>
+                        <KPITokenTemplateCard
+                            key={template.id}
+                            template={template}
+                        />
                     ))
                 )}
             </CardHorizontal>

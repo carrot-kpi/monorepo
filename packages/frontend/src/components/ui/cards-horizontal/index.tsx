@@ -1,14 +1,7 @@
 import { cva } from "class-variance-authority";
 import React, { ReactNode } from "react";
 
-const rootStyles = cva([
-    "scrollbar-none",
-    "flex",
-    "gap-10",
-    "overflow-x-auto",
-    "snap-mandatory",
-    "snap-x",
-]);
+const rootStyles = cva(["scrollbar-none", "flex", "gap-10", "overflow-x-auto"]);
 
 interface CardHorizontalProps {
     children: ReactNode;
