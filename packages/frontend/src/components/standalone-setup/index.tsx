@@ -10,7 +10,6 @@ import {
 import { infuraProvider } from "wagmi/providers/infura";
 import { SUPPORTED_CHAINS } from "../../constants";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
-import { ChainId } from "@carrot-kpi/sdk";
 import { App } from "../../pages/app";
 
 const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
@@ -38,9 +37,6 @@ export const StandaloneSetup = ({ ipfsGatewayURL }: StandaloneSetupProps) => {
         >
             <RainbowKitProvider
                 chains={supportedChainsArray}
-                // TODO: make this so initial chain is either the one the user had previously
-                // chosen (through local storage) or mainnet or a more sensible option
-                initialChain={ChainId.SEPOLIA}
                 theme={{
                     lightMode: lightTheme(),
                     darkMode: darkTheme(),
