@@ -42,7 +42,7 @@ export const ConnectWalletButton = ({
     }, []);
 
     useEffect(() => {
-        if (!networksPopupOpen) return;
+        if (!networksPopupOpen || !popoverRef.current) return;
         const handleCloseOnClick = (event: MouseEvent) => {
             if (
                 !!popoverRef.current &&
@@ -78,39 +78,45 @@ export const ConnectWalletButton = ({
         : Error;
     return (
         <>
-            <Popover
-                open={networksPopupOpen}
-                anchor={anchorRef.current}
-                ref={popoverRef}
-                className={{ root: "p-4 flex flex-col gap-4" }}
-                offset={POPOVER_OFFSET}
-            >
-                {Object.values(SUPPORTED_CHAINS).map((supportedChain) => {
-                    if (supportedChain.id === chain?.id) return null;
-                    const Logo = supportedChain.logo;
-                    return (
-                        <div
-                            key={supportedChain.id}
-                            className="cursor-pointer"
-                            onClick={handleChainClick}
-                            data-chain-id={supportedChain.id}
-                        >
-                            <div className="flex items-center gap-4 pointer-events-none">
-                                <ChainIcon
-                                    backgroundColor={
-                                        supportedChain.iconBackgroundColor
-                                    }
-                                    logo={<Logo width={18} height={18} />}
-                                />
-                                <Typography>{supportedChain.name}</Typography>
+            {!__PREVIEW_MODE__ && (
+                <Popover
+                    open={networksPopupOpen}
+                    anchor={anchorRef.current}
+                    ref={popoverRef}
+                    className={{ root: "p-4 flex flex-col gap-4" }}
+                    offset={POPOVER_OFFSET}
+                >
+                    {Object.values(SUPPORTED_CHAINS).map((supportedChain) => {
+                        if (supportedChain.id === chain?.id) return null;
+                        const Logo = supportedChain.logo;
+                        return (
+                            <div
+                                key={supportedChain.id}
+                                className="cursor-pointer"
+                                onClick={handleChainClick}
+                                data-chain-id={supportedChain.id}
+                            >
+                                <div className="flex items-center gap-4 pointer-events-none">
+                                    <ChainIcon
+                                        backgroundColor={
+                                            supportedChain.iconBackgroundColor
+                                        }
+                                        logo={<Logo width={18} height={18} />}
+                                    />
+                                    <Typography>
+                                        {supportedChain.name}
+                                    </Typography>
+                                </div>
                             </div>
-                        </div>
-                    );
-                })}
-            </Popover>
+                        );
+                    })}
+                </Popover>
+            )}
             <div className="flex items-center">
                 <div
-                    className="flex items-center mr-8 cursor-pointer"
+                    className={`flex items-center mr-8 ${
+                        __PREVIEW_MODE__ ? "" : "cursor-pointer"
+                    }`}
                     onClick={handleOpenNetworksPopover}
                     ref={anchorRef}
                 >
@@ -131,7 +137,7 @@ export const ConnectWalletButton = ({
                             {supportedChain ? chainName : "Unsupported"}
                         </span>
                     </div>
-                    <CaretDown className="w-3" />
+                    {!__PREVIEW_MODE__ && <CaretDown className="w-3" />}
                 </div>
                 {!!address ? (
                     <>
