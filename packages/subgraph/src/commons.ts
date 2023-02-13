@@ -37,3 +37,9 @@ export function templateId(
             .concat(onChainId.toHex().concat(onChainVersion.toHex()))
     );
 }
+
+export function cidToSpecificationURI(cid: string) {
+    return cid.endsWith("/")
+        ? cid.concat("base.json")
+        : cid.concat("/base.json");
+}

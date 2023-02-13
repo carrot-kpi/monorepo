@@ -17,15 +17,14 @@ import {
     BI_0,
     BI_1,
     bytesToAddress,
+    cidToSpecificationURI,
     i32ToBytes,
     templateId,
 } from "./commons";
 import { OracleTemplateSpecification } from "../generated/templates";
 
 function cidToSpecification(cid: string): Bytes {
-    const specificationBaseJSONCid = cid.endsWith("/")
-        ? cid.concat("base.json")
-        : cid.concat("/base.json");
+    const specificationBaseJSONCid = cidToSpecificationURI(cid);
     OracleTemplateSpecification.create(specificationBaseJSONCid);
     return Bytes.fromUTF8(specificationBaseJSONCid);
 }
