@@ -23,7 +23,7 @@ export const LatestCampaignsSection = () => {
                     {t("home.latestCampaigns")}
                 </Typography>
             </HorizontalSpacing>
-            <Carousel showSlideButtons={!loading}>
+            <Carousel showSlideButtons={!loading} disabled={loading}>
                 {loading
                     ? placeholder
                     : Object.values(kpiTokens).map((kpiToken) => (

@@ -9,6 +9,12 @@ interface TemplatesSectionProps {
     templateId?: number;
 }
 
+const TOKEN_TEMPLATE_AMOUNTS = 5;
+
+const placeholder = new Array(TOKEN_TEMPLATE_AMOUNTS)
+    .fill(null)
+    .map((_, index) => <KPITokenTemplateCard key={index} />);
+
 export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
     const { t } = useTranslation();
     // FIXME: instead of a useMemo, have a useKPITokenTemplate hook which fetches a single template
@@ -22,22 +28,15 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
             <HorizontalSpacing>
                 <Typography variant="h2">{t("home.templates")}</Typography>
             </HorizontalSpacing>
-            <Carousel>
-                {loading ? (
-                    <>
-                        <KPITokenTemplateCard />
-                        <KPITokenTemplateCard />
-                        <KPITokenTemplateCard />
-                        <KPITokenTemplateCard />
-                    </>
-                ) : (
-                    templates.map((template) => (
-                        <KPITokenTemplateCard
-                            key={template.id}
-                            template={template}
-                        />
-                    ))
-                )}
+            <Carousel showSlideButtons={!loading} disabled={loading}>
+                {loading
+                    ? placeholder
+                    : templates.map((template) => (
+                          <KPITokenTemplateCard
+                              key={template.id}
+                              template={template}
+                          />
+                      ))}
             </Carousel>
             <HorizontalSpacing>
                 <Button>{t("templates.viewAll")}</Button>
