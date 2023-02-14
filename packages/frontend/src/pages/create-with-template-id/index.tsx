@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { CreationForm, usePreferences } from "@carrot-kpi/react";
-import { useLocation, useParams } from "react-router-dom";
+import {
+    useTransition,
+    animated,
+    config as springConfig,
+} from "@react-spring/web";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BigNumber, providers } from "ethers";
 import {
@@ -9,8 +14,8 @@ import {
     useProvider,
     useSendTransaction,
 } from "wagmi";
-import { Layout } from "../../components/layout";
-import { Fetcher } from "@carrot-kpi/sdk";
+import { Fetcher, Template } from "@carrot-kpi/sdk";
+import { Navbar } from "../../components/ui/navbar";
 
 interface CreateWithTemplateIdProps {
     customBaseURL?: string;
@@ -23,9 +28,21 @@ export const CreateWithTemplateId = ({
     const { state } = useLocation();
     const { templateId } = useParams();
     const provider = useProvider();
+    const navigate = useNavigate();
     const { preferDecentralization } = usePreferences();
-    const [loading, setLoading] = useState(false);
-    const [template, setTemplate] = useState(state.template);
+
+    const [template, setTemplate] = useState<Template | null>(
+        state ? state.template : null
+    );
+    const transitions = useTransition(template, {
+        config: { ...springConfig.default, duration: 200 },
+        from: { opacity: 0, transform: "translateY(1%)" },
+        enter: { opacity: 1, transform: "translateY(0)" },
+        leave: {
+            opacity: 0,
+            transform: "translateY(1%)",
+        },
+    });
 
     useEffect(() => {
         if (!!state.template) {
@@ -38,7 +55,6 @@ export const CreateWithTemplateId = ({
         }
         let cancelled = false;
         const fetchData = async () => {
-            if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
                     provider,
@@ -93,21 +109,29 @@ export const CreateWithTemplateId = ({
         []
     );
 
-    return (
-        <Layout navbarBackgroundColor="green">
-            {loading || !template ? (
-                <>Loading...</>
-            ) : (
-                <CreationForm
-                    template={template}
-                    // TODO: use a proper fallback component
-                    fallback="Loading..."
-                    // TODO: use a proper on done callback
-                    customBaseURL={customBaseURL}
-                    onDone={handleDone}
-                    i18n={i18n}
-                />
-            )}
-        </Layout>
-    );
+    const handleDismiss = useCallback(() => {
+        navigate(-1);
+    }, [navigate]);
+
+    return transitions((style, template: Template | null) => {
+        return (
+            template && (
+                <animated.div
+                    style={style}
+                    className="fixed top-0 left-0 h-screen w-screen overflow-y-auto bg-green"
+                >
+                    <Navbar mode="modal" onDismiss={handleDismiss} />
+                    <CreationForm
+                        template={template}
+                        // TODO: use a proper fallback component
+                        fallback="Loading..."
+                        // TODO: use a proper on done callback
+                        customBaseURL={customBaseURL}
+                        onDone={handleDone}
+                        i18n={i18n}
+                    />
+                </animated.div>
+            )
+        );
+    });
 };

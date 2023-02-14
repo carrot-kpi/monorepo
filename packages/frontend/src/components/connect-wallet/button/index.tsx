@@ -9,16 +9,21 @@ import { useNetwork, useAccount, useSwitchNetwork } from "wagmi";
 import makeBlockie from "ethereum-blockies-base64";
 import { shortenAddress } from "../../../utils/address";
 import { ChainIcon } from "../../chain-icon";
+import { ReactComponent as X } from "../../../assets/x.svg";
 
 const POPOVER_OFFSET: [number, number] = [0, 20];
 
 interface ConnectWalletButtonProps {
+    mode?: "standard" | "modal";
+    onDismiss?: () => void;
     openConnectModal?: () => void;
     openAccountModal?: () => void;
 }
 
 // TODO: implement loading states
 export const ConnectWalletButton = ({
+    mode,
+    onDismiss,
     openConnectModal,
     openAccountModal,
 }: ConnectWalletButtonProps) => {
@@ -113,32 +118,34 @@ export const ConnectWalletButton = ({
                 </Popover>
             )}
             <div className="flex items-center">
-                <div
-                    className={`flex items-center mr-8 ${
-                        __PREVIEW_MODE__ ? "" : "cursor-pointer"
-                    }`}
-                    onClick={handleOpenNetworksPopover}
-                    ref={anchorRef}
-                >
-                    <ChainIcon
-                        backgroundColor={
-                            supportedChain
-                                ? SUPPORTED_CHAINS[chainId as ChainId]
-                                      .iconBackgroundColor
-                                : "#ff0000"
-                        }
-                        logo={<Logo width={18} height={18} />}
-                    />
-                    <div className="flex flex-col mr-4">
-                        <span className="font-mono text-black text-2xs">
-                            {t("connect.wallet.network")}
-                        </span>
-                        <span className="font-mono text-sm text-black capitalize">
-                            {supportedChain ? chainName : "Unsupported"}
-                        </span>
+                {mode !== "modal" && (
+                    <div
+                        className={`flex items-center mr-8 ${
+                            __PREVIEW_MODE__ ? "" : "cursor-pointer"
+                        }`}
+                        onClick={handleOpenNetworksPopover}
+                        ref={anchorRef}
+                    >
+                        <ChainIcon
+                            backgroundColor={
+                                supportedChain
+                                    ? SUPPORTED_CHAINS[chainId as ChainId]
+                                          .iconBackgroundColor
+                                    : "#ff0000"
+                            }
+                            logo={<Logo width={18} height={18} />}
+                        />
+                        <div className="flex flex-col mr-4">
+                            <span className="font-mono text-black text-2xs">
+                                {t("connect.wallet.network")}
+                            </span>
+                            <span className="font-mono text-sm text-black capitalize">
+                                {supportedChain ? chainName : "Unsupported"}
+                            </span>
+                        </div>
+                        {!__PREVIEW_MODE__ && <CaretDown className="w-3" />}
                     </div>
-                    {!__PREVIEW_MODE__ && <CaretDown className="w-3" />}
-                </div>
+                )}
                 {!!address ? (
                     <>
                         <Button size="small" onClick={openAccountModal}>
@@ -157,6 +164,14 @@ export const ConnectWalletButton = ({
                     <Button onClick={openConnectModal}>
                         {t("connect.wallet")}
                     </Button>
+                )}
+                {mode === "modal" && (
+                    <div
+                        className="ml-10 w-16 h-16 bg-white rounded-full border border-black flex items-center justify-center cursor-pointer"
+                        onClick={onDismiss}
+                    >
+                        <X className="w-8 h-8" />
+                    </div>
                 )}
             </div>
         </>

@@ -54,6 +54,7 @@
         "@fontsource/ibm-plex-mono": "^4.5.13",
         "@fontsource/inter": "^4.5.15",
         "@rainbow-me/rainbowkit": "^0.8.1",
+        "@react-spring/web": "^9.6.1",
         "@rollup/plugin-commonjs": "^24.0.1",
         "@rollup/plugin-json": "^6.0.0",
         "@rollup/plugin-node-resolve": "^15.0.1",

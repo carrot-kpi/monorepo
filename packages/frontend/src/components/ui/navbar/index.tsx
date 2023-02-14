@@ -20,7 +20,7 @@ const navWrapperStyles = cva([""], {
 });
 
 const navbarStyles = cva(
-    ["relative flex items-center justify-between px-6 py-8 md:py-11 lg:px-32"],
+    ["relative flex items-center justify-between py-8 md:py-11"],
     {
         variants: {
             bgColor: {
@@ -29,6 +29,10 @@ const navbarStyles = cva(
             },
             isOpen: {
                 true: ["z-10"],
+            },
+            mode: {
+                standard: ["px-6 lg:px-32"],
+                modal: ["px-6 lg:px-10"],
             },
         },
     }
@@ -61,10 +65,17 @@ interface LinkProps {
 
 export interface NavbarProps {
     bgColor?: "green" | "orange";
+    mode?: "standard" | "modal";
+    onDismiss?: () => void;
     links?: LinkProps[];
 }
 
-export const Navbar = ({ bgColor, links }: NavbarProps) => {
+export const Navbar = ({
+    bgColor,
+    mode = "standard",
+    onDismiss,
+    links,
+}: NavbarProps) => {
     const [isOpen, setOpen] = useState(false);
 
     useEffect(() => {
@@ -80,7 +91,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
     return (
         <div className={navWrapperStyles({ isOpen, bgColor })}>
             {isOpen && <GridPatternBg className="md:hidden" />}
-            <div className={navbarStyles({ bgColor, isOpen })}>
+            <div className={navbarStyles({ bgColor, isOpen, mode })}>
                 <NavLink to="/" onClick={() => setOpen(false)}>
                     <Logo className="w-32 h-auto md:w-[188px] text-black" />
                 </NavLink>
@@ -111,7 +122,7 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                         !isOpen && "hidden"
                     } md:block md:top-auto`}
                 >
-                    <ConnectWallet />
+                    <ConnectWallet mode={mode} onDismiss={onDismiss} />
                 </div>
                 <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
                     {isOpen ? <CloseIcon /> : <MenuIcon />}
