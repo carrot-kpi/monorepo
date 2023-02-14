@@ -53,6 +53,14 @@ export const Carousel = ({
         [children]
     );
     const itemsCount = useMemo(() => childItems.length, [childItems.length]);
+    const derivedShowSlideButtons = useMemo(() => {
+        if (showSlideButtons !== undefined)
+            return (
+                showSlideButtons &&
+                itemsCount > ITEMS_THRESHOLD_FOR_SLIDER_BUTTONS
+            );
+        return itemsCount > ITEMS_THRESHOLD_FOR_SLIDER_BUTTONS;
+    }, [showSlideButtons, itemsCount]);
 
     const { carouselFragment, slideToPrevItem, slideToNextItem } =
         useSpringCarousel({
@@ -85,24 +93,16 @@ export const Carousel = ({
             >
                 {carouselFragment}
             </div>
-            {showSlideButtons !== undefined
-                ? showSlideButtons
-                : itemsCount > ITEMS_THRESHOLD_FOR_SLIDER_BUTTONS && (
-                      <div
-                          className={buttonsWrapperStyles({
-                              className: className?.buttonsWrapper,
-                          })}
-                      >
-                          <SlideButton
-                              onClick={slideToPrevItem}
-                              direction="left"
-                          />
-                          <SlideButton
-                              onClick={slideToNextItem}
-                              direction="right"
-                          />
-                      </div>
-                  )}
+            {derivedShowSlideButtons && (
+                <div
+                    className={buttonsWrapperStyles({
+                        className: className?.buttonsWrapper,
+                    })}
+                >
+                    <SlideButton onClick={slideToPrevItem} direction="left" />
+                    <SlideButton onClick={slideToNextItem} direction="right" />
+                </div>
+            )}
         </div>
     );
 };
