@@ -10,7 +10,7 @@ import {
     useSendTransaction,
 } from "wagmi";
 import { Layout } from "../../components/layout";
-import { Fetcher } from "@carrot-kpi/sdk";
+import { Fetcher, Template } from "@carrot-kpi/sdk";
 
 interface CreateWithTemplateIdProps {
     customBaseURL?: string;
@@ -25,10 +25,12 @@ export const CreateWithTemplateId = ({
     const provider = useProvider();
     const { preferDecentralization } = usePreferences();
     const [loading, setLoading] = useState(false);
-    const [template, setTemplate] = useState(state.template);
+    const [template, setTemplate] = useState<Template | null>(
+        state ? state.template : null
+    );
 
     useEffect(() => {
-        if (!!state.template) {
+        if (!!state && !!state.template) {
             setTemplate(state.template);
             return;
         }
@@ -53,13 +55,15 @@ export const CreateWithTemplateId = ({
                     `could not fetch template with id ${templateId}`,
                     error
                 );
+            } finally {
+                setLoading(false);
             }
         };
         void fetchData();
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider, state.template, templateId]);
+    }, [preferDecentralization, provider, state, templateId]);
 
     const [creationTx, setCreationTx] = useState<
         providers.TransactionRequest & {

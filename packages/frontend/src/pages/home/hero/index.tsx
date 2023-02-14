@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { ReactComponent as Plus } from "../../../assets/plus.svg";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
+import { CreateCampaignButton } from "../../../components/create-campaign";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -41,11 +42,9 @@ export const Hero = () => {
                 </CardHorizontal>
                 <div className="px-6 md:px-10 lg:px-32 flex flex-col space-x-0 md:space-x-8 space-y-4 md:space-y-0 md:flex-row">
                     <Button variant="primary" size="big">
-                        <Link to="/campaigns">All campaigns</Link>
+                        <Link to="/campaigns">{t("campaign.all")}</Link>
                     </Button>
-                    <Button variant="secondary" size="big">
-                        Create campaign
-                    </Button>
+                    <CreateCampaignButton />
                 </div>
             </div>
             <div className="absolute invisible left-4 top-1/3 lg:visible ">
