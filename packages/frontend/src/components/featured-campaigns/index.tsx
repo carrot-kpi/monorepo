@@ -47,7 +47,7 @@ export const FeaturedCampaings = () => {
     const { chain } = useNetwork();
 
     return (
-        <Carousel showSlideButtons={!!chain}>
+        <Carousel showSlideButtons={!!chain} disabled={!!!chain}>
             {MOCKED_DATA.map(({ title, description }, index) => {
                 if (!chain) return <KPITokenCard key={index} noBorder />;
                 const template = new Template(

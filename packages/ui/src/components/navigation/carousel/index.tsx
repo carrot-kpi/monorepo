@@ -4,7 +4,11 @@ import { ButtonProps } from "../../input";
 import { cva } from "class-variance-authority";
 import { SlideButton } from "./slide-button";
 
-const rootStyles = cva(["cui-w-full", "cui-relative"]);
+const rootStyles = cva(["cui-w-full", "cui-relative"], {
+    variants: {
+        disabled: { true: ["cui-pointer-events-none"] },
+    },
+});
 
 const carouselWrapperStyles = cva([
     "cui-w-full",
@@ -33,6 +37,7 @@ export interface CarouselProps {
     children: ReactNode;
     gutter?: number;
     showSlideButtons?: boolean;
+    disabled?: boolean;
     className?: {
         root?: string;
         carouselWrapper?: string;
@@ -46,6 +51,7 @@ export const Carousel = ({
     children,
     gutter = 16,
     showSlideButtons,
+    disabled,
     className,
 }: CarouselProps): ReactElement => {
     const childItems = useMemo(
@@ -68,6 +74,7 @@ export const Carousel = ({
             slideType: "fluid",
             freeScroll: true,
             enableFreeScrollDrag: true,
+            ...(disabled ? { disableGestures: true } : {}),
             items: childItems.map((item, key) => ({
                 id: key.toString(),
                 renderItem: (
@@ -85,7 +92,7 @@ export const Carousel = ({
         });
 
     return (
-        <div className={rootStyles({ className: className?.root })}>
+        <div className={rootStyles({ className: className?.root, disabled })}>
             <div
                 className={carouselWrapperStyles({
                     className: className?.carouselWrapper,
@@ -99,8 +106,16 @@ export const Carousel = ({
                         className: className?.buttonsWrapper,
                     })}
                 >
-                    <SlideButton onClick={slideToPrevItem} direction="left" />
-                    <SlideButton onClick={slideToNextItem} direction="right" />
+                    <SlideButton
+                        disabled={disabled}
+                        onClick={slideToPrevItem}
+                        direction="left"
+                    />
+                    <SlideButton
+                        disabled={disabled}
+                        onClick={slideToNextItem}
+                        direction="right"
+                    />
                 </div>
             )}
         </div>
