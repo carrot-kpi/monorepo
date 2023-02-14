@@ -12,4 +12,15 @@
         @apply cui-rounded-full cui-border-[3px] cui-border-solid cui-border-transparent;
         @apply cui-bg-clip-padding;
     }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .cui-scrollbar-hidden::-webkit-scrollbar {
+        @apply cui-hidden;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .cui-scrollbar-hidden {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }

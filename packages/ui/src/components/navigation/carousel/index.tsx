@@ -1,40 +1,38 @@
-import React, {
-    ReactElement,
-    ReactNode,
-    useEffect,
-    useMemo,
-    useState,
-} from "react";
+import React, { ReactElement, ReactNode, useMemo } from "react";
 import { useSpringCarousel } from "react-spring-carousel";
-import { Button, ButtonProps } from "../../input";
-import { ReactComponent as ChrevonUp } from "../../../assets/chevron-up.svg";
+import { ButtonProps } from "../../input";
 import { cva } from "class-variance-authority";
+import { SlideButton } from "./slide-button";
 
-const rootStyles = cva(["cui-relative", "cui-overflow-x-hidden"]);
+const rootStyles = cva(["cui-w-full", "cui-relative"]);
 
-const carouselWrapperStyles = cva(["md:cui-px-24"]);
+const carouselWrapperStyles = cva([
+    "cui-w-full",
+    "[&>.use-spring-carousel-main-wrapper]:cui-scrollbar-hidden",
+]);
 
 const buttonsWrapperStyles = cva([
     "cui-hidden cui-absolute md:cui-flex",
-    "cui-top-1/3",
+    "cui-top-1/2 -cui-translate-y-1/2",
     "cui-w-full",
     "cui-justify-between",
-    "cui-px-3",
+    "cui-px-[80px]",
 ]);
 
-const itemWrapperStyles = cva(
-    ["cui-w-full", "cui-transition-opacity", "cui-duration-500"],
-    {
-        variants: {
-            active: { false: ["cui-opacity-25", "cui-pointer-events-none"] },
-        },
-    }
-);
+const itemWrapperStyles = cva([], {
+    variants: {
+        active: { false: ["cui-opacity-25", "cui-pointer-events-none"] },
+        first: { true: ["md:cui-pl-[80px]"] },
+        last: { true: ["md:cui-pr-[80px]"] },
+    },
+});
+
+const ITEMS_THRESHOLD_FOR_SLIDER_BUTTONS = 4;
 
 export interface CarouselProps {
     children: ReactNode;
-    itemsPerSlide?: number;
     gutter?: number;
+    showSlideButtons?: boolean;
     className?: {
         root?: string;
         carouselWrapper?: string;
@@ -46,71 +44,37 @@ export interface CarouselProps {
 
 export const Carousel = ({
     children,
-    itemsPerSlide = 1,
     gutter = 16,
+    showSlideButtons,
     className,
 }: CarouselProps): ReactElement => {
-    const [activeItem, setActiveItem] = useState<number>(0);
-    const [finalItemsPerSlide, setFinalItemsPerSlide] = useState<number>(1);
-
     const childItems = useMemo(
         () => React.Children.toArray(children),
         [children]
     );
     const itemsCount = useMemo(() => childItems.length, [childItems.length]);
-    const derivedItemsPerSlide = useMemo(
-        () => (itemsPerSlide > itemsCount ? 1 : itemsPerSlide),
-        [itemsPerSlide, itemsCount]
-    );
 
-    useEffect(() => {
-        const adaptItemsPerSlide = () => {
-            if (window.innerWidth < 700) {
-                setFinalItemsPerSlide(1);
-                return;
-            }
-
-            setFinalItemsPerSlide(derivedItemsPerSlide);
-        };
-
-        adaptItemsPerSlide();
-        window.addEventListener("resize", adaptItemsPerSlide);
-
-        return () => {
-            window.removeEventListener("resize", adaptItemsPerSlide);
-        };
-    }, [derivedItemsPerSlide, itemsCount]);
-
-    const {
-        carouselFragment,
-        slideToPrevItem,
-        slideToNextItem,
-        useListenToCustomEvent,
-        getCurrentActiveItem,
-    } = useSpringCarousel({
-        gutter,
-        itemsPerSlide: finalItemsPerSlide,
-        items: childItems.map((item, key) => ({
-            id: key.toString(),
-            renderItem: (
-                <div
-                    className={itemWrapperStyles({
-                        active:
-                            key >= activeItem &&
-                            key <= activeItem + itemsPerSlide - 1,
-                    })}
-                >
-                    {item}
-                </div>
-            ),
-        })),
-    });
-
-    useListenToCustomEvent((event) => {
-        if (event.eventName === "onSlideStartChange") {
-            setActiveItem(getCurrentActiveItem().index);
-        }
-    });
+    const { carouselFragment, slideToPrevItem, slideToNextItem } =
+        useSpringCarousel({
+            gutter,
+            slideType: "fluid",
+            freeScroll: true,
+            enableFreeScrollDrag: true,
+            items: childItems.map((item, key) => ({
+                id: key.toString(),
+                renderItem: (
+                    <div
+                        className={itemWrapperStyles({
+                            active: true,
+                            first: key === 0,
+                            last: key === childItems.length - 1,
+                        })}
+                    >
+                        {item}
+                    </div>
+                ),
+            })),
+        });
 
     return (
         <div className={rootStyles({ className: className?.root })}>
@@ -121,36 +85,23 @@ export const Carousel = ({
             >
                 {carouselFragment}
             </div>
-            {itemsCount !== finalItemsPerSlide && (
-                <div
-                    className={buttonsWrapperStyles({
-                        className: className?.buttonsWrapper,
-                    })}
-                >
-                    <Button
-                        size="small"
-                        icon={ChrevonUp}
-                        disabled={activeItem === 0}
-                        onClick={slideToPrevItem}
-                        className={{
-                            ...className?.slidePrevButton,
-                            icon: "-cui-rotate-90",
-                        }}
-                    />
-                    <Button
-                        size="small"
-                        icon={ChrevonUp}
-                        disabled={
-                            activeItem + finalItemsPerSlide === itemsCount
-                        }
-                        onClick={slideToNextItem}
-                        className={{
-                            ...className?.slideNextButton,
-                            icon: "cui-rotate-90",
-                        }}
-                    />
-                </div>
-            )}
+            {!showSlideButtons ||
+                (itemsCount > ITEMS_THRESHOLD_FOR_SLIDER_BUTTONS && (
+                    <div
+                        className={buttonsWrapperStyles({
+                            className: className?.buttonsWrapper,
+                        })}
+                    >
+                        <SlideButton
+                            onClick={slideToPrevItem}
+                            direction="left"
+                        />
+                        <SlideButton
+                            onClick={slideToNextItem}
+                            direction="right"
+                        />
+                    </div>
+                ))}
         </div>
     );
 };
