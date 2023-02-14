@@ -1,7 +1,7 @@
 import React from "react";
 import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
-import { useAccount, useConnect } from "wagmi";
+import { useConnect } from "wagmi";
 import { getConnectorIcon, ReadonlyConnector } from "../../../../connectors";
 
 interface ConnectPopoverProps {
@@ -13,9 +13,6 @@ interface ConnectPopoverProps {
 export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
     function ConnectPopover({ open, anchor, onClose }, ref) {
         const { connectors, connect } = useConnect();
-        const { address } = useAccount();
-
-        console.log(address);
 
         return (
             <Popover

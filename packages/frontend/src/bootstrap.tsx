@@ -17,57 +17,13 @@ import { HashRouter } from "react-router-dom";
 
 import { Chain, ChainProviderFn, Connector } from "wagmi";
 import { ThemeUpdater } from "./updaters";
-import { InjectedConnector } from "wagmi/connectors/injected";
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { infuraProvider } from "wagmi/providers/infura";
-import { SUPPORTED_CHAINS } from "./constants";
-import { ReadonlyConnector } from "./connectors";
 import { App } from "./pages/app";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
-
-const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-let standaloneSupportedChains: Chain[] = [];
-let standaloneProviders: ChainProviderFn[] = [];
-let getStandaloneConnectors: () => Connector[] = () => [];
-if (!__PREVIEW_MODE__) {
-    standaloneSupportedChains = Object.values(SUPPORTED_CHAINS);
-    standaloneProviders = [infuraProvider({ apiKey: INFURA_PROJECT_ID })];
-    getStandaloneConnectors = () => [
-        new InjectedConnector({
-            chains: standaloneSupportedChains,
-            options: {
-                shimChainChangedDisconnect: true,
-                name(detectedName) {
-                    return detectedName
-                        ? typeof detectedName === "string"
-                            ? detectedName
-                            : detectedName.join(", ")
-                        : "Browser Wallet";
-                },
-            },
-        }),
-        new WalletConnectConnector({
-            chains: standaloneSupportedChains,
-            options: {
-                qrcode: true,
-            },
-        }),
-        new CoinbaseWalletConnector({
-            chains: standaloneSupportedChains,
-            options: {
-                appName: "Carrot KPI",
-                darkMode: true,
-            },
-        }),
-        new ReadonlyConnector({
-            chains: standaloneSupportedChains,
-            options: { name: "readonly" },
-        }),
-    ];
-}
+import {
+    getStandaloneConnectors,
+    standaloneProviders,
+    standaloneSupportedChains,
+} from "./standalone-setup";
 
 interface RootProps {
     supportedChains?: Chain[];
