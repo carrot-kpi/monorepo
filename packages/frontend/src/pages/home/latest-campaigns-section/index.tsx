@@ -1,8 +1,8 @@
-import { Button, Typography } from "@carrot-kpi/ui";
+import { Button, Carousel, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { CardHorizontal } from "../../../components/ui/cards-horizontal";
+import { HorizontalSpacing } from "../../../components/ui/horizontal-spacing";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
 import { useLatestKPITokens } from "../../../hooks/useLatestKPITokens";
 
@@ -18,9 +18,12 @@ export const LatestCampaignsSection = () => {
 
     return (
         <div className="relative flex flex-col gap-16">
-            {/* TODO: add i18n */}
-            <Typography variant="h2">{t("home.latestCampaigns")}</Typography>
-            <CardHorizontal>
+            <HorizontalSpacing>
+                <Typography variant="h2">
+                    {t("home.latestCampaigns")}
+                </Typography>
+            </HorizontalSpacing>
+            <Carousel showSlideButtons={!loading}>
                 {loading
                     ? placeholder
                     : Object.values(kpiTokens).map((kpiToken) => (
@@ -29,10 +32,12 @@ export const LatestCampaignsSection = () => {
                               kpiToken={kpiToken}
                           />
                       ))}
-            </CardHorizontal>
-            <Link to="/campaigns">
-                <Button>View all campaings</Button>
-            </Link>
+            </Carousel>
+            <HorizontalSpacing>
+                <Link to="/campaigns">
+                    <Button>{t("home.viewAllCampaigns")}</Button>
+                </Link>
+            </HorizontalSpacing>
         </div>
     );
 };

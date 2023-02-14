@@ -2,12 +2,12 @@ import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { FeaturedCampaings } from "../../../components/featured-campaigns";
 import { GridPatternBg } from "../../../components/ui/grid-pattern-bg";
-import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
 import { ReactComponent as Plus } from "../../../assets/plus.svg";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
+import { HorizontalSpacing } from "../../../components/ui/horizontal-spacing";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -30,15 +30,12 @@ export const Hero = () => {
         <div className="relative bg-orange">
             <GridPatternBg bg="orange" />
             <div className="relative space-y-12 pt-7 pb-16 md:pt-24 md:pb-32">
-                <Typography
-                    variant="h1"
-                    className={{ root: "px-6 md:px-10 lg:px-32" }}
-                >
-                    {t("home.featuredCampaigns")}
-                </Typography>
-                <CardHorizontal className="px-6 md:px-10 lg:px-32">
-                    <FeaturedCampaings />
-                </CardHorizontal>
+                <HorizontalSpacing>
+                    <Typography variant="h1">
+                        {t("home.featuredCampaigns")}
+                    </Typography>
+                </HorizontalSpacing>
+                <FeaturedCampaings />
                 <div className="px-6 md:px-10 lg:px-32 flex flex-col space-x-0 md:space-x-8 space-y-4 md:space-y-0 md:flex-row">
                     <Button variant="primary" size="big">
                         <Link to="/campaigns">All campaigns</Link>

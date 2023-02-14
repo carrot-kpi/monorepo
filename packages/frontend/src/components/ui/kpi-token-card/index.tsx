@@ -162,7 +162,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                             </Typography>
                         </Link>
                     ) : (
-                        <Skeleton width="40%" />
+                        <Skeleton variant="2xl" width="40%" />
                     )}
                 </div>
             </CardActions>

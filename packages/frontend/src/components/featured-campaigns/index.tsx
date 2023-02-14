@@ -1,4 +1,5 @@
 import { KPIToken, Template } from "@carrot-kpi/sdk";
+import { Carousel } from "@carrot-kpi/ui";
 import React from "react";
 import { useNetwork } from "wagmi";
 import { KPITokenCard } from "../ui/kpi-token-card";
@@ -20,13 +21,33 @@ const MOCKED_DATA = [
         description:
             "What will the average TVL for the Swapr Gnosis Chain HOPR-XDAI pair be from Apr 14th 15:00 UTC to May 12th 15:00 UTC?",
     },
+    {
+        title: "DXdao",
+        description:
+            "What will the average TVL for Swapr on Gnosis Chain be from Jun 9th 15: 00 UTC to Jul 7th 15: 00 UTC?",
+    },
+    {
+        title: "COW PROTOCOL",
+        description:
+            "What will the average TVL for the COW token on Swapr Gnosis Chain be from Sep 1st 15:00 UTC to Sep 29th 15:00 UTC?",
+    },
+    {
+        title: "Hopr",
+        description:
+            "What will the average TVL for the Swapr Gnosis Chain HOPR-XDAI pair be from Apr 14th 15:00 UTC to May 12th 15:00 UTC?",
+    },
+    {
+        title: "COW PROTOCOL",
+        description:
+            "What will the average TVL for the COW token on Swapr Gnosis Chain be from Sep 1st 15:00 UTC to Sep 29th 15:00 UTC?",
+    },
 ];
 
 export const FeaturedCampaings = () => {
     const { chain } = useNetwork();
 
     return (
-        <>
+        <Carousel>
             {MOCKED_DATA.map(({ title, description }, index) => {
                 if (!chain) return <KPITokenCard key={index} noBorder />;
                 const template = new Template(
@@ -63,6 +84,6 @@ export const FeaturedCampaings = () => {
                     </div>
                 );
             })}
-        </>
+        </Carousel>
     );
 };
