@@ -3,6 +3,7 @@ import { KPITokenPage } from "@carrot-kpi/react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
+import { KPITokenPageLoading } from "./KPITokenPageLoading";
 
 interface PageProps {
     customBaseURL?: string;
@@ -17,8 +18,7 @@ export const Page = ({ customBaseURL }: PageProps) => {
             <KPITokenPage
                 address={address}
                 i18n={i18n}
-                // TODO: use a proper fallback component
-                fallback="Loading..."
+                fallback={<KPITokenPageLoading />}
                 customBaseURL={customBaseURL}
             />
         </Layout>
