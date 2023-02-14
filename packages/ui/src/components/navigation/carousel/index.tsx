@@ -1,4 +1,10 @@
-import React, { ReactElement, ReactNode, useMemo } from "react";
+import React, {
+    ReactElement,
+    ReactNode,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import { useSpringCarousel } from "react-spring-carousel";
 import { ButtonProps } from "../../input";
 import { cva } from "class-variance-authority";
@@ -48,17 +54,38 @@ export const Carousel = ({
     showSlideButtons,
     className,
 }: CarouselProps): ReactElement => {
+    const [freeScroll, setFreeScroll] = useState<boolean>(true);
+
     const childItems = useMemo(
         () => React.Children.toArray(children),
         [children]
     );
     const itemsCount = useMemo(() => childItems.length, [childItems.length]);
 
+    // disable freeScroll on mobile since it causes issues with the enableFreeScrollDrag
+    useEffect(() => {
+        const adaptItemsPerSlide = () => {
+            if (window.innerWidth < 700) {
+                setFreeScroll(false);
+                return;
+            }
+
+            setFreeScroll(true);
+        };
+
+        adaptItemsPerSlide();
+        window.addEventListener("resize", adaptItemsPerSlide);
+
+        return () => {
+            window.removeEventListener("resize", adaptItemsPerSlide);
+        };
+    }, []);
+
     const { carouselFragment, slideToPrevItem, slideToNextItem } =
         useSpringCarousel({
             gutter,
             slideType: "fluid",
-            freeScroll: true,
+            freeScroll,
             enableFreeScrollDrag: true,
             items: childItems.map((item, key) => ({
                 id: key.toString(),
@@ -85,23 +112,24 @@ export const Carousel = ({
             >
                 {carouselFragment}
             </div>
-            {!showSlideButtons ||
-                (itemsCount > ITEMS_THRESHOLD_FOR_SLIDER_BUTTONS && (
-                    <div
-                        className={buttonsWrapperStyles({
-                            className: className?.buttonsWrapper,
-                        })}
-                    >
-                        <SlideButton
-                            onClick={slideToPrevItem}
-                            direction="left"
-                        />
-                        <SlideButton
-                            onClick={slideToNextItem}
-                            direction="right"
-                        />
-                    </div>
-                ))}
+            {showSlideButtons !== undefined
+                ? showSlideButtons
+                : itemsCount > ITEMS_THRESHOLD_FOR_SLIDER_BUTTONS && (
+                      <div
+                          className={buttonsWrapperStyles({
+                              className: className?.buttonsWrapper,
+                          })}
+                      >
+                          <SlideButton
+                              onClick={slideToPrevItem}
+                              direction="left"
+                          />
+                          <SlideButton
+                              onClick={slideToNextItem}
+                              direction="right"
+                          />
+                      </div>
+                  )}
         </div>
     );
 };
