@@ -25,6 +25,7 @@ const dropdownRootStyles = cva([
 
 const arrowStyles = cva(
     [
+        "cui-stroke-black dark:cui-stroke-white",
         "cui-select-caret",
         "cui-absolute",
         "cui-pointer-events-none",

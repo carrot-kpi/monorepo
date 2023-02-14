@@ -59,7 +59,7 @@ export const AccordionSummary = ({
                 {expandIcon ? (
                     expandIcon
                 ) : (
-                    <ChevronUp className="cui-text-black dark:cui-text-white" />
+                    <ChevronUp className="cui-stroke-black dark:cui-stroke-white" />
                 )}
             </div>
         </div>
