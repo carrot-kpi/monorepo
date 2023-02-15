@@ -1,5 +1,6 @@
 import React, {
     ElementType,
+    forwardRef,
     FunctionComponent,
     HTMLAttributes,
     ReactNode,
@@ -37,87 +38,92 @@ export type ButtonProps = Omit<
 > &
     BaseButtonProps;
 
-export const Button = ({
-    href,
-    variant = "primary",
-    size = "big",
-    disabled,
-    onClick,
-    loading,
-    children,
-    className,
-    active = false,
-    icon: Icon,
-    iconPlacement,
-    ...rest
-}: ButtonProps) => {
-    const sharedProps = {
-        className: buttonStyles({
-            active,
-            size,
-            variant,
-            className: className?.root,
-        }),
-    };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [Root, props]: [ElementType, any] = !!href
-        ? ["a", { href }]
-        : ["button", { onClick, disabled: disabled || loading }];
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+    function Button(
+        {
+            href,
+            variant = "primary",
+            size = "big",
+            disabled,
+            onClick,
+            loading,
+            children,
+            className,
+            active = false,
+            icon: Icon,
+            iconPlacement,
+            ...rest
+        },
+        ref
+    ) {
+        const sharedProps = {
+            className: buttonStyles({
+                active,
+                size,
+                variant,
+                className: className?.root,
+            }),
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const [Root, props]: [ElementType, any] = !!href
+            ? ["a", { href }]
+            : ["button", { onClick, disabled: disabled || loading }];
 
-    const hasIcon = !!Icon;
-    let resolvedIcon;
-    if (!!loading)
-        resolvedIcon = (
-            <div
-                className={spinnerWrapperStyles({
-                    hasIcon,
-                    loading,
-                    size,
-                    className: className?.iconWrapper,
-                })}
-            >
-                <Spinner
-                    className={cx(
-                        iconStyles({
-                            size,
-                            loading,
-                        }),
-                        spinnerStyles({ hasIcon, loading }),
-                        className?.icon
-                    )}
-                />
-            </div>
-        );
-    else if (!!hasIcon)
-        resolvedIcon = (
-            <Icon
-                className={iconStyles({
-                    size,
-                    className: className?.icon,
-                })}
-            />
-        );
-
-    return (
-        <Root {...sharedProps} {...props} {...rest}>
-            {children && iconPlacement === "left" && resolvedIcon}
-            {children ? (
+        const hasIcon = !!Icon;
+        let resolvedIcon;
+        if (!!loading)
+            resolvedIcon = (
                 <div
-                    className={wrapperStyles({
+                    className={spinnerWrapperStyles({
                         hasIcon,
                         loading,
-                        className: className?.contentWrapper,
+                        size,
+                        className: className?.iconWrapper,
                     })}
                 >
-                    {children}
+                    <Spinner
+                        className={cx(
+                            iconStyles({
+                                size,
+                                loading,
+                            }),
+                            spinnerStyles({ hasIcon, loading }),
+                            className?.icon
+                        )}
+                    />
                 </div>
-            ) : (
-                resolvedIcon
-            )}
-            {children && iconPlacement === "right" && resolvedIcon}
-        </Root>
-    );
-};
+            );
+        else if (!!hasIcon)
+            resolvedIcon = (
+                <Icon
+                    className={iconStyles({
+                        size,
+                        className: className?.icon,
+                    })}
+                />
+            );
+
+        return (
+            <Root {...sharedProps} {...props} {...rest} ref={ref}>
+                {children && iconPlacement === "left" && resolvedIcon}
+                {children ? (
+                    <div
+                        className={wrapperStyles({
+                            hasIcon,
+                            loading,
+                            className: className?.contentWrapper,
+                        })}
+                    >
+                        {children}
+                    </div>
+                ) : (
+                    resolvedIcon
+                )}
+                {children && iconPlacement === "right" && resolvedIcon}
+            </Root>
+        );
+    }
+);
 
 const buttonStyles = cva(
     [

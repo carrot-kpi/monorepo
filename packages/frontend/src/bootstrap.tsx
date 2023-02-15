@@ -16,9 +16,14 @@ import { StrictMode } from "react";
 import { HashRouter } from "react-router-dom";
 
 import { Chain, ChainProviderFn, Connector } from "wagmi";
-import { StandaloneSetup } from "./components/standalone-setup";
-import { PreviewSetup } from "./components/preview-setup";
 import { ThemeUpdater } from "./updaters";
+import { App } from "./pages/app";
+import { CarrotCoreProvider } from "@carrot-kpi/react";
+import {
+    getStandaloneConnectors,
+    standaloneProviders,
+    standaloneSupportedChains,
+} from "./standalone-setup";
 
 interface RootProps {
     supportedChains?: Chain[];
@@ -41,18 +46,19 @@ export const Root = ({
         <StrictMode>
             <HashRouter>
                 <ThemeUpdater />
-                {__PREVIEW_MODE__ ? (
-                    <PreviewSetup
-                        supportedChains={supportedChains}
-                        providers={providers}
-                        connectors={connectors}
-                        ipfsGatewayURL={ipfsGatewayURL}
+                <CarrotCoreProvider
+                    supportedChains={
+                        supportedChains || standaloneSupportedChains
+                    }
+                    providers={providers || standaloneProviders}
+                    getConnectors={connectors || getStandaloneConnectors}
+                    ipfsGatewayURL={ipfsGatewayURL}
+                >
+                    <App
                         customBaseURL={customBaseURL}
                         templateId={templateId}
                     />
-                ) : (
-                    <StandaloneSetup />
-                )}
+                </CarrotCoreProvider>
             </HashRouter>
         </StrictMode>
     );
