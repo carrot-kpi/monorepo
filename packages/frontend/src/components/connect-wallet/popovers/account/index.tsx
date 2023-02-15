@@ -18,10 +18,8 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                 (connector) => connector instanceof ReadonlyConnector
             );
         }, [connectors]);
-        // const { disconnect } = useDisconnect();
 
         const handleDisconnectClick = useCallback(() => {
-            // disconnect();
             if (!!readonlyConnector) connect({ connector: readonlyConnector });
             onClose();
         }, [connect, onClose, readonlyConnector]);
