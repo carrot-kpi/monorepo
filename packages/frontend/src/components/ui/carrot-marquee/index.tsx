@@ -25,13 +25,13 @@ const YellowLogos = () => (
 
 interface MarqueeProps {
     children: ReactNode;
-    color: "orange" | "yellow";
+    color: "green" | "yellow";
 }
 
 const marqueeMainStyles = cva(["flex overflow-x-hidden"], {
     variants: {
         color: {
-            orange: ["bg-orange"],
+            green: ["bg-green"],
             yellow: ["bg-yellow"],
         },
     },
@@ -42,7 +42,7 @@ const marqueeRowStyles = cva(
     {
         variants: {
             color: {
-                orange: ["animate-marquee-fast"],
+                green: ["animate-marquee-fast"],
                 yellow: ["animate-marquee-slow"],
             },
         },
@@ -59,6 +59,16 @@ const MarqueeRow = ({ children, color }: MarqueeProps) => (
 export const CarrotMarquee = () => {
     return (
         <div>
+            <MarqueeRow color="green">
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+                <GreenLogos />
+            </MarqueeRow>
             <MarqueeRow color="yellow">
                 <YellowLogos />
                 <YellowLogos />
@@ -68,16 +78,6 @@ export const CarrotMarquee = () => {
                 <YellowLogos />
                 <YellowLogos />
                 <YellowLogos />
-            </MarqueeRow>
-            <MarqueeRow color="orange">
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
-                <GreenLogos />
             </MarqueeRow>
         </div>
     );
