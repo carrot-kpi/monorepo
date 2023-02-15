@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactNode, useLayoutEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Template } from "@carrot-kpi/sdk";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
@@ -7,6 +7,9 @@ import { useState } from "react";
 import { i18n } from "i18next";
 
 export type NamespacedTranslateFunction = (key: any, options?: any) => any;
+
+const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
+    {};
 
 interface TemplateComponentProps {
     type: "creationForm" | "page";
@@ -32,16 +35,21 @@ export function TemplateComponent({
     );
 
     const [translateWithNamespace, setTranslateWithNamespace] =
-        useState<NamespacedTranslateFunction>(() => () => "");
+        useState<NamespacedTranslateFunction>(
+            !!template &&
+                TRANSLATE_CACHE[`${template.specification.cid}${type}`]
+                ? () => TRANSLATE_CACHE[`${template.specification.cid}${type}`]
+                : () => () => ""
+        );
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (!template || !bundle) return;
         const namespace = `${template.specification.cid}${type}`;
         addBundleForTemplate(i18n, namespace, bundle);
         setTranslateWithNamespace(() => (key: any, options?: any) => {
             return i18n.t(key, { ...options, ns: namespace });
         });
-    }, [bundle, template, type, i18n]);
+    }, [bundle, template, type, i18n, translateWithNamespace]);
 
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
