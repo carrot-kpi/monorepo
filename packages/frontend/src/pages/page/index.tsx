@@ -4,7 +4,11 @@ import { Fetcher, KPIToken } from "@carrot-kpi/sdk";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useProvider } from "wagmi";
-import { useTransition, animated } from "@react-spring/web";
+import {
+    useTransition,
+    animated,
+    config as springConfig,
+} from "@react-spring/web";
 import { Navbar } from "../../components/ui/navbar";
 
 interface PageProps {
@@ -23,12 +27,15 @@ export const Page = ({ customBaseURL }: PageProps) => {
         state ? state.kpiToken : null
     );
     const transitions = useTransition(kpiToken, {
-        from: { opacity: 0, transform: "translateY(1%)" },
-        enter: { opacity: 1, transform: "translateY(0)" },
+        config: { ...springConfig.gentle, duration: 100 },
+        from: { opacity: 0, translateY: "1%", scale: 0.97 },
+        enter: { opacity: 1, translateY: "0%", scale: 1 },
         leave: {
             opacity: 0,
-            transform: "translateY(1%)",
+            translateY: "1%",
+            scale: 0.97,
         },
+        onDestroyed: () => navigate(-1),
     });
 
     useEffect(() => {
@@ -67,8 +74,8 @@ export const Page = ({ customBaseURL }: PageProps) => {
     }, [preferDecentralization, provider, state.kpiToken, address]);
 
     const handleDismiss = useCallback(() => {
-        navigate(-1);
-    }, [navigate]);
+        setKPIToken(null);
+    }, []);
 
     return transitions((style, template: KPIToken | null) => {
         return (
