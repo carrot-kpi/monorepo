@@ -2,7 +2,7 @@ import React from "react";
 import { Chip, Skeleton, Typography } from "@carrot-kpi/ui";
 import { shortenAddress } from "../../../utils/address";
 import { Template } from "@carrot-kpi/sdk";
-import { ModalRouteLink } from "../../modal-route-link";
+import { Link } from "react-router-dom";
 
 interface KPITokenTemplateCardProps {
     template?: Template;
@@ -95,7 +95,7 @@ export const KPITokenTemplateCard = ({
                     )}
                 </div>
             </div>
-            <ModalRouteLink
+            <Link
                 to={!!template ? `/create/${template.id}` : ""}
                 state={{ template }}
             >
@@ -106,7 +106,7 @@ export const KPITokenTemplateCard = ({
                         <Skeleton width="40%" />
                     )}
                 </div>
-            </ModalRouteLink>
+            </Link>
         </div>
     );
 };

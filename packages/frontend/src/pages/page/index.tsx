@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { KPITokenPage, usePreferences } from "@carrot-kpi/react";
 import { Fetcher, KPIToken } from "@carrot-kpi/sdk";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useProvider } from "wagmi";
 import {
@@ -13,12 +13,17 @@ import { Navbar } from "../../components/ui/navbar";
 
 interface PageProps {
     customBaseURL?: string;
+    closing?: boolean;
+    onOutAnimationEnd?: () => void;
 }
 
-export const Page = ({ customBaseURL }: PageProps) => {
+export const Page = ({
+    customBaseURL,
+    closing,
+    onOutAnimationEnd,
+}: PageProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
-    const navigate = useNavigate();
     const { address } = useParams();
     const provider = useProvider();
     const { preferDecentralization } = usePreferences();
@@ -26,7 +31,7 @@ export const Page = ({ customBaseURL }: PageProps) => {
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
     );
-    const transitions = useTransition(kpiToken, {
+    const transitions = useTransition(!closing && kpiToken, {
         config: { ...springConfig.gentle, duration: 100 },
         from: { opacity: 0, translateY: "1%", scale: 0.97 },
         enter: { opacity: 1, translateY: "0%", scale: 1 },
@@ -35,7 +40,7 @@ export const Page = ({ customBaseURL }: PageProps) => {
             translateY: "1%",
             scale: 0.97,
         },
-        onDestroyed: () => navigate(-1),
+        onDestroyed: onOutAnimationEnd,
     });
 
     useEffect(() => {
@@ -77,7 +82,7 @@ export const Page = ({ customBaseURL }: PageProps) => {
         setKPIToken(null);
     }, []);
 
-    return transitions((style, template: KPIToken | null) => {
+    return transitions((style, template) => {
         return (
             template && (
                 <animated.div

@@ -5,7 +5,7 @@ import {
     animated,
     config as springConfig,
 } from "@react-spring/web";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BigNumber, providers } from "ethers";
 import {
@@ -19,22 +19,25 @@ import { Navbar } from "../../components/ui/navbar";
 
 interface CreateWithTemplateIdProps {
     customBaseURL?: string;
+    closing?: boolean;
+    onOutAnimationEnd?: () => void;
 }
 
 export const CreateWithTemplateId = ({
     customBaseURL,
+    closing,
+    onOutAnimationEnd,
 }: CreateWithTemplateIdProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
     const { templateId } = useParams();
     const provider = useProvider();
-    const navigate = useNavigate();
     const { preferDecentralization } = usePreferences();
 
     const [template, setTemplate] = useState<Template | null>(
         state ? state.template : null
     );
-    const transitions = useTransition(template, {
+    const transitions = useTransition(!closing && template, {
         config: { ...springConfig.gentle, duration: 100 },
         from: { opacity: 0, translateY: "1%", scale: 0.97 },
         enter: { opacity: 1, translateY: "0%", scale: 1 },
@@ -43,7 +46,7 @@ export const CreateWithTemplateId = ({
             translateY: "1%",
             scale: 0.97,
         },
-        onDestroyed: () => navigate(-1),
+        onDestroyed: onOutAnimationEnd,
     });
 
     useEffect(() => {
@@ -115,7 +118,7 @@ export const CreateWithTemplateId = ({
         setTemplate(null);
     }, []);
 
-    return transitions((style, template: Template | null) => {
+    return transitions((style, template) => {
         return (
             template && (
                 <animated.div

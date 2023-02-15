@@ -13,7 +13,7 @@ import {
 import { cva } from "class-variance-authority";
 import sanitizeHtml from "sanitize-html";
 import { KPIToken } from "@carrot-kpi/sdk";
-import { ModalRouteLink } from "../../modal-route-link";
+import { Link } from "react-router-dom";
 
 const rootStyles = cva(
     [
@@ -150,14 +150,14 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
             <CardActions className={{ root: "justify-center" }}>
                 <div className="flex justify-center items-center w-full">
                     {!!kpiToken ? (
-                        <ModalRouteLink
+                        <Link
                             to={`/campaigns/${kpiToken.address}`}
                             state={{ kpiToken }}
                         >
                             <Typography weight="medium">
                                 ↳ VIEW CAMPAIGN
                             </Typography>
-                        </ModalRouteLink>
+                        </Link>
                     ) : (
                         <Skeleton width="40%" />
                     )}
