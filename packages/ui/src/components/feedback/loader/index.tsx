@@ -7,7 +7,5 @@ export interface LoaderProps {
 }
 
 export const Loader = ({ className }: LoaderProps) => (
-    <div className="cui-flex cui-items-center cui-justify-center cui-w-full cui-h-full">
-        <LoaderSvg className={cx("cui-animate-pulse", className)} />
-    </div>
+    <LoaderSvg className={cx("cui-animate-pulse", className)} />
 );
