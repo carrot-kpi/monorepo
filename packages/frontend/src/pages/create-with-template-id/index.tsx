@@ -40,12 +40,11 @@ export const CreateWithTemplateId = ({
     );
     const transitions = useTransition(!closing && template, {
         config: { ...springConfig.gentle, duration: 100 },
-        from: { opacity: 0, translateY: "1%", scale: 0.97 },
-        enter: { opacity: 1, translateY: "0%", scale: 1 },
+        from: { opacity: 0, translateY: "1%" },
+        enter: { opacity: 1, translateY: "0%" },
         leave: {
             opacity: 0,
             translateY: "1%",
-            scale: 0.97,
         },
         onDestroyed: onOutAnimationEnd,
     });

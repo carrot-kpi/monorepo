@@ -34,12 +34,11 @@ export const Page = ({
     );
     const transitions = useTransition(!closing && kpiToken, {
         config: { ...springConfig.gentle, duration: 100 },
-        from: { opacity: 0, translateY: "1%", scale: 0.97 },
-        enter: { opacity: 1, translateY: "0%", scale: 1 },
+        from: { opacity: 0, translateY: "1%" },
+        enter: { opacity: 1, translateY: "0%" },
         leave: {
             opacity: 0,
             translateY: "1%",
-            scale: 0.97,
         },
         onDestroyed: onOutAnimationEnd,
     });
@@ -92,7 +91,7 @@ export const Page = ({
                 >
                     <Navbar mode="modal" onDismiss={handleDismiss} />
                     <KPITokenPage
-                        address={address}
+                        kpiToken={kpiToken || undefined}
                         i18n={i18n}
                         fallback={
                             <div className="bg-orange py-10 text-black flex justify-center">
