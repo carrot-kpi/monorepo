@@ -38,23 +38,21 @@ export const Root = ({
     templateId,
 }: RootProps) => {
     return (
-        <StrictMode>
-            <HashRouter>
-                <ThemeUpdater />
-                {__PREVIEW_MODE__ ? (
-                    <PreviewSetup
-                        supportedChains={supportedChains}
-                        providers={providers}
-                        connectors={connectors}
-                        ipfsGatewayURL={ipfsGatewayURL}
-                        customBaseURL={customBaseURL}
-                        templateId={templateId}
-                    />
-                ) : (
-                    <StandaloneSetup />
-                )}
-            </HashRouter>
-        </StrictMode>
+        <HashRouter>
+            <ThemeUpdater />
+            {__PREVIEW_MODE__ ? (
+                <PreviewSetup
+                    supportedChains={supportedChains}
+                    providers={providers}
+                    connectors={connectors}
+                    ipfsGatewayURL={ipfsGatewayURL}
+                    customBaseURL={customBaseURL}
+                    templateId={templateId}
+                />
+            ) : (
+                <StandaloneSetup />
+            )}
+        </HashRouter>
     );
 };
 
@@ -62,7 +60,11 @@ if (!__PREVIEW_MODE__) {
     const container = document.getElementById("root");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const root = createRoot(container!);
-    root.render(<Root />);
+    root.render(
+        <StrictMode>
+            <Root />
+        </StrictMode>
+    );
 
     if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
         navigator.serviceWorker
