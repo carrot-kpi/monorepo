@@ -13,7 +13,7 @@ import "./global.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import { Chain, ChainProviderFn, Connector } from "wagmi";
 import { StandaloneSetup } from "./components/standalone-setup";
@@ -38,7 +38,7 @@ export const Root = ({
     templateId,
 }: RootProps) => {
     return (
-        <HashRouter>
+        <BrowserRouter>
             <ThemeUpdater />
             {__PREVIEW_MODE__ ? (
                 <PreviewSetup
@@ -52,7 +52,7 @@ export const Root = ({
             ) : (
                 <StandaloneSetup />
             )}
-        </HashRouter>
+        </BrowserRouter>
     );
 };
 
