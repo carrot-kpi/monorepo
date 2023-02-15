@@ -21,16 +21,17 @@ export const useFederatedModuleContainer = (
     const [container, setContainer] = useState<RemoteContainer | null>(null);
 
     useEffect(() => {
+        if (!entry || !baseUrl) return;
+        let container = <RemoteContainer | undefined>(
+            window[entry as keyof Window]
+        );
+        if (!!container && container.__initialized) {
+            setContainer(container);
+            return;
+        }
         let cancelled = false;
         const fetchContainer = async () => {
-            if (!entry || !baseUrl) return;
-            let container = <RemoteContainer | undefined>(
-                window[entry as keyof Window]
-            );
-            if (!!container && container.__initialized) {
-                setContainer(container);
-                return;
-            }
+            setLoading(true);
             try {
                 const shareScope = __webpack_share_scopes__.default;
                 if (!shareScope) {
