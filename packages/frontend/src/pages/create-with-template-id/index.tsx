@@ -16,6 +16,7 @@ import {
 } from "wagmi";
 import { Fetcher, Template } from "@carrot-kpi/sdk";
 import { Navbar } from "../../components/ui/navbar";
+import { Loader } from "@carrot-kpi/ui";
 
 interface CreateWithTemplateIdProps {
     customBaseURL?: string;
@@ -129,7 +130,11 @@ export const CreateWithTemplateId = ({
                     <CreationForm
                         template={template}
                         // TODO: use a proper fallback component
-                        fallback="Loading..."
+                        fallback={
+                            <div className="bg-green py-10 text-black flex justify-center">
+                                <Loader />
+                            </div>
+                        }
                         // TODO: use a proper on done callback
                         customBaseURL={customBaseURL}
                         onDone={handleDone}

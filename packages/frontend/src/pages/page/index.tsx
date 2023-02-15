@@ -10,6 +10,7 @@ import {
     config as springConfig,
 } from "@react-spring/web";
 import { Navbar } from "../../components/ui/navbar";
+import { Loader } from "@carrot-kpi/ui";
 
 interface PageProps {
     customBaseURL?: string;
@@ -93,8 +94,11 @@ export const Page = ({
                     <KPITokenPage
                         address={address}
                         i18n={i18n}
-                        // TODO: use a proper fallback component
-                        fallback="Loading..."
+                        fallback={
+                            <div className="bg-orange py-10 text-black flex justify-center">
+                                <Loader />
+                            </div>
+                        }
                         customBaseURL={customBaseURL}
                     />
                 </animated.div>
