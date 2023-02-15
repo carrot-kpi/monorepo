@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { ReactComponent as Plus } from "../../../assets/plus.svg";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
-import { CreateCampaignButton } from "../../../components/create-campaign";
+import { CreateCampaignButton } from "../../../components/create-campaign-button";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
