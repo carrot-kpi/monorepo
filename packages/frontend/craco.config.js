@@ -11,17 +11,18 @@ module.exports = {
                 new webpack.container.ModuleFederationPlugin({
                     name: "host",
                     shared,
-                })
-            );
-            config.plugins.push(
+                }),
                 new webpack.DefinePlugin({
                     __PREVIEW_MODE__: JSON.stringify(false),
+                }),
+                new webpack.ProvidePlugin({
+                    Buffer: ["buffer", "Buffer"],
                 })
             );
             config.ignoreWarnings.push(/Failed to parse source map/);
             config.resolve.fallback = {
                 ...config.resolve.fallback,
-                buffer: require.resolve("buffer/"),
+                buffer: require.resolve("buffer"),
             };
             if (env !== "production") return config;
             config.output.publicPath = "auto";

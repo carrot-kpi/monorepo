@@ -347,7 +347,7 @@ class Fetcher implements IPartialCarrotFetcher {
                     GetLatestVersionKPITokenTemplatesOfManagerByIdQuery,
                     { managerAddress, ids: idsChunk }
                 );
-                if (!manager || manager.templateSets.length === 0) return [];
+                if (!manager || manager.templateSets.length === 0) break;
                 await Promise.all(
                     manager.templateSets.map(async (templateSet) => {
                         if (
@@ -381,7 +381,7 @@ class Fetcher implements IPartialCarrotFetcher {
                         lastID,
                     }
                 );
-                if (!manager || manager.templateSets.length === 0) return [];
+                if (!manager || manager.templateSets.length === 0) break;
                 page = manager.templateSets.reduce(
                     (accumulator: TemplateData[], templateSet) => {
                         if (
@@ -433,7 +433,7 @@ class Fetcher implements IPartialCarrotFetcher {
                     GetOracleTemplatesOfManagerByIdQuery,
                     { managerAddress, ids: idsChunk }
                 );
-                if (!manager || manager.templateSets.length === 0) return [];
+                if (!manager || manager.templateSets.length === 0) break;
                 await Promise.all(
                     manager.templateSets.map(async (templateSet) => {
                         if (
@@ -467,7 +467,7 @@ class Fetcher implements IPartialCarrotFetcher {
                         lastID,
                     }
                 );
-                if (!manager) return [];
+                if (!manager) break;
                 page = manager.templateSets.reduce(
                     (accumulator: TemplateData[], templateSet) => {
                         if (
