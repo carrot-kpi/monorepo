@@ -68,31 +68,31 @@ export const App = ({ customBaseURL, templateId }: AppProps) => {
         }
 
         // detect modal closing and teardown. If the previous distinct
-        // location was a modal route, and the current one isn't,
-        // the scroll is re-enabled. Once the animation is finished the
-        // onOutAnimationEnd will be called and navigate will take care
-        // of route reconciliation.
-        if (previousLocation) {
+        // location was a modal route, and the current one isn't, trigger
+        // the modal close.
+        let closingModalId = "";
+        if (previousLocation && !!modalLocation) {
             for (let i = 0; i < MODAL_ROUTE_PATHS.length; i++) {
-                const { path } = MODAL_ROUTE_PATHS[i];
+                const { path, key } = MODAL_ROUTE_PATHS[i];
                 if (matchPath({ path }, previousLocation.pathname)) {
-                    document.documentElement.classList.remove(
-                        "overflow-hidden"
-                    );
+                    closingModalId = key;
                     break;
                 }
             }
         }
+        if (closingModalId) {
+            setModalLocation(previousLocation);
+            setClosingModalId(closingModalId);
+            return;
+        }
 
         // if not coming from a modal or going to one, scroll to top on
         // distinct main location changes
-        if (!location.state?.navigatingAwayFromModal) {
-            setMainLocation(location);
-            window.scroll({ top: 0, left: 0 });
-        }
+        if (!location.state?.navigatingAwayFromModal) setMainLocation(location);
     }, [location, mainLocation, modalLocation, previousLocation]);
 
     const handleAnimationEnd = useCallback(() => {
+        document.documentElement.classList.remove("overflow-hidden");
         setClosingModalId("");
         setModalLocation(undefined);
         navigate(mainLocation, { state: { navigatingAwayFromModal: true } });
