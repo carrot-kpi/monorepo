@@ -13,6 +13,7 @@ import { Create } from "../create";
 import { Campaigns } from "../campaigns";
 import { CreateWithTemplateId } from "../create-with-template-id";
 import { usePreviousDistinct } from "react-use";
+import { usePreferencesSetters } from "@carrot-kpi/react";
 
 const CREATE_ROUTE_PATH = { path: "/create/:templateId", key: "create" };
 const PAGE_ROUTE_PATH = { path: "/campaigns/:address", key: "page" };
@@ -36,6 +37,11 @@ export const App = ({ customBaseURL, templateId }: AppProps) => {
     const location = useLocation();
     const previousLocation = usePreviousDistinct(location);
     const navigate = useNavigate();
+    const { setPreferDecentralization } = usePreferencesSetters();
+
+    useEffect(() => {
+        if (__PREVIEW_MODE__) setPreferDecentralization(true);
+    }, [setPreferDecentralization]);
 
     const [modalLocation, setModalLocation] = useState<Location | undefined>();
     const [closingModalId, setClosingModalId] = useState("");
