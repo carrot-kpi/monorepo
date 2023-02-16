@@ -13,7 +13,7 @@ import "./global.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 import { Chain, ChainProviderFn, Connector } from "wagmi";
 import { ThemeUpdater } from "./updaters";
@@ -43,7 +43,7 @@ export const Root = ({
     templateId,
 }: RootProps) => {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <ThemeUpdater />
             <CarrotCoreProvider
                 supportedChains={supportedChains || standaloneSupportedChains}
@@ -53,7 +53,7 @@ export const Root = ({
             >
                 <App customBaseURL={customBaseURL} templateId={templateId} />
             </CarrotCoreProvider>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 
