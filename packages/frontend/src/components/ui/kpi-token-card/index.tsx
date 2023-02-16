@@ -25,14 +25,13 @@ const rootStyles = cva(
         "justify-between",
         "border",
         "bg-white",
-        "border-black",
         "dark:bg-black",
-        "dark:border-white",
     ],
     {
         variants: {
             noBorder: {
                 true: ["border-white dark:border-black"],
+                false: ["border-black dark:border-white"],
             },
         },
         defaultVariants: {
