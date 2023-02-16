@@ -25,7 +25,18 @@ module.exports = {
                 buffer: require.resolve("buffer"),
             };
             if (env !== "production") return config;
-            config.output.publicPath = "auto";
+            config.optimization = {
+                ...config.optimization,
+                moduleIds: "deterministic",
+                runtimeChunk: "single",
+            };
+            config.output = {
+                ...config.output,
+                publicPath: "auto",
+                filename: "[name].[contenthash:8].js",
+                chunkFilename: "[name].[contenthash:8].js",
+                assetModuleFilename: "[name].[contenthash:8][ext]",
+            };
             config.plugins.push(
                 new WorkboxWebpackPlugin.InjectManifest({
                     swSrc: join(__dirname, "/src/sw.ts"),
