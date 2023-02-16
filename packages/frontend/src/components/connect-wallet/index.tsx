@@ -13,18 +13,9 @@ import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
-import { ReactComponent as X } from "../../assets/x.svg";
-
-interface ConnectWalletProps {
-    mode?: "standard" | "modal";
-    onDismiss?: () => void;
-}
 
 // TODO: implement loading states
-export const ConnectWallet = ({
-    mode = "standard",
-    onDismiss,
-}: ConnectWalletProps) => {
+export const ConnectWallet = () => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
     const { address } = useAccount();
@@ -171,14 +162,6 @@ export const ConnectWallet = ({
                     >
                         {t("connect.wallet")}
                     </Button>
-                )}
-                {mode === "modal" && (
-                    <div
-                        className="ml-10 w-16 h-16 bg-white rounded-full border border-black flex items-center justify-center cursor-pointer"
-                        onClick={onDismiss}
-                    >
-                        <X className="w-8 h-8" />
-                    </div>
                 )}
             </div>
         </>
