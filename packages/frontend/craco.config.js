@@ -1,7 +1,6 @@
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const webpack = require("webpack");
 const shared = require("./shared-dependencies.json");
-const { join } = require("path");
 
 module.exports = {
     webpack: {
@@ -37,11 +36,12 @@ module.exports = {
                 chunkFilename: "[name].[contenthash:8].js",
                 assetModuleFilename: "[name].[contenthash:8][ext]",
             };
-            config.plugins.push(
-                new WorkboxWebpackPlugin.InjectManifest({
-                    swSrc: join(__dirname, "/src/sw.ts"),
-                })
-            );
+            // TODO: make Workbox and precaching work
+            // config.plugins.push(
+            //     new WorkboxWebpackPlugin.InjectManifest({
+            //         swSrc: join(__dirname, "/src/sw.ts"),
+            //     })
+            // );
             return config;
         },
     },

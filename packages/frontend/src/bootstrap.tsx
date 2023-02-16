@@ -67,24 +67,17 @@ if (!__PREVIEW_MODE__) {
         </StrictMode>
     );
 
-    // TODO: make the service worker actually work, then remove this and uncomment below
     if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-            for (const registration of registrations) registration.unregister();
-        });
+        navigator.serviceWorker
+            .register(new URL("./sw.ts", import.meta.url))
+            .then(() => {
+                console.log("carrot service worker registered successfully");
+            })
+            .catch((error) => {
+                console.error(
+                    "could not register carrot service worker",
+                    error
+                );
+            });
     }
-
-    // if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
-    //     navigator.serviceWorker
-    //         .register(`/sw.js`)
-    //         .then(() => {
-    //             console.log("carrot service worker registered successfully");
-    //         })
-    //         .catch((error) => {
-    //             console.error(
-    //                 "could not register carrot service worker",
-    //                 error
-    //             );
-    //         });
-    // }
 }
