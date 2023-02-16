@@ -55,6 +55,7 @@ export const App = ({ customBaseURL, templateId }: AppProps) => {
             // in case previous location is not there (fr example when
             // coming in through an external link), set the homepage as
             // the main location
+            document.documentElement.classList.add("overflow-hidden");
             setMainLocation(previousLocation || DEFAULT_LOCATION);
             setModalLocation(location);
             return;
@@ -62,25 +63,19 @@ export const App = ({ customBaseURL, templateId }: AppProps) => {
 
         // detect modal closing and teardown. If the previous distinct
         // location was a modal route, and the current one isn't,
-        // the modal location is set to the previous one and the closing
-        // flag is set to true in order to leave the modal time to perform
-        // the exit animation. Once the animation is finished the
+        // the scroll is re-enabled. Once the animation is finished the
         // onOutAnimationEnd will be called and navigate will take care
         // of route reconciliation.
-        let closingModalId = "";
-        if (previousLocation && !!modalLocation) {
+        if (previousLocation) {
             for (let i = 0; i < MODAL_ROUTE_PATHS.length; i++) {
-                const { path, key } = MODAL_ROUTE_PATHS[i];
+                const { path } = MODAL_ROUTE_PATHS[i];
                 if (matchPath({ path }, previousLocation.pathname)) {
-                    closingModalId = key;
+                    document.documentElement.classList.remove(
+                        "overflow-hidden"
+                    );
                     break;
                 }
             }
-        }
-        if (closingModalId) {
-            setModalLocation(previousLocation);
-            setClosingModalId(closingModalId);
-            return;
         }
 
         // if not coming from a modal or going to one, scroll to top on
