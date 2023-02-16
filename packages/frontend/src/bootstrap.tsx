@@ -67,17 +67,17 @@ if (!__PREVIEW_MODE__) {
         </StrictMode>
     );
 
-    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
-        navigator.serviceWorker
-            .register(`/sw.js`)
-            .then(() => {
-                console.log("carrot service worker registered successfully");
-            })
-            .catch((error) => {
-                console.error(
-                    "could not register carrot service worker",
-                    error
-                );
-            });
-    }
+    // if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+    //     navigator.serviceWorker
+    //         .register(`/sw.js`)
+    //         .then(() => {
+    //             console.log("carrot service worker registered successfully");
+    //         })
+    //         .catch((error) => {
+    //             console.error(
+    //                 "could not register carrot service worker",
+    //                 error
+    //             );
+    //         });
+    // }
 }
