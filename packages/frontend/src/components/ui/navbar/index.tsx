@@ -118,7 +118,7 @@ export const Navbar = ({
                         </ul>
                     </nav>
                 )}
-                <div className="flex">
+                <div className="flex items-center">
                     <div
                         className={`absolute top-[420px] md:static ${
                             !isOpen && "hidden"
@@ -136,7 +136,7 @@ export const Navbar = ({
                     )}
                     {mode === "modal" && (
                         <div
-                            className="ml-10 w-16 h-16 bg-white rounded-full border border-black flex items-center justify-center cursor-pointer"
+                            className="ml-10 w-10 h-10 md:w-16 md:h-16 bg-white rounded-full border border-black flex items-center justify-center cursor-pointer"
                             onClick={onDismiss}
                         >
                             <X className="w-8 h-8" />
