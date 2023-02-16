@@ -50,7 +50,7 @@ export const CreateWithTemplateId = ({
     });
 
     useEffect(() => {
-        if (!!state && !!state.template) {
+        if (!!state?.template) {
             setTemplate(state.template);
             return;
         }
@@ -80,7 +80,7 @@ export const CreateWithTemplateId = ({
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider, state, templateId]);
+    }, [preferDecentralization, provider, state?.template, templateId]);
 
     const [creationTx, setCreationTx] = useState<
         providers.TransactionRequest & {
