@@ -19,6 +19,14 @@ const PAGE_ROUTE_PATH = { path: "/campaigns/:address", key: "page" };
 
 const MODAL_ROUTE_PATHS = [CREATE_ROUTE_PATH, PAGE_ROUTE_PATH];
 
+const DEFAULT_LOCATION = {
+    pathname: "/",
+    state: undefined,
+    key: "",
+    search: "",
+    hash: "",
+};
+
 interface AppProps {
     customBaseURL?: string;
     templateId?: number;
@@ -47,15 +55,7 @@ export const App = ({ customBaseURL, templateId }: AppProps) => {
             // in case previous location is not there (fr example when
             // coming in through an external link), set the homepage as
             // the main location
-            setMainLocation(
-                previousLocation || {
-                    pathname: "/",
-                    state: undefined,
-                    key: "",
-                    search: "",
-                    hash: "",
-                }
-            );
+            setMainLocation(previousLocation || DEFAULT_LOCATION);
             setModalLocation(location);
             return;
         }
