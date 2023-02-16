@@ -45,10 +45,16 @@ export function TemplateComponent({
     useEffect(() => {
         if (!template || !bundle) return;
         const namespace = `${template.specification.cid}${type}`;
+        if (TRANSLATE_CACHE[namespace]) {
+            setTranslateWithNamespace(() => TRANSLATE_CACHE[namespace]);
+            return;
+        }
         addBundleForTemplate(i18n, namespace, bundle);
-        setTranslateWithNamespace(() => (key: any, options?: any) => {
+        const namespacedTranslate = (key: any, options?: any) => {
             return i18n.t(key, { ...options, ns: namespace });
-        });
+        };
+        TRANSLATE_CACHE[namespace] = namespacedTranslate;
+        setTranslateWithNamespace(() => namespacedTranslate);
     }, [bundle, template, type, i18n]);
 
     if (loading || !template || !Component) return <>{fallback}</>;
