@@ -76,9 +76,10 @@ export const SwiperCarousel = ({
     // by editing the object of the swiper element and then by calling initialize(); this is needed
     // because passing the config directly as attributes to the swiper-container is not working properly.
     useLayoutEffect(() => {
-        const swiperEl = document.querySelector(
-            "swiper-container"
-        ) as unknown as Required<SwiperOptions & { initialize: () => void }>;
+        const swiperEl = (swiperElRef as MutableRefObject<HTMLElement>)
+            .current as unknown as Required<
+            SwiperOptions & { initialize: () => void }
+        >;
 
         // assign all parameters to swiper element
         Object.assign<SwiperOptions, object>(swiperEl, {
