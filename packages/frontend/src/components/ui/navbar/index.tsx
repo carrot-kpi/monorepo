@@ -83,6 +83,7 @@ export const Navbar = ({
         const closeMenuOnResizeToDesktop = () => {
             if (window.innerWidth > 700) setOpen(false);
         };
+        // TODO: use size observer to increase performance
         window.addEventListener("resize", closeMenuOnResizeToDesktop);
         return () => {
             window.removeEventListener("resize", closeMenuOnResizeToDesktop);
@@ -93,9 +94,13 @@ export const Navbar = ({
         <div className={navWrapperStyles({ isOpen, bgColor })}>
             {isOpen && <GridPatternBg className="md:hidden" />}
             <div className={navbarStyles({ bgColor, isOpen, mode })}>
-                <NavLink to="/" onClick={() => setOpen(false)}>
+                {mode === "modal" ? (
                     <Logo className="w-32 h-auto md:w-[188px] text-black" />
-                </NavLink>
+                ) : (
+                    <NavLink to="/" onClick={() => setOpen(false)}>
+                        <Logo className="w-32 h-auto md:w-[188px] text-black" />
+                    </NavLink>
+                )}
                 {links && (
                     <nav className={navStyles({ isOpen })}>
                         <ul className={navLinksStyles({ isOpen })}>
