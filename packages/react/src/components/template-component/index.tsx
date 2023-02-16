@@ -49,7 +49,7 @@ export function TemplateComponent({
         setTranslateWithNamespace(() => (key: any, options?: any) => {
             return i18n.t(key, { ...options, ns: namespace });
         });
-    }, [bundle, template, type, i18n, translateWithNamespace]);
+    }, [bundle, template, type, i18n]);
 
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
