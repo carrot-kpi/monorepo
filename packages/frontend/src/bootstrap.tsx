@@ -67,6 +67,13 @@ if (!__PREVIEW_MODE__) {
         </StrictMode>
     );
 
+    // TODO: make the service worker actually work, then remove this and uncomment below
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+            for (const registration of registrations) registration.unregister();
+        });
+    }
+
     // if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     //     navigator.serviceWorker
     //         .register(`/sw.js`)
