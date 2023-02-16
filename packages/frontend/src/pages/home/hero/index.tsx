@@ -37,7 +37,7 @@ export const Hero = () => {
                 >
                     {t("home.featuredCampaigns")}
                 </Typography>
-                <CardHorizontal className="px-6 md:px-10 lg:px-32">
+                <CardHorizontal className="px-6 md:px-10 lg:px-32 dark">
                     <FeaturedCampaings />
                 </CardHorizontal>
                 <div className="px-6 md:px-10 lg:px-32 flex flex-col space-x-0 md:space-x-8 space-y-4 md:space-y-0 md:flex-row">
