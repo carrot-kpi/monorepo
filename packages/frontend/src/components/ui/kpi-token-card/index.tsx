@@ -11,9 +11,9 @@ import {
     Markdown,
 } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import sanitizeHtml from "sanitize-html";
 import { KPIToken } from "@carrot-kpi/sdk";
 import { Link } from "react-router-dom";
+import { getCleanMarkdown } from "../../../utils/html";
 
 const rootStyles = cva(
     [
@@ -79,7 +79,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                             >
                                 <div
                                     dangerouslySetInnerHTML={{
-                                        __html: sanitizeHtml(
+                                        __html: getCleanMarkdown(
                                             kpiToken.specification.description
                                         ),
                                     }}
