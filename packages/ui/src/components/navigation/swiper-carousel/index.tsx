@@ -17,7 +17,7 @@ import { cva } from "class-variance-authority";
 // register swiper custom elements
 register();
 
-const rootStyles = cva(["cui-relative"]);
+const rootStyles = cva(["cui-relative", "md:cui-px-[20px] md:cui-px-[80px]"]);
 
 const sliderButtonsWrapperStyles = cva(["cui-hidden", "md:cui-flex"]);
 
@@ -54,6 +54,7 @@ export const SwiperCarousel = ({
     className,
 }: SwiperCarouselProps): ReactElement => {
     const [progress, setProgress] = useState<number>(0);
+    const [isEndReached, setIsEndReached] = useState<boolean>(false);
 
     const swiperElRef = useRef<unknown>(null);
     const childItems = useMemo(
@@ -67,10 +68,24 @@ export const SwiperCarousel = ({
             (event: unknown) => {
                 const [, progress] = (event as { detail: [unknown, number] })
                     .detail;
+
                 setProgress(progress);
             }
         );
-    }, []);
+
+        // hide the next slide button if either all the items or the last one are visible
+        (swiperElRef as MutableRefObject<HTMLElement>).current.addEventListener(
+            "reachend",
+            () => {
+                if (progress === 0) {
+                    setIsEndReached(true);
+                    return;
+                }
+
+                setIsEndReached(false);
+            }
+        );
+    }, [progress]);
 
     // update the swiper configuration. The swiper configuration needs to be updated manually
     // by editing the object of the swiper element and then by calling initialize(); this is needed
@@ -111,20 +126,10 @@ export const SwiperCarousel = ({
                 1024: {
                     slidesPerView: 3,
                     spaceBetween: 20,
-                    freeMode: true,
-                    mousewheel: true,
                 },
                 1280: {
                     slidesPerView: 4,
                     spaceBetween: 30,
-                    freeMode: true,
-                    mousewheel: true,
-                },
-                1420: {
-                    slidesPerView: 5,
-                    spaceBetween: 30,
-                    freeMode: true,
-                    mousewheel: true,
                 },
             },
         });
@@ -159,7 +164,7 @@ export const SwiperCarousel = ({
                         ).current?.swiper.slideNext()
                     }
                     direction="right"
-                    visible={progress < 1}
+                    visible={progress < 1 && !isEndReached}
                     className={{
                         root: "cui-absolute cui-top-1/2 cui-right-0 -cui-translate-y-1/2 cui-z-10",
                     }}
