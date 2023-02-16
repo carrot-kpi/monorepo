@@ -1,5 +1,5 @@
 import { KPIToken, Template } from "@carrot-kpi/sdk";
-import { Carousel } from "@carrot-kpi/ui";
+import { SwiperCarousel } from "@carrot-kpi/ui";
 import React from "react";
 import { useNetwork } from "wagmi";
 import { KPITokenCard } from "../ui/kpi-token-card";
@@ -47,7 +47,7 @@ export const FeaturedCampaings = () => {
     const { chain } = useNetwork();
 
     return (
-        <Carousel showSlideButtons={!!chain} disabled={!!!chain}>
+        <SwiperCarousel>
             {MOCKED_DATA.map(({ title, description }, index) => {
                 if (!chain) return <KPITokenCard key={index} noBorder />;
                 const template = new Template(
@@ -84,6 +84,6 @@ export const FeaturedCampaings = () => {
                     </div>
                 );
             })}
-        </Carousel>
+        </SwiperCarousel>
     );
 };

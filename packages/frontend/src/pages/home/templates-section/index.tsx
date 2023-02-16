@@ -1,5 +1,5 @@
 import { useKPITokenTemplates } from "@carrot-kpi/react";
-import { Button, Carousel, Typography } from "@carrot-kpi/ui";
+import { Button, Typography, SwiperCarousel } from "@carrot-kpi/ui";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { HorizontalSpacing } from "../../../components/ui/horizontal-spacing";
@@ -28,7 +28,7 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
             <HorizontalSpacing>
                 <Typography variant="h2">{t("home.templates")}</Typography>
             </HorizontalSpacing>
-            <Carousel showSlideButtons={!loading} disabled={loading}>
+            <SwiperCarousel>
                 {loading
                     ? placeholder
                     : templates.map((template) => (
@@ -37,7 +37,7 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
                               template={template}
                           />
                       ))}
-            </Carousel>
+            </SwiperCarousel>
             <HorizontalSpacing>
                 <Button>{t("templates.viewAll")}</Button>
             </HorizontalSpacing>

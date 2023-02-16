@@ -1,4 +1,4 @@
-import { Button, Carousel, Typography } from "@carrot-kpi/ui";
+import { Button, Typography, SwiperCarousel } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -23,7 +23,7 @@ export const LatestCampaignsSection = () => {
                     {t("home.latestCampaigns")}
                 </Typography>
             </HorizontalSpacing>
-            <Carousel showSlideButtons={!loading} disabled={loading}>
+            <SwiperCarousel>
                 {loading
                     ? placeholder
                     : Object.values(kpiTokens).map((kpiToken) => (
@@ -32,7 +32,7 @@ export const LatestCampaignsSection = () => {
                               kpiToken={kpiToken}
                           />
                       ))}
-            </Carousel>
+            </SwiperCarousel>
             <HorizontalSpacing>
                 <Link to="/campaigns">
                     <Button>{t("home.viewAllCampaigns")}</Button>

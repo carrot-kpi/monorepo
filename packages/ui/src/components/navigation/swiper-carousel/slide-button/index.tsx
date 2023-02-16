@@ -5,7 +5,6 @@ import { ReactComponent as ChrevonUp } from "../../../../assets/chevron-up.svg";
 
 const rootStyles = cva(
     [
-        "bru-wtf",
         "cui-transition-opacity",
         "cui-duration-250",
         "cui-opacity-70 hover:cui-opacity-100",
@@ -17,9 +16,8 @@ const rootStyles = cva(
     ],
     {
         variants: {
-            disabled: {
-                true: ["cui-cursor-not-allowed"],
-                false: [],
+            visible: {
+                false: ["cui-hidden"],
             },
         },
     }
@@ -37,19 +35,18 @@ const iconStyles = cva(["cui-stroke-black dark:cui-stroke-white"], {
 interface SlideButtonProps {
     onClick: (event: React.MouseEvent) => void;
     direction: "left" | "right";
-    disabled?: boolean;
+    visible?: boolean;
     className?: { root?: string };
 }
 
 export const SlideButton = ({
     onClick,
     direction,
-    disabled,
+    visible,
     className,
 }: SlideButtonProps): ReactElement => (
     <button
-        disabled={disabled}
-        className={rootStyles({ className: className?.root, disabled })}
+        className={rootStyles({ className: className?.root, visible })}
         onClick={onClick}
     >
         <ChrevonUp className={iconStyles({ direction })} />
