@@ -44,7 +44,7 @@ export const Page = ({
     });
 
     useEffect(() => {
-        if (!!state.kpiToken) {
+        if (!!state?.kpiToken) {
             setKPIToken(state.kpiToken);
             return;
         }
@@ -76,7 +76,7 @@ export const Page = ({
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider, state.kpiToken, address]);
+    }, [preferDecentralization, provider, address, state?.kpiToken]);
 
     const handleDismiss = useCallback(() => {
         setKPIToken(null);
