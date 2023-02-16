@@ -1,8 +1,8 @@
 import React from "react";
 import { Chip, Skeleton, Typography } from "@carrot-kpi/ui";
 import { shortenAddress } from "../../../utils/address";
-import { Link } from "react-router-dom";
 import { Template } from "@carrot-kpi/sdk";
+import { Link } from "react-router-dom";
 
 interface KPITokenTemplateCardProps {
     template?: Template;

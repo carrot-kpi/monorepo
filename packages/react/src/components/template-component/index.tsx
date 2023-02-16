@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Template } from "@carrot-kpi/sdk";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { i18n } from "i18next";
 
 export type NamespacedTranslateFunction = (key: any, options?: any) => any;
+
+const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
+    {};
 
 interface TemplateComponentProps {
     type: "creationForm" | "page";
@@ -32,16 +35,27 @@ export function TemplateComponent({
     );
 
     const [translateWithNamespace, setTranslateWithNamespace] =
-        useState<NamespacedTranslateFunction>(() => () => "");
+        useState<NamespacedTranslateFunction>(
+            !!template &&
+                TRANSLATE_CACHE[`${template.specification.cid}${type}`]
+                ? () => TRANSLATE_CACHE[`${template.specification.cid}${type}`]
+                : () => () => ""
+        );
 
     useEffect(() => {
-        if (loading || !template || !bundle || !Component) return;
+        if (!template || !bundle) return;
         const namespace = `${template.specification.cid}${type}`;
+        if (TRANSLATE_CACHE[namespace]) {
+            setTranslateWithNamespace(() => TRANSLATE_CACHE[namespace]);
+            return;
+        }
         addBundleForTemplate(i18n, namespace, bundle);
-        setTranslateWithNamespace(() => (key: any, options?: any) => {
+        const namespacedTranslate = (key: any, options?: any) => {
             return i18n.t(key, { ...options, ns: namespace });
-        });
-    }, [Component, bundle, loading, template, type, i18n]);
+        };
+        TRANSLATE_CACHE[namespace] = namespacedTranslate;
+        setTranslateWithNamespace(() => namespacedTranslate);
+    }, [bundle, template, type, i18n]);
 
     if (loading || !template || !Component) return <>{fallback}</>;
     return (

@@ -51,7 +51,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             className,
             active = false,
             icon: Icon,
-            iconPlacement,
+            iconPlacement = "left",
             ...rest
         },
         ref

@@ -43,24 +43,17 @@ export const Root = ({
     templateId,
 }: RootProps) => {
     return (
-        <StrictMode>
-            <HashRouter>
-                <ThemeUpdater />
-                <CarrotCoreProvider
-                    supportedChains={
-                        supportedChains || standaloneSupportedChains
-                    }
-                    providers={providers || standaloneProviders}
-                    getConnectors={connectors || getStandaloneConnectors}
-                    ipfsGatewayURL={ipfsGatewayURL}
-                >
-                    <App
-                        customBaseURL={customBaseURL}
-                        templateId={templateId}
-                    />
-                </CarrotCoreProvider>
-            </HashRouter>
-        </StrictMode>
+        <HashRouter>
+            <ThemeUpdater />
+            <CarrotCoreProvider
+                supportedChains={supportedChains || standaloneSupportedChains}
+                providers={providers || standaloneProviders}
+                getConnectors={connectors || getStandaloneConnectors}
+                ipfsGatewayURL={ipfsGatewayURL}
+            >
+                <App customBaseURL={customBaseURL} templateId={templateId} />
+            </CarrotCoreProvider>
+        </HashRouter>
     );
 };
 
@@ -68,7 +61,11 @@ if (!__PREVIEW_MODE__) {
     const container = document.getElementById("root");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const root = createRoot(container!);
-    root.render(<Root />);
+    root.render(
+        <StrictMode>
+            <Root />
+        </StrictMode>
+    );
 
     // if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     //     navigator.serviceWorker

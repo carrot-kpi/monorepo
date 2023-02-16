@@ -1,7 +1,7 @@
 {
     "name": "@carrot-kpi/frontend",
     "license": "GPL-3.0-or-later",
-    "version": "1.0.0-rc.28",
+    "version": "1.0.0-rc.30",
     "description": "Frontend for Carrot KPI protocol v1.",
     "main": "./dist/bootstrap.js",
     "module": "./dist/bootstrap.js",
@@ -53,6 +53,7 @@
         "@craco/craco": "^7.0.0",
         "@fontsource/ibm-plex-mono": "^4.5.13",
         "@fontsource/inter": "^4.5.15",
+        "@react-spring/web": "^9.6.1",
         "@rollup/plugin-commonjs": "^24.0.1",
         "@rollup/plugin-json": "^6.0.0",
         "@rollup/plugin-node-resolve": "^15.0.1",
