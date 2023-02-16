@@ -11,20 +11,32 @@ module.exports = {
                 new webpack.container.ModuleFederationPlugin({
                     name: "host",
                     shared,
-                })
-            );
-            config.plugins.push(
+                }),
                 new webpack.DefinePlugin({
                     __PREVIEW_MODE__: JSON.stringify(false),
+                }),
+                new webpack.ProvidePlugin({
+                    Buffer: ["buffer", "Buffer"],
                 })
             );
             config.ignoreWarnings.push(/Failed to parse source map/);
             config.resolve.fallback = {
                 ...config.resolve.fallback,
-                buffer: require.resolve("buffer/"),
+                buffer: require.resolve("buffer"),
             };
             if (env !== "production") return config;
-            config.output.publicPath = "auto";
+            config.optimization = {
+                ...config.optimization,
+                moduleIds: "deterministic",
+                runtimeChunk: "single",
+            };
+            config.output = {
+                ...config.output,
+                publicPath: "auto",
+                filename: "[name].[contenthash:8].js",
+                chunkFilename: "[name].[contenthash:8].js",
+                assetModuleFilename: "[name].[contenthash:8][ext]",
+            };
             config.plugins.push(
                 new WorkboxWebpackPlugin.InjectManifest({
                     swSrc: join(__dirname, "/src/sw.ts"),

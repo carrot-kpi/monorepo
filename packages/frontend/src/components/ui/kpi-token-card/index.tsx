@@ -12,8 +12,8 @@ import {
 } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import sanitizeHtml from "sanitize-html";
-import { Link } from "react-router-dom";
 import { KPIToken } from "@carrot-kpi/sdk";
+import { Link } from "react-router-dom";
 
 const rootStyles = cva(
     [
@@ -25,14 +25,13 @@ const rootStyles = cva(
         "justify-between",
         "border",
         "bg-white",
-        "border-black",
         "dark:bg-black",
-        "dark:border-white",
     ],
     {
         variants: {
             noBorder: {
                 true: ["border-white dark:border-black"],
+                false: ["border-black dark:border-white"],
             },
         },
         defaultVariants: {
@@ -151,11 +150,8 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                 <div className="flex justify-center items-center w-full">
                     {!!kpiToken ? (
                         <Link
-                            to={
-                                !!kpiToken
-                                    ? `/campaigns/${kpiToken.address}`
-                                    : ""
-                            }
+                            to={`/campaigns/${kpiToken.address}`}
+                            state={{ kpiToken }}
                         >
                             <Typography weight="medium">
                                 ↳ VIEW CAMPAIGN

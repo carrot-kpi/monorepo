@@ -1,8 +1,5 @@
 {
-    "@carrot-kpi/sdk": "^1.16.0",
-    "ethers": "^5.7.1",
     "react": { "requiredVersion": "^18.2.0", "singleton": true },
     "react-dom": { "requiredVersion": "^18.2.0", "singleton": true },
-    "wagmi": { "requiredVersion": "^0.9.5", "singleton": true },
-    "@carrot-kpi/react": { "requiredVersion": "^0.26.0", "singleton": true }
+    "wagmi": { "requiredVersion": "^0.9.5", "singleton": true }
 }

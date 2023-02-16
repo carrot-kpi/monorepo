@@ -6,6 +6,7 @@ import { ReactComponent as CloseIcon } from "../../../assets/x.svg";
 import { ReactComponent as MenuIcon } from "../../../assets/menu.svg";
 import { GridPatternBg } from "../grid-pattern-bg";
 import { ConnectWallet } from "../../connect-wallet";
+import { ReactComponent as X } from "../../../assets/x.svg";
 
 const navWrapperStyles = cva([""], {
     variants: {
@@ -20,7 +21,7 @@ const navWrapperStyles = cva([""], {
 });
 
 const navbarStyles = cva(
-    ["relative flex items-center justify-between px-6 py-8 md:py-11 lg:px-32"],
+    ["relative flex items-center justify-between py-8 md:py-11"],
     {
         variants: {
             bgColor: {
@@ -29,6 +30,10 @@ const navbarStyles = cva(
             },
             isOpen: {
                 true: ["z-10"],
+            },
+            mode: {
+                standard: ["px-6 lg:px-32"],
+                modal: ["px-6 lg:px-10"],
             },
         },
     }
@@ -61,16 +66,24 @@ interface LinkProps {
 
 export interface NavbarProps {
     bgColor?: "green" | "orange";
+    mode?: "standard" | "modal";
+    onDismiss?: () => void;
     links?: LinkProps[];
 }
 
-export const Navbar = ({ bgColor, links }: NavbarProps) => {
+export const Navbar = ({
+    bgColor,
+    mode = "standard",
+    onDismiss,
+    links,
+}: NavbarProps) => {
     const [isOpen, setOpen] = useState(false);
 
     useEffect(() => {
         const closeMenuOnResizeToDesktop = () => {
             if (window.innerWidth > 700) setOpen(false);
         };
+        // TODO: use size observer to increase performance
         window.addEventListener("resize", closeMenuOnResizeToDesktop);
         return () => {
             window.removeEventListener("resize", closeMenuOnResizeToDesktop);
@@ -80,10 +93,14 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
     return (
         <div className={navWrapperStyles({ isOpen, bgColor })}>
             {isOpen && <GridPatternBg className="md:hidden" />}
-            <div className={navbarStyles({ bgColor, isOpen })}>
-                <NavLink to="/" onClick={() => setOpen(false)}>
+            <div className={navbarStyles({ bgColor, isOpen, mode })}>
+                {mode === "modal" ? (
                     <Logo className="w-32 h-auto md:w-[188px] text-black" />
-                </NavLink>
+                ) : (
+                    <NavLink to="/" onClick={() => setOpen(false)}>
+                        <Logo className="w-32 h-auto md:w-[188px] text-black" />
+                    </NavLink>
+                )}
                 {links && (
                     <nav className={navStyles({ isOpen })}>
                         <ul className={navLinksStyles({ isOpen })}>
@@ -106,15 +123,30 @@ export const Navbar = ({ bgColor, links }: NavbarProps) => {
                         </ul>
                     </nav>
                 )}
-                <div
-                    className={`absolute top-[420px] md:static ${
-                        !isOpen && "hidden"
-                    } md:block md:top-auto`}
-                >
-                    <ConnectWallet />
-                </div>
-                <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
-                    {isOpen ? <CloseIcon /> : <MenuIcon />}
+                <div className="flex items-center">
+                    <div
+                        className={`absolute top-[420px] md:static ${
+                            !isOpen && "hidden"
+                        } md:block md:top-auto`}
+                    >
+                        <ConnectWallet />
+                    </div>
+                    {mode !== "modal" && (
+                        <div
+                            className="md:hidden"
+                            onClick={() => setOpen(!isOpen)}
+                        >
+                            {isOpen ? <CloseIcon /> : <MenuIcon />}
+                        </div>
+                    )}
+                    {mode === "modal" && (
+                        <div
+                            className="ml-10 w-10 h-10 md:w-16 md:h-16 bg-white rounded-full border border-black flex items-center justify-center cursor-pointer"
+                            onClick={onDismiss}
+                        >
+                            <X className="w-8 h-8" />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

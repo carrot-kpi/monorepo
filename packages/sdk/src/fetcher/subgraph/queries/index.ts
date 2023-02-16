@@ -160,7 +160,7 @@ export const GetLatestVersionKPITokenTemplatesOfManagerByIdQuery = `
         $ids: [BigInt!]!
     ) {
         manager: kpitokensManager(id: $managerAddress) {
-            templateSets(where: { id_in: $ids }) {
+            templateSets(where: { managerId_in: $ids }) {
                 templates(orderBy: version, orderDirection: desc, first: 1) {
                     ${TemplateDataFields}
                 }
@@ -188,7 +188,7 @@ export const GetLatestVersionKPITokenTemplatesOfManagerQuery = `
 export const GetOracleTemplatesOfManagerByIdQuery = `
     query getOracleTemplatesOfManagerById($managerAddress: ID!, $ids: [BigInt!]!) {
         manager: oraclesManager(id: $managerAddress) {
-            templateSets(where: { id_in: $ids }) {
+            templateSets(where: { managerId_in: $ids }) {
                 templates(orderBy: version, orderDirection: desc, first: 1) {
                     ${TemplateDataFields}
                 }

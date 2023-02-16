@@ -63,6 +63,7 @@ function getTemplateSet(
     if (templateSet == null) {
         templateSet = new OracleTemplateSet(id);
         templateSet.manager = addressToBytes(managerAddress);
+        templateSet.managerId = managerId;
         templateSet.active = true;
         templateSet.save();
     }
