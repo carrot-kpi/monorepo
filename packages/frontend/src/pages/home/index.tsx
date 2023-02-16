@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout } from "../../components/layout";
 import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
 import { Hero } from "./hero";
@@ -10,6 +10,10 @@ interface HomeProps {
 }
 
 export const Home = ({ templateId }: HomeProps) => {
+    useEffect(() => {
+        window.scroll({ top: 0, left: 0 });
+    }, []);
+
     return (
         <Layout>
             <Hero />

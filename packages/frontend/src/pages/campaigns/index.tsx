@@ -103,6 +103,10 @@ export const Campaigns = () => {
         [searchQuery]
     );
 
+    useEffect(() => {
+        window.scroll({ top: 0, left: 0 });
+    }, []);
+
     const filteredTokens = useMemo(() => {
         return filterKPITokens(Object.values(kpiTokens), undefined);
     }, [kpiTokens]);
