@@ -82,12 +82,19 @@ export const App = ({ customBaseURL, templateId }: AppProps) => {
             setClosingModalId(closingModalId);
             return;
         }
-    }, [location, modalLocation, previousLocation]);
+
+        // if not coming from a modal or going to one, scroll to top on
+        // distinct main location changes
+        if (!location.state?.navigatingAwayFromModal) {
+            setMainLocation(location);
+            window.scroll({ top: 0, left: 0 });
+        }
+    }, [location, mainLocation, modalLocation, previousLocation]);
 
     const handleAnimationEnd = useCallback(() => {
         setClosingModalId("");
         setModalLocation(undefined);
-        navigate(mainLocation);
+        navigate(mainLocation, { state: { navigatingAwayFromModal: true } });
     }, [mainLocation, navigate]);
 
     return (
