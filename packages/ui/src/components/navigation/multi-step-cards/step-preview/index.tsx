@@ -14,8 +14,8 @@ const rootStyles = cva([
     "cui-border-b",
     "cui-border-black",
     "dark:cui-border-white",
-    "cui-bg-white",
-    "dark:cui-bg-black",
+    "cui-bg-gray-500",
+    "dark:cui-bg-gray-700",
     "cui-p-4",
     "[&:first-of-type]:cui-border-t",
 ]);
@@ -32,8 +32,10 @@ export const NextStepPreview = ({
     className,
 }: NextStepPreviewProps): ReactElement => (
     <div className={rootStyles({ className: className?.root })}>
-        <Typography weight="medium">{step}</Typography>
-        <Typography variant="h3" className={{ root: "cui-opacity-60" }}>
+        <Typography weight="medium" className={{ root: "cui-text-white" }}>
+            {step}
+        </Typography>
+        <Typography variant="h3" className={{ root: "cui-text-white" }}>
             {title}
         </Typography>
     </div>

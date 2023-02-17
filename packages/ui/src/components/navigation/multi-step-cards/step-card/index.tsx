@@ -1,18 +1,29 @@
 import { cva } from "class-variance-authority";
-import React from "react";
+import React, { useMemo } from "react";
 import { ReactElement, ReactNode } from "react";
+import { matchChildByType } from "../../../../utils/components";
 import { Typography } from "../../../data-display";
+import { NextStepButton } from "../next-button";
 
-const rootStyles = cva([
-    "cui-border",
-    "dark:cui-border-white",
-    "cui-flex",
-    "cui-max-w-xl",
-    "cui-flex-col",
-    "cui-gap-2",
-    "cui-bg-white",
-    "dark:cui-bg-black",
-]);
+const rootStyles = cva(
+    [
+        "cui-border",
+        "dark:cui-border-white",
+        "cui-flex",
+        "cui-max-w-xl",
+        "cui-flex-col",
+        "cui-gap-2",
+        "cui-bg-white",
+        "dark:cui-bg-black",
+    ],
+    {
+        variants: {
+            hasNextButton: {
+                true: ["cui-relative cui-pb-10"],
+            },
+        },
+    }
+);
 
 const headerStyles = cva([
     "cui-flex",
@@ -43,16 +54,31 @@ export const StepCard = ({
     step,
     children,
     className,
-}: StepCardProps): ReactElement => (
-    <div className={rootStyles({ className: className?.root })}>
-        <div className={headerStyles({ className: className?.header })}>
-            <Typography variant="sm" weight="medium">
-                Step {step}
-            </Typography>
-            <Typography variant="h2">{title}</Typography>
+}: StepCardProps): ReactElement => {
+    const hasNextButton = useMemo(
+        () =>
+            !!React.Children.toArray(children).find((child) =>
+                matchChildByType(child, NextStepButton)
+            ),
+        [children]
+    );
+
+    return (
+        <div
+            className={rootStyles({
+                className: className?.root,
+                hasNextButton,
+            })}
+        >
+            <div className={headerStyles({ className: className?.header })}>
+                <Typography variant="sm" weight="medium">
+                    Step {step}
+                </Typography>
+                <Typography variant="h2">{title}</Typography>
+            </div>
+            <div className={contentStyles({ className: className?.content })}>
+                {children}
+            </div>
         </div>
-        <div className={contentStyles({ className: className?.content })}>
-            {children}
-        </div>
-    </div>
-);
+    );
+};
