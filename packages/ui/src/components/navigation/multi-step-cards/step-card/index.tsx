@@ -53,6 +53,15 @@ export interface StepCardProps {
     };
 }
 
+const hasNextButton = (children: ReactNode): boolean => {
+    return !!React.Children.toArray(children).find((child) => {
+        if (matchChildByType(child, NextStepButton)) return true;
+        if (React.isValidElement(child) && child.props.children)
+            return hasNextButton(child.props.children);
+        return false;
+    });
+};
+
 export const StepCard = ({
     title,
     step,
@@ -60,19 +69,15 @@ export const StepCard = ({
     className,
     messages,
 }: StepCardProps): ReactElement => {
-    const hasNextButton = useMemo(
-        () =>
-            !!React.Children.toArray(children).find((child) =>
-                matchChildByType(child, NextStepButton)
-            ),
-        [children]
-    );
+    const nextButton = useMemo(() => {
+        return hasNextButton(children);
+    }, [children]);
 
     return (
         <div
             className={rootStyles({
                 className: className?.root,
-                hasNextButton,
+                hasNextButton: nextButton,
             })}
         >
             <div className={headerStyles({ className: className?.header })}>
