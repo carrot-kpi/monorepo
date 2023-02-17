@@ -1,11 +1,15 @@
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const webpack = require("webpack");
+const { join } = require("path");
 const shared = require("./shared-dependencies.json");
 
 module.exports = {
     webpack: {
         configure: (config, { env }) => {
-            if (!config.ignoreWarnings) config.ignoreWarnings = [];
+            config.entry = {
+                main: config.entry,
+                sw: join(__dirname, "./src/sw.ts"),
+            };
             config.plugins.push(
                 new webpack.container.ModuleFederationPlugin({
                     name: "host",
@@ -18,10 +22,22 @@ module.exports = {
                     Buffer: ["buffer", "Buffer"],
                 })
             );
-            config.ignoreWarnings.push(/Failed to parse source map/);
+            if (config.ignoreWarnings)
+                config.ignoreWarnings.push(/Failed to parse source map/);
+            else config.ignoreWarnings = [/Failed to parse source map/];
             config.resolve.fallback = {
                 ...config.resolve.fallback,
                 buffer: require.resolve("buffer"),
+            };
+            // make sure sw.js is there
+            const defaultFilename = config.output.filename;
+            config.output = {
+                ...config.output,
+                filename: (pathData) => {
+                    return pathData.chunk.name === "sw"
+                        ? "sw.js"
+                        : defaultFilename;
+                },
             };
             if (env !== "production") return config;
             config.optimization = {
@@ -32,7 +48,11 @@ module.exports = {
             config.output = {
                 ...config.output,
                 publicPath: "auto",
-                filename: "[name].[contenthash:8].js",
+                filename: (pathData) => {
+                    return pathData.chunk.name === "sw"
+                        ? "sw.js"
+                        : "[name].[contenthash:8].js";
+                },
                 chunkFilename: "[name].[contenthash:8].js",
                 assetModuleFilename: "[name].[contenthash:8][ext]",
             };
