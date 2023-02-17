@@ -15,9 +15,9 @@ export const NextStepButton = ({
                 {...rest}
                 size="small"
                 className={{
-                    // FIXME: find out why important is needed on border
-                    // radius, fix the root cause and remove it
-                    root: "cui-w-20 cui-h-20 !cui-rounded-full",
+                    // FIXME: find out why important is needed, fix
+                    // the root cause and remove it
+                    root: "!cui-w-20 !cui-h-20 !cui-rounded-full",
                 }}
             >
                 <div className="cui-flex cui-flex-col cui-gap-2 cui-items-center">

@@ -29,6 +29,7 @@ const headerStyles = cva([
     "cui-flex",
     "cui-flex-col",
     "cui-gap-1",
+    "cui-bg-black",
     "cui-border-b",
     "cui-border-black",
     "dark:cui-border-white",
@@ -47,6 +48,9 @@ export interface StepCardProps {
         content?: string;
         actionsContainer?: string;
     };
+    messages: {
+        step?: string;
+    };
 }
 
 export const StepCard = ({
@@ -54,6 +58,7 @@ export const StepCard = ({
     step,
     children,
     className,
+    messages,
 }: StepCardProps): ReactElement => {
     const hasNextButton = useMemo(
         () =>
@@ -71,10 +76,16 @@ export const StepCard = ({
             })}
         >
             <div className={headerStyles({ className: className?.header })}>
-                <Typography variant="sm" weight="medium">
-                    Step {step}
+                <Typography
+                    variant="sm"
+                    weight="medium"
+                    className={{ root: "cui-text-white" }}
+                >
+                    {messages.step} {step}
                 </Typography>
-                <Typography variant="h2">{title}</Typography>
+                <Typography variant="h2" className={{ root: "cui-text-white" }}>
+                    {title}
+                </Typography>
             </div>
             <div className={contentStyles({ className: className?.content })}>
                 {children}
