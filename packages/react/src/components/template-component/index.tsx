@@ -11,12 +11,13 @@ export type NamespacedTranslateFunction = (key: any, options?: any) => any;
 const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
     {};
 
-interface TemplateComponentProps {
+export interface TemplateComponentProps {
     type: "creationForm" | "page";
     template?: Template;
     customBaseURL?: string;
     fallback: ReactNode;
     i18n: i18n;
+    className?: string;
     props?: any;
 }
 
@@ -26,6 +27,7 @@ export function TemplateComponent({
     customBaseURL,
     fallback,
     i18n,
+    className,
     props = {},
 }: TemplateComponentProps) {
     const { loading, bundle, Component } = useTemplateModule(
@@ -59,7 +61,10 @@ export function TemplateComponent({
 
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
-        <div id={`carrot-template-${template.specification.commitHash}`}>
+        <div
+            id={`carrot-template-${template.specification.commitHash}`}
+            className={className}
+        >
             <Component {...props} i18n={i18n} t={translateWithNamespace} />
         </div>
     );

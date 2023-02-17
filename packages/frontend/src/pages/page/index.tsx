@@ -4,13 +4,9 @@ import { Fetcher, KPIToken } from "@carrot-kpi/sdk";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useProvider } from "wagmi";
-import {
-    useTransition,
-    animated,
-    config as springConfig,
-} from "@react-spring/web";
-import { Navbar } from "../../components/ui/navbar";
+import { useTransition, config as springConfig } from "@react-spring/web";
 import { Loader } from "@carrot-kpi/ui";
+import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 
 interface PageProps {
     customBaseURL?: string;
@@ -85,11 +81,10 @@ export const Page = ({
     return transitions((style, template) => {
         return (
             template && (
-                <animated.div
-                    style={style}
-                    className="fixed top-0 left-0 h-screen w-screen overflow-y-auto bg-orange"
+                <AnimatedFullscreenModal
+                    springStyle={style}
+                    onDismiss={handleDismiss}
                 >
-                    <Navbar mode="modal" onDismiss={handleDismiss} />
                     <KPITokenPage
                         kpiToken={kpiToken || undefined}
                         i18n={i18n}
@@ -99,8 +94,9 @@ export const Page = ({
                             </div>
                         }
                         customBaseURL={customBaseURL}
+                        className="w-full h-full"
                     />
-                </animated.div>
+                </AnimatedFullscreenModal>
             )
         );
     });
