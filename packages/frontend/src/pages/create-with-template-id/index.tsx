@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { CreationForm, usePreferences } from "@carrot-kpi/react";
-import {
-    useTransition,
-    animated,
-    config as springConfig,
-} from "@react-spring/web";
+import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BigNumber, providers } from "ethers";
@@ -15,8 +11,8 @@ import {
     useSendTransaction,
 } from "wagmi";
 import { Fetcher, Template } from "@carrot-kpi/sdk";
-import { Navbar } from "../../components/ui/navbar";
 import { Loader } from "@carrot-kpi/ui";
+import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 
 interface CreateWithTemplateIdProps {
     customBaseURL?: string;
@@ -121,11 +117,11 @@ export const CreateWithTemplateId = ({
     return transitions((style, template) => {
         return (
             template && (
-                <animated.div
+                <AnimatedFullscreenModal
+                    bgColor="green"
                     style={style}
-                    className="fixed top-0 left-0 h-screen w-screen overflow-y-auto bg-green"
+                    onDismiss={handleDismiss}
                 >
-                    <Navbar mode="modal" onDismiss={handleDismiss} />
                     <CreationForm
                         template={template}
                         // TODO: use a proper fallback component
@@ -138,8 +134,9 @@ export const CreateWithTemplateId = ({
                         customBaseURL={customBaseURL}
                         onDone={handleDone}
                         i18n={i18n}
+                        className="w-full h-full"
                     />
-                </animated.div>
+                </AnimatedFullscreenModal>
             )
         );
     });
