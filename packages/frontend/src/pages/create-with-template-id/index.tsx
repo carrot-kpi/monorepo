@@ -119,7 +119,7 @@ export const CreateWithTemplateId = ({
             template && (
                 <AnimatedFullscreenModal
                     bgColor="green"
-                    style={style}
+                    springStyle={style}
                     onDismiss={handleDismiss}
                 >
                     <CreationForm

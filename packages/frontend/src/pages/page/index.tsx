@@ -82,7 +82,7 @@ export const Page = ({
         return (
             template && (
                 <AnimatedFullscreenModal
-                    style={style}
+                    springStyle={style}
                     onDismiss={handleDismiss}
                 >
                     <KPITokenPage

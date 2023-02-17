@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Navbar, NavbarProps } from "../ui/navbar";
-import { animated } from "@react-spring/web";
+import { animated, SpringValue } from "@react-spring/web";
 import { cva } from "class-variance-authority";
 
 const rootStyles = cva(
@@ -17,19 +17,19 @@ const rootStyles = cva(
 
 interface FullscreenModalProps {
     bgColor?: NavbarProps["bgColor"];
-    style: object;
+    springStyle: { [key: string]: SpringValue };
     onDismiss: () => void;
     children: ReactNode;
 }
 
 export const AnimatedFullscreenModal = ({
     bgColor = "orange",
-    style,
+    springStyle,
     onDismiss,
     children,
 }: FullscreenModalProps) => {
     return (
-        <animated.div style={style} className={rootStyles({ bgColor })}>
+        <animated.div style={springStyle} className={rootStyles({ bgColor })}>
             <div className="flex flex-col h-full w-full">
                 <Navbar mode="modal" bgColor={bgColor} onDismiss={onDismiss} />
                 <div className="flex-grow">{children}</div>
