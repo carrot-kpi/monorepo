@@ -69,7 +69,7 @@ if (!__PREVIEW_MODE__) {
 
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker
-            .register(new URL("./sw.ts", import.meta.url))
+            .register("./sw.js")
             .then(() => {
                 console.log("carrot service worker registered successfully");
             })
