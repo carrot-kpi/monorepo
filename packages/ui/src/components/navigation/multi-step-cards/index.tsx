@@ -7,6 +7,7 @@ import { NextStepPreview, NextStepPreviewProps } from "./step-preview";
 
 export * from "./step-card";
 export * from "./step-preview";
+export * from "./next-button";
 
 const rootStyles = cva([
     "cui-w-full",
