@@ -174,7 +174,7 @@ export const Navbar = ({
                     )}
                     {mode !== "modal" && (
                         <div
-                            className="md:hidden"
+                            className="md:hidden ml-4"
                             onClick={() => setOpen(!isOpen)}
                         >
                             {isOpen ? <CloseIcon /> : <MenuIcon />}
