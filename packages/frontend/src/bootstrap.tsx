@@ -48,22 +48,15 @@ export const Root = ({
 }: RootProps) => {
     return (
         <HashRouter>
-            <ThemeUpdater />
-            <QueryClientProvider client={queryClient}>
-                <CarrotCoreProvider
-                    supportedChains={
-                        supportedChains || standaloneSupportedChains
-                    }
-                    providers={providers || standaloneProviders}
-                    getConnectors={connectors || getStandaloneConnectors}
-                    ipfsGatewayURL={ipfsGatewayURL}
-                >
-                    <App
-                        customBaseURL={customBaseURL}
-                        templateId={templateId}
-                    />
-                </CarrotCoreProvider>
-            </QueryClientProvider>
+            <CarrotCoreProvider
+                supportedChains={supportedChains || standaloneSupportedChains}
+                providers={providers || standaloneProviders}
+                getConnectors={connectors || getStandaloneConnectors}
+                ipfsGatewayURL={ipfsGatewayURL}
+            >
+                <ThemeUpdater />
+                <App customBaseURL={customBaseURL} templateId={templateId} />
+            </CarrotCoreProvider>
         </HashRouter>
     );
 };
@@ -78,7 +71,7 @@ if (!__PREVIEW_MODE__) {
         </StrictMode>
     );
 
-    if ("serviceWorker" in navigator) {
+    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
         navigator.serviceWorker
             .register("./sw.js")
             .then(() => {

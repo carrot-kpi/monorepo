@@ -17,7 +17,6 @@ const dropdownRootStyles = cva(
         "dark:cui-bg-black",
         "dark:cui-border-white",
         "cui-z-10",
-        "cui-overflow-hidden",
         "cui-transition-opacity",
     ],
     {

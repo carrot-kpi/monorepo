@@ -7,7 +7,6 @@ const rootStyles = cva([
     "justify-center",
     "w-8",
     "h-8",
-    "mr-2",
     "rounded-lg",
 ]);
 
