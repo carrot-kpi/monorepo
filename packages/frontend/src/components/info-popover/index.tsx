@@ -1,6 +1,6 @@
 import { Popover } from "@carrot-kpi/ui";
 import React, { ReactNode, useCallback, useRef, useState } from "react";
-import { ReactComponent as X } from "../../assets/x.svg";
+import { ReactComponent as Info } from "../../assets/info.svg";
 
 interface InfoPopoverProps {
     children?: ReactNode;
@@ -21,9 +21,8 @@ export const InfoPopover = ({ children }: InfoPopoverProps) => {
 
     return (
         <>
-            {/* FIXME: update icon asap */}
-            <X
-                className="w-3 h-4 text-sm text-black dark:text-white"
+            <Info
+                className="w-5 h-5 text-sm text-gray-500 dark:text-gray-600"
                 ref={iconRef}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
