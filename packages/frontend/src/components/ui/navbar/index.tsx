@@ -42,25 +42,25 @@ const navbarStyles = cva(
     }
 );
 
-// const navStyles = cva([], {
-//     variants: {
-//         isOpen: {
-//             true: ["absolute flex flex-col top-28 left-0 px-6 py-16  w-full"],
-//             false: ["hidden md:flex"],
-//         },
-//     },
-// });
+const navStyles = cva([], {
+    variants: {
+        isOpen: {
+            true: ["absolute flex flex-col top-28 left-0 px-6 py-16  w-full"],
+            false: ["hidden md:flex"],
+        },
+    },
+});
 
-// const navLinksStyles = cva(["flex"], {
-//     variants: {
-//         isOpen: {
-//             true: ["flex-col items-start space-y-8 relative"],
-//             false: [
-//                 "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2",
-//             ],
-//         },
-//     },
-// });
+const navLinksStyles = cva(["flex"], {
+    variants: {
+        isOpen: {
+            true: ["flex-col items-start space-y-8 relative"],
+            false: [
+                "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2",
+            ],
+        },
+    },
+});
 
 interface LinkProps {
     title: string;
@@ -78,6 +78,7 @@ export const Navbar = ({
     bgColor,
     mode = "standard",
     onDismiss,
+    links,
 }: NavbarProps) => {
     const preferencesRef = useRef<HTMLButtonElement>(null);
     const preferencesPopoverRef = useRef<HTMLDivElement>(null);
@@ -125,8 +126,7 @@ export const Navbar = ({
                         <Logo className="w-32 h-auto md:w-[188px] text-black" />
                     </NavLink>
                 )}
-                {/* TODO: reactivate links once there are actual links and once the spacing in the navbar has been sorted out */}
-                {/* {links && (
+                {links && (
                     <nav className={navStyles({ isOpen })}>
                         <ul className={navLinksStyles({ isOpen })}>
                             {links.map((link) => (
@@ -147,7 +147,7 @@ export const Navbar = ({
                             ))}
                         </ul>
                     </nav>
-                )} */}
+                )}
                 <div className="flex items-center">
                     <div
                         className={`absolute top-[420px] md:static ${
