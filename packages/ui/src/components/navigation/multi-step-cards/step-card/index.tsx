@@ -18,6 +18,7 @@ const headerStyles = cva([
     "cui-flex",
     "cui-flex-col",
     "cui-gap-1",
+    "cui-bg-black",
     "cui-border-b",
     "cui-border-black",
     "dark:cui-border-white",
@@ -36,6 +37,9 @@ export interface StepCardProps {
         content?: string;
         actionsContainer?: string;
     };
+    messages: {
+        step?: string;
+    };
 }
 
 export const StepCard = ({
@@ -43,16 +47,25 @@ export const StepCard = ({
     step,
     children,
     className,
-}: StepCardProps): ReactElement => (
-    <div className={rootStyles({ className: className?.root })}>
-        <div className={headerStyles({ className: className?.header })}>
-            <Typography variant="sm" weight="medium">
-                Step {step}
-            </Typography>
-            <Typography variant="h2">{title}</Typography>
+    messages,
+}: StepCardProps): ReactElement => {
+    return (
+        <div className={rootStyles({ className: className?.root })}>
+            <div className={headerStyles({ className: className?.header })}>
+                <Typography
+                    variant="sm"
+                    weight="medium"
+                    className={{ root: "cui-text-white" }}
+                >
+                    {messages.step} {step}
+                </Typography>
+                <Typography variant="h2" className={{ root: "cui-text-white" }}>
+                    {title}
+                </Typography>
+            </div>
+            <div className={contentStyles({ className: className?.content })}>
+                {children}
+            </div>
         </div>
-        <div className={contentStyles({ className: className?.content })}>
-            {children}
-        </div>
-    </div>
-);
+    );
+};

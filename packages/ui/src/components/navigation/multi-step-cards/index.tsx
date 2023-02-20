@@ -7,6 +7,7 @@ import { NextStepPreview, NextStepPreviewProps } from "./step-preview";
 
 export * from "./step-card";
 export * from "./step-preview";
+export * from "./next-button";
 
 const rootStyles = cva([
     "cui-w-full",
@@ -30,12 +31,16 @@ export interface MultiStepCardsProps {
         stepsPreviewContainer?: string;
         stepPreview?: NextStepPreviewProps["className"];
     };
+    messages: {
+        step?: string;
+    };
 }
 
 export const MultiStepCards = ({
     children,
     activeStep,
     className,
+    messages,
 }: MultiStepCardsProps): ReactElement => {
     const childSteps = useMemo(
         () =>
@@ -71,13 +76,13 @@ export const MultiStepCards = ({
             >
                 {!!derivedStepsTitles[finalActiveStep + 1] && (
                     <NextStepPreview
-                        step={`Step ${finalActiveStep + 2}`}
+                        step={`${messages.step} ${finalActiveStep + 2}`}
                         title={derivedStepsTitles[finalActiveStep + 1]}
                     />
                 )}
                 {!!derivedStepsTitles[finalActiveStep + 2] && (
                     <NextStepPreview
-                        step={`Step ${finalActiveStep + 3}`}
+                        step={`${messages.step} ${finalActiveStep + 3}`}
                         title={derivedStepsTitles[finalActiveStep + 2]}
                     />
                 )}
