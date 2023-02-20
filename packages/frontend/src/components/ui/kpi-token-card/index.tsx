@@ -13,7 +13,6 @@ import {
 import { cva } from "class-variance-authority";
 import { KPIToken } from "@carrot-kpi/sdk";
 import { Link } from "react-router-dom";
-import { getCleanMarkdown } from "../../../utils/html";
 
 const rootStyles = cva(
     [
@@ -77,13 +76,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                                     root: "prose prose-headings:mt-0 line-clamp-5 overflow-hidden",
                                 }}
                             >
-                                <div
-                                    dangerouslySetInnerHTML={{
-                                        __html: getCleanMarkdown(
-                                            kpiToken.specification.description
-                                        ),
-                                    }}
-                                />
+                                {kpiToken.specification.description}
                             </Markdown>
                         ) : (
                             <div className="flex flex-col gap-3">
