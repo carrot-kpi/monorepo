@@ -147,7 +147,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                 </div>
             </CardContent>
             <CardActions className={{ root: "justify-center" }}>
-                <div className="flex justify-center items-center w-full">
+                <div className="flex h-6 justify-center items-center w-full">
                     {!!kpiToken ? (
                         <Link
                             to={`/campaigns/${kpiToken.address}`}
