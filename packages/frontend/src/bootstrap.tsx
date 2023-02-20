@@ -44,13 +44,13 @@ export const Root = ({
 }: RootProps) => {
     return (
         <HashRouter>
-            <ThemeUpdater />
             <CarrotCoreProvider
                 supportedChains={supportedChains || standaloneSupportedChains}
                 providers={providers || standaloneProviders}
                 getConnectors={connectors || getStandaloneConnectors}
                 ipfsGatewayURL={ipfsGatewayURL}
             >
+                <ThemeUpdater />
                 <App customBaseURL={customBaseURL} templateId={templateId} />
             </CarrotCoreProvider>
         </HashRouter>
