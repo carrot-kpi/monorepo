@@ -99,7 +99,7 @@ export const KPITokenTemplateCard = ({
                 to={!!template ? `/create/${template.id}` : ""}
                 state={{ template }}
             >
-                <div className="h-16 flex items-center justify-center p-4 space-y-4 border-t border-gray-600 dark:border-white">
+                <div className="h-16 flex items-center justify-center space-y-4 border-t border-gray-600 dark:border-white">
                     {!!template ? (
                         <Typography weight="medium">↳ USE TEMPLATE</Typography>
                     ) : (

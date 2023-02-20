@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as Logo } from "../../../assets/logo.svg";
 import { cva } from "class-variance-authority";
@@ -7,6 +7,9 @@ import { ReactComponent as MenuIcon } from "../../../assets/menu.svg";
 import { GridPatternBg } from "../grid-pattern-bg";
 import { ConnectWallet } from "../../connect-wallet";
 import { ReactComponent as X } from "../../../assets/x.svg";
+import { ReactComponent as SettingsIcon } from "../../../assets/settings.svg";
+import { Button } from "@carrot-kpi/ui";
+import { PreferencesPopover } from "../../connect-wallet/popovers/preferences";
 
 const navWrapperStyles = cva([""], {
     variants: {
@@ -77,7 +80,11 @@ export const Navbar = ({
     onDismiss,
     links,
 }: NavbarProps) => {
+    const preferencesRef = useRef<HTMLButtonElement>(null);
+    const preferencesPopoverRef = useRef<HTMLDivElement>(null);
+
     const [isOpen, setOpen] = useState(false);
+    const [preferencesPopoverOpen, setPreferencesPopoverOpen] = useState(false);
 
     useEffect(() => {
         const closeMenuOnResizeToDesktop = () => {
@@ -89,6 +96,24 @@ export const Navbar = ({
             window.removeEventListener("resize", closeMenuOnResizeToDesktop);
         };
     }, [isOpen]);
+
+    useEffect(() => {
+        const handleCloseOnClick = (event: MouseEvent) => {
+            if (
+                !!preferencesPopoverRef.current &&
+                !preferencesPopoverRef.current.contains(event.target as Node)
+            )
+                setPreferencesPopoverOpen(false);
+        };
+        document.addEventListener("mousedown", handleCloseOnClick);
+        return () => {
+            document.removeEventListener("mousedown", handleCloseOnClick);
+        };
+    }, [preferencesPopoverOpen]);
+
+    const handlePreferencesPopoverOpen = useCallback(() => {
+        setPreferencesPopoverOpen(true);
+    }, []);
 
     return (
         <div className={navWrapperStyles({ isOpen, bgColor })}>
@@ -127,13 +152,29 @@ export const Navbar = ({
                     <div
                         className={`absolute top-[420px] md:static ${
                             !isOpen && "hidden"
-                        } md:block md:top-auto`}
+                        } md:block md:top-auto mr-4`}
                     >
                         <ConnectWallet />
                     </div>
+                    <Button
+                        ref={preferencesRef}
+                        size="small"
+                        onClick={handlePreferencesPopoverOpen}
+                        icon={SettingsIcon}
+                        className={{
+                            root: "w-12 h-12 p-0 flex justify-center items-center",
+                        }}
+                    />
+                    {!__PREVIEW_MODE__ && (
+                        <PreferencesPopover
+                            open={preferencesPopoverOpen}
+                            anchor={preferencesRef.current}
+                            ref={preferencesPopoverRef}
+                        />
+                    )}
                     {mode !== "modal" && (
                         <div
-                            className="md:hidden"
+                            className="md:hidden ml-4"
                             onClick={() => setOpen(!isOpen)}
                         >
                             {isOpen ? <CloseIcon /> : <MenuIcon />}
