@@ -10,6 +10,7 @@ interface PreferencesPopoverProps {
     anchor?: HTMLElement | null;
 }
 
+// TODO: move this in the UI lib with additional functionality (like variants for info, warning and error feedback)
 export const PreferencesPopover = forwardRef<
     HTMLDivElement,
     PreferencesPopoverProps
