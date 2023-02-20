@@ -22,6 +22,11 @@ export const en = {
         "campaign.loading": "Loading",
         "campaign.all": "All Campaigns",
         "templates.viewAll": "View all",
+        "preferences.title": "Interface settings",
+        "preferences.theme": "Dark theme",
+        "preferences.decentralization": "Decentralization mode",
+        "preferences.decentralization.info":
+            "Decentralization mode tries to route all calls to decentralized options. Onchain calls will be made directly to the targeted blockchain and IPFS data will always be sourced from IPFS directly.\n\nTo get the maximum out of the option, specify your custom RPC and IPFS node URLs below to make Carrot unstoppable.",
         loading: "Loading",
     },
 } as const;

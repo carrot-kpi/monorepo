@@ -5,14 +5,15 @@ import { ReactComponent as Error } from "../../assets/error.svg";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useTranslation } from "react-i18next";
 import { Button } from "@carrot-kpi/ui";
-import { useNetwork, useAccount, useEnsName, useEnsAvatar } from "wagmi";
+import { useNetwork, useAccount, useEnsAvatar, useEnsName } from "wagmi";
 import makeBlockie from "ethereum-blockies-base64";
 import { constants } from "ethers";
-import { shortenAddress } from "../../utils/address";
 import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
+import { PreferencesPopover } from "./popovers/preferences";
+import { shortenAddress } from "../../utils/address";
 
 // TODO: implement loading states
 export const ConnectWallet = () => {
@@ -28,12 +29,15 @@ export const ConnectWallet = () => {
     const networksPopoverAnchorRef = useRef<HTMLDivElement>(null);
     const networksPopoverRef = useRef<HTMLDivElement>(null);
     const connectWalletRef = useRef<HTMLButtonElement>(null);
+    const preferencesRef = useRef<HTMLButtonElement>(null);
     const connectPopoverRef = useRef<HTMLDivElement>(null);
     const accountPopoverRef = useRef<HTMLDivElement>(null);
+    const preferencesPopoverRef = useRef<HTMLDivElement>(null);
 
     const [networksPopoverOpen, setNetworksPopoverOpen] = useState(false);
     const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [accountPopoverOpen, setAccountPopoverOpen] = useState(false);
+    const [preferencesPopoverOpen, setPreferencesPopoverOpen] = useState(false);
 
     const handleNetworksPopoverOpen = useCallback(() => {
         setNetworksPopoverOpen(true);
@@ -59,6 +63,10 @@ export const ConnectWallet = () => {
         setAccountPopoverOpen(false);
     }, []);
 
+    const handlePreferencesPopoverOpen = useCallback(() => {
+        setPreferencesPopoverOpen(true);
+    }, []);
+
     useEffect(() => {
         const handleCloseOnClick = (event: MouseEvent) => {
             if (
@@ -76,6 +84,11 @@ export const ConnectWallet = () => {
                 !accountPopoverRef.current.contains(event.target as Node)
             )
                 setAccountPopoverOpen(false);
+            if (
+                !!preferencesPopoverRef.current &&
+                !preferencesPopoverRef.current.contains(event.target as Node)
+            )
+                setPreferencesPopoverOpen(false);
         };
         document.addEventListener("mousedown", handleCloseOnClick);
         return () => {
@@ -112,13 +125,18 @@ export const ConnectWallet = () => {
                         onClose={handleAccountPopoverClose}
                         ref={accountPopoverRef}
                     />
+                    <PreferencesPopover
+                        open={preferencesPopoverOpen}
+                        anchor={preferencesRef.current}
+                        ref={preferencesPopoverRef}
+                    />
                 </>
             )}
-            <div className="flex items-center">
+            <div className="flex items-center gap-4">
                 <div
-                    className={`flex items-center mr-8 ${
+                    className={`h-12 flex items-center ${
                         __PREVIEW_MODE__ ? "" : "cursor-pointer"
-                    }`}
+                    } gap-3 mr-3`}
                     onClick={handleNetworksPopoverOpen}
                     ref={networksPopoverAnchorRef}
                 >
@@ -131,7 +149,7 @@ export const ConnectWallet = () => {
                         }
                         logo={<Logo width={18} height={18} />}
                     />
-                    <div className="flex flex-col mr-4">
+                    <div className="flex flex-col">
                         <span className="font-mono text-black text-2xs">
                             {t("connect.wallet.network")}
                         </span>
@@ -144,12 +162,14 @@ export const ConnectWallet = () => {
                 {!!address && address !== constants.AddressZero ? (
                     <Button
                         ref={connectWalletRef}
-                        size="small"
                         onClick={handleAccountPopoverOpen}
+                        className={{
+                            root: "h-12 px-3",
+                        }}
                     >
                         <div className="flex items-center text-base">
                             <img
-                                className="w-8 h-8 mr-6 rounded-full"
+                                className="w-7 h-7 mr-3 rounded-full"
                                 src={ensAvatar || makeBlockie(address)}
                             />
                             {ensName || shortenAddress(address)}
@@ -163,6 +183,14 @@ export const ConnectWallet = () => {
                         {t("connect.wallet")}
                     </Button>
                 )}
+                <Button
+                    ref={preferencesRef}
+                    size="small"
+                    onClick={handlePreferencesPopoverOpen}
+                    className={{
+                        root: "w-12 h-12 flex justify-center items-center",
+                    }}
+                />
             </div>
         </>
     );
