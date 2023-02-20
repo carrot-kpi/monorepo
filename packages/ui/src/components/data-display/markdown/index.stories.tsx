@@ -14,19 +14,6 @@ const Template: Story<MarkdownProps> = (props: MarkdownProps) => (
 
 export const Markdown: Story<MarkdownProps> = Template.bind({});
 Markdown.args = {
-    children: (
-        <>
-            <h1>Title</h1>
-            <h2>Subtitle</h2>
-            <strong>Strong text</strong>
-            <pre>
-                <code>Some code</code>
-            </pre>
-            <ul>
-                <li>Element</li>
-                <li>Element</li>
-                <li>Element</li>
-            </ul>
-        </>
-    ),
+    children:
+        "<p>will <em>uniswap v3</em> volume reach <em>34b</em> in 30 days?</p>",
 };
