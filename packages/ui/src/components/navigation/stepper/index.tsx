@@ -28,11 +28,15 @@ const stepStyles = cva(["cui-flex", "cui-items-center", "cui-gap-4"], {
     },
 });
 
-const squareStyles = cva(["cui-relative", "cui-h-3", "cui-w-3", "cui-z-10"], {
+const squareStyles = cva(["cui-relative", "cui-h-3", "cui-w-3"], {
     variants: {
         active: {
-            true: ["cui-bg-orange", "cui-z-10"],
+            true: ["cui-bg-orange"],
             false: ["cui-bg-black"],
+        },
+        completed: {
+            true: ["cui-border", "cui-border-orange"],
+            false: [],
         },
     },
 });
@@ -46,14 +50,14 @@ const lineStyles = cva(["cui-absolute"], {
                 "cui-h-12",
                 "cui-w-[1px]",
                 "-cui-translate-x-[0.5px]",
-                "cui-z-0",
+                "-cui-translate-y-[0.5px]",
             ],
             horizontal: [
                 "cui-top-1/2",
                 "cui-h-[1px]",
                 "cui-w-12",
                 "-cui-translate-y-[0.5px]",
-                "cui-translate-x-3",
+                "cui-translate-x-[11px]",
             ],
         },
         active: {
@@ -68,7 +72,7 @@ type StepperLayout = "vertical" | "horizontal";
 export interface StepperProps {
     stepTitles: string[];
     activeStep: number;
-    mostUpdatedStep: number;
+    lastStepCompleted: number;
     layout?: StepperLayout;
     className?: {
         root?: string;
@@ -82,7 +86,7 @@ export interface StepperProps {
 export const Stepper = ({
     stepTitles,
     activeStep,
-    mostUpdatedStep,
+    lastStepCompleted,
     layout = "vertical",
     className,
     onClick,
@@ -98,10 +102,12 @@ export const Stepper = ({
         <div className={rootStyles({ layout, className: className?.root })}>
             {stepTitles.map((title, index) => {
                 const currentStep = index === activeStep;
-                const squareActive = index <= mostUpdatedStep;
-                const lineActive = index < mostUpdatedStep;
+                const squareActive = index <= activeStep;
+                const lineActive = index < activeStep;
+                const squareCompleted = index <= lastStepCompleted;
+
                 const handleOnClick =
-                    index <= mostUpdatedStep
+                    index <= lastStepCompleted
                         ? handleStepClick(index)
                         : undefined;
 
@@ -118,6 +124,7 @@ export const Stepper = ({
                         <div
                             className={squareStyles({
                                 active: squareActive,
+                                completed: squareCompleted,
                                 className: className?.square,
                             })}
                         >

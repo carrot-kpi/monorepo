@@ -24,7 +24,7 @@ export const Stepper = () => {
                         "Step 4",
                     ]}
                     activeStep={step}
-                    mostUpdatedStep={2}
+                    lastStepCompleted={2}
                     onClick={setStep}
                     layout="vertical"
                 />
