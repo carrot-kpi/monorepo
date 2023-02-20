@@ -161,6 +161,9 @@ export const ConnectWallet = () => {
                     <Button
                         ref={connectWalletRef}
                         onClick={handleConnectPopoverOpen}
+                        className={{
+                            root: "h-12 px-3",
+                        }}
                     >
                         {t("connect.wallet")}
                     </Button>
