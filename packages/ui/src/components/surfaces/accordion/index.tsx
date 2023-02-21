@@ -1,6 +1,15 @@
 import { cva } from "class-variance-authority";
-import React, { ReactElement, useCallback, useMemo, useState } from "react";
+import React, {
+    ReactElement,
+    ReactNode,
+    useCallback,
+    useMemo,
+    useState,
+} from "react";
+import { matchChildByType } from "../../../utils/components";
 import { AccordionContextProvider } from "./context";
+import { AccordionDetails } from "./details";
+import { AccordionSummary } from "./summary";
 
 export * from "./details";
 export * from "./summary";
@@ -41,8 +50,24 @@ export const Accordion = ({
         [isControlled, expanded, internalExpanded]
     );
 
-    const summaryChildren = children[0];
-    const detailsChildren = children[1];
+    const { summaryChildren, detailsChildren } = useMemo(() => {
+        return React.Children.toArray(children).reduce(
+            (
+                accumulator: {
+                    summaryChildren: ReactNode[];
+                    detailsChildren: ReactNode[];
+                },
+                child
+            ) => {
+                if (matchChildByType(child, AccordionSummary))
+                    accumulator.summaryChildren.push(child);
+                else if (matchChildByType(child, AccordionDetails))
+                    accumulator.detailsChildren.push(child);
+                return accumulator;
+            },
+            { summaryChildren: [], detailsChildren: [] }
+        );
+    }, [children]);
 
     const handleOnClick = useCallback(
         (event: React.MouseEvent) => {

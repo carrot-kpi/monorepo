@@ -41,13 +41,9 @@ export const Card = ({ className, children }: CardProps): ReactElement => {
 
     return (
         <div className={rootStyles({ className: className?.root })}>
-            {titleChildren && (
-                <div className="h-12 cui-flex cui-items-center cui-border-b cui-border-black dark:cui-border-white [&:last-of-type]:cui-border-none">
-                    {titleChildren}
-                </div>
-            )}
+            {titleChildren}
             {contentChildren}
-            {actionsChildren && actionsChildren}
+            {actionsChildren}
         </div>
     );
 };

@@ -1,12 +1,12 @@
 import { cva } from "class-variance-authority";
-import React, { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { useAccordionContext } from "../context";
 import { ReactComponent as ChevronUp } from "../../../../assets/chevron-up.svg";
 
 export interface SummaryProps {
     className?: { root?: string };
     expandIcon?: ReactElement;
-    children: ReactElement;
+    children: ReactNode;
 }
 
 const rootStyles = cva(
