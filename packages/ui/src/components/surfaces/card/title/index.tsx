@@ -6,9 +6,14 @@ const rootStyles = cva([
     "cui-flex",
     "cui-items-center",
     "cui-justify-between",
+    "cui-p-3",
+    "cui-h-12",
+    "cui-flex",
+    "cui-items-center",
+    "cui-border-b",
     "cui-border-black",
     "dark:cui-border-white",
-    "cui-p-3",
+    "[&:last-of-type]:cui-border-none",
 ]);
 
 interface CardTitleProps {

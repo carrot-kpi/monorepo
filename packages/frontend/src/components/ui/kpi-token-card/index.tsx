@@ -11,7 +11,6 @@ import {
     Markdown,
 } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import sanitizeHtml from "sanitize-html";
 import { KPIToken } from "@carrot-kpi/sdk";
 import { Link } from "react-router-dom";
 
@@ -77,13 +76,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                                     root: "prose prose-headings:mt-0 line-clamp-5 overflow-hidden",
                                 }}
                             >
-                                <div
-                                    dangerouslySetInnerHTML={{
-                                        __html: sanitizeHtml(
-                                            kpiToken.specification.description
-                                        ),
-                                    }}
-                                />
+                                {kpiToken.specification.description}
                             </Markdown>
                         ) : (
                             <div className="flex flex-col gap-3">
@@ -147,7 +140,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                 </div>
             </CardContent>
             <CardActions className={{ root: "justify-center" }}>
-                <div className="flex justify-center items-center w-full">
+                <div className="flex h-6 justify-center items-center w-full">
                     {!!kpiToken ? (
                         <Link
                             to={`/campaigns/${kpiToken.address}`}

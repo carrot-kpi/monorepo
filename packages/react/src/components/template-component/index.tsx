@@ -5,18 +5,20 @@ import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
 import { useState } from "react";
 import { i18n } from "i18next";
+import { cx } from "class-variance-authority";
 
 export type NamespacedTranslateFunction = (key: any, options?: any) => any;
 
 const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
     {};
 
-interface TemplateComponentProps {
+export interface TemplateComponentProps {
     type: "creationForm" | "page";
     template?: Template;
     customBaseURL?: string;
     fallback: ReactNode;
     i18n: i18n;
+    className?: { root?: string; wrapper?: string };
     props?: any;
 }
 
@@ -26,6 +28,7 @@ export function TemplateComponent({
     customBaseURL,
     fallback,
     i18n,
+    className,
     props = {},
 }: TemplateComponentProps) {
     const { loading, bundle, Component } = useTemplateModule(
@@ -59,8 +62,13 @@ export function TemplateComponent({
 
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
-        <div id={`carrot-template-${template.specification.commitHash}`}>
-            <Component {...props} i18n={i18n} t={translateWithNamespace} />
+        <div
+            id={`carrot-template-${template.specification.commitHash}`}
+            className={className?.root}
+        >
+            <div className={cx("dark", className?.wrapper)}>
+                <Component {...props} i18n={i18n} t={translateWithNamespace} />
+            </div>
         </div>
     );
 }

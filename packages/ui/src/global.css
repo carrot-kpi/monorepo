@@ -13,3 +13,43 @@
         @apply cui-bg-clip-padding;
     }
 }
+
+@layer components {
+    button.cui-switch {
+        @apply cui-relative cui-inline-block cui-align-middle;
+        @apply cui-w-10 cui-h-5 cui-leading-5;
+        @apply cui-bg-gray-300 dark:cui-bg-gray-500;
+        @apply cui-border-none cui-rounded-full;
+        @apply cui-cursor-pointer;
+        @apply cui-overflow-hidden;
+    }
+
+    button.cui-switch:after {
+        @apply cui-absolute;
+        @apply cui-w-3 cui-h-3;
+        @apply cui-top-1;
+        @apply cui-left-1;
+        @apply cui-rounded-full;
+        @apply cui-cursor-pointer;
+        @apply cui-bg-black dark:cui-bg-white;
+        content: "";
+    }
+
+    button.cui-switch.cui-switch-checked {
+        @apply cui-bg-green;
+    }
+
+    button.cui-switch.cui-switch-checked:after {
+        @apply cui-left-6;
+    }
+
+    button.cui-switch.cui-switch-disabled {
+        @apply cui-cursor-no-drop;
+        @apply cui-bg-gray-200 dark:cui-bg-gray-700;
+    }
+
+    button.cui-switch.cui-switch-disabled:after {
+        @apply cui-cursor-no-drop;
+        @apply cui-bg-gray-500 dark:cui-bg-black;
+    }
+}

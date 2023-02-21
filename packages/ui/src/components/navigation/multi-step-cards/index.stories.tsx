@@ -45,8 +45,10 @@ export const MultiStepCards = () => {
                         label="Mome input"
                         className={{ input: "cui-w-full" }}
                     />
+                    <NextStepButton onClick={handleStepNext}>
+                        Next
+                    </NextStepButton>
                 </div>
-                <NextStepButton onClick={handleStepNext}>Next</NextStepButton>
             </StepCard>
             <StepCard
                 step={2}

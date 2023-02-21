@@ -1,11 +1,11 @@
 import { cva } from "class-variance-authority";
-import React, { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 
 const rootStyles = cva(["cui-p-3"]);
 
 interface DetailsProps {
     className?: { root?: string };
-    children: ReactElement;
+    children: ReactNode;
 }
 
 export const AccordionDetails = ({
