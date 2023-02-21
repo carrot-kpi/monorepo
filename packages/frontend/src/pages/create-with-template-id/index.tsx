@@ -134,7 +134,7 @@ export const CreateWithTemplateId = ({
                         customBaseURL={customBaseURL}
                         onDone={handleDone}
                         i18n={i18n}
-                        className="w-full h-full"
+                        className={{ root: "w-full h-full" }}
                     />
                 </AnimatedFullscreenModal>
             )

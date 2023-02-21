@@ -94,7 +94,7 @@ export const Page = ({
                             </div>
                         }
                         customBaseURL={customBaseURL}
-                        className="w-full h-full"
+                        className={{ root: "w-full h-full" }}
                     />
                 </AnimatedFullscreenModal>
             )
