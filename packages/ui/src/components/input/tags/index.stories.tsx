@@ -19,4 +19,5 @@ Tags.args = {
     label: "Tags input",
     placeholder: "Tags input",
     value: ["tag1", "tag2"],
+    addButtonLabel: "Add",
 };
