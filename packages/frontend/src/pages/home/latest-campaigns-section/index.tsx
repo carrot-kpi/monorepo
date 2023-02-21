@@ -14,14 +14,14 @@ const placeholder = new Array(LATEST_TOKEN_AMOUNTS)
 
 export const LatestCampaignsSection = () => {
     const { t } = useTranslation();
-    const { isLoading, kpiTokens } = useLatestKPITokens(LATEST_TOKEN_AMOUNTS);
+    const { loading, kpiTokens } = useLatestKPITokens(LATEST_TOKEN_AMOUNTS);
 
     return (
         <div className="relative flex flex-col gap-16">
             {/* TODO: add i18n */}
             <Typography variant="h2">{t("home.latestCampaigns")}</Typography>
             <CardHorizontal>
-                {isLoading
+                {loading
                     ? placeholder
                     : Object.values(kpiTokens).map((kpiToken) => (
                           <KPITokenCard
