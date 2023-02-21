@@ -50,30 +50,24 @@ export const Accordion = ({
         [isControlled, expanded, internalExpanded]
     );
 
-    const { summaryChildren, detailsChildren } = React.Children.toArray(
-        children
-    ).reduce<{
-        summaryChildren: ReactNode;
-        detailsChildren: ReactNode;
-    }>(
-        (previous, current) => {
-            if (matchChildByType(current, AccordionSummary)) {
-                return {
-                    ...previous,
-                    summaryChildren: current,
-                };
-            }
-            if (matchChildByType(current, AccordionDetails)) {
-                return {
-                    ...previous,
-                    detailsChildren: current,
-                };
-            }
-
-            return previous;
-        },
-        { summaryChildren: null, detailsChildren: null }
-    );
+    const { summaryChildren, detailsChildren } = useMemo(() => {
+        return React.Children.toArray(children).reduce(
+            (
+                accumulator: {
+                    summaryChildren: ReactNode[];
+                    detailsChildren: ReactNode[];
+                },
+                child
+            ) => {
+                if (matchChildByType(child, AccordionSummary))
+                    accumulator.summaryChildren.push(child);
+                else if (matchChildByType(child, AccordionDetails))
+                    accumulator.detailsChildren.push(child);
+                return accumulator;
+            },
+            { summaryChildren: [], detailsChildren: [] }
+        );
+    }, [children]);
 
     const handleOnClick = useCallback(
         (event: React.MouseEvent) => {
