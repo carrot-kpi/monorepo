@@ -24,6 +24,10 @@ import {
     standaloneProviders,
     standaloneSupportedChains,
 } from "./standalone-setup";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create a react query client
+const queryClient = new QueryClient();
 
 interface RootProps {
     supportedChains?: Chain[];
@@ -45,14 +49,21 @@ export const Root = ({
     return (
         <HashRouter>
             <ThemeUpdater />
-            <CarrotCoreProvider
-                supportedChains={supportedChains || standaloneSupportedChains}
-                providers={providers || standaloneProviders}
-                getConnectors={connectors || getStandaloneConnectors}
-                ipfsGatewayURL={ipfsGatewayURL}
-            >
-                <App customBaseURL={customBaseURL} templateId={templateId} />
-            </CarrotCoreProvider>
+            <QueryClientProvider client={queryClient}>
+                <CarrotCoreProvider
+                    supportedChains={
+                        supportedChains || standaloneSupportedChains
+                    }
+                    providers={providers || standaloneProviders}
+                    getConnectors={connectors || getStandaloneConnectors}
+                    ipfsGatewayURL={ipfsGatewayURL}
+                >
+                    <App
+                        customBaseURL={customBaseURL}
+                        templateId={templateId}
+                    />
+                </CarrotCoreProvider>
+            </QueryClientProvider>
         </HashRouter>
     );
 };
