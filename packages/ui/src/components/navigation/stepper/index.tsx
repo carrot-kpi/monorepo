@@ -8,6 +8,11 @@ const rootStyles = cva(["cui-flex"], {
         layout: {
             vertical: ["cui-flex-col", "cui-gap-8"],
             horizontal: ["cui-relative", "cui-flex-row", "cui-gap-2"],
+            automatic: [
+                "cui-relative",
+                "cui-gap-2 md:cui-gap-8",
+                "cui-flex-row md:cui-flex-col",
+            ],
         },
     },
 });
@@ -17,6 +22,10 @@ const stepStyles = cva(["cui-flex", "cui-items-center", "cui-gap-4"], {
         layout: {
             vertical: [],
             horizontal: ["cui-flex-col", "cui-w-12"],
+            automatic: [
+                "cui-flex-col md:cui-flex-row",
+                "cui-w-12 md:cui-w-full",
+            ],
         },
         clickable: {
             true: [
@@ -45,8 +54,8 @@ const lineStyles = cva(["cui-absolute"], {
     variants: {
         layout: {
             vertical: [
-                "cui-left-1/2",
                 "cui-top-3",
+                "cui-left-1/2",
                 "cui-h-12",
                 "cui-w-[1px]",
                 "-cui-translate-x-[0.5px]",
@@ -59,6 +68,14 @@ const lineStyles = cva(["cui-absolute"], {
                 "-cui-translate-y-[0.5px]",
                 "cui-translate-x-[11px]",
             ],
+            automatic: [
+                "cui-top-1/2 md:cui-top-3",
+                "md:cui-left-1/2",
+                "cui-h-[1px] md:cui-h-12",
+                "cui-w-12 md:cui-w-[1px]",
+                "cui-translate-x-[11px] md:-cui-translate-x-[0.5px] md:cui-translate-x-0",
+                "-cui-translate-y-[0.5px]",
+            ],
         },
         active: {
             true: ["cui-bg-orange"],
@@ -67,7 +84,53 @@ const lineStyles = cva(["cui-absolute"], {
     },
 });
 
-type StepperLayout = "vertical" | "horizontal";
+const labelStyles = cva([], {
+    variants: {
+        layout: {
+            vertical: [],
+            horizontal: [
+                "cui-text-center",
+                "cui-max-w-[100px]",
+                "cui-text-ellipsis",
+                "cui-overflow-hidden ...",
+            ],
+            automatic: [
+                "cui-text-center md:cui-text-left",
+                "cui-max-w-[100px] md:cui-max-w-full",
+                "cui-text-ellipsis",
+                "cui-overflow-hidden ...",
+            ],
+        },
+        visible: {
+            true: [],
+            false: [],
+        },
+    },
+    compoundVariants: [
+        {
+            layout: "horizontal",
+            visible: false,
+            className: ["cui-hidden"],
+        },
+        {
+            layout: "horizontal",
+            visible: true,
+            className: ["cui-flex", "cui-line-clamp-2"],
+        },
+        {
+            layout: "automatic",
+            visible: false,
+            className: ["cui-hidden md:cui-flex"],
+        },
+        {
+            layout: "automatic",
+            visible: true,
+            className: ["cui-flex", "cui-line-clamp-2"],
+        },
+    ],
+});
+
+type StepperLayout = "vertical" | "horizontal" | "automatic";
 
 export interface StepperProps {
     stepTitles: string[];
@@ -87,7 +150,7 @@ export const Stepper = ({
     stepTitles,
     activeStep,
     lastStepCompleted,
-    layout = "vertical",
+    layout = "automatic",
     className,
     onClick,
 }: StepperProps): ReactElement => {
@@ -138,22 +201,17 @@ export const Stepper = ({
                                 />
                             )}
                         </div>
-                        {layout === "vertical" ? (
-                            <Typography
-                                weight={currentStep ? "medium" : undefined}
-                            >
-                                {title}
-                            </Typography>
-                        ) : activeStep === index ? (
-                            <Typography
-                                weight={currentStep ? "medium" : undefined}
-                                className={{
-                                    root: "cui-text-center cui-max-w-[100px] cui-text-ellipsis cui-overflow-hidden ... cui-line-clamp-2",
-                                }}
-                            >
-                                {title}
-                            </Typography>
-                        ) : null}
+                        <Typography
+                            weight={currentStep ? "medium" : undefined}
+                            className={{
+                                root: labelStyles({
+                                    layout,
+                                    visible: currentStep,
+                                }),
+                            }}
+                        >
+                            {title}
+                        </Typography>
                     </div>
                 );
             })}

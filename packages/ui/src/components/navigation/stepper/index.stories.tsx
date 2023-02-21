@@ -15,7 +15,7 @@ export const Stepper = () => {
 
     return (
         <div>
-            <div className="cui-flex cui-gap-8 cui-items-center">
+            <div className="cui-flex cui-flex-col cui-gap-8">
                 <StepperComponent
                     stepTitles={[
                         "Long step title 1",
@@ -26,7 +26,6 @@ export const Stepper = () => {
                     activeStep={step}
                     lastStepCompleted={2}
                     onClick={setStep}
-                    layout="vertical"
                 />
                 <div>
                     {step === 0 && (
