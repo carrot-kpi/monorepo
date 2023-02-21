@@ -32,7 +32,7 @@ export interface AccordionProps {
     onChange?: (event: React.MouseEvent, expanded: boolean) => void;
     expanded?: boolean;
     className?: { root?: string };
-    children: ReactNode[];
+    children: ReactElement[];
 }
 
 export const Accordion = ({
@@ -44,21 +44,35 @@ export const Accordion = ({
 }: AccordionProps): ReactElement => {
     const [internalExpanded, setInternalExpanded] = useState<boolean>(false);
 
-    const childSteps = useMemo(
-        () => React.Children.toArray(children),
-        [children]
-    );
     const isControlled = useMemo(() => expanded !== undefined, [expanded]);
     const isExpanded = useMemo(
         () => (isControlled ? !!expanded : internalExpanded),
         [isControlled, expanded, internalExpanded]
     );
 
-    const summaryChildren = childSteps.find((child) =>
-        matchChildByType(child, AccordionSummary)
-    );
-    const detailsChildren = childSteps.find((child) =>
-        matchChildByType(child, AccordionDetails)
+    const { summaryChildren, detailsChildren } = React.Children.toArray(
+        children
+    ).reduce<{
+        summaryChildren: ReactNode;
+        detailsChildren: ReactNode;
+    }>(
+        (previous, current) => {
+            if (matchChildByType(current, AccordionSummary)) {
+                return {
+                    ...previous,
+                    summaryChildren: current,
+                };
+            }
+            if (matchChildByType(current, AccordionDetails)) {
+                return {
+                    ...previous,
+                    detailsChildren: current,
+                };
+            }
+
+            return previous;
+        },
+        { summaryChildren: null, detailsChildren: null }
     );
 
     const handleOnClick = useCallback(

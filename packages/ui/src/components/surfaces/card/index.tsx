@@ -41,9 +41,9 @@ export const Card = ({ className, children }: CardProps): ReactElement => {
 
     return (
         <div className={rootStyles({ className: className?.root })}>
-            {titleChildren && titleChildren}
+            {titleChildren}
             {contentChildren}
-            {actionsChildren && actionsChildren}
+            {actionsChildren}
         </div>
     );
 };
