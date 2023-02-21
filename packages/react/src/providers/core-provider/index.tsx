@@ -21,14 +21,12 @@ interface WagmiSetupProps {
     supportedChains: Chain[];
     providers: ChainProviderFn[];
     getConnectors: (chains: Chain[]) => Connector[];
-    reactQueryClient: QueryClient;
 }
 
 const WagmiSetup = ({
     supportedChains,
     getConnectors,
     providers,
-    reactQueryClient,
     children,
 }: WagmiSetupProps) => {
     // TODO: this is the place to implement custom rpc setting
@@ -51,11 +49,7 @@ const WagmiSetup = ({
         webSocketProvider,
     });
 
-    return (
-        <QueryClientProvider client={reactQueryClient}>
-            <WagmiConfig client={client}>{children}</WagmiConfig>
-        </QueryClientProvider>
-    );
+    return <WagmiConfig client={client}>{children}</WagmiConfig>;
 };
 
 interface CarrotCoreProviderProps {
@@ -87,14 +81,15 @@ export const CarrotCoreProvider = ({
 
     return (
         <PreferencesProvider>
-            <WagmiSetup
-                supportedChains={supportedChains}
-                providers={providers}
-                getConnectors={getConnectors}
-                reactQueryClient={reactQueryClient}
-            >
-                {children}
-            </WagmiSetup>
+            <QueryClientProvider client={reactQueryClient}>
+                <WagmiSetup
+                    supportedChains={supportedChains}
+                    providers={providers}
+                    getConnectors={getConnectors}
+                >
+                    {children}
+                </WagmiSetup>
+            </QueryClientProvider>
         </PreferencesProvider>
     );
 };
