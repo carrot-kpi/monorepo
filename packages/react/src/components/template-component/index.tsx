@@ -1,11 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useLayoutEffect } from "react";
 import { Template } from "@carrot-kpi/sdk";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
 import { useState } from "react";
 import { i18n } from "i18next";
-import { cx } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import { usePreferences } from "../../hooks";
+import { useMedia } from "react-use";
+
+const wrapperStyles = cva([], {
+    variants: {
+        dark: {
+            true: ["dark"],
+        },
+    },
+});
 
 export type NamespacedTranslateFunction = (key: any, options?: any) => any;
 
@@ -36,7 +46,10 @@ export function TemplateComponent({
         template,
         customBaseURL
     );
+    const { theme } = usePreferences();
+    const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
 
+    const [dark, setDark] = useState(false);
     const [translateWithNamespace, setTranslateWithNamespace] =
         useState<NamespacedTranslateFunction>(
             !!template &&
@@ -60,13 +73,28 @@ export function TemplateComponent({
         setTranslateWithNamespace(() => namespacedTranslate);
     }, [bundle, template, type, i18n]);
 
+    useLayoutEffect(() => {
+        setDark(
+            theme === "dark"
+                ? true
+                : theme === "light"
+                ? false
+                : systemDarkTheme
+        );
+    }, [systemDarkTheme, theme]);
+
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
         <div
             id={`carrot-template-${template.specification.commitHash}`}
             className={className?.root}
         >
-            <div className={cx("dark", className?.wrapper)}>
+            <div
+                className={wrapperStyles({
+                    dark,
+                    className: className?.wrapper,
+                })}
+            >
                 <Component {...props} i18n={i18n} t={translateWithNamespace} />
             </div>
         </div>
