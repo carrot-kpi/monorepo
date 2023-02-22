@@ -4,7 +4,6 @@ import { ReactComponent as Logo } from "../../../assets/logo.svg";
 import { cva } from "class-variance-authority";
 import { ReactComponent as CloseIcon } from "../../../assets/x.svg";
 import { ReactComponent as MenuIcon } from "../../../assets/menu.svg";
-import { GridPatternBg } from "../grid-pattern-bg";
 import { ConnectWallet } from "../../connect-wallet";
 import { ReactComponent as X } from "../../../assets/x.svg";
 import { ReactComponent as SettingsIcon } from "../../../assets/settings.svg";
@@ -117,7 +116,6 @@ export const Navbar = ({
 
     return (
         <div className={navWrapperStyles({ isOpen, bgColor })}>
-            {isOpen && <GridPatternBg className="md:hidden" />}
             <div className={navbarStyles({ bgColor, isOpen, mode })}>
                 {mode === "modal" ? (
                     <Logo className="w-32 h-auto md:w-[188px] text-black" />

@@ -4,7 +4,6 @@ import { cva } from "class-variance-authority";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
-import { GridPatternBg } from "../../components/ui/grid-pattern-bg";
 import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
@@ -127,8 +126,7 @@ export const Campaigns = () => {
 
     return (
         <Layout>
-            <div className="relative dark:bg-black">
-                <GridPatternBg fullSize />
+            <div className="relative bg-grid-light dark:bg-grid-dark dark:bg-black">
                 <div className="relative">
                     <div className="px-6 py-16 md:px-10">
                         <Typography variant="h1">

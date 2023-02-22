@@ -1,7 +1,6 @@
 import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { FeaturedCampaings } from "../../../components/featured-campaigns";
-import { GridPatternBg } from "../../../components/ui/grid-pattern-bg";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
@@ -28,12 +27,13 @@ export const Hero = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="relative bg-orange">
-            <GridPatternBg bg="orange" />
+        <div className="relative bg-orange bg-grid-light">
             <div className="relative space-y-12 pt-7 pb-16 md:pt-24 md:pb-32">
                 <Typography
                     variant="h1"
-                    className={{ root: "px-6 md:px-10 lg:px-32" }}
+                    className={{
+                        root: "px-6 md:px-10 lg:px-32 dark:text-black",
+                    }}
                 >
                     {t("home.featuredCampaigns")}
                 </Typography>
