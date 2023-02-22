@@ -44,23 +44,27 @@ export const PreferencesPopover = forwardRef<
                     onChange={handleDarkThemeChange}
                 />
             </div>
-            <div className="flex justify-between gap-20 items-center">
-                <div className="flex gap-2 items-center">
-                    <Typography>{t("preferences.decentralization")}</Typography>
-                    <InfoPopover>
-                        <Typography
-                            variant="sm"
-                            className={{ root: "max-w-md" }}
-                        >
-                            {t("preferences.decentralization.info")}
+            {!__PREVIEW_MODE__ && (
+                <div className="flex justify-between gap-20 items-center">
+                    <div className="flex gap-2 items-center">
+                        <Typography>
+                            {t("preferences.decentralization")}
                         </Typography>
-                    </InfoPopover>
+                        <InfoPopover>
+                            <Typography
+                                variant="sm"
+                                className={{ root: "max-w-md" }}
+                            >
+                                {t("preferences.decentralization.info")}
+                            </Typography>
+                        </InfoPopover>
+                    </div>
+                    <Switch
+                        checked={preferDecentralization}
+                        onChange={setPreferDecentralization}
+                    />
                 </div>
-                <Switch
-                    checked={preferDecentralization}
-                    onChange={setPreferDecentralization}
-                />
-            </div>
+            )}
         </Popover>
     );
 });

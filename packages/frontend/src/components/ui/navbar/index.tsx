@@ -165,13 +165,11 @@ export const Navbar = ({
                             root: "w-12 h-12 p-0 flex justify-center items-center",
                         }}
                     />
-                    {!__PREVIEW_MODE__ && (
-                        <PreferencesPopover
-                            open={preferencesPopoverOpen}
-                            anchor={preferencesRef.current}
-                            ref={preferencesPopoverRef}
-                        />
-                    )}
+                    <PreferencesPopover
+                        open={preferencesPopoverOpen}
+                        anchor={preferencesRef.current}
+                        ref={preferencesPopoverRef}
+                    />
                     {mode !== "modal" && (
                         <div
                             className="md:hidden ml-4"
