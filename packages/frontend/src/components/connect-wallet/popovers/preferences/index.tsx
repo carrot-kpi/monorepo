@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 import { usePreferences, usePreferencesSetters } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
 import { InfoPopover } from "../../../info-popover";
+import { useMedia } from "react-use";
 
 interface PreferencesPopoverProps {
     open: boolean;
@@ -18,6 +19,7 @@ export const PreferencesPopover = forwardRef<
     const { t } = useTranslation();
     const { setTheme, setPreferDecentralization } = usePreferencesSetters();
     const { theme, preferDecentralization } = usePreferences();
+    const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
 
     const handleDarkThemeChange = useCallback(
         (value: boolean) => {
@@ -40,7 +42,10 @@ export const PreferencesPopover = forwardRef<
             <div className="flex justify-between gap-20 items-center">
                 <Typography>{t("preferences.theme")}</Typography>
                 <Switch
-                    checked={theme === "dark"}
+                    checked={
+                        (systemDarkTheme && theme === "system") ||
+                        theme === "dark"
+                    }
                     onChange={handleDarkThemeChange}
                 />
             </div>
