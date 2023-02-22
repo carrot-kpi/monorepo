@@ -1,36 +1,28 @@
 import { usePreferences } from "@carrot-kpi/react";
 import { useEffect } from "react";
+import { useMedia } from "react-use";
 
 export const ThemeUpdater = () => {
     const { theme } = usePreferences();
+    const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
 
     useEffect(() => {
         switch (theme) {
             case "dark": {
                 document.documentElement.classList.add("dark");
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                return () => {};
+                break;
             }
             case "light": {
                 document.documentElement.classList.remove("dark");
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                return () => {};
+                break;
             }
             default: {
-                const match = window.matchMedia("(prefers-color-scheme: dark)");
-                const handleChange = () => {
-                    if (match.matches)
-                        document.documentElement.classList.add("dark");
-                    else document.documentElement.classList.remove("dark");
-                };
-                match.addEventListener("change", handleChange);
-                handleChange();
-                return () => {
-                    match.removeEventListener("change", handleChange);
-                };
+                if (systemDarkTheme)
+                    document.documentElement.classList.add("dark");
+                else document.documentElement.classList.remove("dark");
             }
         }
-    }, [theme]);
+    }, [systemDarkTheme, theme]);
 
     return null;
 };
