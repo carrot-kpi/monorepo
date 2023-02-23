@@ -23,8 +23,7 @@ export interface Preferences {
 const PREFERENCES_CACHER_KEY = "preferences";
 
 const DEFAULT_PREFERENCES: Preferences = {
-    // FIXME: use system as default
-    values: { theme: "light", preferDecentralization: false },
+    values: { theme: "system", preferDecentralization: false },
     /* eslint-disable @typescript-eslint/no-empty-function */
     setTheme: () => {},
     setPreferDecentralization: () => {},
@@ -41,8 +40,7 @@ interface PreferencesProviderProps {
 export const PreferencesProvider = ({
     children,
 }: PreferencesProviderProps): ReactElement => {
-    // FIXME: system should be the default choice
-    const [theme, setTheme] = useState<CacheablePreferences["theme"]>("light");
+    const [theme, setTheme] = useState<CacheablePreferences["theme"]>("system");
     const [preferDecentralization, setPreferDecentralization] =
         useState<CacheablePreferences["preferDecentralization"]>(false);
 
@@ -50,11 +48,58 @@ export const PreferencesProvider = ({
         const cachedPreferences = CACHER.get<CacheablePreferences>(
             PREFERENCES_CACHER_KEY
         );
+
+        if (!cachedPreferences) {
+            CACHER.set<CacheablePreferences>(
+                PREFERENCES_CACHER_KEY,
+                DEFAULT_PREFERENCES.values,
+                Number.MAX_SAFE_INTEGER
+            );
+
+            return;
+        }
+
+        setTheme(cachedPreferences.theme);
+        setPreferDecentralization(cachedPreferences.preferDecentralization);
+    }, [theme]);
+
+    const handleSetTheme = (value: CacheablePreferences["theme"]) => {
+        const cachedPreferences = CACHER.get<CacheablePreferences>(
+            PREFERENCES_CACHER_KEY
+        );
+
         if (!cachedPreferences) return;
-        // TODO: validate this, and set to system by default
-        setTheme(cachedPreferences.theme || "light");
-        setPreferDecentralization(!!cachedPreferences.preferDecentralization);
-    }, []);
+
+        CACHER.set<CacheablePreferences>(
+            PREFERENCES_CACHER_KEY,
+            {
+                ...cachedPreferences,
+                theme: value,
+            },
+            Number.MAX_SAFE_INTEGER
+        );
+        setTheme(value);
+    };
+
+    const handleSetPreferDecentralization = (
+        value: CacheablePreferences["preferDecentralization"]
+    ) => {
+        const cachedPreferences = CACHER.get<CacheablePreferences>(
+            PREFERENCES_CACHER_KEY
+        );
+
+        if (!cachedPreferences) return;
+
+        CACHER.set<CacheablePreferences>(
+            PREFERENCES_CACHER_KEY,
+            {
+                ...cachedPreferences,
+                preferDecentralization: value,
+            },
+            Number.MAX_SAFE_INTEGER
+        );
+        setPreferDecentralization(value);
+    };
 
     return (
         <PreferencesContext.Provider
@@ -63,8 +108,8 @@ export const PreferencesProvider = ({
                     theme,
                     preferDecentralization,
                 },
-                setTheme,
-                setPreferDecentralization,
+                setTheme: handleSetTheme,
+                setPreferDecentralization: handleSetPreferDecentralization,
             }}
         >
             {children}
