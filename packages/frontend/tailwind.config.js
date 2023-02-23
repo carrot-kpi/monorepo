@@ -8,12 +8,6 @@ module.exports = {
                 "marquee-slow": "marquee 207s linear infinite",
                 "marquee-fast": "marquee 138s linear infinite",
             },
-            backgroundImage: {
-                "square-pattern-light":
-                    "url('/src/assets/square-pattern-light.svg')",
-                "square-pattern-dark":
-                    "url('/src/assets/square-pattern-dark.svg')",
-            },
             keyframes: {
                 marquee: {
                     "0%": { transform: "translateX(0%)" },
