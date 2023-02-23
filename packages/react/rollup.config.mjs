@@ -7,9 +7,10 @@ import typescript from "rollup-plugin-typescript2";
 export default [
     {
         input: resolve("src/index.ts"),
+        preserveSymlinks: true,
         plugins: [
             peerDepsExternal(),
-            nodeResolve({ preferBuiltins: true, rootDir: resolve("../..") }),
+            nodeResolve({ preferBuiltins: true }),
             commonjs(),
             typescript(),
         ],

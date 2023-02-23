@@ -12,12 +12,10 @@ import url from "@rollup/plugin-url";
 export default [
     {
         input: [resolve("src/index.ts")],
+        preserveSymlinks: true,
         plugins: [
             peerDepsExternal(),
-            nodeResolve({
-                preferBuiltins: true,
-                rootDir: resolve("../.."),
-            }),
+            nodeResolve({ preferBuiltins: true }),
             commonjs(),
             postcss({
                 plugins: [tailwindcss, autoprefixer],
