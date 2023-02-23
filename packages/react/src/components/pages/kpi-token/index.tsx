@@ -7,7 +7,10 @@ import {
 import { KPIToken } from "@carrot-kpi/sdk";
 
 interface KPITokenPageProps
-    extends Omit<TemplateComponentProps, "type" | "template" | "props"> {
+    extends Omit<
+        TemplateComponentProps,
+        "entity" | "type" | "template" | "props"
+    > {
     kpiToken?: KPIToken;
 }
 
@@ -17,6 +20,7 @@ export function KPITokenPage({
 }: KPITokenPageProps): ReactElement {
     return (
         <TemplateComponent
+            entity="kpiToken"
             type="page"
             template={kpiToken?.template}
             {...rest}

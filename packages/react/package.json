@@ -33,6 +33,7 @@
         "react-use": "^17.4.0"
     },
     "peerDependencies": {
+        "@carrot-kpi/shared-state": "*",
         "@tanstack/react-query": "^4.24.9",
         "i18next": "^22.0.2",
         "react": "^18.2.0",
@@ -40,6 +41,7 @@
         "wagmi": "^0.9.5"
     },
     "devDependencies": {
+        "@carrot-kpi/shared-state": "*",
         "@rollup/plugin-commonjs": "^24.0.1",
         "@rollup/plugin-node-resolve": "^15.0.1",
         "@size-limit/preset-small-lib": "^8.1.0",
