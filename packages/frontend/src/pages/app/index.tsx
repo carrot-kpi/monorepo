@@ -13,7 +13,11 @@ import { Create } from "../create";
 import { Campaigns } from "../campaigns";
 import { CreateWithTemplateId } from "../create-with-template-id";
 import { usePreviousDistinct } from "react-use";
-import { usePreferencesSetters } from "@carrot-kpi/react";
+import {
+    useSetPreferDecentralization,
+    useSetKPITokenTemplateBaseURL,
+    useSetOracleTemplateBaseURL,
+} from "@carrot-kpi/react";
 
 const CREATE_ROUTE_PATH = { path: "/create/:templateId", key: "create" };
 const PAGE_ROUTE_PATH = { path: "/campaigns/:address", key: "page" };
@@ -29,19 +33,26 @@ const DEFAULT_LOCATION = {
 };
 
 interface AppProps {
-    customBaseURL?: string;
+    kpiTokenTemplateBaseURL?: string;
+    oracleTemplateBaseURL?: string;
     templateId?: number;
 }
 
-export const App = ({ customBaseURL, templateId }: AppProps) => {
+export const App = ({
+    kpiTokenTemplateBaseURL,
+    oracleTemplateBaseURL,
+    templateId,
+}: AppProps) => {
     const location = useLocation();
     const previousLocation = usePreviousDistinct(location);
     const navigate = useNavigate();
-    const { setPreferDecentralization } = usePreferencesSetters();
+    const setPreferDecentralization = useSetPreferDecentralization();
+    const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
+    const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
 
-    useEffect(() => {
-        if (__PREVIEW_MODE__) setPreferDecentralization(true);
-    }, [setPreferDecentralization]);
+    if (__PREVIEW_MODE__) setPreferDecentralization(true);
+    setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
+    setOracleTemplateBaseURL(oracleTemplateBaseURL);
 
     const [modalLocation, setModalLocation] = useState<Location | undefined>();
     const [closingModalId, setClosingModalId] = useState("");
@@ -111,7 +122,6 @@ export const App = ({ customBaseURL, templateId }: AppProps) => {
                         path={CREATE_ROUTE_PATH.path}
                         element={
                             <CreateWithTemplateId
-                                customBaseURL={customBaseURL}
                                 closing={
                                     closingModalId === CREATE_ROUTE_PATH.key
                                 }
@@ -123,7 +133,6 @@ export const App = ({ customBaseURL, templateId }: AppProps) => {
                         path={PAGE_ROUTE_PATH.path}
                         element={
                             <Page
-                                customBaseURL={customBaseURL}
                                 closing={closingModalId === PAGE_ROUTE_PATH.key}
                                 onOutAnimationEnd={handleAnimationEnd}
                             />

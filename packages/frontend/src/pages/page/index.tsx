@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { KPITokenPage, usePreferences } from "@carrot-kpi/react";
+import { KPITokenPage, usePreferDecentralization } from "@carrot-kpi/react";
 import { Fetcher, KPIToken } from "@carrot-kpi/sdk";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -14,16 +14,12 @@ interface PageProps {
     onOutAnimationEnd?: () => void;
 }
 
-export const Page = ({
-    customBaseURL,
-    closing,
-    onOutAnimationEnd,
-}: PageProps) => {
+export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
     const { address } = useParams();
     const provider = useProvider();
-    const { preferDecentralization } = usePreferences();
+    const preferDecentralization = usePreferDecentralization();
 
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
@@ -93,7 +89,6 @@ export const Page = ({
                                 <Loader />
                             </div>
                         }
-                        customBaseURL={customBaseURL}
                         className={{ root: "w-full h-full" }}
                     />
                 </AnimatedFullscreenModal>

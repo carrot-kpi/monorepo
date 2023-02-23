@@ -1,14 +1,14 @@
 import { Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { KPIToken } from "@carrot-kpi/sdk";
-import { usePreferences } from "@carrot-kpi/react";
+import { usePreferDecentralization } from "@carrot-kpi/react";
 import { useQuery } from "@tanstack/react-query";
 
 export function useLatestKPITokens(limit = 5): {
     loading: boolean;
     kpiTokens: KPIToken[];
 } {
-    const { preferDecentralization } = usePreferences();
+    const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
     const provider = useProvider();
 

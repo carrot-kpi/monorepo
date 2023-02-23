@@ -1,7 +1,12 @@
 import React, { useCallback } from "react";
 import { Popover, Switch, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
-import { usePreferences, usePreferencesSetters } from "@carrot-kpi/react";
+import {
+    usePreferDecentralization,
+    useTheme,
+    useSetTheme,
+    useSetPreferDecentralization,
+} from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
 import { InfoPopover } from "../../../info-popover";
 import { useMedia } from "react-use";
@@ -17,8 +22,10 @@ export const PreferencesPopover = forwardRef<
     PreferencesPopoverProps
 >(function PreferencesPopover({ open, anchor }, ref) {
     const { t } = useTranslation();
-    const { setTheme, setPreferDecentralization } = usePreferencesSetters();
-    const { theme, preferDecentralization } = usePreferences();
+    const theme = useTheme();
+    const setTheme = useSetTheme();
+    const preferDecentralization = usePreferDecentralization();
+    const setPreferDecentralization = useSetPreferDecentralization();
     const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
 
     const handleDarkThemeChange = useCallback(

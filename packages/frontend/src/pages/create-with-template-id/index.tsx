@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { CreationForm, usePreferences } from "@carrot-kpi/react";
+import {
+    KPITokenCreationForm,
+    usePreferDecentralization,
+} from "@carrot-kpi/react";
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -15,13 +18,11 @@ import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 
 interface CreateWithTemplateIdProps {
-    customBaseURL?: string;
     closing?: boolean;
     onOutAnimationEnd?: () => void;
 }
 
 export const CreateWithTemplateId = ({
-    customBaseURL,
     closing,
     onOutAnimationEnd,
 }: CreateWithTemplateIdProps) => {
@@ -29,7 +30,7 @@ export const CreateWithTemplateId = ({
     const { state } = useLocation();
     const { templateId } = useParams();
     const provider = useProvider();
-    const { preferDecentralization } = usePreferences();
+    const preferDecentralization = usePreferDecentralization();
 
     const [template, setTemplate] = useState<Template | null>(
         state ? state.template : null
@@ -122,7 +123,7 @@ export const CreateWithTemplateId = ({
                     springStyle={style}
                     onDismiss={handleDismiss}
                 >
-                    <CreationForm
+                    <KPITokenCreationForm
                         template={template}
                         // TODO: use a proper fallback component
                         fallback={
@@ -131,7 +132,6 @@ export const CreateWithTemplateId = ({
                             </div>
                         }
                         // TODO: use a proper on done callback
-                        customBaseURL={customBaseURL}
                         onDone={handleDone}
                         i18n={i18n}
                         className={{ root: "w-full h-full" }}
