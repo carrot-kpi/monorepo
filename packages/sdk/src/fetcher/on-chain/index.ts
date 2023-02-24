@@ -218,6 +218,10 @@ class Fetcher implements IPartialCarrotFetcher {
                 KPI_TOKEN_TEMPLATE_FUNCTION,
                 kpiTokenResult[i * 6 + 2]
             )[0];
+            console.log(
+                "KPI TOKEN TEMPLATE SPEC",
+                kpiTokenTemplate.specification
+            );
             const rawKPITokenTemplateSpecification = JSON.parse(
                 kpiTokenTemplateSpecifications[
                     `${kpiTokenTemplate.specification}/base.json`
