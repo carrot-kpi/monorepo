@@ -7,13 +7,17 @@ import {
 import { Oracle } from "@carrot-kpi/sdk";
 
 interface OraclePageProps
-    extends Omit<TemplateComponentProps, "type" | "template" | "props"> {
+    extends Omit<
+        TemplateComponentProps,
+        "entity" | "type" | "template" | "props"
+    > {
     oracle?: Oracle;
 }
 
 export function OraclePage({ oracle, ...rest }: OraclePageProps): ReactElement {
     return (
         <TemplateComponent
+            entity="oracle"
             type="page"
             template={oracle?.template}
             {...rest}

@@ -1,9 +1,9 @@
-import { usePreferences } from "@carrot-kpi/react";
+import { useTheme } from "@carrot-kpi/react";
 import { useEffect } from "react";
 import { useMedia } from "react-use";
 
 export const ThemeUpdater = () => {
-    const { theme } = usePreferences();
+    const theme = useTheme();
     const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
 
     useEffect(() => {

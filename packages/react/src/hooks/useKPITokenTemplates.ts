@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Template, Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
-import { usePreferences } from "./usePreferences";
+import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useKPITokenTemplates(ids?: BigNumberish[]): {
     loading: boolean;
     templates: Template[];
 } {
-    const { preferDecentralization } = usePreferences();
+    const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
     const provider = useProvider();
 

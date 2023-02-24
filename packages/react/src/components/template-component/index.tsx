@@ -6,7 +6,7 @@ import { addBundleForTemplate } from "../../i18n";
 import { useState } from "react";
 import { i18n } from "i18next";
 import { cva } from "class-variance-authority";
-import { usePreferences } from "../../hooks";
+import { useTheme } from "../../hooks";
 import { useMedia } from "react-use";
 
 const wrapperStyles = cva([], {
@@ -23,9 +23,9 @@ const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
     {};
 
 export interface TemplateComponentProps {
+    entity: "kpiToken" | "oracle";
     type: "creationForm" | "page";
     template?: Template;
-    customBaseURL?: string;
     fallback: ReactNode;
     i18n: i18n;
     className?: { root?: string; wrapper?: string };
@@ -33,20 +33,20 @@ export interface TemplateComponentProps {
 }
 
 export function TemplateComponent({
+    entity,
     type,
     template,
-    customBaseURL,
     fallback,
     i18n,
     className,
     props = {},
 }: TemplateComponentProps) {
     const { loading, bundle, Component } = useTemplateModule(
+        entity,
         type,
-        template,
-        customBaseURL
+        template
     );
-    const { theme } = usePreferences();
+    const theme = useTheme();
     const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
 
     const [dark, setDark] = useState(false);

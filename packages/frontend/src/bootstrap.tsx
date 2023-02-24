@@ -42,7 +42,8 @@ interface RootProps {
     providers?: ChainProviderFn[];
     connectors?: () => Connector[];
     ipfsGatewayURL?: string;
-    customBaseURL?: string;
+    kpiTokenTemplateBaseURL?: string;
+    oracleTemplateBaseURL?: string;
     templateId?: number;
 }
 
@@ -51,7 +52,8 @@ export const Root = ({
     providers,
     connectors,
     ipfsGatewayURL,
-    customBaseURL,
+    kpiTokenTemplateBaseURL,
+    oracleTemplateBaseURL,
     templateId,
 }: RootProps) => {
     return (
@@ -64,7 +66,11 @@ export const Root = ({
                 reactQueryClient={queryClient}
             >
                 <ThemeUpdater />
-                <App customBaseURL={customBaseURL} templateId={templateId} />
+                <App
+                    kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
+                    oracleTemplateBaseURL={oracleTemplateBaseURL}
+                    templateId={templateId}
+                />
             </CarrotCoreProvider>
         </HashRouter>
     );

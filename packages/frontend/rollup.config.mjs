@@ -14,6 +14,7 @@ import replace from "@rollup/plugin-replace";
 export default [
     {
         input: resolve("src/bootstrap.tsx"),
+        preserveSymlinks: true,
         plugins: [
             replace({
                 preventAssignment: true,
@@ -26,7 +27,6 @@ export default [
             nodeResolve({
                 preferBuiltins: false,
                 browser: true,
-                rootDir: resolve("../.."),
             }),
             postcss({
                 plugins: [tailwindcss, autoprefixer],
