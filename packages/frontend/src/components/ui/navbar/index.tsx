@@ -8,7 +8,7 @@ import { ConnectWallet } from "../../connect-wallet";
 import { ReactComponent as X } from "../../../assets/x.svg";
 import { ReactComponent as SettingsIcon } from "../../../assets/settings.svg";
 import { Button } from "@carrot-kpi/ui";
-import { PreferencesPopover } from "../../connect-wallet/popovers/preferences";
+import { PreferencesPopover } from "./popovers/preferences";
 
 const navWrapperStyles = cva([""], {
     variants: {

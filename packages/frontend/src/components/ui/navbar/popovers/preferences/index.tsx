@@ -8,7 +8,7 @@ import {
     useSetPreferDecentralization,
 } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
-import { InfoPopover } from "../../../info-popover";
+import { InfoPopover } from "../../../../info-popover";
 import { useMedia } from "react-use";
 
 interface PreferencesPopoverProps {
