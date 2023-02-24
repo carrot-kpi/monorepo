@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
+import { persistReducer } from "redux-persist";
 import { preferencesReducer } from "./reducers/preferences/reducer";
 
 const rootReducer = combineReducers({
@@ -16,9 +16,8 @@ const persistConfig = {
 const persistedRootReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({ reducer: persistedRootReducer });
-persistStore(store);
 
-export type State = ReturnType<typeof store.getState>;
+export type State = ReturnType<typeof rootReducer>;
 export type Dispatch = typeof store.dispatch;
 
 export * from "./reducers";

@@ -16,7 +16,11 @@ export const useTemplateModule = (
     entryPostfix: string,
     template?: Template
 ) => {
-    const customBaseURL = useSelector<State, string>((state) =>
+    const customBaseURL = useSelector<
+        State,
+        | State["preferences"]["kpiTokenTemplateBaseURL"]
+        | State["preferences"]["oracleTemplateBaseURL"]
+    >((state) =>
         entity === "kpiToken"
             ? state.preferences.kpiTokenTemplateBaseURL
             : state.preferences.oracleTemplateBaseURL
