@@ -16,7 +16,7 @@ const inputWrapperStyles = cva(["cui-flex", "cui-gap-2"]);
 
 export type TagsInputProps = Omit<BaseInputProps<string[]>, "onChange"> & {
     onChange: (tags: string[]) => void;
-    addButtonLabel: string;
+    messages: { add: string };
     className?: BaseInputProps<unknown>["className"] & {
         tagsWrapper?: string;
         tag?: TagProps["className"];
@@ -34,7 +34,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
             error = false,
             className,
             value,
-            addButtonLabel,
+            messages,
             onChange,
             ...rest
         },
@@ -100,7 +100,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                         })}
                     />
                     <Button onClick={handleOnClick} size="xsmall">
-                        {addButtonLabel}
+                        {messages.add}
                     </Button>
                 </div>
                 {!!value && value.length > 0 && (
