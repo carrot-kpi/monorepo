@@ -1,4 +1,7 @@
-import { setKPITokenTemplateBaseURL, useDispatch } from "@carrot-kpi/shared-state";
+import {
+    setKPITokenTemplateBaseURL,
+    useDispatch,
+} from "@carrot-kpi/shared-state";
 
 export const useSetKPITokenTemplateBaseURL = () => {
     const dispatch = useDispatch();

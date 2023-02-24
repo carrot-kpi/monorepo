@@ -21,6 +21,7 @@ interface ReactSharedStateProvider {
     children: ReactNode;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ReactSharedStateProvider = ({
     children,
 }: ReactSharedStateProvider) => {
