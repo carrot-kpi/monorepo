@@ -17,6 +17,7 @@ import {
     useSetPreferDecentralization,
     useSetKPITokenTemplateBaseURL,
     useSetOracleTemplateBaseURL,
+    useSetDevMode,
 } from "@carrot-kpi/react";
 
 const CREATE_ROUTE_PATH = { path: "/create/:templateId", key: "create" };
@@ -47,10 +48,12 @@ export const App = ({
     const previousLocation = usePreviousDistinct(location);
     const navigate = useNavigate();
     const setPreferDecentralization = useSetPreferDecentralization();
+    const setDevMode = useSetDevMode();
     const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
     const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
 
     if (__PREVIEW_MODE__) setPreferDecentralization(true);
+    setDevMode(__PREVIEW_MODE__);
     setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
     setOracleTemplateBaseURL(oracleTemplateBaseURL);
 
