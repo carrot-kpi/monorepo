@@ -1,5 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
+    setDevMode,
     setKPITokenTemplateBaseURL,
     setOracleTemplateBaseURL,
     setPreferDecentralization,
@@ -10,6 +11,7 @@ import { PreferencesState } from "../types";
 const initialState: PreferencesState = {
     theme: "system",
     preferDecentralization: false,
+    devMode: false,
     kpiTokenTemplateBaseURL: undefined,
     oracleTemplateBaseURL: undefined,
 };
@@ -21,6 +23,9 @@ export const preferencesReducer = createReducer(initialState, (builder) =>
         })
         .addCase(setPreferDecentralization, (state, action) => {
             state.preferDecentralization = action.payload;
+        })
+        .addCase(setDevMode, (state, action) => {
+            state.devMode = action.payload;
         })
         .addCase(setKPITokenTemplateBaseURL, (state, action) => {
             state.kpiTokenTemplateBaseURL = action.payload;

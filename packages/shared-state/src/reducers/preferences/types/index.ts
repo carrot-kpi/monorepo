@@ -4,6 +4,10 @@ export interface PreferencesState {
     theme: Theme;
     preferDecentralization: boolean;
 
+    // templates/libs will know when the platform is being run locally
+    // in order to develop templates, and will be able to act accordingly
+    devMode: boolean;
+
     // the base URL from which to load federated KPI token templates.
     // It should be undefined in production and default to IPFS,
     // but it should be defined when dealing with local development, as

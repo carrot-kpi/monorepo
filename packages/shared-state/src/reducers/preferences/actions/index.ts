@@ -7,6 +7,9 @@ export const setTheme = createAction<PreferencesState["theme"]>(
 export const setPreferDecentralization = createAction<
     PreferencesState["preferDecentralization"]
 >("preferences/setPreferDecentralization");
+export const setDevMode = createAction<PreferencesState["devMode"]>(
+    "preferences/setDevMode"
+);
 export const setKPITokenTemplateBaseURL = createAction<
     PreferencesState["kpiTokenTemplateBaseURL"]
 >("preferences/setKPITokenTemplateBaseURL");
