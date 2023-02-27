@@ -118,7 +118,7 @@ export const ConnectWallet = () => {
                 <div
                     className={`h-12 flex items-center ${
                         __PREVIEW_MODE__ ? "" : "cursor-pointer"
-                    } gap-3 mr-3`}
+                    } gap-3`}
                     onClick={handleNetworksPopoverOpen}
                     ref={networksPopoverAnchorRef}
                 >
@@ -151,7 +151,7 @@ export const ConnectWallet = () => {
                     >
                         <div className="flex items-center text-base">
                             <img
-                                className="w-7 h-7 mr-3 rounded-full"
+                                className="mr-3 rounded-full w-7 h-7"
                                 src={ensAvatar || makeBlockie(address)}
                             />
                             {ensName || shortenAddress(address)}
