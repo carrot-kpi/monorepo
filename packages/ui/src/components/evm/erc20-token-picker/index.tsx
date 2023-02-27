@@ -15,6 +15,7 @@ type ERC20TokenPickerView =
 export interface ERC20TokenPickerProps {
     open?: boolean;
     onDismiss?: () => void;
+    loading?: boolean;
     selectedToken?: TokenInfoWithBalance | null;
     onSelectedTokenChange?: (token: TokenInfoWithBalance) => void;
     chainId?: number;
@@ -34,6 +35,7 @@ export interface ERC20TokenPickerProps {
 export function ERC20TokenPicker({
     open,
     onDismiss,
+    loading,
     onSelectedTokenChange,
     selectedToken,
     chainId,
@@ -64,6 +66,7 @@ export function ERC20TokenPicker({
                 <Search
                     open={open}
                     onDismiss={onDismiss}
+                    loading={loading}
                     onSelectedTokenChange={onSelectedTokenChange}
                     selectedToken={selectedToken}
                     chainId={chainId}
@@ -77,6 +80,7 @@ export function ERC20TokenPicker({
             {currentView === "manage-lists" && (
                 <ManageLists
                     onDismiss={onDismiss}
+                    loading={loading}
                     onSelectedListChange={onSelectedListChange}
                     selectedList={selectedList}
                     lists={lists}
