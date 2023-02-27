@@ -63,13 +63,22 @@ module.exports = {
                 xxl: "15px",
             },
             backgroundSize: {
-                4: "4rem",
-                2: "2rem",
+                4: "4rem 4rem",
+                2: "2rem 2rem",
+            },
+            backgroundImage: {
+                "black-squares":
+                    "linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px)",
+                "white-squares":
+                    "linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px)",
             },
             gridTemplateColumns: {
                 campaigns: "repeat(auto-fit, minmax(320px, 1fr))",
             },
         },
     },
-    plugins: [require("@tailwindcss/typography")],
+    plugins: [
+        require("@tailwindcss/typography"),
+        require("@tailwindcss/line-clamp"),
+    ],
 };

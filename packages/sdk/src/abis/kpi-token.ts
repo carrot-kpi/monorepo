@@ -1,6 +1,19 @@
 export default [
     {
         inputs: [],
+        name: "creationTimestamp",
+        outputs: [
+            {
+                internalType: "uint64",
+                name: "",
+                type: "uint64",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
         name: "data",
         outputs: [
             {
@@ -30,9 +43,9 @@ export default [
         name: "expiration",
         outputs: [
             {
-                internalType: "uint256",
+                internalType: "uint64",
                 name: "",
-                type: "uint256",
+                type: "uint64",
             },
         ],
         stateMutability: "view",

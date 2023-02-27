@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useKPITokenTemplates } from "@carrot-kpi/react";
 import { Template } from "@carrot-kpi/sdk";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,10 @@ import { Layout } from "../../components/layout";
 export const Create = () => {
     const { t } = useTranslation();
     const { loading, templates } = useKPITokenTemplates();
+
+    useEffect(() => {
+        window.scroll({ top: 0, left: 0 });
+    }, []);
 
     return (
         <Layout>

@@ -16,16 +16,34 @@ import { StrictMode } from "react";
 import { HashRouter } from "react-router-dom";
 
 import { Chain, ChainProviderFn, Connector } from "wagmi";
-import { StandaloneSetup } from "./components/standalone-setup";
-import { PreviewSetup } from "./components/preview-setup";
 import { ThemeUpdater } from "./updaters";
+import { App } from "./pages/app";
+import { CarrotCoreProvider } from "@carrot-kpi/react";
+import {
+    getStandaloneConnectors,
+    standaloneProviders,
+    standaloneSupportedChains,
+} from "./standalone-setup";
+import { QueryClient } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            cacheTime: 1_000 * 60 * 60 * 24, // 24 hours
+            networkMode: "offlineFirst",
+            refetchOnWindowFocus: false,
+            retry: false,
+        },
+    },
+});
 
 interface RootProps {
     supportedChains?: Chain[];
     providers?: ChainProviderFn[];
     connectors?: () => Connector[];
     ipfsGatewayURL?: string;
-    customBaseURL?: string;
+    kpiTokenTemplateBaseURL?: string;
+    oracleTemplateBaseURL?: string;
     templateId?: number;
 }
 
@@ -34,27 +52,27 @@ export const Root = ({
     providers,
     connectors,
     ipfsGatewayURL,
-    customBaseURL,
+    kpiTokenTemplateBaseURL,
+    oracleTemplateBaseURL,
     templateId,
 }: RootProps) => {
     return (
-        <StrictMode>
-            <HashRouter>
+        <HashRouter>
+            <CarrotCoreProvider
+                supportedChains={supportedChains || standaloneSupportedChains}
+                providers={providers || standaloneProviders}
+                getConnectors={connectors || getStandaloneConnectors}
+                ipfsGatewayURL={ipfsGatewayURL}
+                reactQueryClient={queryClient}
+            >
                 <ThemeUpdater />
-                {__PREVIEW_MODE__ ? (
-                    <PreviewSetup
-                        supportedChains={supportedChains}
-                        providers={providers}
-                        connectors={connectors}
-                        ipfsGatewayURL={ipfsGatewayURL}
-                        customBaseURL={customBaseURL}
-                        templateId={templateId}
-                    />
-                ) : (
-                    <StandaloneSetup />
-                )}
-            </HashRouter>
-        </StrictMode>
+                <App
+                    kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
+                    oracleTemplateBaseURL={oracleTemplateBaseURL}
+                    templateId={templateId}
+                />
+            </CarrotCoreProvider>
+        </HashRouter>
     );
 };
 
@@ -62,11 +80,15 @@ if (!__PREVIEW_MODE__) {
     const container = document.getElementById("root");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const root = createRoot(container!);
-    root.render(<Root />);
+    root.render(
+        <StrictMode>
+            <Root />
+        </StrictMode>
+    );
 
     if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
         navigator.serviceWorker
-            .register(`/sw.js`)
+            .register("./sw.js")
             .then(() => {
                 console.log("carrot service worker registered successfully");
             })

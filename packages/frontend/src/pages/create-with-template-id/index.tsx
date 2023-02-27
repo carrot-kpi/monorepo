@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { CreationForm, usePreferences } from "@carrot-kpi/react";
+import {
+    KPITokenCreationForm,
+    usePreferDecentralization,
+} from "@carrot-kpi/react";
+import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BigNumber, providers } from "ethers";
@@ -9,26 +13,41 @@ import {
     useProvider,
     useSendTransaction,
 } from "wagmi";
-import { Layout } from "../../components/layout";
-import { Fetcher } from "@carrot-kpi/sdk";
+import { Fetcher, Template } from "@carrot-kpi/sdk";
+import { Loader } from "@carrot-kpi/ui";
+import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 
 interface CreateWithTemplateIdProps {
-    customBaseURL?: string;
+    closing?: boolean;
+    onOutAnimationEnd?: () => void;
 }
 
 export const CreateWithTemplateId = ({
-    customBaseURL,
+    closing,
+    onOutAnimationEnd,
 }: CreateWithTemplateIdProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
     const { templateId } = useParams();
     const provider = useProvider();
-    const { preferDecentralization } = usePreferences();
-    const [loading, setLoading] = useState(false);
-    const [template, setTemplate] = useState(state.template);
+    const preferDecentralization = usePreferDecentralization();
+
+    const [template, setTemplate] = useState<Template | null>(
+        state ? state.template : null
+    );
+    const transitions = useTransition(!closing && template, {
+        config: { ...springConfig.default, duration: 200 },
+        from: { opacity: 0, translateY: "1%" },
+        enter: { opacity: 1, translateY: "0%" },
+        leave: {
+            opacity: 0,
+            translateY: "1%",
+        },
+        onDestroyed: onOutAnimationEnd,
+    });
 
     useEffect(() => {
-        if (!!state.template) {
+        if (!!state?.template) {
             setTemplate(state.template);
             return;
         }
@@ -38,7 +57,6 @@ export const CreateWithTemplateId = ({
         }
         let cancelled = false;
         const fetchData = async () => {
-            if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
                     provider,
@@ -59,7 +77,7 @@ export const CreateWithTemplateId = ({
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider, state.template, templateId]);
+    }, [preferDecentralization, provider, state?.template, templateId]);
 
     const [creationTx, setCreationTx] = useState<
         providers.TransactionRequest & {
@@ -93,21 +111,33 @@ export const CreateWithTemplateId = ({
         []
     );
 
-    return (
-        <Layout navbarBackgroundColor="green">
-            {loading || !template ? (
-                <>Loading...</>
-            ) : (
-                <CreationForm
-                    template={template}
-                    // TODO: use a proper fallback component
-                    fallback="Loading..."
-                    // TODO: use a proper on done callback
-                    customBaseURL={customBaseURL}
-                    onDone={handleDone}
-                    i18n={i18n}
-                />
-            )}
-        </Layout>
-    );
+    const handleDismiss = useCallback(() => {
+        setTemplate(null);
+    }, []);
+
+    return transitions((style, template) => {
+        return (
+            template && (
+                <AnimatedFullscreenModal
+                    bgColor="green"
+                    springStyle={style}
+                    onDismiss={handleDismiss}
+                >
+                    <KPITokenCreationForm
+                        template={template}
+                        // TODO: use a proper fallback component
+                        fallback={
+                            <div className="bg-green py-10 text-black flex justify-center">
+                                <Loader />
+                            </div>
+                        }
+                        // TODO: use a proper on done callback
+                        onDone={handleDone}
+                        i18n={i18n}
+                        className={{ root: "w-full h-full" }}
+                    />
+                </AnimatedFullscreenModal>
+            )
+        );
+    });
 };

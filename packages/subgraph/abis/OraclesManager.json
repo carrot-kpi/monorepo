@@ -107,12 +107,6 @@
                 "internalType": "uint256",
                 "name": "id",
                 "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "version",
-                "type": "uint256"
             }
         ],
         "name": "RemoveTemplate",
@@ -129,15 +123,15 @@
             },
             {
                 "indexed": false,
-                "internalType": "uint256",
-                "name": "version",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
                 "internalType": "string",
                 "name": "newSpecification",
                 "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "version",
+                "type": "uint256"
             }
         ],
         "name": "UpdateTemplateSpecification",

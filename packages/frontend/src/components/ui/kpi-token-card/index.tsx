@@ -11,18 +11,26 @@ import {
     Markdown,
 } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import sanitizeHtml from "sanitize-html";
-import { Link } from "react-router-dom";
 import { KPIToken } from "@carrot-kpi/sdk";
+import { Link } from "react-router-dom";
 
 const rootStyles = cva(
     [
-        "min-w-[320px] max-w-[320px] rounded-xxl flex flex-col justify-between border bg-white border-black dark:bg-black dark:border-white",
+        "min-w-[320px]",
+        "max-w-[320px]",
+        "rounded-xxl",
+        "flex",
+        "flex-col",
+        "justify-between",
+        "border",
+        "bg-white",
+        "dark:bg-black",
     ],
     {
         variants: {
             noBorder: {
                 true: ["border-white dark:border-black"],
+                false: ["border-black dark:border-white"],
             },
         },
         defaultVariants: {
@@ -60,21 +68,15 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                     )} */}
             </CardTitle>
             <CardContent>
-                <div className="h-56 max-h-56">
-                    <div className="h-40 flex flex-col justify-between p-4 overflow-hidden">
+                <div className="h-58">
+                    <div className="h-40 overflow-hidden px-4 pt-4">
                         {!!kpiToken ? (
                             <Markdown
                                 className={{
-                                    root: "prose-sm prose-headings:mt-0",
+                                    root: "prose prose-headings:mt-0 line-clamp-5 overflow-hidden",
                                 }}
                             >
-                                <div
-                                    dangerouslySetInnerHTML={{
-                                        __html: sanitizeHtml(
-                                            kpiToken.specification.description
-                                        ),
-                                    }}
-                                />
+                                {kpiToken.specification.description}
                             </Markdown>
                         ) : (
                             <div className="flex flex-col gap-3">
@@ -85,19 +87,25 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                             </div>
                         )}
                     </div>
-                    <div className="h-16 flex items-center gap-3 p-4">
-                        {!!kpiToken ? (
-                            <Chip>{kpiToken.template.specification.name}</Chip>
-                        ) : (
-                            <Skeleton variant="xl" width={80} />
-                        )}
-                        {!!kpiToken ? (
-                            kpiToken.specification.tags.map((tag) => (
-                                <Chip key={tag}>{tag}</Chip>
-                            ))
-                        ) : (
-                            <Skeleton variant="xl" width={60} />
-                        )}
+                    <div className="relative h-16 py-4">
+                        <div className="absolute pointer-events-none top-0 left-0 w-full h-full shadow-horizontal-scroller shadow-white dark:shadow-black" />
+                        <div className="flex gap-3 overflow-x-auto px-4 scrollbar-none">
+                            {!!kpiToken ? (
+                                <>
+                                    <Chip>
+                                        {kpiToken.template.specification.name}
+                                    </Chip>
+                                    {kpiToken.specification.tags.map((tag) => (
+                                        <Chip key={tag}>{tag}</Chip>
+                                    ))}
+                                </>
+                            ) : (
+                                <>
+                                    <Skeleton variant="xl" width={80} />
+                                    <Skeleton variant="xl" width={60} />
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <div className="h-12 flex items-center justify-between w-full border-t border-black dark:border-white">
@@ -132,14 +140,11 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                 </div>
             </CardContent>
             <CardActions className={{ root: "justify-center" }}>
-                <div className="flex justify-center items-center w-full">
+                <div className="flex h-6 justify-center items-center w-full">
                     {!!kpiToken ? (
                         <Link
-                            to={
-                                !!kpiToken
-                                    ? `/campaigns/${kpiToken.address}`
-                                    : ""
-                            }
+                            to={`/campaigns/${kpiToken.address}`}
+                            state={{ kpiToken }}
                         >
                             <Typography weight="medium">
                                 ↳ VIEW CAMPAIGN

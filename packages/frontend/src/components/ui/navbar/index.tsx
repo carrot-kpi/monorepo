@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as Logo } from "../../../assets/logo.svg";
 import { cva } from "class-variance-authority";
 import { ReactComponent as CloseIcon } from "../../../assets/x.svg";
 import { ReactComponent as MenuIcon } from "../../../assets/menu.svg";
-import { GridPatternBg } from "../grid-pattern-bg";
 import { ConnectWallet } from "../../connect-wallet";
+import { ReactComponent as X } from "../../../assets/x.svg";
+import { ReactComponent as SettingsIcon } from "../../../assets/settings.svg";
+import { Button } from "@carrot-kpi/ui";
+import { PreferencesPopover } from "./popovers/preferences";
 
 const navWrapperStyles = cva([""], {
     variants: {
@@ -34,6 +37,10 @@ const navbarStyles = cva(
             },
             isOpen: {
                 true: ["z-10"],
+            },
+            mode: {
+                standard: ["px-6"],
+                modal: ["px-6 lg:px-10"],
             },
         },
     }
@@ -66,38 +73,73 @@ interface LinkProps {
 
 export interface NavbarProps {
     bgColor?: "green" | "orange";
+    mode?: "standard" | "modal";
+    onDismiss?: () => void;
     links?: LinkProps[];
     className?: {
         nav?: string;
     };
 }
 
-export const Navbar = ({ bgColor, links, className }: NavbarProps) => {
+export const Navbar = ({
+    bgColor,
+    mode = "standard",
+    onDismiss,
+    links,
+    className,
+}: NavbarProps) => {
+    const preferencesRef = useRef<HTMLButtonElement>(null);
+    const preferencesPopoverRef = useRef<HTMLDivElement>(null);
+
     const [isOpen, setOpen] = useState(false);
+    const [preferencesPopoverOpen, setPreferencesPopoverOpen] = useState(false);
 
     useEffect(() => {
         const closeMenuOnResizeToDesktop = () => {
             if (window.innerWidth > 700) setOpen(false);
         };
+        // TODO: use size observer to increase performance
         window.addEventListener("resize", closeMenuOnResizeToDesktop);
         return () => {
             window.removeEventListener("resize", closeMenuOnResizeToDesktop);
         };
     }, [isOpen]);
 
+    useEffect(() => {
+        const handleCloseOnClick = (event: MouseEvent) => {
+            if (
+                !!preferencesPopoverRef.current &&
+                !preferencesPopoverRef.current.contains(event.target as Node)
+            )
+                setPreferencesPopoverOpen(false);
+        };
+        document.addEventListener("mousedown", handleCloseOnClick);
+        return () => {
+            document.removeEventListener("mousedown", handleCloseOnClick);
+        };
+    }, [preferencesPopoverOpen]);
+
+    const handlePreferencesPopoverOpen = useCallback(() => {
+        setPreferencesPopoverOpen(true);
+    }, []);
+
     return (
         <div className={navWrapperStyles({ isOpen, bgColor })}>
-            {isOpen && <GridPatternBg className="md:hidden" />}
             <div
                 className={navbarStyles({
                     bgColor,
                     isOpen,
+                    mode,
                     className: className?.nav,
                 })}
             >
-                <NavLink to="/" onClick={() => setOpen(false)}>
+                {mode === "modal" ? (
                     <Logo className="w-32 h-auto md:w-[188px] text-black" />
-                </NavLink>
+                ) : (
+                    <NavLink to="/" onClick={() => setOpen(false)}>
+                        <Logo className="w-32 h-auto md:w-[188px] text-black" />
+                    </NavLink>
+                )}
                 {links && (
                     <nav className={navStyles({ isOpen })}>
                         <ul className={navLinksStyles({ isOpen })}>
@@ -120,15 +162,44 @@ export const Navbar = ({ bgColor, links, className }: NavbarProps) => {
                         </ul>
                     </nav>
                 )}
-                <div
-                    className={`absolute top-[420px] md:static ${
-                        !isOpen && "hidden"
-                    } md:block md:top-auto`}
-                >
-                    <ConnectWallet />
-                </div>
-                <div className="md:hidden" onClick={() => setOpen(!isOpen)}>
-                    {isOpen ? <CloseIcon /> : <MenuIcon />}
+                <div className="flex items-center">
+                    <div
+                        className={`absolute top-[420px] md:static ${
+                            !isOpen && "hidden"
+                        } md:block md:top-auto mr-4`}
+                    >
+                        <ConnectWallet />
+                    </div>
+                    <Button
+                        ref={preferencesRef}
+                        size="small"
+                        onClick={handlePreferencesPopoverOpen}
+                        icon={SettingsIcon}
+                        className={{
+                            root: "w-12 h-12 p-0 flex justify-center items-center",
+                        }}
+                    />
+                    <PreferencesPopover
+                        open={preferencesPopoverOpen}
+                        anchor={preferencesRef.current}
+                        ref={preferencesPopoverRef}
+                    />
+                    {mode !== "modal" && (
+                        <div
+                            className="ml-4 md:hidden"
+                            onClick={() => setOpen(!isOpen)}
+                        >
+                            {isOpen ? <CloseIcon /> : <MenuIcon />}
+                        </div>
+                    )}
+                    {mode === "modal" && (
+                        <div
+                            className="flex items-center justify-center w-10 h-10 ml-10 bg-white border border-black rounded-full cursor-pointer md:w-16 md:h-16"
+                            onClick={onDismiss}
+                        >
+                            <X className="w-8 h-8" />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -10,8 +10,8 @@ dataSources:
     network: goerli
     source:
       abi: Factory
-      address: "0x59429Bcc86FF13f9B66Af412Ff62dD2c9eF8e607"
-      startBlock: 7669575
+      address: "0x9fa71dF5AEa30B488839984EDC8efe57DBc3e8C7"
+      startBlock: 8470313
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -57,9 +57,9 @@ templates:
           handler: handleAddTemplate
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: RemoveTemplate(indexed uint256,uint256)
+        - event: RemoveTemplate(indexed uint256)
           handler: handleRemoveTemplate
-        - event: UpdateTemplateSpecification(indexed uint256,uint256,string)
+        - event: UpdateTemplateSpecification(indexed uint256,string,uint256)
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
@@ -84,9 +84,9 @@ templates:
           handler: handleAddTemplate
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: RemoveTemplate(indexed uint256,uint256)
+        - event: RemoveTemplate(indexed uint256)
           handler: handleRemoveTemplate
-        - event: UpdateTemplateSpecification(indexed uint256,uint256,string)
+        - event: UpdateTemplateSpecification(indexed uint256,string,uint256)
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
@@ -132,3 +132,36 @@ templates:
         - event: Finalize(uint256)
           handler: handleFinalize
       file: ./src/oracle.ts
+  - kind: file/ipfs
+    name: KPITokenTemplateSpecification
+    mapping:
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/ipfs.ts
+      handler: handleKPITokenTemplateSpecification
+      entities:
+        - KPITokenTemplateSpecification
+      abis: []
+    network: goerli
+  - kind: file/ipfs
+    name: KPITokenDescription
+    mapping:
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/ipfs.ts
+      handler: handleKPITokenDescription
+      entities:
+        - KPITokenDescription
+      abis: []
+    network: goerli
+  - kind: file/ipfs
+    name: OracleTemplateSpecification
+    mapping:
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/ipfs.ts
+      handler: handleOracleTemplateSpecification
+      entities:
+        - OracleTemplateSpecification
+      abis: []
+    network: goerli

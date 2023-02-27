@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Fetcher, Oracle } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
-import { usePreferences } from "./usePreferences";
+import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useOracle(oracleAddress?: string): {
     loading: boolean;
     oracle: Oracle | null;
 } {
-    const { preferDecentralization } = usePreferences();
+    const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
     const provider = useProvider();
 

@@ -1,10 +1,9 @@
-import { Button } from "@carrot-kpi/ui";
+import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
-import { ResponsiveHeader } from "../../../components/ui/responsive-header";
 import { useLatestKPITokens } from "../../../hooks/useLatestKPITokens";
 
 const LATEST_TOKEN_AMOUNTS = 5;
@@ -20,9 +19,7 @@ export const LatestCampaignsSection = () => {
     return (
         <div className="relative flex flex-col gap-16">
             {/* TODO: add i18n */}
-            <ResponsiveHeader autoAlign variant="h2">
-                {t("home.latestCampaigns")}
-            </ResponsiveHeader>
+            <Typography variant="h2">{t("home.latestCampaigns")}</Typography>
             <CardHorizontal>
                 {loading
                     ? placeholder

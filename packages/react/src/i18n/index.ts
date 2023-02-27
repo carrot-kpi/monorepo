@@ -10,6 +10,7 @@ export const addBundleForTemplate = (
     bundle: TemplateBundle
 ) => {
     Object.entries(bundle).forEach(([language, keys]) => {
+        if (i18n.hasResourceBundle(language, namespace)) return;
         i18n.addResourceBundle(language, namespace, keys);
     });
 };

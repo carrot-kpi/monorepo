@@ -39,6 +39,9 @@ const KPI_TOKEN_DESCRIPTION_FUNCTION =
 const KPI_TOKEN_ORACLES_FUNCTION = KPI_TOKEN_INTERFACE.getFunction("oracles()");
 const KPI_TOKEN_EXPIRATION_FUNCTION =
     KPI_TOKEN_INTERFACE.getFunction("expiration()");
+const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION = KPI_TOKEN_INTERFACE.getFunction(
+    "creationTimestamp()"
+);
 
 const ORACLE_TEMPLATE_FUNCTION = ORACLE_INTERFACE.getFunction("template()");
 const ORACLE_FINALIZED_FUNCTION =
@@ -60,6 +63,10 @@ const KPI_TOKEN_ORACLES_FUNCTION_DATA = KPI_TOKEN_INTERFACE.encodeFunctionData(
 );
 const KPI_TOKEN_EXPIRATION_FUNCTION_DATA =
     KPI_TOKEN_INTERFACE.encodeFunctionData(KPI_TOKEN_EXPIRATION_FUNCTION);
+const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA =
+    KPI_TOKEN_INTERFACE.encodeFunctionData(
+        KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION
+    );
 
 const ORACLE_TEMPLATE_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
     ORACLE_TEMPLATE_FUNCTION
@@ -126,12 +133,21 @@ class Fetcher implements IPartialCarrotFetcher {
             provider
         );
 
-        const kpiTokenAmounts = await this.fetchKPITokensAmount({ provider });
-        if (kpiTokenAmounts === 0) return {};
-        const tokenAddresses =
-            addresses && addresses.length > 0
-                ? addresses
-                : await factoryContract.enumerate(0, kpiTokenAmounts);
+        let tokenAddresses;
+        let kpiTokenAmounts;
+        if (addresses && addresses.length > 0) {
+            kpiTokenAmounts = addresses.length;
+            tokenAddresses = addresses;
+        } else {
+            kpiTokenAmounts = await this.fetchKPITokensAmount({
+                provider,
+            });
+            if (kpiTokenAmounts === 0) return {};
+            tokenAddresses = await factoryContract.enumerate(
+                0,
+                kpiTokenAmounts
+            );
+        }
 
         const [, kpiTokenResult] = await multicall.callStatic.aggregate(
             tokenAddresses.flatMap((address: string) => {
@@ -141,12 +157,13 @@ class Fetcher implements IPartialCarrotFetcher {
                     [address, KPI_TOKEN_TEMPLATE_FUNCTION_DATA],
                     [address, KPI_TOKEN_ORACLES_FUNCTION_DATA],
                     [address, KPI_TOKEN_EXPIRATION_FUNCTION_DATA],
+                    [address, KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA],
                 ];
             })
         );
 
         const allKPITokenTemplateSpecificationCids: string[] = [];
-        for (let i = 2; i < kpiTokenResult.length; i += 5) {
+        for (let i = 2; i < kpiTokenResult.length; i += 6) {
             const cid = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_TEMPLATE_FUNCTION,
                 kpiTokenResult[i]
@@ -165,7 +182,7 @@ class Fetcher implements IPartialCarrotFetcher {
             });
 
         const allKPITokenDescriptionCids: string[] = [];
-        for (let i = 1; i < kpiTokenResult.length; i += 5) {
+        for (let i = 1; i < kpiTokenResult.length; i += 6) {
             const cid = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_DESCRIPTION_FUNCTION,
                 kpiTokenResult[i]
@@ -178,7 +195,7 @@ class Fetcher implements IPartialCarrotFetcher {
         });
 
         const allOracleAddresses: string[] = [];
-        for (let i = 3; i < kpiTokenResult.length; i += 5)
+        for (let i = 3; i < kpiTokenResult.length; i += 6)
             allOracleAddresses.push(
                 ...KPI_TOKEN_INTERFACE.decodeFunctionResult(
                     KPI_TOKEN_ORACLES_FUNCTION,
@@ -199,7 +216,7 @@ class Fetcher implements IPartialCarrotFetcher {
         outerLoop: for (let i = 0; i < iUpperLimit; i++) {
             const kpiTokenTemplate = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_TEMPLATE_FUNCTION,
-                kpiTokenResult[i * 5 + 2]
+                kpiTokenResult[i * 6 + 2]
             )[0];
             const rawKPITokenTemplateSpecification = JSON.parse(
                 kpiTokenTemplateSpecifications[
@@ -210,12 +227,12 @@ class Fetcher implements IPartialCarrotFetcher {
 
             const kpiTokenFinalized = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_FINALIZED_FUNCTION,
-                kpiTokenResult[i * 5]
+                kpiTokenResult[i * 6]
             )[0];
             const kpiTokenDescriptionCid =
                 KPI_TOKEN_INTERFACE.decodeFunctionResult(
                     KPI_TOKEN_DESCRIPTION_FUNCTION,
-                    kpiTokenResult[i * 5 + 1]
+                    kpiTokenResult[i * 6 + 1]
                 )[0];
             const description = JSON.parse(
                 kpiTokenDescriptions[kpiTokenDescriptionCid]
@@ -224,12 +241,17 @@ class Fetcher implements IPartialCarrotFetcher {
             const kpiTokenOracleAddresses =
                 KPI_TOKEN_INTERFACE.decodeFunctionResult(
                     KPI_TOKEN_ORACLES_FUNCTION,
-                    kpiTokenResult[i * 5 + 3]
+                    kpiTokenResult[i * 6 + 3]
                 )[0];
             const kpiTokenExpiration = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_EXPIRATION_FUNCTION,
-                kpiTokenResult[i * 5 + 4]
+                kpiTokenResult[i * 6 + 4]
             )[0].toNumber();
+            const kpiTokenCreationTimestamp =
+                KPI_TOKEN_INTERFACE.decodeFunctionResult(
+                    KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION,
+                    kpiTokenResult[i * 6 + 5]
+                )[0].toNumber();
 
             const kpiTokenOracles: Oracle[] = [];
             for (const address of kpiTokenOracleAddresses) {
@@ -260,6 +282,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 kpiTokenOracles,
                 description,
                 kpiTokenExpiration,
+                kpiTokenCreationTimestamp,
                 kpiTokenFinalized
             );
         }

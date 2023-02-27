@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .bg-grid-light {
+        @apply bg-center;
+        @apply bg-2 md:bg-4;
+        @apply bg-black-squares;
+    }
+
+    .bg-grid-dark {
+        @apply bg-center;
+        @apply bg-2 md:bg-4;
+        @apply bg-white-squares;
+    }
+}
+
+body {
+    overflow-x: hidden;
+}
+
 .grid-area-hero {
     grid-template-areas: "right-top" "left" "right";
 }
@@ -16,6 +34,20 @@
 
 .grid-area-right {
     grid-area: right;
+}
+
+.scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
+.shadow-horizontal-scroller {
+    box-shadow: inset 10px 0 10px var(--tw-shadow-color),
+        inset -10px 0 10px var(--tw-shadow-color);
 }
 
 @media (min-width: 600px) {

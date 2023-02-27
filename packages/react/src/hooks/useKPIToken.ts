@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
-import { usePreferences } from "./usePreferences";
+import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useKPIToken(kpiTokenAddress?: string): {
     loading: boolean;
     kpiToken: KPIToken | null;
 } {
-    const { preferDecentralization } = usePreferences();
+    const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
     const provider = useProvider();
 

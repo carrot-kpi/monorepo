@@ -1,52 +1,102 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useLayoutEffect } from "react";
 import { Template } from "@carrot-kpi/sdk";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { i18n } from "i18next";
+import { cva } from "class-variance-authority";
+import { useTheme } from "../../hooks";
+import { useMedia } from "react-use";
+
+const wrapperStyles = cva([], {
+    variants: {
+        dark: {
+            true: ["dark"],
+        },
+    },
+});
 
 export type NamespacedTranslateFunction = (key: any, options?: any) => any;
 
-interface TemplateComponentProps {
+const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
+    {};
+
+export interface TemplateComponentProps {
+    entity: "kpiToken" | "oracle";
     type: "creationForm" | "page";
     template?: Template;
-    customBaseURL?: string;
     fallback: ReactNode;
     i18n: i18n;
+    className?: { root?: string; wrapper?: string };
     props?: any;
 }
 
 export function TemplateComponent({
+    entity,
     type,
     template,
-    customBaseURL,
     fallback,
     i18n,
+    className,
     props = {},
 }: TemplateComponentProps) {
     const { loading, bundle, Component } = useTemplateModule(
+        entity,
         type,
-        template,
-        customBaseURL
+        template
     );
+    const theme = useTheme();
+    const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
 
+    const [dark, setDark] = useState(false);
     const [translateWithNamespace, setTranslateWithNamespace] =
-        useState<NamespacedTranslateFunction>(() => () => "");
+        useState<NamespacedTranslateFunction>(
+            !!template &&
+                TRANSLATE_CACHE[`${template.specification.cid}${type}`]
+                ? () => TRANSLATE_CACHE[`${template.specification.cid}${type}`]
+                : () => () => ""
+        );
 
     useEffect(() => {
-        if (loading || !template || !bundle || !Component) return;
+        if (!template || !bundle) return;
         const namespace = `${template.specification.cid}${type}`;
+        if (TRANSLATE_CACHE[namespace]) {
+            setTranslateWithNamespace(() => TRANSLATE_CACHE[namespace]);
+            return;
+        }
         addBundleForTemplate(i18n, namespace, bundle);
-        setTranslateWithNamespace(() => (key: any, options?: any) => {
+        const namespacedTranslate = (key: any, options?: any) => {
             return i18n.t(key, { ...options, ns: namespace });
-        });
-    }, [Component, bundle, loading, template, type, i18n]);
+        };
+        TRANSLATE_CACHE[namespace] = namespacedTranslate;
+        setTranslateWithNamespace(() => namespacedTranslate);
+    }, [bundle, template, type, i18n]);
+
+    useLayoutEffect(() => {
+        setDark(
+            theme === "dark"
+                ? true
+                : theme === "light"
+                ? false
+                : systemDarkTheme
+        );
+    }, [systemDarkTheme, theme]);
 
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
-        <div id={`carrot-template-${template.specification.commitHash}`}>
-            <Component {...props} i18n={i18n} t={translateWithNamespace} />
+        <div
+            id={`carrot-template-${template.specification.commitHash}`}
+            className={className?.root}
+        >
+            <div
+                className={wrapperStyles({
+                    dark,
+                    className: className?.wrapper,
+                })}
+            >
+                <Component {...props} i18n={i18n} t={translateWithNamespace} />
+            </div>
         </div>
     );
 }

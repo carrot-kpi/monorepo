@@ -54,10 +54,11 @@ export const FeaturedCampaings = () => {
                         tags: ["mocked-tag"],
                     },
                     Date.now() + 1_000_000,
+                    Date.now(),
                     false
                 );
                 return (
-                    <div className="dark snap-center" key={index}>
+                    <div className="dark" key={index}>
                         <KPITokenCard kpiToken={kpiToken} noBorder />
                     </div>
                 );

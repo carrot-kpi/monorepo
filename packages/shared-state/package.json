@@ -1,0 +1,47 @@
+{
+    "name": "@carrot-kpi/shared-state",
+    "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
+    "version": "0.1.0",
+    "license": "GPL-3.0-or-later",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js"
+        }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,.md}'",
+        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,.md}'",
+        "build": "yarn clean && rollup -c rollup.config.mjs",
+        "clean": "rimraf ./dist",
+        "test": "echo 'No tests' && exit 0",
+        "size-limit": "size-limit"
+    },
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.9.3",
+        "react-redux": "^8.0.5",
+        "redux-persist": "^6.0.0"
+    },
+    "peerDependencies": {
+        "react": "^18.2.0"
+    },
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^24.0.1",
+        "@rollup/plugin-node-resolve": "^15.0.1",
+        "@size-limit/preset-small-lib": "^8.1.0",
+        "@types/rollup-plugin-peer-deps-external": "^2.2.1",
+        "eslint": "^8.33.0",
+        "eslint-config-custom": "*",
+        "rimraf": "^4.1.2",
+        "rollup": "^3.2.3",
+        "rollup-plugin-peer-deps-external": "^2.2.4",
+        "rollup-plugin-typescript2": "^0.34.0",
+        "size-limit": "^8.1.0",
+        "tsconfig": "*"
+    }
+}

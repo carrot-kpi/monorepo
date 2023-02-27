@@ -17,6 +17,7 @@ export class KPIToken {
         public readonly oracles: Oracle[],
         public readonly specification: KPITokenSpecification,
         public readonly expiration: number,
+        public readonly creationTimestamp: number,
         public readonly finalized: boolean
     ) {}
 

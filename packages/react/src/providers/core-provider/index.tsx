@@ -7,11 +7,12 @@ import {
     WagmiConfig,
 } from "wagmi";
 import { Chain } from "wagmi";
-// import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { ReactNode } from "react";
 import { IPFSService } from "@carrot-kpi/sdk";
-import { PreferencesProvider } from "../../contexts/preferences";
-// import { usePreferences } from "../../hooks/usePreferences";
+import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { persistQueryClient } from "@tanstack/react-query-persist-client";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 
 interface WagmiSetupProps {
     children: ReactNode;
@@ -55,6 +56,7 @@ interface CarrotCoreProviderProps {
     providers: ChainProviderFn[];
     getConnectors: (chains: Chain[]) => Connector[];
     ipfsGatewayURL?: string;
+    reactQueryClient: QueryClient;
 }
 
 export const CarrotCoreProvider = ({
@@ -63,17 +65,29 @@ export const CarrotCoreProvider = ({
     providers,
     getConnectors,
     ipfsGatewayURL,
+    reactQueryClient,
 }: CarrotCoreProviderProps) => {
+    persistQueryClient({
+        queryClient: reactQueryClient,
+        persister: createSyncStoragePersister({
+            key: "carrot-kpi-react-query-cache",
+            storage: window.localStorage,
+        }),
+    });
+
     if (!!ipfsGatewayURL) IPFSService.gateway = ipfsGatewayURL;
+
     return (
-        <PreferencesProvider>
-            <WagmiSetup
-                supportedChains={supportedChains}
-                providers={providers}
-                getConnectors={getConnectors}
-            >
-                {children}
-            </WagmiSetup>
-        </PreferencesProvider>
+        <ReactSharedStateProvider>
+            <QueryClientProvider client={reactQueryClient}>
+                <WagmiSetup
+                    supportedChains={supportedChains}
+                    providers={providers}
+                    getConnectors={getConnectors}
+                >
+                    {children}
+                </WagmiSetup>
+            </QueryClientProvider>
+        </ReactSharedStateProvider>
     );
 };
