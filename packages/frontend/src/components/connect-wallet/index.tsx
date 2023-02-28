@@ -116,7 +116,7 @@ export const ConnectWallet = () => {
             )}
             <div className="flex flex-col gap-4 xl:flex-row">
                 <div
-                    className={`h-12 flex items-center ${
+                    className={`h-12 w-fit flex items-center ${
                         __PREVIEW_MODE__ ? "" : "cursor-pointer"
                     } gap-3`}
                     onClick={handleNetworksPopoverOpen}

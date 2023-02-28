@@ -45,7 +45,7 @@ const navStyles = cva([], {
     variants: {
         isOpen: {
             true: [
-                "absolute grid grid-cols-1 gap-6 top-28 left-0 px-6 py-16  w-full",
+                "absolute grid grid-cols-1 gap-6 top-28 left-0 px-6 py-12 w-full",
             ],
             false: ["hidden xl:flex xl:order-3"],
         },
