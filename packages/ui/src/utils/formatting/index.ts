@@ -3,8 +3,8 @@ export const HOUR_MS = 3_600_000;
 export const MINUTE_MS = 60_000;
 export const SECONDS_MS = 1_000;
 
-export const enforceDoubleDigits = (n: number) => {
-    return n < 10 ? `0${n}` : n;
+export const enforceDoubleDigits = (n: number): string => {
+    return n < 10 ? `0${n}` : n.toString();
 };
 
 export const formatCountDownString = (to: number) => {
