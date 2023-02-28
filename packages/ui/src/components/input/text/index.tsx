@@ -19,6 +19,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             actionPlacement,
             error = false,
             className,
+            value,
             ...rest
         },
         ref
@@ -38,6 +39,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                     id={id}
                     type="text"
                     ref={ref}
+                    value={value}
                     {...rest}
                     className={inputStyles({
                         error,
