@@ -23,6 +23,7 @@ import {
 import { Divider, DividerProps } from "../divider";
 import { FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { Skeleton } from "../../../feedback";
 
 const rootStyles = cva([
     "cui-flex",
@@ -68,7 +69,7 @@ const listItemStyles = cva(
         "cui-gap-1",
         "cui-justify-center",
         "cui-h-16",
-        "cui-p-5",
+        "cui-px-3",
         "cui-cursor-pointer",
     ],
     {
@@ -89,6 +90,7 @@ const listItemStyles = cva(
 export interface SearchProps {
     open?: boolean;
     onDismiss?: () => void;
+    loading?: boolean;
     onSelectedTokenChange?: (token: TokenInfoWithBalance) => void;
     selectedToken?: TokenInfoWithBalance | null;
     selectedList?: TokenListWithBalance;
@@ -125,6 +127,7 @@ export interface SearchProps {
 export const Search = ({
     open,
     onDismiss,
+    loading,
     onSelectedTokenChange,
     selectedToken,
     selectedList,
@@ -217,6 +220,7 @@ export const Search = ({
             >
                 <TextInput
                     id="token-search"
+                    disabled={loading}
                     placeholder={messages.inputPlaceholder}
                     value={searchQuery}
                     onChange={handleSearchChange}
@@ -234,7 +238,7 @@ export const Search = ({
                     className: className?.listWrapper,
                 })}
             >
-                {sortedTokens.length > 0 ? (
+                {loading || sortedTokens.length > 0 ? (
                     <AutoSizer>
                         {({ height, width }) => {
                             return (
@@ -242,34 +246,54 @@ export const Search = ({
                                     ref={fixedListRef}
                                     height={height}
                                     width={width}
-                                    itemCount={sortedTokens.length}
-                                    itemData={sortedTokens}
+                                    itemCount={
+                                        loading ? 10 : sortedTokens.length
+                                    }
+                                    itemData={
+                                        loading
+                                            ? new Array(10).fill(null)
+                                            : sortedTokens
+                                    }
                                     itemSize={72}
                                     className={listStyles({
                                         className: className?.list,
                                     })}
                                 >
                                     {({ index, style }) => {
-                                        const {
-                                            chainId,
-                                            address,
+                                        let address,
                                             symbol,
                                             name,
                                             logoURI,
-                                        } = sortedTokens[index];
-                                        const defaultLogoSrc =
-                                            getDefaultERC20TokenLogoURL(
+                                            defaultLogoSrc,
+                                            selected;
+                                        if (!loading) {
+                                            const {
                                                 chainId,
-                                                address
-                                            );
-                                        const selected =
-                                            !!selectedToken &&
-                                            chainId === selectedToken.chainId &&
-                                            address === selectedToken.address;
+                                                address: tokenAddress,
+                                                symbol: tokenSymbol,
+                                                name: tokenName,
+                                                logoURI: tokenLogoURI,
+                                            } = sortedTokens[index];
+                                            address = tokenAddress;
+                                            symbol = tokenSymbol;
+                                            name = tokenName;
+                                            logoURI = tokenLogoURI;
+                                            defaultLogoSrc =
+                                                getDefaultERC20TokenLogoURL(
+                                                    chainId,
+                                                    address
+                                                );
+                                            selected =
+                                                !!selectedToken &&
+                                                chainId ===
+                                                    selectedToken.chainId &&
+                                                address ===
+                                                    selectedToken.address;
+                                        }
 
                                         return (
                                             <li
-                                                key={address}
+                                                key={loading ? address : index}
                                                 className={listItemStyles({
                                                     selected,
                                                     className:
@@ -279,38 +303,56 @@ export const Search = ({
                                                 data-index={index}
                                                 onClick={handleTokenClick}
                                             >
-                                                <div className="cui-flex cui-gap-2 cui-pointer-events-none">
-                                                    <RemoteLogo
-                                                        src={logoURI}
-                                                        size="sm"
-                                                        defaultSrc={
-                                                            defaultLogoSrc
-                                                        }
-                                                        defaultText={symbol}
-                                                        ipfsGatewayURL={
-                                                            ipfsGatewayURL
-                                                        }
-                                                        className={{
-                                                            root: "cui-pointer-events-none",
-                                                            ...className?.listItemIcon,
-                                                        }}
-                                                    />
-                                                    <Typography
-                                                        className={
-                                                            className?.listItemTextPrimary
-                                                        }
-                                                    >
-                                                        {symbol}
-                                                    </Typography>
+                                                <div className="cui-flex cui-items-center cui-gap-2 cui-pointer-events-none">
+                                                    {loading ? (
+                                                        <Skeleton
+                                                            circular
+                                                            width="24px"
+                                                        />
+                                                    ) : (
+                                                        <RemoteLogo
+                                                            src={logoURI}
+                                                            size="sm"
+                                                            defaultSrc={
+                                                                defaultLogoSrc
+                                                            }
+                                                            defaultText={symbol}
+                                                            ipfsGatewayURL={
+                                                                ipfsGatewayURL
+                                                            }
+                                                            className={{
+                                                                root: "cui-pointer-events-none",
+                                                                ...className?.listItemIcon,
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {loading ? (
+                                                        <Skeleton width="40px" />
+                                                    ) : (
+                                                        <Typography
+                                                            className={
+                                                                className?.listItemTextPrimary
+                                                            }
+                                                        >
+                                                            {symbol}
+                                                        </Typography>
+                                                    )}
                                                 </div>
-                                                <Typography
-                                                    variant="xs"
-                                                    className={{
-                                                        root: `cui-text-gray-600 dark:cui-text-gray-200 cui-pointer-events-none ${className?.listItemTextSecondary?.root}`,
-                                                    }}
-                                                >
-                                                    {name}
-                                                </Typography>
+                                                {loading ? (
+                                                    <Skeleton
+                                                        variant="xs"
+                                                        width="60px"
+                                                    />
+                                                ) : (
+                                                    <Typography
+                                                        variant="xs"
+                                                        className={{
+                                                            root: `cui-text-gray-600 dark:cui-text-gray-200 cui-pointer-events-none ${className?.listItemTextSecondary?.root}`,
+                                                        }}
+                                                    >
+                                                        {name}
+                                                    </Typography>
+                                                )}
                                             </li>
                                         );
                                     }}
@@ -327,6 +369,7 @@ export const Search = ({
                     <Divider className={className?.divider} />
                     <div className="cui-p-5">
                         <Button
+                            loading={loading}
                             className={{
                                 root: "cui-w-full",
                                 ...className?.manageListsButton,
