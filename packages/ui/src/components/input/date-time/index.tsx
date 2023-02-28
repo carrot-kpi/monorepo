@@ -77,7 +77,7 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                     helperText={helperText}
                     icon={Calendar}
                     className={{
-                        input: "cui-cursor-pointer",
+                        input: "cui-cursor-pointer cui-caret-transparent",
                         inputIconWrapper: "cui-cursor-pointer",
                         ...className,
                     }}
