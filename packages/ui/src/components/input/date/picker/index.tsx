@@ -9,6 +9,14 @@ import LocalizedFormat from "dayjs/plugin/localizedFormat";
 
 dayjs.extend(LocalizedFormat);
 
+const iconStyles = cva([
+    "cui-w-4",
+    "cui-h-4",
+    "cui-cursor-pointer",
+    "cui-text-black",
+    "dark:cui-text-white",
+]);
+
 const weekdayStyles = cva(
     [
         "cui-w-6",
@@ -20,8 +28,8 @@ const weekdayStyles = cva(
     {
         variants: {
             holiday: {
-                true: ["cui-text-red"],
-                false: ["cui-text-black"],
+                true: ["cui-text-red", "dark:!cui-text-red"],
+                false: ["cui-text-black", "dark:cui-text-white"],
             },
         },
     }
@@ -38,11 +46,16 @@ const cellStyles = cva(
     {
         variants: {
             disabled: {
-                true: ["cui-text-gray-300"],
+                true: ["cui-text-gray-300", "dark:cui-text-gray-600"],
                 false: ["cui-cursor-pointer"],
             },
             selected: {
-                true: ["cui-bg-green", "cui-text-black", "cui-rounded"],
+                true: [
+                    "cui-bg-green",
+                    "cui-text-black",
+                    "dark:!cui-text-black",
+                    "cui-rounded",
+                ],
                 false: [
                     "cui-bg-white",
                     "cui-text-black",
@@ -96,14 +109,14 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
         <div className="cui-flex cui-flex-col cui-gap-3">
             <div className="cui-flex cui-items-center">
                 <ChevronLeft
-                    className="cui-w-4 cui-h-4 cui-cursor-pointer"
+                    className={iconStyles()}
                     onClick={handlePreviousMonth}
                 />
                 <Typography className={{ root: "cui-flex-1 cui-text-center" }}>
                     {lookupDate.format("MMMM YYYY")}
                 </Typography>
                 <ChevronRight
-                    className="cui-w-4 cui-h-4 cui-cursor-pointer"
+                    className={iconStyles()}
                     onClick={handleNextMonth}
                 />
             </div>

@@ -16,7 +16,11 @@ const cellStyles = cva(
     {
         variants: {
             selected: {
-                true: ["cui-bg-green", "cui-text-black"],
+                true: [
+                    "cui-bg-green",
+                    "cui-text-black",
+                    "dark:!cui-text-black",
+                ],
                 false: [
                     "cui-bg-white",
                     "cui-text-black",
@@ -94,7 +98,7 @@ export const DateTimePicker = ({
                     {value ? value.format("HH:mm:ss") : "--:--:--"}
                 </Typography>
                 <div className="cui-flex cui-h-full">
-                    <div className="cui-h-60 cui-w-16 cui-py-2 cui-overflow-y-auto cui-border-r">
+                    <div className="cui-h-60 cui-w-16 cui-py-2 cui-overflow-y-auto cui-border-r dark:cui-border-white">
                         {HOURS.map((hour) => {
                             const selected = value?.format("HH") === hour;
                             return (
@@ -111,7 +115,7 @@ export const DateTimePicker = ({
                             );
                         })}
                     </div>
-                    <div className="cui-h-60 cui-w-16 cui-py-2 cui-overflow-y-auto cui-border-r">
+                    <div className="cui-h-60 cui-w-16 cui-py-2 cui-overflow-y-auto cui-border-r dark:cui-border-white">
                         {MINUTES_SECONDS.map((minute) => {
                             const selected = value?.format("mm") === minute;
                             return (
