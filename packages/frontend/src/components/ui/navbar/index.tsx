@@ -44,8 +44,10 @@ const navbarStyles = cva(
 const navStyles = cva([], {
     variants: {
         isOpen: {
-            true: ["absolute flex flex-col top-28 left-0 px-6 py-16  w-full"],
-            false: ["hidden xl:flex"],
+            true: [
+                "absolute grid grid-cols-1 gap-6 top-28 left-0 px-6 py-16  w-full",
+            ],
+            false: ["hidden xl:flex xl:order-3"],
         },
     },
 });
@@ -53,9 +55,9 @@ const navStyles = cva([], {
 const navLinksStyles = cva(["flex"], {
     variants: {
         isOpen: {
-            true: ["flex-col items-start space-y-8 relative"],
+            true: ["flex-col items-start space-y-7 relative"],
             false: [
-                "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2",
+                "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 xl:top-[68px]",
             ],
         },
     },
@@ -120,12 +122,33 @@ export const Navbar = ({
                 {mode === "modal" ? (
                     <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                 ) : (
-                    <NavLink to="/" onClick={() => setOpen(false)}>
+                    <NavLink
+                        to="/"
+                        onClick={() => setOpen(false)}
+                        className="xl:order-1"
+                    >
                         <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                     </NavLink>
                 )}
                 {links && (
                     <nav className={navStyles({ isOpen })}>
+                        <ConnectWallet />
+                        <div className="xl:ml-4">
+                            <Button
+                                ref={preferencesRef}
+                                size="small"
+                                onClick={handlePreferencesPopoverOpen}
+                                icon={SettingsIcon}
+                                className={{
+                                    root: "w-12 h-12 p-0 flex justify-center items-center",
+                                }}
+                            />
+                            <PreferencesPopover
+                                open={preferencesPopoverOpen}
+                                anchor={preferencesRef.current}
+                                ref={preferencesPopoverRef}
+                            />
+                        </div>
                         <ul className={navLinksStyles({ isOpen })}>
                             {links.map((link) => (
                                 <li key={link.to}>
@@ -146,26 +169,7 @@ export const Navbar = ({
                         </ul>
                     </nav>
                 )}
-                <div className="flex items-center">
-                    <div className="flex items-center space-x-3">
-                        <div className="absolute left-0 flex px-6 xl:px-0 xl:w-fit top-96 xl:static">
-                            <ConnectWallet />
-                        </div>
-                        <Button
-                            ref={preferencesRef}
-                            size="small"
-                            onClick={handlePreferencesPopoverOpen}
-                            icon={SettingsIcon}
-                            className={{
-                                root: "w-12 h-12 p-0 flex justify-center items-center",
-                            }}
-                        />
-                        <PreferencesPopover
-                            open={preferencesPopoverOpen}
-                            anchor={preferencesRef.current}
-                            ref={preferencesPopoverRef}
-                        />
-                    </div>
+                <div className="flex items-center xl:order-2">
                     {mode !== "modal" && (
                         <div
                             className="ml-4 xl:hidden"
