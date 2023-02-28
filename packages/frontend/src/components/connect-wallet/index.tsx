@@ -81,7 +81,7 @@ export const ConnectWallet = () => {
         return () => {
             document.removeEventListener("mousedown", handleCloseOnClick);
         };
-    }, [networksPopoverOpen]);
+    }, []);
 
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
     // TODO: i18n

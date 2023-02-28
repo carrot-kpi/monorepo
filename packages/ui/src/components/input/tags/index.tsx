@@ -2,8 +2,11 @@ import { cva } from "class-variance-authority";
 import React, { forwardRef, useCallback, useState } from "react";
 import { ReactElement } from "react";
 import { Button } from "../button";
-import { BaseInputProps, BaseInputWrapper, inputStyles } from "../commons";
+import { BaseInputProps } from "../commons";
+import { TextInput } from "../text";
 import { Tag, TagProps } from "./tag";
+
+const buttonStyles = cva(["cui-h-3"]);
 
 const tagsWrapperStyles = cva([
     "cui-flex",
@@ -12,12 +15,12 @@ const tagsWrapperStyles = cva([
     "cui-mt-2",
 ]);
 
-const inputWrapperStyles = cva(["cui-flex", "cui-gap-2"]);
-
 export type TagsInputProps = Omit<BaseInputProps<string[]>, "onChange"> & {
     onChange: (tags: string[]) => void;
     messages: { add: string };
     className?: BaseInputProps<unknown>["className"] & {
+        root?: string;
+        button?: string;
         tagsWrapper?: string;
         tag?: TagProps["className"];
     };
@@ -25,19 +28,7 @@ export type TagsInputProps = Omit<BaseInputProps<string[]>, "onChange"> & {
 
 export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
     function TagsInput(
-        {
-            id,
-            label,
-            variant,
-            border,
-            helperText,
-            error = false,
-            className,
-            value,
-            messages,
-            onChange,
-            ...rest
-        },
+        { id, className, value, variant, messages, onChange, ...rest },
         ref
     ): ReactElement {
         const [inputValue, setInputValue] = useState<string>("");
@@ -76,33 +67,34 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
         );
 
         return (
-            <BaseInputWrapper
-                id={id}
-                label={label}
-                error={error}
-                helperText={helperText}
-                className={className}
-            >
-                <div className={inputWrapperStyles()}>
-                    <input
-                        id={id}
-                        type="text"
-                        ref={ref}
-                        {...rest}
-                        value={inputValue}
-                        onChange={handleOnChange}
-                        onKeyDown={handleKeyDown}
-                        className={inputStyles({
-                            error,
-                            variant,
-                            border,
-                            className: className?.input,
-                        })}
-                    />
-                    <Button onClick={handleOnClick} size="xsmall">
-                        {messages.add}
-                    </Button>
-                </div>
+            <div className={className?.root}>
+                <TextInput
+                    id={id}
+                    ref={ref}
+                    variant={variant}
+                    {...rest}
+                    action={
+                        <Button
+                            onClick={handleOnClick}
+                            size="xsmall"
+                            className={{
+                                root: buttonStyles({
+                                    className: className?.button,
+                                }),
+                            }}
+                        >
+                            {messages.add}
+                        </Button>
+                    }
+                    value={inputValue}
+                    onChange={handleOnChange}
+                    onKeyDown={handleKeyDown}
+                    className={{
+                        input: "cui-pr-16",
+                        inputActionWrapper: "cui-pr-2",
+                        ...className,
+                    }}
+                />
                 {!!value && value.length > 0 && (
                     <div
                         className={tagsWrapperStyles({
@@ -120,7 +112,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                         ))}
                     </div>
                 )}
-            </BaseInputWrapper>
+            </div>
         );
     }
 );

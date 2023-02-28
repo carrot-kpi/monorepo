@@ -5,7 +5,6 @@ export * from "./date-time";
 export * from "./markdown";
 export * from "./number";
 export * from "./select";
-export * from "./search";
 export * from "./switch";
 export * from "./tags";
 export * from "./text";

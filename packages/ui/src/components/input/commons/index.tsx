@@ -1,13 +1,14 @@
+import { cva } from "class-variance-authority";
 import React, {
     ChangeEventHandler,
-    ReactNode,
+    FunctionComponent,
     InputHTMLAttributes,
+    ReactElement,
+    ReactNode,
 } from "react";
-import { Typography, TypographyProps } from "../../data-display/typography";
 import { ReactComponent as DangerIcon } from "../../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/info-icon.svg";
-import { ReactElement } from "react";
-import { cva } from "class-variance-authority";
+import { Typography, TypographyProps } from "../../data-display/typography";
 
 export interface PartialBaseInputProps<V> {
     error?: boolean;
@@ -26,6 +27,54 @@ export type BaseInputProps<V> = PartialBaseInputProps<V> &
         keyof PartialBaseInputProps<V> | keyof BaseInputWrapperProps | "ref"
     >;
 
+const inputWrapperStyles = cva(["cui-w-fit", "cui-relative"]);
+
+const inputIconWrapperStyles = cva(
+    [
+        "cui-absolute",
+        "cui-top-0",
+        "cui-h-full",
+        "cui-w-12",
+        "cui-flex",
+        "cui-justify-center",
+        "cui-items-center",
+        "cui-pointer-events-none",
+    ],
+    {
+        variants: {
+            placement: {
+                left: ["cui-left-0"],
+                right: ["cui-right-0"],
+            },
+        },
+    }
+);
+
+const inputActionWrapperStyles = cva(
+    [
+        "cui-absolute",
+        "cui-top-0",
+        "cui-h-full",
+        "cui-flex",
+        "cui-justify-center",
+        "cui-items-center",
+    ],
+    {
+        variants: {
+            placement: {
+                left: ["cui-left-0"],
+                right: ["cui-right-0"],
+            },
+        },
+    }
+);
+
+export const inputIconStyles = cva([
+    "cui-w-5",
+    "cui-text-black",
+    "dark:cui-text-white",
+]);
+
 export const inputStyles = cva(
     [
         "cui-rounded-xxl",
@@ -37,19 +86,12 @@ export const inputStyles = cva(
         "dark:cui-placeholder-opacity-30",
         "cui-text-black",
         "dark:cui-text-white",
-        "cui-box-border",
-        "cui-bg-white",
-        "dark:cui-bg-black",
+        "cui-border",
     ],
     {
         variants: {
             error: {
-                true: [
-                    "cui-bg-red",
-                    "cui-bg-opacity-20",
-                    "dark:cui-bg-red",
-                    "dark:cui-bg-opacity-20",
-                ],
+                true: ["cui-bg-red/20", "cui-border-red/10"],
             },
             variant: {
                 "2xs": ["cui-text-2xs"],
@@ -62,7 +104,6 @@ export const inputStyles = cva(
             },
             border: {
                 true: [
-                    "cui-border",
                     "cui-border-black",
                     "dark:cui-border-white",
                     "focus:cui-border-orange",
@@ -70,10 +111,14 @@ export const inputStyles = cva(
                     "cui-bg-transparent",
                 ],
                 false: [
-                    "cui-border-none",
+                    "cui-border-gray-200",
                     "cui-bg-gray-200",
+                    "dark:cui-border-gray-700",
                     "dark:cui-bg-gray-700",
                 ],
+            },
+            hasLeftIcon: {
+                true: ["cui-pl-12"],
             },
         },
         defaultVariants: { variant: "md", border: true },
@@ -109,8 +154,14 @@ const helperTextStyles = cva([], {
 export interface BaseInputWrapperProps {
     id: string;
     label?: string;
+    variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     error?: boolean;
+    border?: boolean;
     helperText?: string;
+    icon?: FunctionComponent<React.SVGProps<SVGSVGElement>>;
+    iconPlacement?: "left" | "right";
+    action?: ReactNode;
+    actionPlacement?: "left" | "right";
     className?: {
         root?: string;
         label?: string;
@@ -119,6 +170,10 @@ export interface BaseInputWrapperProps {
         helperTextIcon?: string;
         helperText?: TypographyProps["className"];
         // should be applied when using the wrapper
+        inputIcon?: string;
+        inputIconWrapper?: string;
+        inputActionWrapper?: string;
+        inputWrapper?: string;
         input?: string;
     };
     children?: ReactNode;
@@ -129,58 +184,100 @@ export const BaseInputWrapper = ({
     label,
     error,
     helperText,
+    icon: Icon,
+    iconPlacement = "right",
+    action: Action,
+    actionPlacement = "right",
     className,
     children,
-}: BaseInputWrapperProps): ReactElement => (
-    <div className={className?.root}>
-        {!!label && (
-            <label
-                className={labelStyles({ className: className?.label })}
-                htmlFor={id}
-            >
-                <Typography
-                    variant="xs"
-                    weight="medium"
-                    className={className?.labelText}
+}: BaseInputWrapperProps): ReactElement => {
+    const icon = !Action && Icon && (
+        <div
+            className={inputIconWrapperStyles({
+                className: className?.inputIconWrapper,
+                placement: iconPlacement,
+            })}
+        >
+            <Icon
+                className={inputIconStyles({
+                    className: className?.inputIcon,
+                })}
+            />
+        </div>
+    );
+
+    const action = Action && (
+        <div
+            className={inputActionWrapperStyles({
+                className: className?.inputActionWrapper,
+                placement: iconPlacement,
+            })}
+        >
+            {Action}
+        </div>
+    );
+
+    return (
+        <div className={className?.root}>
+            {!!label && (
+                <label
+                    className={labelStyles({ className: className?.label })}
+                    htmlFor={id}
                 >
-                    {label}
-                </Typography>
-            </label>
-        )}
-        {children}
-        {helperText && (
+                    <Typography
+                        variant="xs"
+                        weight="medium"
+                        className={className?.labelText}
+                    >
+                        {label}
+                    </Typography>
+                </label>
+            )}
             <div
-                className={helperTextWrapperStyles({
-                    className: className?.helperTextContainer,
+                className={inputWrapperStyles({
+                    className: className?.inputWrapper,
                 })}
             >
-                {error ? (
-                    <DangerIcon
-                        className={helperTextIconStyles({
-                            variant: "danger",
-                            className: className?.helperTextIcon,
-                        })}
-                    />
-                ) : (
-                    <InfoIcon
-                        className={helperTextIconStyles({
-                            variant: "info",
-                            className: className?.helperTextIcon,
-                        })}
-                    />
-                )}
-                <Typography
-                    variant="xs"
-                    className={{
-                        root: helperTextStyles({
-                            error,
-                        }),
-                        ...className?.helperText,
-                    }}
-                >
-                    {helperText}
-                </Typography>
+                {iconPlacement === "left" && icon}
+                {actionPlacement === "left" && action}
+                {children}
+                {iconPlacement === "right" && icon}
+                {actionPlacement === "right" && action}
             </div>
-        )}
-    </div>
-);
+            {helperText && (
+                <div
+                    className={helperTextWrapperStyles({
+                        className: className?.helperTextContainer,
+                    })}
+                >
+                    {error ? (
+                        <DangerIcon
+                            className={helperTextIconStyles({
+                                variant: "danger",
+                                className: className?.helperTextIcon,
+                            })}
+                        />
+                    ) : (
+                        <InfoIcon
+                            className={helperTextIconStyles({
+                                variant: "info",
+                                className: className?.helperTextIcon,
+                            })}
+                        />
+                    )}
+                    <Typography
+                        variant="xs"
+                        className={{
+                            root: helperTextStyles({
+                                error,
+                            }),
+                            ...className?.helperText,
+                        }}
+                    >
+                        {helperText}
+                    </Typography>
+                </div>
+            )}
+        </div>
+    );
+};
