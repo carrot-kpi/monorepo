@@ -5,6 +5,24 @@ import { DatePicker, DatePickerProps } from "../../date/picker";
 import { enforceDoubleDigits } from "../../../../utils/formatting";
 import { cva } from "class-variance-authority";
 
+const cellListStyles = cva(
+    [
+        "cui-h-60",
+        "cui-w-16",
+        "cui-py-2",
+        "cui-overflow-y-auto",
+        "cui-scrollbar",
+    ],
+    {
+        variants: {
+            border: {
+                true: ["cui-border-r", "dark:cui-border-white"],
+                false: ["cui-rounded-br-xxl"],
+            },
+        },
+    }
+);
+
 const cellStyles = cva(
     [
         "cui-flex",
@@ -24,8 +42,10 @@ const cellStyles = cva(
                 false: [
                     "cui-bg-white",
                     "cui-text-black",
+                    "hover:cui-bg-gray-200",
                     "dark:cui-bg-black",
                     "dark:cui-text-white",
+                    "hover:dark:cui-bg-gray-600",
                 ],
             },
         },
@@ -98,7 +118,7 @@ export const DateTimePicker = ({
                     {value ? value.format("HH:mm:ss") : "--:--:--"}
                 </Typography>
                 <div className="cui-flex cui-h-full">
-                    <div className="cui-h-60 cui-w-16 cui-py-2 cui-overflow-y-auto cui-border-r dark:cui-border-white">
+                    <div className={cellListStyles({ border: true })}>
                         {HOURS.map((hour) => {
                             const selected = value?.format("HH") === hour;
                             return (
@@ -115,7 +135,7 @@ export const DateTimePicker = ({
                             );
                         })}
                     </div>
-                    <div className="cui-h-60 cui-w-16 cui-py-2 cui-overflow-y-auto cui-border-r dark:cui-border-white">
+                    <div className={cellListStyles({ border: true })}>
                         {MINUTES_SECONDS.map((minute) => {
                             const selected = value?.format("mm") === minute;
                             return (
@@ -132,7 +152,7 @@ export const DateTimePicker = ({
                             );
                         })}
                     </div>
-                    <div className="cui-h-60 cui-w-16 cui-py-2 cui-overflow-y-auto cui-rounded-br-xxl">
+                    <div className={cellListStyles({ border: false })}>
                         {MINUTES_SECONDS.map((second) => {
                             const selected = value?.format("ss") === second;
                             return (

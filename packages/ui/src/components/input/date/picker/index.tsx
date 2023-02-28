@@ -42,11 +42,17 @@ const cellStyles = cva(
         "cui-flex",
         "cui-justify-center",
         "cui-items-center",
+        "cui-rounded",
     ],
     {
         variants: {
             disabled: {
-                true: ["cui-text-gray-300", "dark:cui-text-gray-600"],
+                true: [
+                    "cui-text-gray-300",
+                    "dark:!cui-text-gray-600",
+                    "hover:cui-bg-white",
+                    "hover:dark:cui-bg-black",
+                ],
                 false: ["cui-cursor-pointer"],
             },
             selected: {
@@ -54,16 +60,26 @@ const cellStyles = cva(
                     "cui-bg-green",
                     "cui-text-black",
                     "dark:!cui-text-black",
-                    "cui-rounded",
                 ],
                 false: [
                     "cui-bg-white",
                     "cui-text-black",
                     "dark:cui-bg-black",
                     "dark:cui-text-white",
+                    ,
                 ],
             },
         },
+        compoundVariants: [
+            {
+                disabled: false,
+                selected: false,
+                className: [
+                    "hover:cui-bg-gray-200",
+                    "hover:dark:cui-bg-gray-600",
+                ],
+            },
+        ],
     }
 );
 
