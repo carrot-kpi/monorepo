@@ -41,7 +41,5 @@ export const getCalendarCells = (date: Dayjs): CalendarCell[] => {
     for (let i = 0; i < 42 - calendarCellsLength; i++)
         calendarCells.push(prepareCell(nextMonth, i + 1));
 
-    console.log(calendarCells.length);
-
     return calendarCells;
 };
