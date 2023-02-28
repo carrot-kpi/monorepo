@@ -9,7 +9,8 @@ import {
 import { PreferencesState } from "../types";
 
 const initialState: PreferencesState = {
-    theme: "system",
+    // TODO: use system as a default once the dark theme is available
+    theme: "light",
     preferDecentralization: false,
     devMode: false,
     kpiTokenTemplateBaseURL: undefined,

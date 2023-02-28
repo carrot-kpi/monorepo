@@ -6,6 +6,7 @@ import { TokenListWithBalance } from "../types";
 import { cva } from "class-variance-authority";
 import { RemoteLogo, RemoteLogoProps } from "../../../data-display/remote-logo";
 import { Divider, DividerProps } from "../divider";
+import { Skeleton } from "../../../feedback";
 
 const rootStyles = cva([
     "cui-bg-white",
@@ -67,9 +68,23 @@ const listItemStyles = cva(
     }
 );
 
+const LOADING_SKELETON = new Array(5).fill(null).map((_, index) => {
+    return (
+        <li
+            key={index}
+            className={listItemStyles({ selected: false })}
+            data-index={index}
+        >
+            <Skeleton circular width="28px" />
+            <Skeleton width="60px" />
+        </li>
+    );
+});
+
 export interface ManageListsProps {
     onDismiss?: () => void;
     onSelectedListChange?: (token: TokenListWithBalance) => void;
+    loading?: boolean;
     selectedList?: TokenListWithBalance | null;
     lists?: TokenListWithBalance[];
     chainId?: number;
@@ -98,6 +113,7 @@ export interface ManageListsProps {
 export const ManageLists = ({
     onDismiss,
     onSelectedListChange,
+    loading,
     selectedList,
     lists,
     ipfsGatewayURL,
@@ -149,50 +165,60 @@ export const ManageLists = ({
                     className: className?.listWrapper,
                 })}
             >
-                {!!lists && lists.length > 0 ? (
+                {loading && (
                     <ul className={listStyles({ className: className?.list })}>
-                        {lists.map((list, index) => {
-                            const { name, version, logoURI } = list;
-                            const selected =
-                                !!selectedList &&
-                                name === selectedList.name &&
-                                version === selectedList.version;
-                            return (
-                                <li
-                                    key={name + version}
-                                    className={listItemStyles({
-                                        selected,
-                                        className: className?.listItem,
-                                    })}
-                                    data-index={index}
-                                    onClick={handleListClick}
-                                >
-                                    <RemoteLogo
-                                        src={logoURI}
-                                        defaultText={name}
-                                        ipfsGatewayURL={ipfsGatewayURL}
-                                        className={{
-                                            root: "cui-pointer-events-none",
-                                            ...className?.listItemIcon,
-                                        }}
-                                    />
-                                    <Typography
-                                        className={{
-                                            root: "cui-pointer-events-none",
-                                            ...className?.listItemText,
-                                        }}
-                                    >
-                                        {name}
-                                    </Typography>
-                                </li>
-                            );
-                        })}
+                        {LOADING_SKELETON}
                     </ul>
-                ) : (
-                    <Typography className={className?.emptyListText}>
-                        {messages.noLists}
-                    </Typography>
                 )}
+                {!loading &&
+                    (!!lists && lists.length > 0 ? (
+                        <ul
+                            className={listStyles({
+                                className: className?.list,
+                            })}
+                        >
+                            {lists.map((list, index) => {
+                                const { name, version, logoURI } = list;
+                                const selected =
+                                    !!selectedList &&
+                                    name === selectedList.name &&
+                                    version === selectedList.version;
+                                return (
+                                    <li
+                                        key={name + version}
+                                        className={listItemStyles({
+                                            selected,
+                                            className: className?.listItem,
+                                        })}
+                                        data-index={index}
+                                        onClick={handleListClick}
+                                    >
+                                        <RemoteLogo
+                                            src={logoURI}
+                                            defaultText={name}
+                                            ipfsGatewayURL={ipfsGatewayURL}
+                                            className={{
+                                                root: "cui-pointer-events-none",
+                                                ...className?.listItemIcon,
+                                            }}
+                                        />
+                                        <Typography
+                                            className={{
+                                                root: "cui-pointer-events-none",
+                                                ...className?.listItemText,
+                                            }}
+                                        >
+                                            {name}
+                                        </Typography>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    ) : (
+                        <Typography className={className?.emptyListText}>
+                            {messages.noLists}
+                        </Typography>
+                    ))}
             </div>
         </div>
     );

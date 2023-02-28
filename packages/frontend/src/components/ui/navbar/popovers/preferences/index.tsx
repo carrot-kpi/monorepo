@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Popover, Switch, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
 import {
@@ -27,6 +27,9 @@ export const PreferencesPopover = forwardRef<
     const preferDecentralization = usePreferDecentralization();
     const setPreferDecentralization = useSetPreferDecentralization();
     const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
+    const darkThemeSwitchRef = useRef<HTMLDivElement>(null);
+
+    const [darkThemePopoverOpen, setDarkThemePopoverOpen] = useState(false);
 
     const handleDarkThemeChange = useCallback(
         (value: boolean) => {
@@ -34,6 +37,14 @@ export const PreferencesPopover = forwardRef<
         },
         [setTheme]
     );
+
+    const handleDarkThemeSwitchMouseEnter = useCallback(() => {
+        setDarkThemePopoverOpen(true);
+    }, []);
+
+    const handleDarkThemeSwitchMouseLeave = useCallback(() => {
+        setDarkThemePopoverOpen(false);
+    }, []);
 
     return (
         <Popover
@@ -48,13 +59,27 @@ export const PreferencesPopover = forwardRef<
             </Typography>
             <div className="flex justify-between gap-20 items-center">
                 <Typography>{t("preferences.theme")}</Typography>
-                <Switch
-                    checked={
-                        (systemDarkTheme && theme === "system") ||
-                        theme === "dark"
-                    }
-                    onChange={handleDarkThemeChange}
-                />
+                <Popover
+                    className={{ root: "p-2" }}
+                    anchor={darkThemeSwitchRef.current}
+                    open={darkThemePopoverOpen}
+                >
+                    <Typography>{t("coming.soon.dark.theme")}</Typography>
+                </Popover>
+                <div
+                    onMouseEnter={handleDarkThemeSwitchMouseEnter}
+                    onMouseLeave={handleDarkThemeSwitchMouseLeave}
+                    ref={darkThemeSwitchRef}
+                >
+                    <Switch
+                        disabled
+                        checked={
+                            (systemDarkTheme && theme === "system") ||
+                            theme === "dark"
+                        }
+                        onChange={handleDarkThemeChange}
+                    />
+                </div>
             </div>
             {!__PREVIEW_MODE__ && (
                 <div className="flex justify-between gap-20 items-center">
