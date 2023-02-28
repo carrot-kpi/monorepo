@@ -77,6 +77,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                         }
                         setAnchorEl(element);
                     }}
+                    readOnly
                     id={id}
                     label={label}
                     error={error}
@@ -85,7 +86,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                     helperText={helperText}
                     icon={Calendar}
                     className={{
-                        input: "cui-cursor-pointer cui-caret-transparent",
+                        input: "cui-cursor-pointer",
                         inputIconWrapper: "cui-cursor-pointer",
                         ...className,
                     }}
