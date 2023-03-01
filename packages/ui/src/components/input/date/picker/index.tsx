@@ -46,16 +46,6 @@ const cellStyles = mergedCva(
     ],
     {
         variants: {
-            disabled: {
-                true: [
-                    "cui-text-gray-400",
-                    "dark:!cui-text-gray-600",
-                    "hover:cui-bg-white",
-                    "hover:dark:cui-bg-black",
-                    "cui-cursor-not-allowed",
-                ],
-                false: ["cui-cursor-pointer"],
-            },
             selected: {
                 true: [
                     "cui-bg-green",
@@ -69,6 +59,16 @@ const cellStyles = mergedCva(
                     "dark:cui-text-white",
                     ,
                 ],
+            },
+            disabled: {
+                true: [
+                    "cui-text-gray-400",
+                    "dark:!cui-text-gray-600",
+                    "hover:cui-bg-white",
+                    "hover:dark:cui-bg-black",
+                    "cui-cursor-not-allowed",
+                ],
+                false: ["cui-cursor-pointer"],
             },
         },
         compoundVariants: [
