@@ -4,7 +4,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import React, { ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
-import { BaseInputWrapper } from "../commons";
+import { BaseInputWrapper, BaseInputWrapperProps } from "../commons";
 import { mergedCva } from "../../../utils/components";
 
 export interface MarkdownInputProps {
@@ -15,7 +15,10 @@ export interface MarkdownInputProps {
     placeholder?: string;
     value?: string;
     onChange: (value: string) => void;
-    className?: string;
+    className?: {
+        root?: string;
+        input?: BaseInputWrapperProps["className"];
+    };
 }
 
 export const markdownInputRootStyles = mergedCva([
@@ -103,9 +106,12 @@ export const MarkdownInput = ({
             label={label}
             error={error}
             helperText={helperText}
+            className={className?.input}
         >
             <div
-                className={markdownInputRootStyles({ className })}
+                className={markdownInputRootStyles({
+                    className: className?.root,
+                })}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >
