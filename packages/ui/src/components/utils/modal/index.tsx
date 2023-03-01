@@ -1,7 +1,7 @@
-import { cva } from "class-variance-authority";
 import React, { ReactNode, useEffect, useRef } from "react";
+import { mergedCva } from "../../../utils/components";
 
-const rootStyles = cva(
+const rootStyles = mergedCva(
     [
         "cui-fixed",
         "cui-top-0",

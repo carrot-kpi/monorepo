@@ -1,7 +1,7 @@
-import { cva } from "class-variance-authority";
 import React, { ReactElement, ReactNode } from "react";
+import { mergedCva } from "../../../../utils/components";
 
-const rootStyles = cva(["cui-p-3"]);
+const rootStyles = mergedCva(["cui-p-3"]);
 
 interface DetailsProps {
     className?: { root?: string };

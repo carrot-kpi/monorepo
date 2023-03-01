@@ -1,4 +1,3 @@
-import { cva } from "class-variance-authority";
 import React, {
     ReactElement,
     ReactNode,
@@ -6,7 +5,7 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { matchChildByType } from "../../../utils/components";
+import { matchChildByType, mergedCva } from "../../../utils/components";
 import { AccordionContextProvider } from "./context";
 import { AccordionDetails } from "./details";
 import { AccordionSummary } from "./summary";
@@ -14,7 +13,7 @@ import { AccordionSummary } from "./summary";
 export * from "./details";
 export * from "./summary";
 
-const rootStyles = cva([
+const rootStyles = mergedCva([
     "cui-font-mono",
     "odd:cui-border-t",
     "cui-border-r",

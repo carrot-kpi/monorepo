@@ -17,7 +17,9 @@ export const Card = () => (
     <CardComponent>
         <CardTitle>
             <Typography uppercase>Card title</Typography>
-            <Chip className={{ root: "cui-bg-green" }}>CUSTOM CHIP</Chip>
+            <Chip className={{ root: "cui-bg-green dark:cui-bg-orange" }}>
+                CUSTOM CHIP
+            </Chip>
         </CardTitle>
         <CardContent>
             <div className="cui-p-4">

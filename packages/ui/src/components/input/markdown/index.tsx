@@ -5,7 +5,7 @@ import React, { ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
 import { BaseInputWrapper } from "../commons";
-import { cva } from "class-variance-authority";
+import { mergedCva } from "../../../utils/components";
 
 export interface MarkdownInputProps {
     id: string;
@@ -18,7 +18,7 @@ export interface MarkdownInputProps {
     className?: string;
 }
 
-export const markdownInputRootStyles = cva([
+export const markdownInputRootStyles = mergedCva([
     "cui-rounded-xxl",
     "cui-border",
     "cui-border-black",
@@ -28,7 +28,7 @@ export const markdownInputRootStyles = cva([
     "dark:focus-within:cui-border-orange",
 ]);
 
-export const markdownInputContentStyles = cva(
+export const markdownInputContentStyles = mergedCva(
     [
         "cui-rounded-b-xxl",
         "cui-scrollbar",

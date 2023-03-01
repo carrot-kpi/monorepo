@@ -1,6 +1,5 @@
-import { cva } from "class-variance-authority";
 import React, { ReactElement } from "react";
-import { matchChildByType } from "../../../utils/components";
+import { matchChildByType, mergedCva } from "../../../utils/components";
 import { CardActions } from "./actions";
 import { CardContent } from "./content";
 import { CardTitle } from "./title";
@@ -9,7 +8,7 @@ export * from "./title";
 export * from "./content";
 export * from "./actions";
 
-const rootStyles = cva([
+const rootStyles = mergedCva([
     "cui-bg-white",
     "dark:cui-bg-black",
     "cui-w-full",

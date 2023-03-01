@@ -13,7 +13,6 @@ import { Button, ButtonProps } from "../../../input/button";
 import { TextInput, TextInputProps } from "../../../input/text";
 import { useDebounce } from "react-use";
 import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
-import { cva } from "class-variance-authority";
 import { RemoteLogo, RemoteLogoProps } from "../../../data-display/remote-logo";
 import {
     filterERC20Tokens,
@@ -24,8 +23,9 @@ import { Divider, DividerProps } from "../divider";
 import { FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Skeleton } from "../../../feedback";
+import { mergedCva } from "../../../../utils/components";
 
-const rootStyles = cva([
+const rootStyles = mergedCva([
     "cui-flex",
     "cui-flex-col",
     "cui-bg-white",
@@ -38,18 +38,18 @@ const rootStyles = cva([
     "lg:cui-w-1/4",
 ]);
 
-const headerStyles = cva([
+const headerStyles = mergedCva([
     "cui-p-4",
     "cui-flex",
     "cui-justify-between",
     "cui-items-center",
 ]);
 
-const inputContainerStyles = cva(["cui-p-5"]);
+const inputContainerStyles = mergedCva(["cui-p-5"]);
 
-const iconStyles = cva(["cui-cursor-pointer"]);
+const iconStyles = mergedCva(["cui-cursor-pointer"]);
 
-const listWrapperStyles = cva(
+const listWrapperStyles = mergedCva(
     ["cui-w-full", "cui-grow", "cui-overflow-hidden"],
     {
         variants: {
@@ -60,9 +60,9 @@ const listWrapperStyles = cva(
     }
 );
 
-const listStyles = cva(["cui-scrollbar"]);
+const listStyles = mergedCva(["cui-scrollbar"]);
 
-const listItemStyles = cva(
+const listItemStyles = mergedCva(
     [
         "cui-flex",
         "cui-flex-col",
