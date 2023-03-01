@@ -1,10 +1,4 @@
-import React, {
-    forwardRef,
-    useRef,
-    useState,
-    useCallback,
-    useEffect,
-} from "react";
+import React, { forwardRef, useRef, useState, useCallback } from "react";
 import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
 import { Dayjs } from "dayjs";
@@ -12,6 +6,7 @@ import { TextInput } from "../text";
 import { Popover } from "../../utils";
 import { ReactComponent as Calendar } from "../../../assets/calendar.svg";
 import { DateTimePicker, DateTimePickerProps } from "./picker";
+import { useClickAway } from "react-use";
 
 export type DateTimeInputProps = Omit<
     BaseInputProps<Dayjs>,
@@ -41,19 +36,9 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
         const popoverRef = useRef<HTMLDivElement>(null);
         const [open, setOpen] = useState(false);
 
-        useEffect(() => {
-            const handleCloseOnClick = (event: MouseEvent) => {
-                if (
-                    !!popoverRef.current &&
-                    !popoverRef.current.contains(event.target as Node)
-                )
-                    setOpen(false);
-            };
-            document.addEventListener("mousedown", handleCloseOnClick);
-            return () => {
-                document.removeEventListener("mousedown", handleCloseOnClick);
-            };
-        }, []);
+        useClickAway(popoverRef, () => {
+            setOpen(false);
+        });
 
         const handlePickerOpen = useCallback(() => {
             setOpen(true);

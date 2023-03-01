@@ -1,5 +1,5 @@
 import { ChainId } from "@carrot-kpi/sdk";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { SUPPORTED_CHAINS } from "../../constants";
 import { ReactComponent as Error } from "../../assets/error.svg";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
@@ -13,6 +13,7 @@ import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
 import { shortenAddress } from "../../utils/address";
+import { useClickAway } from "react-use";
 
 // TODO: implement loading states
 export const ConnectWallet = () => {
@@ -34,6 +35,18 @@ export const ConnectWallet = () => {
     const [networksPopoverOpen, setNetworksPopoverOpen] = useState(false);
     const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [accountPopoverOpen, setAccountPopoverOpen] = useState(false);
+
+    useClickAway(networksPopoverRef, () => {
+        setNetworksPopoverOpen(false);
+    });
+
+    useClickAway(connectPopoverRef, () => {
+        setConnectPopoverOpen(false);
+    });
+
+    useClickAway(accountPopoverRef, () => {
+        setAccountPopoverOpen(false);
+    });
 
     const handleNetworksPopoverOpen = useCallback(() => {
         setNetworksPopoverOpen(true);
@@ -57,30 +70,6 @@ export const ConnectWallet = () => {
 
     const handleAccountPopoverClose = useCallback(() => {
         setAccountPopoverOpen(false);
-    }, []);
-
-    useEffect(() => {
-        const handleCloseOnClick = (event: MouseEvent) => {
-            if (
-                !!networksPopoverRef.current &&
-                !networksPopoverRef.current.contains(event.target as Node)
-            )
-                setNetworksPopoverOpen(false);
-            if (
-                !!connectPopoverRef.current &&
-                !connectPopoverRef.current.contains(event.target as Node)
-            )
-                setConnectPopoverOpen(false);
-            if (
-                !!accountPopoverRef.current &&
-                !accountPopoverRef.current.contains(event.target as Node)
-            )
-                setAccountPopoverOpen(false);
-        };
-        document.addEventListener("mousedown", handleCloseOnClick);
-        return () => {
-            document.removeEventListener("mousedown", handleCloseOnClick);
-        };
     }, []);
 
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;

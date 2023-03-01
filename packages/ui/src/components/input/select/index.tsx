@@ -1,7 +1,6 @@
 import React, {
     ReactElement,
     useCallback,
-    useEffect,
     useState,
     MouseEvent as SpecificMouseEvent,
     useRef,
@@ -14,6 +13,7 @@ import { ReactComponent as ChevronDown } from "../../../assets/chevron-down.svg"
 import { cva, cx } from "class-variance-authority";
 import { Popover } from "../../utils/popover";
 import { TextInput } from "../text";
+import { useClickAway } from "react-use";
 
 const dropdownRootStyles = cva([
     "cui-rounded-xxl",
@@ -97,21 +97,9 @@ const Component = <O extends SelectOption>(
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        const handleCloseOnClick = (event: MouseEvent) => {
-            if (!open || !dropdownRef.current || !anchorEl) return;
-            if (
-                !dropdownRef.current.contains(event.target as Node) &&
-                !anchorEl.contains(event.target as Node)
-            )
-                setOpen(false);
-        };
-
-        document.addEventListener("mousedown", handleCloseOnClick);
-        return () => {
-            document.removeEventListener("mousedown", handleCloseOnClick);
-        };
-    }, [anchorEl, open]);
+    useClickAway(dropdownRef, () => {
+        setOpen(false);
+    });
 
     const handleClick = useCallback(() => {
         setOpen(!open);
