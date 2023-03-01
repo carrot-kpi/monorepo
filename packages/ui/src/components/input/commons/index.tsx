@@ -1,4 +1,3 @@
-import { cva } from "class-variance-authority";
 import React, {
     ChangeEventHandler,
     FunctionComponent,
@@ -8,6 +7,7 @@ import React, {
 } from "react";
 import { ReactComponent as DangerIcon } from "../../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/info-icon.svg";
+import { mergedCva } from "../../../utils/components";
 import { Typography, TypographyProps } from "../../data-display/typography";
 
 export interface PartialBaseInputProps<V> {
@@ -27,9 +27,9 @@ export type BaseInputProps<V> = PartialBaseInputProps<V> &
         keyof PartialBaseInputProps<V> | keyof BaseInputWrapperProps | "ref"
     >;
 
-const inputWrapperStyles = cva(["cui-w-fit", "cui-relative"]);
+const inputWrapperStyles = mergedCva(["cui-w-fit", "cui-relative"]);
 
-const inputIconWrapperStyles = cva(
+const inputIconWrapperStyles = mergedCva(
     [
         "cui-absolute",
         "cui-top-0",
@@ -50,7 +50,7 @@ const inputIconWrapperStyles = cva(
     }
 );
 
-const inputActionWrapperStyles = cva(
+const inputActionWrapperStyles = mergedCva(
     [
         "cui-absolute",
         "cui-top-0",
@@ -69,13 +69,13 @@ const inputActionWrapperStyles = cva(
     }
 );
 
-export const inputIconStyles = cva([
+export const inputIconStyles = mergedCva([
     "cui-w-5",
     "cui-text-black",
     "dark:cui-text-white",
 ]);
 
-export const inputStyles = cva(
+export const inputStyles = mergedCva(
     [
         "cui-rounded-xxl",
         "cui-p-3",
@@ -90,9 +90,6 @@ export const inputStyles = cva(
     ],
     {
         variants: {
-            error: {
-                true: ["cui-bg-red/20", "cui-border-red/10"],
-            },
             variant: {
                 "2xs": ["cui-text-2xs"],
                 xs: ["cui-text-xs"],
@@ -117,6 +114,9 @@ export const inputStyles = cva(
                     "dark:cui-bg-gray-700",
                 ],
             },
+            error: {
+                true: ["cui-bg-red/20 dark:cui-bg-red/20", "cui-border-red/10"],
+            },
             hasLeftIcon: {
                 true: ["cui-pl-12"],
             },
@@ -125,16 +125,16 @@ export const inputStyles = cva(
     }
 );
 
-const labelStyles = cva(["cui-block", "cui-w-fit", "cui-mb-1"]);
+const labelStyles = mergedCva(["cui-block", "cui-w-fit", "cui-mb-1"]);
 
-const helperTextWrapperStyles = cva([
+const helperTextWrapperStyles = mergedCva([
     "cui-flex",
     "cui-items-center",
     "cui-gap-2",
     "cui-mt-2",
 ]);
 
-const helperTextIconStyles = cva([], {
+const helperTextIconStyles = mergedCva([], {
     variants: {
         variant: {
             danger: ["cui-stroke-red"],
@@ -143,7 +143,7 @@ const helperTextIconStyles = cva([], {
     },
 });
 
-const helperTextStyles = cva([], {
+const helperTextStyles = mergedCva([], {
     variants: {
         error: {
             true: ["cui-text-red", "dark:cui-text-red"],

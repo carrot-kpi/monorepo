@@ -1,9 +1,10 @@
-import { cva } from "class-variance-authority";
 import React from "react";
 import { ReactElement, ReactNode } from "react";
+import { mergedCva } from "../../../../utils/components";
 import { Typography } from "../../../data-display";
 
-const rootStyles = cva([
+const rootStyles = mergedCva([
+    "cui-relative",
     "cui-border",
     "dark:cui-border-white",
     "cui-flex",
@@ -14,7 +15,7 @@ const rootStyles = cva([
     "dark:cui-bg-black",
 ]);
 
-const headerStyles = cva([
+const headerStyles = mergedCva([
     "cui-flex",
     "cui-flex-col",
     "cui-gap-1",
@@ -25,7 +26,7 @@ const headerStyles = cva([
     "cui-p-6",
 ]);
 
-const contentStyles = cva(["cui-p-6"]);
+const contentStyles = mergedCva(["cui-p-6"]);
 
 export interface StepCardProps {
     title: string;

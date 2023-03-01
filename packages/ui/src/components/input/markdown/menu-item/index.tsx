@@ -1,7 +1,7 @@
-import { cva } from "class-variance-authority";
 import React, { FunctionComponent, ReactElement } from "react";
+import { mergedCva } from "../../../../utils/components";
 
-const rootStyles = cva([], {
+const rootStyles = mergedCva([], {
     variants: {
         active: {
             true: ["cui-rounded-base", "cui-border", "cui-border-gray-400"],

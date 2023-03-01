@@ -1,7 +1,7 @@
-import { cva } from "class-variance-authority";
 import React, { ReactElement, ReactNode } from "react";
 import { useAccordionContext } from "../context";
 import { ReactComponent as ChevronUp } from "../../../../assets/chevron-up.svg";
+import { mergedCva } from "../../../../utils/components";
 
 export interface SummaryProps {
     className?: { root?: string };
@@ -9,7 +9,7 @@ export interface SummaryProps {
     children: ReactNode;
 }
 
-const rootStyles = cva(
+const rootStyles = mergedCva(
     [
         "hover:cui-cursor-pointer",
         "cui-flex",
@@ -32,7 +32,7 @@ const rootStyles = cva(
     }
 );
 
-const expandIconStyles = cva([], {
+const expandIconStyles = mergedCva([], {
     variants: {
         expanded: {
             false: ["cui-rotate-180"],

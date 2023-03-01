@@ -50,6 +50,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                     getInputRef={ref}
                     {...rest}
                     className={inputStyles({
+                        error,
                         hasLeftIcon: !!icon && iconPlacement === "left",
                         className: className?.input,
                     })}

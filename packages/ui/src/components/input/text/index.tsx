@@ -28,6 +28,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             <BaseInputWrapper
                 id={id}
                 label={label}
+                error={error}
                 helperText={helperText}
                 icon={icon}
                 iconPlacement={iconPlacement}

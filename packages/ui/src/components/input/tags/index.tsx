@@ -1,14 +1,14 @@
-import { cva } from "class-variance-authority";
 import React, { forwardRef, useCallback, useState } from "react";
 import { ReactElement } from "react";
+import { mergedCva } from "../../../utils/components";
 import { Button } from "../button";
 import { BaseInputProps } from "../commons";
 import { TextInput } from "../text";
 import { Tag, TagProps } from "./tag";
 
-const buttonStyles = cva(["cui-h-3"]);
+const buttonStyles = mergedCva(["cui-h-3"]);
 
-const tagsWrapperStyles = cva([
+const tagsWrapperStyles = mergedCva([
     "cui-flex",
     "cui-flex-wrap",
     "cui-gap-2",

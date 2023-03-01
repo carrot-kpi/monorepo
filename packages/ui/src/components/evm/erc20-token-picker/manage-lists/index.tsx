@@ -3,12 +3,12 @@ import { Typography, TypographyProps } from "../../../data-display/typography";
 import { ReactComponent as X } from "../../../../assets/x.svg";
 import { ReactComponent as ChevronLeft } from "../../../../assets/chevron-left.svg";
 import { TokenListWithBalance } from "../types";
-import { cva } from "class-variance-authority";
 import { RemoteLogo, RemoteLogoProps } from "../../../data-display/remote-logo";
 import { Divider, DividerProps } from "../divider";
 import { Skeleton } from "../../../feedback";
+import { mergedCva } from "../../../../utils/components";
 
-const rootStyles = cva([
+const rootStyles = mergedCva([
     "cui-bg-white",
     "dark:cui-bg-black",
     "cui-rounded-xl",
@@ -19,16 +19,16 @@ const rootStyles = cva([
     "lg:cui-w-1/4",
 ]);
 
-const headerStyles = cva([
+const headerStyles = mergedCva([
     "cui-p-4",
     "cui-flex",
     "cui-justify-between",
     "cui-items-center",
 ]);
 
-const iconStyles = cva(["cui-cursor-pointer"]);
+const iconStyles = mergedCva(["cui-cursor-pointer"]);
 
-const listWrapperStyles = cva([
+const listWrapperStyles = mergedCva([
     "cui-flex",
     "cui-w-full",
     "cui-h-96",
@@ -36,7 +36,7 @@ const listWrapperStyles = cva([
     "cui-items-center",
 ]);
 
-const listStyles = cva([
+const listStyles = mergedCva([
     "cui-list-none",
     "cui-w-full",
     "cui-h-full",
@@ -44,7 +44,7 @@ const listStyles = cva([
     "cui-scrollbar",
 ]);
 
-const listItemStyles = cva(
+const listItemStyles = mergedCva(
     [
         "cui-flex",
         "cui-items-center",

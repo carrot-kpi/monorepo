@@ -17,4 +17,5 @@ Number.args = {
     variant: "md",
     label: "Number input",
     placeholder: "Number input",
+    error: false,
 };

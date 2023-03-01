@@ -10,12 +10,13 @@ import React, {
 import { BaseInputProps } from "../commons";
 import { ReactComponent as ChevronUp } from "../../../assets/chevron-up.svg";
 import { ReactComponent as ChevronDown } from "../../../assets/chevron-down.svg";
-import { cva, cx } from "class-variance-authority";
+import { cx } from "class-variance-authority";
 import { Popover } from "../../utils/popover";
 import { TextInput } from "../text";
 import { useClickAway } from "react-use";
+import { mergedCva } from "../../../utils/components";
 
-const dropdownRootStyles = cva([
+const dropdownRootStyles = mergedCva([
     "cui-rounded-xxl",
     "cui-border",
     "cui-bg-white",
@@ -25,7 +26,7 @@ const dropdownRootStyles = cva([
     "cui-overflow-hidden",
 ]);
 
-const optionStyles = cva(
+const optionStyles = mergedCva(
     [
         "cui-cursor-pointer",
         "cui-p-3",
@@ -57,7 +58,7 @@ const optionStyles = cva(
     }
 );
 
-const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
+const customOptionWrapperStyles = mergedCva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
     label: string;

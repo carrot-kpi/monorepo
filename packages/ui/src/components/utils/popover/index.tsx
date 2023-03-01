@@ -6,10 +6,10 @@ import React, {
     useState,
 } from "react";
 import { usePopper } from "react-popper";
-import { cva } from "class-variance-authority";
 import { Placement } from "@popperjs/core";
+import { mergedCva } from "../../../utils/components";
 
-const dropdownRootStyles = cva(
+const dropdownRootStyles = mergedCva(
     [
         "cui-rounded-xxl",
         "cui-border",
