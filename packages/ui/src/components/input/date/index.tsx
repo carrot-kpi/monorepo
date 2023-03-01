@@ -100,7 +100,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                     open={open}
                     placement="bottom-start"
                     className={{
-                        root: "cui-p-3 cui-flex cui-flex-col cui-gap-3",
+                        root: "cui-p-2 cui-flex cui-flex-col cui-gap-3",
                     }}
                 >
                     <DatePicker

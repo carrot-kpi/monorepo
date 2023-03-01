@@ -3,12 +3,12 @@ import React, { useCallback } from "react";
 import { Typography } from "../../../data-display";
 import { DatePicker, DatePickerProps } from "../../date/picker";
 import { enforceDoubleDigits } from "../../../../utils/formatting";
-import { cva } from "class-variance-authority";
+import { mergedCva } from "../../../../utils/components";
 
-const cellListStyles = cva(
+const cellListStyles = mergedCva(
     [
-        "cui-h-60",
-        "cui-w-16",
+        "cui-h-52",
+        "cui-w-10",
         "cui-py-2",
         "cui-overflow-y-auto",
         "cui-scrollbar",
@@ -23,7 +23,7 @@ const cellListStyles = cva(
     }
 );
 
-const cellStyles = cva(
+const cellStyles = mergedCva(
     [
         "cui-flex",
         "cui-items-center",
@@ -42,7 +42,7 @@ const cellStyles = cva(
                 false: [
                     "cui-bg-white",
                     "cui-text-black",
-                    "hover:cui-bg-gray-200",
+                    "hover:cui-bg-gray-300",
                     "dark:cui-bg-black",
                     "dark:cui-text-white",
                     "hover:dark:cui-bg-gray-600",
@@ -100,7 +100,7 @@ export const DateTimePicker = ({
 
     return (
         <div className="cui-flex">
-            <div className="cui-p-4">
+            <div className="cui-p-3">
                 <DatePicker
                     value={value}
                     onChange={handleDateChange}
@@ -112,7 +112,7 @@ export const DateTimePicker = ({
             <div className="cui-flex cui-flex-col">
                 <Typography
                     className={{
-                        root: "cui-p-3 cui-border-b cui-border-black dark:cui-border-white cui-text-center",
+                        root: "cui-p-2 cui-border-b cui-border-black dark:cui-border-white cui-text-center",
                     }}
                 >
                     {value ? value.format("HH:mm:ss") : "--:--:--"}
@@ -123,6 +123,7 @@ export const DateTimePicker = ({
                             const selected = value?.format("HH") === hour;
                             return (
                                 <Typography
+                                    variant="sm"
                                     key={hour}
                                     className={{
                                         root: cellStyles({ selected }),
@@ -140,6 +141,7 @@ export const DateTimePicker = ({
                             const selected = value?.format("mm") === minute;
                             return (
                                 <Typography
+                                    variant="sm"
                                     key={minute}
                                     className={{
                                         root: cellStyles({ selected }),
@@ -157,6 +159,7 @@ export const DateTimePicker = ({
                             const selected = value?.format("ss") === second;
                             return (
                                 <Typography
+                                    variant="sm"
                                     key={second}
                                     className={{
                                         root: cellStyles({ selected }),

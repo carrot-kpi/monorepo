@@ -1,4 +1,3 @@
-import { cva } from "class-variance-authority";
 import dayjs, { Dayjs } from "dayjs";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { ReactComponent as ChevronLeft } from "../../../../assets/chevron-left.svg";
@@ -6,10 +5,11 @@ import { ReactComponent as ChevronRight } from "../../../../assets/chevron-right
 import { CalendarCell, getCalendarCells } from "../../../../utils/date";
 import { Typography } from "../../../data-display";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { mergedCva } from "../../../../utils/components";
 
 dayjs.extend(LocalizedFormat);
 
-const iconStyles = cva([
+const iconStyles = mergedCva([
     "cui-w-4",
     "cui-h-4",
     "cui-cursor-pointer",
@@ -17,7 +17,7 @@ const iconStyles = cva([
     "dark:cui-text-white",
 ]);
 
-const weekdayStyles = cva(
+const weekdayStyles = mergedCva(
     [
         "cui-w-6",
         "cui-h-6",
@@ -29,13 +29,13 @@ const weekdayStyles = cva(
         variants: {
             holiday: {
                 true: ["cui-text-red", "dark:!cui-text-red"],
-                false: ["cui-text-black", "dark:cui-text-white"],
+                false: ["cui-text-gray-600", "dark:cui-text-gray-500"],
             },
         },
     }
 );
 
-const cellStyles = cva(
+const cellStyles = mergedCva(
     [
         "cui-w-6",
         "cui-h-6",
@@ -48,10 +48,11 @@ const cellStyles = cva(
         variants: {
             disabled: {
                 true: [
-                    "cui-text-gray-300",
+                    "cui-text-gray-400",
                     "dark:!cui-text-gray-600",
                     "hover:cui-bg-white",
                     "hover:dark:cui-bg-black",
+                    "cui-cursor-not-allowed",
                 ],
                 false: ["cui-cursor-pointer"],
             },
@@ -75,7 +76,7 @@ const cellStyles = cva(
                 disabled: false,
                 selected: false,
                 className: [
-                    "hover:cui-bg-gray-200",
+                    "hover:cui-bg-gray-300",
                     "hover:dark:cui-bg-gray-600",
                 ],
             },
@@ -122,7 +123,7 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
     );
 
     return (
-        <div className="cui-flex cui-flex-col cui-gap-3">
+        <div className="cui-h-56 cui-w-52 cui-flex cui-flex-col cui-justify-between">
             <div className="cui-flex cui-items-center">
                 <ChevronLeft
                     className={iconStyles()}
@@ -155,7 +156,7 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
                     );
                 })}
             </div>
-            <div className="cui-grid cui-grid-cols-7 cui-grid-rows-4 cui-gap-2">
+            <div className="cui-grid cui-grid-cols-7 cui-grid-rows-4 cui-gap-1">
                 {cells.map((cell, index) => {
                     const disabled =
                         (min && cell.value.isBefore(min)) ||
