@@ -99,7 +99,6 @@ export const CreateWithTemplateId = ({
         const fetch = async (): Promise<void> => {
             const tx = await sendTransactionAsync();
             await tx.wait();
-            console.log("done");
         };
         void fetch();
     }, [sendTransactionAsync]);
