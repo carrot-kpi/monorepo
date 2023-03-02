@@ -1,9 +1,19 @@
 import React, { FC, ReactNode } from "react";
 import { cva } from "class-variance-authority";
 import { extendTailwindMerge } from "tailwind-merge";
+import { theme } from "../../../tailwind.preset";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const classGroups: { [key: string]: any } = {};
+if (theme) {
+    if (theme.fontSize)
+        classGroups["font-size"] = [{ text: Object.keys(theme.fontSize) }];
+}
 
 const twMergeWithConfig = extendTailwindMerge({
     prefix: "cui-",
+    theme,
+    classGroups,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
