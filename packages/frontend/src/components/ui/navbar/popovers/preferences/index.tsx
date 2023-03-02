@@ -93,7 +93,7 @@ export const PreferencesPopover = forwardRef<
                         // eslint-disable-next-line @typescript-eslint/no-empty-function
                         onChange={() => {}}
                         className={{
-                            root: "opacity-50",
+                            root: "opacity-50 pointer-events-none cursor-not-allowed",
                             inputWrapper: "w-32",
                             input: "w-32",
                         }}
