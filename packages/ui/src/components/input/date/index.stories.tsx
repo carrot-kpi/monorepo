@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
 import { DateInput as DateInputComponent, DateInputProps } from ".";
-import dayjs, { Dayjs } from "dayjs";
 
 export default {
     title: "Input/Date",
@@ -10,9 +9,9 @@ export default {
 } as ComponentMeta<typeof DateInputComponent>;
 
 const Template: Story<DateInputProps> = (props: DateInputProps) => {
-    const [value, setValue] = useState<Dayjs | undefined>();
+    const [value, setValue] = useState<Date | undefined>();
 
-    const handleChange = useCallback((value: Dayjs) => {
+    const handleChange = useCallback((value: Date) => {
         setValue(value);
     }, []);
 
@@ -21,9 +20,9 @@ const Template: Story<DateInputProps> = (props: DateInputProps) => {
     );
 };
 
-export const Date: Story<DateInputProps> = Template.bind({});
-Date.args = {
+export const DateStory: Story<DateInputProps> = Template.bind({});
+DateStory.args = {
     label: "Date input",
     placeholder: "Date input",
-    min: dayjs(),
+    min: new Date(),
 };

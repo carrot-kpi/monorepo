@@ -1,4 +1,4 @@
-import dayjs, { Dayjs, UnitType } from "dayjs";
+import dayjs, { UnitType } from "dayjs";
 import React, { useCallback } from "react";
 import { Typography } from "../../../data-display";
 import { DatePicker, DatePickerProps } from "../../date/picker";
@@ -68,16 +68,16 @@ export const DateTimePicker = ({
     max,
 }: DateTimePickerProps) => {
     const handleDateChange = useCallback(
-        (newValue: Dayjs) => {
+        (newValue: Date) => {
             if (!onChange) return;
             if (!value) onChange(newValue);
             else
                 onChange(
-                    value
-                        .clone()
-                        .date(newValue.date())
-                        .month(newValue.month())
-                        .year(newValue.year())
+                    dayjs(value)
+                        .date(newValue.getDate())
+                        .month(newValue.getMonth())
+                        .year(newValue.getFullYear())
+                        .toDate()
                 );
         },
         [onChange, value]
@@ -91,8 +91,11 @@ export const DateTimePicker = ({
                 const [unit, newValue] = data.split("-");
                 const parsedNewValue = parseInt(newValue);
                 if (isNaN(parsedNewValue)) return;
-                const clone = value ? value.clone() : dayjs();
-                onChange(clone.set(unit as UnitType, parsedNewValue));
+                onChange(
+                    dayjs(value)
+                        .set(unit as UnitType, parsedNewValue)
+                        .toDate()
+                );
             }
         },
         [onChange, value]
@@ -115,12 +118,13 @@ export const DateTimePicker = ({
                         root: "cui-p-2 cui-border-b cui-border-black dark:cui-border-white cui-text-center",
                     }}
                 >
-                    {value ? value.format("HH:mm:ss") : "--:--:--"}
+                    {value ? dayjs(value).format("HH:mm:ss") : "--:--:--"}
                 </Typography>
                 <div className="cui-flex cui-h-full">
                     <div className={cellListStyles({ border: true })}>
                         {HOURS.map((hour) => {
-                            const selected = value?.format("HH") === hour;
+                            const selected =
+                                value && dayjs(value).format("HH") === hour;
                             return (
                                 <Typography
                                     variant="sm"
@@ -138,7 +142,8 @@ export const DateTimePicker = ({
                     </div>
                     <div className={cellListStyles({ border: true })}>
                         {MINUTES_SECONDS.map((minute) => {
-                            const selected = value?.format("mm") === minute;
+                            const selected =
+                                value && dayjs(value).format("mm") === minute;
                             return (
                                 <Typography
                                     variant="sm"
@@ -156,7 +161,8 @@ export const DateTimePicker = ({
                     </div>
                     <div className={cellListStyles({ border: false })}>
                         {MINUTES_SECONDS.map((second) => {
-                            const selected = value?.format("ss") === second;
+                            const selected =
+                                value && dayjs(value).format("ss") === second;
                             return (
                                 <Typography
                                     variant="sm"

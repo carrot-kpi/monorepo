@@ -1,7 +1,7 @@
 import React, { forwardRef, useRef, useState, useCallback } from "react";
 import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
-import { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { TextInput } from "../text";
 import { Popover } from "../../utils";
 import { ReactComponent as Calendar } from "../../../assets/calendar.svg";
@@ -9,7 +9,7 @@ import { DatePicker, DatePickerProps } from "./picker";
 import { useClickAway } from "react-use";
 
 export type DateInputProps = Omit<
-    BaseInputProps<Dayjs>,
+    BaseInputProps<Date>,
     "onChange" | "min" | "max"
 > &
     DatePickerProps;
@@ -45,7 +45,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         }, []);
 
         const handleChange = useCallback(
-            (value: Dayjs) => {
+            (value: Date) => {
                 if (onChange) onChange(value);
                 setOpen(false);
             },
@@ -77,7 +77,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                     }}
                     {...rest}
                     onClick={handlePickerOpen}
-                    value={value?.format("L")}
+                    value={value ? dayjs(value).format("L") : undefined}
                 />
                 <Popover
                     anchor={anchorEl}
