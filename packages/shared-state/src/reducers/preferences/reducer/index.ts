@@ -1,6 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
     setDevMode,
+    setIPFSGatewayURL,
     setKPITokenTemplateBaseURL,
     setOracleTemplateBaseURL,
     setPreferDecentralization,
@@ -12,6 +13,7 @@ const initialState: PreferencesState = {
     // TODO: use system as a default once the dark theme is available
     theme: "light",
     preferDecentralization: false,
+    ipfsGatewayURL: "https://carrot-kpi.dev",
     devMode: false,
     kpiTokenTemplateBaseURL: undefined,
     oracleTemplateBaseURL: undefined,
@@ -24,6 +26,9 @@ export const preferencesReducer = createReducer(initialState, (builder) =>
         })
         .addCase(setPreferDecentralization, (state, action) => {
             state.preferDecentralization = action.payload;
+        })
+        .addCase(setIPFSGatewayURL, (state, action) => {
+            state.ipfsGatewayURL = action.payload;
         })
         .addCase(setDevMode, (state, action) => {
             state.devMode = action.payload;

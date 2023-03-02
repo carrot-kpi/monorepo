@@ -16,7 +16,6 @@ import { Interface } from "@ethersproject/abi";
 import { Token } from "../../entities/token";
 import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
 import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
-import { IPFSService } from "../../services";
 import {
     FetchContentFromIPFSParams,
     FetchERC20TokensParams,
@@ -190,6 +189,7 @@ class Fetcher implements ICoreFetcher {
     }
 
     private async fetchContentFromIPFSWithLocalStorageCache(
+        ipfsGatewayURL: string,
         cacheableCids: string[]
     ) {
         const cachedCids: { [cid: string]: string } = {};
@@ -203,7 +203,7 @@ class Fetcher implements ICoreFetcher {
             const uncachedContent = await Promise.all(
                 uncachedCids.map(async (cid) => {
                     const response = await fetch(
-                        `${IPFSService.gateway}/ipfs/${cid}`
+                        `${ipfsGatewayURL}/ipfs/${cid}`
                     );
                     const responseOk = response.ok;
                     warn(responseOk, `could not fetch content with cid ${cid}`);
@@ -223,17 +223,19 @@ class Fetcher implements ICoreFetcher {
     }
 
     public async fetchContentFromIPFS({
+        ipfsGatewayURL,
         cids,
     }: FetchContentFromIPFSParams): Promise<{ [cid: string]: string }> {
         if (process.env.NODE_ENV === "development")
-            return this.fetchContentFromIPFSWithLocalStorageCache(cids);
+            return this.fetchContentFromIPFSWithLocalStorageCache(
+                ipfsGatewayURL,
+                cids
+            );
         // we come here only if we are in production. in this case the service
         // worker will handle the calls, so we can just not worry about it
         const allContents = await Promise.all(
             cids.map(async (cid) => {
-                const response = await fetch(
-                    `${IPFSService.gateway}/ipfs/${cid}`
-                );
+                const response = await fetch(`${ipfsGatewayURL}/ipfs/${cid}`);
                 const responseOk = response.ok;
                 warn(responseOk, `could not fetch content with cid ${cid}`);
                 return {

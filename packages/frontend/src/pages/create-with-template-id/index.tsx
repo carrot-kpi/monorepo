@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
     KPITokenCreationForm,
+    useIPFSGatewayURL,
     usePreferDecentralization,
 } from "@carrot-kpi/react";
 import { useTransition, config as springConfig } from "@react-spring/web";
@@ -31,17 +32,19 @@ export const CreateWithTemplateId = ({
     const { templateId } = useParams();
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
+    const ipfsGatewayURL = useIPFSGatewayURL();
 
     const [template, setTemplate] = useState<Template | null>(
         state ? state.template : null
     );
     const transitions = useTransition(!closing && template, {
-        config: { ...springConfig.default, duration: 200 },
-        from: { opacity: 0, translateY: "1%" },
-        enter: { opacity: 1, translateY: "0%" },
+        config: { ...springConfig.default, duration: 100 },
+        from: { opacity: 0, translateY: "0.5%", scale: 0.99 },
+        enter: { opacity: 1, translateY: "0%", scale: 1 },
         leave: {
             opacity: 0,
-            translateY: "1%",
+            translateY: "0.5%",
+            scale: 0.99,
         },
         onDestroyed: onOutAnimationEnd,
     });
@@ -60,6 +63,7 @@ export const CreateWithTemplateId = ({
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
                     provider,
+                    ipfsGatewayURL,
                     preferDecentralization,
                     ids: [templateId],
                 });
@@ -77,7 +81,13 @@ export const CreateWithTemplateId = ({
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider, state?.template, templateId]);
+    }, [
+        ipfsGatewayURL,
+        preferDecentralization,
+        provider,
+        state.template,
+        templateId,
+    ]);
 
     const [creationTx, setCreationTx] = useState<
         providers.TransactionRequest & {
@@ -99,7 +109,6 @@ export const CreateWithTemplateId = ({
         const fetch = async (): Promise<void> => {
             const tx = await sendTransactionAsync();
             await tx.wait();
-            console.log("done");
         };
         void fetch();
     }, [sendTransactionAsync]);

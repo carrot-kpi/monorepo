@@ -225,8 +225,8 @@ export const Search = ({
                     value={searchQuery}
                     onChange={handleSearchChange}
                     className={{
-                        root: "cui-w-full",
                         input: "cui-w-full",
+                        inputWrapper: "cui-w-full",
                         ...className?.input,
                     }}
                 />

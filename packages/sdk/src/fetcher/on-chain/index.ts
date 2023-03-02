@@ -117,6 +117,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchKPITokens({
         provider,
+        ipfsGatewayURL,
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
         const { chainId } = await provider.getNetwork();
@@ -176,6 +177,7 @@ class Fetcher implements IPartialCarrotFetcher {
         }
         const kpiTokenTemplateSpecifications =
             await CoreFetcher.fetchContentFromIPFS({
+                ipfsGatewayURL,
                 cids: allKPITokenTemplateSpecificationCids.map(
                     (cid) => `${cid}/base.json`
                 ),
@@ -191,6 +193,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 allKPITokenDescriptionCids.push(cid);
         }
         const kpiTokenDescriptions = await CoreFetcher.fetchContentFromIPFS({
+            ipfsGatewayURL,
             cids: allKPITokenDescriptionCids,
         });
 
@@ -205,6 +208,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
         const oracles = await this.fetchOracles({
             provider,
+            ipfsGatewayURL,
             addresses: allOracleAddresses,
         });
 
@@ -291,6 +295,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchOracles({
         provider,
+        ipfsGatewayURL,
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
         const { chainId } = await provider.getNetwork();
@@ -334,6 +339,7 @@ class Fetcher implements IPartialCarrotFetcher {
         }
         const oracleTemplateSpecifications =
             await CoreFetcher.fetchContentFromIPFS({
+                ipfsGatewayURL,
                 cids: allOracleSpecificationCids.map(
                     (cid) => `${cid}/base.json`
                 ),
@@ -383,6 +389,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     private async fetchTemplates(
         chainId: ChainId,
+        ipfsGatewayURL: string,
         managerContract: Contract,
         ids?: BigNumberish[]
     ): Promise<Template[]> {
@@ -425,6 +432,7 @@ class Fetcher implements IPartialCarrotFetcher {
         }
 
         const specifications = await CoreFetcher.fetchContentFromIPFS({
+            ipfsGatewayURL,
             cids: rawTemplates.map(
                 (rawTemplate) => `${rawTemplate.specification}/base.json`
             ),
@@ -452,12 +460,14 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchKPITokenTemplates({
         provider,
+        ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
+            ipfsGatewayURL,
             new Contract(
                 CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
                 KPI_TOKENS_MANAGER_ABI,
@@ -469,12 +479,14 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchOracleTemplates({
         provider,
+        ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
+            ipfsGatewayURL,
             new Contract(
                 CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
                 ORACLES_MANAGER_ABI,

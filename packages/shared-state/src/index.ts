@@ -1,21 +1,23 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import storage from "redux-persist/lib/storage";
-import { persistReducer } from "redux-persist";
+import debounce from "lodash.debounce";
 import { preferencesReducer } from "./reducers/preferences/reducer";
+import { loadState, storeState } from "./utils";
 
 const rootReducer = combineReducers({
     preferences: preferencesReducer,
 });
 
-const persistConfig = {
-    key: "carrot-kpi-shared-state",
-    storage,
-    whitelist: ["preferences"],
-};
+export const store = configureStore({
+    reducer: rootReducer,
+    preloadedState: loadState(),
+});
 
-const persistedRootReducer = persistReducer(persistConfig, rootReducer);
-
-export const store = configureStore({ reducer: persistedRootReducer });
+store.subscribe(() => {
+    const debounced = debounce(() => {
+        storeState(store.getState());
+    }, 500);
+    debounced();
+});
 
 export type State = ReturnType<typeof rootReducer>;
 export type Dispatch = typeof store.dispatch;

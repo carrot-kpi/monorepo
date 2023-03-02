@@ -1,6 +1,7 @@
 export * from "./useDecentralizedStorageUploader";
 export * from "./useDevMode";
 export * from "./useFederatedModuleContainer";
+export * from "./useIPFSGatewayURL";
 export * from "./useKPIToken";
 export * from "./useKPITokens";
 export * from "./useKPITokenTemplate";
@@ -15,6 +16,7 @@ export * from "./useSetKPITokenTemplateBaseURL";
 export * from "./useSetOracleTemplateBaseURL";
 export * from "./useSetPreferDecentralization";
 export * from "./useSetDevMode";
+export * from "./useSetIPFSGatewayURL";
 export * from "./useSetTheme";
 export * from "./useTemplateModule";
 export * from "./useTheme";

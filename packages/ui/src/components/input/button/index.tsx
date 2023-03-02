@@ -1,8 +1,10 @@
 import React, {
+    AnchorHTMLAttributes,
+    ButtonHTMLAttributes,
     ElementType,
+    ForwardedRef,
     forwardRef,
     FunctionComponent,
-    HTMLAttributes,
     ReactNode,
     SVGProps,
 } from "react";
@@ -155,9 +157,8 @@ const wrapperStyles = mergedCva([], {
     ],
 });
 
-interface BaseButtonProps {
+export interface BaseProps {
     onClick?: (event: React.MouseEvent) => void;
-    href?: string;
     disabled?: boolean;
     loading?: boolean;
     className?: {
@@ -174,99 +175,105 @@ interface BaseButtonProps {
     children?: ReactNode;
 }
 
-export type ButtonProps = Omit<
-    HTMLAttributes<
-        BaseButtonProps["href"] extends string
-            ? HTMLAnchorElement
-            : HTMLButtonElement
-    >,
-    keyof BaseButtonProps
-> &
-    BaseButtonProps;
+export type CleanHTMLButtonProps = BaseProps &
+    BaseProps &
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps>;
+export type CleanHTMLAnchorProps = BaseProps &
+    BaseProps &
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps>;
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-    function Button(
-        {
-            href,
-            variant = "primary",
-            size = "big",
-            disabled,
-            onClick,
-            loading,
-            children,
-            className,
-            active = false,
-            icon: Icon,
-            iconPlacement = "left",
-            ...rest
-        },
-        ref
-    ) {
-        const sharedProps = {
-            className: buttonStyles({
-                active,
-                size,
-                variant,
-                className: className?.root,
-            }),
-        };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const [Root, props]: [ElementType, any] = !!href
-            ? ["a", { href }]
+export type ButtonProps = CleanHTMLButtonProps | CleanHTMLAnchorProps;
+
+export type RefType<P extends ButtonProps> = ForwardedRef<
+    "href" extends keyof P ? HTMLAnchorElement : HTMLButtonElement
+>;
+
+const Component = (props: ButtonProps, ref: RefType<typeof props>) => {
+    const {
+        variant = "primary",
+        size = "big",
+        disabled,
+        onClick,
+        loading,
+        children,
+        className,
+        active = false,
+        icon: Icon,
+        iconPlacement = "left",
+        ...rest
+    } = props;
+
+    const sharedProps = {
+        className: buttonStyles({
+            active,
+            size,
+            variant,
+            className: className?.root,
+        }),
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [Root, rootProps]: [ElementType, any] =
+        "href" in rest
+            ? ["a", { href: rest.href }]
             : ["button", { onClick, disabled: disabled || loading }];
 
-        const hasIcon = !!Icon;
-        let resolvedIcon;
-        if (!!loading)
-            resolvedIcon = (
+    const hasIcon = !!Icon;
+    let resolvedIcon;
+    if (!!loading)
+        resolvedIcon = (
+            <div
+                className={spinnerWrapperStyles({
+                    hasIcon,
+                    loading,
+                    size,
+                    className: className?.iconWrapper,
+                })}
+            >
+                <Spinner
+                    className={cx(
+                        iconStyles({
+                            size,
+                            loading,
+                        }),
+                        spinnerStyles({ hasIcon, loading }),
+                        className?.icon
+                    )}
+                />
+            </div>
+        );
+    else if (!!hasIcon)
+        resolvedIcon = (
+            <Icon
+                className={iconStyles({
+                    size,
+                    className: className?.icon,
+                })}
+            />
+        );
+
+    return (
+        <Root {...sharedProps} {...rootProps} {...rest} ref={ref}>
+            {children && iconPlacement === "left" && resolvedIcon}
+            {children ? (
                 <div
-                    className={spinnerWrapperStyles({
+                    className={wrapperStyles({
                         hasIcon,
                         loading,
-                        size,
-                        className: className?.iconWrapper,
+                        className: className?.contentWrapper,
                     })}
                 >
-                    <Spinner
-                        className={cx(
-                            iconStyles({
-                                size,
-                                loading,
-                            }),
-                            spinnerStyles({ hasIcon, loading }),
-                            className?.icon
-                        )}
-                    />
+                    {children}
                 </div>
-            );
-        else if (!!hasIcon)
-            resolvedIcon = (
-                <Icon
-                    className={iconStyles({
-                        size,
-                        className: className?.icon,
-                    })}
-                />
-            );
+            ) : (
+                resolvedIcon
+            )}
+            {children && iconPlacement === "right" && resolvedIcon}
+        </Root>
+    );
+};
 
-        return (
-            <Root {...sharedProps} {...props} {...rest} ref={ref}>
-                {children && iconPlacement === "left" && resolvedIcon}
-                {children ? (
-                    <div
-                        className={wrapperStyles({
-                            hasIcon,
-                            loading,
-                            className: className?.contentWrapper,
-                        })}
-                    >
-                        {children}
-                    </div>
-                ) : (
-                    resolvedIcon
-                )}
-                {children && iconPlacement === "right" && resolvedIcon}
-            </Root>
-        );
+export const Button = forwardRef(Component) as <P extends ButtonProps>(
+    props: P & {
+        ref?: RefType<P>;
     }
-);
+) => ReturnType<typeof Component>;

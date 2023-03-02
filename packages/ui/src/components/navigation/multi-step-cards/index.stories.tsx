@@ -27,6 +27,7 @@ export const MultiStepCards = () => {
                 step={1}
                 title="Nice step title"
                 messages={{ step: "Step" }}
+                className={{ root: "cui-pb-10" }}
             >
                 <div className="cui-flex cui-flex-col cui-gap-6">
                     <Typography variant="h3" weight="medium">
@@ -38,12 +39,18 @@ export const MultiStepCards = () => {
                     <TextInput
                         id="text-input"
                         label="Add some input"
-                        className={{ input: "cui-w-full" }}
+                        className={{
+                            input: "cui-w-full",
+                            inputWrapper: "cui-w-full",
+                        }}
                     />
                     <TextInput
                         id="another-text-input"
                         label="Mome input"
-                        className={{ input: "cui-w-full" }}
+                        className={{
+                            input: "cui-w-full",
+                            inputWrapper: "cui-w-full",
+                        }}
                     />
                     <NextStepButton onClick={handleStepNext}>
                         Next
@@ -54,17 +61,24 @@ export const MultiStepCards = () => {
                 step={2}
                 title="Another nice step title"
                 messages={{ step: "Step" }}
+                className={{ root: "cui-pb-10" }}
             >
                 <div className="cui-flex cui-flex-col cui-gap-6">
                     <TextInput
                         id="text-input"
                         label="Add some input"
-                        className={{ input: "cui-w-full" }}
+                        className={{
+                            input: "cui-w-full",
+                            inputWrapper: "cui-w-full",
+                        }}
                     />
                     <TextInput
                         id="another-text-input"
                         label="Mome input"
-                        className={{ input: "cui-w-full" }}
+                        className={{
+                            input: "cui-w-full",
+                            inputWrapper: "cui-w-full",
+                        }}
                     />
                 </div>
                 <NextStepButton onClick={handleStepNext}>Next</NextStepButton>
