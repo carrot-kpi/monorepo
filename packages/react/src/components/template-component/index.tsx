@@ -9,7 +9,7 @@ import { cva } from "class-variance-authority";
 import { useTheme } from "../../hooks";
 import { useMedia } from "react-use";
 
-const wrapperStyles = cva([], {
+const wrapperStyles = cva(["h-full"], {
     variants: {
         dark: {
             true: ["dark"],
