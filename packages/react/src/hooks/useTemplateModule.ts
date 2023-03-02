@@ -1,8 +1,9 @@
-import { IPFSService, Template } from "@carrot-kpi/sdk";
+import { Template } from "@carrot-kpi/sdk";
 import { TemplateBundle } from "../i18n";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
 import { State, useSelector } from "@carrot-kpi/shared-state";
+import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
 interface CachedModule {
     Component: FunctionComponent<unknown>;
@@ -25,16 +26,17 @@ export const useTemplateModule = (
             ? state.preferences.kpiTokenTemplateBaseURL
             : state.preferences.oracleTemplateBaseURL
     );
+    const ipfsGatewayURL = useIPFSGatewayURL();
 
     const { baseUrl, entry } = useMemo(() => {
         if (!template) return {};
         return {
             baseUrl:
                 customBaseURL ||
-                `${IPFSService.gateway}/ipfs/${template.specification.cid}`,
+                `${ipfsGatewayURL}/ipfs/${template.specification.cid}`,
             entry: `${template.specification.commitHash || ""}${entryPostfix}`,
         };
-    }, [customBaseURL, entryPostfix, template]);
+    }, [customBaseURL, entryPostfix, ipfsGatewayURL, template]);
     const { loading: loadingFederatedModule, container } =
         useFederatedModuleContainer(baseUrl, entry);
 

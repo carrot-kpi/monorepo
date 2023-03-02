@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
     KPITokenCreationForm,
+    useIPFSGatewayURL,
     usePreferDecentralization,
 } from "@carrot-kpi/react";
 import { useTransition, config as springConfig } from "@react-spring/web";
@@ -31,6 +32,7 @@ export const CreateWithTemplateId = ({
     const { templateId } = useParams();
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
+    const ipfsGatewayURL = useIPFSGatewayURL();
 
     const [template, setTemplate] = useState<Template | null>(
         state ? state.template : null
@@ -60,6 +62,7 @@ export const CreateWithTemplateId = ({
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
                     provider,
+                    ipfsGatewayURL,
                     preferDecentralization,
                     ids: [templateId],
                 });
@@ -77,7 +80,13 @@ export const CreateWithTemplateId = ({
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider, state?.template, templateId]);
+    }, [
+        ipfsGatewayURL,
+        preferDecentralization,
+        provider,
+        state.template,
+        templateId,
+    ]);
 
     const [creationTx, setCreationTx] = useState<
         providers.TransactionRequest & {

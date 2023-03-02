@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { KPITokenPage, usePreferDecentralization } from "@carrot-kpi/react";
+import {
+    KPITokenPage,
+    useIPFSGatewayURL,
+    usePreferDecentralization,
+} from "@carrot-kpi/react";
 import { Fetcher, KPIToken } from "@carrot-kpi/sdk";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -20,6 +24,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const { address } = useParams();
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
+    const ipfsGatewayURL = useIPFSGatewayURL();
 
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
@@ -50,6 +55,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                 const kpiToken = (
                     await Fetcher.fetchKPITokens({
                         provider,
+                        ipfsGatewayURL,
                         preferDecentralization,
                         addresses: [address],
                     })
@@ -68,7 +74,13 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider, address, state?.kpiToken]);
+    }, [
+        preferDecentralization,
+        provider,
+        address,
+        state.kpiToken,
+        ipfsGatewayURL,
+    ]);
 
     const handleDismiss = useCallback(() => {
         setKPIToken(null);
