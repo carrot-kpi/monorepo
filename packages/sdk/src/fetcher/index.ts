@@ -16,6 +16,7 @@ import { CoreFetcher } from "./core";
 import { Token } from "../entities/token";
 
 export * from "./abstraction";
+export * from "./core";
 
 class FullFetcher implements IFullCarrotFetcher {
     private async shouldUseSubgraph({
