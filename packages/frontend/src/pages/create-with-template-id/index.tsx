@@ -38,12 +38,13 @@ export const CreateWithTemplateId = ({
         state ? state.template : null
     );
     const transitions = useTransition(!closing && template, {
-        config: { ...springConfig.default, duration: 200 },
-        from: { opacity: 0, translateY: "1%" },
-        enter: { opacity: 1, translateY: "0%" },
+        config: { ...springConfig.default, duration: 100 },
+        from: { opacity: 0, translateY: "0.5%", scale: 0.99 },
+        enter: { opacity: 1, translateY: "0%", scale: 1 },
         leave: {
             opacity: 0,
-            translateY: "1%",
+            translateY: "0.5%",
+            scale: 0.99,
         },
         onDestroyed: onOutAnimationEnd,
     });
