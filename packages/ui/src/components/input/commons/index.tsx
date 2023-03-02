@@ -16,7 +16,7 @@ export interface PartialBaseInputProps<V> {
     variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
-    value?: V;
+    value?: V | null;
     border?: boolean;
 }
 
