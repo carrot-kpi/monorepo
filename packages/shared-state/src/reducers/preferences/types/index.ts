@@ -3,6 +3,7 @@ export type Theme = "dark" | "light" | "system";
 export interface PreferencesState {
     theme: Theme;
     preferDecentralization: boolean;
+    ipfsGatewayURL: string;
 
     // templates/libs will know when the platform is being run locally
     // in order to develop templates, and will be able to act accordingly
