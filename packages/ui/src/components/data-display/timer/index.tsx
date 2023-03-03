@@ -2,11 +2,11 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { formatCountDownString } from "../../../utils/formatting";
 import { Typography } from "../typography";
 import { ReactComponent as ClockSvg } from "../../../assets/clock.svg";
-import { cva } from "class-variance-authority";
+import { mergedCva } from "../../../utils/components";
 
-const rootStyles = cva(["cui-flex", "cui-gap-2", "cui-items-center"]);
+const rootStyles = mergedCva(["cui-flex", "cui-gap-2", "cui-items-center"]);
 
-const iconStyles = cva([
+const iconStyles = mergedCva([
     "cui-h-4",
     "cui-w-4",
     "cui-stroke-black",

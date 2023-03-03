@@ -1,30 +1,25 @@
 import { ChainId } from "@carrot-kpi/sdk";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { SUPPORTED_CHAINS } from "../../constants";
 import { ReactComponent as Error } from "../../assets/error.svg";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useTranslation } from "react-i18next";
 import { Button } from "@carrot-kpi/ui";
-import { useNetwork, useAccount, useEnsAvatar, useEnsName } from "wagmi";
-import makeBlockie from "ethereum-blockies-base64";
+import { useNetwork, useAccount } from "wagmi";
 import { constants } from "ethers";
 import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
-import { shortenAddress } from "../../utils/address";
+import { useClickAway } from "react-use";
+import { Avatar } from "./avatar";
 
 // TODO: implement loading states
 export const ConnectWallet = () => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
     const { address } = useAccount();
-    const { data: ensName } = useEnsName({
-        address,
-    });
-    const { data: ensAvatar } = useEnsAvatar({
-        address,
-    });
+
     const networksPopoverAnchorRef = useRef<HTMLDivElement>(null);
     const networksPopoverRef = useRef<HTMLDivElement>(null);
     const connectWalletRef = useRef<HTMLButtonElement>(null);
@@ -34,6 +29,18 @@ export const ConnectWallet = () => {
     const [networksPopoverOpen, setNetworksPopoverOpen] = useState(false);
     const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [accountPopoverOpen, setAccountPopoverOpen] = useState(false);
+
+    useClickAway(networksPopoverRef, () => {
+        setNetworksPopoverOpen(false);
+    });
+
+    useClickAway(connectPopoverRef, () => {
+        setConnectPopoverOpen(false);
+    });
+
+    useClickAway(accountPopoverRef, () => {
+        setAccountPopoverOpen(false);
+    });
 
     const handleNetworksPopoverOpen = useCallback(() => {
         setNetworksPopoverOpen(true);
@@ -59,30 +66,6 @@ export const ConnectWallet = () => {
         setAccountPopoverOpen(false);
     }, []);
 
-    useEffect(() => {
-        const handleCloseOnClick = (event: MouseEvent) => {
-            if (
-                !!networksPopoverRef.current &&
-                !networksPopoverRef.current.contains(event.target as Node)
-            )
-                setNetworksPopoverOpen(false);
-            if (
-                !!connectPopoverRef.current &&
-                !connectPopoverRef.current.contains(event.target as Node)
-            )
-                setConnectPopoverOpen(false);
-            if (
-                !!accountPopoverRef.current &&
-                !accountPopoverRef.current.contains(event.target as Node)
-            )
-                setAccountPopoverOpen(false);
-        };
-        document.addEventListener("mousedown", handleCloseOnClick);
-        return () => {
-            document.removeEventListener("mousedown", handleCloseOnClick);
-        };
-    }, [networksPopoverOpen]);
-
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
     // TODO: i18n
     const chainName = chain?.name || "Unknown";
@@ -106,12 +89,15 @@ export const ConnectWallet = () => {
                         onClose={handleConnectPopoverClose}
                         ref={connectPopoverRef}
                     />
-                    <AccountPopover
-                        open={accountPopoverOpen}
-                        anchor={connectWalletRef.current}
-                        onClose={handleAccountPopoverClose}
-                        ref={accountPopoverRef}
-                    />
+                    {address && (
+                        <AccountPopover
+                            address={address as string}
+                            open={accountPopoverOpen}
+                            anchor={connectWalletRef.current}
+                            onClose={handleAccountPopoverClose}
+                            ref={accountPopoverRef}
+                        />
+                    )}
                 </>
             )}
             <div className="flex flex-col gap-4 xl:flex-row">
@@ -146,16 +132,10 @@ export const ConnectWallet = () => {
                         ref={connectWalletRef}
                         onClick={handleAccountPopoverOpen}
                         className={{
-                            root: "h-12 px-3",
+                            root: "w-12 h-12 p-0",
                         }}
                     >
-                        <div className="flex items-center text-base">
-                            <img
-                                className="mr-3 rounded-full w-7 h-7"
-                                src={ensAvatar || makeBlockie(address)}
-                            />
-                            {ensName || shortenAddress(address)}
-                        </div>
+                        <Avatar address={address} />
                     </Button>
                 ) : (
                     <Button

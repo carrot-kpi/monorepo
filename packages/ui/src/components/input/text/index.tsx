@@ -13,8 +13,13 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             variant,
             border,
             helperText,
+            icon,
+            iconPlacement,
+            action,
+            actionPlacement,
             error = false,
             className,
+            value,
             ...rest
         },
         ref
@@ -25,17 +30,23 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 label={label}
                 error={error}
                 helperText={helperText}
+                icon={icon}
+                iconPlacement={iconPlacement}
+                action={action}
+                actionPlacement={actionPlacement}
                 className={className}
             >
                 <input
                     id={id}
                     type="text"
                     ref={ref}
+                    value={value || ""}
                     {...rest}
                     className={inputStyles({
                         error,
                         variant,
                         border,
+                        hasLeftIcon: !!icon && iconPlacement === "left",
                         className: className?.input,
                     })}
                 />

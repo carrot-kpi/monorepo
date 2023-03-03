@@ -1,10 +1,10 @@
-import { cva } from "class-variance-authority";
 import React, { forwardRef, HTMLAttributes, ReactElement } from "react";
 import { Typography } from "../../data-display";
 import { BaseInputWrapper, BaseInputWrapperProps } from "../commons";
 import { ReactComponent as Tick } from "../../../assets/tick.svg";
+import { mergedCva } from "../../../utils/components";
 
-const inputWrapperStyles = cva(["cui-flex", "cui-items-center"], {
+const inputWrapperStyles = mergedCva(["cui-flex", "cui-items-center"], {
     variants: {
         hasLabel: {
             true: ["cui-gap-2"],
@@ -12,7 +12,7 @@ const inputWrapperStyles = cva(["cui-flex", "cui-items-center"], {
     },
 });
 
-const checkmarkBackgroundStyles = cva(
+const checkmarkBackgroundStyles = mergedCva(
     [
         "cui-relative",
         "cui-w-5",
@@ -33,7 +33,7 @@ const checkmarkBackgroundStyles = cva(
     }
 );
 
-const checkmarkStyles = cva(
+const checkmarkStyles = mergedCva(
     [
         "cui-absolute",
         "cui-top-0",
@@ -54,7 +54,7 @@ const checkmarkStyles = cva(
     }
 );
 
-const inputStyles = cva([
+const inputStyles = mergedCva([
     "cui-cursor-pointer",
     "cui-absolute",
     "cui-top-0",

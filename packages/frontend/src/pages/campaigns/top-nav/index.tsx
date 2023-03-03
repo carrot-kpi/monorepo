@@ -1,7 +1,9 @@
-import { SearchInput } from "@carrot-kpi/ui";
+import { TextInput } from "@carrot-kpi/ui";
 import { Select, SelectOption } from "@carrot-kpi/ui";
 import React /* , { ChangeEvent } */ from "react";
 import { ToggleFiltersButton } from "./toggle-filters-button";
+import { ReactComponent as MagnifyingLens } from "../../../assets/magnifying-lens.svg";
+import { t } from "i18next";
 
 interface CampaignsTopNavProps {
     ordering: SelectOption;
@@ -65,7 +67,10 @@ CampaignsTopNavProps) => {
                         />
                     </div>
                 </div>
-                <SearchInput
+                <TextInput
+                    icon={MagnifyingLens}
+                    iconPlacement="left"
+                    placeholder={t("search")}
                     id="search-input-campaigns"
                     onChange={() => {
                         // avoid linting error

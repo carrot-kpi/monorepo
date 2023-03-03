@@ -1,8 +1,8 @@
-import { cva } from "class-variance-authority";
 import React, { useCallback, useEffect, useState } from "react";
+import { mergedCva } from "../../../utils/components";
 import { resolveSrc } from "../../../utils/url";
 
-const rootStyles = cva(
+const rootStyles = mergedCva(
     [
         "cui-bg-black",
         "dark:cui-bg-white",

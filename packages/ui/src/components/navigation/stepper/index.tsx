@@ -1,9 +1,9 @@
-import { cva } from "class-variance-authority";
 import React from "react";
 import { ReactElement, useCallback } from "react";
+import { mergedCva } from "../../../utils/components";
 import { Typography } from "../../data-display";
 
-const rootStyles = cva(["cui-flex"], {
+const rootStyles = mergedCva(["cui-flex"], {
     variants: {
         layout: {
             vertical: ["cui-flex-col", "cui-gap-8"],
@@ -17,7 +17,7 @@ const rootStyles = cva(["cui-flex"], {
     },
 });
 
-const stepStyles = cva(["cui-flex", "cui-items-center", "cui-gap-4"], {
+const stepStyles = mergedCva(["cui-flex", "cui-items-center", "cui-gap-4"], {
     variants: {
         layout: {
             vertical: [],
@@ -37,7 +37,7 @@ const stepStyles = cva(["cui-flex", "cui-items-center", "cui-gap-4"], {
     },
 });
 
-const squareStyles = cva(["cui-relative", "cui-h-3", "cui-w-3"], {
+const squareStyles = mergedCva(["cui-relative", "cui-h-3", "cui-w-3"], {
     variants: {
         active: {
             true: ["cui-bg-orange"],
@@ -50,7 +50,7 @@ const squareStyles = cva(["cui-relative", "cui-h-3", "cui-w-3"], {
     },
 });
 
-const lineStyles = cva(["cui-absolute"], {
+const lineStyles = mergedCva(["cui-absolute"], {
     variants: {
         layout: {
             vertical: [
@@ -84,7 +84,7 @@ const lineStyles = cva(["cui-absolute"], {
     },
 });
 
-const labelStyles = cva([], {
+const labelStyles = mergedCva([], {
     variants: {
         layout: {
             vertical: [],

@@ -11,4 +11,3 @@ export * from "./utils";
 
 export * from "./cacher";
 export * from "./fetcher";
-export * from "./services";

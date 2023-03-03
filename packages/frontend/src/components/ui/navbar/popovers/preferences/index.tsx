@@ -1,15 +1,18 @@
-import React, { useCallback } from "react";
-import { Popover, Switch, Typography } from "@carrot-kpi/ui";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import {
+    Popover,
+    Select,
+    SelectOption,
+    Switch,
+    Typography,
+} from "@carrot-kpi/ui";
 import { forwardRef } from "react";
 import {
     usePreferDecentralization,
-    useTheme,
-    useSetTheme,
     useSetPreferDecentralization,
 } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
 import { InfoPopover } from "../../../../info-popover";
-import { useMedia } from "react-use";
 
 interface PreferencesPopoverProps {
     open: boolean;
@@ -22,18 +25,36 @@ export const PreferencesPopover = forwardRef<
     PreferencesPopoverProps
 >(function PreferencesPopover({ open, anchor }, ref) {
     const { t } = useTranslation();
-    const theme = useTheme();
-    const setTheme = useSetTheme();
     const preferDecentralization = usePreferDecentralization();
     const setPreferDecentralization = useSetPreferDecentralization();
-    const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
+    const darkThemeSwitchRef = useRef<HTMLDivElement>(null);
+    const themeOptions = useMemo(() => {
+        const options: SelectOption[] = [
+            {
+                value: "light",
+                label: t("theme.light"),
+            },
+            {
+                value: "dark",
+                label: t("theme.dark"),
+            },
+            {
+                value: "system",
+                label: t("theme.system"),
+            },
+        ];
+        return options;
+    }, [t]);
 
-    const handleDarkThemeChange = useCallback(
-        (value: boolean) => {
-            setTheme(value ? "dark" : "light");
-        },
-        [setTheme]
-    );
+    const [darkThemePopoverOpen, setDarkThemePopoverOpen] = useState(false);
+
+    const handleDarkThemeSwitchMouseEnter = useCallback(() => {
+        setDarkThemePopoverOpen(true);
+    }, []);
+
+    const handleDarkThemeSwitchMouseLeave = useCallback(() => {
+        setDarkThemePopoverOpen(false);
+    }, []);
 
     return (
         <Popover
@@ -48,13 +69,36 @@ export const PreferencesPopover = forwardRef<
             </Typography>
             <div className="flex justify-between gap-20 items-center">
                 <Typography>{t("preferences.theme")}</Typography>
-                <Switch
-                    checked={
-                        (systemDarkTheme && theme === "system") ||
-                        theme === "dark"
-                    }
-                    onChange={handleDarkThemeChange}
-                />
+                <Popover
+                    className={{ root: "p-2" }}
+                    anchor={darkThemeSwitchRef.current}
+                    open={darkThemePopoverOpen}
+                >
+                    <Typography>{t("coming.soon.dark.theme")}</Typography>
+                </Popover>
+                <div
+                    onMouseEnter={handleDarkThemeSwitchMouseEnter}
+                    onMouseLeave={handleDarkThemeSwitchMouseLeave}
+                    ref={darkThemeSwitchRef}
+                >
+                    <Select
+                        id="theme-select"
+                        disabled
+                        options={themeOptions}
+                        value={
+                            themeOptions.find(
+                                (option) => option.value === "light"
+                            ) || null
+                        }
+                        // eslint-disable-next-line @typescript-eslint/no-empty-function
+                        onChange={() => {}}
+                        className={{
+                            root: "opacity-50 pointer-events-none cursor-not-allowed",
+                            inputWrapper: "w-32",
+                            input: "w-32",
+                        }}
+                    />
+                </div>
             </div>
             {!__PREVIEW_MODE__ && (
                 <div className="flex justify-between gap-20 items-center">

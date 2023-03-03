@@ -9,6 +9,7 @@ import { ReactComponent as X } from "../../../assets/x.svg";
 import { ReactComponent as SettingsIcon } from "../../../assets/settings.svg";
 import { Button } from "@carrot-kpi/ui";
 import { PreferencesPopover } from "./popovers/preferences";
+import { useClickAway } from "react-use";
 
 const navWrapperStyles = cva([""], {
     variants: {
@@ -87,6 +88,10 @@ export const Navbar = ({
     const [isOpen, setOpen] = useState(false);
     const [preferencesPopoverOpen, setPreferencesPopoverOpen] = useState(false);
 
+    useClickAway(preferencesPopoverRef, () => {
+        setPreferencesPopoverOpen(false);
+    });
+
     useEffect(() => {
         const closeMenuOnResizeToDesktop = () => {
             if (window.innerWidth > 700) setOpen(false);
@@ -97,20 +102,6 @@ export const Navbar = ({
             window.removeEventListener("resize", closeMenuOnResizeToDesktop);
         };
     }, [isOpen]);
-
-    useEffect(() => {
-        const handleCloseOnClick = (event: MouseEvent) => {
-            if (
-                !!preferencesPopoverRef.current &&
-                !preferencesPopoverRef.current.contains(event.target as Node)
-            )
-                setPreferencesPopoverOpen(false);
-        };
-        document.addEventListener("mousedown", handleCloseOnClick);
-        return () => {
-            document.removeEventListener("mousedown", handleCloseOnClick);
-        };
-    }, [preferencesPopoverOpen]);
 
     const handlePreferencesPopoverOpen = useCallback(() => {
         setPreferencesPopoverOpen(true);

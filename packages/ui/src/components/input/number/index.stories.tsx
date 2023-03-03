@@ -14,7 +14,8 @@ const Template: Story<NumberInputProps> = (props: NumberInputProps) => (
 
 export const Number: Story<NumberInputProps> = Template.bind({});
 Number.args = {
-    size: "md",
+    variant: "md",
     label: "Number input",
     placeholder: "Number input",
+    error: false,
 };

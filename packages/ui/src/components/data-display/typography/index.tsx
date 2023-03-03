@@ -4,9 +4,9 @@ import React, {
     HTMLAttributes,
     ReactNode,
 } from "react";
-import { cva } from "class-variance-authority";
+import { mergedCva } from "../../../utils/components";
 
-const rootStyles = cva(["cui-text-black dark:cui-text-white"], {
+const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
     variants: {
         uppercase: {
             true: ["cui-uppercase"],

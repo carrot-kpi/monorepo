@@ -1,8 +1,8 @@
-import { cva } from "class-variance-authority";
 import React, { ReactNode } from "react";
+import { mergedCva } from "../../../utils/components";
 import { Typography } from "../typography";
 
-const rootStyles = cva([
+const rootStyles = mergedCva([
     "cui-bg-transparent",
     "cui-p-1",
     "cui-px-2",

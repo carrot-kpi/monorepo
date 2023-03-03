@@ -10,9 +10,9 @@ import { ReactComponent as ItalicIcon } from "../../../../assets/italic-icon.svg
 import { ReactComponent as ListOrderedIcon } from "../../../../assets/list-ordered-icon.svg";
 import { ReactComponent as ListUnorderedIcon } from "../../../../assets/list-unordered-icon.svg";
 import { Editor } from "@tiptap/react";
-import { cva } from "class-variance-authority";
+import { mergedCva } from "../../../../utils/components";
 
-const rootStyles = cva(
+const rootStyles = mergedCva(
     [
         "cui-flex cui-flex-wrap cui-content-center cui-gap-2.5 cui-border-b",
         "cui-border-black dark:cui-border-white cui-p-2 cui-rounded-t-xxl",

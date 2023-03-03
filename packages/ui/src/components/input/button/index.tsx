@@ -1,141 +1,28 @@
 import React, {
+    AnchorHTMLAttributes,
+    ButtonHTMLAttributes,
     ElementType,
+    ForwardedRef,
     forwardRef,
     FunctionComponent,
-    HTMLAttributes,
     ReactNode,
     SVGProps,
 } from "react";
-import { cva, cx } from "class-variance-authority";
+import { cx } from "class-variance-authority";
 import { ReactComponent as Spinner } from "../../../assets/spinner.svg";
+import { mergedCva } from "../../../utils/components";
 
-interface BaseButtonProps {
-    onClick?: (event: React.MouseEvent) => void;
-    href?: string;
-    disabled?: boolean;
-    loading?: boolean;
-    className?: {
-        root?: string;
-        iconWrapper?: string;
-        icon?: string;
-        contentWrapper?: string;
-    };
-    icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
-    iconPlacement?: "left" | "right";
-    size?: "big" | "small" | "xsmall";
-    variant?: "primary" | "secondary";
-    active?: boolean;
-    children?: ReactNode;
-}
-
-export type ButtonProps = Omit<
-    HTMLAttributes<
-        BaseButtonProps["href"] extends string
-            ? HTMLAnchorElement
-            : HTMLButtonElement
-    >,
-    keyof BaseButtonProps
-> &
-    BaseButtonProps;
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-    function Button(
-        {
-            href,
-            variant = "primary",
-            size = "big",
-            disabled,
-            onClick,
-            loading,
-            children,
-            className,
-            active = false,
-            icon: Icon,
-            iconPlacement = "left",
-            ...rest
-        },
-        ref
-    ) {
-        const sharedProps = {
-            className: buttonStyles({
-                active,
-                size,
-                variant,
-                className: className?.root,
-            }),
-        };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const [Root, props]: [ElementType, any] = !!href
-            ? ["a", { href }]
-            : ["button", { onClick, disabled: disabled || loading }];
-
-        const hasIcon = !!Icon;
-        let resolvedIcon;
-        if (!!loading)
-            resolvedIcon = (
-                <div
-                    className={spinnerWrapperStyles({
-                        hasIcon,
-                        loading,
-                        size,
-                        className: className?.iconWrapper,
-                    })}
-                >
-                    <Spinner
-                        className={cx(
-                            iconStyles({
-                                size,
-                                loading,
-                            }),
-                            spinnerStyles({ hasIcon, loading }),
-                            className?.icon
-                        )}
-                    />
-                </div>
-            );
-        else if (!!hasIcon)
-            resolvedIcon = (
-                <Icon
-                    className={iconStyles({
-                        size,
-                        className: className?.icon,
-                    })}
-                />
-            );
-
-        return (
-            <Root {...sharedProps} {...props} {...rest} ref={ref}>
-                {children && iconPlacement === "left" && resolvedIcon}
-                {children ? (
-                    <div
-                        className={wrapperStyles({
-                            hasIcon,
-                            loading,
-                            className: className?.contentWrapper,
-                        })}
-                    >
-                        {children}
-                    </div>
-                ) : (
-                    resolvedIcon
-                )}
-                {children && iconPlacement === "right" && resolvedIcon}
-            </Root>
-        );
-    }
-);
-
-const buttonStyles = cva(
+const buttonStyles = mergedCva(
     [
         "cui-relative",
         "cui-w-fit",
         "cui-flex cui-items-center cui-justify-center",
         "cui-font-mono cui-uppercase",
         "cui-border cui-border-black",
-        "cui-rounded-xxl",
         "cui-cursor-pointer",
         "cui-group",
         "cui-transition-colors",
+        "cui-rounded-xxl",
     ],
     {
         variants: {
@@ -193,72 +80,200 @@ const buttonStyles = cva(
     }
 );
 
-const iconStyles = cva(["only:cui-m-0", "first:cui-mr-2", "last:cui-ml-2"], {
-    variants: {
-        size: {
-            big: "cui-w-6 cui-h-6",
-            small: "cui-w-5 cui-h-5",
-            xsmall: "cui-w-4 cui-h-4",
+const iconStyles = mergedCva(
+    ["only:cui-m-0", "first:cui-mr-2", "last:cui-ml-2"],
+    {
+        variants: {
+            size: {
+                big: ["cui-w-6 cui-h-6"],
+                small: ["cui-w-5 cui-h-5"],
+                xsmall: ["cui-w-4 cui-h-4"],
+            },
+            loading: {
+                true: ["cui-animate-spin"],
+            },
         },
-        loading: {
-            true: "cui-animate-spin",
-        },
-    },
-});
+    }
+);
 
-const spinnerWrapperStyles = cva(
+const spinnerWrapperStyles = mergedCva(
     ["only:cui-m-0", "first:cui-mr-2", "last:cui-ml-2"],
     {
         variants: {
             hasIcon: {
-                false: "",
+                false: [],
             },
             loading: {
-                true: "",
+                true: [],
             },
             size: {
-                big: "cui-w-6 cui-h-6",
-                small: "cui-w-5 cui-h-5",
-                xsmall: "cui-w-4 cui-h-4",
+                big: ["cui-w-6 cui-h-6"],
+                small: ["cui-w-5 cui-h-5"],
+                xsmall: ["cui-w-4 cui-h-4"],
             },
         },
         compoundVariants: [
             {
                 hasIcon: false,
                 loading: true,
-                className:
-                    "cui-absolute cui-left-1/2 cui-transform -cui-translate-x-1/2",
+                className: [
+                    "cui-absolute",
+                    "cui-left-1/2",
+                    "cui-transform",
+                    "-cui-translate-x-1/2",
+                ],
             },
         ],
     }
 );
 
-const spinnerStyles = cva("", {
+const spinnerStyles = mergedCva([], {
     variants: {
         hasIcon: {
-            false: "!cui-m-0",
+            false: ["!cui-m-0"],
         },
         loading: {
-            true: "cui-animate-spin",
+            true: ["cui-animate-spin"],
         },
     },
 });
 
-const wrapperStyles = cva("", {
+const wrapperStyles = mergedCva([], {
     variants: {
         hasIcon: {
-            true: "",
-            false: "",
+            true: [],
+            false: [],
         },
         loading: {
-            true: "",
+            true: [],
         },
     },
     compoundVariants: [
         {
             hasIcon: false,
             loading: true,
-            className: "cui-invisible",
+            className: ["cui-invisible"],
         },
     ],
 });
+
+export interface BaseProps {
+    onClick?: (event: React.MouseEvent) => void;
+    disabled?: boolean;
+    loading?: boolean;
+    className?: {
+        root?: string;
+        iconWrapper?: string;
+        icon?: string;
+        contentWrapper?: string;
+    };
+    icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
+    iconPlacement?: "left" | "right";
+    size?: "big" | "small" | "xsmall";
+    variant?: "primary" | "secondary";
+    active?: boolean;
+    children?: ReactNode;
+}
+
+export type CleanHTMLButtonProps = BaseProps &
+    BaseProps &
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps>;
+export type CleanHTMLAnchorProps = BaseProps &
+    BaseProps &
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps>;
+
+export type ButtonProps = CleanHTMLButtonProps | CleanHTMLAnchorProps;
+
+export type RefType<P extends ButtonProps> = ForwardedRef<
+    "href" extends keyof P ? HTMLAnchorElement : HTMLButtonElement
+>;
+
+const Component = (props: ButtonProps, ref: RefType<typeof props>) => {
+    const {
+        variant = "primary",
+        size = "big",
+        disabled,
+        onClick,
+        loading,
+        children,
+        className,
+        active = false,
+        icon: Icon,
+        iconPlacement = "left",
+        ...rest
+    } = props;
+
+    const sharedProps = {
+        className: buttonStyles({
+            active,
+            size,
+            variant,
+            className: className?.root,
+        }),
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [Root, rootProps]: [ElementType, any] =
+        "href" in rest
+            ? ["a", { href: rest.href }]
+            : ["button", { onClick, disabled: disabled || loading }];
+
+    const hasIcon = !!Icon;
+    let resolvedIcon;
+    if (!!loading)
+        resolvedIcon = (
+            <div
+                className={spinnerWrapperStyles({
+                    hasIcon,
+                    loading,
+                    size,
+                    className: className?.iconWrapper,
+                })}
+            >
+                <Spinner
+                    className={cx(
+                        iconStyles({
+                            size,
+                            loading,
+                        }),
+                        spinnerStyles({ hasIcon, loading }),
+                        className?.icon
+                    )}
+                />
+            </div>
+        );
+    else if (!!hasIcon)
+        resolvedIcon = (
+            <Icon
+                className={iconStyles({
+                    size,
+                    className: className?.icon,
+                })}
+            />
+        );
+
+    return (
+        <Root {...sharedProps} {...rootProps} {...rest} ref={ref}>
+            {children && iconPlacement === "left" && resolvedIcon}
+            {children ? (
+                <div
+                    className={wrapperStyles({
+                        hasIcon,
+                        loading,
+                        className: className?.contentWrapper,
+                    })}
+                >
+                    {children}
+                </div>
+            ) : (
+                resolvedIcon
+            )}
+            {children && iconPlacement === "right" && resolvedIcon}
+        </Root>
+    );
+};
+
+export const Button = forwardRef(Component) as <P extends ButtonProps>(
+    props: P & {
+        ref?: RefType<P>;
+    }
+) => ReturnType<typeof Component>;

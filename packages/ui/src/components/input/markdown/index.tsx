@@ -4,10 +4,11 @@ import Placeholder from "@tiptap/extension-placeholder";
 import React, { ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
-import { BaseInputWrapper } from "../commons";
-import { cva } from "class-variance-authority";
+import { BaseInputProps, BaseInputWrapper } from "../commons";
+import { mergedCva } from "../../../utils/components";
 
-export interface MarkdownInputProps {
+export interface MarkdownInputProps
+    extends Omit<BaseInputProps<string>, "onChange"> {
     id: string;
     label: string;
     error?: boolean;
@@ -15,10 +16,9 @@ export interface MarkdownInputProps {
     placeholder?: string;
     value?: string;
     onChange: (value: string) => void;
-    className?: string;
 }
 
-export const markdownInputRootStyles = cva([
+export const markdownInputRootStyles = mergedCva([
     "cui-rounded-xxl",
     "cui-border",
     "cui-border-black",
@@ -28,7 +28,7 @@ export const markdownInputRootStyles = cva([
     "dark:focus-within:cui-border-orange",
 ]);
 
-export const markdownInputContentStyles = cva(
+export const markdownInputContentStyles = mergedCva(
     [
         "cui-rounded-b-xxl",
         "cui-scrollbar",
@@ -103,9 +103,12 @@ export const MarkdownInput = ({
             label={label}
             error={error}
             helperText={helperText}
+            className={{ ...className }}
         >
             <div
-                className={markdownInputRootStyles({ className })}
+                className={markdownInputRootStyles({
+                    className: className?.input,
+                })}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >

@@ -23,10 +23,15 @@ module.exports = {
                     loader: "postcss-loader",
                     options: {
                         postcssOptions: {
-                            plugins: [
-                                require("tailwindcss"),
-                                require("autoprefixer"),
-                            ],
+                            plugins: {
+                                tailwindcss: {
+                                    config: path.resolve(
+                                        __dirname,
+                                        "../src/tailwind.config.js"
+                                    ),
+                                },
+                                autoprefixer: {},
+                            },
                         },
                     },
                 },

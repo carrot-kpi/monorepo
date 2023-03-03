@@ -1,7 +1,7 @@
 import React from "react";
-import { cva } from "class-variance-authority";
+import { mergedCva } from "../../../utils/components";
 
-const rootStyles = cva(
+const rootStyles = mergedCva(
     ["cui-bg-gray-200 dark:cui-bg-gray-600 cui-animate-pulse"],
     {
         variants: {

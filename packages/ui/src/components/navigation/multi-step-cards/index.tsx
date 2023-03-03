@@ -1,7 +1,6 @@
-import { cva } from "class-variance-authority";
 import React, { ReactNode, useMemo } from "react";
 import { ReactElement } from "react";
-import { matchChildByType } from "../../../utils/components";
+import { matchChildByType, mergedCva } from "../../../utils/components";
 import { StepCard, StepCardProps } from "./step-card";
 import { NextStepPreview, NextStepPreviewProps } from "./step-preview";
 
@@ -9,14 +8,14 @@ export * from "./step-card";
 export * from "./step-preview";
 export * from "./next-button";
 
-const rootStyles = cva([
+const rootStyles = mergedCva([
     "cui-w-full",
     "cui-max-w-xl",
     "cui-flex",
     "cui-flex-col",
 ]);
 
-const stepsPreviewContainerStyles = cva([
+const stepsPreviewContainerStyles = mergedCva([
     "cui-mt-20",
     "min-h-fit",
     "w-full",

@@ -1,7 +1,7 @@
 import React from "react";
-import { cva } from "class-variance-authority";
+import { mergedCva } from "../../../../utils/components";
 
-const rootStyles = cva([
+const rootStyles = mergedCva([
     "cui-h-[1px]",
     "cui-w-full",
     "cui-bg-black",

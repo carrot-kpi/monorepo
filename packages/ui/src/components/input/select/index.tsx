@@ -1,19 +1,22 @@
 import React, {
     ReactElement,
     useCallback,
-    useEffect,
     useState,
     MouseEvent as SpecificMouseEvent,
     useRef,
     forwardRef,
     ForwardedRef,
 } from "react";
-import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
+import { BaseInputProps } from "../commons";
 import { ReactComponent as ChevronUp } from "../../../assets/chevron-up.svg";
-import { cva, cx } from "class-variance-authority";
+import { ReactComponent as ChevronDown } from "../../../assets/chevron-down.svg";
+import { cx } from "class-variance-authority";
 import { Popover } from "../../utils/popover";
+import { TextInput } from "../text";
+import { useClickAway } from "react-use";
+import { mergedCva } from "../../../utils/components";
 
-const dropdownRootStyles = cva([
+const dropdownRootStyles = mergedCva([
     "cui-rounded-xxl",
     "cui-border",
     "cui-bg-white",
@@ -23,32 +26,7 @@ const dropdownRootStyles = cva([
     "cui-overflow-hidden",
 ]);
 
-const arrowStyles = cva(
-    [
-        "cui-select-caret",
-        "cui-absolute",
-        "cui-pointer-events-none",
-        "cui-cursor-pointer",
-        "cui-text-black",
-        "dark:cui-text-white",
-        "cui-right-4",
-        "cui-top-1/2",
-        "cui-transform",
-        "-cui-translate-y-1/2",
-    ],
-    {
-        variants: {
-            open: {
-                false: ["cui-rotate-180"],
-            },
-        },
-        defaultVariants: {
-            open: false,
-        },
-    }
-);
-
-const optionStyles = cva(
+const optionStyles = mergedCva(
     [
         "cui-cursor-pointer",
         "cui-p-3",
@@ -80,8 +58,7 @@ const optionStyles = cva(
     }
 );
 
-const selectAnchorStyles = cva(["cui-relative", "cui-w-fit"]);
-const customOptionWrapperStyles = cva(["cui-pointer-events-none"]);
+const customOptionWrapperStyles = mergedCva(["cui-pointer-events-none"]);
 
 export interface SelectOption {
     label: string;
@@ -94,8 +71,6 @@ export type ValueType = string | number;
 export type SelectProps<O extends SelectOption = SelectOption> = {
     options: O[];
     value: O | null;
-    helperText?: string;
-    error?: boolean;
     onChange: (value: O) => void;
     renderOption?: (value: O) => ReactElement;
     className?: BaseInputProps<unknown>["className"] & {
@@ -110,12 +85,7 @@ export type SelectProps<O extends SelectOption = SelectOption> = {
 const Component = <O extends SelectOption>(
     {
         id,
-        variant,
-        label,
-        border,
         options,
-        helperText,
-        error = false,
         value,
         onChange,
         className,
@@ -124,25 +94,13 @@ const Component = <O extends SelectOption>(
     }: SelectProps<O>,
     ref: ForwardedRef<HTMLInputElement>
 ): ReactElement => {
-    const anchorRef = useRef<HTMLDivElement>(null);
+    const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        const handleCloseOnClick = (event: MouseEvent) => {
-            if (!open || !dropdownRef.current || !anchorRef.current) return;
-            if (
-                !dropdownRef.current.contains(event.target as Node) &&
-                !anchorRef.current.contains(event.target as Node)
-            )
-                setOpen(false);
-        };
-
-        document.addEventListener("mousedown", handleCloseOnClick);
-        return () => {
-            document.removeEventListener("mousedown", handleCloseOnClick);
-        };
-    }, [open]);
+    useClickAway(dropdownRef, () => {
+        setOpen(false);
+    });
 
     const handleClick = useCallback(() => {
         setOpen(!open);
@@ -160,49 +118,31 @@ const Component = <O extends SelectOption>(
 
     return (
         <div className={className?.root}>
-            <BaseInputWrapper
+            <TextInput
+                ref={(element) => {
+                    if (ref) {
+                        if (typeof ref === "function") ref(element);
+                        else ref.current = element;
+                    }
+                    setAnchorEl(element);
+                }}
                 id={id}
-                label={label}
-                error={error}
-                helperText={helperText}
-                className={{ root: className?.inputRoot }}
-            >
-                <div
-                    className={selectAnchorStyles({
-                        className: className?.wrapper,
-                    })}
-                    ref={anchorRef}
-                >
-                    <input
-                        id={id}
-                        type="text"
-                        readOnly
-                        value={value?.label || ""}
-                        ref={ref}
-                        {...rest}
-                        onClick={handleClick}
-                        className={cx(
-                            inputStyles({
-                                error,
-                                variant,
-                                border,
-                            }),
-                            "cui-cursor-pointer",
-                            className?.input
-                        )}
-                    />
-                    <ChevronUp
-                        className={arrowStyles({
-                            open,
-                        })}
-                        onClick={handleClick}
-                    />
-                </div>
-            </BaseInputWrapper>
+                readOnly
+                icon={open ? ChevronUp : ChevronDown}
+                value={value?.label || ""}
+                {...rest}
+                className={{
+                    root: "cui-cursor-pointer",
+                    input: "cui-cursor-pointer",
+                    inputIcon: "cui-w-4",
+                    ...className,
+                }}
+                onClick={handleClick}
+            />
             <Popover
-                anchor={anchorRef.current}
+                anchor={anchorEl}
                 open={open}
-                placement="bottom"
+                placement="bottom-start"
                 className={{
                     root: dropdownRootStyles({
                         className: className?.dropdownRoot,
@@ -210,7 +150,7 @@ const Component = <O extends SelectOption>(
                 }}
                 ref={dropdownRef}
             >
-                <ul style={{ width: anchorRef.current?.clientWidth }}>
+                <ul style={{ width: anchorEl?.parentElement?.clientWidth }}>
                     {options.map((option) => {
                         return (
                             <li

@@ -1,7 +1,7 @@
-import { cva } from "class-variance-authority";
 import React, { ReactElement, ReactNode } from "react";
+import { mergedCva } from "../../../../utils/components";
 
-const rootStyles = cva(["cui-flex", "cui-gap-4", "cui-p-4"]);
+const rootStyles = mergedCva(["cui-flex", "cui-gap-4", "cui-p-4"]);
 
 export interface CardActionsProps {
     className?: { root?: string };
