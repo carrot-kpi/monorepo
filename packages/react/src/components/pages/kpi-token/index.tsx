@@ -4,27 +4,30 @@ import {
     TemplateComponent,
     TemplateComponentProps,
 } from "../../template-component";
-import { KPIToken } from "@carrot-kpi/sdk";
+import { AdditionalKPITokenPageProps } from "../../../types";
 
-interface KPITokenPageProps
-    extends Omit<
-        TemplateComponentProps,
-        "entity" | "type" | "template" | "props"
-    > {
-    kpiToken?: KPIToken;
-}
+type KPITokenPageProps = Omit<
+    TemplateComponentProps,
+    "entity" | "type" | "additionalProps"
+> &
+    AdditionalKPITokenPageProps;
 
 export function KPITokenPage({
-    kpiToken,
-    ...rest
+    template,
+    fallback,
+    i18n,
+    className,
+    ...additionalProps
 }: KPITokenPageProps): ReactElement {
     return (
         <TemplateComponent
             entity="kpiToken"
             type="page"
-            template={kpiToken?.template}
-            {...rest}
-            props={{ kpiToken }}
+            template={template}
+            fallback={fallback}
+            i18n={i18n}
+            className={className}
+            additionalProps={additionalProps}
         />
     );
 }

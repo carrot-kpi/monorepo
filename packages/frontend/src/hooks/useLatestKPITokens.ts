@@ -7,6 +7,8 @@ import {
 } from "@carrot-kpi/react";
 import { useQuery } from "@tanstack/react-query";
 
+export const LATEST_KPI_TOKEN_QUERY_KEY_PREFIX = "latestKPITokens" as string;
+
 export function useLatestKPITokens(limit = 5): {
     loading: boolean;
     kpiTokens: KPIToken[];
@@ -17,7 +19,7 @@ export function useLatestKPITokens(limit = 5): {
     const provider = useProvider();
 
     const { data: kpiTokens, isLoading: loading } = useQuery({
-        queryKey: ["latestKPITokens", { limit, chain }],
+        queryKey: [LATEST_KPI_TOKEN_QUERY_KEY_PREFIX, { limit, chain }],
         queryFn: async () => {
             if (!chain) return [];
 
