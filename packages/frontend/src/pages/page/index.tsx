@@ -95,7 +95,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                     onDismiss={handleDismiss}
                 >
                     <KPITokenPage
-                        kpiToken={kpiToken || undefined}
+                        kpiToken={kpiToken}
                         i18n={i18n}
                         fallback={
                             <div className="bg-orange py-10 text-black flex justify-center">

@@ -1,9 +1,9 @@
-import { KPIToken } from "@carrot-kpi/sdk";
+import { KPIToken, Oracle } from "@carrot-kpi/sdk";
 import { BigNumber } from "@ethersproject/bignumber";
 import { i18n } from "i18next";
 import { NamespacedTranslateFunction } from "./components";
 
-export interface BaseCreationFormProps {
+export interface BaseTemplateComponentProps {
     i18n: i18n;
     t: NamespacedTranslateFunction;
 }
@@ -27,12 +27,26 @@ export interface AdditionalOracleCreationFormProps<T> {
     onChange: OracleChangeCallback<T>;
 }
 
-export type OracleCreationFormProps<T> = BaseCreationFormProps &
+export type OracleCreationFormProps<T> = BaseTemplateComponentProps &
     AdditionalOracleCreationFormProps<T>;
 
 export interface AdditionalKPITokenCreationFormProps {
     onCreate: () => void;
 }
 
-export type KPITokenCreationFormProps = BaseCreationFormProps &
+export type KPITokenCreationFormProps = BaseTemplateComponentProps &
     AdditionalKPITokenCreationFormProps;
+
+export interface AdditionalOraclePageProps {
+    oracle?: Oracle | null;
+}
+
+export type OraclePageProps = BaseTemplateComponentProps &
+    AdditionalOraclePageProps;
+
+export interface AdditionalKPITokenPageProps {
+    kpiToken?: KPIToken | null;
+}
+
+export type KPITokenPageProps = BaseTemplateComponentProps &
+    AdditionalKPITokenPageProps;
