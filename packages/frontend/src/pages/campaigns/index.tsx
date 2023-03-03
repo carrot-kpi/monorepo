@@ -9,6 +9,7 @@ import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { useDebounce } from "react-use";
+import { Empty } from "../../components/ui/empty";
 
 const campaignsFiltersStyles = cva(
     [
@@ -160,25 +161,36 @@ export const Campaigns = () => {
                             </Button>
                         </div>
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
-                            <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-7">
-                                {loading
-                                    ? new Array(pageSize)
-                                          .fill(null)
-                                          .map((_, index) => {
-                                              return (
-                                                  <KPITokenCard key={index} />
-                                              );
-                                          })
-                                    : page.map((kpiToken) => {
-                                          return (
-                                              <KPITokenCard
-                                                  key={kpiToken.address}
-                                                  kpiToken={kpiToken}
-                                              />
-                                          );
-                                      })}
-                            </div>
-                            <Pagination />
+                            {!loading && page.length === 0 && (
+                                <div className="w-full flex justify-center">
+                                    <Empty />
+                                </div>
+                            )}
+                            {(loading || page.length > 0) && (
+                                <>
+                                    <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-7">
+                                        {loading
+                                            ? new Array(pageSize)
+                                                  .fill(null)
+                                                  .map((_, index) => {
+                                                      return (
+                                                          <KPITokenCard
+                                                              key={index}
+                                                          />
+                                                      );
+                                                  })
+                                            : page.map((kpiToken) => {
+                                                  return (
+                                                      <KPITokenCard
+                                                          key={kpiToken.address}
+                                                          kpiToken={kpiToken}
+                                                      />
+                                                  );
+                                              })}
+                                    </div>
+                                    <Pagination />
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
