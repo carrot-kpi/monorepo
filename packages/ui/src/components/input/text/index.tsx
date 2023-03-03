@@ -40,7 +40,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                     id={id}
                     type="text"
                     ref={ref}
-                    value={value}
+                    value={value || ""}
                     {...rest}
                     className={inputStyles({
                         error,
