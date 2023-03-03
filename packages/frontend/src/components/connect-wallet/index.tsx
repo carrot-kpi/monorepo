@@ -6,7 +6,6 @@ import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useTranslation } from "react-i18next";
 import { Button } from "@carrot-kpi/ui";
 import { useNetwork, useAccount } from "wagmi";
-import { constants } from "ethers";
 import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
@@ -89,16 +88,16 @@ export const ConnectWallet = () => {
                         onClose={handleConnectPopoverClose}
                         ref={connectPopoverRef}
                     />
-                    {address && (
-                        <AccountPopover
-                            address={address as string}
-                            open={accountPopoverOpen}
-                            anchor={connectWalletRef.current}
-                            onClose={handleAccountPopoverClose}
-                            ref={accountPopoverRef}
-                        />
-                    )}
                 </>
+            )}
+            {address && (
+                <AccountPopover
+                    address={address as string}
+                    open={accountPopoverOpen}
+                    anchor={connectWalletRef.current}
+                    onClose={handleAccountPopoverClose}
+                    ref={accountPopoverRef}
+                />
             )}
             <div className="flex flex-col gap-4 xl:flex-row">
                 <div
@@ -127,7 +126,7 @@ export const ConnectWallet = () => {
                     </div>
                     {!__PREVIEW_MODE__ && <CaretDown className="w-3" />}
                 </div>
-                {!!address && address !== constants.AddressZero ? (
+                {address ? (
                     <Button
                         ref={connectWalletRef}
                         onClick={handleAccountPopoverOpen}
