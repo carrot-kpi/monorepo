@@ -7,16 +7,12 @@ import {
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { BigNumber, providers } from "ethers";
-import {
-    Address,
-    usePrepareSendTransaction,
-    useProvider,
-    useSendTransaction,
-} from "wagmi";
+import { useProvider } from "wagmi";
 import { Fetcher, Template } from "@carrot-kpi/sdk";
 import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
+import { useQueryClient } from "@tanstack/react-query";
+import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
 
 interface CreateWithTemplateIdProps {
     closing?: boolean;
@@ -33,6 +29,7 @@ export const CreateWithTemplateId = ({
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
+    const queryClient = useQueryClient();
 
     const [template, setTemplate] = useState<Template | null>(
         state ? state.template : null
@@ -89,36 +86,15 @@ export const CreateWithTemplateId = ({
         templateId,
     ]);
 
-    const [creationTx, setCreationTx] = useState<
-        providers.TransactionRequest & {
-            to: string;
-        }
-    >({
-        to: "",
-        data: "",
-        value: BigNumber.from("0"),
-    });
-
-    const { config } = usePrepareSendTransaction({
-        request: creationTx,
-    });
-    const { sendTransactionAsync } = useSendTransaction(config);
-
-    useEffect(() => {
-        if (!sendTransactionAsync) return;
-        const fetch = async (): Promise<void> => {
-            const tx = await sendTransactionAsync();
-            await tx.wait();
-        };
-        void fetch();
-    }, [sendTransactionAsync]);
-
-    const handleDone = useCallback(
-        (to: Address, data: string, value: BigNumber) => {
-            setCreationTx({ to, data, value, gasLimit: 10_000_000 });
-        },
-        []
-    );
+    const handleCreate = useCallback(() => {
+        // a token has just been created, invalidate latest tokens query
+        queryClient.invalidateQueries(
+            // FIXME: kinda sus and ugly. The example in the docs say we
+            // can use the query prefix direcy, but it's apparently not
+            // true here
+            LATEST_KPI_TOKEN_QUERY_KEY_PREFIX as unknown as readonly unknown[]
+        );
+    }, [queryClient]);
 
     const handleDismiss = useCallback(() => {
         setTemplate(null);
@@ -134,16 +110,14 @@ export const CreateWithTemplateId = ({
                 >
                     <KPITokenCreationForm
                         template={template}
-                        // TODO: use a proper fallback component
                         fallback={
                             <div className="bg-green py-10 text-black flex justify-center">
                                 <Loader />
                             </div>
                         }
-                        // TODO: use a proper on done callback
-                        onDone={handleDone}
                         i18n={i18n}
                         className={{ root: "w-full h-full" }}
+                        onCreate={handleCreate}
                     />
                 </AnimatedFullscreenModal>
             )

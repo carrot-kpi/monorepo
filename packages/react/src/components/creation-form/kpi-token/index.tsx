@@ -1,31 +1,33 @@
 import React from "react";
 import { ReactElement } from "react";
+import { AdditionalKPITokenCreationFormProps } from "../../../types";
 import {
     TemplateComponent,
     TemplateComponentProps,
 } from "../../template-component";
-import { BigNumber } from "@ethersproject/bignumber";
-import { Address } from "wagmi";
 
-interface KPITokenCreationFormProps
-    extends Omit<TemplateComponentProps, "entity" | "type" | "props"> {
-    onDone:
-        | ((to: Address, data: string, value: BigNumber) => void)
-        | ((data: string, value: BigNumber) => void);
-}
+type KPITokenCreationFormProps = Omit<
+    TemplateComponentProps,
+    "entity" | "type" | "additionalProps"
+> &
+    AdditionalKPITokenCreationFormProps;
 
 export function KPITokenCreationForm({
-    onDone,
     template,
-    ...rest
+    fallback,
+    i18n,
+    className,
+    ...additionalProps
 }: KPITokenCreationFormProps): ReactElement {
     return (
         <TemplateComponent
             entity="kpiToken"
             type="creationForm"
             template={template}
-            {...rest}
-            props={{ template, onDone }}
+            fallback={fallback}
+            i18n={i18n}
+            className={className}
+            additionalProps={additionalProps}
         />
     );
 }
