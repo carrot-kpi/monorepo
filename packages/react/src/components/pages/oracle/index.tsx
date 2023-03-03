@@ -8,26 +8,26 @@ import { AdditionalOraclePageProps } from "../../../types";
 
 type OraclePageProps = Omit<
     TemplateComponentProps,
-    "entity" | "type" | "additionalProps"
+    "entity" | "type" | "additionalProps" | "template"
 > &
     AdditionalOraclePageProps;
 
 export function OraclePage({
-    template,
     fallback,
     i18n,
     className,
-    ...additionalProps
+    oracle,
+    ...rest
 }: OraclePageProps): ReactElement {
     return (
         <TemplateComponent
             entity="oracle"
             type="page"
-            template={template}
+            template={oracle?.template}
             fallback={fallback}
             i18n={i18n}
             className={className}
-            additionalProps={additionalProps}
+            additionalProps={{ oracle, ...rest }}
         />
     );
 }

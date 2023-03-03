@@ -31,12 +31,12 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     );
     const transitions = useTransition(!closing && kpiToken, {
         config: { ...springConfig.default, duration: 100 },
-        from: { opacity: 0, translateY: "0.5%", scale: 0.99 },
+        from: { opacity: 0, translateY: "0.5%", scale: 0.97 },
         enter: { opacity: 1, translateY: "0%", scale: 1 },
         leave: {
             opacity: 0,
             translateY: "0.5%",
-            scale: 0.99,
+            scale: 0.97,
         },
         onDestroyed: onOutAnimationEnd,
     });
@@ -87,9 +87,9 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         setKPIToken(null);
     }, []);
 
-    return transitions((style, template) => {
+    return transitions((style, kpiToken) => {
         return (
-            template && (
+            kpiToken && (
                 <AnimatedFullscreenModal
                     springStyle={style}
                     onDismiss={handleDismiss}
