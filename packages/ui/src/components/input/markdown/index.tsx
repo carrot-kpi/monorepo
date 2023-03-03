@@ -112,7 +112,7 @@ export const MarkdownInput = ({
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >
-                {editor && <MenuBar editor={editor} focused={focused} />}
+                <MenuBar editor={editor} focused={focused} />
                 <EditorContent
                     className={markdownInputContentStyles({ error })}
                     editor={editor}

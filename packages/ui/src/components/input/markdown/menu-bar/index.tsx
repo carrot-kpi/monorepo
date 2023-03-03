@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useMemo } from "react";
 
 import { MenuItem } from "../menu-item";
 import { ReactComponent as H1Icon } from "../../../../assets/h1-icon.svg";
@@ -28,63 +28,66 @@ const rootStyles = mergedCva(
 );
 
 interface MenuBarProps {
-    editor: Editor;
+    editor: Editor | null;
     focused?: boolean;
 }
 
 export const MenuBar = ({ editor, focused }: MenuBarProps): ReactElement => {
-    const items = [
-        {
-            icon: H1Icon,
-            title: "Heading 1",
-            action: () =>
-                editor.chain().focus().toggleHeading({ level: 1 }).run(),
-            isActive: () => editor.isActive("heading", { level: 1 }),
-        },
-        {
-            icon: H2Icon,
-            title: "Heading 2",
-            action: () =>
-                editor.chain().focus().toggleHeading({ level: 2 }).run(),
-            isActive: () => editor.isActive("heading", { level: 2 }),
-        },
-        {
-            icon: BoldIcon,
-            title: "Bold",
-            action: () => editor.chain().focus().toggleBold().run(),
-            isActive: () => editor.isActive("bold"),
-        },
-        {
-            icon: ItalicIcon,
-            title: "Italic",
-            action: () => editor.chain().focus().toggleItalic().run(),
-            isActive: () => editor.isActive("italic"),
-        },
-        {
-            icon: CodeIcon,
-            title: "Code",
-            action: () => editor.chain().focus().toggleCodeBlock().run(),
-            isActive: () => editor.isActive("code"),
-        },
-        {
-            icon: DoubleQuotesIcon,
-            title: "Blockquote",
-            action: () => editor.chain().focus().toggleBlockquote().run(),
-            isActive: () => editor.isActive("blockquote"),
-        },
-        {
-            icon: ListOrderedIcon,
-            title: "Ordered List",
-            action: () => editor.chain().focus().toggleOrderedList().run(),
-            isActive: () => editor.isActive("orderedList"),
-        },
-        {
-            icon: ListUnorderedIcon,
-            title: "Bullet List",
-            action: () => editor.chain().focus().toggleBulletList().run(),
-            isActive: () => editor.isActive("bulletList"),
-        },
-    ];
+    const items = useMemo(
+        () => [
+            {
+                icon: H1Icon,
+                title: "Heading 1",
+                action: () =>
+                    editor?.chain().focus().toggleHeading({ level: 1 }).run(),
+                isActive: () => !!editor?.isActive("heading", { level: 1 }),
+            },
+            {
+                icon: H2Icon,
+                title: "Heading 2",
+                action: () =>
+                    editor?.chain().focus().toggleHeading({ level: 2 }).run(),
+                isActive: () => !!editor?.isActive("heading", { level: 2 }),
+            },
+            {
+                icon: BoldIcon,
+                title: "Bold",
+                action: () => editor?.chain().focus().toggleBold().run(),
+                isActive: () => !!editor?.isActive("bold"),
+            },
+            {
+                icon: ItalicIcon,
+                title: "Italic",
+                action: () => editor?.chain().focus().toggleItalic().run(),
+                isActive: () => !!editor?.isActive("italic"),
+            },
+            {
+                icon: CodeIcon,
+                title: "Code",
+                action: () => editor?.chain().focus().toggleCodeBlock().run(),
+                isActive: () => !!editor?.isActive("code"),
+            },
+            {
+                icon: DoubleQuotesIcon,
+                title: "Blockquote",
+                action: () => editor?.chain().focus().toggleBlockquote().run(),
+                isActive: () => !!editor?.isActive("blockquote"),
+            },
+            {
+                icon: ListOrderedIcon,
+                title: "Ordered List",
+                action: () => editor?.chain().focus().toggleOrderedList().run(),
+                isActive: () => !!editor?.isActive("orderedList"),
+            },
+            {
+                icon: ListUnorderedIcon,
+                title: "Bullet List",
+                action: () => editor?.chain().focus().toggleBulletList().run(),
+                isActive: () => !!editor?.isActive("bulletList"),
+            },
+        ],
+        [editor]
+    );
 
     return (
         <div className={rootStyles({ focused })}>
