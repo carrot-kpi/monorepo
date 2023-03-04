@@ -4,7 +4,7 @@ import { ComponentMeta, Story } from "@storybook/react";
 import { DateInput as DateInputComponent, DateInputProps } from ".";
 
 export default {
-    title: "Input/Date",
+    title: "Input/DatePicker",
     component: DateInputComponent,
 } as ComponentMeta<typeof DateInputComponent>;
 
@@ -20,8 +20,8 @@ const Template: Story<DateInputProps> = (props: DateInputProps) => {
     );
 };
 
-export const DateStory: Story<DateInputProps> = Template.bind({});
-DateStory.args = {
+export const DatePicker: Story<DateInputProps> = Template.bind({});
+DatePicker.args = {
     label: "Date input",
     placeholder: "Date input",
     min: new Date(),
