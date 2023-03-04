@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 // our interface for a single cell
 export interface CalendarCell {
@@ -42,4 +42,22 @@ export const getCalendarCells = (date: Dayjs): CalendarCell[] => {
         calendarCells.push(prepareCell(nextMonth, i + 1));
 
     return calendarCells;
+};
+
+export const resolvedValue = (
+    value?: Date | null,
+    min?: Date | null,
+    max?: Date | null
+) => {
+    return rectifyDate(value ? dayjs(value) : dayjs(), min, max);
+};
+
+export const rectifyDate = (
+    value: Dayjs,
+    min?: Date | null,
+    max?: Date | null
+) => {
+    if (!!(min && value.isBefore(min))) return dayjs(min);
+    if (!!(max && value.isAfter(max))) return dayjs(max);
+    return value;
 };
