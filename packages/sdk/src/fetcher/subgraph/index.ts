@@ -129,6 +129,7 @@ const mapRawKPIToken = async (
     return new KPIToken(
         chainId,
         getAddress(rawKPIToken.rawAddress),
+        getAddress(rawKPIToken.rawOwner),
         await mapRawTemplate(ipfsGatewayURL, rawKPIToken.template),
         await Promise.all(
             rawKPIToken.oracles.map(async (rawOracle) => {

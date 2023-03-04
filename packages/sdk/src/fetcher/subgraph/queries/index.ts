@@ -44,6 +44,7 @@ const OracleDataFields = `
 
 export interface KPITokenData {
     rawAddress: string;
+    rawOwner: string;
     descriptionCid: string;
     description?: {
         title?: string;
@@ -59,7 +60,7 @@ export interface KPITokenData {
 
 const KPITokenDataFields = `
     rawAddress: id
-    owner
+    rawOwner: owner
     descriptionCid
     description {
         title

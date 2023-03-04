@@ -41,9 +41,11 @@ describe("kpi token", () => {
 
     test("instantiates correctly", () => {
         const kpiTokenAddress = Wallet.createRandom().address;
+        const kpiTokenOwner = Wallet.createRandom().address;
         const kpiToken = new KPIToken(
             ChainId.GOERLI,
             kpiTokenAddress,
+            kpiTokenOwner,
             template,
             [oracle],
             kpiTokenSpecification,
@@ -53,6 +55,7 @@ describe("kpi token", () => {
         );
         expect(kpiToken.chainId).toBe(ChainId.GOERLI);
         expect(kpiToken.address).toBe(kpiTokenAddress);
+        expect(kpiToken.owner).toBe(kpiTokenOwner);
         expect(kpiToken.template).toBe(template);
         expect(kpiToken.oracles).toEqual([oracle]);
         expect(kpiToken.specification).toBe(kpiTokenSpecification);
@@ -67,6 +70,7 @@ describe("kpi token", () => {
 
             const kpiToken = new KPIToken(
                 ChainId.GOERLI,
+                Wallet.createRandom().address,
                 Wallet.createRandom().address,
                 template,
                 [oracle],
@@ -84,6 +88,7 @@ describe("kpi token", () => {
 
             const kpiToken = new KPIToken(
                 ChainId.GOERLI,
+                Wallet.createRandom().address,
                 Wallet.createRandom().address,
                 template,
                 [oracle],
