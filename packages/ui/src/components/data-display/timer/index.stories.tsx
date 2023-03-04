@@ -2,7 +2,6 @@ import React from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
 import { Timer as TimerComponent, TimerProps } from ".";
-import { DAY_MS } from "../../../utils/formatting";
 
 export default {
     title: "Data display/Timer",
@@ -15,5 +14,5 @@ const Template: Story<TimerProps> = (props: TimerProps) => {
 
 export const Timer: Story<TimerProps> = Template.bind({});
 Timer.args = {
-    to: Date.now() + DAY_MS * 2,
+    to: Math.floor(Date.now() + (86_400 * 2) / 1000),
 };
