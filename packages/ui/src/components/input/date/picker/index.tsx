@@ -162,8 +162,8 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
             <div className="cui-grid cui-grid-cols-7 cui-grid-rows-4 cui-gap-1">
                 {cells.map((cell, index) => {
                     const disabled =
-                        (min && cell.value.isBefore(min)) ||
-                        (max && cell.value.isAfter(max)) ||
+                        (min && cell.value.isBefore(min, "day")) ||
+                        (max && cell.value.isAfter(max, "day")) ||
                         cell.value.month() !== lookupDate.month();
                     const selected =
                         !disabled &&

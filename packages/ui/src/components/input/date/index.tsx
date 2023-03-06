@@ -71,9 +71,9 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                     helperText={helperText}
                     icon={Calendar}
                     className={{
-                        input: "cui-cursor-pointer",
-                        inputIconWrapper: "cui-cursor-pointer",
                         ...className,
+                        input: `cui-cursor-pointer ${className?.input}`,
+                        inputIconWrapper: `cui-cursor-pointer ${className?.inputIconWrapper}`,
                     }}
                     {...rest}
                     onClick={handlePickerOpen}
