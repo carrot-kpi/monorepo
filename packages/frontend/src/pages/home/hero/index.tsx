@@ -44,7 +44,7 @@ export const Hero = () => {
                     <Button variant="primary" size="big">
                         <Link to="/campaigns">{t("campaign.all")}</Link>
                     </Button>
-                    <CreateCampaignButton />
+                    {!__PREVIEW_MODE__ && <CreateCampaignButton />}
                 </div>
             </div>
             <div className="absolute invisible left-4 top-1/3 lg:visible ">
