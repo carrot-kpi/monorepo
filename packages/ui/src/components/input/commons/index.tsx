@@ -134,7 +134,7 @@ const helperTextWrapperStyles = mergedCva([
     "cui-mt-2",
 ]);
 
-const helperTextIconStyles = mergedCva([], {
+const helperTextIconStyles = mergedCva(["cui-w-6"], {
     variants: {
         variant: {
             danger: ["cui-stroke-red"],
@@ -268,10 +268,11 @@ export const BaseInputWrapper = ({
                     <Typography
                         variant="xs"
                         className={{
+                            ...className?.helperText,
                             root: helperTextStyles({
                                 error,
+                                className: className?.helperText?.root,
                             }),
-                            ...className?.helperText,
                         }}
                     >
                         {helperText}

@@ -198,14 +198,14 @@ export const ManageLists = ({
                                             defaultText={name}
                                             ipfsGatewayURL={ipfsGatewayURL}
                                             className={{
-                                                root: "cui-pointer-events-none",
                                                 ...className?.listItemIcon,
+                                                root: `cui-pointer-events-none ${className?.listItemIcon?.root}`,
                                             }}
                                         />
                                         <Typography
                                             className={{
-                                                root: "cui-pointer-events-none",
                                                 ...className?.listItemText,
+                                                root: `cui-pointer-events-none ${className?.listItemText?.root}`,
                                             }}
                                         >
                                             {name}
