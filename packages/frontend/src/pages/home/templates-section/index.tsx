@@ -3,6 +3,7 @@ import { Button, Typography } from "@carrot-kpi/ui";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
+import { Empty } from "../../../components/ui/empty";
 import { KPITokenTemplateCard } from "../../../components/ui/template-card";
 
 interface TemplatesSectionProps {
@@ -11,7 +12,6 @@ interface TemplatesSectionProps {
 
 export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
     const { t } = useTranslation();
-    // FIXME: instead of a useMemo, have a useKPITokenTemplate hook which fetches a single template
     const ids = useMemo(() => {
         return !templateId ? undefined : [templateId];
     }, [templateId]);
@@ -20,7 +20,7 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
     return (
         <div className="relative space-y-16">
             <Typography variant="h2">{t("home.templates")}</Typography>
-            <CardHorizontal>
+            <CardHorizontal className="h-96">
                 {loading ? (
                     <>
                         <KPITokenTemplateCard />
@@ -28,13 +28,15 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
                         <KPITokenTemplateCard />
                         <KPITokenTemplateCard />
                     </>
-                ) : (
+                ) : templates.length > 0 ? (
                     templates.map((template) => (
                         <KPITokenTemplateCard
                             key={template.id}
                             template={template}
                         />
                     ))
+                ) : (
+                    <Empty />
                 )}
             </CardHorizontal>
             <Button>{t("templates.viewAll")}</Button>

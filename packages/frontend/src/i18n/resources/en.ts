@@ -33,5 +33,7 @@ export const en = {
         "theme.light": "Light",
         "theme.dark": "Dark",
         "theme.system": "System",
+        "empty.title": "Empty space",
+        "empty.description": "No data found. Please try again later.",
     },
 } as const;

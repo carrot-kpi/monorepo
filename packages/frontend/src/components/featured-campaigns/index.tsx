@@ -22,7 +22,7 @@ const MOCKED_DATA = [
     },
 ];
 
-export const FeaturedCampaings = () => {
+export const FeaturedCampaigns = () => {
     const { chain } = useNetwork();
 
     return (
