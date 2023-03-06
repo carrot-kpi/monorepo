@@ -3,9 +3,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
+import { Empty } from "../../../components/ui/empty";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
 import { useLatestKPITokens } from "../../../hooks/useLatestKPITokens";
-import { ReactComponent as Empty } from "../../../assets/empty.svg";
 
 const LATEST_TOKEN_AMOUNTS = 5;
 
