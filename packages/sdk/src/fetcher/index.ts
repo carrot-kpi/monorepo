@@ -79,6 +79,7 @@ class FullFetcher implements IFullCarrotFetcher {
         provider,
         preferDecentralization,
         addresses,
+        searchQuery,
     }: FullFetcherFetchEntitiesParams): Promise<{
         [address: string]: KPIToken;
     }> {
@@ -87,7 +88,11 @@ class FullFetcher implements IFullCarrotFetcher {
             preferDecentralization,
         });
         return useSubgraph
-            ? SubgraphFetcher.fetchKPITokens({ provider, addresses })
+            ? SubgraphFetcher.fetchKPITokens({
+                  provider,
+                  addresses,
+                  searchQuery,
+              })
             : OnChainFetcher.fetchKPITokens({ provider, addresses });
     }
 

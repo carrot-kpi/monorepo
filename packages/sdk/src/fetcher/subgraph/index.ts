@@ -26,6 +26,7 @@ import {
     GetKPITokensAmountQuery,
     GetKPITokenAddressesQueryResponse,
     GetKPITokenAddressesQuery,
+    getKPITokenBySearchQuery,
 } from "./queries";
 import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
 import { enforce } from "../../utils";
@@ -109,6 +110,7 @@ const mapRawKPIToken = async (chainId: ChainId, rawKPIToken: KPITokenData) => {
         description = rawKPIToken.description.description;
         tags = rawKPIToken.description.tags;
     }
+
     return new KPIToken(
         chainId,
         getAddress(rawKPIToken.rawAddress),
@@ -183,11 +185,35 @@ class Fetcher implements IPartialCarrotFetcher {
     public async fetchKPITokens({
         provider,
         addresses,
+        searchQuery,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
+
+        if (!!searchQuery) {
+            const kpiTokens: { [address: string]: KPIToken } = {};
+
+            const { kpiTokenSearch } = await query<GetKPITokensQueryResponse>(
+                subgraphURL,
+                getKPITokenBySearchQuery,
+                { query: searchQuery }
+            );
+
+            await Promise.all(
+                kpiTokenSearch.map(async (token) => {
+                    const kpiToken = await mapRawKPIToken(
+                        chainId,
+                        token.kpiToken
+                    );
+                    kpiTokens[kpiToken.address] = kpiToken;
+                })
+            );
+
+            return kpiTokens;
+        }
+
         if (!!addresses) {
             const addressesLength = addresses.length;
             if (addressesLength === 0) return {};

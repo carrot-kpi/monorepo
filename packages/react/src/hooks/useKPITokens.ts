@@ -3,7 +3,7 @@ import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
 import { useProvider } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useKPITokens(): {
+export function useKPITokens(searchQuery?: string): {
     loading: boolean;
     kpiTokens: { [address: string]: KPIToken };
 } {
@@ -22,6 +22,7 @@ export function useKPITokens(): {
             if (!cancelled) setLoading(true);
             try {
                 const kpiTokens = await Fetcher.fetchKPITokens({
+                    searchQuery,
                     provider,
                     preferDecentralization,
                 });
@@ -36,7 +37,7 @@ export function useKPITokens(): {
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider]);
+    }, [preferDecentralization, provider, searchQuery]);
 
     return { loading, kpiTokens };
 }

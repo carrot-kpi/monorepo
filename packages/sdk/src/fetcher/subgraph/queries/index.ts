@@ -114,6 +114,16 @@ export interface GetKPITokensQueryResponse {
     tokens: KPITokenData[];
 }
 
+export const getKPITokenBySearchQuery = `
+query getKPITokensBySearch($query: String){
+    kpiTokenSearch(text: $query) {
+        kpiToken {
+            ${KPITokenDataFields}
+        }
+   }
+} 
+`;
+
 export const GetKPITokenByAddressesQuery = `
     query getKPITokenByAddresses($addresses: [Bytes!]!) {
         tokens: kpitokens(where: { id_in: $addresses }) {

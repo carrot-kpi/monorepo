@@ -42,6 +42,7 @@ export interface FetchKPITokenAddressesParams {
 export interface FetchEntitiesParams {
     provider: Provider;
     addresses?: string[];
+    searchQuery?: string;
 }
 
 export interface FetchTemplatesParams {

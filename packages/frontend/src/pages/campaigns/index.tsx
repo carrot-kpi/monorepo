@@ -1,3 +1,4 @@
+//  @ts-nocheck
 import { useKPITokens, usePage } from "@carrot-kpi/react";
 import { Button, SelectOption, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
@@ -9,39 +10,6 @@ import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { useDebounce } from "react-use";
-
-const campaignsFiltersStyles = cva(
-    [
-        "absolute lg:relative",
-        "shadow md:shadow-none",
-        "w-full lg:w-fit",
-        "p-12",
-        "bg-white",
-        "border-r border-gray-400 dark:bg-black",
-    ],
-    {
-        variants: {
-            filtersOpen: {
-                false: ["hidden"],
-            },
-        },
-    }
-);
-
-const PaginationNumber = ({ number }: { number: string | number }) => (
-    <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
-        {number}
-    </div>
-);
-
-const Pagination = () => (
-    <div className="flex mt-6 space-x-4">
-        <PaginationNumber number={1} />
-        <PaginationNumber number={2} />
-        <PaginationNumber number={"..."} />
-        <PaginationNumber number={12} />
-    </div>
-);
 
 const ORDERING_OPTIONS = [
     {
@@ -71,14 +39,16 @@ const STATE_OPTIONS = [
 
 export const Campaigns = () => {
     const { t } = useTranslation();
-    const { loading, kpiTokens } = useKPITokens();
+    const { loading, kpiTokens } = useKPITokens("Uniswap");
+    const [results, setResults] = useState([]);
+    console.log("results:", results);
 
     const [pageSize, setPageSize] = useState(12);
     const [filtersOpen, setFilterOpen] = useState(false);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
     const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
-    const [searchQuery] = useState("");
-    const [, /* debouncedSearchQuery */ setDebouncedSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+
     const resizeObserver = useRef(
         new ResizeObserver((entries) => {
             const { width } = entries[0].contentRect;
@@ -96,7 +66,7 @@ export const Campaigns = () => {
 
     useDebounce(
         () => {
-            setDebouncedSearchQuery(searchQuery);
+            console.log("searchQuery:", searchQuery);
         },
         300,
         [searchQuery]
@@ -109,10 +79,16 @@ export const Campaigns = () => {
     const filteredTokens = useMemo(() => {
         return filterKPITokens(Object.values(kpiTokens), undefined);
     }, [kpiTokens]);
+
     const sortedFilteredTokens = useMemo(() => {
         return sortKPITokens(filteredTokens);
     }, [filteredTokens]);
-    const page = usePage(sortedFilteredTokens, pageSize, 0);
+
+    useEffect(() => {
+        setResults(sortedFilteredTokens);
+    }, [sortedFilteredTokens]);
+
+    const page = usePage(results, pageSize, 0);
 
     useEffect(() => {
         resizeObserver.current.observe(document.body);
@@ -142,6 +118,7 @@ export const Campaigns = () => {
                         onStateChange={setState}
                         onToggleFilters={toggleFilters}
                         filtersOpen={filtersOpen}
+                        setSearchQuery={setSearchQuery}
                     />
                     <div className="flex">
                         <div
@@ -186,3 +163,36 @@ export const Campaigns = () => {
         </Layout>
     );
 };
+
+const campaignsFiltersStyles = cva(
+    [
+        "absolute lg:relative",
+        "shadow md:shadow-none",
+        "w-full lg:w-fit",
+        "p-12",
+        "bg-white",
+        "border-r border-gray-400 dark:bg-black",
+    ],
+    {
+        variants: {
+            filtersOpen: {
+                false: ["hidden"],
+            },
+        },
+    }
+);
+
+const PaginationNumber = ({ number }: { number: string | number }) => (
+    <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
+        {number}
+    </div>
+);
+
+const Pagination = () => (
+    <div className="flex mt-6 space-x-4">
+        <PaginationNumber number={1} />
+        <PaginationNumber number={2} />
+        <PaginationNumber number={"..."} />
+        <PaginationNumber number={12} />
+    </div>
+);
