@@ -1,4 +1,3 @@
-//  @ts-nocheck
 import { useKPITokens, usePage } from "@carrot-kpi/react";
 import { Button, SelectOption, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
@@ -9,7 +8,8 @@ import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
-import { useDebounce } from "react-use";
+import { useSearch } from "@carrot-kpi/react";
+import { KPIToken } from "../../../../sdk/dist";
 
 const ORDERING_OPTIONS = [
     {
@@ -39,16 +39,21 @@ const STATE_OPTIONS = [
 
 export const Campaigns = () => {
     const { t } = useTranslation();
-    const { loading, kpiTokens } = useKPITokens("Uniswap");
-    const [results, setResults] = useState([]);
-    console.log("results:", results);
 
     const [pageSize, setPageSize] = useState(12);
-    const [filtersOpen, setFilterOpen] = useState(false);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
     const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
-    const [searchQuery, setSearchQuery] = useState("");
 
+    //  get campaigns
+    const [results, setResults] = useState<KPIToken[]>([]);
+    const { searchQuery, setSearchQuery } = useSearch();
+    const { loading, kpiTokens } = useKPITokens(searchQuery);
+
+    //  show filters
+    const [filtersOpen, setFilterOpen] = useState(false);
+    const toggleFilters = () => setFilterOpen(!filtersOpen);
+
+    // items per page
     const resizeObserver = useRef(
         new ResizeObserver((entries) => {
             const { width } = entries[0].contentRect;
@@ -64,18 +69,22 @@ export const Campaigns = () => {
         })
     );
 
-    useDebounce(
-        () => {
-            console.log("searchQuery:", searchQuery);
-        },
-        300,
-        [searchQuery]
-    );
+    useEffect(() => {
+        resizeObserver.current.observe(document.body);
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            resizeObserver.current.unobserve(document.body);
+        };
+    }, []);
+    // --------------------------
 
+    // page view settings
     useEffect(() => {
         window.scroll({ top: 0, left: 0 });
     }, []);
+    // --------------------------
 
+    // filter and sort results
     const filteredTokens = useMemo(() => {
         return filterKPITokens(Object.values(kpiTokens), undefined);
     }, [kpiTokens]);
@@ -89,16 +98,7 @@ export const Campaigns = () => {
     }, [sortedFilteredTokens]);
 
     const page = usePage(results, pageSize, 0);
-
-    useEffect(() => {
-        resizeObserver.current.observe(document.body);
-        return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            resizeObserver.current.unobserve(document.body);
-        };
-    }, []);
-
-    const toggleFilters = () => setFilterOpen(!filtersOpen);
+    // --------------------------
 
     return (
         <Layout>
