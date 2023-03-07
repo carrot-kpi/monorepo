@@ -27,6 +27,7 @@ import {
     GetKPITokenAddressesQueryResponse,
     GetKPITokenAddressesQuery,
     getKPITokenBySearchQuery,
+    GetKPITokenSearchQueryResponse,
 } from "./queries";
 import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
 import { enforce } from "../../utils";
@@ -195,17 +196,18 @@ class Fetcher implements IPartialCarrotFetcher {
         if (!!searchQuery) {
             const kpiTokens: { [address: string]: KPIToken } = {};
 
-            const { kpiTokenSearch } = await query<GetKPITokensQueryResponse>(
-                subgraphURL,
-                getKPITokenBySearchQuery,
-                { query: searchQuery }
-            );
+            const { kpiTokenSearch } =
+                await query<GetKPITokenSearchQueryResponse>(
+                    subgraphURL,
+                    getKPITokenBySearchQuery,
+                    { query: searchQuery }
+                );
 
             await Promise.all(
-                kpiTokenSearch.map(async (token) => {
+                kpiTokenSearch.map(async (kpiTokenSearch) => {
                     const kpiToken = await mapRawKPIToken(
                         chainId,
-                        token.kpiToken
+                        kpiTokenSearch.kpiToken
                     );
                     kpiTokens[kpiToken.address] = kpiToken;
                 })
