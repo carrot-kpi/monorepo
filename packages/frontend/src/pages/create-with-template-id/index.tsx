@@ -37,7 +37,8 @@ export const CreateWithTemplateId = ({
     const [template, setTemplate] = useState<Template | null>(
         state ? state.template : null
     );
-    const transitions = useTransition(!closing && template, {
+    const [show, setShow] = useState(!closing);
+    const transitions = useTransition(show, {
         config: { ...springConfig.default, duration: 100 },
         from: { opacity: 0, translateY: "0.5%", scale: 0.97 },
         enter: { opacity: 1, translateY: "0%", scale: 1 },
@@ -48,6 +49,10 @@ export const CreateWithTemplateId = ({
         },
         onDestroyed: onOutAnimationEnd,
     });
+
+    useEffect(() => {
+        setShow(!closing);
+    }, [closing]);
 
     useEffect(() => {
         if (!!state?.template) {
@@ -100,19 +105,19 @@ export const CreateWithTemplateId = ({
     }, [queryClient]);
 
     const handleDismiss = useCallback(() => {
-        setTemplate(null);
+        setShow(false);
     }, []);
 
-    return transitions((style, template) => {
+    return transitions((style, show) => {
         return (
-            template && (
+            show && (
                 <AnimatedFullscreenModal
                     bgColor="green"
                     springStyle={style}
                     onDismiss={handleDismiss}
                 >
                     <KPITokenCreationForm
-                        template={template}
+                        template={template || undefined}
                         fallback={
                             <div className="bg-green py-10 text-black flex justify-center">
                                 <Loader />

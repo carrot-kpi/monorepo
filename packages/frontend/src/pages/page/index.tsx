@@ -29,7 +29,8 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
     );
-    const transitions = useTransition(!closing && kpiToken, {
+    const [show, setShow] = useState(!closing);
+    const transitions = useTransition(show, {
         config: { ...springConfig.default, duration: 100 },
         from: { opacity: 0, translateY: "0.5%", scale: 0.97 },
         enter: { opacity: 1, translateY: "0%", scale: 1 },
@@ -40,6 +41,10 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         },
         onDestroyed: onOutAnimationEnd,
     });
+
+    useEffect(() => {
+        setShow(!closing);
+    }, [closing]);
 
     useEffect(() => {
         if (state?.kpiToken) {
@@ -84,12 +89,12 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     ]);
 
     const handleDismiss = useCallback(() => {
-        setKPIToken(null);
+        setShow(false);
     }, []);
 
-    return transitions((style, kpiToken) => {
+    return transitions((style, show) => {
         return (
-            kpiToken && (
+            show && (
                 <AnimatedFullscreenModal
                     springStyle={style}
                     onDismiss={handleDismiss}
