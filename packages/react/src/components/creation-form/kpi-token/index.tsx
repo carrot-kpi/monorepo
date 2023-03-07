@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactElement } from "react";
-import { AdditionalKPITokenCreationFormProps } from "../../../types";
+import { AdditionalKPITokenCreationFormProps } from "../../../types/templates";
 import {
     TemplateComponent,
     TemplateComponentProps,

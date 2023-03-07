@@ -13,6 +13,7 @@ import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
+import { useAddTransaction } from "../../hooks/useAddTransaction";
 
 interface CreateWithTemplateIdProps {
     closing?: boolean;
@@ -25,6 +26,7 @@ export const CreateWithTemplateId = ({
 }: CreateWithTemplateIdProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
+    const addTransaction = useAddTransaction();
     const { templateId } = useParams();
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
@@ -118,6 +120,7 @@ export const CreateWithTemplateId = ({
                         i18n={i18n}
                         className={{ root: "w-full h-full" }}
                         onCreate={handleCreate}
+                        onTx={addTransaction}
                     />
                 </AnimatedFullscreenModal>
             )

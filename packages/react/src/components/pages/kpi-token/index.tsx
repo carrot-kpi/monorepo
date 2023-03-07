@@ -4,7 +4,7 @@ import {
     TemplateComponent,
     TemplateComponentProps,
 } from "../../template-component";
-import { AdditionalKPITokenPageProps } from "../../../types";
+import { AdditionalKPITokenPageProps } from "../../../types/templates";
 
 type KPITokenPageProps = Omit<
     TemplateComponentProps,

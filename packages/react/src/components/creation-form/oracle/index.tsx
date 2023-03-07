@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactElement } from "react";
-import { AdditionalOracleCreationFormProps } from "../../../types";
+import { AdditionalOracleCreationFormProps } from "../../../types/templates";
 import {
     TemplateComponent,
     TemplateComponentProps,

@@ -42,7 +42,7 @@ const navbarStyles = cva(
     }
 );
 
-const navStyles = cva([], {
+const navStyles = cva(["flex items-center gap-4"], {
     variants: {
         isOpen: {
             true: [
@@ -121,63 +121,59 @@ export const Navbar = ({
                         <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                     </NavLink>
                 )}
-                {links && (
-                    <nav className={navStyles({ isOpen })}>
-                        <ConnectWallet />
-                        <div className="xl:ml-4">
-                            <Button
-                                ref={preferencesRef}
-                                size="small"
-                                onClick={handlePreferencesPopoverOpen}
-                                icon={SettingsIcon}
-                                className={{
-                                    root: "w-12 h-12 p-0 flex justify-center items-center",
-                                }}
-                            />
-                            <PreferencesPopover
-                                open={preferencesPopoverOpen}
-                                anchor={preferencesRef.current}
-                                ref={preferencesPopoverRef}
-                            />
-                        </div>
-                        <ul className={navLinksStyles({ isOpen })}>
-                            {links.map((link) => (
-                                <li key={link.to}>
-                                    <NavLink
-                                        className="flex items-start space-x-2 cursor-pointer"
-                                        to={link.to}
-                                        onClick={() => setOpen(false)}
-                                    >
-                                        <span className="font-mono text-2xl xl:text-base">
-                                            ↳
-                                        </span>
-                                        <p className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]">
-                                            {link.title}
-                                        </p>
-                                    </NavLink>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
-                )}
-                <div className="flex items-center xl:order-2">
-                    {mode !== "modal" && (
-                        <div
-                            className="ml-4 xl:hidden"
-                            onClick={() => setOpen(!isOpen)}
-                        >
-                            {isOpen ? <CloseIcon /> : <MenuIcon />}
-                        </div>
-                    )}
-                    {mode === "modal" && (
-                        <div
-                            className="flex items-center justify-center w-10 h-10 ml-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
-                            onClick={onDismiss}
-                        >
-                            <X className="w-8 h-8" />
-                        </div>
-                    )}
-                </div>
+                <nav className={navStyles({ isOpen })}>
+                    <ConnectWallet />
+                    <Button
+                        ref={preferencesRef}
+                        size="small"
+                        onClick={handlePreferencesPopoverOpen}
+                        icon={SettingsIcon}
+                        className={{
+                            root: "w-12 h-12 p-0 flex justify-center items-center",
+                        }}
+                    />
+                    <PreferencesPopover
+                        open={preferencesPopoverOpen}
+                        anchor={preferencesRef.current}
+                        ref={preferencesPopoverRef}
+                    />
+                    <ul className={navLinksStyles({ isOpen })}>
+                        {(links || []).map((link) => (
+                            <li key={link.to}>
+                                <NavLink
+                                    className="flex items-start space-x-2 cursor-pointer"
+                                    to={link.to}
+                                    onClick={() => setOpen(false)}
+                                >
+                                    <span className="font-mono text-2xl xl:text-base">
+                                        ↳
+                                    </span>
+                                    <p className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]">
+                                        {link.title}
+                                    </p>
+                                </NavLink>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="flex items-center xl:order-2">
+                        {mode !== "modal" && (
+                            <div
+                                className="xl:hidden"
+                                onClick={() => setOpen(!isOpen)}
+                            >
+                                {isOpen ? <CloseIcon /> : <MenuIcon />}
+                            </div>
+                        )}
+                        {mode === "modal" && (
+                            <div
+                                className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
+                                onClick={onDismiss}
+                            >
+                                <X className="w-8 h-8" />
+                            </div>
+                        )}
+                    </div>
+                </nav>
             </div>
         </div>
     );
