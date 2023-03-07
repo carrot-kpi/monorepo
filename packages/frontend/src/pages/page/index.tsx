@@ -42,7 +42,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     });
 
     useEffect(() => {
-        if (!!state?.kpiToken) {
+        if (state?.kpiToken) {
             setKPIToken(state.kpiToken);
             return;
         }
@@ -79,7 +79,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         preferDecentralization,
         provider,
         address,
-        state.kpiToken,
+        state?.kpiToken,
         ipfsGatewayURL,
     ]);
 
