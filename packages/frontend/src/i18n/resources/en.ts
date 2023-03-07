@@ -35,5 +35,12 @@ export const en = {
         "theme.system": "System",
         "empty.title": "Empty space",
         "empty.description": "No data found. Please try again later.",
+        "transactions.erc20.approval.data":
+            "Approved {{amount}} {{symbol}} to {{spender}}",
+        "transactions.erc20.approval": "Approved ERC20 token to {{spender}}",
+        "transactions.kpi.token.redeem": "Redeemed on {{address}}",
+        "transactions.kpi.token.create": "Created KPI token {{address}}",
+        "transactions.oracle.finalize": "Finalized oracle {{address}}",
+        "activity.recent": "Recent activity",
     },
 } as const;

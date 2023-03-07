@@ -9,8 +9,14 @@ import { ReactComponent as Power } from "../../../../assets/power.svg";
 import { ReactComponent as External } from "../../../../assets/external.svg";
 import { ReactComponent as Copy } from "../../../../assets/copy.svg";
 import { ReactComponent as Tick } from "../../../../assets/tick.svg";
+import { ReactComponent as Bin } from "../../../../assets/bin.svg";
 import { useCopyToClipboard } from "react-use";
 import { cva } from "class-variance-authority";
+import { useTransactions } from "../../../../hooks/useTransactions";
+import { useClearTransactions } from "../../../../hooks/useClearTransactions";
+import { Empty } from "../../../ui/empty";
+import { Transaction } from "./transaction";
+import { t } from "i18next";
 
 const copyAddressStyles = cva(["w-10", "h-10", "p-0"], {
     variants: {
@@ -38,6 +44,8 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
         const { data: ensName } = useEnsName({
             address: address as Address,
         });
+        const transactions = useTransactions();
+        const clearTransactions = useClearTransactions();
         const { connectors, connect } = useConnect();
         const readonlyConnector = useMemo(() => {
             return connectors.find(
@@ -80,41 +88,77 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                 open={open}
                 anchor={anchor}
                 ref={ref}
-                className={{ root: "px-6 py-7 flex gap-5" }}
+                className={{ root: "w-96 px-6 py-7 flex flex-col gap-7" }}
             >
-                <div className="flex gap-4 items-center">
-                    <Avatar address={address} variant="lg" />
-                    <Typography>
-                        {ensName || shortenAddress(address)}
-                    </Typography>
+                <div className="w-full flex justify-between gap-5">
+                    <div className="flex gap-3 items-center">
+                        <Avatar address={address} variant="lg" />
+                        <Typography>
+                            {ensName || shortenAddress(address)}
+                        </Typography>
+                    </div>
+                    <div className="flex gap-1 items-center">
+                        <Button
+                            size="xsmall"
+                            icon={copiedToClipboard ? Tick : Copy}
+                            onClick={handleCopyToClipboardClick}
+                            className={{
+                                root: copyAddressStyles({ copiedToClipboard }),
+                            }}
+                        />
+                        {!__PREVIEW_MODE__ && (
+                            <>
+                                <Button
+                                    size="xsmall"
+                                    icon={External}
+                                    disabled={!blockExplorerHref}
+                                    href={blockExplorerHref || ""}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={{ root: "w-10 h-10 p-0" }}
+                                />
+                                <Button
+                                    size="xsmall"
+                                    icon={Power}
+                                    onClick={handleDisconnectClick}
+                                    className={{ root: "w-10 h-10 p-0" }}
+                                />
+                            </>
+                        )}
+                    </div>
                 </div>
-                <div className="flex gap-1 items-center">
+                <div className="w-full flex justify-between items-center gap-6">
+                    <Typography weight="medium" uppercase>
+                        {t("activity.recent")}
+                    </Typography>
                     <Button
                         size="xsmall"
-                        icon={copiedToClipboard ? Tick : Copy}
-                        onClick={handleCopyToClipboardClick}
+                        icon={Bin}
+                        disabled={transactions.length === 0}
+                        onClick={clearTransactions}
                         className={{
-                            root: copyAddressStyles({ copiedToClipboard }),
+                            root: "w-10 h-10 p-0",
                         }}
                     />
-                    {!__PREVIEW_MODE__ && (
-                        <>
-                            <Button
-                                size="xsmall"
-                                icon={External}
-                                disabled={!blockExplorerHref}
-                                href={blockExplorerHref || ""}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={{ root: "w-10 h-10 p-0" }}
-                            />
-                            <Button
-                                size="xsmall"
-                                icon={Power}
-                                onClick={handleDisconnectClick}
-                                className={{ root: "w-10 h-10 p-0" }}
-                            />
-                        </>
+                </div>
+                <div className="w-full">
+                    {transactions.length === 0 ? (
+                        <Empty
+                            vertical
+                            titleVariant="h4"
+                            descriptionVariant="sm"
+                            className={{ icon: "h-20" }}
+                        />
+                    ) : (
+                        <div className="h-64 overflow-y-auto cui-scrollbar">
+                            {transactions
+                                .sort((a, b) => b.timestamp - a.timestamp)
+                                .map((tx) => {
+                                    return (
+                                        <Transaction key={tx.hash} {...tx} />
+                                    );
+                                })}
+                        </div>
                     )}
                 </div>
             </Popover>

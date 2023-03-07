@@ -4,7 +4,7 @@ import {
     TemplateComponent,
     TemplateComponentProps,
 } from "../../template-component";
-import { AdditionalOraclePageProps } from "../../../types";
+import { AdditionalOraclePageProps } from "../../../types/templates";
 
 type OraclePageProps = Omit<
     TemplateComponentProps,

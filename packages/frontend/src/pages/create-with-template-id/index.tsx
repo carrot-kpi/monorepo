@@ -5,7 +5,7 @@ import {
     usePreferDecentralization,
 } from "@carrot-kpi/react";
 import { useTransition, config as springConfig } from "@react-spring/web";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useProvider } from "wagmi";
 import { Fetcher, Template } from "@carrot-kpi/sdk";
@@ -13,6 +13,7 @@ import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
+import { useAddTransaction } from "../../hooks/useAddTransaction";
 
 interface CreateWithTemplateIdProps {
     closing?: boolean;
@@ -25,6 +26,8 @@ export const CreateWithTemplateId = ({
 }: CreateWithTemplateIdProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
+    const navigate = useNavigate();
+    const addTransaction = useAddTransaction();
     const { templateId } = useParams();
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
@@ -118,6 +121,8 @@ export const CreateWithTemplateId = ({
                         i18n={i18n}
                         className={{ root: "w-full h-full" }}
                         onCreate={handleCreate}
+                        navigate={navigate}
+                        onTx={addTransaction}
                     />
                 </AnimatedFullscreenModal>
             )
