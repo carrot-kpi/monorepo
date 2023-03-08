@@ -1,6 +1,12 @@
+import React, {
+    ChangeEvent,
+    Dispatch,
+    SetStateAction,
+    useCallback,
+    useState,
+} from "react";
 import { TextInput } from "@carrot-kpi/ui";
 import { Select, SelectOption } from "@carrot-kpi/ui";
-import React, { Dispatch, SetStateAction } from "react";
 import { ToggleFiltersButton } from "./toggle-filters-button";
 import { ReactComponent as MagnifyingLens } from "../../../assets/magnifying-lens.svg";
 import { t } from "i18next";
@@ -17,7 +23,6 @@ interface CampaignsTopNavProps {
     filtersOpen: boolean;
     setSearchQuery: Dispatch<SetStateAction<SearchQueryProp>>;
 }
-type InputChangeEvent = React.ChangeEvent<HTMLInputElement>;
 
 export const CampaignsTopNav = ({
     ordering,
@@ -30,6 +35,19 @@ export const CampaignsTopNav = ({
     filtersOpen,
     setSearchQuery,
 }: CampaignsTopNavProps) => {
+    const [searchInputValue, setSearchInputValue] = useState<
+        string | undefined
+    >();
+
+    const handleSearchChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>): void => {
+            const inputValue = event.currentTarget.value;
+            setSearchQuery(inputValue);
+            setSearchInputValue(inputValue);
+        },
+        [setSearchQuery]
+    );
+
     return (
         <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12 dark:bg-black">
             <div className="flex flex-col items-center justify-between w-full md:flex-row">
@@ -72,11 +90,11 @@ export const CampaignsTopNav = ({
                 <TextInput
                     icon={MagnifyingLens}
                     iconPlacement="left"
+                    type="search"
                     placeholder={t("search")}
                     id="search-input-campaigns"
-                    onChange={(event: InputChangeEvent): void => {
-                        setSearchQuery(event.currentTarget.value);
-                    }}
+                    onChange={handleSearchChange}
+                    value={searchInputValue}
                 />
             </div>
         </div>
