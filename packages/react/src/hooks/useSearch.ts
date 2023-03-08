@@ -4,22 +4,10 @@ import { useDebounce } from "react-use";
 export type SearchQueryProp = string | undefined;
 
 export function useSearch() {
-    const [searchQuery, setSearchQuery] = useState<SearchQueryProp>(undefined);
-    const [searchFinalQuery, setSearchFinalQuery] =
-        useState<SearchQueryProp>(undefined);
+    const [searchQuery, setSearchQuery] = useState<SearchQueryProp>();
+    const [searchFinalQuery, setSearchFinalQuery] = useState<SearchQueryProp>();
 
-    useDebounce(
-        () => {
-            if (!!searchQuery) {
-                setSearchFinalQuery(searchQuery);
-            }
-            if (searchQuery == "") {
-                setSearchFinalQuery(undefined);
-            }
-        },
-        990,
-        [searchQuery]
-    );
+    useDebounce(() => setSearchFinalQuery(searchQuery), 990, [searchQuery]);
 
     return { searchQuery: searchFinalQuery, setSearchQuery };
 }
