@@ -9,7 +9,7 @@ import { ReactComponent as X } from "../../../assets/x.svg";
 import { ReactComponent as SettingsIcon } from "../../../assets/settings.svg";
 import { Button } from "@carrot-kpi/ui";
 import { PreferencesPopover } from "./popovers/preferences";
-import { useClickAway } from "react-use";
+import { useClickAway, useWindowSize } from "react-use";
 
 const navWrapperStyles = cva([""], {
     variants: {
@@ -84,24 +84,19 @@ export const Navbar = ({
 }: NavbarProps) => {
     const preferencesRef = useRef<HTMLButtonElement>(null);
     const preferencesPopoverRef = useRef<HTMLDivElement>(null);
+    const { width } = useWindowSize();
 
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState(true);
     const [preferencesPopoverOpen, setPreferencesPopoverOpen] = useState(false);
 
     useClickAway(preferencesPopoverRef, () => {
         setPreferencesPopoverOpen(false);
     });
 
+    // TODO: use size observer to increase performance
     useEffect(() => {
-        const closeMenuOnResizeToDesktop = () => {
-            if (window.innerWidth > 700) setOpen(false);
-        };
-        // TODO: use size observer to increase performance
-        window.addEventListener("resize", closeMenuOnResizeToDesktop);
-        return () => {
-            window.removeEventListener("resize", closeMenuOnResizeToDesktop);
-        };
-    }, [isOpen]);
+        if (width > 700) setOpen(false);
+    }, [width]);
 
     const handlePreferencesPopoverOpen = useCallback(() => {
         setPreferencesPopoverOpen(true);
