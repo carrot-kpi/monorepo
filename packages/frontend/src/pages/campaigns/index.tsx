@@ -10,6 +10,7 @@ import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { useSearch } from "@carrot-kpi/react";
 import { KPIToken } from "../../../../sdk/dist";
+import { useResetPageScroll } from "@carrot-kpi/react";
 
 const ORDERING_OPTIONS = [
     {
@@ -38,6 +39,7 @@ const STATE_OPTIONS = [
 ];
 
 export const Campaigns = () => {
+    useResetPageScroll();
     const { t } = useTranslation();
 
     const [pageSize, setPageSize] = useState(12);
@@ -76,13 +78,6 @@ export const Campaigns = () => {
             resizeObserver.current.unobserve(document.body);
         };
     }, []);
-    // --------------------------
-
-    // page view settings
-    useEffect(() => {
-        window.scroll({ top: 0, left: 0 });
-    }, []);
-    // --------------------------
 
     // filter and sort results
     const filteredTokens = useMemo(() => {

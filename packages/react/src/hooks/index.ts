@@ -22,3 +22,4 @@ export * from "./useTokenLists";
 export * from "./useWatchData";
 export * from "./useWatchKPITokenOwner";
 export * from "./useSearch";
+export * from "./useResetPageScroll";
