@@ -132,10 +132,9 @@ const Component = <O extends SelectOption>(
                 value={value?.label || ""}
                 {...rest}
                 className={{
-                    root: "cui-cursor-pointer",
-                    input: "cui-cursor-pointer",
-                    inputIcon: "cui-w-4",
                     ...className,
+                    input: `cui-cursor-pointer ${className?.input}`,
+                    inputIcon: `cui-w-4 ${className?.inputIcon}`,
                 }}
                 onClick={handleClick}
             />

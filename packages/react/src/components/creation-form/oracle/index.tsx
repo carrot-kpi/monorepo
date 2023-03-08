@@ -1,31 +1,33 @@
 import React from "react";
 import { ReactElement } from "react";
+import { AdditionalOracleCreationFormProps } from "../../../types/templates";
 import {
     TemplateComponent,
     TemplateComponentProps,
 } from "../../template-component";
-import { BigNumber } from "@ethersproject/bignumber";
-import { Address } from "wagmi";
 
-interface OracleCreationFormProps
-    extends Omit<TemplateComponentProps, "entity" | "type" | "props"> {
-    onDone:
-        | ((to: Address, data: string, value: BigNumber) => void)
-        | ((data: string, value: BigNumber) => void);
-}
+type OracleCreationFormProps<S> = Omit<
+    TemplateComponentProps,
+    "entity" | "type" | "additionalProps"
+> &
+    AdditionalOracleCreationFormProps<S>;
 
-export function OracleCreationForm({
-    onDone,
+export function OracleCreationForm<S>({
     template,
-    ...rest
-}: OracleCreationFormProps): ReactElement {
+    fallback,
+    i18n,
+    className,
+    ...additionalProps
+}: OracleCreationFormProps<S>): ReactElement {
     return (
         <TemplateComponent
             entity="oracle"
             type="creationForm"
             template={template}
-            {...rest}
-            props={{ template, onDone }}
+            fallback={fallback}
+            i18n={i18n}
+            className={className}
+            additionalProps={additionalProps}
         />
     );
 }

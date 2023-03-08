@@ -25,6 +25,11 @@ import {
     standaloneSupportedChains,
 } from "./standalone-setup";
 import { QueryClient } from "@tanstack/react-query";
+import { HostStateProvider } from "./state/connector";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import dayjs from "dayjs";
+
+dayjs.extend(localizedFormat);
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -58,20 +63,24 @@ export const Root = ({
 }: RootProps) => {
     return (
         <HashRouter>
-            <CarrotCoreProvider
-                supportedChains={supportedChains || standaloneSupportedChains}
-                providers={providers || standaloneProviders}
-                getConnectors={connectors || getStandaloneConnectors}
-                ipfsGatewayURL={ipfsGatewayURL}
-                reactQueryClient={queryClient}
-            >
-                <ThemeUpdater />
-                <App
-                    kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
-                    oracleTemplateBaseURL={oracleTemplateBaseURL}
-                    templateId={templateId}
-                />
-            </CarrotCoreProvider>
+            <HostStateProvider>
+                <CarrotCoreProvider
+                    supportedChains={
+                        supportedChains || standaloneSupportedChains
+                    }
+                    providers={providers || standaloneProviders}
+                    getConnectors={connectors || getStandaloneConnectors}
+                    ipfsGatewayURL={ipfsGatewayURL}
+                    reactQueryClient={queryClient}
+                >
+                    <ThemeUpdater />
+                    <App
+                        kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
+                        oracleTemplateBaseURL={oracleTemplateBaseURL}
+                        templateId={templateId}
+                    />
+                </CarrotCoreProvider>
+            </HostStateProvider>
         </HashRouter>
     );
 };

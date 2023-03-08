@@ -22,7 +22,7 @@ const MOCKED_DATA = [
     },
 ];
 
-export const FeaturedCampaings = () => {
+export const FeaturedCampaigns = () => {
     const { chain } = useNetwork();
 
     return (
@@ -44,6 +44,7 @@ export const FeaturedCampaings = () => {
                 );
                 const kpiToken = new KPIToken(
                     chain.id,
+                    "0x0000000000000000000000000000000000000000",
                     "0x0000000000000000000000000000000000000000",
                     template,
                     [],

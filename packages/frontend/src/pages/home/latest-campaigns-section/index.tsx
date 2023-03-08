@@ -3,6 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
+import { Empty } from "../../../components/ui/empty";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
 import { useLatestKPITokens } from "../../../hooks/useLatestKPITokens";
 
@@ -20,18 +21,22 @@ export const LatestCampaignsSection = () => {
         <div className="relative flex flex-col gap-16">
             {/* TODO: add i18n */}
             <Typography variant="h2">{t("home.latestCampaigns")}</Typography>
-            <CardHorizontal>
-                {loading
-                    ? placeholder
-                    : Object.values(kpiTokens).map((kpiToken) => (
-                          <KPITokenCard
-                              key={kpiToken.address}
-                              kpiToken={kpiToken}
-                          />
-                      ))}
+            <CardHorizontal className="h-96">
+                {loading ? (
+                    placeholder
+                ) : Object.values(kpiTokens).length > 0 ? (
+                    Object.values(kpiTokens).map((kpiToken) => (
+                        <KPITokenCard
+                            key={kpiToken.address}
+                            kpiToken={kpiToken}
+                        />
+                    ))
+                ) : (
+                    <Empty />
+                )}
             </CardHorizontal>
             <Link to="/campaigns">
-                <Button>View all campaings</Button>
+                <Button>View all campaigns</Button>
             </Link>
         </div>
     );

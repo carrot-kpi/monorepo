@@ -44,12 +44,12 @@
     }
 
     button.cui-switch.cui-switch-disabled {
-        @apply cui-cursor-no-drop;
+        @apply cui-cursor-not-allowed;
         @apply cui-bg-gray-200 dark:cui-bg-gray-700;
     }
 
     button.cui-switch.cui-switch-disabled:after {
-        @apply cui-cursor-no-drop;
+        @apply cui-cursor-not-allowed;
         @apply cui-bg-gray-500 dark:cui-bg-black;
     }
 }

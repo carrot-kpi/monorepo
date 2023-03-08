@@ -1,6 +1,6 @@
 import { Button, Typography } from "@carrot-kpi/ui";
 import React from "react";
-import { FeaturedCampaings } from "../../../components/featured-campaigns";
+import { FeaturedCampaigns } from "../../../components/featured-campaigns";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
@@ -38,13 +38,13 @@ export const Hero = () => {
                     {t("home.featuredCampaigns")}
                 </Typography>
                 <CardHorizontal className="px-6 md:px-10 lg:px-32 dark">
-                    <FeaturedCampaings />
+                    <FeaturedCampaigns />
                 </CardHorizontal>
                 <div className="px-6 md:px-10 lg:px-32 flex flex-col space-x-0 md:space-x-8 space-y-4 md:space-y-0 md:flex-row">
                     <Button variant="primary" size="big">
                         <Link to="/campaigns">{t("campaign.all")}</Link>
                     </Button>
-                    <CreateCampaignButton />
+                    {!__PREVIEW_MODE__ && <CreateCampaignButton />}
                 </div>
             </div>
             <div className="absolute invisible left-4 top-1/3 lg:visible ">

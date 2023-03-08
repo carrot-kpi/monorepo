@@ -118,7 +118,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                     </div>
                     <div className="flex items-center justify-end px-4 h-12 w-[60%] border-l border-black dark:border-white">
                         {!!kpiToken ? (
-                            kpiToken.expiration < Date.now() ? (
+                            kpiToken.expired ? (
                                 <Typography
                                     weight="medium"
                                     uppercase

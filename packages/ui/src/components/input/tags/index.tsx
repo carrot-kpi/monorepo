@@ -90,9 +90,9 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                     onChange={handleOnChange}
                     onKeyDown={handleKeyDown}
                     className={{
-                        input: "cui-pr-16",
-                        inputActionWrapper: "cui-pr-2",
                         ...className,
+                        input: `cui-pr-16 ${className?.input}`,
+                        inputActionWrapper: `cui-pr-2 ${className?.inputActionWrapper}`,
                     }}
                 />
                 {!!value && value.length > 0 && (

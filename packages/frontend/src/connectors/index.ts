@@ -2,6 +2,7 @@ import { ReactComponent as MetamaskIcon } from "../assets/connectors/metamask.sv
 import { ReactComponent as FrameIcon } from "../assets/connectors/frame.svg";
 import { ReactComponent as WalletConnectIcon } from "../assets/connectors/wallet-connect.svg";
 import { ReactComponent as CoinbaseWalletIcon } from "../assets/connectors/coinbase-wallet.svg";
+import { ReactComponent as InjectedIcon } from "../assets/connectors/injected.svg";
 
 export * from "./readonly";
 
@@ -13,7 +14,7 @@ export const getConnectorIcon = (connectorId: string, walletName: string) => {
             } else if (walletName === "Frame") {
                 return FrameIcon;
             } else {
-                return null;
+                return InjectedIcon;
             }
         }
         case "walletConnect": {

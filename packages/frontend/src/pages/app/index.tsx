@@ -72,11 +72,23 @@ export const App = ({
             matchPath({ path }, location.pathname)
         );
         if (openingModal) {
-            // in case previous location is not there (fr example when
+            // in case previous location is not there (for example when
             // coming in through an external link), set the homepage as
             // the main location
             document.documentElement.classList.add("overflow-hidden");
-            setMainLocation(previousLocation || DEFAULT_LOCATION);
+
+            const isPreviousLocationModal =
+                previousLocation &&
+                !!MODAL_ROUTE_PATHS.find(({ path }) =>
+                    matchPath({ path }, previousLocation.pathname)
+                );
+            // if the previous location was a modal (i.e. if we're switching
+            // through modals) set default location as main
+            setMainLocation(
+                isPreviousLocationModal
+                    ? DEFAULT_LOCATION
+                    : previousLocation || DEFAULT_LOCATION
+            );
             setModalLocation(location);
             return;
         }

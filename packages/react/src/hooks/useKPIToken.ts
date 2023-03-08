@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
+import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
 export function useKPIToken(kpiTokenAddress?: string): {
     loading: boolean;
     kpiToken: KPIToken | null;
 } {
     const preferDecentralization = usePreferDecentralization();
+    const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
 
@@ -23,6 +25,7 @@ export function useKPIToken(kpiTokenAddress?: string): {
                 const kpiToken = (
                     await Fetcher.fetchKPITokens({
                         provider,
+                        ipfsGatewayURL,
                         preferDecentralization,
                         addresses: [kpiTokenAddress],
                     })
@@ -42,7 +45,13 @@ export function useKPIToken(kpiTokenAddress?: string): {
         return () => {
             cancelled = true;
         };
-    }, [chain, kpiTokenAddress, preferDecentralization, provider]);
+    }, [
+        chain,
+        ipfsGatewayURL,
+        kpiTokenAddress,
+        preferDecentralization,
+        provider,
+    ]);
 
     return { loading, kpiToken };
 }

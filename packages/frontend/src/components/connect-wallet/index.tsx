@@ -5,27 +5,20 @@ import { ReactComponent as Error } from "../../assets/error.svg";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useTranslation } from "react-i18next";
 import { Button } from "@carrot-kpi/ui";
-import { useNetwork, useAccount, useEnsAvatar, useEnsName } from "wagmi";
-import makeBlockie from "ethereum-blockies-base64";
-import { constants } from "ethers";
+import { useNetwork, useAccount } from "wagmi";
 import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
-import { shortenAddress } from "../../utils/address";
 import { useClickAway } from "react-use";
+import { Avatar } from "./avatar";
 
 // TODO: implement loading states
 export const ConnectWallet = () => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
     const { address } = useAccount();
-    const { data: ensName } = useEnsName({
-        address,
-    });
-    const { data: ensAvatar } = useEnsAvatar({
-        address,
-    });
+
     const networksPopoverAnchorRef = useRef<HTMLDivElement>(null);
     const networksPopoverRef = useRef<HTMLDivElement>(null);
     const connectWalletRef = useRef<HTMLButtonElement>(null);
@@ -95,19 +88,22 @@ export const ConnectWallet = () => {
                         onClose={handleConnectPopoverClose}
                         ref={connectPopoverRef}
                     />
-                    <AccountPopover
-                        open={accountPopoverOpen}
-                        anchor={connectWalletRef.current}
-                        onClose={handleAccountPopoverClose}
-                        ref={accountPopoverRef}
-                    />
                 </>
             )}
-            <div className="flex items-center gap-4">
+            {address && (
+                <AccountPopover
+                    address={address as string}
+                    open={accountPopoverOpen}
+                    anchor={connectWalletRef.current}
+                    onClose={handleAccountPopoverClose}
+                    ref={accountPopoverRef}
+                />
+            )}
+            <div className="flex flex-col gap-4 xl:flex-row">
                 <div
-                    className={`h-12 flex items-center ${
+                    className={`h-12 w-fit flex items-center ${
                         __PREVIEW_MODE__ ? "" : "cursor-pointer"
-                    } gap-3 mr-3`}
+                    } gap-3`}
                     onClick={handleNetworksPopoverOpen}
                     ref={networksPopoverAnchorRef}
                 >
@@ -130,28 +126,22 @@ export const ConnectWallet = () => {
                     </div>
                     {!__PREVIEW_MODE__ && <CaretDown className="w-3" />}
                 </div>
-                {!!address && address !== constants.AddressZero ? (
+                {address ? (
                     <Button
                         ref={connectWalletRef}
                         onClick={handleAccountPopoverOpen}
                         className={{
-                            root: "h-12 px-3",
+                            root: "w-12 h-12 p-0",
                         }}
                     >
-                        <div className="flex items-center text-base">
-                            <img
-                                className="w-7 h-7 mr-3 rounded-full"
-                                src={ensAvatar || makeBlockie(address)}
-                            />
-                            {ensName || shortenAddress(address)}
-                        </div>
+                        <Avatar address={address} />
                     </Button>
                 ) : (
                     <Button
                         ref={connectWalletRef}
                         onClick={handleConnectPopoverOpen}
                         className={{
-                            root: "h-12 px-3",
+                            root: "h-12 px-3 w-full xl:w-fit",
                         }}
                     >
                         {t("connect.wallet")}

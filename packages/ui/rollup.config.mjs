@@ -18,7 +18,10 @@ export default [
             nodeResolve({ preferBuiltins: true }),
             commonjs(),
             postcss({
-                plugins: [tailwindcss, autoprefixer],
+                plugins: [
+                    tailwindcss({ config: resolve("src/tailwind.config.js") }),
+                    autoprefixer,
+                ],
                 extract: resolve("dist/styles.css"),
             }),
             url(),
@@ -41,7 +44,7 @@ export default [
         ],
     },
     {
-        input: [resolve("./tailwind.preset.js")],
+        input: [resolve("./src/tailwind.preset.js")],
         plugins: [
             peerDepsExternal(),
             nodeResolve({ preferBuiltins: true, rootDir: resolve("../..") }),

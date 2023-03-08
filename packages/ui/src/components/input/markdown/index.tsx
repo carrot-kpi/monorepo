@@ -4,10 +4,11 @@ import Placeholder from "@tiptap/extension-placeholder";
 import React, { ReactElement, useCallback, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
-import { BaseInputWrapper, BaseInputWrapperProps } from "../commons";
+import { BaseInputProps, BaseInputWrapper } from "../commons";
 import { mergedCva } from "../../../utils/components";
 
-export interface MarkdownInputProps {
+export interface MarkdownInputProps
+    extends Omit<BaseInputProps<string>, "onChange"> {
     id: string;
     label: string;
     error?: boolean;
@@ -15,10 +16,6 @@ export interface MarkdownInputProps {
     placeholder?: string;
     value?: string;
     onChange: (value: string) => void;
-    className?: {
-        root?: string;
-        input?: BaseInputWrapperProps["className"];
-    };
 }
 
 export const markdownInputRootStyles = mergedCva([
@@ -106,16 +103,16 @@ export const MarkdownInput = ({
             label={label}
             error={error}
             helperText={helperText}
-            className={className?.input}
+            className={{ ...className }}
         >
             <div
                 className={markdownInputRootStyles({
-                    className: className?.root,
+                    className: className?.input,
                 })}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             >
-                {editor && <MenuBar editor={editor} focused={focused} />}
+                <MenuBar editor={editor} focused={focused} />
                 <EditorContent
                     className={markdownInputContentStyles({ error })}
                     editor={editor}

@@ -9,7 +9,7 @@ import { cva } from "class-variance-authority";
 import { useTheme } from "../../hooks";
 import { useMedia } from "react-use";
 
-const wrapperStyles = cva([], {
+const wrapperStyles = cva(["h-full"], {
     variants: {
         dark: {
             true: ["dark"],
@@ -29,7 +29,7 @@ export interface TemplateComponentProps {
     fallback: ReactNode;
     i18n: i18n;
     className?: { root?: string; wrapper?: string };
-    props?: any;
+    additionalProps?: any;
 }
 
 export function TemplateComponent({
@@ -39,7 +39,7 @@ export function TemplateComponent({
     fallback,
     i18n,
     className,
-    props = {},
+    additionalProps = {},
 }: TemplateComponentProps) {
     const { loading, bundle, Component } = useTemplateModule(
         entity,
@@ -95,7 +95,11 @@ export function TemplateComponent({
                     className: className?.wrapper,
                 })}
             >
-                <Component {...props} i18n={i18n} t={translateWithNamespace} />
+                <Component
+                    {...additionalProps}
+                    i18n={i18n}
+                    t={translateWithNamespace}
+                />
             </div>
         </div>
     );

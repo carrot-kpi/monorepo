@@ -1,15 +1,15 @@
 import React, { forwardRef, useRef, useState, useCallback } from "react";
 import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
-import { Dayjs } from "dayjs";
 import { TextInput } from "../text";
 import { Popover } from "../../utils";
 import { ReactComponent as Calendar } from "../../../assets/calendar.svg";
 import { DateTimePicker, DateTimePickerProps } from "./picker";
 import { useClickAway } from "react-use";
+import dayjs from "dayjs";
 
 export type DateTimeInputProps = Omit<
-    BaseInputProps<Dayjs>,
+    BaseInputProps<Date>,
     "onChange" | "min" | "max"
 > &
     DateTimePickerProps;
@@ -63,13 +63,15 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                     helperText={helperText}
                     icon={Calendar}
                     className={{
-                        input: "cui-cursor-pointer",
-                        inputIconWrapper: "cui-cursor-pointer",
                         ...className,
+                        input: `cui-cursor-pointer ${className?.input}`,
+                        inputIconWrapper: `cui-cursor-pointer ${className?.inputIconWrapper}`,
                     }}
                     {...rest}
                     onClick={handlePickerOpen}
-                    value={value?.format("L HH:mm:ss")}
+                    value={
+                        value ? dayjs(value).format("L HH:mm:ss") : undefined
+                    }
                 />
                 <Popover
                     anchor={anchorEl}

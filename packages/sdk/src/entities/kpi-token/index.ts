@@ -13,6 +13,7 @@ export class KPIToken {
     constructor(
         public readonly chainId: ChainId,
         public readonly address: string,
+        public readonly owner: string,
         public readonly template: Template,
         public readonly oracles: Oracle[],
         public readonly specification: KPITokenSpecification,
@@ -22,6 +23,6 @@ export class KPIToken {
     ) {}
 
     public get expired(): boolean {
-        return this.expiration <= Math.floor(Date.now() / 1000);
+        return this.expiration <= Math.floor(Date.now() / 1_000);
     }
 }

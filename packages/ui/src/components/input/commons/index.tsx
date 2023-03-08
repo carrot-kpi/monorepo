@@ -16,7 +16,7 @@ export interface PartialBaseInputProps<V> {
     variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
-    value?: V;
+    value?: V | null;
     border?: boolean;
 }
 
@@ -115,12 +115,19 @@ export const inputStyles = mergedCva(
                 ],
             },
             error: {
-                true: ["cui-bg-red/20 dark:cui-bg-red/20", "cui-border-red/10"],
+                true: ["cui-bg-red/20"],
             },
             hasLeftIcon: {
                 true: ["cui-pl-12"],
             },
         },
+        compoundVariants: [
+            {
+                border: false,
+                error: true,
+                className: ["cui-border-transparent"],
+            },
+        ],
         defaultVariants: { variant: "md", border: true },
     }
 );
@@ -134,7 +141,7 @@ const helperTextWrapperStyles = mergedCva([
     "cui-mt-2",
 ]);
 
-const helperTextIconStyles = mergedCva([], {
+const helperTextIconStyles = mergedCva(["cui-w-6"], {
     variants: {
         variant: {
             danger: ["cui-stroke-red"],
@@ -268,10 +275,11 @@ export const BaseInputWrapper = ({
                     <Typography
                         variant="xs"
                         className={{
+                            ...className?.helperText,
                             root: helperTextStyles({
                                 error,
+                                className: className?.helperText?.root,
                             }),
-                            ...className?.helperText,
                         }}
                     >
                         {helperText}

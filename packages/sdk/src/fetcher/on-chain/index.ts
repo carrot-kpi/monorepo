@@ -42,6 +42,7 @@ const KPI_TOKEN_EXPIRATION_FUNCTION =
 const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION = KPI_TOKEN_INTERFACE.getFunction(
     "creationTimestamp()"
 );
+const KPI_TOKEN_OWNER_FUNCTION = KPI_TOKEN_INTERFACE.getFunction("owner()");
 
 const ORACLE_TEMPLATE_FUNCTION = ORACLE_INTERFACE.getFunction("template()");
 const ORACLE_FINALIZED_FUNCTION =
@@ -67,6 +68,9 @@ const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA =
     KPI_TOKEN_INTERFACE.encodeFunctionData(
         KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION
     );
+const KPI_TOKEN_OWNER_FUNCTION_DATA = KPI_TOKEN_INTERFACE.encodeFunctionData(
+    KPI_TOKEN_OWNER_FUNCTION
+);
 
 const ORACLE_TEMPLATE_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
     ORACLE_TEMPLATE_FUNCTION
@@ -117,6 +121,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchKPITokens({
         provider,
+        ipfsGatewayURL,
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
         const { chainId } = await provider.getNetwork();
@@ -158,12 +163,13 @@ class Fetcher implements IPartialCarrotFetcher {
                     [address, KPI_TOKEN_ORACLES_FUNCTION_DATA],
                     [address, KPI_TOKEN_EXPIRATION_FUNCTION_DATA],
                     [address, KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA],
+                    [address, KPI_TOKEN_OWNER_FUNCTION_DATA],
                 ];
             })
         );
 
         const allKPITokenTemplateSpecificationCids: string[] = [];
-        for (let i = 2; i < kpiTokenResult.length; i += 6) {
+        for (let i = 2; i < kpiTokenResult.length; i += 7) {
             const cid = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_TEMPLATE_FUNCTION,
                 kpiTokenResult[i]
@@ -176,13 +182,14 @@ class Fetcher implements IPartialCarrotFetcher {
         }
         const kpiTokenTemplateSpecifications =
             await CoreFetcher.fetchContentFromIPFS({
+                ipfsGatewayURL,
                 cids: allKPITokenTemplateSpecificationCids.map(
                     (cid) => `${cid}/base.json`
                 ),
             });
 
         const allKPITokenDescriptionCids: string[] = [];
-        for (let i = 1; i < kpiTokenResult.length; i += 6) {
+        for (let i = 1; i < kpiTokenResult.length; i += 7) {
             const cid = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_DESCRIPTION_FUNCTION,
                 kpiTokenResult[i]
@@ -191,11 +198,12 @@ class Fetcher implements IPartialCarrotFetcher {
                 allKPITokenDescriptionCids.push(cid);
         }
         const kpiTokenDescriptions = await CoreFetcher.fetchContentFromIPFS({
+            ipfsGatewayURL,
             cids: allKPITokenDescriptionCids,
         });
 
         const allOracleAddresses: string[] = [];
-        for (let i = 3; i < kpiTokenResult.length; i += 6)
+        for (let i = 3; i < kpiTokenResult.length; i += 7)
             allOracleAddresses.push(
                 ...KPI_TOKEN_INTERFACE.decodeFunctionResult(
                     KPI_TOKEN_ORACLES_FUNCTION,
@@ -205,6 +213,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
         const oracles = await this.fetchOracles({
             provider,
+            ipfsGatewayURL,
             addresses: allOracleAddresses,
         });
 
@@ -216,7 +225,7 @@ class Fetcher implements IPartialCarrotFetcher {
         outerLoop: for (let i = 0; i < iUpperLimit; i++) {
             const kpiTokenTemplate = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_TEMPLATE_FUNCTION,
-                kpiTokenResult[i * 6 + 2]
+                kpiTokenResult[i * 7 + 2]
             )[0];
             const rawKPITokenTemplateSpecification = JSON.parse(
                 kpiTokenTemplateSpecifications[
@@ -227,12 +236,12 @@ class Fetcher implements IPartialCarrotFetcher {
 
             const kpiTokenFinalized = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_FINALIZED_FUNCTION,
-                kpiTokenResult[i * 6]
+                kpiTokenResult[i * 7]
             )[0];
             const kpiTokenDescriptionCid =
                 KPI_TOKEN_INTERFACE.decodeFunctionResult(
                     KPI_TOKEN_DESCRIPTION_FUNCTION,
-                    kpiTokenResult[i * 6 + 1]
+                    kpiTokenResult[i * 7 + 1]
                 )[0];
             const description = JSON.parse(
                 kpiTokenDescriptions[kpiTokenDescriptionCid]
@@ -241,17 +250,21 @@ class Fetcher implements IPartialCarrotFetcher {
             const kpiTokenOracleAddresses =
                 KPI_TOKEN_INTERFACE.decodeFunctionResult(
                     KPI_TOKEN_ORACLES_FUNCTION,
-                    kpiTokenResult[i * 6 + 3]
+                    kpiTokenResult[i * 7 + 3]
                 )[0];
             const kpiTokenExpiration = KPI_TOKEN_INTERFACE.decodeFunctionResult(
                 KPI_TOKEN_EXPIRATION_FUNCTION,
-                kpiTokenResult[i * 6 + 4]
+                kpiTokenResult[i * 7 + 4]
             )[0].toNumber();
             const kpiTokenCreationTimestamp =
                 KPI_TOKEN_INTERFACE.decodeFunctionResult(
                     KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION,
-                    kpiTokenResult[i * 6 + 5]
+                    kpiTokenResult[i * 7 + 5]
                 )[0].toNumber();
+            const kpiTokenOwner = KPI_TOKEN_INTERFACE.decodeFunctionResult(
+                KPI_TOKEN_OWNER_FUNCTION,
+                kpiTokenResult[i * 7 + 6]
+            )[0];
 
             const kpiTokenOracles: Oracle[] = [];
             for (const address of kpiTokenOracleAddresses) {
@@ -278,6 +291,7 @@ class Fetcher implements IPartialCarrotFetcher {
             allKPITokens[kpiTokenAddress] = new KPIToken(
                 chainId,
                 kpiTokenAddress,
+                kpiTokenOwner,
                 template,
                 kpiTokenOracles,
                 description,
@@ -291,6 +305,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchOracles({
         provider,
+        ipfsGatewayURL,
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
         const { chainId } = await provider.getNetwork();
@@ -334,6 +349,7 @@ class Fetcher implements IPartialCarrotFetcher {
         }
         const oracleTemplateSpecifications =
             await CoreFetcher.fetchContentFromIPFS({
+                ipfsGatewayURL,
                 cids: allOracleSpecificationCids.map(
                     (cid) => `${cid}/base.json`
                 ),
@@ -383,6 +399,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     private async fetchTemplates(
         chainId: ChainId,
+        ipfsGatewayURL: string,
         managerContract: Contract,
         ids?: BigNumberish[]
     ): Promise<Template[]> {
@@ -425,6 +442,7 @@ class Fetcher implements IPartialCarrotFetcher {
         }
 
         const specifications = await CoreFetcher.fetchContentFromIPFS({
+            ipfsGatewayURL,
             cids: rawTemplates.map(
                 (rawTemplate) => `${rawTemplate.specification}/base.json`
             ),
@@ -452,12 +470,14 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchKPITokenTemplates({
         provider,
+        ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
+            ipfsGatewayURL,
             new Contract(
                 CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
                 KPI_TOKENS_MANAGER_ABI,
@@ -469,12 +489,14 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchOracleTemplates({
         provider,
+        ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
+            ipfsGatewayURL,
             new Contract(
                 CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
                 ORACLES_MANAGER_ABI,

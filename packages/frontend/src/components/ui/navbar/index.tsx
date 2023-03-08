@@ -24,7 +24,7 @@ const navWrapperStyles = cva([""], {
 });
 
 const navbarStyles = cva(
-    ["relative flex items-center justify-between py-8 md:py-11"],
+    ["relative flex items-center justify-between py-8 xl:py-11"],
     {
         variants: {
             bgColor: {
@@ -35,18 +35,20 @@ const navbarStyles = cva(
                 true: ["z-10"],
             },
             mode: {
-                standard: ["px-6 lg:px-32"],
-                modal: ["px-6 lg:px-10"],
+                standard: ["px-6 xl:px-32"],
+                modal: ["px-6 xl:px-10"],
             },
         },
     }
 );
 
-const navStyles = cva([], {
+const navStyles = cva(["flex items-center gap-4"], {
     variants: {
         isOpen: {
-            true: ["absolute flex flex-col top-28 left-0 px-6 py-16  w-full"],
-            false: ["hidden md:flex"],
+            true: [
+                "absolute grid grid-cols-1 gap-6 top-28 left-0 px-6 py-12 w-full",
+            ],
+            false: ["hidden xl:flex xl:order-3"],
         },
     },
 });
@@ -54,9 +56,9 @@ const navStyles = cva([], {
 const navLinksStyles = cva(["flex"], {
     variants: {
         isOpen: {
-            true: ["flex-col items-start space-y-8 relative"],
+            true: ["flex-col items-start space-y-7 relative"],
             false: [
-                "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2",
+                "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 xl:top-[68px]",
             ],
         },
     },
@@ -109,42 +111,18 @@ export const Navbar = ({
         <div className={navWrapperStyles({ isOpen, bgColor })}>
             <div className={navbarStyles({ bgColor, isOpen, mode })}>
                 {mode === "modal" ? (
-                    <Logo className="w-32 h-auto md:w-[188px] text-black" />
+                    <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                 ) : (
-                    <NavLink to="/" onClick={() => setOpen(false)}>
-                        <Logo className="w-32 h-auto md:w-[188px] text-black" />
+                    <NavLink
+                        to="/"
+                        onClick={() => setOpen(false)}
+                        className="xl:order-1"
+                    >
+                        <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                     </NavLink>
                 )}
-                {links && (
-                    <nav className={navStyles({ isOpen })}>
-                        <ul className={navLinksStyles({ isOpen })}>
-                            {links.map((link) => (
-                                <NavLink
-                                    key={link.to}
-                                    to={link.to}
-                                    onClick={() => setOpen(false)}
-                                >
-                                    <li className="flex items-start space-x-2 cursor-pointer">
-                                        <span className="font-mono text-2xl md:text-base">
-                                            ↳
-                                        </span>
-                                        <p className="font-mono text-black text-2xl hover:underline md:text-base uppercase underline-offset-[12px]">
-                                            {link.title}
-                                        </p>
-                                    </li>
-                                </NavLink>
-                            ))}
-                        </ul>
-                    </nav>
-                )}
-                <div className="flex items-center">
-                    <div
-                        className={`absolute top-[420px] md:static ${
-                            !isOpen && "hidden"
-                        } md:block md:top-auto mr-4`}
-                    >
-                        <ConnectWallet />
-                    </div>
+                <nav className={navStyles({ isOpen })}>
+                    <ConnectWallet />
                     <Button
                         ref={preferencesRef}
                         size="small"
@@ -159,23 +137,43 @@ export const Navbar = ({
                         anchor={preferencesRef.current}
                         ref={preferencesPopoverRef}
                     />
-                    {mode !== "modal" && (
-                        <div
-                            className="md:hidden ml-4"
-                            onClick={() => setOpen(!isOpen)}
-                        >
-                            {isOpen ? <CloseIcon /> : <MenuIcon />}
-                        </div>
-                    )}
-                    {mode === "modal" && (
-                        <div
-                            className="ml-10 w-10 h-10 md:w-16 md:h-16 bg-white rounded-full border border-black flex items-center justify-center cursor-pointer"
-                            onClick={onDismiss}
-                        >
-                            <X className="w-8 h-8" />
-                        </div>
-                    )}
-                </div>
+                    <ul className={navLinksStyles({ isOpen })}>
+                        {(links || []).map((link) => (
+                            <li key={link.to}>
+                                <NavLink
+                                    className="flex items-start space-x-2 cursor-pointer"
+                                    to={link.to}
+                                    onClick={() => setOpen(false)}
+                                >
+                                    <span className="font-mono text-2xl xl:text-base">
+                                        ↳
+                                    </span>
+                                    <p className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]">
+                                        {link.title}
+                                    </p>
+                                </NavLink>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="flex items-center xl:order-2">
+                        {mode !== "modal" && (
+                            <div
+                                className="xl:hidden"
+                                onClick={() => setOpen(!isOpen)}
+                            >
+                                {isOpen ? <CloseIcon /> : <MenuIcon />}
+                            </div>
+                        )}
+                        {mode === "modal" && (
+                            <div
+                                className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
+                                onClick={onDismiss}
+                            >
+                                <X className="w-8 h-8" />
+                            </div>
+                        )}
+                    </div>
+                </nav>
             </div>
         </div>
     );

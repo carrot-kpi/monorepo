@@ -8,27 +8,32 @@ import {
 } from "wagmi";
 import { Chain } from "wagmi";
 import { ReactNode } from "react";
-import { IPFSService } from "@carrot-kpi/sdk";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { useSetIPFSGatewayURL } from "../../hooks/useSetIPFSGatewayURL";
 
-interface WagmiSetupProps {
+interface InternalSetupProps {
     children: ReactNode;
+    ipfsGatewayURL?: string;
     supportedChains: Chain[];
     providers: ChainProviderFn[];
     getConnectors: (chains: Chain[]) => Connector[];
 }
 
-const WagmiSetup = ({
+const InternalSetup = ({
     supportedChains,
+    ipfsGatewayURL,
     getConnectors,
     providers,
     children,
-}: WagmiSetupProps) => {
-    // TODO: this is the place to implement custom rpc setting
+}: InternalSetupProps) => {
+    const setIPFSGatewayURL = useSetIPFSGatewayURL();
 
+    if (!!ipfsGatewayURL) setIPFSGatewayURL(ipfsGatewayURL);
+
+    // TODO: this is the place to implement custom rpc setting
     const { provider, chains, webSocketProvider } = configureChains(
         supportedChains,
         [
@@ -75,18 +80,17 @@ export const CarrotCoreProvider = ({
         }),
     });
 
-    if (!!ipfsGatewayURL) IPFSService.gateway = ipfsGatewayURL;
-
     return (
         <ReactSharedStateProvider>
             <QueryClientProvider client={reactQueryClient}>
-                <WagmiSetup
+                <InternalSetup
+                    ipfsGatewayURL={ipfsGatewayURL}
                     supportedChains={supportedChains}
                     providers={providers}
                     getConnectors={getConnectors}
                 >
                     {children}
-                </WagmiSetup>
+                </InternalSetup>
             </QueryClientProvider>
         </ReactSharedStateProvider>
     );

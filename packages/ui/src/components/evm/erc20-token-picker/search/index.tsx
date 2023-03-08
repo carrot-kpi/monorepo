@@ -225,9 +225,9 @@ export const Search = ({
                     value={searchQuery}
                     onChange={handleSearchChange}
                     className={{
-                        root: "cui-w-full",
-                        input: "cui-w-full",
                         ...className?.input,
+                        input: `cui-w-full ${className?.input?.input}`,
+                        inputWrapper: `cui-w-full ${className?.input?.inputWrapper}`,
                     }}
                 />
             </div>
@@ -321,8 +321,8 @@ export const Search = ({
                                                                 ipfsGatewayURL
                                                             }
                                                             className={{
-                                                                root: "cui-pointer-events-none",
                                                                 ...className?.listItemIcon,
+                                                                root: `cui-pointer-events-none ${className?.listItemIcon?.root}`,
                                                             }}
                                                         />
                                                     )}
@@ -371,8 +371,8 @@ export const Search = ({
                         <Button
                             loading={loading}
                             className={{
-                                root: "cui-w-full",
                                 ...className?.manageListsButton,
+                                root: `cui-w-full ${className?.manageListsButton?.root}`,
                             }}
                             onClick={onManageLists}
                         >

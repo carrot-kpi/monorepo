@@ -4,24 +4,30 @@ import {
     TemplateComponent,
     TemplateComponentProps,
 } from "../../template-component";
-import { Oracle } from "@carrot-kpi/sdk";
+import { AdditionalOraclePageProps } from "../../../types/templates";
 
-interface OraclePageProps
-    extends Omit<
-        TemplateComponentProps,
-        "entity" | "type" | "template" | "props"
-    > {
-    oracle?: Oracle;
-}
+type OraclePageProps = Omit<
+    TemplateComponentProps,
+    "entity" | "type" | "additionalProps" | "template"
+> &
+    AdditionalOraclePageProps;
 
-export function OraclePage({ oracle, ...rest }: OraclePageProps): ReactElement {
+export function OraclePage({
+    fallback,
+    i18n,
+    className,
+    oracle,
+    ...rest
+}: OraclePageProps): ReactElement {
     return (
         <TemplateComponent
             entity="oracle"
             type="page"
             template={oracle?.template}
-            {...rest}
-            props={{ oracle }}
+            fallback={fallback}
+            i18n={i18n}
+            className={className}
+            additionalProps={{ oracle, ...rest }}
         />
     );
 }

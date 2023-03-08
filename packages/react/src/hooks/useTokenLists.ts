@@ -1,6 +1,7 @@
-import { uriToHttps, IPFSService, parseENSName } from "@carrot-kpi/sdk";
+import { uriToHttps, parseENSName } from "@carrot-kpi/sdk";
 import { TokenList } from "@uniswap/token-lists";
 import { useEffect, useState } from "react";
+import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
 const fetchList = async (url: string): Promise<TokenList | null> => {
     let response;
@@ -20,6 +21,8 @@ const fetchList = async (url: string): Promise<TokenList | null> => {
 export const useTokenLists = (
     urls?: string[]
 ): { loading: boolean; lists: TokenList[] } => {
+    const ipfsGatewayURL = useIPFSGatewayURL();
+
     const [loading, setLoading] = useState(true);
     const [lists, setLists] = useState<TokenList[]>([]);
 
@@ -41,7 +44,7 @@ export const useTokenLists = (
                                 `https://${lowerCaseName}.eth.link/${path}`,
                             ];
                         } else {
-                            resolvedUrls = uriToHttps(url, IPFSService.gateway);
+                            resolvedUrls = uriToHttps(url, ipfsGatewayURL);
                         }
                         for (let i = 0; i < resolvedUrls.length; i++) {
                             const fetchedList = await fetchList(
@@ -65,7 +68,7 @@ export const useTokenLists = (
             );
         };
         void fetchLists();
-    }, [urls]);
+    }, [ipfsGatewayURL, urls]);
 
     return { loading, lists };
 };

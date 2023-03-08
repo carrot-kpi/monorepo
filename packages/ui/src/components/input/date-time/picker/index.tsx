@@ -1,9 +1,10 @@
-import dayjs, { Dayjs, UnitType } from "dayjs";
-import React, { useCallback } from "react";
+import dayjs, { UnitType } from "dayjs";
+import React, { useCallback, useLayoutEffect } from "react";
 import { Typography } from "../../../data-display";
 import { DatePicker, DatePickerProps } from "../../date/picker";
 import { enforceDoubleDigits } from "../../../../utils/formatting";
 import { mergedCva } from "../../../../utils/components";
+import { rectifyDate, resolvedValue } from "../../../../utils/date";
 
 const cellListStyles = mergedCva(
     [
@@ -48,6 +49,16 @@ const cellStyles = mergedCva(
                     "hover:dark:cui-bg-gray-600",
                 ],
             },
+            disabled: {
+                true: [
+                    "cui-text-gray-400",
+                    "dark:!cui-text-gray-600",
+                    "hover:cui-bg-white",
+                    "hover:dark:cui-bg-black",
+                    "cui-cursor-not-allowed",
+                ],
+                false: ["cui-cursor-pointer"],
+            },
         },
     }
 );
@@ -67,17 +78,27 @@ export const DateTimePicker = ({
     min,
     max,
 }: DateTimePickerProps) => {
+    // in case a value change happened, check if we're still
+    // alright with validation and rectify if needed
+    useLayoutEffect(() => {
+        if (!value || !onChange) return;
+        const originalValue = dayjs(value);
+        const rectifiedValue = rectifyDate(dayjs(value), min, max);
+        if (!originalValue.isSame(rectifiedValue))
+            onChange(rectifiedValue.toDate());
+    }, [max, min, onChange, value]);
+
     const handleDateChange = useCallback(
-        (newValue: Dayjs) => {
+        (newValue: Date) => {
             if (!onChange) return;
             if (!value) onChange(newValue);
             else
                 onChange(
-                    value
-                        .clone()
-                        .date(newValue.date())
-                        .month(newValue.month())
-                        .year(newValue.year())
+                    dayjs(value)
+                        .date(newValue.getDate())
+                        .month(newValue.getMonth())
+                        .year(newValue.getFullYear())
+                        .toDate()
                 );
         },
         [onChange, value]
@@ -91,11 +112,15 @@ export const DateTimePicker = ({
                 const [unit, newValue] = data.split("-");
                 const parsedNewValue = parseInt(newValue);
                 if (isNaN(parsedNewValue)) return;
-                const clone = value ? value.clone() : dayjs();
-                onChange(clone.set(unit as UnitType, parsedNewValue));
+                const initialDate = resolvedValue(value, min, max);
+                const pickedDate = initialDate.set(
+                    unit as UnitType,
+                    parsedNewValue
+                );
+                onChange(rectifyDate(pickedDate, min, max).toDate());
             }
         },
-        [onChange, value]
+        [max, min, onChange, value]
     );
 
     return (
@@ -115,20 +140,37 @@ export const DateTimePicker = ({
                         root: "cui-p-2 cui-border-b cui-border-black dark:cui-border-white cui-text-center",
                     }}
                 >
-                    {value ? value.format("HH:mm:ss") : "--:--:--"}
+                    {value ? dayjs(value).format("HH:mm:ss") : "--:--:--"}
                 </Typography>
                 <div className="cui-flex cui-h-full">
                     <div className={cellListStyles({ border: true })}>
                         {HOURS.map((hour) => {
-                            const selected = value?.format("HH") === hour;
+                            const selected =
+                                value && dayjs(value).format("HH") === hour;
+                            let disabled = false;
+                            if (value && (min || max)) {
+                                const atTime = dayjs(value).hour(
+                                    parseInt(hour)
+                                );
+                                disabled = !rectifyDate(
+                                    atTime,
+                                    min,
+                                    max
+                                ).isSame(atTime);
+                            }
                             return (
                                 <Typography
                                     variant="sm"
                                     key={hour}
                                     className={{
-                                        root: cellStyles({ selected }),
+                                        root: cellStyles({
+                                            selected,
+                                            disabled,
+                                        }),
                                     }}
-                                    onClick={handleTimeChange}
+                                    onClick={
+                                        disabled ? undefined : handleTimeChange
+                                    }
                                     data-data={`hour-${hour}`}
                                 >
                                     {hour}
@@ -138,15 +180,32 @@ export const DateTimePicker = ({
                     </div>
                     <div className={cellListStyles({ border: true })}>
                         {MINUTES_SECONDS.map((minute) => {
-                            const selected = value?.format("mm") === minute;
+                            const selected =
+                                value && dayjs(value).format("mm") === minute;
+                            let disabled = false;
+                            if (value) {
+                                const atTime = dayjs(value).minute(
+                                    parseInt(minute)
+                                );
+                                disabled = !rectifyDate(
+                                    atTime,
+                                    min,
+                                    max
+                                ).isSame(atTime);
+                            }
                             return (
                                 <Typography
                                     variant="sm"
                                     key={minute}
                                     className={{
-                                        root: cellStyles({ selected }),
+                                        root: cellStyles({
+                                            selected,
+                                            disabled,
+                                        }),
                                     }}
-                                    onClick={handleTimeChange}
+                                    onClick={
+                                        disabled ? undefined : handleTimeChange
+                                    }
                                     data-data={`minute-${minute}`}
                                 >
                                     {minute}
@@ -156,15 +215,32 @@ export const DateTimePicker = ({
                     </div>
                     <div className={cellListStyles({ border: false })}>
                         {MINUTES_SECONDS.map((second) => {
-                            const selected = value?.format("ss") === second;
+                            const selected =
+                                value && dayjs(value).format("ss") === second;
+                            let disabled = false;
+                            if (value && (min || max)) {
+                                const atTime = dayjs(value).second(
+                                    parseInt(second)
+                                );
+                                disabled = !rectifyDate(
+                                    atTime,
+                                    min,
+                                    max
+                                ).isSame(atTime);
+                            }
                             return (
                                 <Typography
                                     variant="sm"
                                     key={second}
                                     className={{
-                                        root: cellStyles({ selected }),
+                                        root: cellStyles({
+                                            selected,
+                                            disabled,
+                                        }),
                                     }}
-                                    onClick={handleTimeChange}
+                                    onClick={
+                                        disabled ? undefined : handleTimeChange
+                                    }
                                     data-data={`second-${second}`}
                                 >
                                     {second}

@@ -85,17 +85,19 @@ const cellStyles = mergedCva(
 );
 
 export interface DatePickerProps {
-    onChange?: (date: Dayjs) => void;
-    value?: Dayjs | null;
-    min?: Dayjs | null;
-    max?: Dayjs | null;
+    onChange?: (date: Date) => void;
+    value?: Date | null;
+    min?: Date | null;
+    max?: Date | null;
 }
 
 export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
     // this date is used to generate cells, and is generally set to the
     // first day of the month we're currently interested in (also changed
     // when the datepicker user wants to change months)
-    const [lookupDate, setLookupDate] = useState<Dayjs>(value || dayjs());
+    const [lookupDate, setLookupDate] = useState<Dayjs>(
+        value ? dayjs(value) : dayjs()
+    );
     const [cells, setCells] = useState<CalendarCell[]>([]);
 
     useLayoutEffect(() => {
@@ -116,7 +118,8 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
             const index = (event.target as HTMLLIElement).dataset.index;
             if (index !== undefined) {
                 const parsedIndex = parseInt(index);
-                if (parsedIndex >= 0) onChange(cells[parsedIndex].value);
+                if (parsedIndex >= 0)
+                    onChange(cells[parsedIndex].value.toDate());
             }
         },
         [cells, onChange]
@@ -159,13 +162,13 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
             <div className="cui-grid cui-grid-cols-7 cui-grid-rows-4 cui-gap-1">
                 {cells.map((cell, index) => {
                     const disabled =
-                        (min && cell.value.isBefore(min)) ||
-                        (max && cell.value.isAfter(max)) ||
+                        (min && cell.value.isBefore(min, "day")) ||
+                        (max && cell.value.isAfter(max, "day")) ||
                         cell.value.month() !== lookupDate.month();
                     const selected =
                         !disabled &&
-                        value?.month() === cell.value.month() &&
-                        value?.date() === cell.value.date();
+                        value?.getMonth() === cell.value.month() &&
+                        value?.getDate() === cell.value.date();
                     return (
                         <Typography
                             onClick={disabled ? undefined : handleCellClick}
