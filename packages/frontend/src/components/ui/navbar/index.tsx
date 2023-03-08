@@ -86,7 +86,7 @@ export const Navbar = ({
     const preferencesPopoverRef = useRef<HTMLDivElement>(null);
     const { width } = useWindowSize();
 
-    const [isOpen, setOpen] = useState(true);
+    const [isOpen, setOpen] = useState(false);
     const [preferencesPopoverOpen, setPreferencesPopoverOpen] = useState(false);
 
     useClickAway(preferencesPopoverRef, () => {
