@@ -1,4 +1,9 @@
-import { useKPITokens, usePage } from "@carrot-kpi/react";
+import {
+    useKPITokens,
+    usePage,
+    useResetPageScroll,
+    useSearch,
+} from "@carrot-kpi/react";
 import { Button, SelectOption, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -8,9 +13,7 @@ import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
-import { useSearch } from "@carrot-kpi/react";
 import { KPIToken } from "../../../../sdk/dist";
-import { useResetPageScroll } from "@carrot-kpi/react";
 
 const ORDERING_OPTIONS = [
     {
@@ -42,11 +45,7 @@ export const Campaigns = () => {
     useResetPageScroll();
     const { t } = useTranslation();
 
-    const [pageSize, setPageSize] = useState(12);
-    const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
-    const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
-
-    //  get campaigns
+    //  fetch KPITokens
     const [results, setResults] = useState<KPIToken[]>([]);
     const { searchQuery, setSearchQuery } = useSearch();
     const { loading, kpiTokens } = useKPITokens(searchQuery);
@@ -55,7 +54,26 @@ export const Campaigns = () => {
     const [filtersOpen, setFilterOpen] = useState(false);
     const toggleFilters = () => setFilterOpen(!filtersOpen);
 
-    // items per page
+    // page settings
+    const [pageSize, setPageSize] = useState(12);
+    const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+    const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
+
+    // filter and sort results
+    const filteredTokens = useMemo(() => {
+        return filterKPITokens(Object.values(kpiTokens), undefined);
+    }, [kpiTokens]);
+
+    const sortedFilteredTokens = useMemo(() => {
+        return sortKPITokens(filteredTokens);
+    }, [filteredTokens]);
+
+    useEffect(() => {
+        setResults(sortedFilteredTokens);
+    }, [sortedFilteredTokens]);
+
+    const page = usePage(results, pageSize, 0);
+
     const resizeObserver = useRef(
         new ResizeObserver((entries) => {
             const { width } = entries[0].contentRect;
@@ -78,22 +96,6 @@ export const Campaigns = () => {
             resizeObserver.current.unobserve(document.body);
         };
     }, []);
-
-    // filter and sort results
-    const filteredTokens = useMemo(() => {
-        return filterKPITokens(Object.values(kpiTokens), undefined);
-    }, [kpiTokens]);
-
-    const sortedFilteredTokens = useMemo(() => {
-        return sortKPITokens(filteredTokens);
-    }, [filteredTokens]);
-
-    useEffect(() => {
-        setResults(sortedFilteredTokens);
-    }, [sortedFilteredTokens]);
-
-    const page = usePage(results, pageSize, 0);
-    // --------------------------
 
     return (
         <Layout>
