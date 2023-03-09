@@ -9,6 +9,7 @@ import {
 } from "../abstraction";
 import {
     KPITokenData,
+    KPITokenSearchData,
     TemplateData,
     OracleData,
     GetKPITokensQuery,
@@ -201,6 +202,31 @@ class Fetcher implements IPartialCarrotFetcher {
             : tokens.map(({ rawAddress }) => getAddress(rawAddress));
     }
 
+    public normalizeKpiTokens = async (
+        rawTokensList: KPITokenData[] | KPITokenSearchData[],
+        chainId: ChainId,
+        ipfsGatewayURL: string
+    ) => {
+        const kpiTokens:
+            | Promise<{ [address: string]: KPIToken }>
+            | { [address: string]: KPIToken } = {};
+        await Promise.all(
+            rawTokensList.map(async (rawToken) => {
+                // @ts-ignore
+                const token = rawToken.kpiToken || rawToken;
+
+                const kpiToken = await mapRawKPIToken(
+                    chainId,
+                    ipfsGatewayURL,
+                    token
+                );
+                kpiTokens[kpiToken.address] = kpiToken;
+            })
+        );
+
+        return kpiTokens;
+    };
+
     public async fetchKPITokens({
         provider,
         ipfsGatewayURL,
@@ -213,8 +239,6 @@ class Fetcher implements IPartialCarrotFetcher {
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
 
         if (!!searchQuery) {
-            const kpiTokens: { [address: string]: KPIToken } = {};
-
             const { kpiTokenSearch } =
                 await query<GetKPITokenSearchQueryResponse>(
                     subgraphURL,
@@ -222,18 +246,11 @@ class Fetcher implements IPartialCarrotFetcher {
                     { query: searchQuery }
                 );
 
-            await Promise.all(
-                kpiTokenSearch.map(async (kpiTokenSearch) => {
-                    const kpiToken = await mapRawKPIToken(
-                        chainId,
-                        ipfsGatewayURL,
-                        kpiTokenSearch.kpiToken
-                    );
-                    kpiTokens[kpiToken.address] = kpiToken;
-                })
+            return this.normalizeKpiTokens(
+                kpiTokenSearch,
+                chainId,
+                ipfsGatewayURL
             );
-
-            return kpiTokens;
         }
 
         if (!!addresses) {
@@ -245,7 +262,9 @@ class Fetcher implements IPartialCarrotFetcher {
                 fromIndex + PAGE_SIZE > finalIndex
                     ? finalIndex
                     : fromIndex + PAGE_SIZE;
-            const kpiTokens: { [address: string]: KPIToken } = {};
+            let kpiTokens:
+                | Promise<{ [address: string]: KPIToken }>
+                | { [address: string]: KPIToken } = {};
             while (toIndex < addressesLength) {
                 const addressesChunk = addresses
                     .slice(fromIndex, toIndex + 1)
@@ -257,16 +276,13 @@ class Fetcher implements IPartialCarrotFetcher {
                         { addresses: addressesChunk }
                     );
                 if (rawKPITokens.length === 0) break;
-                await Promise.all(
-                    rawKPITokens.map(async (rawKPIToken) => {
-                        const kpiToken = await mapRawKPIToken(
-                            chainId,
-                            ipfsGatewayURL,
-                            rawKPIToken
-                        );
-                        kpiTokens[kpiToken.address] = kpiToken;
-                    })
+
+                kpiTokens = this.normalizeKpiTokens(
+                    rawKPITokens,
+                    chainId,
+                    ipfsGatewayURL
                 );
+
                 fromIndex += PAGE_SIZE;
                 toIndex =
                     fromIndex + PAGE_SIZE > finalIndex

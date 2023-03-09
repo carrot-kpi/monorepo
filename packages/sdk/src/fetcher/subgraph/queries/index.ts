@@ -58,6 +58,10 @@ export interface KPITokenData {
     finalized: boolean;
 }
 
+export interface KPITokenSearchData {
+    kpiToken: KPITokenData;
+}
+
 const KPITokenDataFields = `
     rawAddress: id
     rawOwner: owner
