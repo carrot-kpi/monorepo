@@ -70,10 +70,11 @@ export interface BaseCheckboxProps {
 }
 
 export type CheckboxProps = Omit<
-    HTMLAttributes<HTMLInputElement> & BaseInputWrapperProps,
-    "type" | keyof BaseCheckboxProps
+    HTMLAttributes<HTMLInputElement>,
+    "type" | "className" | "id" | keyof BaseCheckboxProps
 > &
-    BaseCheckboxProps;
+    BaseCheckboxProps &
+    Omit<BaseInputWrapperProps, "id">;
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     function Checkbox(
