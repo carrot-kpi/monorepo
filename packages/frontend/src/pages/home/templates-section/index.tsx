@@ -1,5 +1,5 @@
 import { useKPITokenTemplates } from "@carrot-kpi/react";
-import { Button, Typography } from "@carrot-kpi/ui";
+import { Typography } from "@carrot-kpi/ui";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
@@ -39,7 +39,8 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
                     <Empty />
                 )}
             </CardHorizontal>
-            <Button>{t("templates.viewAll")}</Button>
+            {/* TODO: implement templates page */}
+            {/* <Button>{t("templates.viewAll")}</Button> */}
         </div>
     );
 };

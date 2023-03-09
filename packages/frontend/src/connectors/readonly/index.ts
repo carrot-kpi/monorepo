@@ -2,10 +2,8 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 import { Connector } from "wagmi";
 import { Address, Chain, ConnectorData, normalizeChainId } from "@wagmi/core";
 import { constants } from "ethers";
-import { ChainId } from "@carrot-kpi/sdk";
 
-const DEFAULT_CHAIN_ID = ChainId.GOERLI;
-export const READ_ONLY_CONNECTOR_ID = "readOnly";
+export const READ_ONLY_CONNECTOR_ID = "readonly";
 
 export type InjectedConnectorOptions = {
     /** Name of connector */
@@ -16,7 +14,7 @@ export class ReadonlyConnector extends Connector<
     JsonRpcProvider,
     InjectedConnectorOptions
 > {
-    readonly id = "readonly";
+    readonly id = READ_ONLY_CONNECTOR_ID;
     readonly name = "Readonly";
     readonly ready = true;
 
@@ -25,13 +23,12 @@ export class ReadonlyConnector extends Connector<
     constructor(config: { chains: Chain[]; options: object }) {
         super(config);
     }
-
     public async connect({ chainId }: { chainId?: number } = {}): Promise<
         Required<ConnectorData>
     > {
         let targetChainId = chainId;
         let useDefaultChainId = false;
-        if (!targetChainId) {
+        if (!targetChainId || this.isChainUnsupported(targetChainId)) {
             try {
                 const lastUsedChainId = await this.getChainId();
                 if (
@@ -56,7 +53,7 @@ export class ReadonlyConnector extends Connector<
         provider.on("disconnect", this.onDisconnect);
 
         const id = useDefaultChainId
-            ? DEFAULT_CHAIN_ID
+            ? this.chains[0].id
             : await this.getChainId();
 
         const unsupported = this.isChainUnsupported(id);

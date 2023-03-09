@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
-interface AugmentedChain extends Chain {
+export interface AugmentedChain extends Chain {
     logo: FunctionComponent<SVGProps<SVGSVGElement>>;
     iconBackgroundColor: string;
 }

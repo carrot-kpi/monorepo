@@ -28,6 +28,9 @@ import { QueryClient } from "@tanstack/react-query";
 import { HostStateProvider } from "./state/connector";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
+import { ReadonlyConnector } from "./connectors";
+
+export * from "./connectors/template-testing";
 
 dayjs.extend(localizedFormat);
 
@@ -45,7 +48,7 @@ const queryClient = new QueryClient({
 interface RootProps {
     supportedChains?: Chain[];
     providers?: ChainProviderFn[];
-    connectors?: () => Connector[];
+    getAdditionalConnectors?: () => Connector[];
     ipfsGatewayURL?: string;
     kpiTokenTemplateBaseURL?: string;
     oracleTemplateBaseURL?: string;
@@ -55,21 +58,44 @@ interface RootProps {
 export const Root = ({
     supportedChains,
     providers,
-    connectors,
+    getAdditionalConnectors,
     ipfsGatewayURL,
     kpiTokenTemplateBaseURL,
     oracleTemplateBaseURL,
     templateId,
 }: RootProps) => {
+    const resolvedSupportedChains =
+        supportedChains || standaloneSupportedChains;
+
+    const resolvedProviders = providers || standaloneProviders;
+
+    let resolvedGetConnectors = getStandaloneConnectors;
+    if (getAdditionalConnectors) {
+        resolvedGetConnectors = () => {
+            const connectors = getAdditionalConnectors();
+            if (
+                connectors.some(
+                    (connector) => connector instanceof ReadonlyConnector
+                )
+            )
+                return connectors;
+            return [
+                ...connectors,
+                new ReadonlyConnector({
+                    chains: resolvedSupportedChains,
+                    options: { name: "readonly" },
+                }),
+            ];
+        };
+    }
+
     return (
         <HashRouter>
             <HostStateProvider>
                 <CarrotCoreProvider
-                    supportedChains={
-                        supportedChains || standaloneSupportedChains
-                    }
-                    providers={providers || standaloneProviders}
-                    getConnectors={connectors || getStandaloneConnectors}
+                    supportedChains={resolvedSupportedChains}
+                    providers={resolvedProviders}
+                    getConnectors={resolvedGetConnectors}
                     ipfsGatewayURL={ipfsGatewayURL}
                     reactQueryClient={queryClient}
                 >

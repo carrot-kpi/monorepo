@@ -66,8 +66,7 @@ export const ConnectWallet = () => {
     }, []);
 
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
-    // TODO: i18n
-    const chainName = chain?.name || "Unknown";
+    const chainName = chain?.name || t("connect.wallet.unknown");
     const supportedChain = !!chainId && !!SUPPORTED_CHAINS[chainId as ChainId];
     const Logo = supportedChain
         ? SUPPORTED_CHAINS[chainId as ChainId].logo
@@ -75,21 +74,19 @@ export const ConnectWallet = () => {
     return (
         <>
             {!__PREVIEW_MODE__ && (
-                <>
-                    <NetworksPopover
-                        open={networksPopoverOpen}
-                        anchor={networksPopoverAnchorRef.current}
-                        onClose={handleNetworksPopoverClose}
-                        ref={networksPopoverRef}
-                    />
-                    <ConnectPopover
-                        open={connectPopoverOpen}
-                        anchor={connectWalletRef.current}
-                        onClose={handleConnectPopoverClose}
-                        ref={connectPopoverRef}
-                    />
-                </>
+                <NetworksPopover
+                    open={networksPopoverOpen}
+                    anchor={networksPopoverAnchorRef.current}
+                    onClose={handleNetworksPopoverClose}
+                    ref={networksPopoverRef}
+                />
             )}
+            <ConnectPopover
+                open={connectPopoverOpen}
+                anchor={connectWalletRef.current}
+                onClose={handleConnectPopoverClose}
+                ref={connectPopoverRef}
+            />
             {address && (
                 <AccountPopover
                     address={address as string}

@@ -3,8 +3,12 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "../../constants";
 export const en = {
     [CARROT_KPI_FRONTEND_I18N_NAMESPACE]: {
         "connect.wallet": "Connect wallet",
+        "connect.wallet.unknown": "Unknown",
         "connect.wallet.network": "Network",
         "home.createKPIToken": "Create KPI token",
+        "home.noFeatured.title": "Reach your goals with a Carrot",
+        "home.noFeatured.description":
+            "Easy and powerful tool to create conditional tokens allowing an effective method to achieve any goal desirable using permissionless, decentralized technologies.",
         "home.loading": "Loading",
         "home.viewCampaign": "View",
         "home.noKPIToken": "No KPI token",
