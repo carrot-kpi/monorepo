@@ -3,6 +3,7 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "../../constants";
 export const en = {
     [CARROT_KPI_FRONTEND_I18N_NAMESPACE]: {
         "connect.wallet": "Connect wallet",
+        "connect.wallet.unknown": "Unknown",
         "connect.wallet.network": "Network",
         "home.createKPIToken": "Create KPI token",
         "home.noFeatured.title": "Reach your goals with a Carrot",

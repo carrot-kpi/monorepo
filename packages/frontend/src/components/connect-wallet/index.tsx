@@ -66,9 +66,7 @@ export const ConnectWallet = () => {
     }, []);
 
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
-    // TODO: i18n
-    const chainName = chain?.name || "Unknown";
-    console.log({ chain, chainId });
+    const chainName = chain?.name || t("connect.wallet.unknown");
     const supportedChain = !!chainId && !!SUPPORTED_CHAINS[chainId as ChainId];
     const Logo = supportedChain
         ? SUPPORTED_CHAINS[chainId as ChainId].logo
