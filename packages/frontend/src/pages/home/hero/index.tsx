@@ -39,15 +39,12 @@ export const Hero = () => {
                     <div className="flex flex-col md:flex-row justify-around items-center gap-10 md:gap-0">
                         <div className="flex flex-col items-center md:items-start gap-10 w-full md:w-2/5">
                             <Typography variant="h1">
-                                Reach your goals with a Carrot
+                                {t("home.noFeatured.title")}
                             </Typography>
                             <Typography>
-                                Easy and powerful tool to create conditional
-                                tokens allowing an effective method to achieve
-                                any goal desirable using permissionless,
-                                decentralized technologies.
+                                {t("home.noFeatured.description")}
                             </Typography>
-                            <Button>Create campaign</Button>
+                            <CreateCampaignButton primary />
                         </div>
                         <div className="w-full md:w-1/2 aspect-video bg-gray-600 rounded-xl"></div>
                     </div>

@@ -5,7 +5,13 @@ import { useKPITokenTemplates } from "@carrot-kpi/react";
 import { Link } from "react-router-dom";
 import { Template } from "@carrot-kpi/sdk";
 
-export const CreateCampaignButton = () => {
+interface CreateCampaignButtonProps {
+    primary?: boolean;
+}
+
+export const CreateCampaignButton = ({
+    primary,
+}: CreateCampaignButtonProps) => {
     const { t } = useTranslation();
     const { loading, templates } = useKPITokenTemplates();
 
@@ -26,7 +32,7 @@ export const CreateCampaignButton = () => {
             <Button
                 loading={loading}
                 disabled={!href}
-                variant="secondary"
+                variant={primary ? "primary" : "secondary"}
                 size="big"
             >
                 {t("create.campaign")}

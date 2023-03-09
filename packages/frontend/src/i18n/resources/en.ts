@@ -5,6 +5,9 @@ export const en = {
         "connect.wallet": "Connect wallet",
         "connect.wallet.network": "Network",
         "home.createKPIToken": "Create KPI token",
+        "home.noFeatured.title": "Reach your goals with a Carrot",
+        "home.noFeatured.description":
+            "Easy and powerful tool to create conditional tokens allowing an effective method to achieve any goal desirable using permissionless, decentralized technologies.",
         "home.loading": "Loading",
         "home.viewCampaign": "View",
         "home.noKPIToken": "No KPI token",
