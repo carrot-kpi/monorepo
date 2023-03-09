@@ -203,20 +203,17 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public normalizeKpiTokens = async (
-        rawTokensList: KPITokenData[] | KPITokenSearchData[],
+        rawTokensList: KPITokenSearchData[] | KPITokenData[],
         chainId: ChainId,
         ipfsGatewayURL: string
     ) => {
         const kpiTokens: { [address: string]: KPIToken } = {};
         await Promise.all(
             rawTokensList.map(async (rawToken) => {
-                // @ts-ignore
-                const token = rawToken.kpiToken || rawToken;
-
                 const kpiToken = await mapRawKPIToken(
                     chainId,
                     ipfsGatewayURL,
-                    token
+                    "kpiToken" in rawToken ? rawToken.kpiToken : rawToken
                 );
                 kpiTokens[kpiToken.address] = kpiToken;
             })
