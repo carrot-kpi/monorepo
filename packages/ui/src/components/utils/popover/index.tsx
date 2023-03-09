@@ -1,10 +1,4 @@
-import React, {
-    forwardRef,
-    ReactElement,
-    ReactNode,
-    useLayoutEffect,
-    useState,
-} from "react";
+import React, { forwardRef, ReactElement, ReactNode, useState } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core";
 import { mergedCva } from "../../../utils/components";
