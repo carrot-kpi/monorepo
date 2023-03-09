@@ -3,7 +3,7 @@
     "react-dom": { "requiredVersion": "^18.2.0", "singleton": true },
     "wagmi": { "requiredVersion": "^0.9.5", "singleton": true },
     "@carrot-kpi/shared-state": {
-        "requiredVersion": "^0.1.0",
+        "requiredVersion": "^0.2.0",
         "singleton": true
     }
 }
