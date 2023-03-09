@@ -1,9 +1,4 @@
-import {
-    useKPITokens,
-    usePage,
-    useResetPageScroll,
-    useSearch,
-} from "@carrot-kpi/react";
+import { useKPITokens, usePage, useResetPageScroll } from "@carrot-kpi/react";
 import { Button, SelectOption, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -15,6 +10,7 @@ import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
 import { KPIToken } from "@carrot-kpi/sdk";
+import { useSearch } from "../../hooks/useSearch";
 
 const ORDERING_OPTIONS = [
     {

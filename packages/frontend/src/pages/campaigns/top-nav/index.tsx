@@ -6,10 +6,10 @@ import React, {
     useState,
 } from "react";
 import { TextInput, Select, SelectOption } from "@carrot-kpi/ui";
-import { SearchQueryProp } from "@carrot-kpi/react";
 import { ToggleFiltersButton } from "./toggle-filters-button";
 import { ReactComponent as MagnifyingLens } from "../../../assets/magnifying-lens.svg";
 import { t } from "i18next";
+import { SearchQueryProp } from "../../../hooks/useSearch";
 
 interface CampaignsTopNavProps {
     ordering: SelectOption;
