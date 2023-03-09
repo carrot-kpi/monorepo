@@ -52,24 +52,15 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     ): ReactElement {
         const [popper, setPopper] = useState<HTMLDivElement | null>(null);
 
-        const { styles, attributes, update, forceUpdate } = usePopper(
-            anchor,
-            popper,
-            {
-                placement,
-                modifiers: [
-                    {
-                        name: "offset",
-                        options: { offset },
-                    },
-                ],
-            }
-        );
-        console.log(anchor, styles, attributes, update, forceUpdate);
-
-        useLayoutEffect(() => {
-            if (update) update();
-        }, [update]);
+        const { styles, attributes } = usePopper(anchor, popper, {
+            placement,
+            modifiers: [
+                {
+                    name: "offset",
+                    options: { offset },
+                },
+            ],
+        });
 
         return (
             <div
