@@ -5,6 +5,7 @@ export * from "./date-time";
 export * from "./markdown";
 export * from "./number";
 export * from "./radio";
+export * from "./radio-group";
 export * from "./select";
 export * from "./switch";
 export * from "./tags";
