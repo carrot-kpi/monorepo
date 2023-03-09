@@ -1,10 +1,4 @@
-import React, {
-    forwardRef,
-    ReactElement,
-    ReactNode,
-    useEffect,
-    useState,
-} from "react";
+import React, { forwardRef, ReactElement, ReactNode, useState } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core";
 import { mergedCva } from "../../../utils/components";
@@ -43,7 +37,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         {
             open,
             anchor,
-            placement = "bottom",
+            placement = "auto",
             offset = [0, 8],
             className,
             children,
@@ -51,12 +45,6 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         ref
     ): ReactElement {
         const [popper, setPopper] = useState<HTMLDivElement | null>(null);
-
-        useEffect(() => {
-            if (!popper || !ref) return;
-            if (typeof ref === "function") ref(popper);
-            else ref.current = popper;
-        }, [popper, ref]);
 
         const { styles, attributes } = usePopper(anchor, popper, {
             placement,
@@ -70,7 +58,13 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 
         return (
             <div
-                ref={setPopper}
+                ref={(element) => {
+                    if (ref) {
+                        if (typeof ref === "function") ref(element);
+                        else ref.current = element;
+                    }
+                    setPopper(element);
+                }}
                 style={styles.popper}
                 className={dropdownRootStyles({
                     className: className?.root,

@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useId, useState } from "react";
 import { ReactElement } from "react";
 import { mergedCva } from "../../../utils/components";
 import { Button } from "../button";
@@ -15,7 +15,11 @@ const tagsWrapperStyles = mergedCva([
     "cui-mt-2",
 ]);
 
-export type TagsInputProps = Omit<BaseInputProps<string[]>, "onChange"> & {
+export type TagsInputProps = Omit<
+    BaseInputProps<string[]>,
+    "onChange" | "id"
+> & {
+    id?: string;
     onChange: (tags: string[]) => void;
     messages: { add: string };
     className?: BaseInputProps<unknown>["className"] & {
@@ -31,7 +35,10 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
         { id, className, value, variant, messages, onChange, ...rest },
         ref
     ): ReactElement {
+        const generatedId = useId();
         const [inputValue, setInputValue] = useState<string>("");
+
+        const resolvedId = id || generatedId;
 
         const addTag = useCallback(() => {
             onChange(value ? [...value, inputValue] : [inputValue]);
@@ -69,7 +76,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
         return (
             <div className={className?.root}>
                 <TextInput
-                    id={id}
+                    id={resolvedId}
                     ref={ref}
                     variant={variant}
                     {...rest}
