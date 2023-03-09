@@ -13,8 +13,8 @@ import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
-import { KPIToken } from "../../../../sdk/dist";
 import { Empty } from "../../components/ui/empty";
+import { KPIToken } from "@carrot-kpi/sdk";
 
 const ORDERING_OPTIONS = [
     {
@@ -62,7 +62,7 @@ export const Campaigns = () => {
 
     // filter and sort results
     const filteredTokens = useMemo(() => {
-        return filterKPITokens(Object.values(kpiTokens), undefined);
+        return filterKPITokens(Object.values(kpiTokens));
     }, [kpiTokens]);
 
     const sortedFilteredTokens = useMemo(() => {
