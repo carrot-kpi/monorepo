@@ -107,24 +107,22 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                             }}
                         />
                         {!__PREVIEW_MODE__ && (
-                            <>
-                                <Button
-                                    size="xsmall"
-                                    icon={External}
-                                    disabled={!blockExplorerHref}
-                                    href={blockExplorerHref || ""}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={{ root: "w-10 h-10 p-0" }}
-                                />
-                                <Button
-                                    size="xsmall"
-                                    icon={Power}
-                                    onClick={handleDisconnectClick}
-                                    className={{ root: "w-10 h-10 p-0" }}
-                                />
-                            </>
+                            <Button
+                                size="xsmall"
+                                icon={External}
+                                disabled={!blockExplorerHref}
+                                href={blockExplorerHref || ""}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={{ root: "w-10 h-10 p-0" }}
+                            />
                         )}
+                        <Button
+                            size="xsmall"
+                            icon={Power}
+                            onClick={handleDisconnectClick}
+                            className={{ root: "w-10 h-10 p-0" }}
+                        />
                     </div>
                 </div>
                 <div className="w-full flex justify-between items-center gap-6">
