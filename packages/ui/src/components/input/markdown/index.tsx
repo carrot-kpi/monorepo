@@ -10,11 +10,6 @@ import { mergedCva } from "../../../utils/components";
 export interface MarkdownInputProps
     extends Omit<BaseInputProps<string>, "onChange" | "id"> {
     id?: string;
-    label: string;
-    error?: boolean;
-    helperText?: string;
-    placeholder?: string;
-    value?: string;
     onChange: (value: string) => void;
 }
 

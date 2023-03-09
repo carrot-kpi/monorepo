@@ -17,7 +17,8 @@ export const RadioGroup = ({
     id,
     label,
     error,
-    helperText,
+    errorText,
+    info,
     children,
     className,
 }: RadioGroupProps): ReactElement => {
@@ -25,7 +26,8 @@ export const RadioGroup = ({
         <BaseInputWrapper
             id={id}
             error={error}
-            helperText={helperText}
+            errorText={errorText}
+            info={info}
             className={className}
         >
             <Typography className={className?.labelText}>{label}</Typography>
