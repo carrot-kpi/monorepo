@@ -1,4 +1,4 @@
-import React, { forwardRef, HTMLAttributes, ReactElement } from "react";
+import React, { forwardRef, HTMLAttributes, ReactElement, useId } from "react";
 import { Typography } from "../../data-display";
 import { BaseInputWrapper, BaseInputWrapperProps } from "../commons";
 import { ReactComponent as Tick } from "../../../assets/tick.svg";
@@ -66,25 +66,30 @@ const inputStyles = mergedCva([
 
 export interface BaseCheckboxProps {
     checked?: boolean;
+    id?: string;
 }
 
 export type CheckboxProps = Omit<
-    HTMLAttributes<HTMLInputElement>,
-    "type" | "className" | keyof BaseCheckboxProps
+    HTMLAttributes<HTMLInputElement> & BaseInputWrapperProps,
+    "type" | keyof BaseCheckboxProps
 > &
-    BaseInputWrapperProps &
     BaseCheckboxProps;
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     function Checkbox(
-        { id, label, error, helperText, className, checked, ...rest },
+        { id, label, error, errorText, className, checked, info, ...rest },
         ref
     ): ReactElement {
+        const generatedId = useId();
+
+        const resolvedId = id || generatedId;
+
         return (
             <BaseInputWrapper
-                id={id}
+                id={resolvedId}
                 error={error}
-                helperText={helperText}
+                errorText={errorText}
+                info={info}
                 className={className}
             >
                 <div className={inputWrapperStyles({ hasLabel: !!label })}>
@@ -95,7 +100,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                             ref={ref}
                             checked={checked}
                             {...rest}
-                            id={id}
+                            id={resolvedId}
                             className={inputStyles({
                                 className: className?.input,
                             })}

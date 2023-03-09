@@ -1,15 +1,15 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import React, { ReactElement, useCallback, useState } from "react";
+import React, { ReactElement, useCallback, useId, useState } from "react";
 
 import { MenuBar } from "./menu-bar";
 import { BaseInputProps, BaseInputWrapper } from "../commons";
 import { mergedCva } from "../../../utils/components";
 
 export interface MarkdownInputProps
-    extends Omit<BaseInputProps<string>, "onChange"> {
-    id: string;
+    extends Omit<BaseInputProps<string>, "onChange" | "id"> {
+    id?: string;
     label: string;
     error?: boolean;
     helperText?: string;
@@ -61,12 +61,17 @@ export const MarkdownInput = ({
     id,
     label,
     error = false,
-    helperText,
+    errorText,
+    info,
     placeholder,
     value,
     onChange,
     className,
 }: MarkdownInputProps): ReactElement => {
+    const generatedId = useId();
+
+    const resolvedId = id || generatedId;
+
     const editor = useEditor({
         content: value,
         extensions: [
@@ -99,10 +104,11 @@ export const MarkdownInput = ({
 
     return (
         <BaseInputWrapper
-            id={id}
+            id={resolvedId}
             label={label}
             error={error}
-            helperText={helperText}
+            errorText={errorText}
+            info={info}
             className={{ ...className }}
         >
             <div
@@ -114,6 +120,7 @@ export const MarkdownInput = ({
             >
                 <MenuBar editor={editor} focused={focused} />
                 <EditorContent
+                    id={resolvedId}
                     className={markdownInputContentStyles({ error })}
                     editor={editor}
                 />

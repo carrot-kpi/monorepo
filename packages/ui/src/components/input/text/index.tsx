@@ -1,9 +1,11 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useId } from "react";
 import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
 import { inputStyles, BaseInputWrapper } from "../commons";
 
-export type TextInputProps = BaseInputProps<string>;
+export type TextInputProps = Omit<BaseInputProps<string>, "id"> & {
+    id?: string;
+};
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     function TextInput(
@@ -12,7 +14,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             label,
             variant,
             border,
-            helperText,
+            errorText,
+            info,
             icon,
             iconPlacement,
             action,
@@ -24,12 +27,17 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         },
         ref
     ): ReactElement {
+        const generatedId = useId();
+
+        const resolvedId = id || generatedId;
+
         return (
             <BaseInputWrapper
-                id={id}
+                id={resolvedId}
                 label={label}
                 error={error}
-                helperText={helperText}
+                errorText={errorText}
+                info={info}
                 icon={icon}
                 iconPlacement={iconPlacement}
                 action={action}
@@ -37,7 +45,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 className={className}
             >
                 <input
-                    id={id}
+                    id={resolvedId}
                     type="text"
                     ref={ref}
                     value={value || ""}

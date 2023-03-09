@@ -4,15 +4,19 @@ import React, {
     InputHTMLAttributes,
     ReactElement,
     ReactNode,
+    useCallback,
+    useRef,
+    useState,
 } from "react";
 import { ReactComponent as DangerIcon } from "../../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/info-icon.svg";
 import { mergedCva } from "../../../utils/components";
 import { Typography, TypographyProps } from "../../data-display/typography";
+import { Popover } from "../../utils";
 
 export interface PartialBaseInputProps<V> {
     error?: boolean;
-    helperText?: string;
+    errorText?: string;
     variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -132,16 +136,29 @@ export const inputStyles = mergedCva(
     }
 );
 
-const labelStyles = mergedCva(["cui-block", "cui-w-fit", "cui-mb-1"]);
+const labelStyles = mergedCva([
+    "cui-flex",
+    "cui-items-center",
+    "cui-gap-1.5",
+    "cui-w-fit",
+    "cui-mb-1.5",
+]);
 
-const helperTextWrapperStyles = mergedCva([
+const infoIconStyles = mergedCva([
+    "cui-w-4",
+    "cui-h-4",
+    "cui-text-black",
+    "dark:cui-text-white",
+]);
+
+const errorTextWrapperStyles = mergedCva([
     "cui-flex",
     "cui-items-center",
     "cui-gap-2",
     "cui-mt-2",
 ]);
 
-const helperTextIconStyles = mergedCva(["cui-w-6"], {
+const errorTextIconStyles = mergedCva(["cui-w-6"], {
     variants: {
         variant: {
             danger: ["cui-stroke-red"],
@@ -150,7 +167,7 @@ const helperTextIconStyles = mergedCva(["cui-w-6"], {
     },
 });
 
-const helperTextStyles = mergedCva([], {
+const errorTextStyles = mergedCva([], {
     variants: {
         error: {
             true: ["cui-text-red", "dark:cui-text-red"],
@@ -164,7 +181,8 @@ export interface BaseInputWrapperProps {
     variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     error?: boolean;
     border?: boolean;
-    helperText?: string;
+    errorText?: string;
+    info?: ReactNode;
     icon?: FunctionComponent<React.SVGProps<SVGSVGElement>>;
     iconPlacement?: "left" | "right";
     action?: ReactNode;
@@ -173,9 +191,11 @@ export interface BaseInputWrapperProps {
         root?: string;
         label?: string;
         labelText?: TypographyProps["className"];
-        helperTextContainer?: string;
-        helperTextIcon?: string;
-        helperText?: TypographyProps["className"];
+        infoIcon?: string;
+        infoPopover?: string;
+        errorTextContainer?: string;
+        errorTextIcon?: string;
+        errorText?: TypographyProps["className"];
         // should be applied when using the wrapper
         inputIcon?: string;
         inputIconWrapper?: string;
@@ -190,7 +210,8 @@ export const BaseInputWrapper = ({
     id,
     label,
     error,
-    helperText,
+    errorText,
+    info,
     icon: Icon,
     iconPlacement = "right",
     action: Action,
@@ -198,6 +219,18 @@ export const BaseInputWrapper = ({
     className,
     children,
 }: BaseInputWrapperProps): ReactElement => {
+    const infoIconRef = useRef<SVGSVGElement>(null);
+
+    const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
+
+    const handleInfoMouseEnter = useCallback(() => {
+        setInfoPopoverOpen(true);
+    }, []);
+
+    const handleInfoMouseExit = useCallback(() => {
+        setInfoPopoverOpen(false);
+    }, []);
+
     const icon = !Action && Icon && (
         <div
             className={inputIconWrapperStyles({
@@ -238,6 +271,27 @@ export const BaseInputWrapper = ({
                     >
                         {label}
                     </Typography>
+                    {info && (
+                        <>
+                            <InfoIcon
+                                ref={infoIconRef}
+                                className={infoIconStyles({
+                                    className: className?.infoIcon,
+                                })}
+                                onMouseEnter={handleInfoMouseEnter}
+                                onMouseLeave={handleInfoMouseExit}
+                            />
+                            <Popover
+                                anchor={infoIconRef.current}
+                                open={infoPopoverOpen}
+                                className={{
+                                    root: `cui-p-2 ${className?.infoPopover}`,
+                                }}
+                            >
+                                {info}
+                            </Popover>
+                        </>
+                    )}
                 </label>
             )}
             <div
@@ -251,38 +305,29 @@ export const BaseInputWrapper = ({
                 {iconPlacement === "right" && icon}
                 {actionPlacement === "right" && action}
             </div>
-            {helperText && (
+            {error && errorText && (
                 <div
-                    className={helperTextWrapperStyles({
-                        className: className?.helperTextContainer,
+                    className={errorTextWrapperStyles({
+                        className: className?.errorTextContainer,
                     })}
                 >
-                    {error ? (
-                        <DangerIcon
-                            className={helperTextIconStyles({
-                                variant: "danger",
-                                className: className?.helperTextIcon,
-                            })}
-                        />
-                    ) : (
-                        <InfoIcon
-                            className={helperTextIconStyles({
-                                variant: "info",
-                                className: className?.helperTextIcon,
-                            })}
-                        />
-                    )}
+                    <DangerIcon
+                        className={errorTextIconStyles({
+                            variant: "danger",
+                            className: className?.errorTextIcon,
+                        })}
+                    />
                     <Typography
                         variant="xs"
                         className={{
-                            ...className?.helperText,
-                            root: helperTextStyles({
+                            ...className?.errorText,
+                            root: errorTextStyles({
                                 error,
-                                className: className?.helperText?.root,
+                                className: className?.errorText?.root,
                             }),
                         }}
                     >
-                        {helperText}
+                        {errorText}
                     </Typography>
                 </div>
             )}

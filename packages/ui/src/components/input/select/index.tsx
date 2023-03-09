@@ -6,6 +6,7 @@ import React, {
     useRef,
     forwardRef,
     ForwardedRef,
+    useId,
 } from "react";
 import { BaseInputProps } from "../commons";
 import { ReactComponent as ChevronUp } from "../../../assets/chevron-up.svg";
@@ -69,6 +70,7 @@ export interface SelectOption {
 export type ValueType = string | number;
 
 export type SelectProps<O extends SelectOption = SelectOption> = {
+    id?: string;
     options: O[];
     value: O | null;
     onChange: (value: O) => void;
@@ -80,7 +82,7 @@ export type SelectProps<O extends SelectOption = SelectOption> = {
         option?: string;
         customOptionWrapper?: string;
     };
-} & Omit<BaseInputProps<unknown>, "onChange" | "value">;
+} & Omit<BaseInputProps<unknown>, "onChange" | "value" | "id">;
 
 const Component = <O extends SelectOption>(
     {
@@ -94,9 +96,12 @@ const Component = <O extends SelectOption>(
     }: SelectProps<O>,
     ref: ForwardedRef<HTMLInputElement>
 ): ReactElement => {
+    const generatedId = useId();
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
+
+    const resolvedId = id || generatedId;
 
     useClickAway(dropdownRef, () => {
         setOpen(false);
@@ -126,7 +131,7 @@ const Component = <O extends SelectOption>(
                     }
                     setAnchorEl(element);
                 }}
-                id={id}
+                id={resolvedId}
                 readOnly
                 icon={open ? ChevronUp : ChevronDown}
                 value={value?.label || ""}

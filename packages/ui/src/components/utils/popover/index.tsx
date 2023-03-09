@@ -2,7 +2,7 @@ import React, {
     forwardRef,
     ReactElement,
     ReactNode,
-    useEffect,
+    useLayoutEffect,
     useState,
 } from "react";
 import { usePopper } from "react-popper";
@@ -43,7 +43,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         {
             open,
             anchor,
-            placement = "bottom",
+            placement = "auto",
             offset = [0, 8],
             className,
             children,
@@ -52,25 +52,34 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     ): ReactElement {
         const [popper, setPopper] = useState<HTMLDivElement | null>(null);
 
-        useEffect(() => {
-            if (!popper || !ref) return;
-            if (typeof ref === "function") ref(popper);
-            else ref.current = popper;
-        }, [popper, ref]);
+        const { styles, attributes, update, forceUpdate } = usePopper(
+            anchor,
+            popper,
+            {
+                placement,
+                modifiers: [
+                    {
+                        name: "offset",
+                        options: { offset },
+                    },
+                ],
+            }
+        );
+        console.log(anchor, styles, attributes, update, forceUpdate);
 
-        const { styles, attributes } = usePopper(anchor, popper, {
-            placement,
-            modifiers: [
-                {
-                    name: "offset",
-                    options: { offset },
-                },
-            ],
-        });
+        useLayoutEffect(() => {
+            if (update) update();
+        }, [update]);
 
         return (
             <div
-                ref={setPopper}
+                ref={(element) => {
+                    if (ref) {
+                        if (typeof ref === "function") ref(element);
+                        else ref.current = element;
+                    }
+                    setPopper(element);
+                }}
                 style={styles.popper}
                 className={dropdownRootStyles({
                     className: className?.root,

@@ -1,10 +1,12 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useId } from "react";
 import { ReactElement } from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
 
-export type NumberInputProps = Omit<NumericFormatProps, "size" | "className"> &
-    BaseInputProps<string>;
+export type NumberInputProps = Omit<
+    NumericFormatProps & BaseInputProps<string>,
+    "size" | "id" | "className"
+> & { id?: string; className: BaseInputProps<string>["className"] };
 
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     function NumberInput(
@@ -15,7 +17,8 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             label,
             placeholder,
             border,
-            helperText,
+            info,
+            errorText,
             icon,
             iconPlacement,
             action,
@@ -26,12 +29,17 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         },
         ref
     ): ReactElement {
+        const generatedId = useId();
+
+        const resolvedId = id || generatedId;
+
         return (
             <BaseInputWrapper
-                id={id}
+                id={resolvedId}
                 label={label}
                 error={error}
-                helperText={helperText}
+                errorText={errorText}
+                info={info}
                 icon={icon}
                 iconPlacement={iconPlacement}
                 action={action}
@@ -46,6 +54,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                     value={value}
                     placeholder={placeholder}
                     getInputRef={ref}
+                    id={resolvedId}
                     {...rest}
                     className={inputStyles({
                         error,

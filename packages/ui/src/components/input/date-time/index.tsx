@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState, useCallback } from "react";
+import React, { forwardRef, useRef, useState, useCallback, useId } from "react";
 import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
 import { TextInput } from "../text";
@@ -10,17 +10,18 @@ import dayjs from "dayjs";
 
 export type DateTimeInputProps = Omit<
     BaseInputProps<Date>,
-    "onChange" | "min" | "max"
+    "onChange" | "min" | "max" | "id"
 > &
-    DateTimePickerProps;
+    DateTimePickerProps & { id?: string };
 
 export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
     function DateTimeInput(
         {
             id,
             label,
-            helperText,
+            errorText,
             error = false,
+            info,
             variant,
             border,
             className,
@@ -32,9 +33,12 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
         },
         ref
     ): ReactElement {
+        const generatedId = useId();
         const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
         const popoverRef = useRef<HTMLDivElement>(null);
         const [open, setOpen] = useState(false);
+
+        const resolvedId = id || generatedId;
 
         useClickAway(popoverRef, () => {
             setOpen(false);
@@ -54,13 +58,14 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                         }
                         setAnchorEl(element);
                     }}
-                    id={id}
+                    id={resolvedId}
                     readOnly
                     label={label}
                     error={error}
                     variant={variant}
                     border={border}
-                    helperText={helperText}
+                    errorText={errorText}
+                    info={info}
                     icon={Calendar}
                     className={{
                         ...className,
