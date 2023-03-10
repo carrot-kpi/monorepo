@@ -188,51 +188,10 @@ class Fetcher implements ICoreFetcher {
         return { ...cachedTokens, ...fetchedTokens };
     }
 
-    private async fetchContentFromIPFSWithLocalStorageCache(
-        ipfsGatewayURL: string,
-        cacheableCids: string[]
-    ) {
-        const cachedCids: { [cid: string]: string } = {};
-        const uncachedCids = [];
-        for (const cid of cacheableCids) {
-            const cachedContent = CACHER.get<string>(cid);
-            if (!!cachedContent) cachedCids[cid] = cachedContent;
-            else uncachedCids.push(cid);
-        }
-        if (uncachedCids.length > 0) {
-            const uncachedContent = await Promise.all(
-                uncachedCids.map(async (cid) => {
-                    const response = await fetch(
-                        `${ipfsGatewayURL}/ipfs/${cid}`
-                    );
-                    const responseOk = response.ok;
-                    warn(responseOk, `could not fetch content with cid ${cid}`);
-                    return {
-                        cid,
-                        content: responseOk ? await response.text() : null,
-                    };
-                })
-            );
-            for (const { cid, content } of uncachedContent) {
-                if (!content) continue;
-                cachedCids[cid] = content;
-                CACHER.set(cid, content, Number.MAX_SAFE_INTEGER);
-            }
-        }
-        return cachedCids;
-    }
-
     public async fetchContentFromIPFS({
         ipfsGatewayURL,
         cids,
     }: FetchContentFromIPFSParams): Promise<{ [cid: string]: string }> {
-        if (process.env.NODE_ENV === "development")
-            return this.fetchContentFromIPFSWithLocalStorageCache(
-                ipfsGatewayURL,
-                cids
-            );
-        // we come here only if we are in production. in this case the service
-        // worker will handle the calls, so we can just not worry about it
         const allContents = await Promise.all(
             cids.map(async (cid) => {
                 const response = await fetch(`${ipfsGatewayURL}/ipfs/${cid}`);
