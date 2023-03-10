@@ -54,6 +54,13 @@ const inputStyles = mergedCva([
     "cui-opacity-0",
 ]);
 
+const labelStyles = mergedCva([
+    "cui-flex",
+    "cui-items-center",
+    "cui-gap-1.5",
+    "cui-w-fit",
+]);
+
 export interface BaseRadioProps {
     id?: string;
     checked?: boolean;
@@ -130,28 +137,35 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
                     })}
                 />
             </div>
-            <Typography className={className?.labelText}>{label}</Typography>
-            {info && (
-                <>
-                    <InfoIcon
-                        ref={infoIconRef}
-                        className={infoIconStyles({
-                            className: className?.infoIcon,
-                        })}
-                        onMouseEnter={handleInfoMouseEnter}
-                        onMouseLeave={handleInfoMouseExit}
-                    />
-                    <Popover
-                        anchor={infoIconRef.current}
-                        open={infoPopoverOpen}
-                        className={{
-                            root: `cui-p-2 ${className?.infoPopover}`,
-                        }}
-                    >
-                        {info}
-                    </Popover>
-                </>
-            )}
+            <label
+                className={labelStyles({ className: className?.label })}
+                htmlFor={id}
+            >
+                <Typography className={className?.labelText}>
+                    {label}
+                </Typography>
+                {info && (
+                    <>
+                        <InfoIcon
+                            ref={infoIconRef}
+                            className={infoIconStyles({
+                                className: className?.infoIcon,
+                            })}
+                            onMouseEnter={handleInfoMouseEnter}
+                            onMouseLeave={handleInfoMouseExit}
+                        />
+                        <Popover
+                            anchor={infoIconRef.current}
+                            open={infoPopoverOpen}
+                            className={{
+                                root: `cui-p-2 ${className?.infoPopover}`,
+                            }}
+                        >
+                            {info}
+                        </Popover>
+                    </>
+                )}
+            </label>
         </div>
     );
 });
