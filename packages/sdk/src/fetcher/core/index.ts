@@ -3,7 +3,6 @@ import {
     ChainId,
     ERC20_ABI,
     CHAIN_ADDRESSES,
-    CACHER,
 } from "../../commons";
 import {
     cacheERC20Token,
