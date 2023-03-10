@@ -155,25 +155,25 @@ export const Navbar = ({
                             </li>
                         ))}
                     </ul>
-                    <div className="flex items-center xl:order-2">
-                        {mode !== "modal" && (
-                            <div
-                                className="xl:hidden"
-                                onClick={() => setOpen(!isOpen)}
-                            >
-                                {isOpen ? <CloseIcon /> : <MenuIcon />}
-                            </div>
-                        )}
-                        {mode === "modal" && (
-                            <div
-                                className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
-                                onClick={onDismiss}
-                            >
-                                <X className="w-8 h-8" />
-                            </div>
-                        )}
-                    </div>
                 </nav>
+                <div className="flex items-center xl:order-2">
+                    {mode !== "modal" && (
+                        <div
+                            className="xl:hidden"
+                            onClick={() => setOpen(!isOpen)}
+                        >
+                            {isOpen ? <CloseIcon /> : <MenuIcon />}
+                        </div>
+                    )}
+                    {mode === "modal" && (
+                        <div
+                            className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
+                            onClick={onDismiss}
+                        >
+                            <X className="w-8 h-8" />
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
