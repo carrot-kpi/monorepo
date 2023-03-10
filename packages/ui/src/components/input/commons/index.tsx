@@ -144,7 +144,7 @@ const labelStyles = mergedCva([
     "cui-mb-1.5",
 ]);
 
-const infoIconStyles = mergedCva([
+export const infoIconStyles = mergedCva([
     "cui-w-4",
     "cui-h-4",
     "cui-text-black",

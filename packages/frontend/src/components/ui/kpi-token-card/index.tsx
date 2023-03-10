@@ -130,7 +130,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                                 <Timer
                                     to={kpiToken.expiration}
                                     countdown
-                                    icon
+                                    seconds
                                 />
                             )
                         ) : (
