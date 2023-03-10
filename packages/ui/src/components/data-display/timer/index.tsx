@@ -2,22 +2,18 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { Typography, TypographyProps } from "../typography";
 import { ReactComponent as ClockSvg } from "../../../assets/clock.svg";
 import { mergedCva } from "../../../utils/components";
-import dayjs from "dayjs";
-import Duration from "dayjs/plugin/duration";
-
-dayjs.extend(Duration);
+import { getDurationFromNowToUNIXTimestamp } from "../../../utils/date";
 
 const rootStyles = mergedCva(["cui-flex", "cui-gap-2", "cui-items-center"]);
 
 const iconStyles = mergedCva(["cui-text-black", "dark:cui-text-white"]);
-
-const ZERO_TIMER_FORMAT = "00D 00H 00M 00S";
 
 export interface TimerProps {
     to: number;
     icon?: boolean;
     countdown?: boolean;
     variant?: TypographyProps["variant"];
+    seconds?: boolean;
     className?: {
         root?: string;
         icon?: string;
@@ -29,16 +25,17 @@ export const Timer = ({
     countdown,
     variant,
     icon,
+    seconds,
     className,
 }: TimerProps): ReactElement => {
     const [duration, setDuration] = useState(
-        dayjs.duration(dayjs.unix(to).diff(dayjs()))
+        getDurationFromNowToUNIXTimestamp(to)
     );
 
     useEffect(() => {
         if (!countdown) return;
         const timer = setInterval(() => {
-            setDuration(dayjs.duration(dayjs.unix(to).diff(dayjs())));
+            setDuration(getDurationFromNowToUNIXTimestamp(to));
         }, 1_000);
         return () => {
             clearInterval(timer);
@@ -55,9 +52,9 @@ export const Timer = ({
                     className={iconStyles({ className: className?.icon })}
                 />
             )}
-            {duration.asSeconds() >= 0
-                ? duration.format("DD[D] HH[H] mm[M] ss[S]")
-                : ZERO_TIMER_FORMAT}
+            {duration.format(
+                seconds ? "DD[D] HH[H] mm[M] ss[S]" : "DD[D] HH[H] mm[M]"
+            )}
         </Typography>
     );
 };

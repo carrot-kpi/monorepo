@@ -1,4 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
+import durationPlugin, { Duration } from "dayjs/plugin/duration";
+
+dayjs.extend(durationPlugin);
 
 // our interface for a single cell
 export interface CalendarCell {
@@ -60,4 +63,10 @@ export const rectifyDate = (
     if (!!(min && value.isBefore(min))) return dayjs(min);
     if (!!(max && value.isAfter(max))) return dayjs(max);
     return value;
+};
+
+export const getDurationFromNowToUNIXTimestamp = (to: number): Duration => {
+    const now = dayjs();
+    if (to - now.unix() < 0) return dayjs.duration(0);
+    return dayjs.duration(dayjs.unix(to).diff(dayjs()));
 };
