@@ -289,6 +289,8 @@ class Fetcher implements IPartialCarrotFetcher {
             const kpiTokens: KPITokensProp = {};
             let lastID = "";
             let page: KPITokenData[] = [];
+            let kpiTokens: Promise<KPITokensProp> | KPITokensProp = {};
+            let lastID = "";
             do {
                 const { tokens: rawTokens } =
                     await query<GetKPITokensQueryResponse>(
@@ -298,15 +300,10 @@ class Fetcher implements IPartialCarrotFetcher {
                     );
                 page = rawTokens;
                 if (page.length === 0) break;
-                await Promise.all(
-                    page.map(async (rawKPIToken) => {
-                        const kpiToken = await mapRawKPIToken(
-                            chainId,
-                            ipfsGatewayURL,
-                            rawKPIToken
-                        );
-                        kpiTokens[kpiToken.address] = kpiToken;
-                    })
+                kpiTokens = this.normalizeKpiTokens(
+                    page,
+                    chainId,
+                    ipfsGatewayURL
                 );
                 lastID = page[page.length - 1].rawAddress;
             } while (page.length === PAGE_SIZE);
