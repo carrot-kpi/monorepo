@@ -53,7 +53,9 @@ export const Timer = ({
                     className={iconStyles({ className: className?.icon })}
                 />
             )}
-            {duration.format("DD[D] HH[H] mm[M] ss[S]")}
+            {duration.asSeconds() >= 0
+                ? duration.format("DD[D] HH[H] mm[M] ss[S]")
+                : "00D 00H 00M 00S"}
         </Typography>
     );
 };
