@@ -11,6 +11,8 @@ const rootStyles = mergedCva(["cui-flex", "cui-gap-2", "cui-items-center"]);
 
 const iconStyles = mergedCva(["cui-text-black", "dark:cui-text-white"]);
 
+const ZERO_TIMER_FORMAT = "00D 00H 00M 00S";
+
 export interface TimerProps {
     to: number;
     icon?: boolean;
@@ -55,7 +57,7 @@ export const Timer = ({
             )}
             {duration.asSeconds() >= 0
                 ? duration.format("DD[D] HH[H] mm[M] ss[S]")
-                : "00D 00H 00M 00S"}
+                : ZERO_TIMER_FORMAT}
         </Typography>
     );
 };
