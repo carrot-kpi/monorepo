@@ -1,16 +1,5 @@
-import {
-    MULTICALL_ABI,
-    ChainId,
-    ERC20_ABI,
-    CHAIN_ADDRESSES,
-    CACHER,
-} from "../../commons";
-import {
-    cacheERC20Token,
-    enforce,
-    getCachedERC20Token,
-    warn,
-} from "../../utils";
+import { MULTICALL_ABI, ERC20_ABI, CACHER } from "../../commons";
+import { cacheERC20Token, getCachedERC20Token, warn } from "../../utils";
 import { Contract } from "@ethersproject/contracts";
 import { Interface } from "@ethersproject/abi";
 import { Token } from "../../entities/token";
@@ -69,8 +58,8 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
     public async fetchERC20Tokens({
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
-        const chainId = (await this.provider.getNetwork()).chainId as ChainId;
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const { chainId, chainAddresses } =
+            await this.getChainIdAndChainAddresses();
         const { cachedTokens, missingTokens } = addresses.reduce(
             (
                 accumulator: {
@@ -90,7 +79,7 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
         if (missingTokens.length === 0) return cachedTokens;
 
         const multicall = new Contract(
-            CHAIN_ADDRESSES[chainId].multicall,
+            chainAddresses.multicall,
             MULTICALL_ABI,
             this.provider
         );
@@ -196,7 +185,6 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
 
     // todo: private ??
     public async fetchContentFromIPFSWithLocalStorageCache(
-        ipfsGatewayURL: string,
         cacheableCids: string[]
     ) {
         const cachedCids: { [cid: string]: string } = {};
@@ -210,7 +198,7 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
             const uncachedContent = await Promise.all(
                 uncachedCids.map(async (cid) => {
                     const response = await fetch(
-                        `${ipfsGatewayURL}/ipfs/${cid}`
+                        `${this.ipfsGatewayURL}/ipfs/${cid}`
                     );
                     const responseOk = response.ok;
                     warn(responseOk, `could not fetch content with cid ${cid}`);
@@ -233,10 +221,7 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
         cids,
     }: FetchContentFromIPFSParams): Promise<{ [cid: string]: string }> {
         if (process.env.NODE_ENV === "development")
-            return this.fetchContentFromIPFSWithLocalStorageCache(
-                this.ipfsGatewayURL,
-                cids
-            );
+            return this.fetchContentFromIPFSWithLocalStorageCache(cids);
         // we come here only if we are in production. in this case the service
         // worker will handle the calls, so we can just not worry about it
         const allContents = await Promise.all(

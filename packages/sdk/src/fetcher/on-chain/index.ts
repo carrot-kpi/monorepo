@@ -3,18 +3,16 @@ import { Contract } from "@ethersproject/contracts";
 import { Interface } from "@ethersproject/abi";
 import {
     KPI_TOKENS_MANAGER_ABI,
-    CHAIN_ADDRESSES,
     KPI_TOKEN_ABI,
     ORACLE_ABI,
     FACTORY_ABI,
     MULTICALL_ABI,
-    ChainId,
     ORACLES_MANAGER_ABI,
 } from "../../commons";
 import { KPIToken } from "../../entities/kpi-token";
 import { Template, TemplateSpecification } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
-import { isCID, enforce } from "../../utils";
+import { isCID } from "../../utils";
 import { CoreFetcher } from "../core";
 import {
     FetchEntitiesParams,
@@ -93,9 +91,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokensAmount(): Promise<number> {
-        const { chainId } = await this.provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const { chainAddresses } = await this.getChainIdAndChainAddresses();
         const factoryContract = new Contract(
             chainAddresses.factory,
             FACTORY_ABI,
@@ -108,9 +104,8 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<string[]> {
-        const { chainId } = await this.provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const { chainAddresses } = await this.getChainIdAndChainAddresses();
+
         const factoryContract = new Contract(
             chainAddresses.factory,
             FACTORY_ABI,
@@ -124,12 +119,11 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokens({
-        ipfsGatewayURL,
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
-        const { chainId } = await this.provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const { chainAddresses, chainId } =
+            await this.getChainIdAndChainAddresses();
+
         const multicall = new Contract(
             chainAddresses.multicall,
             MULTICALL_ABI,
@@ -212,7 +206,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
             );
 
         const oracles = await this.fetchOracles({
-            ipfsGatewayURL,
             addresses: allOracleAddresses,
         });
 
@@ -305,9 +298,9 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchOracles({
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
-        const { chainId } = await this.provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const { chainId, chainAddresses } =
+            await this.getChainIdAndChainAddresses();
+
         const multicall = new Contract(
             chainAddresses.multicall,
             MULTICALL_ABI,
@@ -394,7 +387,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
     // todo: check private makes sense
     public async fetchTemplates(
-        chainId: ChainId,
         managerContract: Contract,
         ids?: BigNumberish[]
     ): Promise<Template[]> {
@@ -404,8 +396,8 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
             version: BigNumber;
             specification: string;
         }[];
+        const { chainAddresses } = await this.getChainIdAndChainAddresses();
         if (ids && ids.length > 0) {
-            const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
             const multicall = new Contract(
                 chainAddresses.multicall,
                 MULTICALL_ABI,
@@ -465,12 +457,10 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchKPITokenTemplates({
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await this.provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const { chainAddresses } = await this.getChainIdAndChainAddresses();
         return await this.fetchTemplates(
-            chainId,
             new Contract(
-                CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
+                chainAddresses.kpiTokensManager,
                 KPI_TOKENS_MANAGER_ABI,
                 this.provider
             ),
@@ -481,12 +471,11 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchOracleTemplates({
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await this.provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const { chainAddresses } = await this.getChainIdAndChainAddresses();
+
         return await this.fetchTemplates(
-            chainId,
             new Contract(
-                CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
+                chainAddresses.oraclesManager,
                 ORACLES_MANAGER_ABI,
                 this.provider
             ),
