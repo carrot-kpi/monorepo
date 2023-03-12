@@ -22,6 +22,7 @@ import {
     ICoreFetcher,
 } from "../abstraction";
 import { Provider } from "@ethersproject/providers";
+import { BaseFetcher } from "../base";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
@@ -59,11 +60,10 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
     );
 
 // TODO: check if validation can be extracted in its own function
-class Fetcher implements ICoreFetcher {
-    provider;
 
+class Fetcher extends BaseFetcher implements ICoreFetcher {
     constructor(provider: Provider) {
-        this.provider = provider;
+        super(provider);
     }
 
     public async fetchERC20Tokens({

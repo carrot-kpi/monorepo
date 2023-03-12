@@ -14,17 +14,17 @@ import { OnChainFetcher } from "./on-chain";
 import { SubgraphFetcher } from "./subgraph";
 import { CoreFetcher } from "./core";
 import { Token } from "../entities/token";
+import { BaseFetcher } from "./base";
 
 export * from "./abstraction";
 export * from "./core";
 
-class FullFetcher implements IFullCarrotFetcher {
-    provider;
+class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
     subgraphFetcher;
     onChainFetcher;
 
     constructor(provider: Provider) {
-        this.provider = provider;
+        super(provider);
         this.subgraphFetcher = SubgraphFetcher(this.provider);
         this.onChainFetcher = OnChainFetcher(this.provider);
     }

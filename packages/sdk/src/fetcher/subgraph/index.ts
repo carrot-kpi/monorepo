@@ -38,6 +38,7 @@ import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/subgraph";
 import { CoreFetcher } from "../core";
 import { Provider } from "@ethersproject/providers";
+import { BaseFetcher } from "../base";
 
 const PAGE_SIZE = 100;
 
@@ -161,11 +162,9 @@ const mapRawKPIToken = async (
 };
 
 // TODO: check if validation can be extracted in its own function
-class Fetcher implements IPartialCarrotFetcher {
-    provider;
-
+class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     constructor(provider: Provider) {
-        this.provider = provider;
+        super(provider);
     }
 
     public supportedInChain({ chainId }: SupportedInChainParams): boolean {

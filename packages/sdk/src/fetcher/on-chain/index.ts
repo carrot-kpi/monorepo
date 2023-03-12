@@ -23,6 +23,7 @@ import {
     IPartialCarrotFetcher,
 } from "../abstraction";
 import { Provider } from "@ethersproject/providers";
+import { BaseFetcher } from "../base";
 
 // platform related interfaces
 const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI);
@@ -80,12 +81,10 @@ const ORACLE_FINALIZED_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
 );
 
 // TODO: check if validation can be extracted in its own function
-class Fetcher implements IPartialCarrotFetcher {
-    provider;
+class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     coreFetcher;
-
     constructor(provider: Provider) {
-        this.provider = provider;
+        super(provider);
         this.coreFetcher = CoreFetcher(this.provider);
     }
 
