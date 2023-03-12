@@ -83,9 +83,9 @@ const ORACLE_FINALIZED_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
 // TODO: check if validation can be extracted in its own function
 class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     coreFetcher;
-    constructor(provider: Provider) {
-        super(provider);
-        this.coreFetcher = CoreFetcher(this.provider);
+    constructor(provider: Provider, ipfsGatewayURL: string) {
+        super(provider, ipfsGatewayURL);
+        this.coreFetcher = CoreFetcher(this.provider, this.ipfsGatewayURL);
     }
 
     public supportedInChain(): boolean {
@@ -183,7 +183,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         }
         const kpiTokenTemplateSpecifications =
             await this.coreFetcher.fetchContentFromIPFS({
-                ipfsGatewayURL,
                 cids: allKPITokenTemplateSpecificationCids.map(
                     (cid) => `${cid}/base.json`
                 ),
@@ -200,7 +199,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         }
         const kpiTokenDescriptions =
             await this.coreFetcher.fetchContentFromIPFS({
-                ipfsGatewayURL,
                 cids: allKPITokenDescriptionCids,
             });
 
@@ -305,7 +303,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchOracles({
-        ipfsGatewayURL,
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
         const { chainId } = await this.provider.getNetwork();
@@ -349,7 +346,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         }
         const oracleTemplateSpecifications =
             await this.coreFetcher.fetchContentFromIPFS({
-                ipfsGatewayURL,
                 cids: allOracleSpecificationCids.map(
                     (cid) => `${cid}/base.json`
                 ),
@@ -399,7 +395,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     // todo: check private makes sense
     public async fetchTemplates(
         chainId: ChainId,
-        ipfsGatewayURL: string,
         managerContract: Contract,
         ids?: BigNumberish[]
     ): Promise<Template[]> {
@@ -442,7 +437,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         }
 
         const specifications = await this.coreFetcher.fetchContentFromIPFS({
-            ipfsGatewayURL,
             cids: rawTemplates.map(
                 (rawTemplate) => `${rawTemplate.specification}/base.json`
             ),
@@ -469,14 +463,12 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokenTemplates({
-        ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await this.provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
-            ipfsGatewayURL,
             new Contract(
                 CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
                 KPI_TOKENS_MANAGER_ABI,
@@ -487,14 +479,12 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchOracleTemplates({
-        ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await this.provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
-            ipfsGatewayURL,
             new Contract(
                 CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
                 ORACLES_MANAGER_ABI,
@@ -505,4 +495,5 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 }
 
-export const OnChainFetcher = (provider: Provider) => new Fetcher(provider);
+export const OnChainFetcher = (provider: Provider, ipfsGatewayURL: string) =>
+    new Fetcher(provider, ipfsGatewayURL);

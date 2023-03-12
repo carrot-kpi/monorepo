@@ -62,8 +62,8 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
 // TODO: check if validation can be extracted in its own function
 
 class Fetcher extends BaseFetcher implements ICoreFetcher {
-    constructor(provider: Provider) {
-        super(provider);
+    constructor(provider: Provider, ipfsGatewayURL: string) {
+        super(provider, ipfsGatewayURL);
     }
 
     public async fetchERC20Tokens({
@@ -230,19 +230,20 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
     }
 
     public async fetchContentFromIPFS({
-        ipfsGatewayURL,
         cids,
     }: FetchContentFromIPFSParams): Promise<{ [cid: string]: string }> {
         if (process.env.NODE_ENV === "development")
             return this.fetchContentFromIPFSWithLocalStorageCache(
-                ipfsGatewayURL,
+                this.ipfsGatewayURL,
                 cids
             );
         // we come here only if we are in production. in this case the service
         // worker will handle the calls, so we can just not worry about it
         const allContents = await Promise.all(
             cids.map(async (cid) => {
-                const response = await fetch(`${ipfsGatewayURL}/ipfs/${cid}`);
+                const response = await fetch(
+                    `${this.ipfsGatewayURL}/ipfs/${cid}`
+                );
                 const responseOk = response.ok;
                 warn(responseOk, `could not fetch content with cid ${cid}`);
                 return {
@@ -260,4 +261,5 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
     }
 }
 
-export const CoreFetcher = (provider: Provider) => new Fetcher(provider);
+export const CoreFetcher = (provider: Provider, ipfsGatewayURL = "") =>
+    new Fetcher(provider, ipfsGatewayURL);

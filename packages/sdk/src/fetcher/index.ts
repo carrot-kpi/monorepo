@@ -23,10 +23,16 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
     subgraphFetcher;
     onChainFetcher;
 
-    constructor(provider: Provider) {
-        super(provider);
-        this.subgraphFetcher = SubgraphFetcher(this.provider);
-        this.onChainFetcher = OnChainFetcher(this.provider);
+    constructor(provider: Provider, ipfsGatewayURL: string) {
+        super(provider, ipfsGatewayURL);
+        this.subgraphFetcher = SubgraphFetcher(
+            this.provider,
+            this.ipfsGatewayURL
+        );
+        this.onChainFetcher = OnChainFetcher(
+            this.provider,
+            this.ipfsGatewayURL
+        );
     }
     private async shouldUseSubgraph({
         preferDecentralization,
@@ -76,7 +82,6 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
     }
 
     async fetchKPITokens({
-        ipfsGatewayURL,
         preferDecentralization,
         addresses,
         searchQuery,
@@ -88,18 +93,15 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
         });
         return useSubgraph
             ? this.subgraphFetcher.fetchKPITokens({
-                  ipfsGatewayURL,
                   addresses,
                   searchQuery,
               })
             : this.onChainFetcher.fetchKPITokens({
-                  ipfsGatewayURL,
                   addresses,
               });
     }
 
     async fetchOracles({
-        ipfsGatewayURL,
         preferDecentralization,
         addresses,
     }: FullFetcherFetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
@@ -108,17 +110,14 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
         });
         return useSubgraph
             ? this.subgraphFetcher.fetchOracles({
-                  ipfsGatewayURL,
                   addresses,
               })
             : this.onChainFetcher.fetchOracles({
-                  ipfsGatewayURL,
                   addresses,
               });
     }
 
     async fetchKPITokenTemplates({
-        ipfsGatewayURL,
         preferDecentralization,
         ids,
     }: FullFetcherFetchTemplatesParams): Promise<Template[]> {
@@ -127,17 +126,14 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
         });
         return useSubgraph
             ? this.subgraphFetcher.fetchKPITokenTemplates({
-                  ipfsGatewayURL,
                   ids,
               })
             : this.onChainFetcher.fetchKPITokenTemplates({
-                  ipfsGatewayURL,
                   ids,
               });
     }
 
     async fetchOracleTemplates({
-        ipfsGatewayURL,
         preferDecentralization,
         ids,
     }: FullFetcherFetchTemplatesParams): Promise<Template[]> {
@@ -146,14 +142,13 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
         });
         return useSubgraph
             ? this.subgraphFetcher.fetchOracleTemplates({
-                  ipfsGatewayURL,
                   ids,
               })
             : this.onChainFetcher.fetchOracleTemplates({
-                  ipfsGatewayURL,
                   ids,
               });
     }
 }
 
-export const Fetcher = (provider: Provider) => new FullFetcher(provider);
+export const Fetcher = (provider: Provider, ipfsGatewayURL: string) =>
+    new FullFetcher(provider, ipfsGatewayURL);

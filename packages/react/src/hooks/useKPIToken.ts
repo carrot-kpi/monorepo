@@ -12,7 +12,7 @@ export function useKPIToken(kpiTokenAddress?: string): {
     const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
-
+    const fetcher = Fetcher(provider, ipfsGatewayURL);
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -23,9 +23,7 @@ export function useKPIToken(kpiTokenAddress?: string): {
             if (!cancelled) setLoading(true);
             try {
                 const kpiToken = (
-                    await Fetcher.fetchKPITokens({
-                        provider,
-                        ipfsGatewayURL,
+                    await fetcher.fetchKPITokens({
                         preferDecentralization,
                         addresses: [kpiTokenAddress],
                     })

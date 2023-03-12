@@ -10,7 +10,6 @@ export interface FetchERC20TokensParams {
 }
 
 export interface FetchContentFromIPFSParams {
-    ipfsGatewayURL: string;
     cids: string[];
 }
 
@@ -39,13 +38,11 @@ export interface FetchKPITokenAddressesParams {
 }
 
 export interface FetchEntitiesParams {
-    ipfsGatewayURL: string;
     addresses?: string[];
     searchQuery?: string;
 }
 
 export interface FetchTemplatesParams {
-    ipfsGatewayURL: string;
     ids?: BigNumberish[];
 }
 

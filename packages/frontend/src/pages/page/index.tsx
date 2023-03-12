@@ -25,7 +25,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
-    const fetcher = Fetcher(provider);
+    const fetcher = Fetcher(provider, ipfsGatewayURL);
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
     );
@@ -60,7 +60,6 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
             try {
                 const kpiToken = (
                     await fetcher.fetchKPITokens({
-                        ipfsGatewayURL,
                         preferDecentralization,
                         addresses: [address],
                     })
@@ -79,13 +78,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         return () => {
             cancelled = true;
         };
-    }, [
-        preferDecentralization,
-        provider,
-        address,
-        state?.kpiToken,
-        ipfsGatewayURL,
-    ]);
+    }, [preferDecentralization, provider, address, state?.kpiToken, fetcher]);
 
     const handleDismiss = useCallback(() => {
         setShow(false);

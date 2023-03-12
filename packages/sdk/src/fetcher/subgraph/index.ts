@@ -45,131 +45,124 @@ const PAGE_SIZE = 100;
 type KPITokensProp = { [address: string]: KPIToken };
 type OraclesProp = { [address: string]: Oracle };
 
-const mapRawTemplate = async (
-    provider: Provider,
-    ipfsGatewayURL: string,
-    rawOracleTemplate: TemplateData
-) => {
-    let name, description, tags, repository, commitHash;
-    if (
-        !rawOracleTemplate.specification ||
-        !rawOracleTemplate.specification.name ||
-        !rawOracleTemplate.specification.description ||
-        !rawOracleTemplate.specification.tags ||
-        !rawOracleTemplate.specification.repository ||
-        !rawOracleTemplate.specification.commitHash
-    ) {
-        const cid = rawOracleTemplate.specificationCid;
-        const rawSpecification = (
-            await CoreFetcher(provider).fetchContentFromIPFS({
-                ipfsGatewayURL,
-                cids: [cid],
-            })
-        )[cid];
-        const specification = JSON.parse(rawSpecification);
-        name = specification.name;
-        description = specification.description;
-        tags = specification.tags;
-        repository = specification.repository;
-        commitHash = specification.commitHash;
-    } else {
-        name = rawOracleTemplate.specification.name;
-        description = rawOracleTemplate.specification.description;
-        tags = rawOracleTemplate.specification.tags;
-        repository = rawOracleTemplate.specification.repository;
-        commitHash = rawOracleTemplate.specification.commitHash;
-    }
-    return new Template(
-        parseInt(rawOracleTemplate.managerId),
-        getAddress(rawOracleTemplate.rawAddress),
-        rawOracleTemplate.version,
-        new TemplateSpecification(
-            rawOracleTemplate.specificationCid,
-            name,
-            description,
-            tags,
-            repository,
-            commitHash
-        )
-    );
-};
-
-const mapRawOracle = async (
-    provider: Provider,
-    chainId: ChainId,
-    ipfsGatewayURL: string,
-    rawOracle: OracleData
-) => {
-    return new Oracle(
-        chainId,
-        getAddress(rawOracle.rawAddress),
-        await mapRawTemplate(provider, ipfsGatewayURL, rawOracle.template),
-        rawOracle.finalized
-    );
-};
-
-const mapRawKPIToken = async (
-    provider: Provider,
-    chainId: ChainId,
-    ipfsGatewayURL: string,
-    rawKPIToken: KPITokenData
-) => {
-    let title, description, tags;
-    if (
-        !rawKPIToken.description ||
-        !rawKPIToken.description.title ||
-        !rawKPIToken.description.description ||
-        !rawKPIToken.description.tags
-    ) {
-        const cid = rawKPIToken.descriptionCid;
-        const rawDescription = (
-            await CoreFetcher(provider).fetchContentFromIPFS({
-                ipfsGatewayURL,
-                cids: [cid],
-            })
-        )[cid];
-        const ipfsDescription = JSON.parse(rawDescription);
-        title = ipfsDescription.title;
-        description = ipfsDescription.description;
-        tags = ipfsDescription.tags;
-    } else {
-        title = rawKPIToken.description.title;
-        description = rawKPIToken.description.description;
-        tags = rawKPIToken.description.tags;
-    }
-
-    return new KPIToken(
-        chainId,
-        getAddress(rawKPIToken.rawAddress),
-        getAddress(rawKPIToken.rawOwner),
-        await mapRawTemplate(provider, ipfsGatewayURL, rawKPIToken.template),
-
-        await Promise.all(
-            rawKPIToken.oracles.map(async (rawOracle) =>
-                mapRawOracle(provider, chainId, ipfsGatewayURL, rawOracle)
-            )
-        ),
-        {
-            ipfsHash: rawKPIToken.descriptionCid,
-            title,
-            description,
-            tags,
-        },
-        parseInt(rawKPIToken.expiration),
-        parseInt(rawKPIToken.creationTimestamp),
-        rawKPIToken.finalized
-    );
-};
-
 // TODO: check if validation can be extracted in its own function
 class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
-    constructor(provider: Provider) {
-        super(provider);
+    constructor(provider: Provider, ipfsGatewayURL: string) {
+        super(provider, ipfsGatewayURL);
     }
 
     public supportedInChain({ chainId }: SupportedInChainParams): boolean {
         return !!SUBGRAPH_URL[chainId];
     }
+
+    private mapRawKPIToken = async (
+        chainId: ChainId,
+        rawKPIToken: KPITokenData
+    ) => {
+        let title, description, tags;
+        if (
+            !rawKPIToken.description ||
+            !rawKPIToken.description.title ||
+            !rawKPIToken.description.description ||
+            !rawKPIToken.description.tags
+        ) {
+            const cid = rawKPIToken.descriptionCid;
+            const rawDescription = (
+                await CoreFetcher(
+                    this.provider,
+                    this.ipfsGatewayURL
+                ).fetchContentFromIPFS({
+                    cids: [cid],
+                })
+            )[cid];
+            const ipfsDescription = JSON.parse(rawDescription);
+            title = ipfsDescription.title;
+            description = ipfsDescription.description;
+            tags = ipfsDescription.tags;
+        } else {
+            title = rawKPIToken.description.title;
+            description = rawKPIToken.description.description;
+            tags = rawKPIToken.description.tags;
+        }
+
+        return new KPIToken(
+            chainId,
+            getAddress(rawKPIToken.rawAddress),
+            getAddress(rawKPIToken.rawOwner),
+            await this.mapRawTemplate(rawKPIToken.template),
+
+            await Promise.all(
+                rawKPIToken.oracles.map(async (rawOracle) =>
+                    this.mapRawOracle(chainId, rawOracle)
+                )
+            ),
+            {
+                ipfsHash: rawKPIToken.descriptionCid,
+                title,
+                description,
+                tags,
+            },
+            parseInt(rawKPIToken.expiration),
+            parseInt(rawKPIToken.creationTimestamp),
+            rawKPIToken.finalized
+        );
+    };
+
+    private mapRawTemplate = async (rawOracleTemplate: TemplateData) => {
+        let name, description, tags, repository, commitHash;
+        if (
+            !rawOracleTemplate.specification ||
+            !rawOracleTemplate.specification.name ||
+            !rawOracleTemplate.specification.description ||
+            !rawOracleTemplate.specification.tags ||
+            !rawOracleTemplate.specification.repository ||
+            !rawOracleTemplate.specification.commitHash
+        ) {
+            const cid = rawOracleTemplate.specificationCid;
+            const rawSpecification = (
+                await CoreFetcher(
+                    this.provider,
+                    this.ipfsGatewayURL
+                ).fetchContentFromIPFS({
+                    cids: [cid],
+                })
+            )[cid];
+            const specification = JSON.parse(rawSpecification);
+            name = specification.name;
+            description = specification.description;
+            tags = specification.tags;
+            repository = specification.repository;
+            commitHash = specification.commitHash;
+        } else {
+            name = rawOracleTemplate.specification.name;
+            description = rawOracleTemplate.specification.description;
+            tags = rawOracleTemplate.specification.tags;
+            repository = rawOracleTemplate.specification.repository;
+            commitHash = rawOracleTemplate.specification.commitHash;
+        }
+        return new Template(
+            parseInt(rawOracleTemplate.managerId),
+            getAddress(rawOracleTemplate.rawAddress),
+            rawOracleTemplate.version,
+            new TemplateSpecification(
+                rawOracleTemplate.specificationCid,
+                name,
+                description,
+                tags,
+                repository,
+                commitHash
+            )
+        );
+    };
+
+    private mapRawOracle = async (chainId: ChainId, rawOracle: OracleData) => {
+        return new Oracle(
+            chainId,
+            getAddress(rawOracle.rawAddress),
+            await this.mapRawTemplate(rawOracle.template),
+            rawOracle.finalized
+        );
+    };
 
     public async fetchKPITokensAmount(): Promise<number> {
         const { chainId } = await this.provider.getNetwork();
@@ -214,16 +207,13 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
 
     public normalizeKpiTokens = async (
         rawTokensList: KPITokenSearchData[] | KPITokenData[],
-        chainId: ChainId,
-        ipfsGatewayURL: string
+        chainId: ChainId
     ) => {
         const kpiTokens: KPITokensProp = {};
         await Promise.all(
             rawTokensList.map(async (rawToken) => {
-                const kpiToken = await mapRawKPIToken(
-                    this.provider,
+                const kpiToken = await this.mapRawKPIToken(
                     chainId,
-                    ipfsGatewayURL,
                     "kpiToken" in rawToken ? rawToken.kpiToken : rawToken
                 );
                 kpiTokens[kpiToken.address] = kpiToken;
@@ -234,7 +224,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     };
 
     public async fetchKPITokens({
-        ipfsGatewayURL,
         addresses,
         searchQuery,
     }: FetchEntitiesParams): Promise<KPITokensProp> {
@@ -251,11 +240,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                     { query: searchQuery }
                 );
 
-            return this.normalizeKpiTokens(
-                kpiTokenSearch,
-                chainId,
-                ipfsGatewayURL
-            );
+            return this.normalizeKpiTokens(kpiTokenSearch, chainId);
         }
 
         if (!!addresses) {
@@ -280,11 +265,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                     );
                 if (rawKPITokens.length === 0) break;
 
-                kpiTokens = this.normalizeKpiTokens(
-                    rawKPITokens,
-                    chainId,
-                    ipfsGatewayURL
-                );
+                kpiTokens = this.normalizeKpiTokens(rawKPITokens, chainId);
 
                 fromIndex += PAGE_SIZE;
                 toIndex =
@@ -306,11 +287,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                     );
                 page = rawTokens;
                 if (page.length === 0) break;
-                kpiTokens = this.normalizeKpiTokens(
-                    page,
-                    chainId,
-                    ipfsGatewayURL
-                );
+                kpiTokens = this.normalizeKpiTokens(page, chainId);
                 lastID = page[page.length - 1].rawAddress;
             } while (page.length === PAGE_SIZE);
             return kpiTokens;
@@ -319,19 +296,13 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
 
     public normalizeOracle = async (
         oraclesList: OracleData[],
-        chainId: ChainId,
-        ipfsGatewayURL: string
+        chainId: ChainId
     ) => {
         const oracles: OraclesProp = {};
 
         await Promise.all(
             oraclesList.map(async (rawOracle) => {
-                const oracle = await mapRawOracle(
-                    this.provider,
-                    chainId,
-                    ipfsGatewayURL,
-                    rawOracle
-                );
+                const oracle = await this.mapRawOracle(chainId, rawOracle);
                 oracles[oracle.address] = oracle;
             })
         );
@@ -340,7 +311,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     };
 
     public async fetchOracles({
-        ipfsGatewayURL,
         addresses,
     }: FetchEntitiesParams): Promise<OraclesProp> {
         const { chainId } = await this.provider.getNetwork();
@@ -370,11 +340,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                         { addresses: addressesChunk }
                     );
                 if (rawOracles.length === 0) break;
-                oracles = this.normalizeOracle(
-                    rawOracles,
-                    chainId,
-                    ipfsGatewayURL
-                );
+                oracles = this.normalizeOracle(rawOracles, chainId);
 
                 fromIndex += PAGE_SIZE;
                 toIndex =
@@ -394,7 +360,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                 );
                 page = result.oracles;
                 if (page.length === 0) break;
-                oracles = this.normalizeOracle(page, chainId, ipfsGatewayURL);
+                oracles = this.normalizeOracle(page, chainId);
                 lastID = page[page.length - 1].rawAddress;
             } while (page.length === PAGE_SIZE);
             return oracles;
@@ -402,7 +368,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokenTemplates({
-        ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await this.provider.getNetwork();
@@ -438,11 +403,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                         )
                             return;
                         templates.push(
-                            await mapRawTemplate(
-                                this.provider,
-                                ipfsGatewayURL,
-                                templateSet.templates[0]
-                            )
+                            await this.mapRawTemplate(templateSet.templates[0])
                         );
                     })
                 );
@@ -482,13 +443,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                 if (page.length === 0) break;
                 await Promise.all(
                     page.map(async (rawTemplate) => {
-                        templates.push(
-                            await mapRawTemplate(
-                                this.provider,
-                                ipfsGatewayURL,
-                                rawTemplate
-                            )
-                        );
+                        templates.push(await this.mapRawTemplate(rawTemplate));
                     })
                 );
                 lastID = page[page.length - 1].id;
@@ -498,7 +453,6 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchOracleTemplates({
-        ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await this.provider.getNetwork();
@@ -534,11 +488,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                         )
                             return;
                         templates.push(
-                            await mapRawTemplate(
-                                this.provider,
-                                ipfsGatewayURL,
-                                templateSet.templates[0]
-                            )
+                            await this.mapRawTemplate(templateSet.templates[0])
                         );
                     })
                 );
@@ -578,13 +528,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
                 if (page.length === 0) break;
                 await Promise.all(
                     page.map(async (rawTemplate) => {
-                        templates.push(
-                            await mapRawTemplate(
-                                this.provider,
-                                ipfsGatewayURL,
-                                rawTemplate
-                            )
-                        );
+                        templates.push(await this.mapRawTemplate(rawTemplate));
                     })
                 );
                 lastID = page[page.length - 1].id;
@@ -594,4 +538,5 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 }
 
-export const SubgraphFetcher = (provider: Provider) => new Fetcher(provider);
+export const SubgraphFetcher = (provider: Provider, ipfsGatewayURL: string) =>
+    new Fetcher(provider, ipfsGatewayURL);
