@@ -33,6 +33,7 @@ export const CreateWithTemplateId = ({
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const queryClient = useQueryClient();
+    const fetcher = Fetcher(provider);
 
     const [template, setTemplate] = useState<Template | null>(
         state ? state.template : null
@@ -66,8 +67,7 @@ export const CreateWithTemplateId = ({
         let cancelled = false;
         const fetchData = async () => {
             try {
-                const templates = await Fetcher.fetchKPITokenTemplates({
-                    provider,
+                const templates = await fetcher.fetchKPITokenTemplates({
                     ipfsGatewayURL,
                     preferDecentralization,
                     ids: [templateId],
@@ -87,9 +87,9 @@ export const CreateWithTemplateId = ({
             cancelled = true;
         };
     }, [
+        fetcher,
         ipfsGatewayURL,
         preferDecentralization,
-        provider,
         state.template,
         templateId,
     ]);
@@ -119,7 +119,7 @@ export const CreateWithTemplateId = ({
                     <KPITokenCreationForm
                         template={template || undefined}
                         fallback={
-                            <div className="bg-green py-10 text-black flex justify-center">
+                            <div className="flex justify-center py-10 text-black bg-green">
                                 <Loader />
                             </div>
                         }

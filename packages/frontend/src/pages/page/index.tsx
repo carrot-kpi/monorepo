@@ -25,7 +25,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
-
+    const fetcher = Fetcher(provider);
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
     );
@@ -59,8 +59,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         const fetchData = async () => {
             try {
                 const kpiToken = (
-                    await Fetcher.fetchKPITokens({
-                        provider,
+                    await fetcher.fetchKPITokens({
                         ipfsGatewayURL,
                         preferDecentralization,
                         addresses: [address],
@@ -103,7 +102,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                         kpiToken={kpiToken}
                         i18n={i18n}
                         fallback={
-                            <div className="bg-orange py-10 text-black flex justify-center">
+                            <div className="flex justify-center py-10 text-black bg-orange">
                                 <Loader />
                             </div>
                         }

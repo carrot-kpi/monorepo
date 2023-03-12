@@ -21,6 +21,7 @@ import {
     FetchERC20TokensParams,
     ICoreFetcher,
 } from "../abstraction";
+import { Provider } from "@ethersproject/providers";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
@@ -59,11 +60,16 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements ICoreFetcher {
+    provider;
+
+    constructor(provider: Provider) {
+        this.provider = provider;
+    }
+
     public async fetchERC20Tokens({
-        provider,
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
-        const chainId = (await provider.getNetwork()).chainId as ChainId;
+        const chainId = (await this.provider.getNetwork()).chainId as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const { cachedTokens, missingTokens } = addresses.reduce(
             (
@@ -86,7 +92,7 @@ class Fetcher implements ICoreFetcher {
         const multicall = new Contract(
             CHAIN_ADDRESSES[chainId].multicall,
             MULTICALL_ABI,
-            provider
+            this.provider
         );
 
         const calls = addresses.flatMap((address: string) => [
@@ -188,7 +194,8 @@ class Fetcher implements ICoreFetcher {
         return { ...cachedTokens, ...fetchedTokens };
     }
 
-    private async fetchContentFromIPFSWithLocalStorageCache(
+    // todo: private ??
+    public async fetchContentFromIPFSWithLocalStorageCache(
         ipfsGatewayURL: string,
         cacheableCids: string[]
     ) {
@@ -253,4 +260,4 @@ class Fetcher implements ICoreFetcher {
     }
 }
 
-export const CoreFetcher = new Fetcher();
+export const CoreFetcher = (provider: Provider) => new Fetcher(provider);

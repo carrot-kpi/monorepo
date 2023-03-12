@@ -1,5 +1,4 @@
 import { BigNumberish } from "@ethersproject/bignumber";
-import { Provider } from "@ethersproject/providers";
 import { ChainId } from "../../commons";
 import { KPIToken } from "../../entities/kpi-token";
 import { Oracle } from "../../entities/oracle";
@@ -7,7 +6,6 @@ import { Template } from "../../entities/template";
 import { Token } from "../../entities/token";
 
 export interface FetchERC20TokensParams {
-    provider: Provider;
     addresses: string[];
 }
 
@@ -30,38 +28,35 @@ export interface SupportedInChainParams {
     chainId: ChainId;
 }
 
-export interface FetchKPITokensAmountParams {
-    provider: Provider;
+export interface FetchKPITokenAddressesParams {
+    fromIndex?: number;
+    toIndex?: number;
 }
 
 export interface FetchKPITokenAddressesParams {
-    provider: Provider;
     fromIndex?: number;
     toIndex?: number;
 }
 
 export interface FetchEntitiesParams {
-    provider: Provider;
     ipfsGatewayURL: string;
     addresses?: string[];
     searchQuery?: string;
 }
 
 export interface FetchTemplatesParams {
-    provider: Provider;
     ipfsGatewayURL: string;
     ids?: BigNumberish[];
 }
 
 export interface FetchTemplateParams {
-    provider: Provider;
     id?: BigNumberish;
 }
 
 export interface IPartialCarrotFetcher {
     supportedInChain(params: SupportedInChainParams): boolean;
 
-    fetchKPITokensAmount(params: FetchKPITokensAmountParams): Promise<number>;
+    fetchKPITokensAmount(): Promise<number>;
 
     fetchKPITokenAddresses(
         params: FetchKPITokenAddressesParams
@@ -84,8 +79,7 @@ export interface DecentralizationParams {
     preferDecentralization?: boolean;
 }
 
-export type FullFetcherFetchKPITokensAmountParams = FetchKPITokensAmountParams &
-    DecentralizationParams;
+export type FullFetcherFetchKPITokensAmountParams = DecentralizationParams;
 
 export type FullFetcherFetchKPITokenAddressesParams =
     FetchKPITokenAddressesParams & DecentralizationParams;

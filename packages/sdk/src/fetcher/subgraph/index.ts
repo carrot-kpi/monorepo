@@ -1,8 +1,8 @@
 import { KPIToken } from "../../entities/kpi-token";
+
 import {
     FetchEntitiesParams,
     FetchKPITokenAddressesParams,
-    FetchKPITokensAmountParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
     SupportedInChainParams,
@@ -37,6 +37,7 @@ import { Template, TemplateSpecification } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/subgraph";
 import { CoreFetcher } from "../core";
+import { Provider } from "@ethersproject/providers";
 
 const PAGE_SIZE = 100;
 
@@ -44,6 +45,7 @@ type KPITokensProp = { [address: string]: KPIToken };
 type OraclesProp = { [address: string]: Oracle };
 
 const mapRawTemplate = async (
+    provider: Provider,
     ipfsGatewayURL: string,
     rawOracleTemplate: TemplateData
 ) => {
@@ -58,7 +60,7 @@ const mapRawTemplate = async (
     ) {
         const cid = rawOracleTemplate.specificationCid;
         const rawSpecification = (
-            await CoreFetcher.fetchContentFromIPFS({
+            await CoreFetcher(provider).fetchContentFromIPFS({
                 ipfsGatewayURL,
                 cids: [cid],
             })
@@ -92,6 +94,7 @@ const mapRawTemplate = async (
 };
 
 const mapRawOracle = async (
+    provider: Provider,
     chainId: ChainId,
     ipfsGatewayURL: string,
     rawOracle: OracleData
@@ -99,12 +102,13 @@ const mapRawOracle = async (
     return new Oracle(
         chainId,
         getAddress(rawOracle.rawAddress),
-        await mapRawTemplate(ipfsGatewayURL, rawOracle.template),
+        await mapRawTemplate(provider, ipfsGatewayURL, rawOracle.template),
         rawOracle.finalized
     );
 };
 
 const mapRawKPIToken = async (
+    provider: Provider,
     chainId: ChainId,
     ipfsGatewayURL: string,
     rawKPIToken: KPITokenData
@@ -118,7 +122,7 @@ const mapRawKPIToken = async (
     ) {
         const cid = rawKPIToken.descriptionCid;
         const rawDescription = (
-            await CoreFetcher.fetchContentFromIPFS({
+            await CoreFetcher(provider).fetchContentFromIPFS({
                 ipfsGatewayURL,
                 cids: [cid],
             })
@@ -137,11 +141,11 @@ const mapRawKPIToken = async (
         chainId,
         getAddress(rawKPIToken.rawAddress),
         getAddress(rawKPIToken.rawOwner),
-        await mapRawTemplate(ipfsGatewayURL, rawKPIToken.template),
+        await mapRawTemplate(provider, ipfsGatewayURL, rawKPIToken.template),
 
         await Promise.all(
             rawKPIToken.oracles.map(async (rawOracle) =>
-                mapRawOracle(chainId, ipfsGatewayURL, rawOracle)
+                mapRawOracle(provider, chainId, ipfsGatewayURL, rawOracle)
             )
         ),
         {
@@ -158,14 +162,18 @@ const mapRawKPIToken = async (
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
+    provider;
+
+    constructor(provider: Provider) {
+        this.provider = provider;
+    }
+
     public supportedInChain({ chainId }: SupportedInChainParams): boolean {
         return !!SUBGRAPH_URL[chainId];
     }
 
-    public async fetchKPITokensAmount({
-        provider,
-    }: FetchKPITokensAmountParams): Promise<number> {
-        const { chainId } = await provider.getNetwork();
+    public async fetchKPITokensAmount(): Promise<number> {
+        const { chainId } = await this.provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -182,11 +190,10 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokenAddresses({
-        provider,
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<string[]> {
-        const { chainId } = await provider.getNetwork();
+        const { chainId } = await this.provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -194,7 +201,7 @@ class Fetcher implements IPartialCarrotFetcher {
         enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
-            ? await this.fetchKPITokensAmount({ provider })
+            ? await this.fetchKPITokensAmount()
             : toIndex;
         const { tokens } = await query<GetKPITokenAddressesQueryResponse>(
             subgraphURL,
@@ -215,6 +222,7 @@ class Fetcher implements IPartialCarrotFetcher {
         await Promise.all(
             rawTokensList.map(async (rawToken) => {
                 const kpiToken = await mapRawKPIToken(
+                    this.provider,
                     chainId,
                     ipfsGatewayURL,
                     "kpiToken" in rawToken ? rawToken.kpiToken : rawToken
@@ -227,12 +235,11 @@ class Fetcher implements IPartialCarrotFetcher {
     };
 
     public async fetchKPITokens({
-        provider,
         ipfsGatewayURL,
         addresses,
         searchQuery,
     }: FetchEntitiesParams): Promise<KPITokensProp> {
-        const { chainId } = await provider.getNetwork();
+        const { chainId } = await this.provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -321,6 +328,7 @@ class Fetcher implements IPartialCarrotFetcher {
         await Promise.all(
             oraclesList.map(async (rawOracle) => {
                 const oracle = await mapRawOracle(
+                    this.provider,
                     chainId,
                     ipfsGatewayURL,
                     rawOracle
@@ -333,11 +341,10 @@ class Fetcher implements IPartialCarrotFetcher {
     };
 
     public async fetchOracles({
-        provider,
         ipfsGatewayURL,
         addresses,
     }: FetchEntitiesParams): Promise<OraclesProp> {
-        const { chainId } = await provider.getNetwork();
+        const { chainId } = await this.provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -396,11 +403,10 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokenTemplates({
-        provider,
         ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await provider.getNetwork();
+        const { chainId } = await this.provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -434,6 +440,7 @@ class Fetcher implements IPartialCarrotFetcher {
                             return;
                         templates.push(
                             await mapRawTemplate(
+                                this.provider,
                                 ipfsGatewayURL,
                                 templateSet.templates[0]
                             )
@@ -477,7 +484,11 @@ class Fetcher implements IPartialCarrotFetcher {
                 await Promise.all(
                     page.map(async (rawTemplate) => {
                         templates.push(
-                            await mapRawTemplate(ipfsGatewayURL, rawTemplate)
+                            await mapRawTemplate(
+                                this.provider,
+                                ipfsGatewayURL,
+                                rawTemplate
+                            )
                         );
                     })
                 );
@@ -488,11 +499,10 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchOracleTemplates({
-        provider,
         ipfsGatewayURL,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await provider.getNetwork();
+        const { chainId } = await this.provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -526,6 +536,7 @@ class Fetcher implements IPartialCarrotFetcher {
                             return;
                         templates.push(
                             await mapRawTemplate(
+                                this.provider,
                                 ipfsGatewayURL,
                                 templateSet.templates[0]
                             )
@@ -569,7 +580,11 @@ class Fetcher implements IPartialCarrotFetcher {
                 await Promise.all(
                     page.map(async (rawTemplate) => {
                         templates.push(
-                            await mapRawTemplate(ipfsGatewayURL, rawTemplate)
+                            await mapRawTemplate(
+                                this.provider,
+                                ipfsGatewayURL,
+                                rawTemplate
+                            )
                         );
                     })
                 );
@@ -580,4 +595,4 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 }
 
-export const SubgraphFetcher = new Fetcher();
+export const SubgraphFetcher = (provider: Provider) => new Fetcher(provider);

@@ -23,8 +23,9 @@ export function useKPITokenTemplates(ids?: BigNumberish[]): {
             if (!chain) return;
             if (!cancelled) setLoading(true);
             try {
-                const templates = await Fetcher.fetchKPITokenTemplates({
-                    provider,
+                const templates = await Fetcher(
+                    provider
+                ).fetchKPITokenTemplates({
                     ipfsGatewayURL,
                     preferDecentralization,
                     ids,

@@ -23,8 +23,7 @@ export function useOracleTemplate(id?: BigNumberish): {
             if (!chain || !id) return;
             if (!cancelled) setLoading(true);
             try {
-                const templates = await Fetcher.fetchOracleTemplates({
-                    provider,
+                const templates = await Fetcher(provider).fetchOracleTemplates({
                     ipfsGatewayURL,
                     preferDecentralization,
                     ids: [id],

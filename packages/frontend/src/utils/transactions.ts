@@ -99,8 +99,7 @@ const SUMMARY_GETTER: {
     [TxType.ERC20_APPROVAL]: async (t, provider, tx) => {
         let token;
         try {
-            const tokens = await CoreFetcher.fetchERC20Tokens({
-                provider,
+            const tokens = await CoreFetcher(provider).fetchERC20Tokens({
                 addresses: [tx.payload.token],
             });
             token = tokens[tx.payload.token];

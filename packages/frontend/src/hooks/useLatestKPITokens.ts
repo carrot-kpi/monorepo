@@ -17,25 +17,23 @@ export function useLatestKPITokens(limit = 5): {
     const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
+    const fetcher = Fetcher(provider);
 
     const { data: kpiTokens, isLoading: loading } = useQuery({
         queryKey: [LATEST_KPI_TOKEN_QUERY_KEY_PREFIX, { limit, chain }],
         queryFn: async () => {
             if (!chain) return [];
 
-            const kpiTokensAmount = await Fetcher.fetchKPITokensAmount({
-                provider,
+            const kpiTokensAmount = await fetcher.fetchKPITokensAmount({
                 preferDecentralization,
             });
             const fromIndex = Math.max(kpiTokensAmount - limit, 0);
-            const kpiTokenAddresses = await Fetcher.fetchKPITokenAddresses({
-                provider,
+            const kpiTokenAddresses = await fetcher.fetchKPITokenAddresses({
                 preferDecentralization,
                 fromIndex,
                 toIndex: kpiTokensAmount,
             });
-            const kpiTokens = await Fetcher.fetchKPITokens({
-                provider,
+            const kpiTokens = await fetcher.fetchKPITokens({
                 ipfsGatewayURL,
                 preferDecentralization,
                 addresses: kpiTokenAddresses,

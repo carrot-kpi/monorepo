@@ -23,9 +23,8 @@ export function useKPITokens(searchQuery?: string): {
             if (!provider) return;
             if (!cancelled) setLoading(true);
             try {
-                const kpiTokens = await Fetcher.fetchKPITokens({
+                const kpiTokens = await Fetcher(provider).fetchKPITokens({
                     searchQuery,
-                    provider,
                     ipfsGatewayURL,
                     preferDecentralization,
                 });
