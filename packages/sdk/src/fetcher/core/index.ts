@@ -49,7 +49,7 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
 
 // TODO: check if validation can be extracted in its own function
 
-class Fetcher extends BaseFetcher implements ICoreFetcher {
+export class CoreFetcher extends BaseFetcher implements ICoreFetcher {
     constructor({ provider, ipfsGatewayURL }: FetcherBaseProps) {
         super({ provider, ipfsGatewayURL });
     }
@@ -243,5 +243,3 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
         return contents;
     }
 }
-
-export const CoreFetcher = Fetcher;

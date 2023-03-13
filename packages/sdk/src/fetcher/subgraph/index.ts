@@ -44,7 +44,10 @@ type KPITokensProp = { [address: string]: KPIToken };
 type OraclesProp = { [address: string]: Oracle };
 
 // TODO: check if validation can be extracted in its own function
-class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
+export class SubgraphFetcher
+    extends BaseFetcher
+    implements IPartialCarrotFetcher
+{
     constructor({ provider, ipfsGatewayURL }: FetcherBaseProps) {
         super({ provider, ipfsGatewayURL });
     }
@@ -515,5 +518,3 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         }
     }
 }
-
-export const SubgraphFetcher = Fetcher;

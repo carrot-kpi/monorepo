@@ -18,7 +18,7 @@ import { BaseFetcher, FetcherBaseProps } from "./base";
 export * from "./abstraction";
 export * from "./core";
 
-class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
+export class Fetcher extends BaseFetcher implements IFullCarrotFetcher {
     subgraphFetcher;
     onChainFetcher;
     preferDecentralization;
@@ -116,5 +116,3 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
         });
     }
 }
-
-export const Fetcher = FullFetcher;

@@ -78,7 +78,10 @@ const ORACLE_FINALIZED_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
 );
 
 // TODO: check if validation can be extracted in its own function
-class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
+export class OnChainFetcher
+    extends BaseFetcher
+    implements IPartialCarrotFetcher
+{
     coreFetcher;
     constructor({ provider, ipfsGatewayURL }: FetcherBaseProps) {
         super({ provider, ipfsGatewayURL });
@@ -484,5 +487,3 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         );
     }
 }
-
-export const OnChainFetcher = Fetcher;
