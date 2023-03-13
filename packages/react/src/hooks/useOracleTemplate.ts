@@ -18,14 +18,17 @@ export function useOracleTemplate(id?: BigNumberish): {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetcher = Fetcher(
+            provider,
+            ipfsGatewayURL,
+            preferDecentralization
+        );
         let cancelled = false;
         const fetchData = async (): Promise<void> => {
             if (!chain || !id) return;
             if (!cancelled) setLoading(true);
             try {
-                const templates = await Fetcher(provider).fetchOracleTemplates({
-                    ipfsGatewayURL,
-                    preferDecentralization,
+                const templates = await fetcher.fetchOracleTemplates({
                     ids: [id],
                 });
                 if (!cancelled) setTemplate(templates[0] || null);

@@ -4,11 +4,11 @@ import { Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
 import {
     FetchERC20TokensParams,
-    FullFetcherFetchEntitiesParams,
-    FullFetcherFetchKPITokenAddressesParams,
-    FullFetcherFetchKPITokensAmountParams,
-    FullFetcherFetchTemplatesParams,
+    FetchEntitiesParams,
+    FetchKPITokenAddressesParams,
+    FetchTemplatesParams,
     IFullCarrotFetcher,
+    IPartialCarrotFetcher,
 } from "./abstraction";
 import { OnChainFetcher } from "./on-chain";
 import { SubgraphFetcher } from "./subgraph";
@@ -22,8 +22,13 @@ export * from "./core";
 class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
     subgraphFetcher;
     onChainFetcher;
+    preferDecentralization;
 
-    constructor(provider: Provider, ipfsGatewayURL: string) {
+    constructor(
+        provider: Provider,
+        ipfsGatewayURL: string,
+        preferDecentralization?: boolean
+    ) {
         super(provider, ipfsGatewayURL);
         this.subgraphFetcher = SubgraphFetcher(
             this.provider,
@@ -33,15 +38,18 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
             this.provider,
             this.ipfsGatewayURL
         );
+        this.preferDecentralization = preferDecentralization;
     }
-    private async shouldUseSubgraph({
-        preferDecentralization,
-    }: {
-        preferDecentralization?: boolean;
-    }) {
-        if (preferDecentralization) return false;
+
+    private async shouldUseSubgraph() {
+        if (this.preferDecentralization) return false;
         const { chainId } = await this.provider.getNetwork();
         return this.subgraphFetcher.supportedInChain({ chainId });
+    }
+
+    private async getFetcher(): Promise<IPartialCarrotFetcher> {
+        const shouldUseSubgraph = await this.shouldUseSubgraph();
+        return shouldUseSubgraph ? this.subgraphFetcher : this.onChainFetcher;
     }
 
     public async fetchERC20Tokens({
@@ -51,104 +59,65 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
         return CoreFetcher(this.provider).fetchERC20Tokens({ addresses });
     }
 
-    public async fetchKPITokensAmount({
-        preferDecentralization,
-    }: FullFetcherFetchKPITokensAmountParams): Promise<number> {
-        const useSubgraph = await this.shouldUseSubgraph({
-            preferDecentralization,
-        });
-        return useSubgraph
-            ? this.subgraphFetcher.fetchKPITokensAmount()
-            : this.onChainFetcher.fetchKPITokensAmount();
+    public async fetchKPITokensAmount(): Promise<number> {
+        const fetcher = await this.getFetcher();
+        return fetcher.fetchKPITokensAmount();
     }
 
     public async fetchKPITokenAddresses({
-        preferDecentralization,
         fromIndex,
         toIndex,
-    }: FullFetcherFetchKPITokenAddressesParams): Promise<string[]> {
-        const useSubgraph = await this.shouldUseSubgraph({
-            preferDecentralization,
+    }: FetchKPITokenAddressesParams): Promise<string[]> {
+        const fetcher = await this.getFetcher();
+        return fetcher.fetchKPITokenAddresses({
+            fromIndex,
+            toIndex,
         });
-        return useSubgraph
-            ? this.subgraphFetcher.fetchKPITokenAddresses({
-                  fromIndex,
-                  toIndex,
-              })
-            : this.onChainFetcher.fetchKPITokenAddresses({
-                  fromIndex,
-                  toIndex,
-              });
     }
 
     async fetchKPITokens({
-        preferDecentralization,
         addresses,
         searchQuery,
-    }: FullFetcherFetchEntitiesParams): Promise<{
+    }: FetchEntitiesParams): Promise<{
         [address: string]: KPIToken;
     }> {
-        const useSubgraph = await this.shouldUseSubgraph({
-            preferDecentralization,
+        const fetcher = await this.getFetcher();
+        return fetcher.fetchKPITokens({
+            addresses,
+            searchQuery,
         });
-        return useSubgraph
-            ? this.subgraphFetcher.fetchKPITokens({
-                  addresses,
-                  searchQuery,
-              })
-            : this.onChainFetcher.fetchKPITokens({
-                  addresses,
-              });
     }
 
     async fetchOracles({
-        preferDecentralization,
         addresses,
-    }: FullFetcherFetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
-        const useSubgraph = await this.shouldUseSubgraph({
-            preferDecentralization,
+    }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
+        const fetcher = await this.getFetcher();
+        return fetcher.fetchOracles({
+            addresses,
         });
-        return useSubgraph
-            ? this.subgraphFetcher.fetchOracles({
-                  addresses,
-              })
-            : this.onChainFetcher.fetchOracles({
-                  addresses,
-              });
     }
 
     async fetchKPITokenTemplates({
-        preferDecentralization,
         ids,
-    }: FullFetcherFetchTemplatesParams): Promise<Template[]> {
-        const useSubgraph = await this.shouldUseSubgraph({
-            preferDecentralization,
+    }: FetchTemplatesParams): Promise<Template[]> {
+        const fetcher = await this.getFetcher();
+        return fetcher.fetchKPITokenTemplates({
+            ids,
         });
-        return useSubgraph
-            ? this.subgraphFetcher.fetchKPITokenTemplates({
-                  ids,
-              })
-            : this.onChainFetcher.fetchKPITokenTemplates({
-                  ids,
-              });
     }
 
     async fetchOracleTemplates({
-        preferDecentralization,
         ids,
-    }: FullFetcherFetchTemplatesParams): Promise<Template[]> {
-        const useSubgraph = await this.shouldUseSubgraph({
-            preferDecentralization,
+    }: FetchTemplatesParams): Promise<Template[]> {
+        const fetcher = await this.getFetcher();
+        return fetcher.fetchOracleTemplates({
+            ids,
         });
-        return useSubgraph
-            ? this.subgraphFetcher.fetchOracleTemplates({
-                  ids,
-              })
-            : this.onChainFetcher.fetchOracleTemplates({
-                  ids,
-              });
     }
 }
 
-export const Fetcher = (provider: Provider, ipfsGatewayURL: string) =>
-    new FullFetcher(provider, ipfsGatewayURL);
+export const Fetcher = (
+    provider: Provider,
+    ipfsGatewayURL: string,
+    preferDecentralization = false
+) => new FullFetcher(provider, ipfsGatewayURL, preferDecentralization);

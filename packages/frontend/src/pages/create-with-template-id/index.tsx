@@ -33,7 +33,6 @@ export const CreateWithTemplateId = ({
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const queryClient = useQueryClient();
-    const fetcher = Fetcher(provider, ipfsGatewayURL);
 
     const [template, setTemplate] = useState<Template | null>(
         state ? state.template : null
@@ -56,6 +55,12 @@ export const CreateWithTemplateId = ({
     }, [closing]);
 
     useEffect(() => {
+        const fetcher = Fetcher(
+            provider,
+            ipfsGatewayURL,
+            preferDecentralization
+        );
+
         if (!!state?.template) {
             setTemplate(state.template);
             return;
@@ -68,7 +73,6 @@ export const CreateWithTemplateId = ({
         const fetchData = async () => {
             try {
                 const templates = await fetcher.fetchKPITokenTemplates({
-                    preferDecentralization,
                     ids: [templateId],
                 });
                 if (templates.length === 0)
@@ -85,7 +89,13 @@ export const CreateWithTemplateId = ({
         return () => {
             cancelled = true;
         };
-    }, [fetcher, preferDecentralization, state.template, templateId]);
+    }, [
+        preferDecentralization,
+        ipfsGatewayURL,
+        provider,
+        state.template,
+        templateId,
+    ]);
 
     const handleCreate = useCallback(() => {
         // a token has just been created, invalidate latest tokens query

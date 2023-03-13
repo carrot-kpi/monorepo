@@ -18,16 +18,18 @@ export function useKPITokenTemplate(id?: BigNumberish): {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetcher = Fetcher(
+            provider,
+            ipfsGatewayURL,
+            preferDecentralization
+        );
+
         let cancelled = false;
         async function fetchData(): Promise<void> {
             if (!chain || !id) return;
             if (!cancelled) setLoading(true);
             try {
-                const templates = await Fetcher(
-                    provider
-                ).fetchKPITokenTemplates({
-                    ipfsGatewayURL,
-                    preferDecentralization,
+                const templates = await fetcher.fetchKPITokenTemplates({
                     ids: [id],
                 });
                 if (!cancelled) setTemplate(templates[0] || null);

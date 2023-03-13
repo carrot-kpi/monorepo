@@ -72,47 +72,26 @@ export interface IPartialCarrotFetcher {
     fetchOracleTemplates(params: FetchTemplatesParams): Promise<Template[]>;
 }
 
-export interface DecentralizationParams {
-    preferDecentralization?: boolean;
-}
-
-export type FullFetcherFetchKPITokensAmountParams = DecentralizationParams;
-
-export type FullFetcherFetchKPITokenAddressesParams =
-    FetchKPITokenAddressesParams & DecentralizationParams;
-
-export type FullFetcherFetchEntitiesParams = FetchEntitiesParams &
-    DecentralizationParams;
-
-export type FullFetcherFetchTemplatesParams = FetchTemplatesParams &
-    DecentralizationParams;
-
 export interface IFullCarrotFetcher {
     fetchERC20Tokens(
         params: FetchERC20TokensParams
     ): Promise<{ [address: string]: Token }>;
 
-    fetchKPITokensAmount(
-        params: FullFetcherFetchKPITokensAmountParams
-    ): Promise<number>;
+    fetchKPITokensAmount(): Promise<number>;
 
     fetchKPITokenAddresses(
         params: FetchKPITokenAddressesParams
     ): Promise<string[]>;
 
     fetchKPITokens(
-        params: FullFetcherFetchEntitiesParams
+        params: FetchEntitiesParams
     ): Promise<{ [address: string]: KPIToken }>;
 
     fetchOracles(
-        params: FullFetcherFetchEntitiesParams
+        params: FetchEntitiesParams
     ): Promise<{ [address: string]: Oracle }>;
 
-    fetchKPITokenTemplates(
-        params: FullFetcherFetchTemplatesParams
-    ): Promise<Template[]>;
+    fetchKPITokenTemplates(params: FetchTemplatesParams): Promise<Template[]>;
 
-    fetchOracleTemplates(
-        params: FullFetcherFetchTemplatesParams
-    ): Promise<Template[]>;
+    fetchOracleTemplates(params: FetchTemplatesParams): Promise<Template[]>;
 }

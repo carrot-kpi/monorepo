@@ -13,21 +13,22 @@ export function useKPITokenTemplates(ids?: BigNumberish[]): {
     const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
-
     const [templates, setTemplates] = useState<Template[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetcher = Fetcher(
+            provider,
+            ipfsGatewayURL,
+            preferDecentralization
+        );
+
         let cancelled = false;
         async function fetchData(): Promise<void> {
             if (!chain) return;
             if (!cancelled) setLoading(true);
             try {
-                const templates = await Fetcher(
-                    provider
-                ).fetchKPITokenTemplates({
-                    ipfsGatewayURL,
-                    preferDecentralization,
+                const templates = await fetcher.fetchKPITokenTemplates({
                     ids,
                 });
                 if (!cancelled) setTemplates(templates);

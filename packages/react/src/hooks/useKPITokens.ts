@@ -11,22 +11,24 @@ export function useKPITokens(searchQuery?: string): {
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const provider = useProvider();
-
     const [kpiTokens, setKPITokens] = useState<{ [address: string]: KPIToken }>(
         {}
     );
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetcher = Fetcher(
+            provider,
+            ipfsGatewayURL,
+            preferDecentralization
+        );
         let cancelled = false;
         async function fetchData(): Promise<void> {
             if (!provider) return;
             if (!cancelled) setLoading(true);
             try {
-                const kpiTokens = await Fetcher(provider).fetchKPITokens({
+                const kpiTokens = await fetcher.fetchKPITokens({
                     searchQuery,
-                    ipfsGatewayURL,
-                    preferDecentralization,
                 });
                 if (!cancelled) setKPITokens(kpiTokens);
             } catch (error) {
@@ -39,7 +41,7 @@ export function useKPITokens(searchQuery?: string): {
         return () => {
             cancelled = true;
         };
-    }, [ipfsGatewayURL, preferDecentralization, provider, searchQuery]);
+    }, [provider, ipfsGatewayURL, preferDecentralization, searchQuery]);
 
     return { loading, kpiTokens };
 }

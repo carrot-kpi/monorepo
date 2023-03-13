@@ -12,21 +12,23 @@ export function useOracle(oracleAddress?: string): {
     const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
-
     const [oracle, setOracle] = useState<Oracle | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetcher = Fetcher(
+            provider,
+            ipfsGatewayURL,
+            preferDecentralization
+        );
+
         let cancelled = false;
         async function fetchData(): Promise<void> {
             if (!chain || !oracleAddress) return;
             if (!cancelled) setLoading(true);
             try {
                 const fetchedOracle = (
-                    await Fetcher.fetchOracles({
-                        provider,
-                        ipfsGatewayURL,
-                        preferDecentralization,
+                    await fetcher.fetchOracles({
                         addresses: [oracleAddress],
                     })
                 )[oracleAddress];
@@ -47,8 +49,8 @@ export function useOracle(oracleAddress?: string): {
         };
     }, [
         chain,
-        ipfsGatewayURL,
         oracleAddress,
+        ipfsGatewayURL,
         preferDecentralization,
         provider,
     ]);
