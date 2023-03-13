@@ -139,7 +139,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
             </div>
             <label
                 className={labelStyles({ className: className?.label })}
-                htmlFor={id}
+                htmlFor={resolvedId}
             >
                 <Typography className={className?.labelText}>
                     {label}
