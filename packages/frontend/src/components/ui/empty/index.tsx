@@ -4,13 +4,25 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { ReactComponent as EmptyIllustration } from "../../../assets/empty.svg";
 
-const rootStyles = cva(["flex", "items-center", "gap-10"], {
-    variants: {
-        vertical: {
-            true: ["flex-col justify-center text-center"],
+const rootStyles = cva(
+    [
+        "flex",
+        "flex-col",
+        "justify-center",
+        "text-center",
+        "md:text-left",
+        "md:flex-row",
+        "items-center",
+        "gap-10",
+    ],
+    {
+        variants: {
+            vertical: {
+                true: ["flex-col justify-center text-center"],
+            },
         },
-    },
-});
+    }
+);
 
 interface EmptyProps {
     vertical?: boolean;
