@@ -56,7 +56,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
 
     // todo check if can make it private
     public mapRawKPIToken = async (rawKPIToken: KPITokenData) => {
-        const { chainId } = await this.getChainId();
+        const chainId = await this.getChainId();
         let title, description, tags;
         if (
             !rawKPIToken.description ||
@@ -165,8 +165,9 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     };
 
     public async fetchKPITokensAmount(): Promise<number> {
-        const { subgraphURL, chainAddresses } =
-            await this.getChainIdSubgraphAndChainAddresses();
+        const chainId = await this.getChainId();
+        const { subgraphURL } = await this.getSubgraphURL(chainId);
+        const { chainAddresses } = await this.getChainAddresses(chainId);
 
         const { factory } = await query<GetKPITokensAmountQueryResponse>(
             subgraphURL,
@@ -182,7 +183,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<string[]> {
-        const { subgraphURL } = await this.getChainIdAndSubgraphURL();
+        const { subgraphURL } = await this.getSubgraphURL();
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
             ? await this.fetchKPITokensAmount()
@@ -217,7 +218,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         addresses,
         searchQuery,
     }: FetchEntitiesParams): Promise<KPITokensProp> {
-        const { subgraphURL } = await this.getChainIdAndSubgraphURL();
+        const { subgraphURL } = await this.getSubgraphURL();
 
         if (!!searchQuery) {
             const { kpiTokenSearch } =
@@ -300,7 +301,8 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchOracles({
         addresses,
     }: FetchEntitiesParams): Promise<OraclesProp> {
-        const { subgraphURL, chainId } = await this.getChainIdAndSubgraphURL();
+        const chainId = await this.getChainId();
+        const { subgraphURL } = await this.getSubgraphURL(chainId);
         let oracles: Promise<OraclesProp> | OraclesProp = {};
 
         if (!!addresses) {
@@ -354,8 +356,9 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchKPITokenTemplates({
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainAddresses, subgraphURL } =
-            await this.getChainIdSubgraphAndChainAddresses();
+        const chainId = await this.getChainId();
+        const { subgraphURL } = await this.getSubgraphURL(chainId);
+        const { chainAddresses } = await this.getChainAddresses(chainId);
 
         const managerAddress = chainAddresses.kpiTokensManager.toLowerCase();
         if (!!ids) {
@@ -436,8 +439,9 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchOracleTemplates({
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { subgraphURL, chainAddresses } =
-            await this.getChainIdSubgraphAndChainAddresses();
+        const chainId = await this.getChainId();
+        const { subgraphURL } = await this.getSubgraphURL(chainId);
+        const { chainAddresses } = await this.getChainAddresses(chainId);
 
         const managerAddress = chainAddresses.oraclesManager.toLowerCase();
         if (!!ids) {

@@ -91,7 +91,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokensAmount(): Promise<number> {
-        const { chainAddresses } = await this.getChainIdAndChainAddresses();
+        const { chainAddresses } = await this.getChainAddresses();
         const factoryContract = new Contract(
             chainAddresses.factory,
             FACTORY_ABI,
@@ -104,8 +104,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<string[]> {
-        const { chainAddresses } = await this.getChainIdAndChainAddresses();
-
+        const { chainAddresses } = await this.getChainAddresses();
         const factoryContract = new Contract(
             chainAddresses.factory,
             FACTORY_ABI,
@@ -121,8 +120,8 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchKPITokens({
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
-        const { chainAddresses, chainId } =
-            await this.getChainIdAndChainAddresses();
+        const chainId = await this.getChainId();
+        const { chainAddresses } = await this.getChainAddresses(chainId);
 
         const multicall = new Contract(
             chainAddresses.multicall,
@@ -298,8 +297,8 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchOracles({
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
-        const { chainId, chainAddresses } =
-            await this.getChainIdAndChainAddresses();
+        const chainId = await this.getChainId();
+        const { chainAddresses } = await this.getChainAddresses(chainId);
 
         const multicall = new Contract(
             chainAddresses.multicall,
@@ -396,7 +395,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
             version: BigNumber;
             specification: string;
         }[];
-        const { chainAddresses } = await this.getChainIdAndChainAddresses();
+        const { chainAddresses } = await this.getChainAddresses();
         if (ids && ids.length > 0) {
             const multicall = new Contract(
                 chainAddresses.multicall,
@@ -457,7 +456,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchKPITokenTemplates({
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainAddresses } = await this.getChainIdAndChainAddresses();
+        const { chainAddresses } = await this.getChainAddresses();
         return await this.fetchTemplates(
             new Contract(
                 chainAddresses.kpiTokensManager,
@@ -471,7 +470,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     public async fetchOracleTemplates({
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainAddresses } = await this.getChainIdAndChainAddresses();
+        const { chainAddresses } = await this.getChainAddresses();
 
         return await this.fetchTemplates(
             new Contract(
