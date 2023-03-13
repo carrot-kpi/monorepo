@@ -16,6 +16,7 @@ export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
 
         return (
             <Popover
+                placement="bottom"
                 open={open}
                 anchor={anchor}
                 ref={ref}

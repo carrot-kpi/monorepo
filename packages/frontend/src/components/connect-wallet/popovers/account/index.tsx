@@ -85,6 +85,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
 
         return (
             <Popover
+                placement="bottom"
                 open={open}
                 anchor={anchor}
                 ref={ref}

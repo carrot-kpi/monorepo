@@ -33,6 +33,7 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
 
         return (
             <Popover
+                placement="bottom"
                 open={open}
                 anchor={anchor}
                 ref={ref}
