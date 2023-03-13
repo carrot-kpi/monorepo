@@ -48,7 +48,7 @@ const navStyles = cva(["flex items-center gap-4"], {
             true: [
                 "absolute grid grid-cols-1 gap-6 top-28 left-0 px-6 py-12 w-full",
             ],
-            false: ["hidden xl:flex xl:order-3"],
+            false: ["hidden xl:flex"],
         },
     },
 });
@@ -113,30 +113,11 @@ export const Navbar = ({
                 {mode === "modal" ? (
                     <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                 ) : (
-                    <NavLink
-                        to="/"
-                        onClick={() => setOpen(false)}
-                        className="xl:order-1"
-                    >
+                    <NavLink to="/" onClick={() => setOpen(false)}>
                         <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                     </NavLink>
                 )}
                 <nav className={navStyles({ isOpen })}>
-                    <ConnectWallet />
-                    <Button
-                        ref={preferencesRef}
-                        size="small"
-                        onClick={handlePreferencesPopoverOpen}
-                        icon={SettingsIcon}
-                        className={{
-                            root: "w-12 h-12 p-0 flex justify-center items-center",
-                        }}
-                    />
-                    <PreferencesPopover
-                        open={preferencesPopoverOpen}
-                        anchor={preferencesRef.current}
-                        ref={preferencesPopoverRef}
-                    />
                     <ul className={navLinksStyles({ isOpen })}>
                         {(links || []).map((link) => (
                             <li key={link.to}>
@@ -156,23 +137,42 @@ export const Navbar = ({
                         ))}
                     </ul>
                 </nav>
-                <div className="flex items-center xl:order-2">
-                    {mode !== "modal" && (
-                        <div
-                            className="xl:hidden"
-                            onClick={() => setOpen(!isOpen)}
-                        >
-                            {isOpen ? <CloseIcon /> : <MenuIcon />}
-                        </div>
-                    )}
-                    {mode === "modal" && (
-                        <div
-                            className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
-                            onClick={onDismiss}
-                        >
-                            <X className="w-8 h-8" />
-                        </div>
-                    )}
+                <div className="flex items-center gap-4">
+                    <div className="hidden xl:block">
+                        <ConnectWallet />
+                    </div>
+                    <Button
+                        ref={preferencesRef}
+                        size="small"
+                        onClick={handlePreferencesPopoverOpen}
+                        icon={SettingsIcon}
+                        className={{
+                            root: "w-12 h-12 p-0 flex justify-center items-center",
+                        }}
+                    />
+                    <PreferencesPopover
+                        open={preferencesPopoverOpen}
+                        anchor={preferencesRef.current}
+                        ref={preferencesPopoverRef}
+                    />
+                    <div className="flex items-center">
+                        {mode !== "modal" && (
+                            <div
+                                className="xl:hidden"
+                                onClick={() => setOpen(!isOpen)}
+                            >
+                                {isOpen ? <CloseIcon /> : <MenuIcon />}
+                            </div>
+                        )}
+                        {mode === "modal" && (
+                            <div
+                                className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
+                                onClick={onDismiss}
+                            >
+                                <X className="w-8 h-8" />
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
