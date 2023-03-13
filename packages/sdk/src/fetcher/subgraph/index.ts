@@ -36,8 +36,7 @@ import { Template, TemplateSpecification } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/subgraph";
 import { CoreFetcher } from "../core";
-import { Provider } from "@ethersproject/providers";
-import { BaseFetcher } from "../base";
+import { BaseFetcher, FetcherBaseProps } from "../base";
 
 const PAGE_SIZE = 100;
 
@@ -46,16 +45,15 @@ type OraclesProp = { [address: string]: Oracle };
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
-    constructor(provider: Provider, ipfsGatewayURL: string) {
-        super(provider, ipfsGatewayURL);
+    constructor({ provider, ipfsGatewayURL }: FetcherBaseProps) {
+        super({ provider, ipfsGatewayURL });
     }
 
     public supportedInChain({ chainId }: SupportedInChainParams): boolean {
         return !!SUBGRAPH_URL[chainId];
     }
 
-    // todo check if can make it private
-    public mapRawKPIToken = async (rawKPIToken: KPITokenData) => {
+    private mapRawKPIToken = async (rawKPIToken: KPITokenData) => {
         const chainId = await this.getChainId();
         let title, description, tags;
         if (
@@ -66,10 +64,10 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         ) {
             const cid = rawKPIToken.descriptionCid;
             const rawDescription = (
-                await CoreFetcher(
-                    this.provider,
-                    this.ipfsGatewayURL
-                ).fetchContentFromIPFS({
+                await new CoreFetcher({
+                    provider: this.provider,
+                    ipfsGatewayURL: this.ipfsGatewayURL,
+                }).fetchContentFromIPFS({
                     cids: [cid],
                 })
             )[cid];
@@ -106,8 +104,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         );
     };
 
-    // todo check if can make it private
-    public mapRawTemplate = async (rawOracleTemplate: TemplateData) => {
+    private mapRawTemplate = async (rawOracleTemplate: TemplateData) => {
         let name, description, tags, repository, commitHash;
         if (
             !rawOracleTemplate.specification ||
@@ -119,10 +116,10 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         ) {
             const cid = rawOracleTemplate.specificationCid;
             const rawSpecification = (
-                await CoreFetcher(
-                    this.provider,
-                    this.ipfsGatewayURL
-                ).fetchContentFromIPFS({
+                await new CoreFetcher({
+                    provider: this.provider,
+                    ipfsGatewayURL: this.ipfsGatewayURL,
+                }).fetchContentFromIPFS({
                     cids: [cid],
                 })
             )[cid];
@@ -154,8 +151,7 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         );
     };
 
-    // todo check if can make it private
-    public mapRawOracle = async (chainId: ChainId, rawOracle: OracleData) => {
+    private mapRawOracle = async (chainId: ChainId, rawOracle: OracleData) => {
         return new Oracle(
             chainId,
             getAddress(rawOracle.rawAddress),
@@ -520,5 +516,4 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 }
 
-export const SubgraphFetcher = (provider: Provider, ipfsGatewayURL: string) =>
-    new Fetcher(provider, ipfsGatewayURL);
+export const SubgraphFetcher = Fetcher;

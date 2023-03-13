@@ -20,8 +20,7 @@ import {
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
-import { Provider } from "@ethersproject/providers";
-import { BaseFetcher } from "../base";
+import { BaseFetcher, FetcherBaseProps } from "../base";
 
 // platform related interfaces
 const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI);
@@ -81,9 +80,12 @@ const ORACLE_FINALIZED_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
 // TODO: check if validation can be extracted in its own function
 class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     coreFetcher;
-    constructor(provider: Provider, ipfsGatewayURL: string) {
-        super(provider, ipfsGatewayURL);
-        this.coreFetcher = CoreFetcher(this.provider, this.ipfsGatewayURL);
+    constructor({ provider, ipfsGatewayURL }: FetcherBaseProps) {
+        super({ provider, ipfsGatewayURL });
+        this.coreFetcher = new CoreFetcher({
+            provider: this.provider,
+            ipfsGatewayURL: this.ipfsGatewayURL,
+        });
     }
 
     public supportedInChain(): boolean {
@@ -384,8 +386,8 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
         }
         return oracles;
     }
-    // todo: check private makes sense
-    public async fetchTemplates(
+
+    private async fetchTemplates(
         managerContract: Contract,
         ids?: BigNumberish[]
     ): Promise<Template[]> {
@@ -483,5 +485,4 @@ class Fetcher extends BaseFetcher implements IPartialCarrotFetcher {
     }
 }
 
-export const OnChainFetcher = (provider: Provider, ipfsGatewayURL: string) =>
-    new Fetcher(provider, ipfsGatewayURL);
+export const OnChainFetcher = Fetcher;

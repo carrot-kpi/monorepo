@@ -18,11 +18,11 @@ export function useOracleTemplate(id?: BigNumberish): {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetcher = Fetcher(
+        const fetcher = new Fetcher({
             provider,
             ipfsGatewayURL,
-            preferDecentralization
-        );
+            preferDecentralization,
+        });
         let cancelled = false;
         const fetchData = async (): Promise<void> => {
             if (!chain || !id) return;

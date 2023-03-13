@@ -17,7 +17,11 @@ export function useLatestKPITokens(limit = 5): {
     const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
-    const fetcher = Fetcher(provider, ipfsGatewayURL, preferDecentralization);
+    const fetcher = new Fetcher({
+        provider,
+        ipfsGatewayURL,
+        preferDecentralization,
+    });
 
     const { data: kpiTokens, isLoading: loading } = useQuery({
         queryKey: [LATEST_KPI_TOKEN_QUERY_KEY_PREFIX, { limit, chain }],

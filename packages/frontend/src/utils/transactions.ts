@@ -1,7 +1,6 @@
 import { Tx, TxType } from "@carrot-kpi/react";
-import { BigNumber, utils } from "ethers";
+import { BigNumber, utils, providers } from "ethers";
 import { TFunction } from "i18next";
-import { providers } from "ethers";
 import { shortenAddress } from "./address";
 import { CoreFetcher } from "@carrot-kpi/sdk";
 
@@ -99,9 +98,11 @@ const SUMMARY_GETTER: {
     [TxType.ERC20_APPROVAL]: async (t, provider, tx) => {
         let token;
         try {
-            const tokens = await CoreFetcher(provider).fetchERC20Tokens({
-                addresses: [tx.payload.token],
-            });
+            const tokens = await new CoreFetcher({ provider }).fetchERC20Tokens(
+                {
+                    addresses: [tx.payload.token],
+                }
+            );
             token = tokens[tx.payload.token];
         } catch (error) {
             console.warn(

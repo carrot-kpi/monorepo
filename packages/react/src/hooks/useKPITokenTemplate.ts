@@ -18,11 +18,11 @@ export function useKPITokenTemplate(id?: BigNumberish): {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetcher = Fetcher(
+        const fetcher = new Fetcher({
             provider,
             ipfsGatewayURL,
-            preferDecentralization
-        );
+            preferDecentralization,
+        });
 
         let cancelled = false;
         async function fetchData(): Promise<void> {

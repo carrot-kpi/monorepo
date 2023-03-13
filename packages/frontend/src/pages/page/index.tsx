@@ -46,11 +46,11 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     }, [closing]);
 
     useEffect(() => {
-        const fetcher = Fetcher(
+        const fetcher = new Fetcher({
             provider,
             ipfsGatewayURL,
-            preferDecentralization
-        );
+            preferDecentralization,
+        });
 
         if (state?.kpiToken) {
             setKPIToken(state.kpiToken);

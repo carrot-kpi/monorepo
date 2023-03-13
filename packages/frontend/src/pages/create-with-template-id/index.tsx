@@ -55,11 +55,11 @@ export const CreateWithTemplateId = ({
     }, [closing]);
 
     useEffect(() => {
-        const fetcher = Fetcher(
+        const fetcher = new Fetcher({
             provider,
             ipfsGatewayURL,
-            preferDecentralization
-        );
+            preferDecentralization,
+        });
 
         if (!!state?.template) {
             setTemplate(state.template);

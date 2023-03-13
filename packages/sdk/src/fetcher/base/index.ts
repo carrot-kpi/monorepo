@@ -2,11 +2,17 @@ import { Provider } from "@ethersproject/providers";
 import { ChainId, CHAIN_ADDRESSES, SUBGRAPH_URL } from "../../commons";
 import { enforce } from "../../utils";
 
+export interface FetcherBaseProps {
+    provider: Provider;
+    ipfsGatewayURL?: string;
+    preferDecentralization?: boolean;
+}
+
 export class BaseFetcher {
     provider;
     ipfsGatewayURL;
 
-    constructor(provider: Provider, ipfsGatewayURL: string) {
+    constructor({ provider, ipfsGatewayURL }: FetcherBaseProps) {
         this.provider = provider;
         this.ipfsGatewayURL = ipfsGatewayURL;
     }

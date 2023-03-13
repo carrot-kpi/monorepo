@@ -1,4 +1,3 @@
-import { Provider } from "@ethersproject/providers";
 import { KPIToken } from "../entities/kpi-token";
 import { Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
@@ -14,7 +13,7 @@ import { OnChainFetcher } from "./on-chain";
 import { SubgraphFetcher } from "./subgraph";
 import { CoreFetcher } from "./core";
 import { Token } from "../entities/token";
-import { BaseFetcher } from "./base";
+import { BaseFetcher, FetcherBaseProps } from "./base";
 
 export * from "./abstraction";
 export * from "./core";
@@ -24,20 +23,20 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
     onChainFetcher;
     preferDecentralization;
 
-    constructor(
-        provider: Provider,
-        ipfsGatewayURL: string,
-        preferDecentralization?: boolean
-    ) {
-        super(provider, ipfsGatewayURL);
-        this.subgraphFetcher = SubgraphFetcher(
-            this.provider,
-            this.ipfsGatewayURL
-        );
-        this.onChainFetcher = OnChainFetcher(
-            this.provider,
-            this.ipfsGatewayURL
-        );
+    constructor({
+        provider,
+        ipfsGatewayURL,
+        preferDecentralization,
+    }: FetcherBaseProps) {
+        super({ provider, ipfsGatewayURL });
+        this.subgraphFetcher = new SubgraphFetcher({
+            provider: this.provider,
+            ipfsGatewayURL: this.ipfsGatewayURL,
+        });
+        this.onChainFetcher = new OnChainFetcher({
+            provider: this.provider,
+            ipfsGatewayURL: this.ipfsGatewayURL,
+        });
         this.preferDecentralization = preferDecentralization;
     }
 
@@ -56,7 +55,9 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
         if (!addresses || addresses.length === 0) return {};
-        return CoreFetcher(this.provider).fetchERC20Tokens({ addresses });
+        return new CoreFetcher({ provider: this.provider }).fetchERC20Tokens({
+            addresses,
+        });
     }
 
     public async fetchKPITokensAmount(): Promise<number> {
@@ -116,8 +117,4 @@ class FullFetcher extends BaseFetcher implements IFullCarrotFetcher {
     }
 }
 
-export const Fetcher = (
-    provider: Provider,
-    ipfsGatewayURL: string,
-    preferDecentralization = false
-) => new FullFetcher(provider, ipfsGatewayURL, preferDecentralization);
+export const Fetcher = FullFetcher;

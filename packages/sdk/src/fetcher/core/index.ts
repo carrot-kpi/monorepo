@@ -10,8 +10,7 @@ import {
     FetchERC20TokensParams,
     ICoreFetcher,
 } from "../abstraction";
-import { Provider } from "@ethersproject/providers";
-import { BaseFetcher } from "../base";
+import { BaseFetcher, FetcherBaseProps } from "../base";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
@@ -51,8 +50,8 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
 // TODO: check if validation can be extracted in its own function
 
 class Fetcher extends BaseFetcher implements ICoreFetcher {
-    constructor(provider: Provider, ipfsGatewayURL: string) {
-        super(provider, ipfsGatewayURL);
+    constructor({ provider, ipfsGatewayURL }: FetcherBaseProps) {
+        super({ provider, ipfsGatewayURL });
     }
 
     public async fetchERC20Tokens({
@@ -183,7 +182,6 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
         return { ...cachedTokens, ...fetchedTokens };
     }
 
-    // todo: private ??
     public async fetchContentFromIPFSWithLocalStorageCache(
         cacheableCids: string[]
     ) {
@@ -246,5 +244,4 @@ class Fetcher extends BaseFetcher implements ICoreFetcher {
     }
 }
 
-export const CoreFetcher = (provider: Provider, ipfsGatewayURL = "") =>
-    new Fetcher(provider, ipfsGatewayURL);
+export const CoreFetcher = Fetcher;
