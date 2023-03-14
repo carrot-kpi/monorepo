@@ -1,8 +1,9 @@
 import { ChainId } from "@carrot-kpi/sdk";
 import { FunctionComponent, SVGProps } from "react";
-import { goerli, sepolia } from "wagmi/chains";
+import { gnosis, sepolia } from "wagmi/chains";
 import { Chain } from "wagmi/chains";
 import { ReactComponent as EthereumLogo } from "../assets/chains/ethereum.svg";
+import { ReactComponent as GnosisLogo } from "../assets/chains/gnosis.svg";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -19,10 +20,10 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         logo: EthereumLogo,
         iconBackgroundColor: "#8637ea",
     },
-    [ChainId.GOERLI]: {
-        ...goerli,
-        logo: EthereumLogo,
-        iconBackgroundColor: "#3099f2",
+    [ChainId.GNOSIS]: {
+        ...gnosis,
+        logo: GnosisLogo,
+        iconBackgroundColor: "#04795b",
     },
 };
 

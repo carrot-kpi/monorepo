@@ -11,14 +11,14 @@ describe("token amount", () => {
 
     beforeAll(() => {
         token1 = new Token(
-            ChainId.GOERLI,
+            ChainId.SEPOLIA,
             Wallet.createRandom().address,
             18,
             "TST1",
             "Test token 1"
         );
         token2 = new Token(
-            ChainId.GOERLI,
+            ChainId.SEPOLIA,
             Wallet.createRandom().address,
             6,
             "TST2",

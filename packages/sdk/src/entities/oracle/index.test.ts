@@ -26,8 +26,8 @@ describe("oracle", () => {
 
     test("instantiates correctly", () => {
         const address = Wallet.createRandom().address;
-        const oracle = new Oracle(ChainId.GOERLI, address, template, false);
-        expect(oracle.chainId).toBe(ChainId.GOERLI);
+        const oracle = new Oracle(ChainId.SEPOLIA, address, template, false);
+        expect(oracle.chainId).toBe(ChainId.SEPOLIA);
         expect(oracle.address).toEqual(address);
         expect(oracle.template).toBe(template);
         expect(oracle.finalized).toBeFalsy();
