@@ -1,4 +1,4 @@
-export default [
+[
     {
         inputs: [
             {
@@ -127,6 +127,12 @@ export default [
                 name: "newSpecification",
                 type: "string",
             },
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "version",
+                type: "uint256",
+            },
         ],
         name: "UpdateTemplateSpecification",
         type: "event",
@@ -149,7 +155,7 @@ export default [
             {
                 indexed: false,
                 internalType: "uint256",
-                name: "_newVersion",
+                name: "newVersion",
                 type: "uint256",
             },
             {
@@ -285,6 +291,19 @@ export default [
             },
         ],
         stateMutability: "payable",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "nextTemplateId",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
         type: "function",
     },
     {
@@ -503,4 +522,4 @@ export default [
         stateMutability: "nonpayable",
         type: "function",
     },
-] as const;
+];
