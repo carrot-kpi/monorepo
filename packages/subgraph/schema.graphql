@@ -1,7 +1,7 @@
 type _Schema_
     @fulltext(
         name: "oracleTemplateSearch"
-        language: simple
+        language: en
         algorithm: rank
         include: [
             {
@@ -12,7 +12,7 @@ type _Schema_
     )
     @fulltext(
         name: "kpiTokenTemplateSearch"
-        language: simple
+        language: en
         algorithm: rank
         include: [
             {
@@ -23,7 +23,7 @@ type _Schema_
     )
     @fulltext(
         name: "kpiTokenSearch"
-        language: simple
+        language: en
         algorithm: rank
         include: [
             {
