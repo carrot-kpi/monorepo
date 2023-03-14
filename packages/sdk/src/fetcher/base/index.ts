@@ -29,7 +29,7 @@ export class BaseFetcher {
         }
         const subgraphURL = SUBGRAPH_URL[chainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        return { subgraphURL };
+        return subgraphURL;
     }
 
     public async getChainAddresses(chainId?: ChainId) {
@@ -38,6 +38,6 @@ export class BaseFetcher {
         }
         const chainAddresses = CHAIN_ADDRESSES[chainId];
         enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
-        return { chainAddresses };
+        return chainAddresses;
     }
 }

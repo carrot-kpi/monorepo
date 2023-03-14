@@ -58,7 +58,7 @@ export class CoreFetcher extends BaseFetcher implements ICoreFetcher {
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
         const chainId = await this.getChainId();
-        const { chainAddresses } = await this.getChainAddresses(chainId);
+        const chainAddresses = await this.getChainAddresses(chainId);
         const { cachedTokens, missingTokens } = addresses.reduce(
             (
                 accumulator: {

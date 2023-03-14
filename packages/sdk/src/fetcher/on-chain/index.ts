@@ -96,7 +96,7 @@ export class OnChainFetcher
     }
 
     public async fetchKPITokensAmount(): Promise<number> {
-        const { chainAddresses } = await this.getChainAddresses();
+        const chainAddresses = await this.getChainAddresses();
         const factoryContract = new Contract(
             chainAddresses.factory,
             FACTORY_ABI,
@@ -109,7 +109,7 @@ export class OnChainFetcher
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<string[]> {
-        const { chainAddresses } = await this.getChainAddresses();
+        const chainAddresses = await this.getChainAddresses();
         const factoryContract = new Contract(
             chainAddresses.factory,
             FACTORY_ABI,
@@ -126,7 +126,7 @@ export class OnChainFetcher
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
         const chainId = await this.getChainId();
-        const { chainAddresses } = await this.getChainAddresses(chainId);
+        const chainAddresses = await this.getChainAddresses(chainId);
 
         const multicall = new Contract(
             chainAddresses.multicall,
@@ -303,7 +303,7 @@ export class OnChainFetcher
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
         const chainId = await this.getChainId();
-        const { chainAddresses } = await this.getChainAddresses(chainId);
+        const chainAddresses = await this.getChainAddresses(chainId);
 
         const multicall = new Contract(
             chainAddresses.multicall,
@@ -400,7 +400,7 @@ export class OnChainFetcher
             version: BigNumber;
             specification: string;
         }[];
-        const { chainAddresses } = await this.getChainAddresses();
+        const chainAddresses = await this.getChainAddresses();
         if (ids && ids.length > 0) {
             const multicall = new Contract(
                 chainAddresses.multicall,
@@ -461,7 +461,7 @@ export class OnChainFetcher
     public async fetchKPITokenTemplates({
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainAddresses } = await this.getChainAddresses();
+        const chainAddresses = await this.getChainAddresses();
         return await this.fetchTemplates(
             new Contract(
                 chainAddresses.kpiTokensManager,
@@ -475,7 +475,7 @@ export class OnChainFetcher
     public async fetchOracleTemplates({
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainAddresses } = await this.getChainAddresses();
+        const chainAddresses = await this.getChainAddresses();
 
         return await this.fetchTemplates(
             new Contract(

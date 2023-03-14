@@ -165,8 +165,8 @@ export class SubgraphFetcher
 
     public async fetchKPITokensAmount(): Promise<number> {
         const chainId = await this.getChainId();
-        const { subgraphURL } = await this.getSubgraphURL(chainId);
-        const { chainAddresses } = await this.getChainAddresses(chainId);
+        const subgraphURL = await this.getSubgraphURL(chainId);
+        const chainAddresses = await this.getChainAddresses(chainId);
 
         const { factory } = await query<GetKPITokensAmountQueryResponse>(
             subgraphURL,
@@ -182,7 +182,7 @@ export class SubgraphFetcher
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<string[]> {
-        const { subgraphURL } = await this.getSubgraphURL();
+        const subgraphURL = await this.getSubgraphURL();
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
             ? await this.fetchKPITokensAmount()
@@ -217,7 +217,7 @@ export class SubgraphFetcher
         addresses,
         searchQuery,
     }: FetchEntitiesParams): Promise<KPITokensProp> {
-        const { subgraphURL } = await this.getSubgraphURL();
+        const subgraphURL = await this.getSubgraphURL();
 
         if (!!searchQuery) {
             const { kpiTokenSearch } =
@@ -301,7 +301,7 @@ export class SubgraphFetcher
         addresses,
     }: FetchEntitiesParams): Promise<OraclesProp> {
         const chainId = await this.getChainId();
-        const { subgraphURL } = await this.getSubgraphURL(chainId);
+        const subgraphURL = await this.getSubgraphURL(chainId);
         let oracles: Promise<OraclesProp> | OraclesProp = {};
 
         if (!!addresses) {
@@ -356,8 +356,8 @@ export class SubgraphFetcher
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const chainId = await this.getChainId();
-        const { subgraphURL } = await this.getSubgraphURL(chainId);
-        const { chainAddresses } = await this.getChainAddresses(chainId);
+        const subgraphURL = await this.getSubgraphURL(chainId);
+        const chainAddresses = await this.getChainAddresses(chainId);
 
         const managerAddress = chainAddresses.kpiTokensManager.toLowerCase();
         if (!!ids) {
@@ -439,8 +439,8 @@ export class SubgraphFetcher
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const chainId = await this.getChainId();
-        const { subgraphURL } = await this.getSubgraphURL(chainId);
-        const { chainAddresses } = await this.getChainAddresses(chainId);
+        const subgraphURL = await this.getSubgraphURL(chainId);
+        const chainAddresses = await this.getChainAddresses(chainId);
 
         const managerAddress = chainAddresses.oraclesManager.toLowerCase();
         if (!!ids) {
