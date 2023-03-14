@@ -9,7 +9,7 @@ export function useKPITokenTemplate(id?: BigNumberish): {
     template: Template | null;
 } {
     const { chain } = useNetwork();
-    const { fetcher } = useFetcher();
+    const fetcher = useFetcher();
 
     const [template, setTemplate] = useState<Template | null>(null);
     const [loading, setLoading] = useState(true);

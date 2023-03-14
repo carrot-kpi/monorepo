@@ -10,7 +10,7 @@ export function useOracle(oracleAddress?: string): {
     const { chain } = useNetwork();
     const [oracle, setOracle] = useState<Oracle | null>(null);
     const [loading, setLoading] = useState(true);
-    const { fetcher } = useFetcher();
+    const fetcher = useFetcher();
 
     useEffect(() => {
         let cancelled = false;

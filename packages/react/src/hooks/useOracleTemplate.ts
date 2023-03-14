@@ -11,7 +11,7 @@ export function useOracleTemplate(id?: BigNumberish): {
     const { chain } = useNetwork();
     const [template, setTemplate] = useState<Template | null>(null);
     const [loading, setLoading] = useState(true);
-    const { fetcher } = useFetcher();
+    const fetcher = useFetcher();
 
     useEffect(() => {
         let cancelled = false;

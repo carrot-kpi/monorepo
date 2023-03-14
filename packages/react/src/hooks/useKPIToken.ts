@@ -10,7 +10,7 @@ export function useKPIToken(kpiTokenAddress?: string): {
     const { chain } = useNetwork();
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(null);
     const [loading, setLoading] = useState(true);
-    const { fetcher } = useFetcher();
+    const fetcher = useFetcher();
 
     useEffect(() => {
         let cancelled = false;

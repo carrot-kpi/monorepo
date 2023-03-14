@@ -20,5 +20,5 @@ export function useFetcher() {
         [provider, ipfsGatewayURL, preferDecentralization]
     );
 
-    return { fetcher };
+    return fetcher;
 }

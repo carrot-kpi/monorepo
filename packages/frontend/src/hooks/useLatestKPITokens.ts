@@ -10,7 +10,7 @@ export function useLatestKPITokens(limit = 5): {
     kpiTokens: KPIToken[];
 } {
     const { chain } = useNetwork();
-    const { fetcher } = useFetcher();
+    const fetcher = useFetcher();
 
     const { data: kpiTokens, isLoading: loading } = useQuery({
         queryKey: [LATEST_KPI_TOKEN_QUERY_KEY_PREFIX, { limit, chain }],

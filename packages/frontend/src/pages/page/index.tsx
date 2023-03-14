@@ -18,7 +18,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
     const { address } = useParams();
-    const { fetcher } = useFetcher();
+    const fetcher = useFetcher();
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
     );

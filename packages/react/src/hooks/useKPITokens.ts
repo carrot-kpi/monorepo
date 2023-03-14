@@ -8,7 +8,7 @@ export function useKPITokens(searchQuery?: string): {
     kpiTokens: { [address: string]: KPIToken };
 } {
     const provider = useProvider();
-    const { fetcher } = useFetcher();
+    const fetcher = useFetcher();
 
     const [kpiTokens, setKPITokens] = useState<{ [address: string]: KPIToken }>(
         {}

@@ -24,7 +24,7 @@ export const CreateWithTemplateId = ({
     const navigate = useNavigate();
     const addTransaction = useAddTransaction();
     const { templateId } = useParams();
-    const { fetcher } = useFetcher();
+    const fetcher = useFetcher();
     const queryClient = useQueryClient();
 
     const [template, setTemplate] = useState<Template | null>(
