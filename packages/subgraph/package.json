@@ -6,7 +6,7 @@
         "codegen": "graph codegen",
         "clean": "rimraf generated build",
         "build": "yarn clean && yarn codegen && graph build",
-        "deploy:goerli": "graph deploy --product hosted-service --network goerli carrot-kpi/carrot-kpi-goerli",
+        "deploy:gnosis": "graph deploy --product hosted-service --network gnosis carrot-kpi/carrot-kpi-gnosis",
         "create-local": "graph create --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "remove-local": "graph remove --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 carrot-kpi/carrot-kpi-local",

@@ -1,16 +1,16 @@
 {
-    "goerli": {
+    "gnosis": {
         "KPITokensManager": {
-            "address": "0xB7B626f643AeDCCD39112A30E4A95c16bA3d05C7",
-            "startBlock": 8470315
+            "address": "0xC29d8922baA9618D63B757Ec2E266c2C9402E2A8",
+            "startBlock": 26938327
         },
         "OraclesManager": {
-            "address": "0xC3afEab48E0A7f2C3809f8Dd9674E526B11754cd",
-            "startBlock": 8470317
+            "address": "0x44445F80e99C45b3ca8a6c208a993B31F342b01e",
+            "startBlock": 26938329
         },
         "Factory": {
-            "address": "0x9fa71dF5AEa30B488839984EDC8efe57DBc3e8C7",
-            "startBlock": 8470313
+            "address": "0x0D92C8a527C8b1959Eb2112466148d262685b866",
+            "startBlock": 26938324
         }
     }
 }

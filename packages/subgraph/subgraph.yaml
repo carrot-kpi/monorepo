@@ -7,11 +7,11 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: goerli
+    network: gnosis
     source:
       abi: Factory
-      address: "0x9fa71dF5AEa30B488839984EDC8efe57DBc3e8C7"
-      startBlock: 8470313
+      address: "0x0D92C8a527C8b1959Eb2112466148d262685b866"
+      startBlock: 26938324
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -38,7 +38,7 @@ dataSources:
       file: ./src/factory.ts
 templates:
   - kind: ethereum/contract
-    network: goerli
+    network: gnosis
     name: KPITokensManager
     source:
       abi: KPITokensManager
@@ -65,7 +65,7 @@ templates:
           handler: handleUpgradeTemplate
       file: ./src/kpi-tokens-manager.ts
   - kind: ethereum/contract
-    network: goerli
+    network: gnosis
     name: OraclesManager
     source:
       abi: OraclesManager
@@ -92,7 +92,7 @@ templates:
           handler: handleUpgradeTemplate
       file: ./src/oracles-manager.ts
   - kind: ethereum/contract
-    network: goerli
+    network: gnosis
     name: KPIToken
     source:
       abi: KPIToken
@@ -113,7 +113,7 @@ templates:
           handler: handleFinalize
       file: ./src/kpi-token.ts
   - kind: ethereum/contract
-    network: goerli
+    network: gnosis
     name: Oracle
     source:
       abi: Oracle
@@ -142,7 +142,7 @@ templates:
       entities:
         - KPITokenTemplateSpecification
       abis: []
-    network: goerli
+    network: gnosis
   - kind: file/ipfs
     name: KPITokenDescription
     mapping:
@@ -153,7 +153,7 @@ templates:
       entities:
         - KPITokenDescription
       abis: []
-    network: goerli
+    network: gnosis
   - kind: file/ipfs
     name: OracleTemplateSpecification
     mapping:
@@ -164,4 +164,4 @@ templates:
       entities:
         - OracleTemplateSpecification
       abis: []
-    network: goerli
+    network: gnosis
