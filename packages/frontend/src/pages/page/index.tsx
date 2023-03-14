@@ -7,7 +7,7 @@ import {
 import { Fetcher, KPIToken } from "@carrot-kpi/sdk";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useProvider } from "wagmi";
+import { useBlockNumber, useProvider } from "wagmi";
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
@@ -25,6 +25,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
+    const blockNumber = useBlockNumber();
 
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
@@ -66,6 +67,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                         addresses: [address],
                     })
                 )[address];
+
                 if (!kpiToken)
                     console.warn(`no kpi token with address ${address} found`);
                 if (!cancelled) setKPIToken(kpiToken);
@@ -85,6 +87,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         provider,
         address,
         state?.kpiToken,
+        blockNumber.data,
         ipfsGatewayURL,
     ]);
 
