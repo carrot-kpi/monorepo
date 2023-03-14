@@ -2,6 +2,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { infuraProvider } from "wagmi/providers/infura";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { SUPPORTED_CHAINS } from "../constants";
 import { ReadonlyConnector } from "../connectors";
 import { Chain, ChainProviderFn, Connector } from "wagmi";
@@ -14,7 +15,17 @@ export let standaloneProviders: ChainProviderFn[] = [];
 export let getStandaloneConnectors: () => Connector[] = () => [];
 if (!__PREVIEW_MODE__) {
     standaloneSupportedChains = Object.values(SUPPORTED_CHAINS);
-    standaloneProviders = [infuraProvider({ apiKey: INFURA_PROJECT_ID })];
+    standaloneProviders = [
+        infuraProvider({ apiKey: INFURA_PROJECT_ID }),
+        jsonRpcProvider({
+            rpc: () => {
+                return {
+                    http: "https://rpc.gnosischain.com",
+                    webSocket: "wss://rpc.gnosischain.com/wss",
+                };
+            },
+        }),
+    ];
     getStandaloneConnectors = () => [
         new InjectedConnector({
             chains: standaloneSupportedChains,
