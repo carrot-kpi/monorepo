@@ -140,7 +140,7 @@ const mapRawKPIToken = async (
         await mapRawTemplate(ipfsGatewayURL, rawKPIToken.template),
 
         await Promise.all(
-            rawKPIToken.oracles.map(async (rawOracle) =>
+            rawKPIToken.oracles.map((rawOracle) =>
                 mapRawOracle(chainId, ipfsGatewayURL, rawOracle)
             )
         ),
