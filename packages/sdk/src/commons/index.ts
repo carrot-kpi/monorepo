@@ -8,7 +8,7 @@ import ERC20_ABI from "../abis/erc20";
 import { Cacher } from "../cacher";
 
 export enum ChainId {
-    GOERLI = 5,
+    GNOSIS = 100,
     SEPOLIA = 11155111,
 }
 
@@ -22,11 +22,11 @@ export interface ChainAddresses {
 }
 
 export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
-    [ChainId.GOERLI]: {
+    [ChainId.GNOSIS]: {
         multicall: "0xcA11bde05977b3631167028862bE2a173976CA11",
-        factory: "0x9fa71dF5AEa30B488839984EDC8efe57DBc3e8C7",
-        kpiTokensManager: "0xB7B626f643AeDCCD39112A30E4A95c16bA3d05C7",
-        oraclesManager: "0xC3afEab48E0A7f2C3809f8Dd9674E526B11754cd",
+        factory: "0x0D92C8a527C8b1959Eb2112466148d262685b866",
+        kpiTokensManager: "0xC29d8922baA9618D63B757Ec2E266c2C9402E2A8",
+        oraclesManager: "0x44445F80e99C45b3ca8a6c208a993B31F342b01e",
     },
     [ChainId.SEPOLIA]: {
         multicall: "0xcA11bde05977b3631167028862bE2a173976CA11",
@@ -37,8 +37,8 @@ export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
 };
 
 export const SUBGRAPH_URL: Record<ChainId, string | null> = {
-    [ChainId.GOERLI]:
-        "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-kpi-goerli",
+    [ChainId.GNOSIS]:
+        "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-kpi-gnosis",
     [ChainId.SEPOLIA]: null,
 };
 

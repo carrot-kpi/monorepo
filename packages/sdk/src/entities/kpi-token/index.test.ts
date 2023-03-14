@@ -26,7 +26,7 @@ describe("kpi token", () => {
             templateSpecification
         );
         oracle = new Oracle(
-            ChainId.GOERLI,
+            ChainId.SEPOLIA,
             Wallet.createRandom().address,
             template,
             false
@@ -43,7 +43,7 @@ describe("kpi token", () => {
         const kpiTokenAddress = Wallet.createRandom().address;
         const kpiTokenOwner = Wallet.createRandom().address;
         const kpiToken = new KPIToken(
-            ChainId.GOERLI,
+            ChainId.SEPOLIA,
             kpiTokenAddress,
             kpiTokenOwner,
             template,
@@ -53,7 +53,7 @@ describe("kpi token", () => {
             123456788,
             false
         );
-        expect(kpiToken.chainId).toBe(ChainId.GOERLI);
+        expect(kpiToken.chainId).toBe(ChainId.SEPOLIA);
         expect(kpiToken.address).toBe(kpiTokenAddress);
         expect(kpiToken.owner).toBe(kpiTokenOwner);
         expect(kpiToken.template).toBe(template);
@@ -69,7 +69,7 @@ describe("kpi token", () => {
             pastDate.setDate(-2);
 
             const kpiToken = new KPIToken(
-                ChainId.GOERLI,
+                ChainId.SEPOLIA,
                 Wallet.createRandom().address,
                 Wallet.createRandom().address,
                 template,
@@ -87,7 +87,7 @@ describe("kpi token", () => {
             futureDate.setDate(futureDate.getDate() + 1);
 
             const kpiToken = new KPIToken(
-                ChainId.GOERLI,
+                ChainId.SEPOLIA,
                 Wallet.createRandom().address,
                 Wallet.createRandom().address,
                 template,
