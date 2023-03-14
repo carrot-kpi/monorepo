@@ -1,27 +1,18 @@
 import { useEffect, useState } from "react";
-import { Fetcher, Oracle } from "@carrot-kpi/sdk";
-import { useProvider, useNetwork } from "wagmi";
-import { usePreferDecentralization } from "./usePreferDecentralization";
-import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
+import { Oracle } from "@carrot-kpi/sdk";
+import { useNetwork } from "wagmi";
+import { useFetcher } from "./useFetcher";
 
 export function useOracle(oracleAddress?: string): {
     loading: boolean;
     oracle: Oracle | null;
 } {
-    const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
-    const provider = useProvider();
     const [oracle, setOracle] = useState<Oracle | null>(null);
     const [loading, setLoading] = useState(true);
+    const { fetcher } = useFetcher();
 
     useEffect(() => {
-        const fetcher = new Fetcher({
-            provider,
-            ipfsGatewayURL,
-            preferDecentralization,
-        });
-
         let cancelled = false;
         async function fetchData(): Promise<void> {
             if (!chain || !oracleAddress) return;
@@ -47,13 +38,7 @@ export function useOracle(oracleAddress?: string): {
         return () => {
             cancelled = true;
         };
-    }, [
-        chain,
-        oracleAddress,
-        ipfsGatewayURL,
-        preferDecentralization,
-        provider,
-    ]);
+    }, [chain, oracleAddress, fetcher]);
 
     return { loading, oracle };
 }

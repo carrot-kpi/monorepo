@@ -1,29 +1,20 @@
 import { useEffect, useState } from "react";
-import { Template, Fetcher } from "@carrot-kpi/sdk";
-import { useProvider, useNetwork } from "wagmi";
+import { Template } from "@carrot-kpi/sdk";
+import { useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
-import { usePreferDecentralization } from "./usePreferDecentralization";
-import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
+import { useFetcher } from "./useFetcher";
 
 export function useKPITokenTemplate(id?: BigNumberish): {
     loading: boolean;
     template: Template | null;
 } {
-    const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
-    const provider = useProvider();
+    const { fetcher } = useFetcher();
 
     const [template, setTemplate] = useState<Template | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetcher = new Fetcher({
-            provider,
-            ipfsGatewayURL,
-            preferDecentralization,
-        });
-
         let cancelled = false;
         async function fetchData(): Promise<void> {
             if (!chain || !id) return;
@@ -43,7 +34,7 @@ export function useKPITokenTemplate(id?: BigNumberish): {
         return () => {
             cancelled = true;
         };
-    }, [chain, id, ipfsGatewayURL, preferDecentralization, provider]);
+    }, [chain, id, fetcher]);
 
     return { loading, template };
 }

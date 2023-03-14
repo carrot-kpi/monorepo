@@ -1,28 +1,19 @@
 import { useEffect, useState } from "react";
-import { Template, Fetcher } from "@carrot-kpi/sdk";
-import { useProvider, useNetwork } from "wagmi";
+import { Template } from "@carrot-kpi/sdk";
+import { useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
-import { usePreferDecentralization } from "./usePreferDecentralization";
-import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
+import { useFetcher } from "./useFetcher";
 
 export function useOracleTemplate(id?: BigNumberish): {
     loading: boolean;
     template: Template | null;
 } {
-    const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
-    const provider = useProvider();
-
     const [template, setTemplate] = useState<Template | null>(null);
     const [loading, setLoading] = useState(true);
+    const { fetcher } = useFetcher();
 
     useEffect(() => {
-        const fetcher = new Fetcher({
-            provider,
-            ipfsGatewayURL,
-            preferDecentralization,
-        });
         let cancelled = false;
         const fetchData = async (): Promise<void> => {
             if (!chain || !id) return;
@@ -42,7 +33,7 @@ export function useOracleTemplate(id?: BigNumberish): {
         return () => {
             cancelled = true;
         };
-    }, [chain, provider, preferDecentralization, id, ipfsGatewayURL]);
+    }, [fetcher, chain, id]);
 
     return { loading, template };
 }

@@ -1,27 +1,21 @@
 import { useEffect, useState } from "react";
-import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
+import { KPIToken } from "@carrot-kpi/sdk";
 import { useProvider } from "wagmi";
-import { usePreferDecentralization } from "./usePreferDecentralization";
-import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
+import { useFetcher } from "./useFetcher";
 
 export function useKPITokens(searchQuery?: string): {
     loading: boolean;
     kpiTokens: { [address: string]: KPIToken };
 } {
-    const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
     const provider = useProvider();
+    const { fetcher } = useFetcher();
+
     const [kpiTokens, setKPITokens] = useState<{ [address: string]: KPIToken }>(
         {}
     );
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetcher = new Fetcher({
-            provider,
-            ipfsGatewayURL,
-            preferDecentralization,
-        });
         let cancelled = false;
         async function fetchData(): Promise<void> {
             if (!provider) return;
@@ -41,7 +35,7 @@ export function useKPITokens(searchQuery?: string): {
         return () => {
             cancelled = true;
         };
-    }, [provider, ipfsGatewayURL, preferDecentralization, searchQuery]);
+    }, [fetcher, provider, searchQuery]);
 
     return { loading, kpiTokens };
 }

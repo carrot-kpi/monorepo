@@ -23,3 +23,4 @@ export * from "./useTheme";
 export * from "./useTokenLists";
 export * from "./useWatchData";
 export * from "./useResetPageScroll";
+export * from "./useFetcher";

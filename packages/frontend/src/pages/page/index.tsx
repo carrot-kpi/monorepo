@@ -1,16 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-    KPITokenPage,
-    useIPFSGatewayURL,
-    usePreferDecentralization,
-} from "@carrot-kpi/react";
-import { Fetcher, KPIToken } from "@carrot-kpi/sdk";
+import { KPITokenPage } from "@carrot-kpi/react";
+import { KPIToken } from "@carrot-kpi/sdk";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useProvider } from "wagmi";
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
+import { useFetcher } from "@carrot-kpi/react";
 
 interface PageProps {
     customBaseURL?: string;
@@ -22,9 +18,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
     const { address } = useParams();
-    const provider = useProvider();
-    const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
+    const { fetcher } = useFetcher();
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(
         state ? state.kpiToken : null
     );
@@ -46,12 +40,6 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     }, [closing]);
 
     useEffect(() => {
-        const fetcher = new Fetcher({
-            provider,
-            ipfsGatewayURL,
-            preferDecentralization,
-        });
-
         if (state?.kpiToken) {
             setKPIToken(state.kpiToken);
             return;
@@ -82,13 +70,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         return () => {
             cancelled = true;
         };
-    }, [
-        provider,
-        ipfsGatewayURL,
-        preferDecentralization,
-        address,
-        state?.kpiToken,
-    ]);
+    }, [fetcher, address, state?.kpiToken]);
 
     const handleDismiss = useCallback(() => {
         setShow(false);

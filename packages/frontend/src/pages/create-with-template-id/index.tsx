@@ -1,14 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-    KPITokenCreationForm,
-    useIPFSGatewayURL,
-    usePreferDecentralization,
-} from "@carrot-kpi/react";
+import { KPITokenCreationForm, useFetcher } from "@carrot-kpi/react";
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useProvider } from "wagmi";
-import { Fetcher, Template } from "@carrot-kpi/sdk";
+import { Template } from "@carrot-kpi/sdk";
 import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
@@ -29,9 +24,7 @@ export const CreateWithTemplateId = ({
     const navigate = useNavigate();
     const addTransaction = useAddTransaction();
     const { templateId } = useParams();
-    const provider = useProvider();
-    const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
+    const { fetcher } = useFetcher();
     const queryClient = useQueryClient();
 
     const [template, setTemplate] = useState<Template | null>(
@@ -55,12 +48,6 @@ export const CreateWithTemplateId = ({
     }, [closing]);
 
     useEffect(() => {
-        const fetcher = new Fetcher({
-            provider,
-            ipfsGatewayURL,
-            preferDecentralization,
-        });
-
         if (!!state?.template) {
             setTemplate(state.template);
             return;
@@ -89,13 +76,7 @@ export const CreateWithTemplateId = ({
         return () => {
             cancelled = true;
         };
-    }, [
-        preferDecentralization,
-        ipfsGatewayURL,
-        provider,
-        state.template,
-        templateId,
-    ]);
+    }, [fetcher, state.template, templateId]);
 
     const handleCreate = useCallback(() => {
         // a token has just been created, invalidate latest tokens query
