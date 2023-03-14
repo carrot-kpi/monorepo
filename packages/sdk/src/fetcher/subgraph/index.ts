@@ -91,7 +91,7 @@ export class SubgraphFetcher
             await this.mapRawTemplate(rawKPIToken.template),
 
             await Promise.all(
-                rawKPIToken.oracles.map(async (rawOracle) =>
+                rawKPIToken.oracles.map((rawOracle) =>
                     this.mapRawOracle(chainId, rawOracle)
                 )
             ),
