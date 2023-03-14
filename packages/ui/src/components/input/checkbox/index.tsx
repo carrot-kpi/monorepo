@@ -1,8 +1,18 @@
-import React, { forwardRef, HTMLAttributes, ReactElement, useId } from "react";
+import React, {
+    forwardRef,
+    HTMLAttributes,
+    ReactElement,
+    useCallback,
+    useId,
+    useRef,
+    useState,
+} from "react";
 import { Typography } from "../../data-display";
-import { BaseInputWrapper, BaseInputWrapperProps } from "../commons";
+import { ReactComponent as InfoIcon } from "../../../assets/info-icon.svg";
+import { BaseInputWrapperProps, infoIconStyles } from "../commons";
 import { ReactComponent as Tick } from "../../../assets/tick.svg";
 import { mergedCva } from "../../../utils/components";
+import { Popover } from "../../utils";
 
 const inputWrapperStyles = mergedCva(["cui-flex", "cui-items-center"], {
     variants: {
@@ -64,6 +74,13 @@ const inputStyles = mergedCva([
     "cui-opacity-0",
 ]);
 
+const labelStyles = mergedCva([
+    "cui-flex",
+    "cui-items-center",
+    "cui-gap-1.5",
+    "cui-w-fit",
+]);
+
 export interface BaseCheckboxProps {
     checked?: boolean;
     id?: string;
@@ -78,40 +95,68 @@ export type CheckboxProps = Omit<
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     function Checkbox(
-        { id, label, error, errorText, className, checked, info, ...rest },
+        { id, label, className, checked, info, ...rest },
         ref
     ): ReactElement {
         const generatedId = useId();
+        const infoIconRef = useRef<SVGSVGElement>(null);
+        const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
 
         const resolvedId = id || generatedId;
 
+        const handleInfoMouseEnter = useCallback(() => {
+            setInfoPopoverOpen(true);
+        }, []);
+
+        const handleInfoMouseExit = useCallback(() => {
+            setInfoPopoverOpen(false);
+        }, []);
+
         return (
-            <BaseInputWrapper
-                id={resolvedId}
-                error={error}
-                errorText={errorText}
-                info={info}
-                className={className}
-            >
-                <div className={inputWrapperStyles({ hasLabel: !!label })}>
-                    <div className={checkmarkBackgroundStyles({ checked })}>
-                        <Tick className={checkmarkStyles({ checked })} />
-                        <input
-                            type="checkbox"
-                            ref={ref}
-                            checked={checked}
-                            {...rest}
-                            id={resolvedId}
-                            className={inputStyles({
-                                className: className?.input,
-                            })}
-                        />
-                    </div>
+            <div className={inputWrapperStyles({ hasLabel: !!label })}>
+                <div className={checkmarkBackgroundStyles({ checked })}>
+                    <Tick className={checkmarkStyles({ checked })} />
+                    <input
+                        type="checkbox"
+                        ref={ref}
+                        checked={checked}
+                        {...rest}
+                        id={resolvedId}
+                        className={inputStyles({
+                            className: className?.input,
+                        })}
+                    />
+                </div>
+                <label
+                    className={labelStyles({ className: className?.label })}
+                    htmlFor={resolvedId}
+                >
                     <Typography className={className?.labelText}>
                         {label}
                     </Typography>
-                </div>
-            </BaseInputWrapper>
+                    {info && (
+                        <>
+                            <InfoIcon
+                                ref={infoIconRef}
+                                className={infoIconStyles({
+                                    className: className?.infoIcon,
+                                })}
+                                onMouseEnter={handleInfoMouseEnter}
+                                onMouseLeave={handleInfoMouseExit}
+                            />
+                            <Popover
+                                anchor={infoIconRef.current}
+                                open={infoPopoverOpen}
+                                className={{
+                                    root: `cui-p-2 ${className?.infoPopover}`,
+                                }}
+                            >
+                                {info}
+                            </Popover>
+                        </>
+                    )}
+                </label>
+            </div>
         );
     }
 );
