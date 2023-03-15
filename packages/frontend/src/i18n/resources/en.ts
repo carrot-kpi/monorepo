@@ -5,6 +5,8 @@ export const en = {
         "connect.wallet": "Connect wallet",
         "connect.wallet.unknown": "Unknown",
         "connect.wallet.network": "Network",
+        "network.switch.disabled.modalMode":
+            "Network switching is disabled while consuming templates.",
         "home.createKPIToken": "Create KPI token",
         "home.noFeatured.title": "Reach your goals with a Carrot",
         "home.noFeatured.description":
