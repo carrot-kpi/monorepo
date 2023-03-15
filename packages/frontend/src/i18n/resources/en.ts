@@ -7,6 +7,10 @@ export const en = {
         "connect.wallet.network": "Network",
         "network.switch.disabled.modalMode":
             "Network switching is disabled while consuming templates.",
+        "network.switch.disabled.title": "Chain changed.",
+        "network.switch.disabled.description":
+            "Carrot templates are chain-specific. Please switch back to {{chainName}} to continue consuming the template or click the button below to go back.",
+        "network.switch.disabled.action": "Close",
         "home.createKPIToken": "Create KPI token",
         "home.noFeatured.title": "Reach your goals with a Carrot",
         "home.noFeatured.description":
