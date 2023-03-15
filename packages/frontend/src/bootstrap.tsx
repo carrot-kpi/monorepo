@@ -62,26 +62,24 @@ export const Root = ({
     templateId,
 }: RootProps) => {
     return (
-        <HashRouter>
-            <HostStateProvider>
-                <CarrotCoreProvider
-                    supportedChains={
-                        supportedChains || standaloneSupportedChains
-                    }
-                    providers={providers || standaloneProviders}
-                    getConnectors={connectors || getStandaloneConnectors}
-                    ipfsGatewayURL={ipfsGatewayURL}
-                    reactQueryClient={queryClient}
-                >
-                    <ThemeUpdater />
+        <HostStateProvider>
+            <CarrotCoreProvider
+                supportedChains={supportedChains || standaloneSupportedChains}
+                providers={providers || standaloneProviders}
+                getConnectors={connectors || getStandaloneConnectors}
+                ipfsGatewayURL={ipfsGatewayURL}
+                reactQueryClient={queryClient}
+            >
+                <ThemeUpdater />
+                <HashRouter>
                     <App
                         kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
                         oracleTemplateBaseURL={oracleTemplateBaseURL}
                         templateId={templateId}
                     />
-                </CarrotCoreProvider>
-            </HostStateProvider>
-        </HashRouter>
+                </HashRouter>
+            </CarrotCoreProvider>
+        </HostStateProvider>
     );
 };
 

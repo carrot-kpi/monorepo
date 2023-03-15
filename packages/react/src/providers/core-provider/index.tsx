@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { useSetIPFSGatewayURL } from "../../hooks/useSetIPFSGatewayURL";
+import { FetcherProvider } from "../fetcher-provider";
 
 interface InternalSetupProps {
     children: ReactNode;
@@ -89,7 +90,7 @@ export const CarrotCoreProvider = ({
                     providers={providers}
                     getConnectors={getConnectors}
                 >
-                    {children}
+                    <FetcherProvider>{children}</FetcherProvider>
                 </InternalSetup>
             </QueryClientProvider>
         </ReactSharedStateProvider>
