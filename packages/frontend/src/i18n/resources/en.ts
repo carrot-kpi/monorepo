@@ -5,6 +5,9 @@ export const en = {
         "connect.wallet": "Connect wallet",
         "connect.wallet.unknown": "Unknown",
         "connect.wallet.network": "Network",
+        "wrong.network.title": "Wrong network",
+        "wrong.network.description":
+            "In order to view this page please switch to {{chainName}} in your connected wallet to continue.",
         "home.createKPIToken": "Create KPI token",
         "home.noFeatured.title": "Reach your goals with a Carrot",
         "home.noFeatured.description":

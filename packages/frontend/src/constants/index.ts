@@ -15,17 +15,19 @@ export interface AugmentedChain extends Chain {
 }
 
 export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
-    [ChainId.SEPOLIA]: {
-        ...sepolia,
-        logo: EthereumLogo,
-        iconBackgroundColor: "#8637ea",
-    },
     [ChainId.GNOSIS]: {
         ...gnosis,
         logo: GnosisLogo,
         iconBackgroundColor: "#04795b",
     },
+    [ChainId.SEPOLIA]: {
+        ...sepolia,
+        logo: EthereumLogo,
+        iconBackgroundColor: "#8637ea",
+    },
 };
+
+export const DEFAULT_CHAIN: Chain = Object.values(SUPPORTED_CHAINS)[0];
 
 export interface NavbarLink {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
