@@ -4,7 +4,7 @@ import { SUPPORTED_CHAINS } from "../../constants";
 import { ReactComponent as Error } from "../../assets/error.svg";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useTranslation } from "react-i18next";
-import { Button } from "@carrot-kpi/ui";
+import { Button, Popover, Typography } from "@carrot-kpi/ui";
 import { useNetwork, useAccount } from "wagmi";
 import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
@@ -13,8 +13,11 @@ import { AccountPopover } from "./popovers/account";
 import { useClickAway } from "react-use";
 import { Avatar } from "./avatar";
 
-// TODO: implement loading states
-export const ConnectWallet = () => {
+interface ConnectWalletProps {
+    mode: "standard" | "modal";
+}
+
+export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
     const { address } = useAccount();
@@ -26,6 +29,8 @@ export const ConnectWallet = () => {
     const accountPopoverRef = useRef<HTMLDivElement>(null);
 
     const [networksPopoverOpen, setNetworksPopoverOpen] = useState(false);
+    const [modalNetworksPopoverOpen, setModalNetworksPopoverOpen] =
+        useState(false);
     const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [accountPopoverOpen, setAccountPopoverOpen] = useState(false);
 
@@ -47,6 +52,14 @@ export const ConnectWallet = () => {
 
     const handleNetworksPopoverClose = useCallback(() => {
         setNetworksPopoverOpen(false);
+    }, []);
+
+    const handleModalNetworksPopoverOpen = useCallback(() => {
+        setModalNetworksPopoverOpen(true);
+    }, []);
+
+    const handleModalNetworksPopoverClose = useCallback(() => {
+        setModalNetworksPopoverOpen(false);
     }, []);
 
     const handleConnectPopoverOpen = useCallback(() => {
@@ -73,7 +86,7 @@ export const ConnectWallet = () => {
         : Error;
     return (
         <>
-            {!__PREVIEW_MODE__ && (
+            {!__PREVIEW_MODE__ && mode !== "modal" && (
                 <NetworksPopover
                     open={networksPopoverOpen}
                     anchor={networksPopoverAnchorRef.current}
@@ -87,6 +100,16 @@ export const ConnectWallet = () => {
                 onClose={handleConnectPopoverClose}
                 ref={connectPopoverRef}
             />
+            <Popover
+                placement="bottom"
+                open={modalNetworksPopoverOpen}
+                anchor={networksPopoverAnchorRef.current}
+                className={{ root: "p-2 w-44" }}
+            >
+                <Typography>
+                    {t("network.switch.disabled.modalMode")}
+                </Typography>
+            </Popover>
             {address && (
                 <AccountPopover
                     address={address as string}
@@ -99,9 +122,23 @@ export const ConnectWallet = () => {
             <div className="flex flex-col gap-4 xl:flex-row">
                 <div
                     className={`h-12 w-fit flex items-center ${
-                        __PREVIEW_MODE__ ? "" : "cursor-pointer"
+                        __PREVIEW_MODE__
+                            ? ""
+                            : mode === "modal"
+                            ? "cursor-not-allowed"
+                            : "cursor-pointer"
                     } gap-3`}
                     onClick={handleNetworksPopoverOpen}
+                    onMouseEnter={
+                        mode === "modal"
+                            ? handleModalNetworksPopoverOpen
+                            : undefined
+                    }
+                    onMouseLeave={
+                        mode === "modal"
+                            ? handleModalNetworksPopoverClose
+                            : undefined
+                    }
                     ref={networksPopoverAnchorRef}
                 >
                     <ChainIcon
@@ -121,7 +158,9 @@ export const ConnectWallet = () => {
                             {supportedChain ? chainName : "Unsupported"}
                         </span>
                     </div>
-                    {!__PREVIEW_MODE__ && <CaretDown className="w-3" />}
+                    {!__PREVIEW_MODE__ && mode !== "modal" && (
+                        <CaretDown className="w-3" />
+                    )}
                 </div>
                 {address ? (
                     <Button
