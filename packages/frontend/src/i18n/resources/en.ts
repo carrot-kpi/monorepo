@@ -8,6 +8,8 @@ export const en = {
         "wrong.network.title": "Wrong network",
         "wrong.network.description":
             "In order to view this page please switch to {{chainName}} in your connected wallet to continue.",
+        "network.switch.disabled.modalMode":
+            "Network switching is disabled while consuming templates.",
         "home.createKPIToken": "Create KPI token",
         "home.noFeatured.title": "Reach your goals with a Carrot",
         "home.noFeatured.description":
