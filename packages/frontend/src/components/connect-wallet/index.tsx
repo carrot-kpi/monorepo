@@ -78,8 +78,6 @@ export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
         setAccountPopoverOpen(false);
     }, []);
 
-    console.log(modalNetworksPopoverOpen);
-
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
     const chainName = chain?.name || t("connect.wallet.unknown");
     const supportedChain = !!chainId && !!SUPPORTED_CHAINS[chainId as ChainId];
