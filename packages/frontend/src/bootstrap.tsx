@@ -16,7 +16,6 @@ import { StrictMode } from "react";
 import { HashRouter } from "react-router-dom";
 
 import { Chain, ChainProviderFn, Connector } from "wagmi";
-import { ThemeUpdater } from "./updaters";
 import { App } from "./pages/app";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
 import {
@@ -29,6 +28,8 @@ import { HostStateProvider } from "./state/connector";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
 import { ReadonlyConnector } from "./connectors";
+import { ThemeUpdater } from "./updaters/theme";
+import { MultiChainLinksUpdater } from "./updaters/multi-chain-links";
 
 export * from "./connectors/template-testing";
 
@@ -100,6 +101,7 @@ export const Root = ({
                     reactQueryClient={queryClient}
                 >
                     <ThemeUpdater />
+                    <MultiChainLinksUpdater />
                     <App
                         kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
                         oracleTemplateBaseURL={oracleTemplateBaseURL}

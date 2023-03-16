@@ -20,7 +20,7 @@ interface ConnectWalletProps {
 export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
-    const { address } = useAccount();
+    const { address, connector: activeConnector } = useAccount();
 
     const networksPopoverAnchorRef = useRef<HTMLDivElement>(null);
     const networksPopoverRef = useRef<HTMLDivElement>(null);
@@ -50,10 +50,6 @@ export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
         setNetworksPopoverOpen(true);
     }, []);
 
-    const handleNetworksPopoverClose = useCallback(() => {
-        setNetworksPopoverOpen(false);
-    }, []);
-
     const handleModalNetworksPopoverOpen = useCallback(() => {
         setModalNetworksPopoverOpen(true);
     }, []);
@@ -78,6 +74,18 @@ export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
         setAccountPopoverOpen(false);
     }, []);
 
+    const handleNetworkSwitchClick = useCallback(
+        async (chainId: number) => {
+            try {
+                await activeConnector?.switchChain?.(chainId);
+            } catch (error) {
+                console.warn("could not switch network", error);
+            }
+            setNetworksPopoverOpen(false);
+        },
+        [activeConnector]
+    );
+
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
     const chainName = chain?.name || t("connect.wallet.unknown");
     const supportedChain = !!chainId && !!SUPPORTED_CHAINS[chainId as ChainId];
@@ -90,7 +98,7 @@ export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
                 <NetworksPopover
                     open={networksPopoverOpen}
                     anchor={networksPopoverAnchorRef.current}
-                    onClose={handleNetworksPopoverClose}
+                    onNetworkSwitch={handleNetworkSwitchClick}
                     ref={networksPopoverRef}
                 />
             )}
@@ -151,12 +159,12 @@ export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
                         logo={<Logo width={18} height={18} />}
                     />
                     <div className="flex flex-col">
-                        <span className="font-mono text-black text-2xs">
+                        <Typography variant="2xs">
                             {t("connect.wallet.network")}
-                        </span>
-                        <span className="font-mono text-sm text-black capitalize">
+                        </Typography>
+                        <Typography variant="sm">
                             {supportedChain ? chainName : "Unsupported"}
-                        </span>
+                        </Typography>
                     </div>
                     {!__PREVIEW_MODE__ && mode !== "modal" && (
                         <CaretDown className="w-3" />
