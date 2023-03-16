@@ -11,6 +11,7 @@ import { useProvider } from "wagmi";
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
+import { useAddTransaction } from "../../hooks/useAddTransaction";
 
 interface PageProps {
     customBaseURL?: string;
@@ -22,6 +23,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const { i18n } = useTranslation();
     const { state } = useLocation();
     const { address } = useParams();
+    const addTransaction = useAddTransaction();
     const provider = useProvider();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
@@ -108,6 +110,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                             </div>
                         }
                         className={{ root: "w-full h-full" }}
+                        onTx={addTransaction}
                     />
                 </AnimatedFullscreenModal>
             )

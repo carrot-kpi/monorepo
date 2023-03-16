@@ -45,6 +45,7 @@ export type KPITokenCreationFormProps = BaseTemplateComponentProps &
 
 export interface AdditionalOraclePageProps {
     oracle?: Oracle | null;
+    onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
 export type OraclePageProps = BaseTemplateComponentProps &
@@ -52,6 +53,7 @@ export type OraclePageProps = BaseTemplateComponentProps &
 
 export interface AdditionalKPITokenPageProps {
     kpiToken?: KPIToken | null;
+    onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
 export type KPITokenPageProps = BaseTemplateComponentProps &
