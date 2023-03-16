@@ -24,15 +24,15 @@ export interface ChainAddresses {
 export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
     [ChainId.GNOSIS]: {
         multicall: "0xcA11bde05977b3631167028862bE2a173976CA11",
-        factory: "0x0D92C8a527C8b1959Eb2112466148d262685b866",
-        kpiTokensManager: "0xC29d8922baA9618D63B757Ec2E266c2C9402E2A8",
-        oraclesManager: "0x44445F80e99C45b3ca8a6c208a993B31F342b01e",
+        factory: "0x8F140C6473ab59adCe2a294EdE8d6aB485CfCb8c",
+        kpiTokensManager: "0x613e4da8b515D11908b1024189564674CA376615",
+        oraclesManager: "0x61FBb8D6Eb96482a89B6b3aE7af4c391f8A86cB3",
     },
     [ChainId.SEPOLIA]: {
         multicall: "0xcA11bde05977b3631167028862bE2a173976CA11",
-        factory: "0x32E0Cea8167B0E5b64196D10352A486Ca4BcedcD",
-        kpiTokensManager: "0x766faa004398d68Ef7f64926525E7ad2933A0f87",
-        oraclesManager: "0xdFFdC76D71971B4c55de059b00F38dDe3d7b49cB",
+        factory: "0x711524b033FBB213CA71e3d4e09b4792A2299FEF",
+        kpiTokensManager: "0x6e787295f8FC487776DE28A4f8a7a21fBd341069",
+        oraclesManager: "0xB65Bd5941e8bF11d7F0eF098BFd08CDD30841797",
     },
 };
 

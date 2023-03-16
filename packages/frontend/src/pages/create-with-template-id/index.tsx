@@ -90,7 +90,7 @@ export const CreateWithTemplateId = ({
         ipfsGatewayURL,
         preferDecentralization,
         provider,
-        state.template,
+        state?.template,
         templateId,
     ]);
 

@@ -159,7 +159,13 @@ export default [
             },
         ],
         name: "createToken",
-        outputs: [],
+        outputs: [
+            {
+                internalType: "address",
+                name: "",
+                type: "address",
+            },
+        ],
         stateMutability: "payable",
         type: "function",
     },

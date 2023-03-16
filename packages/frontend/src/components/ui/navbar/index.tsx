@@ -139,7 +139,7 @@ export const Navbar = ({
                 </nav>
                 <div className="flex items-center gap-4">
                     <div className="hidden xl:block">
-                        <ConnectWallet />
+                        <ConnectWallet mode={mode} />
                     </div>
                     <Button
                         ref={preferencesRef}

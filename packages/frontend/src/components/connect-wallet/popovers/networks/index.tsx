@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
-import { useNetwork, useSwitchNetwork } from "wagmi";
+import { useNetwork } from "wagmi";
 import { ChainIcon } from "../../../chain-icon";
 import { AugmentedChain, SUPPORTED_CHAINS } from "../../../../constants";
 import { ChainId } from "@carrot-kpi/sdk";
@@ -9,26 +9,23 @@ import { ReactComponent as Error } from "../../../../assets/error.svg";
 
 interface NetworksPopoverProps {
     open: boolean;
-    onClose: () => void;
+    onNetworkSwitch: (chainId: number) => void;
     anchor?: HTMLElement | null;
 }
 
 export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
-    function NetworksPopover({ open, anchor, onClose }, ref) {
+    function NetworksPopover({ open, anchor, onNetworkSwitch }, ref) {
         const { chain, chains } = useNetwork();
-        const { switchNetwork } = useSwitchNetwork();
 
         const handleChainClick = useCallback(
             (event: React.MouseEvent<HTMLDivElement>) => {
-                if (!switchNetwork) return;
                 const id = (event.target as HTMLLIElement).dataset.chainId;
                 if (!id) return;
                 const intId = parseInt(id);
                 if (isNaN(intId)) return;
-                switchNetwork(intId);
-                onClose();
+                onNetworkSwitch(intId);
             },
-            [onClose, switchNetwork]
+            [onNetworkSwitch]
         );
 
         return (

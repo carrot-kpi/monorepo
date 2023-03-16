@@ -4,7 +4,7 @@ import { SUPPORTED_CHAINS } from "../../constants";
 import { ReactComponent as Error } from "../../assets/error.svg";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useTranslation } from "react-i18next";
-import { Button } from "@carrot-kpi/ui";
+import { Button, Popover, Typography } from "@carrot-kpi/ui";
 import { useNetwork, useAccount } from "wagmi";
 import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
@@ -13,11 +13,14 @@ import { AccountPopover } from "./popovers/account";
 import { useClickAway } from "react-use";
 import { Avatar } from "./avatar";
 
-// TODO: implement loading states
-export const ConnectWallet = () => {
+interface ConnectWalletProps {
+    mode: "standard" | "modal";
+}
+
+export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
-    const { address } = useAccount();
+    const { address, connector: activeConnector } = useAccount();
 
     const networksPopoverAnchorRef = useRef<HTMLDivElement>(null);
     const networksPopoverRef = useRef<HTMLDivElement>(null);
@@ -26,6 +29,8 @@ export const ConnectWallet = () => {
     const accountPopoverRef = useRef<HTMLDivElement>(null);
 
     const [networksPopoverOpen, setNetworksPopoverOpen] = useState(false);
+    const [modalNetworksPopoverOpen, setModalNetworksPopoverOpen] =
+        useState(false);
     const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [accountPopoverOpen, setAccountPopoverOpen] = useState(false);
 
@@ -45,8 +50,12 @@ export const ConnectWallet = () => {
         setNetworksPopoverOpen(true);
     }, []);
 
-    const handleNetworksPopoverClose = useCallback(() => {
-        setNetworksPopoverOpen(false);
+    const handleModalNetworksPopoverOpen = useCallback(() => {
+        setModalNetworksPopoverOpen(true);
+    }, []);
+
+    const handleModalNetworksPopoverClose = useCallback(() => {
+        setModalNetworksPopoverOpen(false);
     }, []);
 
     const handleConnectPopoverOpen = useCallback(() => {
@@ -65,6 +74,18 @@ export const ConnectWallet = () => {
         setAccountPopoverOpen(false);
     }, []);
 
+    const handleNetworkSwitchClick = useCallback(
+        async (chainId: number) => {
+            try {
+                await activeConnector?.switchChain?.(chainId);
+            } catch (error) {
+                console.warn("could not switch network", error);
+            }
+            setNetworksPopoverOpen(false);
+        },
+        [activeConnector]
+    );
+
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
     const chainName = chain?.name || t("connect.wallet.unknown");
     const supportedChain = !!chainId && !!SUPPORTED_CHAINS[chainId as ChainId];
@@ -73,11 +94,11 @@ export const ConnectWallet = () => {
         : Error;
     return (
         <>
-            {!__PREVIEW_MODE__ && (
+            {!__PREVIEW_MODE__ && mode !== "modal" && (
                 <NetworksPopover
                     open={networksPopoverOpen}
                     anchor={networksPopoverAnchorRef.current}
-                    onClose={handleNetworksPopoverClose}
+                    onNetworkSwitch={handleNetworkSwitchClick}
                     ref={networksPopoverRef}
                 />
             )}
@@ -87,6 +108,16 @@ export const ConnectWallet = () => {
                 onClose={handleConnectPopoverClose}
                 ref={connectPopoverRef}
             />
+            <Popover
+                placement="bottom"
+                open={modalNetworksPopoverOpen}
+                anchor={networksPopoverAnchorRef.current}
+                className={{ root: "p-2 w-44" }}
+            >
+                <Typography>
+                    {t("network.switch.disabled.modalMode")}
+                </Typography>
+            </Popover>
             {address && (
                 <AccountPopover
                     address={address as string}
@@ -99,9 +130,23 @@ export const ConnectWallet = () => {
             <div className="flex flex-col gap-4 xl:flex-row">
                 <div
                     className={`h-12 w-fit flex items-center ${
-                        __PREVIEW_MODE__ ? "" : "cursor-pointer"
+                        __PREVIEW_MODE__
+                            ? ""
+                            : mode === "modal"
+                            ? "cursor-not-allowed"
+                            : "cursor-pointer"
                     } gap-3`}
                     onClick={handleNetworksPopoverOpen}
+                    onMouseEnter={
+                        mode === "modal"
+                            ? handleModalNetworksPopoverOpen
+                            : undefined
+                    }
+                    onMouseLeave={
+                        mode === "modal"
+                            ? handleModalNetworksPopoverClose
+                            : undefined
+                    }
                     ref={networksPopoverAnchorRef}
                 >
                     <ChainIcon
@@ -114,14 +159,16 @@ export const ConnectWallet = () => {
                         logo={<Logo width={18} height={18} />}
                     />
                     <div className="flex flex-col">
-                        <span className="font-mono text-black text-2xs">
+                        <Typography variant="2xs">
                             {t("connect.wallet.network")}
-                        </span>
-                        <span className="font-mono text-sm text-black capitalize">
+                        </Typography>
+                        <Typography variant="sm">
                             {supportedChain ? chainName : "Unsupported"}
-                        </span>
+                        </Typography>
                     </div>
-                    {!__PREVIEW_MODE__ && <CaretDown className="w-3" />}
+                    {!__PREVIEW_MODE__ && mode !== "modal" && (
+                        <CaretDown className="w-3" />
+                    )}
                 </div>
                 {address ? (
                     <Button

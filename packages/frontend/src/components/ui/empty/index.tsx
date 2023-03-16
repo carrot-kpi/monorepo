@@ -10,15 +10,19 @@ const rootStyles = cva(
         "flex-col",
         "justify-center",
         "text-center",
-        "md:text-left",
-        "md:flex-row",
         "items-center",
         "gap-10",
     ],
     {
         variants: {
             vertical: {
-                true: ["flex-col justify-center text-center"],
+                true: [
+                    "flex-col",
+                    "justify-center",
+                    "text-center",
+                    "text-center",
+                ],
+                false: ["md:flex-row", "md:text-left"],
             },
         },
     }
@@ -43,7 +47,12 @@ export const Empty = ({
     const { t } = useTranslation();
 
     return (
-        <div className={rootStyles({ vertical, className: className?.root })}>
+        <div
+            className={rootStyles({
+                vertical: !!vertical,
+                className: className?.root,
+            })}
+        >
             <EmptyIllustration
                 className={cx("h-50 text-gray-500", className?.icon)}
             />

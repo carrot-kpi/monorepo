@@ -10,8 +10,8 @@ dataSources:
     network: gnosis
     source:
       abi: Factory
-      address: "0x0D92C8a527C8b1959Eb2112466148d262685b866"
-      startBlock: 26938324
+      address: "0x8F140C6473ab59adCe2a294EdE8d6aB485CfCb8c"
+      startBlock: 26944572
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
