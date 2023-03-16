@@ -48,7 +48,7 @@ export const CreationFormChainSwitchWarningModal = ({
 
     return (
         <Modal open={open}>
-            <div className="bg-white border border-black rounded-xl p-6 flex flex-col items-center gap-4 z-[1] max-w-md">
+            <div className="bg-white dark:bg-black border border-black dark:border-white rounded-xl p-6 flex flex-col items-center gap-4 z-[1] max-w-md">
                 {loading ? (
                     <Loader />
                 ) : (
