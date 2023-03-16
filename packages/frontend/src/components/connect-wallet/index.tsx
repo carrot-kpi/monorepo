@@ -5,14 +5,13 @@ import { ReactComponent as Error } from "../../assets/error.svg";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
 import { useTranslation } from "react-i18next";
 import { Button, Popover, Typography } from "@carrot-kpi/ui";
-import { useNetwork, useAccount, useSwitchNetwork } from "wagmi";
+import { useNetwork, useAccount } from "wagmi";
 import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
 import { useClickAway } from "react-use";
 import { Avatar } from "./avatar";
-import { useSearchParams } from "react-router-dom";
 
 interface ConnectWalletProps {
     mode: "standard" | "modal";
@@ -21,9 +20,7 @@ interface ConnectWalletProps {
 export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
-    const { address } = useAccount();
-    const { switchNetworkAsync } = useSwitchNetwork();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const { address, connector: activeConnector } = useAccount();
 
     const networksPopoverAnchorRef = useRef<HTMLDivElement>(null);
     const networksPopoverRef = useRef<HTMLDivElement>(null);
@@ -79,17 +76,14 @@ export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
 
     const handleNetworkSwitchClick = useCallback(
         async (chainId: number) => {
-            if (!switchNetworkAsync) return;
             try {
-                const switchedChain = await switchNetworkAsync(chainId);
-                searchParams.set("chain", switchedChain.name.toLowerCase());
-                setSearchParams(searchParams);
+                await activeConnector?.switchChain?.(chainId);
             } catch (error) {
-                console.warn("could not switch chain", error);
+                console.warn("could not switch network", error);
             }
             setNetworksPopoverOpen(false);
         },
-        [searchParams, setSearchParams, switchNetworkAsync]
+        [activeConnector]
     );
 
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
@@ -165,12 +159,12 @@ export const ConnectWallet = ({ mode }: ConnectWalletProps) => {
                         logo={<Logo width={18} height={18} />}
                     />
                     <div className="flex flex-col">
-                        <span className="font-mono text-black text-2xs">
+                        <Typography variant="2xs">
                             {t("connect.wallet.network")}
-                        </span>
-                        <span className="font-mono text-sm text-black capitalize">
+                        </Typography>
+                        <Typography variant="sm">
                             {supportedChain ? chainName : "Unsupported"}
-                        </span>
+                        </Typography>
                     </div>
                     {!__PREVIEW_MODE__ && mode !== "modal" && (
                         <CaretDown className="w-3" />
