@@ -1,4 +1,4 @@
-import { useKPITokens, usePage } from "@carrot-kpi/react";
+import { useKPITokens, usePage, useResetPageScroll } from "@carrot-kpi/react";
 import { Button, SelectOption, Typography } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -8,41 +8,9 @@ import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
-import { useDebounce } from "react-use";
 import { Empty } from "../../components/ui/empty";
-
-const campaignsFiltersStyles = cva(
-    [
-        "absolute lg:relative",
-        "shadow md:shadow-none",
-        "w-full lg:w-fit",
-        "p-12",
-        "bg-white",
-        "border-r border-gray-400 dark:bg-black",
-    ],
-    {
-        variants: {
-            filtersOpen: {
-                false: ["hidden"],
-            },
-        },
-    }
-);
-
-const PaginationNumber = ({ number }: { number: string | number }) => (
-    <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
-        {number}
-    </div>
-);
-
-const Pagination = () => (
-    <div className="flex mt-6 space-x-4">
-        <PaginationNumber number={1} />
-        <PaginationNumber number={2} />
-        <PaginationNumber number={"..."} />
-        <PaginationNumber number={12} />
-    </div>
-);
+import { KPIToken } from "@carrot-kpi/sdk";
+import { useSearch } from "../../hooks/useSearch";
 
 const ORDERING_OPTIONS = [
     {
@@ -71,15 +39,38 @@ const STATE_OPTIONS = [
 ];
 
 export const Campaigns = () => {
+    useResetPageScroll();
     const { t } = useTranslation();
-    const { loading, kpiTokens } = useKPITokens();
 
-    const [pageSize, setPageSize] = useState(12);
+    //  fetch KPITokens
+    const [results, setResults] = useState<KPIToken[]>([]);
+    const { searchQuery, setSearchQuery } = useSearch();
+    const { loading, kpiTokens } = useKPITokens(searchQuery);
+
+    //  show filters
     const [filtersOpen, setFilterOpen] = useState(false);
+    const toggleFilters = () => setFilterOpen(!filtersOpen);
+
+    // page settings
+    const [pageSize, setPageSize] = useState(12);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
     const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
-    const [searchQuery] = useState("");
-    const [, /* debouncedSearchQuery */ setDebouncedSearchQuery] = useState("");
+
+    // filter and sort results
+    const filteredTokens = useMemo(() => {
+        return filterKPITokens(Object.values(kpiTokens));
+    }, [kpiTokens]);
+
+    const sortedFilteredTokens = useMemo(() => {
+        return sortKPITokens(filteredTokens);
+    }, [filteredTokens]);
+
+    useEffect(() => {
+        setResults(sortedFilteredTokens);
+    }, [sortedFilteredTokens]);
+
+    const page = usePage(results, pageSize, 0);
+
     const resizeObserver = useRef(
         new ResizeObserver((entries) => {
             const { width } = entries[0].contentRect;
@@ -95,26 +86,6 @@ export const Campaigns = () => {
         })
     );
 
-    useDebounce(
-        () => {
-            setDebouncedSearchQuery(searchQuery);
-        },
-        300,
-        [searchQuery]
-    );
-
-    useEffect(() => {
-        window.scroll({ top: 0, left: 0 });
-    }, []);
-
-    const filteredTokens = useMemo(() => {
-        return filterKPITokens(Object.values(kpiTokens), undefined);
-    }, [kpiTokens]);
-    const sortedFilteredTokens = useMemo(() => {
-        return sortKPITokens(filteredTokens);
-    }, [filteredTokens]);
-    const page = usePage(sortedFilteredTokens, pageSize, 0);
-
     useEffect(() => {
         resizeObserver.current.observe(document.body);
         return () => {
@@ -122,8 +93,6 @@ export const Campaigns = () => {
             resizeObserver.current.unobserve(document.body);
         };
     }, []);
-
-    const toggleFilters = () => setFilterOpen(!filtersOpen);
 
     return (
         <Layout>
@@ -143,6 +112,7 @@ export const Campaigns = () => {
                         onStateChange={setState}
                         onToggleFilters={toggleFilters}
                         filtersOpen={filtersOpen}
+                        setSearchQuery={setSearchQuery}
                     />
                     <div className="flex">
                         <div
@@ -162,7 +132,7 @@ export const Campaigns = () => {
                         </div>
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
                             {!loading && page.length === 0 && (
-                                <div className="w-full flex justify-center">
+                                <div className="flex justify-center w-full">
                                     <Empty />
                                 </div>
                             )}
@@ -198,3 +168,36 @@ export const Campaigns = () => {
         </Layout>
     );
 };
+
+const campaignsFiltersStyles = cva(
+    [
+        "absolute lg:relative",
+        "shadow md:shadow-none",
+        "w-full lg:w-fit",
+        "p-12",
+        "bg-white",
+        "border-r border-gray-400 dark:bg-black",
+    ],
+    {
+        variants: {
+            filtersOpen: {
+                false: ["hidden"],
+            },
+        },
+    }
+);
+
+const PaginationNumber = ({ number }: { number: string | number }) => (
+    <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
+        {number}
+    </div>
+);
+
+const Pagination = () => (
+    <div className="flex mt-6 space-x-4">
+        <PaginationNumber number={1} />
+        <PaginationNumber number={2} />
+        <PaginationNumber number={"..."} />
+        <PaginationNumber number={12} />
+    </div>
+);

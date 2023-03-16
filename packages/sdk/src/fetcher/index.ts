@@ -80,6 +80,7 @@ class FullFetcher implements IFullCarrotFetcher {
         ipfsGatewayURL,
         preferDecentralization,
         addresses,
+        searchQuery,
     }: FullFetcherFetchEntitiesParams): Promise<{
         [address: string]: KPIToken;
     }> {
@@ -92,6 +93,7 @@ class FullFetcher implements IFullCarrotFetcher {
                   provider,
                   ipfsGatewayURL,
                   addresses,
+                  searchQuery,
               })
             : OnChainFetcher.fetchKPITokens({
                   provider,

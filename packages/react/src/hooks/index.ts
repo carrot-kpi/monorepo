@@ -22,3 +22,4 @@ export * from "./useTemplateModule";
 export * from "./useTheme";
 export * from "./useTokenLists";
 export * from "./useWatchData";
+export * from "./useResetPageScroll";

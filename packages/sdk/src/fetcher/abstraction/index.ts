@@ -44,6 +44,7 @@ export interface FetchEntitiesParams {
     provider: Provider;
     ipfsGatewayURL: string;
     addresses?: string[];
+    searchQuery?: string;
 }
 
 export interface FetchTemplatesParams {

@@ -9,6 +9,7 @@ import {
 } from "../abstraction";
 import {
     KPITokenData,
+    KPITokenSearchData,
     TemplateData,
     OracleData,
     GetKPITokensQuery,
@@ -26,6 +27,8 @@ import {
     GetKPITokensAmountQuery,
     GetKPITokenAddressesQueryResponse,
     GetKPITokenAddressesQuery,
+    getKPITokenBySearchQuery,
+    GetKPITokenSearchQueryResponse,
 } from "./queries";
 import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
 import { enforce } from "../../utils";
@@ -36,6 +39,9 @@ import { query } from "../../utils/subgraph";
 import { CoreFetcher } from "../core";
 
 const PAGE_SIZE = 100;
+
+type KPITokensProp = { [address: string]: KPIToken };
+type OraclesProp = { [address: string]: Oracle };
 
 const mapRawTemplate = async (
     ipfsGatewayURL: string,
@@ -126,15 +132,17 @@ const mapRawKPIToken = async (
         description = rawKPIToken.description.description;
         tags = rawKPIToken.description.tags;
     }
+
     return new KPIToken(
         chainId,
         getAddress(rawKPIToken.rawAddress),
         getAddress(rawKPIToken.rawOwner),
         await mapRawTemplate(ipfsGatewayURL, rawKPIToken.template),
+
         await Promise.all(
-            rawKPIToken.oracles.map(async (rawOracle) => {
-                return mapRawOracle(chainId, ipfsGatewayURL, rawOracle);
-            })
+            rawKPIToken.oracles.map((rawOracle) =>
+                mapRawOracle(chainId, ipfsGatewayURL, rawOracle)
+            )
         ),
         {
             ipfsHash: rawKPIToken.descriptionCid,
@@ -198,15 +206,52 @@ class Fetcher implements IPartialCarrotFetcher {
             : tokens.map(({ rawAddress }) => getAddress(rawAddress));
     }
 
+    public normalizeKpiTokens = async (
+        rawTokensList: KPITokenSearchData[] | KPITokenData[],
+        chainId: ChainId,
+        ipfsGatewayURL: string
+    ) => {
+        const kpiTokens: KPITokensProp = {};
+        await Promise.all(
+            rawTokensList.map(async (rawToken) => {
+                const kpiToken = await mapRawKPIToken(
+                    chainId,
+                    ipfsGatewayURL,
+                    "kpiToken" in rawToken ? rawToken.kpiToken : rawToken
+                );
+                kpiTokens[kpiToken.address] = kpiToken;
+            })
+        );
+
+        return kpiTokens;
+    };
+
     public async fetchKPITokens({
         provider,
         ipfsGatewayURL,
         addresses,
-    }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
+        searchQuery,
+    }: FetchEntitiesParams): Promise<KPITokensProp> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
+
+        if (!!searchQuery) {
+            const { kpiTokenSearch } =
+                await query<GetKPITokenSearchQueryResponse>(
+                    subgraphURL,
+                    getKPITokenBySearchQuery,
+                    { query: searchQuery }
+                );
+
+            return this.normalizeKpiTokens(
+                kpiTokenSearch,
+                chainId,
+                ipfsGatewayURL
+            );
+        }
+
         if (!!addresses) {
             const addressesLength = addresses.length;
             if (addressesLength === 0) return {};
@@ -216,7 +261,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 fromIndex + PAGE_SIZE > finalIndex
                     ? finalIndex
                     : fromIndex + PAGE_SIZE;
-            const kpiTokens: { [address: string]: KPIToken } = {};
+            let kpiTokens: Promise<KPITokensProp> | KPITokensProp = {};
             while (toIndex < addressesLength) {
                 const addressesChunk = addresses
                     .slice(fromIndex, toIndex + 1)
@@ -228,16 +273,13 @@ class Fetcher implements IPartialCarrotFetcher {
                         { addresses: addressesChunk }
                     );
                 if (rawKPITokens.length === 0) break;
-                await Promise.all(
-                    rawKPITokens.map(async (rawKPIToken) => {
-                        const kpiToken = await mapRawKPIToken(
-                            chainId,
-                            ipfsGatewayURL,
-                            rawKPIToken
-                        );
-                        kpiTokens[kpiToken.address] = kpiToken;
-                    })
+
+                kpiTokens = this.normalizeKpiTokens(
+                    rawKPITokens,
+                    chainId,
+                    ipfsGatewayURL
                 );
+
                 fromIndex += PAGE_SIZE;
                 toIndex =
                     fromIndex + PAGE_SIZE > finalIndex
@@ -246,9 +288,9 @@ class Fetcher implements IPartialCarrotFetcher {
             }
             return kpiTokens;
         } else {
-            const kpiTokens: { [address: string]: KPIToken } = {};
-            let lastID = "";
             let page: KPITokenData[] = [];
+            let kpiTokens: Promise<KPITokensProp> | KPITokensProp = {};
+            let lastID = "";
             do {
                 const { tokens: rawTokens } =
                     await query<GetKPITokensQueryResponse>(
@@ -258,15 +300,10 @@ class Fetcher implements IPartialCarrotFetcher {
                     );
                 page = rawTokens;
                 if (page.length === 0) break;
-                await Promise.all(
-                    page.map(async (rawKPIToken) => {
-                        const kpiToken = await mapRawKPIToken(
-                            chainId,
-                            ipfsGatewayURL,
-                            rawKPIToken
-                        );
-                        kpiTokens[kpiToken.address] = kpiToken;
-                    })
+                kpiTokens = this.normalizeKpiTokens(
+                    page,
+                    chainId,
+                    ipfsGatewayURL
                 );
                 lastID = page[page.length - 1].rawAddress;
             } while (page.length === PAGE_SIZE);
@@ -274,15 +311,38 @@ class Fetcher implements IPartialCarrotFetcher {
         }
     }
 
+    public normalizeOracle = async (
+        oraclesList: OracleData[],
+        chainId: ChainId,
+        ipfsGatewayURL: string
+    ) => {
+        const oracles: OraclesProp = {};
+
+        await Promise.all(
+            oraclesList.map(async (rawOracle) => {
+                const oracle = await mapRawOracle(
+                    chainId,
+                    ipfsGatewayURL,
+                    rawOracle
+                );
+                oracles[oracle.address] = oracle;
+            })
+        );
+
+        return oracles;
+    };
+
     public async fetchOracles({
         provider,
         ipfsGatewayURL,
         addresses,
-    }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
+    }: FetchEntitiesParams): Promise<OraclesProp> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
+        let oracles: Promise<OraclesProp> | OraclesProp = {};
+
         if (!!addresses) {
             const addressesLength = addresses.length;
             if (addressesLength === 0) return {};
@@ -292,7 +352,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 fromIndex + PAGE_SIZE > finalIndex
                     ? finalIndex
                     : fromIndex + PAGE_SIZE;
-            const oracles: { [address: string]: Oracle } = {};
+
             while (toIndex < addressesLength) {
                 const addressesChunk = addresses
                     .slice(fromIndex, toIndex + 1)
@@ -304,16 +364,12 @@ class Fetcher implements IPartialCarrotFetcher {
                         { addresses: addressesChunk }
                     );
                 if (rawOracles.length === 0) break;
-                await Promise.all(
-                    rawOracles.map(async (rawOracle) => {
-                        const oracle = await mapRawOracle(
-                            chainId,
-                            ipfsGatewayURL,
-                            rawOracle
-                        );
-                        oracles[oracle.address] = oracle;
-                    })
+                oracles = this.normalizeOracle(
+                    rawOracles,
+                    chainId,
+                    ipfsGatewayURL
                 );
+
                 fromIndex += PAGE_SIZE;
                 toIndex =
                     fromIndex + PAGE_SIZE > finalIndex
@@ -322,7 +378,6 @@ class Fetcher implements IPartialCarrotFetcher {
             }
             return oracles;
         } else {
-            const oracles: { [address: string]: Oracle } = {};
             let lastID = "";
             let page: OracleData[] = [];
             do {
@@ -333,16 +388,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 );
                 page = result.oracles;
                 if (page.length === 0) break;
-                await Promise.all(
-                    page.map(async (rawOracle) => {
-                        const oracle = await mapRawOracle(
-                            chainId,
-                            ipfsGatewayURL,
-                            rawOracle
-                        );
-                        oracles[oracle.address] = oracle;
-                    })
-                );
+                oracles = this.normalizeOracle(page, chainId, ipfsGatewayURL);
                 lastID = page[page.length - 1].rawAddress;
             } while (page.length === PAGE_SIZE);
             return oracles;

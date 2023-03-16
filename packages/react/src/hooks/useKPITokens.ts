@@ -4,7 +4,7 @@ import { useProvider } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
-export function useKPITokens(): {
+export function useKPITokens(searchQuery?: string): {
     loading: boolean;
     kpiTokens: { [address: string]: KPIToken };
 } {
@@ -24,6 +24,7 @@ export function useKPITokens(): {
             if (!cancelled) setLoading(true);
             try {
                 const kpiTokens = await Fetcher.fetchKPITokens({
+                    searchQuery,
                     provider,
                     ipfsGatewayURL,
                     preferDecentralization,
@@ -39,7 +40,7 @@ export function useKPITokens(): {
         return () => {
             cancelled = true;
         };
-    }, [ipfsGatewayURL, preferDecentralization, provider]);
+    }, [ipfsGatewayURL, preferDecentralization, provider, searchQuery]);
 
     return { loading, kpiTokens };
 }
