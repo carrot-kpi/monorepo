@@ -84,6 +84,10 @@ const labelStyles = mergedCva([
 export interface BaseCheckboxProps {
     checked?: boolean;
     id?: string;
+    className?: BaseInputWrapperProps["className"] & {
+        checkboxinputWrapper?: string;
+        checkmark?: string;
+    };
 }
 
 export type CheckboxProps = Omit<
@@ -113,9 +117,24 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         }, []);
 
         return (
-            <div className={inputWrapperStyles({ hasLabel: !!label })}>
-                <div className={checkmarkBackgroundStyles({ checked })}>
-                    <Tick className={checkmarkStyles({ checked })} />
+            <div
+                className={inputWrapperStyles({
+                    hasLabel: !!label,
+                    className: className?.inputWrapper,
+                })}
+            >
+                <div
+                    className={checkmarkBackgroundStyles({
+                        checked,
+                        className: className?.checkboxinputWrapper,
+                    })}
+                >
+                    <Tick
+                        className={checkmarkStyles({
+                            checked,
+                            className: className?.checkmark,
+                        })}
+                    />
                     <input
                         type="checkbox"
                         ref={ref}

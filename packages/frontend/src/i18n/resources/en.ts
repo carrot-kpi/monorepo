@@ -12,6 +12,9 @@ export const en = {
             "Switch back to {{chainName}} to continue using the form or use the buttons below to either close the template or confirm the network switch.",
         "network.switch.disabled.close": "Close",
         "network.switch.disabled.switch": "Switch to {{chainName}}",
+        "wrong.network.title": "Wrong network",
+        "wrong.network.description":
+            "In order to view this page please switch to {{chainName}} in your connected wallet to continue.",
         "home.createKPIToken": "Create KPI token",
         "home.noFeatured.title": "Reach your goals with a Carrot",
         "home.noFeatured.description":

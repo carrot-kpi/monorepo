@@ -43,6 +43,11 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
         const { chain } = useNetwork();
         const { data: ensName } = useEnsName({
             address: address as Address,
+            enabled: !!(
+                chain &&
+                chain.contracts &&
+                chain.contracts.ensRegistry
+            ),
         });
         const transactions = useTransactions();
         const clearTransactions = useClearTransactions();
