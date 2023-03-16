@@ -5,6 +5,7 @@ import { Chain, useAccount, useNetwork } from "wagmi";
 import { DEFAULT_CHAIN, SUPPORTED_CHAINS } from "../constants";
 import { ReactComponent as WrongNetwork } from "../assets/wrong-network.svg";
 import { useTranslation } from "react-i18next";
+import { ReadonlyConnector } from "../connectors";
 
 const SUPPORTED_CHAIN_NAMES = Object.values(SUPPORTED_CHAINS).map((c) =>
     c.name.toLowerCase()
@@ -135,6 +136,7 @@ export const MultiChainLinksUpdater = () => {
                 !!(
                     !freeSwitchingEnabled &&
                     triedSwitchingAutomatically &&
+                    !(activeConnector instanceof ReadonlyConnector) &&
                     chain?.id !== targetLandingChain?.id
                 )
             }
