@@ -1,4 +1,5 @@
 import { InjectedConnector } from "wagmi/connectors/injected";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { infuraProvider } from "wagmi/providers/infura";
@@ -6,6 +7,7 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { SUPPORTED_CHAINS } from "../constants";
 import { ReadonlyConnector } from "../connectors";
 import { Chain, ChainProviderFn, Connector } from "wagmi";
+import { FrameConnector } from "../connectors/frame";
 
 const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
 
@@ -31,14 +33,26 @@ if (!__PREVIEW_MODE__) {
             chains: standaloneSupportedChains,
             options: {
                 shimChainChangedDisconnect: true,
+                shimDisconnect: true,
                 name(detectedName) {
                     return detectedName
                         ? typeof detectedName === "string"
-                            ? detectedName
-                            : detectedName.join(", ")
-                        : "Browser Wallet";
+                            ? `Injected (${detectedName})`
+                            : `Injected (${detectedName.join(", ")})`
+                        : "Injected";
                 },
             },
+        }),
+        new MetaMaskConnector({
+            chains: standaloneSupportedChains,
+            options: {
+                shimChainChangedDisconnect: true,
+                shimDisconnect: true,
+            },
+        }),
+        new FrameConnector({
+            chains: standaloneSupportedChains,
+            options: {},
         }),
         new WalletConnectConnector({
             chains: standaloneSupportedChains,
