@@ -23,6 +23,7 @@ export class ReadonlyConnector extends Connector<
     constructor(config: { chains: Chain[]; options: object }) {
         super(config);
     }
+
     public async connect({ chainId }: { chainId?: number } = {}): Promise<
         Required<ConnectorData>
     > {
