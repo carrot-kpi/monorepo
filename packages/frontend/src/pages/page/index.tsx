@@ -7,10 +7,11 @@ import {
 import { Fetcher, KPIToken } from "@carrot-kpi/sdk";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useProvider } from "wagmi";
+import { useNetwork, useProvider } from "wagmi";
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
+import { usePrevious } from "react-use";
 
 interface PageProps {
     customBaseURL?: string;
@@ -23,6 +24,8 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const { state } = useLocation();
     const { address } = useParams();
     const provider = useProvider();
+    const { chain } = useNetwork();
+    const previousChain = usePrevious(chain);
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
 
@@ -45,6 +48,11 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     useEffect(() => {
         setShow(!closing);
     }, [closing]);
+
+    useEffect(() => {
+        if (!chain || !previousChain) return;
+        setShow(previousChain.id !== chain.id);
+    }, [chain, closing, previousChain]);
 
     useEffect(() => {
         if (state?.kpiToken) {

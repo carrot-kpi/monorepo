@@ -5,12 +5,13 @@ export const en = {
         "connect.wallet": "Connect wallet",
         "connect.wallet.unknown": "Unknown",
         "connect.wallet.network": "Network",
-        "network.switch.disabled.modalMode":
-            "Network switching is disabled while consuming templates.",
         "network.switch.disabled.title": "Chain changed.",
-        "network.switch.disabled.description":
-            "Carrot templates are chain-specific. Please switch back to {{chainName}} to continue consuming the template or click the button below to go back.",
-        "network.switch.disabled.action": "Close",
+        "network.switch.disabled.description.creationForm.templateExistsOnTargetChain.1":
+            "Carrot templates are chain specific, and by switching chain you will lose all of the form data.",
+        "network.switch.disabled.description.creationForm.templateExistsOnTargetChain.2":
+            "Switch back to {{chainName}} to continue using the form or use the buttons below to either close the template or confirm the network switch.",
+        "network.switch.disabled.close": "Close",
+        "network.switch.disabled.switch": "Switch to {{chainName}}",
         "home.createKPIToken": "Create KPI token",
         "home.noFeatured.title": "Reach your goals with a Carrot",
         "home.noFeatured.description":

@@ -14,6 +14,7 @@ import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
+import { CreationFormChainSwitchWarningModal } from "../../components/creation-form-chain-switch-warning-modal";
 
 interface CreateWithTemplateIdProps {
     closing?: boolean;
@@ -116,6 +117,11 @@ export const CreateWithTemplateId = ({
                     springStyle={style}
                     onDismiss={handleDismiss}
                 >
+                    <CreationFormChainSwitchWarningModal
+                        templateId={template?.id}
+                        onDismiss={handleDismiss}
+                        onSwitch={setTemplate}
+                    />
                     <KPITokenCreationForm
                         template={template || undefined}
                         fallback={
