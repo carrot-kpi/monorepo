@@ -103,10 +103,10 @@ export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
 
     async switchChain(chainId: number): Promise<Chain> {
         await this.getProvider({ chainId, create: true });
-        this.onChainChanged(chainId);
         const chain = this.chains.find((x) => x.id === chainId);
         if (!chain)
             throw new Error(`can't find switched chain with id ${chainId}`);
+        this.onChainChanged(chainId);
         return chain;
     }
 
