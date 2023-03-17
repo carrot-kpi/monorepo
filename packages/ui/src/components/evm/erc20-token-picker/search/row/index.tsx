@@ -42,7 +42,7 @@ const wrapperStyles = mergedCva([
     "cui-justify-center",
 ]);
 
-interface RowProps extends Partial<TokenInfoWithBalance> {
+export interface RowProps extends Partial<TokenInfoWithBalance> {
     index: number;
     style: object;
     selected?: boolean;
@@ -52,6 +52,7 @@ interface RowProps extends Partial<TokenInfoWithBalance> {
     ipfsGatewayURL?: string;
     className?: {
         root?: string;
+        wrapper?: string;
         icon?: RemoteLogoProps["className"];
         textPrimary?: TypographyProps["className"];
         textSecondary?: TypographyProps["className"];
@@ -98,7 +99,7 @@ export const Row = ({
             data-index={index}
             onClick={handleTokenClick}
         >
-            <div className={wrapperStyles()}>
+            <div className={wrapperStyles({ className: className?.wrapper })}>
                 <div className="cui-flex cui-items-center cui-gap-2 cui-pointer-events-none">
                     {loading ? (
                         <Skeleton circular width="24px" />

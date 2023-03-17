@@ -4,13 +4,12 @@ import { FixedSizeList } from "react-window";
 import { ReactComponent as X } from "../../../../assets/x.svg";
 import { mergedCva } from "../../../../utils/components";
 import { tokenInfoWithBalanceEquals } from "../../../../utils/erc20";
-import { RemoteLogoProps } from "../../../data-display/remote-logo";
 import { Typography, TypographyProps } from "../../../data-display/typography";
 import { Button, ButtonProps } from "../../../input/button";
 import { TextInput, TextInputProps } from "../../../input/text";
 import { Divider, DividerProps } from "../divider";
 import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
-import { Row } from "./row";
+import { Row, RowProps } from "./row";
 
 const rootStyles = mergedCva([
     "cui-flex",
@@ -72,10 +71,7 @@ export interface SearchProps {
         input?: TextInputProps["className"];
         listWrapper?: string;
         list?: string;
-        listItem?: string;
-        listItemIcon?: RemoteLogoProps["className"];
-        listItemTextPrimary?: TypographyProps["className"];
-        listItemTextSecondary?: TypographyProps["className"];
+        listItem?: RowProps["className"];
         emptyListText?: string;
         manageListsButtonWrapper?: string;
         manageListsButton?: ButtonProps["className"];
@@ -194,10 +190,7 @@ export const Search = ({
                                                 }
                                                 onSelect={handleSelect}
                                                 ipfsGatewayURL={ipfsGatewayURL}
-                                                className={{
-                                                    root: className?.listItem,
-                                                    icon: className?.listItemIcon,
-                                                }}
+                                                className={className?.listItem}
                                                 {...token}
                                             />
                                         );
