@@ -28,7 +28,7 @@ export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
                         !connector.ready
                     )
                         return null;
-                    const Logo = getConnectorIcon(connector.id, connector.name);
+                    const Logo = getConnectorIcon(connector.id);
                     return (
                         <div
                             key={connector.id}

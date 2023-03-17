@@ -1,21 +1,12 @@
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Connector } from "wagmi";
 import { Address, Chain, ConnectorData, normalizeChainId } from "@wagmi/core";
-import { constants } from "ethers";
 
-export const READ_ONLY_CONNECTOR_ID = "readonly";
+export const FRAME_CONNECTOR_ID = "frame";
 
-export type InjectedConnectorOptions = {
-    /** Name of connector */
-    name?: string | ((detectedName: string | string[]) => string);
-};
-
-export class ReadonlyConnector extends Connector<
-    JsonRpcProvider,
-    InjectedConnectorOptions
-> {
-    readonly id = READ_ONLY_CONNECTOR_ID;
-    readonly name = "Readonly";
+export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
+    readonly id = FRAME_CONNECTOR_ID;
+    readonly name = "Frame";
     readonly ready = true;
 
     private provider?: JsonRpcProvider;
@@ -59,8 +50,9 @@ export class ReadonlyConnector extends Connector<
 
         const unsupported = this.isChainUnsupported(id);
 
+        const signer = await provider.getSigner();
         return {
-            account: undefined as unknown as Address,
+            account: (await signer.getAddress()) as Address,
             chain: { id, unsupported },
             provider,
         };
@@ -74,8 +66,10 @@ export class ReadonlyConnector extends Connector<
         provider.removeListener("disconnect", this.onDisconnect);
     }
 
-    public async getAccount(): Promise<`0x${string}`> {
-        return constants.AddressZero;
+    public async getAccount(): Promise<Address> {
+        const provider = await this.getProvider();
+        const signer = await provider.getSigner();
+        return (await signer.getAddress()) as Address;
     }
 
     public async getChainId() {
@@ -90,9 +84,10 @@ export class ReadonlyConnector extends Connector<
         create,
     }: { chainId?: number; create?: boolean } = {}) {
         if (!this.provider || chainId || create) {
-            const rpcUrl = this.chains.find((chain) => chain.id === chainId)
-                ?.rpcUrls.default.http;
-            this.provider = new JsonRpcProvider(rpcUrl?.[0], chainId);
+            this.provider = new JsonRpcProvider(
+                "http://127.0.0.1:1248",
+                chainId
+            );
         }
         return this.provider;
     }
