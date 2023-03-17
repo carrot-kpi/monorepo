@@ -47,7 +47,7 @@ export const useSearchedTokens = (
             filterableTokens = tokensInChain.map((token, index) => {
                 return {
                     ...token,
-                    balance: rawBalances[index] as BigNumber | null,
+                    balance: rawBalances[index] as unknown as BigNumber | null,
                 };
             });
         }
