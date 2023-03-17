@@ -12,7 +12,7 @@ export enum ChainId {
     SEPOLIA = 11155111,
 }
 
-export const CACHER = new Cacher("carrot-sdk");
+export const CACHER = new Cacher("carrot-kpi-sdk");
 
 export interface ChainAddresses {
     multicall: string;

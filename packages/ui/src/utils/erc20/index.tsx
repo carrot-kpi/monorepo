@@ -1,4 +1,5 @@
 import { getAddress, isAddress } from "@ethersproject/address";
+import { CACHER } from "../../commons";
 import { TokenInfoWithBalance } from "../../components/evm/erc20-token-picker/types";
 
 const TRUST_WALLET_CHAIN: { [chainId: number]: string } = {
@@ -23,7 +24,7 @@ export const getDefaultERC20TokenLogoURL = (
 export const filterERC20Tokens = (
     tokens: TokenInfoWithBalance[],
     searchQuery?: string
-) => {
+): TokenInfoWithBalance[] => {
     if (tokens.length === 0) return [];
     if (!searchQuery) return tokens;
     if (isAddress(searchQuery)) {
@@ -61,7 +62,9 @@ const matchesSearch = (searched: string, parts: string[]): boolean => {
     );
 };
 
-export const sortERC20Tokens = (tokens: TokenInfoWithBalance[]) => {
+export const sortERC20Tokens = (
+    tokens: TokenInfoWithBalance[]
+): TokenInfoWithBalance[] => {
     return tokens.sort((a, b) => {
         const balanceA = a.balance;
         const balanceB = b.balance;
@@ -77,4 +80,46 @@ export const sortERC20Tokens = (tokens: TokenInfoWithBalance[]) => {
             return a.symbol.toLowerCase() < b.symbol.toLowerCase() ? -1 : 1;
         else return a.symbol ? -1 : b.symbol ? -1 : 0;
     });
+};
+
+export const tokenInfoWithBalanceEquals = (
+    tokenA?: TokenInfoWithBalance | null,
+    tokenB?: TokenInfoWithBalance | null
+): boolean => {
+    return !!(
+        tokenA &&
+        tokenB &&
+        tokenA.chainId === tokenB.chainId &&
+        tokenA.address.toLowerCase() === tokenB.address.toLowerCase()
+    );
+};
+
+export const cacheTokenInfoWithBalance = (
+    token: TokenInfoWithBalance
+): void => {
+    const serializableToken = { ...token };
+    const cachingKey = `imported-erc20-tokens-${serializableToken.chainId}`;
+    delete serializableToken.balance;
+    const previouslyCachedTokensInChain = CACHER.getOrDefault<
+        TokenInfoWithBalance[]
+    >(cachingKey, []);
+    if (
+        previouslyCachedTokensInChain.some((cachedToken) =>
+            tokenInfoWithBalanceEquals(serializableToken, cachedToken)
+        )
+    )
+        return;
+    previouslyCachedTokensInChain.push(serializableToken);
+    CACHER.set(
+        cachingKey,
+        previouslyCachedTokensInChain,
+        Number.MAX_SAFE_INTEGER
+    );
+};
+
+export const cachedTokenInfoWithBalanceInChain = (
+    chainId?: number | null
+): TokenInfoWithBalance[] => {
+    if (!chainId) return [];
+    return CACHER.getOrDefault(`imported-erc20-tokens-${chainId}`, []);
 };
