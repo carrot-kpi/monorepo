@@ -54,13 +54,13 @@
         "react-use": "^17.4.0",
         "react-virtualized-auto-sizer": "^1.0.7",
         "react-window": "^1.8.8",
-        "tailwind-merge": "^1.10.0",
-        "wagmi": "^0.12.2"
+        "tailwind-merge": "^1.10.0"
     },
     "peerDependencies": {
         "@fontsource/ibm-plex-mono": "^4.5.12",
         "@fontsource/inter": "^4.5.15",
-        "react": "^18.2.0"
+        "react": "^18.2.0",
+        "wagmi": "^0.9.5"
     },
     "devDependencies": {
         "@babel/core": "^7.19.3",
