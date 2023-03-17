@@ -28,19 +28,19 @@ export const MultiChainLinksUpdater = () => {
     //   is set used as the url chain param (falls back to the default network if the currently
     //   active chain is not supported). This is also set as the target chain
     useEffect(() => {
-        let targetLandingChain: Chain;
+        if (targetLandingChain || !activeConnector) return;
+
+        let targetChain: Chain;
         const chainName = searchParams.get("chain");
         if (!chainName || !supportedChainNames.includes(chainName)) {
             const currentlyActiveChainSupported =
                 chain &&
                 chains.some((supportedChain) => {
-                    supportedChain.id === chain.id;
+                    return supportedChain.id === chain.id;
                 });
-            targetLandingChain = currentlyActiveChainSupported
-                ? chain
-                : DEFAULT_CHAIN;
+            targetChain = currentlyActiveChainSupported ? chain : DEFAULT_CHAIN;
             setSearchParams((prevValue) => {
-                prevValue.set("chain", targetLandingChain.name.toLowerCase());
+                prevValue.set("chain", targetChain.name.toLowerCase());
                 return prevValue;
             });
         } else {
@@ -48,14 +48,18 @@ export const MultiChainLinksUpdater = () => {
                 (chain) => chain.name.toLowerCase() === chainName
             );
             if (!candidateTargetChain) return;
-            targetLandingChain = candidateTargetChain;
+            targetChain = candidateTargetChain;
         }
-        setTargetLandingChain(targetLandingChain);
-
-        // disabling exhaustive dependencies rule since this effect is meant to
-        // run only once when the component is mounted
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        setTargetLandingChain(targetChain);
+    }, [
+        activeConnector,
+        chain,
+        chains,
+        searchParams,
+        setSearchParams,
+        supportedChainNames,
+        targetLandingChain,
+    ]);
 
     // whenever the target landing chain is set this effect takes
     // care of automatic switching (if supported)

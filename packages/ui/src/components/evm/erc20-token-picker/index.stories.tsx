@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { ComponentMeta, DecoratorFn, Story } from "@storybook/react";
 
 import {
     ERC20TokenPicker as ERC20TokenPickerComponent,
@@ -7,18 +7,61 @@ import {
 } from ".";
 import { Button } from "../../input";
 import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
+import {
+    createClient,
+    configureChains,
+    WagmiConfig,
+    useAccount,
+    useConnect,
+} from "wagmi";
+import { gnosis } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { Typography } from "../../data-display";
+
+const CHAIN_ID = gnosis.id;
+
+const { chains, provider } = configureChains([gnosis], [publicProvider()]);
+
+const INJECTED_CONNECTOR = new InjectedConnector({ chains });
+
+const client = createClient({
+    autoConnect: true,
+    connectors: [INJECTED_CONNECTOR],
+    provider,
+});
+
+const WagmiDecorator: DecoratorFn = (Story) => {
+    return (
+        <WagmiConfig client={client}>
+            <Story />
+        </WagmiConfig>
+    );
+};
 
 export default {
     title: "EVM/ERC20 Token Picker",
     component: ERC20TokenPickerComponent,
+    decorators: [WagmiDecorator],
 } as ComponentMeta<typeof ERC20TokenPickerComponent>;
 
 const Template: Story<ERC20TokenPickerProps> = (
     props: ERC20TokenPickerProps
 ) => {
+    const {
+        connect,
+        isLoading: connecting,
+        error: connectionError,
+    } = useConnect({
+        connector: INJECTED_CONNECTOR,
+    });
+    const { address, isConnected } = useAccount();
+
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState<TokenInfoWithBalance | null>(null);
     const [list, setList] = useState<TokenListWithBalance | null>(null);
+
+    const lists = useMemo(() => (list ? [list] : []), [list]);
 
     useEffect(() => {
         let cancelled = false;
@@ -39,6 +82,10 @@ const Template: Story<ERC20TokenPickerProps> = (
         };
     }, []);
 
+    const handleConnect = useCallback(() => {
+        connect();
+    }, [connect]);
+
     const handleClick = useCallback(() => {
         setOpen(!open);
     }, [open]);
@@ -49,20 +96,37 @@ const Template: Story<ERC20TokenPickerProps> = (
 
     return (
         <>
-            <Button onClick={handleClick} loading={!list}>
-                Open
-            </Button>
+            <div className="cui-flex cui-flex-col cui-gap-2">
+                <Typography>
+                    {address
+                        ? `Displaying balances for: ${address}`
+                        : "No wallet connected"}
+                </Typography>
+                <Button
+                    onClick={isConnected ? handleClick : handleConnect}
+                    loading={connecting}
+                >
+                    {isConnected ? "Open" : "Connect wallet"}
+                </Button>
+                {connectionError && (
+                    <Typography className={{ root: "cui-text-red" }}>
+                        Connection error: {connectionError.message}
+                    </Typography>
+                )}
+            </div>
             {!!list && (
                 <ERC20TokenPickerComponent
                     {...props}
+                    loading={!list}
                     selectedToken={value}
                     onSelectedTokenChange={setValue}
                     open={open}
                     onDismiss={handleDismiss}
-                    lists={[list]}
+                    lists={lists}
                     selectedList={list}
-                    // Goerli
-                    chainId={5}
+                    chainId={CHAIN_ID}
+                    withBalances
+                    accountAddress={address}
                     messages={{
                         search: {
                             title: "Title tokens",

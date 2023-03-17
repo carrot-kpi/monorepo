@@ -1,8 +1,23 @@
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, {
+    ChangeEvent,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { Search, SearchProps } from "./search";
 import { Modal } from "../../utils/modal";
 import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
 import { ManageLists, ManageListsProps } from "./manage-lists";
+import { useSearchedTokens } from "./hooks/useSearchedTokens";
+import { FixedSizeList } from "react-window";
+import { useDebounce } from "react-use";
+import { useImportableToken } from "./hooks/useImportableToken";
+import {
+    cacheTokenInfoWithBalance,
+    tokenInfoWithBalanceEquals,
+} from "../../../utils/erc20";
 
 export * from "./types";
 
@@ -18,6 +33,8 @@ export interface ERC20TokenPickerProps {
     loading?: boolean;
     selectedToken?: TokenInfoWithBalance | null;
     onSelectedTokenChange?: (token: TokenInfoWithBalance) => void;
+    withBalances?: boolean;
+    accountAddress?: string;
     chainId?: number;
     lists?: TokenListWithBalance[];
     selectedList?: TokenListWithBalance;
@@ -37,6 +54,8 @@ export function ERC20TokenPicker({
     onDismiss,
     loading,
     onSelectedTokenChange,
+    withBalances,
+    accountAddress,
     selectedToken,
     chainId,
     lists,
@@ -48,9 +67,64 @@ export function ERC20TokenPicker({
     const [currentView, setCurrentView] =
         useState<ERC20TokenPickerView>("search");
 
-    useLayoutEffect(() => {
-        if (open) setCurrentView("search");
+    const fixedListRef = useRef<FixedSizeList>(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
+
+    useDebounce(
+        () => {
+            setDebouncedQuery(searchQuery);
+        },
+        300,
+        [searchQuery]
+    );
+
+    const { tokens: searchableTokens, loadingBalances } = useSearchedTokens(
+        debouncedQuery,
+        chainId,
+        selectedList,
+        withBalances,
+        accountAddress
+    );
+    const { importableToken, loadingBalance: loadingImportableTokenBalance } =
+        useImportableToken(
+            debouncedQuery,
+            chainId,
+            withBalances,
+            accountAddress
+        );
+
+    const tokens = useMemo(() => {
+        return importableToken ? [importableToken] : searchableTokens;
+    }, [importableToken, searchableTokens]);
+
+    // on open, clear the search query and scroll to the top of the list
+    useEffect(() => {
+        if (!open) return;
+        setCurrentView("search");
+        setSearchQuery("");
+        if (!!fixedListRef.current) fixedListRef.current.scrollTo(0);
     }, [open]);
+
+    const handleSearchChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            setSearchQuery(event.target.value);
+            if (!!fixedListRef.current) fixedListRef.current.scrollTo(0);
+        },
+        []
+    );
+
+    const handleSelectedTokenChange = useCallback(
+        (token: TokenInfoWithBalance) => {
+            if (tokenInfoWithBalanceEquals(importableToken, token)) {
+                cacheTokenInfoWithBalance(token);
+                setDebouncedQuery("");
+                setSearchQuery("");
+            }
+            if (onSelectedTokenChange) onSelectedTokenChange(token);
+        },
+        [importableToken, onSelectedTokenChange]
+    );
 
     const handleManageListsClick = useCallback(() => {
         setCurrentView("manage-lists");
@@ -64,14 +138,19 @@ export function ERC20TokenPicker({
         <Modal open={open} onDismiss={onDismiss}>
             {currentView === "search" && (
                 <Search
-                    open={open}
+                    tokens={tokens}
+                    searchQuery={searchQuery}
+                    onSearchQueryChange={handleSearchChange}
+                    loadingBalances={
+                        loadingBalances ||
+                        !!(importableToken && loadingImportableTokenBalance)
+                    }
+                    fixedListRef={fixedListRef}
                     onDismiss={onDismiss}
                     loading={loading}
-                    onSelectedTokenChange={onSelectedTokenChange}
+                    onSelectedTokenChange={handleSelectedTokenChange}
                     selectedToken={selectedToken}
-                    chainId={chainId}
                     lists={lists}
-                    selectedList={selectedList}
                     onManageLists={handleManageListsClick}
                     className={className?.search}
                     messages={messages.search}
