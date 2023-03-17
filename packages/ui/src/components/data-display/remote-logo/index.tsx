@@ -1,11 +1,40 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { mergedCva } from "../../../utils/components";
 import { resolveSrc } from "../../../utils/url";
+import { Skeleton } from "../../feedback";
 
-const rootStyles = mergedCva(
+const BAD_SRC: Record<string, boolean> = {};
+
+const rootStyles = mergedCva(["cui-relative"], {
+    variants: {
+        size: {
+            sm: ["cui-w-6", "cui-h-6"],
+            md: ["cui-w-7", "cui-h-7"],
+            lg: ["cui-w-8", "cui-h-8"],
+            xl: ["cui-w-9", "cui-h-9"],
+            "2xl": ["cui-w-10", "cui-h-10"],
+        },
+    },
+});
+
+const imgStyles = mergedCva(["cui-rounded-full", "cui-absolute"], {
+    variants: {
+        size: {
+            sm: ["cui-w-6", "cui-h-6"],
+            md: ["cui-w-7", "cui-h-7"],
+            lg: ["cui-w-8", "cui-h-8"],
+            xl: ["cui-w-9", "cui-h-9"],
+            "2xl": ["cui-w-10", "cui-h-10"],
+        },
+    },
+});
+
+const fallbackStyles = mergedCva(
     [
         "cui-bg-black",
+        "cui-text-white",
         "dark:cui-bg-white",
+        "dark:cui-text-black",
         "cui-rounded-full",
         "cui-flex",
         "cui-justify-center",
@@ -14,7 +43,7 @@ const rootStyles = mergedCva(
     {
         variants: {
             size: {
-                sm: ["cui-text-2xs", "cui-w-6", "cui-h-6"],
+                sm: ["cui-text-3xs", "cui-w-6", "cui-h-6"],
                 md: ["cui-text-2xs", "cui-w-7", "cui-h-7"],
                 lg: ["cui-text-xs", "cui-w-8", "cui-h-8"],
                 xl: ["cui-text-sm", "cui-w-9", "cui-h-9"],
@@ -41,39 +70,38 @@ export const RemoteLogo = ({
     ipfsGatewayURL,
     className,
 }: RemoteLogoProps) => {
-    const [resolvedSrcs] = useState(
-        resolveSrc(src, ipfsGatewayURL, defaultSrc)
-    );
-    const [resolvedDefaultText, setResolvedDefaultText] = useState("");
-    const [srcIndex, setSrcIndex] = useState(0);
+    const [, refresh] = useState(0);
 
-    useEffect(() => {
-        setResolvedDefaultText(
-            !!defaultText
-                ? defaultText.length > 4
-                    ? `${defaultText.slice(0, 3).toUpperCase()}`
-                    : defaultText.toUpperCase()
-                : "?"
-        );
-    }, [defaultText]);
+    const resolvedSrcs = resolveSrc(src, ipfsGatewayURL, defaultSrc);
 
-    const handleError = useCallback(() => {
-        setSrcIndex(srcIndex + 1);
-    }, [srcIndex]);
-
-    if (!!resolvedSrcs[srcIndex]) {
+    const resolvedSrc = resolvedSrcs.find((s) => !BAD_SRC[s]);
+    if (resolvedSrc) {
         return (
-            <img
-                className={rootStyles({ size, className: className?.root })}
-                src={resolvedSrcs[srcIndex]}
-                onError={handleError}
-            />
+            <div className={rootStyles({ size, className: className?.root })}>
+                <Skeleton
+                    circular
+                    width="100%"
+                    className={{ root: "cui-absolute cui-inset-pixel" }}
+                />
+                <img
+                    className={imgStyles({ size })}
+                    src={resolvedSrc}
+                    onError={() => {
+                        BAD_SRC[resolvedSrc] = true;
+                        refresh((prevState) => prevState + 1);
+                    }}
+                />
+            </div>
         );
     }
     return (
-        <div className={rootStyles({ size, className: className?.root })}>
+        <div className={fallbackStyles({ size, className: className?.root })}>
             <div className="cui-font-mono cui-text-white dark:cui-text-black">
-                {resolvedDefaultText}
+                {!!defaultText
+                    ? defaultText.length > 4
+                        ? `${defaultText.slice(0, 3).toUpperCase()}`
+                        : defaultText.toUpperCase()
+                    : "?"}
             </div>
         </div>
     );

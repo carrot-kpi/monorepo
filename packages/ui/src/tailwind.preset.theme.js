@@ -31,6 +31,7 @@ exports.theme = {
         "gray-100": "#F6F6F6",
     },
     fontSize: {
+        "3xs": ["0.52rem", { lineHeight: "0.78rem" }],
         "2xs": ["0.625rem", { lineHeight: "0.9375rem" }],
         xs: ["0.75rem", { lineHeight: "1.125rem" }],
         sm: ["0.875rem", { lineHeight: "1.311rem" }],
