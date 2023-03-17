@@ -5,7 +5,6 @@ import React, {
     ReactNode,
     useCallback,
     useId,
-    useRef,
     useState,
 } from "react";
 import { mergedCva } from "../../../utils/components";
@@ -96,7 +95,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
     ref
 ): ReactElement {
     const generatedId = useId();
-    const infoIconRef = useRef<SVGSVGElement>(null);
+    const [infoIcon, setInfoIcon] = useState<SVGSVGElement | null>(null);
     const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
 
     const resolvedId = id || generatedId;
@@ -147,7 +146,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
                 {info && (
                     <>
                         <InfoIcon
-                            ref={infoIconRef}
+                            ref={setInfoIcon}
                             className={infoIconStyles({
                                 className: className?.infoIcon,
                             })}
@@ -155,7 +154,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
                             onMouseLeave={handleInfoMouseExit}
                         />
                         <Popover
-                            anchor={infoIconRef.current}
+                            anchor={infoIcon}
                             open={infoPopoverOpen}
                             className={{
                                 root: `cui-p-2 ${className?.infoPopover}`,

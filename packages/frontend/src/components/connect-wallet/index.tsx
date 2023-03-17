@@ -1,5 +1,5 @@
 import { ChainId } from "@carrot-kpi/sdk";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SUPPORTED_CHAINS } from "../../constants";
 import { ReactComponent as Error } from "../../assets/error.svg";
 import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
@@ -10,7 +10,6 @@ import { ChainIcon } from "../chain-icon";
 import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
-import { useClickAway } from "react-use";
 import { Avatar } from "./avatar";
 
 export const ConnectWallet = () => {
@@ -18,9 +17,12 @@ export const ConnectWallet = () => {
     const { chain } = useNetwork();
     const { address, connector: activeConnector } = useAccount();
 
-    const networksPopoverAnchorRef = useRef<HTMLDivElement>(null);
+    const [networksPopoverAnchor, setNetworksPopoverAnchor] =
+        useState<HTMLDivElement | null>(null);
+    const [connectWallet, setConnectWallet] =
+        useState<HTMLButtonElement | null>(null);
+
     const networksPopoverRef = useRef<HTMLDivElement>(null);
-    const connectWalletRef = useRef<HTMLButtonElement>(null);
     const connectPopoverRef = useRef<HTMLDivElement>(null);
     const accountPopoverRef = useRef<HTMLDivElement>(null);
 
@@ -28,18 +30,29 @@ export const ConnectWallet = () => {
     const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [accountPopoverOpen, setAccountPopoverOpen] = useState(false);
 
-    useClickAway(networksPopoverRef, () => {
-        setNetworksPopoverOpen(false);
-    });
-
-    useClickAway(connectPopoverRef, () => {
-        setConnectPopoverOpen(false);
-    });
-
-    useClickAway(accountPopoverRef, () => {
-        setAccountPopoverOpen(false);
-    });
-
+    useEffect(() => {
+        const handleMouseDown = (event: MouseEvent) => {
+            if (
+                networksPopoverRef.current &&
+                !networksPopoverRef.current.contains(event.target as Node)
+            )
+                setNetworksPopoverOpen(false);
+            if (
+                connectPopoverRef.current &&
+                !connectPopoverRef.current.contains(event.target as Node)
+            )
+                setConnectPopoverOpen(false);
+            if (
+                accountPopoverRef.current &&
+                !accountPopoverRef.current.contains(event.target as Node)
+            )
+                setAccountPopoverOpen(false);
+        };
+        document.addEventListener("mousedown", handleMouseDown);
+        return () => {
+            window.removeEventListener("mousedown", handleMouseDown);
+        };
+    }, []);
     const handleNetworksPopoverOpen = useCallback(() => {
         setNetworksPopoverOpen(true);
     }, []);
@@ -83,14 +96,14 @@ export const ConnectWallet = () => {
             {!__PREVIEW_MODE__ && (
                 <NetworksPopover
                     open={networksPopoverOpen}
-                    anchor={networksPopoverAnchorRef.current}
+                    anchor={networksPopoverAnchor}
                     onNetworkSwitch={handleNetworkSwitchClick}
                     ref={networksPopoverRef}
                 />
             )}
             <ConnectPopover
                 open={connectPopoverOpen}
-                anchor={connectWalletRef.current}
+                anchor={connectWallet}
                 onClose={handleConnectPopoverClose}
                 ref={connectPopoverRef}
             />
@@ -98,7 +111,7 @@ export const ConnectWallet = () => {
                 <AccountPopover
                     address={address as string}
                     open={accountPopoverOpen}
-                    anchor={connectWalletRef.current}
+                    anchor={connectWallet}
                     onClose={handleAccountPopoverClose}
                     ref={accountPopoverRef}
                 />
@@ -109,7 +122,7 @@ export const ConnectWallet = () => {
                         __PREVIEW_MODE__ ? "" : "cursor-pointer"
                     } gap-3`}
                     onClick={handleNetworksPopoverOpen}
-                    ref={networksPopoverAnchorRef}
+                    ref={setNetworksPopoverAnchor}
                 >
                     <ChainIcon
                         backgroundColor={
@@ -132,7 +145,7 @@ export const ConnectWallet = () => {
                 </div>
                 {address ? (
                     <Button
-                        ref={connectWalletRef}
+                        ref={setConnectWallet}
                         onClick={handleAccountPopoverOpen}
                         className={{
                             root: "w-12 h-12 p-0",
@@ -142,7 +155,7 @@ export const ConnectWallet = () => {
                     </Button>
                 ) : (
                     <Button
-                        ref={connectWalletRef}
+                        ref={setConnectWallet}
                         onClick={handleConnectPopoverOpen}
                         className={{
                             root: "h-12 px-3 w-full xl:w-fit",

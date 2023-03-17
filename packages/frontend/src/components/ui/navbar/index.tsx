@@ -82,7 +82,8 @@ export const Navbar = ({
     onDismiss,
     links,
 }: NavbarProps) => {
-    const preferencesRef = useRef<HTMLButtonElement>(null);
+    const [preferencesAnchor, setPreferencesAnchor] =
+        useState<HTMLButtonElement | null>(null);
     const preferencesPopoverRef = useRef<HTMLDivElement>(null);
     const { width } = useWindowSize();
 
@@ -137,7 +138,7 @@ export const Navbar = ({
                         <ConnectWallet />
                     </div>
                     <Button
-                        ref={preferencesRef}
+                        ref={setPreferencesAnchor}
                         size="small"
                         onClick={handlePreferencesPopoverOpen}
                         icon={SettingsIcon}
@@ -147,7 +148,7 @@ export const Navbar = ({
                     />
                     <PreferencesPopover
                         open={preferencesPopoverOpen}
-                        anchor={preferencesRef.current}
+                        anchor={preferencesAnchor}
                         ref={preferencesPopoverRef}
                     />
                     <div className="flex items-center">

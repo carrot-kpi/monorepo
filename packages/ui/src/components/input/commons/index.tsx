@@ -5,7 +5,6 @@ import React, {
     ReactElement,
     ReactNode,
     useCallback,
-    useRef,
     useState,
 } from "react";
 import { ReactComponent as DangerIcon } from "../../../assets/danger-icon.svg";
@@ -219,7 +218,7 @@ export const BaseInputWrapper = ({
     className,
     children,
 }: BaseInputWrapperProps): ReactElement => {
-    const infoIconRef = useRef<SVGSVGElement>(null);
+    const [infoIcon, setInfoIcon] = useState<SVGSVGElement | null>(null);
 
     const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
 
@@ -274,7 +273,7 @@ export const BaseInputWrapper = ({
                     {info && (
                         <>
                             <InfoIcon
-                                ref={infoIconRef}
+                                ref={setInfoIcon}
                                 className={infoIconStyles({
                                     className: className?.infoIcon,
                                 })}
@@ -282,7 +281,7 @@ export const BaseInputWrapper = ({
                                 onMouseLeave={handleInfoMouseExit}
                             />
                             <Popover
-                                anchor={infoIconRef.current}
+                                anchor={infoIcon}
                                 open={infoPopoverOpen}
                                 className={{
                                     root: `cui-p-2 ${className?.infoPopover}`,
