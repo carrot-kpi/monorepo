@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
     Popover,
     Select,
@@ -27,7 +27,8 @@ export const PreferencesPopover = forwardRef<
     const { t } = useTranslation();
     const preferDecentralization = usePreferDecentralization();
     const setPreferDecentralization = useSetPreferDecentralization();
-    const darkThemeSwitchRef = useRef<HTMLDivElement>(null);
+    const [darkThemeSwitch, setDarkThemeSwitch] =
+        useState<HTMLDivElement | null>(null);
     const themeOptions = useMemo(() => {
         const options: SelectOption[] = [
             {
@@ -71,7 +72,7 @@ export const PreferencesPopover = forwardRef<
                 <Typography>{t("preferences.theme")}</Typography>
                 <Popover
                     className={{ root: "p-2" }}
-                    anchor={darkThemeSwitchRef.current}
+                    anchor={darkThemeSwitch}
                     open={darkThemePopoverOpen}
                 >
                     <Typography>{t("coming.soon.dark.theme")}</Typography>
@@ -79,7 +80,7 @@ export const PreferencesPopover = forwardRef<
                 <div
                     onMouseEnter={handleDarkThemeSwitchMouseEnter}
                     onMouseLeave={handleDarkThemeSwitchMouseLeave}
-                    ref={darkThemeSwitchRef}
+                    ref={setDarkThemeSwitch}
                 >
                     <Select
                         id="theme-select"

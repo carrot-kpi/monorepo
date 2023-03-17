@@ -1,5 +1,5 @@
 import { Popover } from "@carrot-kpi/ui";
-import React, { ReactNode, useCallback, useRef, useState } from "react";
+import React, { ReactNode, useCallback, useState } from "react";
 import { ReactComponent as Info } from "../../assets/info.svg";
 
 interface InfoPopoverProps {
@@ -7,7 +7,7 @@ interface InfoPopoverProps {
 }
 
 export const InfoPopover = ({ children }: InfoPopoverProps) => {
-    const iconRef = useRef<SVGSVGElement>(null);
+    const [icon, setIcon] = useState<SVGSVGElement | null>(null);
 
     const [show, setShow] = useState(false);
 
@@ -23,12 +23,12 @@ export const InfoPopover = ({ children }: InfoPopoverProps) => {
         <>
             <Info
                 className="w-5 h-5 text-sm text-gray-500 dark:text-gray-600"
-                ref={iconRef}
+                ref={setIcon}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             />
             <Popover
-                anchor={iconRef.current}
+                anchor={icon}
                 open={show}
                 placement="auto"
                 className={{ root: "z-50 px-3 py-2" }}

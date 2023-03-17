@@ -127,6 +127,7 @@ export const MultiChainLinksUpdater = () => {
         <Modal
             open={
                 !!(
+                    targetLandingChain &&
                     !freeSwitchingEnabled &&
                     triedSwitchingAutomatically &&
                     !(activeConnector instanceof ReadonlyConnector) &&

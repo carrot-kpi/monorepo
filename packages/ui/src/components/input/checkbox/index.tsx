@@ -4,7 +4,6 @@ import React, {
     ReactElement,
     useCallback,
     useId,
-    useRef,
     useState,
 } from "react";
 import { Typography } from "../../data-display";
@@ -103,7 +102,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         ref
     ): ReactElement {
         const generatedId = useId();
-        const infoIconRef = useRef<SVGSVGElement>(null);
+        const [infoIcon, setInfoIcon] = useState<SVGSVGElement | null>(null);
         const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
 
         const resolvedId = id || generatedId;
@@ -156,7 +155,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                     {info && (
                         <>
                             <InfoIcon
-                                ref={infoIconRef}
+                                ref={setInfoIcon}
                                 className={infoIconStyles({
                                     className: className?.infoIcon,
                                 })}
@@ -164,7 +163,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                                 onMouseLeave={handleInfoMouseExit}
                             />
                             <Popover
-                                anchor={infoIconRef.current}
+                                anchor={infoIcon}
                                 open={infoPopoverOpen}
                                 className={{
                                     root: `cui-p-2 ${className?.infoPopover}`,

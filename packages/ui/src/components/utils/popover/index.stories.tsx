@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ComponentMeta, Story } from "@storybook/react";
 
 import { Popover as PopoverComponent, PopoverProps } from ".";
@@ -10,7 +10,7 @@ export default {
 } as ComponentMeta<typeof PopoverComponent>;
 
 const Template: Story<PopoverProps> = (props: PopoverProps) => {
-    const anchorRef = useRef<HTMLDivElement>(null);
+    const [anchor, setAnchor] = useState<HTMLDivElement | null>(null);
     const [open, setOpen] = useState(false);
 
     const handleMouseEnter = useCallback(() => {
@@ -26,12 +26,12 @@ const Template: Story<PopoverProps> = (props: PopoverProps) => {
             <Typography
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                ref={anchorRef}
+                ref={setAnchor}
                 className={{ root: "cui-w-fit" }}
             >
                 Hover me to show the popover
             </Typography>
-            <PopoverComponent {...props} open={open} anchor={anchorRef.current}>
+            <PopoverComponent {...props} open={open} anchor={anchor}>
                 <div className="cui-bg-white dark:cui-bg-black cui-text-black dark:cui-white-black cui-p-3 cui-rounded-xl">
                     <Typography>Hello world!</Typography>
                 </div>
