@@ -1,20 +1,20 @@
 import { Modal, Typography } from "@carrot-kpi/ui";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Chain, useAccount, useNetwork } from "wagmi";
-import { DEFAULT_CHAIN, SUPPORTED_CHAINS } from "../constants";
+import { DEFAULT_CHAIN } from "../constants";
 import { ReactComponent as WrongNetwork } from "../assets/wrong-network.svg";
 import { useTranslation } from "react-i18next";
-
-const SUPPORTED_CHAIN_NAMES = Object.values(SUPPORTED_CHAINS).map((c) =>
-    c.name.toLowerCase()
-);
+import { ReadonlyConnector } from "../connectors";
 
 export const MultiChainLinksUpdater = () => {
     const { t } = useTranslation();
     const { chain, chains } = useNetwork();
     const { connector: activeConnector } = useAccount();
     const [searchParams, setSearchParams] = useSearchParams();
+    const supportedChainNames = useMemo(() => {
+        return Object.values(chains).map((c) => c.name.toLowerCase());
+    }, [chains]);
     const [targetLandingChain, setTargetLandingChain] = useState<Chain | null>(
         null
     );
@@ -30,7 +30,7 @@ export const MultiChainLinksUpdater = () => {
     useEffect(() => {
         let targetLandingChain: Chain;
         const chainName = searchParams.get("chain");
-        if (!chainName || !SUPPORTED_CHAIN_NAMES.includes(chainName)) {
+        if (!chainName || !supportedChainNames.includes(chainName)) {
             const currentlyActiveChainSupported =
                 chain &&
                 chains.some((supportedChain) => {
@@ -95,19 +95,9 @@ export const MultiChainLinksUpdater = () => {
     // This hook simply enables free network switching once the target and currently
     // enabled networks match for the first time.
     useEffect(() => {
-        if (freeSwitchingEnabled) return;
-        setFreeSwitchingEnabled(
-            !!(
-                triedSwitchingAutomatically &&
-                chain?.id === targetLandingChain?.id
-            )
-        );
-    }, [
-        chain,
-        freeSwitchingEnabled,
-        targetLandingChain,
-        triedSwitchingAutomatically,
-    ]);
+        if (freeSwitchingEnabled || !chain || !targetLandingChain) return;
+        setFreeSwitchingEnabled(chain?.id === targetLandingChain?.id);
+    }, [chain, freeSwitchingEnabled, targetLandingChain]);
 
     // this hook keeps the url chain in sync with the currently selected chain
     // on carrot.
@@ -119,7 +109,7 @@ export const MultiChainLinksUpdater = () => {
                 const currentChain = chain.name.toLowerCase();
                 if (
                     currentURLChain === currentChain ||
-                    !SUPPORTED_CHAIN_NAMES.includes(currentChain)
+                    !supportedChainNames.includes(currentChain)
                 )
                     return prevValue;
                 prevValue.set("chain", chain.name.toLowerCase());
@@ -127,7 +117,7 @@ export const MultiChainLinksUpdater = () => {
             },
             { replace: true }
         );
-    }, [chain, freeSwitchingEnabled, setSearchParams]);
+    }, [chain, freeSwitchingEnabled, setSearchParams, supportedChainNames]);
 
     return (
         <Modal
@@ -135,6 +125,7 @@ export const MultiChainLinksUpdater = () => {
                 !!(
                     !freeSwitchingEnabled &&
                     triedSwitchingAutomatically &&
+                    !(activeConnector instanceof ReadonlyConnector) &&
                     chain?.id !== targetLandingChain?.id
                 )
             }

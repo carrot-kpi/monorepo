@@ -1,9 +1,15 @@
-import { TextInput } from "@carrot-kpi/ui";
-import { Select, SelectOption } from "@carrot-kpi/ui";
-import React /* , { ChangeEvent } */ from "react";
+import React, {
+    ChangeEvent,
+    Dispatch,
+    SetStateAction,
+    useCallback,
+    useState,
+} from "react";
+import { TextInput, Select, SelectOption } from "@carrot-kpi/ui";
 import { ToggleFiltersButton } from "./toggle-filters-button";
 import { ReactComponent as MagnifyingLens } from "../../../assets/magnifying-lens.svg";
 import { t } from "i18next";
+import { SearchQueryProp } from "../../../hooks/useSearch";
 
 interface CampaignsTopNavProps {
     ordering: SelectOption;
@@ -14,7 +20,7 @@ interface CampaignsTopNavProps {
     onStateChange: (option: SelectOption) => void;
     onToggleFilters: () => void;
     filtersOpen: boolean;
-    // onSearchQueryChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    setSearchQuery: Dispatch<SetStateAction<SearchQueryProp>>;
 }
 
 export const CampaignsTopNav = ({
@@ -26,8 +32,21 @@ export const CampaignsTopNav = ({
     onStateChange,
     onToggleFilters,
     filtersOpen,
-}: // onSearchQueryChange,
-CampaignsTopNavProps) => {
+    setSearchQuery,
+}: CampaignsTopNavProps) => {
+    const [searchInputValue, setSearchInputValue] = useState<
+        string | undefined
+    >();
+
+    const handleSearchChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>): void => {
+            const inputValue = event.target.value;
+            setSearchQuery(inputValue);
+            setSearchInputValue(inputValue);
+        },
+        [setSearchQuery]
+    );
+
     return (
         <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12 dark:bg-black">
             <div className="flex flex-col items-center justify-between w-full md:flex-row">
@@ -70,11 +89,11 @@ CampaignsTopNavProps) => {
                 <TextInput
                     icon={MagnifyingLens}
                     iconPlacement="left"
+                    type="search"
                     placeholder={t("search")}
                     id="search-input-campaigns"
-                    onChange={() => {
-                        // avoid linting error
-                    }}
+                    onChange={handleSearchChange}
+                    value={searchInputValue}
                 />
             </div>
         </div>

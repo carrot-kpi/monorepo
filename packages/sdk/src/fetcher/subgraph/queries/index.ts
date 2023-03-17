@@ -58,6 +58,10 @@ export interface KPITokenData {
     finalized: boolean;
 }
 
+export interface KPITokenSearchData {
+    kpiToken: KPITokenData;
+}
+
 const KPITokenDataFields = `
     rawAddress: id
     rawOwner: owner
@@ -114,6 +118,20 @@ export const GetKPITokenAddressesQuery = `
 export interface GetKPITokensQueryResponse {
     tokens: KPITokenData[];
 }
+
+export interface GetKPITokenSearchQueryResponse {
+    kpiTokenSearch: [{ kpiToken: KPITokenData }];
+}
+
+export const getKPITokenBySearchQuery = `
+query getKPITokensBySearch($query: String){
+    kpiTokenSearch(text: $query) {
+        kpiToken {
+            ${KPITokenDataFields}
+        }
+   }
+} 
+`;
 
 export const GetKPITokenByAddressesQuery = `
     query getKPITokenByAddresses($addresses: [Bytes!]!) {
