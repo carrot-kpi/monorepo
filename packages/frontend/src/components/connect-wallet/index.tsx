@@ -31,7 +31,7 @@ export const ConnectWallet = () => {
     const [accountPopoverOpen, setAccountPopoverOpen] = useState(false);
 
     useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
+        const handleMouseDown = (event: MouseEvent) => {
             if (
                 networksPopoverRef.current &&
                 !networksPopoverRef.current.contains(event.target as Node)
@@ -48,9 +48,9 @@ export const ConnectWallet = () => {
             )
                 setAccountPopoverOpen(false);
         };
-        document.addEventListener("mousedown", handleClick);
+        document.addEventListener("mousedown", handleMouseDown);
         return () => {
-            window.removeEventListener("mousedown", handleClick);
+            window.removeEventListener("mousedown", handleMouseDown);
         };
     }, []);
     const handleNetworksPopoverOpen = useCallback(() => {
