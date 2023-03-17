@@ -42,9 +42,9 @@ export const useImportableToken = (
     // whenever the query is not an address anymore and the importable
     // token is there in the state, erase it
     useEffect(() => {
-        if (!debouncedQuery || !isAddress(debouncedQuery))
+        if ((!debouncedQuery || !isAddress(debouncedQuery)) && importableToken)
             setImportableToken(null);
-    }, [debouncedQuery]);
+    }, [debouncedQuery, importableToken]);
 
     // whenever the wagmi hook fetches an importable token, set it in
     // the internal state
