@@ -1,4 +1,4 @@
-import { Address, ConnectorData, Signer } from "@wagmi/core";
+import { Address, Chain, ConnectorData, Signer } from "@wagmi/core";
 import { providers, Wallet } from "ethers";
 import { Connector } from "wagmi";
 
@@ -23,7 +23,7 @@ export class CarrotConnector extends Connector<
     private readonly provider: providers.JsonRpcProvider;
     private readonly signer: Signer;
 
-    constructor(config: { options: CarrotConnectorOptions }) {
+    constructor(config: { chains: Chain[]; options: CarrotConnectorOptions }) {
         super(config);
         this.provider = new providers.JsonRpcProvider(config.options.rpcURL);
         this.signer = new Wallet(config.options.privateKey).connect(
