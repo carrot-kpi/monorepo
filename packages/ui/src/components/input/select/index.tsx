@@ -20,6 +20,7 @@ import { mergedCva } from "../../../utils/components";
 const dropdownRootStyles = mergedCva([
     "cui-rounded-xxl",
     "cui-border",
+    "cui-max-h-48",
     "cui-bg-white",
     "dark:cui-bg-black",
     "dark:cui-border-white",
@@ -27,10 +28,18 @@ const dropdownRootStyles = mergedCva([
     "cui-overflow-hidden",
 ]);
 
+const optionListStyles = mergedCva([
+    "cui-max-h-48",
+    "cui-w-full",
+    "cui-scrollbar",
+    "cui-overflow-y-auto",
+]);
+
 const optionStyles = mergedCva(
     [
         "cui-cursor-pointer",
         "cui-p-3",
+        "cui-h-12",
         "cui-font-mono",
         "cui-font-normal",
         "cui-outline-none",
@@ -79,6 +88,7 @@ export type SelectProps<O extends SelectOption = SelectOption> = {
         inputRoot?: string;
         wrapper?: string;
         dropdownRoot?: string;
+        list?: string;
         option?: string;
         customOptionWrapper?: string;
     };
@@ -154,7 +164,12 @@ const Component = <O extends SelectOption>(
                 }}
                 ref={dropdownRef}
             >
-                <ul style={{ width: anchorEl?.parentElement?.clientWidth }}>
+                <ul
+                    style={{ width: anchorEl?.parentElement?.clientWidth }}
+                    className={optionListStyles({
+                        className: className?.list,
+                    })}
+                >
                     {options.map((option) => {
                         return (
                             <li
@@ -164,7 +179,7 @@ const Component = <O extends SelectOption>(
                                 })}
                                 onClick={handlePick}
                                 data-value={JSON.stringify(option)}
-                                key={option.label}
+                                key={option.value}
                             >
                                 {!!renderOption ? (
                                     <div
