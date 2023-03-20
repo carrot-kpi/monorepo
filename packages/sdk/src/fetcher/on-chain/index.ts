@@ -21,6 +21,8 @@ import {
     IPartialCarrotFetcher,
 } from "../abstraction";
 import { BaseFetcher, FetcherBaseProps } from "../base";
+import { searchKPItokens } from "../search";
+import { KPITokensObjectProp } from "../serializer";
 
 // platform related interfaces
 const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI);
@@ -124,6 +126,7 @@ export class OnChainFetcher
 
     public async fetchKPITokens({
         addresses,
+        searchQuery,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
         const chainId = await this.getChainId();
         const chainAddresses = await this.getChainAddresses(chainId);
@@ -213,7 +216,7 @@ export class OnChainFetcher
             addresses: allOracleAddresses,
         });
 
-        const allKPITokens: { [address: string]: KPIToken } = {};
+        const allKPITokens: KPITokensObjectProp = {};
         const iUpperLimit =
             addresses && addresses.length > 0
                 ? addresses.length
@@ -296,6 +299,9 @@ export class OnChainFetcher
                 kpiTokenFinalized
             );
         }
+
+        if (searchQuery) return searchKPItokens(searchQuery, allKPITokens);
+
         return allKPITokens;
     }
 
