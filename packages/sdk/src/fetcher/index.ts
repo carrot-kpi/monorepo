@@ -42,7 +42,7 @@ export class Fetcher extends BaseFetcher implements IFullCarrotFetcher {
 
     private async shouldUseSubgraph() {
         if (this.preferDecentralization) return false;
-        const { chainId } = await this.provider.getNetwork();
+        const chainId = await this.getChainId();
         return this.subgraphFetcher.supportedInChain({ chainId });
     }
 
