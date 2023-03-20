@@ -13,11 +13,28 @@ export function searchKPItokens(
 }
 
 function tokenSpecificationIncludesQuery(token: KPIToken, searchQuery: string) {
+    if (!token.hasOwnProperty("specification")) return;
+
     const query = searchQuery.toLowerCase();
+    const specification = token.specification;
+
     return (
         token.hasOwnProperty("specification") &&
-        (token.specification.title.toLowerCase().includes(query) ||
-            token.specification.description.toLowerCase().includes(query) ||
-            Object.values(token.specification.tags).includes(query))
+        (includesQuery(specification.title, query) ||
+            includesQuery(specification.description, query) ||
+            includesQuery(specification.tags, query))
     );
+}
+
+function includesQuery(value: string | string[], query: string) {
+    const result =
+        typeof value === "string"
+            ? value.toString().toLowerCase()
+            : lowerCaseArray(value);
+
+    return result.includes(query);
+}
+
+function lowerCaseArray(stringsArray: string[]) {
+    return stringsArray.map((value) => value.toLowerCase());
 }
