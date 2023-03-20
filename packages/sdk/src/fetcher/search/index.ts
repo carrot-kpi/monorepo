@@ -5,9 +5,9 @@ export function searchKPItokens(
     searchQuery: string,
     allKPITokens: KPITokensObject
 ) {
-    const filteredTokens = Object.values(allKPITokens).filter((token) => {
-        return tokenSpecificationIncludesQuery(token, searchQuery);
-    });
+    const filteredTokens = Object.values(allKPITokens).filter((token) =>
+        tokenSpecificationIncludesQuery(token, searchQuery)
+    );
 
     return transformInKPITokensObject(filteredTokens);
 }
