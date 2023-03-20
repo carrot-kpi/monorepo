@@ -10,7 +10,7 @@ import { ReadonlyConnector } from "../connectors";
 export const MultiChainLinksUpdater = () => {
     const { t } = useTranslation();
     const { chain, chains } = useNetwork();
-    const { connector: activeConnector } = useAccount();
+    const { connector: activeConnector, address } = useAccount();
     const [searchParams, setSearchParams] = useSearchParams();
     const supportedChainNames = useMemo(() => {
         return Object.values(chains).map((c) => c.name.toLowerCase());
@@ -28,7 +28,7 @@ export const MultiChainLinksUpdater = () => {
     //   is set used as the url chain param (falls back to the default network if the currently
     //   active chain is not supported). This is also set as the target chain
     useEffect(() => {
-        if (targetLandingChain || !activeConnector) return;
+        if (targetLandingChain || !address) return;
 
         let targetChain: Chain;
         const chainName = searchParams.get("chain");
@@ -55,7 +55,7 @@ export const MultiChainLinksUpdater = () => {
         }
         setTargetLandingChain(targetChain);
     }, [
-        activeConnector,
+        address,
         chain,
         chains,
         searchParams,
