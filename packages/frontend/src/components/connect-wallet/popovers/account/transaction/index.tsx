@@ -11,7 +11,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
     const { loading, summary } = useTransactionSummary(tx);
 
     const href = chain?.blockExplorers?.default
-        ? `${chain.blockExplorers.default.url}/tx/${tx.hash}`
+        ? `${chain.blockExplorers.default.url}tx/${tx.hash}`
         : undefined;
     return (
         <div className="h-16 flex w-full items-center gap-5">
