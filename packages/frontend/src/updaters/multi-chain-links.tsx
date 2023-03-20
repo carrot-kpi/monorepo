@@ -39,10 +39,13 @@ export const MultiChainLinksUpdater = () => {
                     return supportedChain.id === chain.id;
                 });
             targetChain = currentlyActiveChainSupported ? chain : DEFAULT_CHAIN;
-            setSearchParams((prevValue) => {
-                prevValue.set("chain", targetChain.name.toLowerCase());
-                return prevValue;
-            });
+            setSearchParams(
+                (prevValue) => {
+                    prevValue.set("chain", targetChain.name.toLowerCase());
+                    return prevValue;
+                },
+                { replace: true }
+            );
         } else {
             const candidateTargetChain = Object.values(chains).find(
                 (chain) => chain.name.toLowerCase() === chainName

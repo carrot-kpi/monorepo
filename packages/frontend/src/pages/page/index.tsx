@@ -53,7 +53,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
 
     useEffect(() => {
         if (!chain || !previousChain) return;
-        setShow(previousChain.id !== chain.id);
+        setShow(previousChain.id === chain.id);
     }, [chain, closing, previousChain]);
 
     useEffect(() => {
