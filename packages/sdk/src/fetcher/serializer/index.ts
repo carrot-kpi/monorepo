@@ -1,12 +1,12 @@
 import { KPIToken } from "../../entities/kpi-token";
 
-export type KPITokensObjectProp = { [address: string]: KPIToken };
+export type KPITokensObject = Record<string, KPIToken>;
 
 export function transformInKPITokensObject(
     filteredTokens: KPIToken[]
-): KPITokensObjectProp {
+): KPITokensObject {
     return filteredTokens.reduce(
-        (kpiTokensObj: KPITokensObjectProp, token: KPIToken) => {
+        (kpiTokensObj: KPITokensObject, token: KPIToken) => {
             kpiTokensObj[token.address] = token;
             return kpiTokensObj;
         },

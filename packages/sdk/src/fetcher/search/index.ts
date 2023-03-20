@@ -1,9 +1,9 @@
 import { KPIToken } from "../../entities/kpi-token";
-import { KPITokensObjectProp, transformInKPITokensObject } from "../serializer";
+import { KPITokensObject, transformInKPITokensObject } from "../serializer";
 
 export function searchKPItokens(
     searchQuery: string,
-    allKPITokens: KPITokensObjectProp
+    allKPITokens: KPITokensObject
 ) {
     const filteredTokens = Object.values(allKPITokens).filter((token) => {
         return tokenSpecificationIncludesQuery(token, searchQuery);

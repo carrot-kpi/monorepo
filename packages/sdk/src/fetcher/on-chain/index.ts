@@ -22,7 +22,7 @@ import {
 } from "../abstraction";
 import { BaseFetcher, FetcherBaseProps } from "../base";
 import { searchKPItokens } from "../search";
-import { KPITokensObjectProp } from "../serializer";
+import { KPITokensObject } from "../serializer";
 
 // platform related interfaces
 const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI);
@@ -216,7 +216,7 @@ export class OnChainFetcher
             addresses: allOracleAddresses,
         });
 
-        const allKPITokens: KPITokensObjectProp = {};
+        const allKPITokens: KPITokensObject = {};
         const iUpperLimit =
             addresses && addresses.length > 0
                 ? addresses.length
