@@ -3,6 +3,7 @@ import { Tx, TxType } from "@carrot-kpi/react";
 import { Skeleton, Typography } from "@carrot-kpi/ui";
 import { useTransactionSummary } from "../../../../../hooks/useTransactionSummary";
 import { ReactComponent as External } from "../../../../../assets/external.svg";
+import { getTransactionExplorerLink } from "../../../../../utils/explorers";
 import dayjs from "dayjs";
 import { useNetwork } from "wagmi";
 
@@ -11,7 +12,9 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
     const { loading, summary } = useTransactionSummary(tx);
 
     const href = chain?.blockExplorers?.default
-        ? `${chain.blockExplorers.default.url}tx/${tx.hash}`
+        ? `${getTransactionExplorerLink(chain.blockExplorers.default.url)}/tx/${
+              tx.hash
+          }`
         : undefined;
     return (
         <div className="h-16 flex w-full items-center gap-5">
