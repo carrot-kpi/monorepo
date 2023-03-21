@@ -23,41 +23,54 @@ export const useFederatedModuleContainer = (
     useEffect(() => {
         if (!entry || !baseUrl) return;
         let cancelled = false;
+        let container = <RemoteContainer | undefined>(
+            window[entry as keyof Window]
+        );
+        if (!!container && container.__initialized) {
+            setContainer(container);
+            return;
+        }
         const fetchContainer = async () => {
             setLoading(true);
             try {
-                await __webpack_init_sharing__("default");
-                if (!__webpack_share_scopes__.default) {
+                const shareScope = __webpack_share_scopes__.default;
+                if (!shareScope) {
                     console.warn("webpack share scope is undefined");
                     return;
                 }
-                const sanitizedUrl = baseUrl.endsWith("/")
-                    ? `${baseUrl}remoteEntry.js`
-                    : `${baseUrl}/remoteEntry.js`;
-                let scriptTag = document.querySelector<HTMLScriptElement>(
-                    `script[src="${sanitizedUrl}"]`
-                );
-                if (!!scriptTag) {
-                    scriptTag.remove();
-                }
-                scriptTag = document.createElement("script");
-                scriptTag.src = sanitizedUrl;
-                scriptTag.async = true;
-                scriptTag.onload = async () => {
-                    const container = window[entry as keyof Window] as
-                        | RemoteContainer
-                        | undefined;
-                    if (!container) {
-                        console.warn(
-                            "container still undefined after federated module import"
-                        );
-                        return;
+                if (!container) {
+                    const sanitizedUrl = baseUrl.endsWith("/")
+                        ? `${baseUrl}remoteEntry.js`
+                        : `${baseUrl}/remoteEntry.js`;
+                    let scriptTag = document.querySelector<HTMLScriptElement>(
+                        `script[src="${sanitizedUrl}"]`
+                    );
+                    if (!!scriptTag) {
+                        scriptTag.remove();
                     }
-                    await container.init(__webpack_share_scopes__.default);
+                    scriptTag = document.createElement("script");
+                    scriptTag.src = sanitizedUrl;
+                    scriptTag.async = true;
+                    scriptTag.onload = async () => {
+                        container = <RemoteContainer | undefined>(
+                            window[entry as keyof Window]
+                        );
+                        if (!container) {
+                            console.warn(
+                                "container still undefined after federated module import"
+                            );
+                            return;
+                        }
+                        await container.init(shareScope);
+                        container.__initialized = true;
+                        if (!cancelled) setContainer(container);
+                    };
+                    document.body.appendChild(scriptTag);
+                } else {
+                    await container.init(shareScope);
+                    container.__initialized = true;
                     if (!cancelled) setContainer(container);
-                };
-                delete window[entry as keyof Window];
-                document.body.appendChild(scriptTag);
+                }
             } catch (error) {
                 console.error(
                     "could not initialize federated module container",

@@ -5,6 +5,13 @@ import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
 import { State, useSelector } from "@carrot-kpi/shared-state";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
+interface CachedModule {
+    Component: FunctionComponent<unknown>;
+    bundle: TemplateBundle;
+}
+
+const MODULE_CACHE: Record<string, CachedModule> = {};
+
 export const useTemplateModule = (
     entity: "kpiToken" | "oracle",
     type: "creationForm" | "page",
@@ -37,11 +44,22 @@ export const useTemplateModule = (
     const [loadingExport, setLoadingExport] = useState(false);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [Component, setComponent] = useState<FunctionComponent<any> | null>(
-        null
+        entry && MODULE_CACHE[entry]
+            ? () => MODULE_CACHE[entry].Component
+            : null
     );
-    const [bundle, setBundle] = useState<TemplateBundle | null>(null);
+    const [bundle, setBundle] = useState<TemplateBundle | null>(
+        entry && MODULE_CACHE[entry] ? MODULE_CACHE[entry].bundle : null
+    );
 
     useEffect(() => {
+        if (bundle && Component) return;
+        if (entry && MODULE_CACHE[entry]) {
+            const { Component, bundle } = MODULE_CACHE[entry];
+            setComponent(() => Component);
+            setBundle(bundle);
+            return;
+        }
         let cancelled = false;
         const fetchExports = async () => {
             if (!container || loadingFederatedModule || !entry) return;
@@ -52,6 +70,10 @@ export const useTemplateModule = (
                 const i18nFactory = await container.get("./i18n");
                 const { bundle } = i18nFactory();
                 if (!cancelled) {
+                    MODULE_CACHE[entry] = {
+                        Component,
+                        bundle,
+                    };
                     setComponent(() => Component);
                     setBundle(bundle);
                 }
@@ -63,7 +85,7 @@ export const useTemplateModule = (
         return () => {
             cancelled = true;
         };
-    }, [container, entry, loadingFederatedModule]);
+    }, [Component, bundle, container, entry, loadingFederatedModule]);
 
     return {
         loading: loadingFederatedModule || loadingExport,
