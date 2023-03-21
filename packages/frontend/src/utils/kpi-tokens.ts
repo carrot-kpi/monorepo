@@ -8,18 +8,15 @@ export const filterKPITokens = (tokens: KPIToken[], activeOnly?: boolean) => {
     });
 };
 
-export const sortKPITokens = (
-    tokens: KPIToken[],
-    ordering?: "newest-first" | "oldest-first"
-) => {
+export const sortKPITokens = (tokens: KPIToken[], ordering?: string) => {
     if (tokens.length === 0) return [];
     const comparator =
-        ordering === "newest-first"
+        ordering?.toLowerCase() === "oldest"
             ? (a: KPIToken, b: KPIToken) => {
-                  return b.creationTimestamp - a.creationTimestamp;
+                  return a.creationTimestamp - b.creationTimestamp;
               }
             : (a: KPIToken, b: KPIToken) => {
-                  return a.creationTimestamp - b.creationTimestamp;
+                  return b.creationTimestamp - a.creationTimestamp;
               };
 
     return tokens.sort(comparator);

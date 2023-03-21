@@ -14,11 +14,11 @@ import { useSearch } from "../../hooks/useSearch";
 
 const ORDERING_OPTIONS = [
     {
-        label: "Latest",
+        label: "Newest",
         value: 1,
     },
     {
-        label: "Newest",
+        label: "Oldest",
         value: 2,
     },
 ];
@@ -56,14 +56,14 @@ export const Campaigns = () => {
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
     const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
 
-    // filter and sort results
+    // filter results
     const filteredTokens = useMemo(() => {
         return filterKPITokens(Object.values(kpiTokens));
     }, [kpiTokens]);
-
+    // sort results
     const sortedFilteredTokens = useMemo(() => {
-        return sortKPITokens(filteredTokens);
-    }, [filteredTokens]);
+        return sortKPITokens(filteredTokens, ordering.label);
+    }, [filteredTokens, ordering]);
 
     useEffect(() => {
         setResults(sortedFilteredTokens);
