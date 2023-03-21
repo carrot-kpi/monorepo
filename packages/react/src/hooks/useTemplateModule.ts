@@ -23,10 +23,11 @@ export const useTemplateModule = (
 
     const { baseUrl, entry } = useMemo(() => {
         if (!template) return {};
+        const root =
+            customBaseURL ||
+            `${ipfsGatewayURL}/ipfs/${template.specification.cid}`;
         return {
-            baseUrl:
-                customBaseURL ||
-                `${ipfsGatewayURL}/ipfs/${template.specification.cid}/${type}`,
+            baseUrl: root.endsWith("/") ? `${root}${type}` : `${root}/${type}`,
             entry: `${template.specification.commitHash || ""}${type}`,
         };
     }, [customBaseURL, ipfsGatewayURL, template, type]);
