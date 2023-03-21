@@ -16,7 +16,7 @@ export const Home = ({ templateId }: HomeProps) => {
         <Layout>
             <Hero />
             <div className="relative py-16 md:py-20 lg:py-32 bg-grid-light dark:bg-grid-dark dark:bg-black">
-                <div className="px-6 space-y-32 md:px-10 lg:px-32 md:space-y-20 lg:space-y-32">
+                <div className="space-y-32 md:space-y-20 lg:space-y-32">
                     <LatestCampaignsSection />
                     <TemplatesSection templateId={templateId} />
                 </div>

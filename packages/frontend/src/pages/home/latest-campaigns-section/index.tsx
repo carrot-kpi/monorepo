@@ -20,8 +20,13 @@ export const LatestCampaignsSection = () => {
     return (
         <div className="relative flex flex-col gap-16">
             {/* TODO: add i18n */}
-            <Typography variant="h2">{t("home.latestCampaigns")}</Typography>
-            <CardHorizontal className="h-96">
+            <Typography
+                variant="h2"
+                className={{ root: "px-6 md:px-10 lg:px-32" }}
+            >
+                {t("home.latestCampaigns")}
+            </Typography>
+            <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32">
                 {loading ? (
                     placeholder
                 ) : Object.values(kpiTokens).length > 0 ? (
@@ -35,7 +40,7 @@ export const LatestCampaignsSection = () => {
                     <Empty />
                 )}
             </CardHorizontal>
-            <Link to="/campaigns">
+            <Link to="/campaigns" className="px-6 md:px-10 lg:px-32">
                 <Button>View all campaigns</Button>
             </Link>
         </div>

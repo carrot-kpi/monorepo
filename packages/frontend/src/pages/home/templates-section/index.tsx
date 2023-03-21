@@ -19,8 +19,13 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
 
     return (
         <div className="relative space-y-16">
-            <Typography variant="h2">{t("home.templates")}</Typography>
-            <CardHorizontal className="h-96">
+            <Typography
+                variant="h2"
+                className={{ root: "px-6 md:px-10 lg:px-32" }}
+            >
+                {t("home.templates")}
+            </Typography>
+            <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32">
                 {loading ? (
                     <>
                         <KPITokenTemplateCard />

@@ -16,8 +16,9 @@
     }
 }
 
+html,
 body {
-    overflow-x: hidden;
+    @apply w-screen h-screen overflow-x-hidden;
 }
 
 .grid-area-hero {
