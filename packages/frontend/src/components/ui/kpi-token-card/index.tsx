@@ -50,7 +50,13 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
             <CardTitle>
                 <div className="flex items-center justify-between w-full">
                     {!!kpiToken ? (
-                        <Typography weight="medium" uppercase>
+                        <Typography
+                            weight="medium"
+                            uppercase
+                            className={{
+                                root: "overflow-hidden text-ellipsis whitespace-nowrap",
+                            }}
+                        >
                             {kpiToken.specification.title}
                         </Typography>
                     ) : (
