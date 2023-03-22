@@ -30,7 +30,6 @@ export function useWatchKPIToken(
         if (kpiToken) return;
         if (typeof kpiTokenOrAddress !== "string") return;
         let cancelled = false;
-        console.log("IM HERE");
         const fetchData = async () => {
             try {
                 const kpiToken = (
