@@ -18,6 +18,24 @@ export enum CampaignOrder {
     OLDEST,
 }
 
+const campaignsFiltersStyles = cva(
+    [
+        "absolute lg:relative",
+        "shadow md:shadow-none",
+        "w-full lg:w-fit",
+        "p-12",
+        "bg-white",
+        "border-r border-gray-400 dark:bg-black",
+    ],
+    {
+        variants: {
+            filtersOpen: {
+                false: ["hidden"],
+            },
+        },
+    }
+);
+
 const ORDERING_OPTIONS = [
     {
         label: t("orderingOptions.newest"),
@@ -159,7 +177,7 @@ export const Campaigns = () => {
                             )}
                             {(loading || page.length > 0) && (
                                 <>
-                                    <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-7">
+                                    <div className="flex flex-wrap justify-center lg:justify-start gap-5">
                                         {loading
                                             ? new Array(pageSize)
                                                   .fill(null)
@@ -189,24 +207,6 @@ export const Campaigns = () => {
         </Layout>
     );
 };
-
-const campaignsFiltersStyles = cva(
-    [
-        "absolute lg:relative",
-        "shadow md:shadow-none",
-        "w-full lg:w-fit",
-        "p-12",
-        "bg-white",
-        "border-r border-gray-400 dark:bg-black",
-    ],
-    {
-        variants: {
-            filtersOpen: {
-                false: ["hidden"],
-            },
-        },
-    }
-);
 
 const PaginationNumber = ({ number }: { number: string | number }) => (
     <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
