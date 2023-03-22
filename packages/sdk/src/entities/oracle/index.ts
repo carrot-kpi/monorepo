@@ -9,3 +9,15 @@ export class Oracle {
         public readonly finalized: boolean
     ) {}
 }
+
+export class OracleWithData extends Oracle {
+    constructor(
+        chainId: ChainId,
+        address: string,
+        template: Template,
+        finalized: boolean,
+        public readonly data: string
+    ) {
+        super(chainId, address, template, finalized);
+    }
+}
