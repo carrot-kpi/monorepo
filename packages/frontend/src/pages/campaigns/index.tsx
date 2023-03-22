@@ -12,14 +12,19 @@ import { Empty } from "../../components/ui/empty";
 import { KPIToken } from "@carrot-kpi/sdk";
 import { useSearch } from "../../hooks/useSearch";
 
+export enum Order {
+    newest,
+    oldest,
+}
+
 const ORDERING_OPTIONS = [
     {
         label: "Newest",
-        value: 1,
+        value: Order.newest,
     },
     {
         label: "Oldest",
-        value: 2,
+        value: Order.oldest,
     },
 ];
 

@@ -1,4 +1,5 @@
 import { KPIToken } from "@carrot-kpi/sdk";
+import { Order } from "../pages/campaigns";
 
 export const filterKPITokens = (tokens: KPIToken[], activeOnly?: boolean) => {
     if (tokens.length === 0) return [];
@@ -8,13 +9,11 @@ export const filterKPITokens = (tokens: KPIToken[], activeOnly?: boolean) => {
     });
 };
 
-const NEWEST = 1;
-
 export const sortKPITokens = (tokens: KPIToken[], order: number) => {
     if (tokens.length === 0) return [];
 
     const comparator =
-        order === NEWEST
+        order === Order.newest
             ? (a: KPIToken, b: KPIToken) =>
                   b.creationTimestamp - a.creationTimestamp
             : (a: KPIToken, b: KPIToken) =>
