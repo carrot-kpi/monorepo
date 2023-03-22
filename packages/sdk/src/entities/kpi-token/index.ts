@@ -33,7 +33,7 @@ export class KPITokenWithData extends KPIToken {
         address: string,
         owner: string,
         template: Template,
-        oracles: OracleWithData[],
+        public readonly oracles: OracleWithData[],
         specification: KPITokenSpecification,
         expiration: number,
         creationTimestamp: number,
