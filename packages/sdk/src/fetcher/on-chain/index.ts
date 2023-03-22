@@ -23,6 +23,8 @@ import {
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
+import { searchKPItokens } from "../search";
+import { KPITokensObject } from "../serializer";
 
 // platform related interfaces
 const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI);
@@ -123,6 +125,7 @@ class Fetcher implements IPartialCarrotFetcher {
         provider,
         ipfsGatewayURL,
         addresses,
+        searchQuery,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
         const { chainId } = await provider.getNetwork();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
@@ -217,7 +220,7 @@ class Fetcher implements IPartialCarrotFetcher {
             addresses: allOracleAddresses,
         });
 
-        const allKPITokens: { [address: string]: KPIToken } = {};
+        const allKPITokens: KPITokensObject = {};
         const iUpperLimit =
             addresses && addresses.length > 0
                 ? addresses.length
@@ -300,6 +303,9 @@ class Fetcher implements IPartialCarrotFetcher {
                 kpiTokenFinalized
             );
         }
+
+        if (searchQuery) return searchKPItokens(searchQuery, allKPITokens);
+
         return allKPITokens;
     }
 
