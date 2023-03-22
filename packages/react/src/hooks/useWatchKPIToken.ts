@@ -101,15 +101,15 @@ export function useWatchKPIToken(
         if (!readResults || !kpiToken) return;
 
         const updatedOracles: OracleWithData[] = [];
-        for (let i = 0; i < kpiToken.oracles.length; i++) {
-            const outdatedOracle = kpiToken.oracles[i];
+        for (let i = 2; i < readResults.length; i += 2) {
+            const outdatedOracle = kpiToken.oracles[i % 2];
             updatedOracles.push(
                 new OracleWithData(
                     outdatedOracle.chainId,
                     outdatedOracle.address,
                     outdatedOracle.template,
-                    readResults[i * 2 + 1] as unknown as boolean,
-                    readResults[i * 2] as unknown as string
+                    readResults[i + 1] as unknown as boolean,
+                    readResults[i] as unknown as string
                 )
             );
         }

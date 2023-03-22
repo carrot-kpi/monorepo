@@ -74,12 +74,16 @@ export const Campaigns = () => {
     const filteredTokens = useMemo(() => {
         return filterKPITokens(
             Object.values(kpiTokens),
-            Number(campaignState.value)
+            campaignState.value as unknown as CampaignState
         );
     }, [kpiTokens, campaignState]);
+
     // sort results
     const sortedFilteredTokens = useMemo(() => {
-        return sortKPITokens(filteredTokens, Number(ordering.value));
+        return sortKPITokens(
+            filteredTokens,
+            ordering.value as unknown as CampaignOrder
+        );
     }, [filteredTokens, ordering]);
 
     useEffect(() => {

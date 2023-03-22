@@ -117,7 +117,7 @@ const Template: Story<ERC20TokenPickerProps> = (
             {!!list && (
                 <ERC20TokenPickerComponent
                     {...props}
-                    loading={!list}
+                    loading={!list || props.loading}
                     selectedToken={value}
                     onSelectedTokenChange={setValue}
                     open={open}
