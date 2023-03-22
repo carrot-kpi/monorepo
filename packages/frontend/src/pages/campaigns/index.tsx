@@ -13,19 +13,19 @@ import { KPIToken } from "@carrot-kpi/sdk";
 import { useSearch } from "../../hooks/useSearch";
 import { t } from "i18next";
 
-export enum Order {
-    newest,
-    oldest,
+export enum CampaignOrder {
+    NEWEST,
+    OLDEST,
 }
 
 const ORDERING_OPTIONS = [
     {
         label: t("orderingOptions.newest"),
-        value: Order.newest,
+        value: CampaignOrder.NEWEST,
     },
     {
         label: t("orderingOptions.oldest"),
-        value: Order.oldest,
+        value: CampaignOrder.OLDEST,
     },
 ];
 
