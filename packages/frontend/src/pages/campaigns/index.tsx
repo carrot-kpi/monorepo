@@ -37,15 +37,15 @@ export enum CampaignState {
 
 const STATE_OPTIONS = [
     {
-        label: "All",
+        label: t("stateOptions.all"),
         value: CampaignState.ALL,
     },
     {
-        label: "Active",
+        label: t("stateOptions.active"),
         value: CampaignState.ACTIVE,
     },
     {
-        label: "Expired",
+        label: t("stateOptions.expired"),
         value: CampaignState.EXPIRED,
     },
 ];
