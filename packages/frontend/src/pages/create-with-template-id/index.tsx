@@ -7,7 +7,7 @@ import {
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useNetwork, useProvider } from "wagmi";
+import { useAccount, useNetwork, useProvider } from "wagmi";
 import { Fetcher, Template } from "@carrot-kpi/sdk";
 import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
@@ -31,6 +31,7 @@ export const CreateWithTemplateId = ({
     const { templateId } = useParams();
     const provider = useProvider();
     const { chain } = useNetwork();
+    const { address } = useAccount();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const queryClient = useQueryClient();
@@ -57,10 +58,11 @@ export const CreateWithTemplateId = ({
         setShow(!closing);
     }, [closing]);
 
-    // every time the chain changes, reset the creation form state
+    // every time the chain or the connected address changes,
+    // reset the creation form state
     useEffect(() => {
         setFormKey((prevState) => prevState + 1);
-    }, [chain]);
+    }, [chain, address]);
 
     useEffect(() => {
         if (!!state?.template) {
