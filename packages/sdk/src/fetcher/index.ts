@@ -99,6 +99,7 @@ class FullFetcher implements IFullCarrotFetcher {
                   provider,
                   ipfsGatewayURL,
                   addresses,
+                  searchQuery,
               });
     }
 
