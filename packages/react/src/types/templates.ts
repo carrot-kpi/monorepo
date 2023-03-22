@@ -1,4 +1,4 @@
-import { KPIToken, Oracle } from "@carrot-kpi/sdk";
+import { KPIToken, KPITokenWithData, OracleWithData } from "@carrot-kpi/sdk";
 import { BigNumber } from "@ethersproject/bignumber";
 import { i18n } from "i18next";
 import { NamespacedTranslateFunction } from "../components";
@@ -44,7 +44,7 @@ export type KPITokenCreationFormProps = BaseTemplateComponentProps &
     AdditionalKPITokenCreationFormProps;
 
 export interface AdditionalOraclePageProps {
-    oracle?: Oracle | null;
+    oracle?: OracleWithData | null;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
@@ -52,7 +52,7 @@ export type OraclePageProps = BaseTemplateComponentProps &
     AdditionalOraclePageProps;
 
 export interface AdditionalKPITokenPageProps {
-    kpiToken?: KPIToken | null;
+    kpiToken?: KPITokenWithData | null;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
