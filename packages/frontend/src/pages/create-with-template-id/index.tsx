@@ -7,14 +7,13 @@ import {
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useProvider } from "wagmi";
+import { useAccount, useNetwork, useProvider } from "wagmi";
 import { Fetcher, Template } from "@carrot-kpi/sdk";
 import { Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
-import { CreationFormChainSwitchWarningModal } from "../../components/creation-form-chain-switch-warning-modal";
 
 interface CreateWithTemplateIdProps {
     closing?: boolean;
@@ -31,6 +30,8 @@ export const CreateWithTemplateId = ({
     const addTransaction = useAddTransaction();
     const { templateId } = useParams();
     const provider = useProvider();
+    const { chain } = useNetwork();
+    const { address } = useAccount();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const queryClient = useQueryClient();
@@ -39,6 +40,8 @@ export const CreateWithTemplateId = ({
         state ? state.template : null
     );
     const [show, setShow] = useState(!closing);
+    const [formKey, setFormKey] = useState(0);
+
     const transitions = useTransition(show, {
         config: { ...springConfig.default, duration: 100 },
         from: { opacity: 0, translateY: "0.5%", scale: 0.97 },
@@ -54,6 +57,12 @@ export const CreateWithTemplateId = ({
     useEffect(() => {
         setShow(!closing);
     }, [closing]);
+
+    // every time the chain or the connected address changes,
+    // reset the creation form state
+    useEffect(() => {
+        setFormKey((prevState) => prevState + 1);
+    }, [chain, address]);
 
     useEffect(() => {
         if (!!state?.template) {
@@ -73,9 +82,12 @@ export const CreateWithTemplateId = ({
                     preferDecentralization,
                     ids: [templateId],
                 });
-                if (templates.length === 0)
-                    console.warn(`no template with id ${templateId} found`);
-                if (!cancelled) setTemplate(templates[0]);
+                if (templates.length === 0) {
+                    console.warn(
+                        `no template with id ${templateId} found on ${chain?.name}`
+                    );
+                    if (!cancelled) setShow(false);
+                } else if (!cancelled) setTemplate(templates[0]);
             } catch (error) {
                 console.error(
                     `could not fetch template with id ${templateId}`,
@@ -88,6 +100,7 @@ export const CreateWithTemplateId = ({
             cancelled = true;
         };
     }, [
+        chain?.name,
         ipfsGatewayURL,
         preferDecentralization,
         provider,
@@ -117,12 +130,8 @@ export const CreateWithTemplateId = ({
                     springStyle={style}
                     onDismiss={handleDismiss}
                 >
-                    <CreationFormChainSwitchWarningModal
-                        templateId={template?.id}
-                        onDismiss={handleDismiss}
-                        onSwitch={setTemplate}
-                    />
                     <KPITokenCreationForm
+                        key={formKey}
                         template={template || undefined}
                         fallback={
                             <div className="bg-green py-10 text-black flex justify-center">
