@@ -143,7 +143,7 @@ export const Row = ({
             </div>
             <div className="cui-flex cui-gap-1">
                 <Balance
-                    loading={loadingBalances}
+                    loading={loading || loadingBalances}
                     decimals={decimals}
                     balance={balance}
                 />
