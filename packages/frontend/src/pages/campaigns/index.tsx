@@ -11,15 +11,21 @@ import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
 import { KPIToken } from "@carrot-kpi/sdk";
 import { useSearch } from "../../hooks/useSearch";
+import { t } from "i18next";
+
+export enum CampaignOrder {
+    NEWEST,
+    OLDEST,
+}
 
 const ORDERING_OPTIONS = [
     {
-        label: "Latest",
-        value: 1,
+        label: t("orderingOptions.newest"),
+        value: CampaignOrder.NEWEST,
     },
     {
-        label: "Newest",
-        value: 2,
+        label: t("orderingOptions.oldest"),
+        value: CampaignOrder.OLDEST,
     },
 ];
 
@@ -56,14 +62,17 @@ export const Campaigns = () => {
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
     const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
 
-    // filter and sort results
+    // filter results
     const filteredTokens = useMemo(() => {
         return filterKPITokens(Object.values(kpiTokens));
     }, [kpiTokens]);
-
+    // sort results
     const sortedFilteredTokens = useMemo(() => {
-        return sortKPITokens(filteredTokens);
-    }, [filteredTokens]);
+        return sortKPITokens(
+            filteredTokens,
+            ordering.value as unknown as CampaignOrder
+        );
+    }, [filteredTokens, ordering]);
 
     useEffect(() => {
         setResults(sortedFilteredTokens);
