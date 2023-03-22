@@ -29,18 +29,24 @@ const ORDERING_OPTIONS = [
     },
 ];
 
+export enum CampaignState {
+    ALL,
+    ACTIVE,
+    EXPIRED,
+}
+
 const STATE_OPTIONS = [
     {
         label: "All",
-        value: "all",
+        value: CampaignState.ALL,
     },
     {
         label: "Active",
-        value: "active",
+        value: CampaignState.ACTIVE,
     },
     {
         label: "Expired",
-        value: "expired",
+        value: CampaignState.EXPIRED,
     },
 ];
 
@@ -60,12 +66,17 @@ export const Campaigns = () => {
     // page settings
     const [pageSize, setPageSize] = useState(12);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
-    const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
+    const [campaignState, setCampaignState] = useState<SelectOption>(
+        STATE_OPTIONS[0]
+    );
 
     // filter results
     const filteredTokens = useMemo(() => {
-        return filterKPITokens(Object.values(kpiTokens));
-    }, [kpiTokens]);
+        return filterKPITokens(
+            Object.values(kpiTokens),
+            Number(campaignState.value)
+        );
+    }, [kpiTokens, campaignState]);
     // sort results
     const sortedFilteredTokens = useMemo(() => {
         return sortKPITokens(filteredTokens, Number(ordering.value));
@@ -113,9 +124,9 @@ export const Campaigns = () => {
                         ordering={ordering}
                         orderingOptions={ORDERING_OPTIONS}
                         onOrderingChange={setOrdering}
-                        state={state}
+                        state={campaignState}
                         stateOptions={STATE_OPTIONS}
-                        onStateChange={setState}
+                        onStateChange={setCampaignState}
                         onToggleFilters={toggleFilters}
                         filtersOpen={filtersOpen}
                         setSearchQuery={setSearchQuery}
