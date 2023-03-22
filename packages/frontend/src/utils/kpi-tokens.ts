@@ -1,11 +1,13 @@
 import { KPIToken } from "@carrot-kpi/sdk";
-import { CampaignOrder } from "../pages/campaigns";
+import { CampaignOrder, CampaignState } from "../pages/campaigns";
 
-export const filterKPITokens = (tokens: KPIToken[], activeOnly?: boolean) => {
+export const filterKPITokens = (tokens: KPIToken[], state: CampaignState) => {
     if (tokens.length === 0) return [];
-    if (typeof activeOnly === "undefined") return tokens;
+
+    if (state === CampaignState.ALL) return tokens;
+
     return tokens.filter((token) => {
-        return activeOnly ? !token.expired : token.expired;
+        return state === CampaignState.ACTIVE ? !token.expired : token.expired;
     });
 };
 

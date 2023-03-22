@@ -58,5 +58,8 @@ export const en = {
         "activity.recent": "Recent activity",
         "orderingOptions.newest": "Newest",
         "orderingOptions.oldest": "Oldest",
+        "stateOptions.all": "All",
+        "stateOptions.active": "Active",
+        "stateOptions.expired": "Expired",
     },
 } as const;
