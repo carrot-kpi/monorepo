@@ -2,7 +2,8 @@ import React from "react";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Typography } from "../../../../../data-display";
 import { Skeleton } from "../../../../../feedback";
-import { formatBalance } from "../../../../../../utils/formatting";
+import { formatDecimals } from "@carrot-kpi/sdk";
+import { commify, formatUnits } from "@ethersproject/units";
 
 interface BalanceProps {
     balance?: BigNumber | null;
@@ -11,11 +12,12 @@ interface BalanceProps {
 }
 
 export const Balance = ({ balance, decimals, loading }: BalanceProps) => {
+    if (!balance) return null;
     if (loading) return <Skeleton variant="sm" width="40px" />;
 
-    const formattedBalance = formatBalance(balance, decimals);
-    if (balance && formattedBalance)
-        return <Typography variant="sm">{formattedBalance}</Typography>;
-
-    return null;
+    return (
+        <Typography variant="sm">
+            {formatDecimals(commify(formatUnits(balance, decimals)), 4)}
+        </Typography>
+    );
 };
