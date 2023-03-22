@@ -11,6 +11,7 @@ import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
 import { KPIToken } from "@carrot-kpi/sdk";
 import { useSearch } from "../../hooks/useSearch";
+import { t } from "i18next";
 
 export enum Order {
     newest,
@@ -19,11 +20,11 @@ export enum Order {
 
 const ORDERING_OPTIONS = [
     {
-        label: "Newest",
+        label: t("orderingOptions.newest"),
         value: Order.newest,
     },
     {
-        label: "Oldest",
+        label: t("orderingOptions.oldest"),
         value: Order.oldest,
     },
 ];

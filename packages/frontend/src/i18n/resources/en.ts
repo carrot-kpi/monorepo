@@ -56,5 +56,7 @@ export const en = {
         "transactions.kpi.token.create": "Created KPI token {{address}}",
         "transactions.oracle.finalize": "Finalized oracle {{address}}",
         "activity.recent": "Recent activity",
+        "orderingOptions.newest": "Newest",
+        "orderingOptions.oldest": "Oldest",
     },
 } as const;
