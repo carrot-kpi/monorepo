@@ -27,29 +27,21 @@ export class KPIToken {
     }
 }
 
-export class KPITokenWithData extends KPIToken {
+export class KPITokenWithData {
     constructor(
-        chainId: ChainId,
-        address: string,
-        owner: string,
-        template: Template,
+        public readonly chainId: ChainId,
+        public readonly address: string,
+        public readonly owner: string,
+        public readonly template: Template,
         public readonly oracles: OracleWithData[],
-        specification: KPITokenSpecification,
-        expiration: number,
-        creationTimestamp: number,
-        finalized: boolean,
+        public readonly specification: KPITokenSpecification,
+        public readonly expiration: number,
+        public readonly creationTimestamp: number,
+        public readonly finalized: boolean,
         public readonly data: string
-    ) {
-        super(
-            chainId,
-            address,
-            owner,
-            template,
-            oracles,
-            specification,
-            expiration,
-            creationTimestamp,
-            finalized
-        );
+    ) {}
+
+    public get expired(): boolean {
+        return this.expiration <= Math.floor(Date.now() / 1_000);
     }
 }
