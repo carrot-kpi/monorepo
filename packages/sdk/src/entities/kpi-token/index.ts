@@ -1,5 +1,5 @@
 import { Template } from "../template";
-import { Oracle } from "../oracle";
+import { Oracle, OracleWithData } from "../oracle";
 import { ChainId } from "../../commons";
 
 export interface KPITokenSpecification {
@@ -24,5 +24,32 @@ export class KPIToken {
 
     public get expired(): boolean {
         return this.expiration <= Math.floor(Date.now() / 1_000);
+    }
+}
+
+export class KPITokenWithData extends KPIToken {
+    constructor(
+        chainId: ChainId,
+        address: string,
+        owner: string,
+        template: Template,
+        oracles: OracleWithData[],
+        specification: KPITokenSpecification,
+        expiration: number,
+        creationTimestamp: number,
+        finalized: boolean,
+        public readonly data: string
+    ) {
+        super(
+            chainId,
+            address,
+            owner,
+            template,
+            oracles,
+            specification,
+            expiration,
+            creationTimestamp,
+            finalized
+        );
     }
 }
