@@ -156,7 +156,7 @@ export const Campaigns = () => {
                             )}
                             {(loading || page.length > 0) && (
                                 <>
-                                    <div className="flex flex-wrap gap-5 justify-center">
+                                    <div className="flex flex-wrap justify-center lg:justify-start gap-5">
                                         {loading
                                             ? new Array(pageSize)
                                                   .fill(null)
