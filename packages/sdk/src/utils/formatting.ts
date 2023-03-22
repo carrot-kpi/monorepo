@@ -12,7 +12,7 @@ export const formatTokenAmount = (
         nonZeroDecimalsAmount
     );
     if (withSymbol)
-        rawBaseAmount = rawBaseAmount + ` ${amount.currency.symbol}`;
+        rawBaseAmount = `${rawBaseAmount} ${amount.currency.symbol}`;
     return rawBaseAmount;
 };
 
