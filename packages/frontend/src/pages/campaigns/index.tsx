@@ -68,7 +68,10 @@ export const Campaigns = () => {
     }, [kpiTokens]);
     // sort results
     const sortedFilteredTokens = useMemo(() => {
-        return sortKPITokens(filteredTokens, Number(ordering.value));
+        return sortKPITokens(
+            filteredTokens,
+            ordering.value as unknown as CampaignOrder
+        );
     }, [filteredTokens, ordering]);
 
     useEffect(() => {
