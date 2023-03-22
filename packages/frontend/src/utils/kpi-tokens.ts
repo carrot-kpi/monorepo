@@ -8,19 +8,17 @@ export const filterKPITokens = (tokens: KPIToken[], activeOnly?: boolean) => {
     });
 };
 
-export const sortKPITokens = (
-    tokens: KPIToken[],
-    ordering?: "newest-first" | "oldest-first"
-) => {
+const NEWEST = 1;
+
+export const sortKPITokens = (tokens: KPIToken[], order: number) => {
     if (tokens.length === 0) return [];
+
     const comparator =
-        ordering === "newest-first"
-            ? (a: KPIToken, b: KPIToken) => {
-                  return b.creationTimestamp - a.creationTimestamp;
-              }
-            : (a: KPIToken, b: KPIToken) => {
-                  return a.creationTimestamp - b.creationTimestamp;
-              };
+        order === NEWEST
+            ? (a: KPIToken, b: KPIToken) =>
+                  b.creationTimestamp - a.creationTimestamp
+            : (a: KPIToken, b: KPIToken) =>
+                  a.creationTimestamp - b.creationTimestamp;
 
     return tokens.sort(comparator);
 };

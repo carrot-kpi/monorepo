@@ -14,11 +14,11 @@ import { useSearch } from "../../hooks/useSearch";
 
 const ORDERING_OPTIONS = [
     {
-        label: "Latest",
+        label: "Newest",
         value: 1,
     },
     {
-        label: "Newest",
+        label: "Oldest",
         value: 2,
     },
 ];
@@ -38,6 +38,11 @@ const STATE_OPTIONS = [
     },
 ];
 
+export interface OrderOption {
+    label: string;
+    value: number;
+}
+
 export const Campaigns = () => {
     useResetPageScroll();
     const { t } = useTranslation();
@@ -53,17 +58,17 @@ export const Campaigns = () => {
 
     // page settings
     const [pageSize, setPageSize] = useState(12);
-    const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+    const [ordering, setOrdering] = useState<OrderOption>(ORDERING_OPTIONS[0]);
     const [state, setState] = useState<SelectOption>(STATE_OPTIONS[0]);
 
-    // filter and sort results
+    // filter results
     const filteredTokens = useMemo(() => {
         return filterKPITokens(Object.values(kpiTokens));
     }, [kpiTokens]);
-
+    // sort results
     const sortedFilteredTokens = useMemo(() => {
-        return sortKPITokens(filteredTokens);
-    }, [filteredTokens]);
+        return sortKPITokens(filteredTokens, ordering.value);
+    }, [filteredTokens, ordering]);
 
     useEffect(() => {
         setResults(sortedFilteredTokens);

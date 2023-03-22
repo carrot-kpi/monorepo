@@ -10,11 +10,12 @@ import { ToggleFiltersButton } from "./toggle-filters-button";
 import { ReactComponent as MagnifyingLens } from "../../../assets/magnifying-lens.svg";
 import { t } from "i18next";
 import { SearchQueryProp } from "../../../hooks/useSearch";
+import { OrderOption } from "..";
 
 interface CampaignsTopNavProps {
-    ordering: SelectOption;
-    orderingOptions: SelectOption[];
-    onOrderingChange: (option: SelectOption) => void;
+    ordering: OrderOption;
+    orderingOptions: OrderOption[];
+    onOrderingChange: (option: OrderOption) => void;
     state: SelectOption;
     stateOptions: SelectOption[];
     onStateChange: (option: SelectOption) => void;
