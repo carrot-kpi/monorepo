@@ -22,7 +22,7 @@ export default [
                 type: "bool",
             },
         ],
-        stateMutability: "nonpayable",
+        stateMutability: "view",
         type: "function",
     },
     {
