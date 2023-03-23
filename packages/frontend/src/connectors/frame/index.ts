@@ -7,12 +7,34 @@ export const FRAME_CONNECTOR_ID = "frame";
 export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
     readonly id = FRAME_CONNECTOR_ID;
     readonly name = "Frame";
-    readonly ready = true;
+    ready: boolean;
 
     private provider?: JsonRpcProvider;
 
     constructor(config: { chains: Chain[]; options: object }) {
         super(config);
+        this.ready = false;
+
+        fetch("http://127.0.0.1:1248", {
+            method: "POST",
+            body: JSON.stringify({
+                jsonrpc: "2.0",
+                method: "eth_blockNumber",
+                params: [],
+                id: 1,
+            }),
+        })
+            .then((response) => {
+                console.log(response.ok);
+                this.ready = response.ok;
+            })
+            .catch((error) => {
+                console.warn(
+                    "error while checking if frame is available",
+                    error
+                );
+                this.ready = false;
+            });
     }
 
     public async connect({ chainId }: { chainId?: number } = {}): Promise<
