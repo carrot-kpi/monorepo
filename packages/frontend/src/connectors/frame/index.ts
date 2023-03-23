@@ -25,7 +25,6 @@ export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
             }),
         })
             .then((response) => {
-                console.log(response.ok);
                 this.ready = response.ok;
             })
             .catch((error) => {
