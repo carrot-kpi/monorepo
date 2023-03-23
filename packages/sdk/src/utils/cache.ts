@@ -1,6 +1,6 @@
-import { Token } from "../entities/token";
-import { CACHER } from "../commons";
-import { warn } from "./invariant";
+import { Token } from "../entities/token.js";
+import { CACHER } from "../commons.js";
+import { warn } from "./invariant.js";
 
 export const erc20TokenCachingKey = (chainId: number, address: string) =>
     `erc20-${chainId}-${address}`;

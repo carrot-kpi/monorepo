@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Template, Fetcher } from "@carrot-kpi/sdk";
+import { Template } from "@carrot-kpi/sdk/lib/entities/template";
+import { Fetcher } from "@carrot-kpi/sdk/lib/fetcher";
 import { useProvider, useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
 import { usePreferDecentralization } from "./usePreferDecentralization";

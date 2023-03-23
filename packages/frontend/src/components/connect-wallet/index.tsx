@@ -1,4 +1,4 @@
-import { ChainId } from "@carrot-kpi/sdk";
+import { ChainId } from "@carrot-kpi/sdk/lib/commons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SUPPORTED_CHAINS } from "../../constants";
 import { ReactComponent as Error } from "../../assets/error.svg";

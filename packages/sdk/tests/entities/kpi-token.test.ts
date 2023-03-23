@@ -1,8 +1,14 @@
 import { Wallet } from "@ethersproject/wallet";
-import { KPIToken, KPITokenSpecification } from ".";
-import { ChainId } from "../../commons";
-import { Oracle } from "../oracle";
-import { Template, TemplateSpecification } from "../template";
+import {
+    KPIToken,
+    KPITokenSpecification,
+} from "../../src/entities/kpi-token.js";
+import { ChainId } from "../../src/commons.js";
+import { Oracle } from "../../src/entities/oracle.js";
+import {
+    Template,
+    TemplateSpecification,
+} from "../../src/entities/template.js";
 
 describe("kpi token", () => {
     let templateSpecification: TemplateSpecification;

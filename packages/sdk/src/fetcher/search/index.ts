@@ -1,5 +1,8 @@
-import { KPIToken } from "../../entities/kpi-token";
-import { KPITokensObject, transformInKPITokensObject } from "../serializer";
+import { KPIToken } from "../../entities/kpi-token.js";
+import {
+    KPITokensObject,
+    transformInKPITokensObject,
+} from "../serializer/index.js";
 
 export function searchKPItokens(
     searchQuery: string,

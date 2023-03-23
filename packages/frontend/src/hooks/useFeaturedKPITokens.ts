@@ -1,4 +1,4 @@
-import { KPIToken } from "@carrot-kpi/sdk";
+import { KPIToken } from "@carrot-kpi/sdk/lib/entities/kpi-token";
 import { useQuery } from "@tanstack/react-query";
 
 export function useFeaturedKPITokens(): {

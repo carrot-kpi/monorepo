@@ -1,7 +1,10 @@
 import { Wallet } from "@ethersproject/wallet";
-import { Oracle } from ".";
-import { ChainId } from "../../commons";
-import { Template, TemplateSpecification } from "../template";
+import { Oracle } from "../../src/entities/oracle.js";
+import { ChainId } from "../../src/commons.js";
+import {
+    Template,
+    TemplateSpecification,
+} from "../../src/entities/template.js";
 
 describe("oracle", () => {
     let templateSpecification: TemplateSpecification;

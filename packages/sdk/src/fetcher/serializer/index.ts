@@ -1,4 +1,4 @@
-import { KPIToken } from "../../entities/kpi-token";
+import { KPIToken } from "../../entities/kpi-token.js";
 
 export type KPITokensObject = Record<string, KPIToken>;
 

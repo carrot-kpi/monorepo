@@ -1,4 +1,4 @@
-import { Currency } from "@carrot-kpi/sdk";
+import { Currency } from "@carrot-kpi/sdk/lib/entities/currency";
 import { useNetwork } from "wagmi";
 import { mainnet } from "wagmi/chains";
 

@@ -1,4 +1,8 @@
-import { KPIToken, KPITokenWithData, OracleWithData } from "@carrot-kpi/sdk";
+import {
+    KPIToken,
+    KPITokenWithData,
+} from "@carrot-kpi/sdk/lib/entities/kpi-token";
+import { OracleWithData } from "@carrot-kpi/sdk/lib/entities/oracle";
 import { BigNumber } from "@ethersproject/bignumber";
 import { i18n } from "i18next";
 import { NamespacedTranslateFunction } from "../components";

@@ -3,7 +3,7 @@ import { Button } from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
 import { useKPITokenTemplates } from "@carrot-kpi/react";
 import { Link } from "react-router-dom";
-import { Template } from "@carrot-kpi/sdk";
+import { Template } from "@carrot-kpi/sdk/lib/entities/template";
 
 interface CreateCampaignButtonProps {
     primary?: boolean;

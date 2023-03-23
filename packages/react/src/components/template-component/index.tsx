@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactNode, useEffect, useLayoutEffect } from "react";
-import { Template } from "@carrot-kpi/sdk";
+import { Template } from "@carrot-kpi/sdk/lib/entities/template";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
 import { useState } from "react";

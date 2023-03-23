@@ -1,4 +1,4 @@
-import { KPIToken } from "@carrot-kpi/sdk";
+import { KPIToken } from "@carrot-kpi/sdk/lib/entities/kpi-token";
 
 export const filterKPITokens = (tokens: KPIToken[], activeOnly?: boolean) => {
     if (tokens.length === 0) return [];

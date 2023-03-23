@@ -1,6 +1,6 @@
 // import { precacheAndRoute } from "workbox-precaching";
 // import { registerRoute } from "workbox-routing";
-import { isCID } from "@carrot-kpi/sdk";
+import { isCID } from "@carrot-kpi/sdk/lib/utils/cid";
 
 declare const self: ServiceWorkerGlobalScope;
 

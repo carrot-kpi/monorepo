@@ -9,7 +9,7 @@ import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
 import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
-import { KPIToken } from "@carrot-kpi/sdk";
+import { KPIToken } from "@carrot-kpi/sdk/lib/entities/kpi-token";
 import { useSearch } from "../../hooks/useSearch";
 
 const ORDERING_OPTIONS = [

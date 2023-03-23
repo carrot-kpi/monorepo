@@ -1,4 +1,4 @@
-import { ChainId } from "@carrot-kpi/sdk";
+import { ChainId } from "@carrot-kpi/sdk/lib/commons";
 import { FunctionComponent, SVGProps } from "react";
 import { gnosis, sepolia } from "wagmi/chains";
 import { Chain } from "wagmi/chains";

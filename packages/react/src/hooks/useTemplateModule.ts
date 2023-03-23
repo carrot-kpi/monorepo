@@ -1,4 +1,4 @@
-import { Template } from "@carrot-kpi/sdk";
+import { Template } from "@carrot-kpi/sdk/lib/entities/template";
 import { TemplateBundle } from "../i18n";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";

@@ -3,23 +3,19 @@ import {
     ChainId,
     ERC20_ABI,
     CHAIN_ADDRESSES,
-} from "../../commons";
-import {
-    cacheERC20Token,
-    enforce,
-    getCachedERC20Token,
-    warn,
-} from "../../utils";
+} from "../commons.js";
+import { enforce, warn } from "../utils/invariant.js";
+import { cacheERC20Token, getCachedERC20Token } from "../utils/cache.js";
 import { Contract } from "@ethersproject/contracts";
 import { Interface } from "@ethersproject/abi";
-import { Token } from "../../entities/token";
-import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
-import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
+import { Token } from "../entities/token.js";
+import BYTES_NAME_ERC20_ABI from "../abis/erc20-name-bytes.js";
+import BYTES_SYMBOL_ERC20_ABI from "../abis/erc20-symbol-bytes.js";
 import {
     FetchContentFromIPFSParams,
     FetchERC20TokensParams,
     ICoreFetcher,
-} from "../abstraction";
+} from "./abstraction.js";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
@@ -27,34 +23,37 @@ const BYTES_NAME_ERC20_INTERFACE = new Interface(BYTES_NAME_ERC20_ABI);
 const BYTES_SYMBOL_ERC20_INTERFACE = new Interface(BYTES_SYMBOL_ERC20_ABI);
 
 // erc20 related functions
-const ERC20_NAME_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction("name()");
-const ERC20_SYMBOL_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction("symbol()");
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+const ERC20_NAME_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction("name()")!;
+const ERC20_SYMBOL_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction("symbol()")!;
 const ERC20_DECIMALS_FUNCTION =
-    STANDARD_ERC20_INTERFACE.getFunction("decimals()");
+    STANDARD_ERC20_INTERFACE.getFunction("decimals()")!;
 const ERC20_BYTES_NAME_FUNCTION =
-    BYTES_NAME_ERC20_INTERFACE.getFunction("name()");
+    BYTES_NAME_ERC20_INTERFACE.getFunction("name()")!;
 const ERC20_BYTES_SYMBOL_FUNCTION =
-    BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()");
+    BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()")!;
 
 // erc20 related function datas
 const ERC20_NAME_FUNCTION_DATA = STANDARD_ERC20_INTERFACE.encodeFunctionData(
-    STANDARD_ERC20_INTERFACE.getFunction("name()")
+    STANDARD_ERC20_INTERFACE.getFunction("name()")!
 );
 const ERC20_SYMBOL_FUNCTION_DATA = STANDARD_ERC20_INTERFACE.encodeFunctionData(
-    STANDARD_ERC20_INTERFACE.getFunction("symbol()")
+    STANDARD_ERC20_INTERFACE.getFunction("symbol()")!
 );
 const ERC20_DECIMALS_FUNCTION_DATA =
     STANDARD_ERC20_INTERFACE.encodeFunctionData(
-        STANDARD_ERC20_INTERFACE.getFunction("decimals()")
+        STANDARD_ERC20_INTERFACE.getFunction("decimals()")!
     );
 const ERC20_BYTES_NAME_FUNCTION_DATA =
     BYTES_NAME_ERC20_INTERFACE.encodeFunctionData(
-        BYTES_NAME_ERC20_INTERFACE.getFunction("name()")
+        BYTES_NAME_ERC20_INTERFACE.getFunction("name()")!
     );
 const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
     BYTES_SYMBOL_ERC20_INTERFACE.encodeFunctionData(
-        BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()")
+        BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()")!
     );
+/* eslint-enable @typescript-eslint/no-non-null-assertion */
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements ICoreFetcher {
@@ -62,7 +61,9 @@ class Fetcher implements ICoreFetcher {
         provider,
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
-        const chainId = (await provider.getNetwork()).chainId as ChainId;
+        const chainId = Number(
+            (await provider.getNetwork()).chainId
+        ) as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const { cachedTokens, missingTokens } = addresses.reduce(
             (
@@ -96,7 +97,7 @@ class Fetcher implements ICoreFetcher {
             [address, ERC20_BYTES_SYMBOL_FUNCTION_DATA],
         ]);
 
-        const result = await multicall.callStatic.tryAggregate(false, calls);
+        const result = await multicall.tryAggregate.staticCall(false, calls);
         const fetchedTokens = missingTokens.reduce(
             (
                 accumulator: { [address: string]: Token },

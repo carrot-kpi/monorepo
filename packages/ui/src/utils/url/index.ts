@@ -1,4 +1,5 @@
-import { parseENSName, uriToHttps } from "@carrot-kpi/sdk";
+import { parseENSName } from "@carrot-kpi/sdk/lib/utils/ens";
+import { uriToHttps } from "@carrot-kpi/sdk/lib/utils/uri";
 
 export const resolveSrc = (
     src?: string | string[] | null,

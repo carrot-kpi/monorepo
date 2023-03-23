@@ -1,7 +1,7 @@
 import { Provider } from "@ethersproject/providers";
-import { KPIToken } from "../entities/kpi-token";
-import { Template } from "../entities/template";
-import { Oracle } from "../entities/oracle";
+import { KPIToken } from "../entities/kpi-token.js";
+import { Template } from "../entities/template.js";
+import { Oracle } from "../entities/oracle.js";
 import {
     FetchERC20TokensParams,
     FullFetcherFetchEntitiesParams,
@@ -9,14 +9,14 @@ import {
     FullFetcherFetchKPITokensAmountParams,
     FullFetcherFetchTemplatesParams,
     IFullCarrotFetcher,
-} from "./abstraction";
-import { OnChainFetcher } from "./on-chain";
-import { SubgraphFetcher } from "./subgraph";
-import { CoreFetcher } from "./core";
-import { Token } from "../entities/token";
+} from "./abstraction.js";
+import { OnChainFetcher } from "./on-chain.js";
+import { SubgraphFetcher } from "./subgraph.js";
+import { CoreFetcher } from "./core.js";
+import { Token } from "../entities/token.js";
 
-export * from "./abstraction";
-export * from "./core";
+export * from "./abstraction.js";
+export * from "./core.js";
 
 class FullFetcher implements IFullCarrotFetcher {
     private async shouldUseSubgraph({
@@ -28,7 +28,7 @@ class FullFetcher implements IFullCarrotFetcher {
     }) {
         if (preferDecentralization) return false;
         const { chainId } = await provider.getNetwork();
-        return SubgraphFetcher.supportedInChain({ chainId });
+        return SubgraphFetcher.supportedInChain({ chainId: Number(chainId) });
     }
 
     public async fetchERC20Tokens({

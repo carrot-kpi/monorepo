@@ -1,6 +1,6 @@
 import { isAddress, getAddress } from "@ethersproject/address";
-import { Currency } from "../currency";
-import { enforce } from "../../utils/invariant";
+import { Currency } from "./currency.js";
+import { enforce } from "../utils/invariant.js";
 
 export class Token extends Currency {
     public readonly address: string;

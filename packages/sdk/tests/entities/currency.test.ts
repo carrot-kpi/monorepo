@@ -1,4 +1,4 @@
-import { Currency } from ".";
+import { Currency } from "../../src/entities/currency.js";
 
 describe("currency", () => {
     test("instantiates correctly", () => {

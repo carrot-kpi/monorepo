@@ -1,10 +1,10 @@
-import { BigNumberish } from "@ethersproject/bignumber";
 import { Provider } from "@ethersproject/providers";
-import { ChainId } from "../../commons";
-import { KPIToken } from "../../entities/kpi-token";
-import { Oracle } from "../../entities/oracle";
-import { Template } from "../../entities/template";
-import { Token } from "../../entities/token";
+import { BigNumberish } from "@ethersproject/bignumber";
+import { ChainId } from "../commons.js";
+import { KPIToken } from "../entities/kpi-token.js";
+import { Oracle } from "../entities/oracle.js";
+import { Template } from "../entities/template.js";
+import { Token } from "../entities/token.js";
 
 export interface FetchERC20TokensParams {
     provider: Provider;

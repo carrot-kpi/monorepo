@@ -1,6 +1,6 @@
-import { commify, formatUnits } from "@ethersproject/units";
-import { Amount } from "../entities/amount";
-import { Token } from "../entities/token";
+import { formatUnits } from "@ethersproject/units";
+import { Amount } from "../entities/amount.js";
+import { Token } from "../entities/token.js";
 
 export const formatTokenAmount = (
     amount: Amount<Token>,
@@ -8,7 +8,7 @@ export const formatTokenAmount = (
     nonZeroDecimalsAmount = 4
 ) => {
     let rawBaseAmount = formatDecimals(
-        commify(formatUnits(amount.raw, amount.currency.decimals)),
+        formatUnits(amount.raw, amount.currency.decimals),
         nonZeroDecimalsAmount
     );
     if (withSymbol)

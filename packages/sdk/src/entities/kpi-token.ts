@@ -1,6 +1,6 @@
-import { Template } from "../template";
-import { Oracle, OracleWithData } from "../oracle";
-import { ChainId } from "../../commons";
+import { Template } from "./template.js";
+import { Oracle, OracleWithData } from "./oracle.js";
+import { ChainId } from "../commons.js";
 
 export interface KPITokenSpecification {
     ipfsHash: string;

@@ -1,4 +1,5 @@
-import { KPIToken, Template } from "@carrot-kpi/sdk";
+import { KPIToken } from "@carrot-kpi/sdk/lib/entities/kpi-token";
+import { Template } from "@carrot-kpi/sdk/lib/entities/template";
 import React from "react";
 import { useNetwork } from "wagmi";
 import { KPITokenCard } from "../ui/kpi-token-card";

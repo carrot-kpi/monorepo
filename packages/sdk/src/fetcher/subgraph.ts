@@ -1,4 +1,4 @@
-import { KPIToken } from "../../entities/kpi-token";
+import { KPIToken } from "../entities/kpi-token.js";
 import {
     FetchEntitiesParams,
     FetchKPITokenAddressesParams,
@@ -6,7 +6,7 @@ import {
     FetchTemplatesParams,
     IPartialCarrotFetcher,
     SupportedInChainParams,
-} from "../abstraction";
+} from "./abstraction.js";
 import {
     KPITokenData,
     KPITokenSearchData,
@@ -29,14 +29,14 @@ import {
     GetKPITokenAddressesQuery,
     getKPITokenBySearchQuery,
     GetKPITokenSearchQueryResponse,
-} from "./queries";
-import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
-import { enforce } from "../../utils";
+} from "./queries/index.js";
+import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../commons.js";
+import { enforce } from "../utils/invariant.js";
 import { getAddress } from "@ethersproject/address";
-import { Template, TemplateSpecification } from "../../entities/template";
-import { Oracle } from "../../entities/oracle";
-import { query } from "../../utils/subgraph";
-import { CoreFetcher } from "../core";
+import { Template, TemplateSpecification } from "../entities/template.js";
+import { Oracle } from "../entities/oracle.js";
+import { query } from "../utils/subgraph.js";
+import { CoreFetcher } from "./core.js";
 
 const PAGE_SIZE = 100;
 
@@ -166,10 +166,13 @@ class Fetcher implements IPartialCarrotFetcher {
         provider,
     }: FetchKPITokensAmountParams): Promise<number> {
         const { chainId } = await provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
+        enforce(
+            Number(chainId) in ChainId,
+            `unsupported chain with id ${chainId}`
+        );
+        const subgraphURL = SUBGRAPH_URL[Number(chainId) as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const chainAddresses = CHAIN_ADDRESSES[Number(chainId) as ChainId];
         enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
         const { factory } = await query<GetKPITokensAmountQueryResponse>(
             subgraphURL,
@@ -187,10 +190,13 @@ class Fetcher implements IPartialCarrotFetcher {
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<string[]> {
         const { chainId } = await provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
+        enforce(
+            Number(chainId) in ChainId,
+            `unsupported chain with id ${chainId}`
+        );
+        const subgraphURL = SUBGRAPH_URL[Number(chainId) as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const chainAddresses = CHAIN_ADDRESSES[Number(chainId) as ChainId];
         enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
@@ -233,8 +239,11 @@ class Fetcher implements IPartialCarrotFetcher {
         searchQuery,
     }: FetchEntitiesParams): Promise<KPITokensProp> {
         const { chainId } = await provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
+        enforce(
+            Number(chainId) in ChainId,
+            `unsupported chain with id ${chainId}`
+        );
+        const subgraphURL = SUBGRAPH_URL[Number(chainId) as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
 
         if (!!searchQuery) {
@@ -247,7 +256,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
             return this.normalizeKpiTokens(
                 kpiTokenSearch,
-                chainId,
+                Number(chainId),
                 ipfsGatewayURL
             );
         }
@@ -276,7 +285,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
                 kpiTokens = this.normalizeKpiTokens(
                     rawKPITokens,
-                    chainId,
+                    Number(chainId),
                     ipfsGatewayURL
                 );
 
@@ -302,7 +311,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 if (page.length === 0) break;
                 kpiTokens = this.normalizeKpiTokens(
                     page,
-                    chainId,
+                    Number(chainId),
                     ipfsGatewayURL
                 );
                 lastID = page[page.length - 1].rawAddress;
@@ -338,8 +347,11 @@ class Fetcher implements IPartialCarrotFetcher {
         addresses,
     }: FetchEntitiesParams): Promise<OraclesProp> {
         const { chainId } = await provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
+        enforce(
+            Number(chainId) in ChainId,
+            `unsupported chain with id ${chainId}`
+        );
+        const subgraphURL = SUBGRAPH_URL[Number(chainId) as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
         let oracles: Promise<OraclesProp> | OraclesProp = {};
 
@@ -366,7 +378,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 if (rawOracles.length === 0) break;
                 oracles = this.normalizeOracle(
                     rawOracles,
-                    chainId,
+                    Number(chainId),
                     ipfsGatewayURL
                 );
 
@@ -388,7 +400,11 @@ class Fetcher implements IPartialCarrotFetcher {
                 );
                 page = result.oracles;
                 if (page.length === 0) break;
-                oracles = this.normalizeOracle(page, chainId, ipfsGatewayURL);
+                oracles = this.normalizeOracle(
+                    page,
+                    Number(chainId),
+                    ipfsGatewayURL
+                );
                 lastID = page[page.length - 1].rawAddress;
             } while (page.length === PAGE_SIZE);
             return oracles;
@@ -401,10 +417,13 @@ class Fetcher implements IPartialCarrotFetcher {
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
+        enforce(
+            Number(chainId) in ChainId,
+            `unsupported chain with id ${chainId}`
+        );
+        const subgraphURL = SUBGRAPH_URL[Number(chainId) as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const chainAddresses = CHAIN_ADDRESSES[Number(chainId) as ChainId];
         enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
         const managerAddress = chainAddresses.kpiTokensManager.toLowerCase();
         if (!!ids) {
@@ -493,10 +512,13 @@ class Fetcher implements IPartialCarrotFetcher {
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const { chainId } = await provider.getNetwork();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
+        enforce(
+            Number(chainId) in ChainId,
+            `unsupported chain with id ${chainId}`
+        );
+        const subgraphURL = SUBGRAPH_URL[Number(chainId) as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const chainAddresses = CHAIN_ADDRESSES[Number(chainId) as ChainId];
         enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
         const managerAddress = chainAddresses.oraclesManager.toLowerCase();
         if (!!ids) {

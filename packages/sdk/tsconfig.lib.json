@@ -1,0 +1,9 @@
+{
+    "extends": "tsconfig/sdk.json",
+    "include": ["./src/**/*"],
+    "compilerOptions": {
+        "rootDir": "./src",
+        "outDir": "./lib",
+        "declaration": true
+    }
+}

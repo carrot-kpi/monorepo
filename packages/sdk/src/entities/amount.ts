@@ -1,9 +1,9 @@
-import { Token, currencyEquals } from "../token";
-import { Currency } from "../currency";
-import { BigNumber } from "@ethersproject/bignumber";
+import { Token, currencyEquals } from "./token.js";
+import { Currency } from "./currency.js";
 import { formatUnits } from "@ethersproject/units";
-import Decimal from "decimal.js-light";
-import { enforce } from "../../utils";
+import { Decimal } from "decimal.js-light";
+import { enforce } from "../utils/invariant.js";
+import { BigNumber } from "@ethersproject/bignumber";
 
 export type TokenOrCurrency = Token | Currency;
 

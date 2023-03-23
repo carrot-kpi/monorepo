@@ -2,7 +2,7 @@ import React from "react";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Typography } from "../../../../../data-display";
 import { Skeleton } from "../../../../../feedback";
-import { formatDecimals } from "@carrot-kpi/sdk";
+import { formatDecimals } from "@carrot-kpi/sdk/lib/utils/formatting";
 import { commify, formatUnits } from "@ethersproject/units";
 
 interface BalanceProps {

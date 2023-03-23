@@ -1,11 +1,11 @@
 import {
-    Fetcher,
     KPIToken,
     KPITokenWithData,
-    KPI_TOKEN_ABI,
-    OracleWithData,
-    ORACLE_ABI,
-} from "@carrot-kpi/sdk";
+} from "@carrot-kpi/sdk/lib/entities/kpi-token";
+import { OracleWithData } from "@carrot-kpi/sdk/lib/entities/oracle";
+import KPI_TOKEN_ABI from "@carrot-kpi/sdk/lib/abis/kpi-token";
+import ORACLE_ABI from "@carrot-kpi/sdk/lib/abis/oracle";
+import { Fetcher } from "@carrot-kpi/sdk/lib/fetcher";
 import { ReadContractConfig } from "@wagmi/core";
 import { useEffect, useState } from "react";
 import { useContractReads, useProvider } from "wagmi";

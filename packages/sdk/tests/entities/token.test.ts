@@ -1,7 +1,7 @@
 import { Wallet } from "@ethersproject/wallet";
-import { currencyEquals, Token } from ".";
-import { ChainId } from "../../commons";
-import { Currency } from "../currency";
+import { currencyEquals, Token } from "../../src/entities/token.js";
+import { ChainId } from "../../src/commons.js";
+import { Currency } from "../../src/entities/currency.js";
 
 describe("token", () => {
     test("instantiates correctly", () => {

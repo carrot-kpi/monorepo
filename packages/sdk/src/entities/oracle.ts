@@ -1,5 +1,5 @@
-import { ChainId } from "../../commons";
-import { Template } from "../template";
+import { ChainId } from "../commons.js";
+import { Template } from "./template.js";
 
 export class Oracle {
     constructor(

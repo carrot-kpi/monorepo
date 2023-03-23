@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Fetcher, Oracle } from "@carrot-kpi/sdk";
+import { Oracle } from "@carrot-kpi/sdk/lib/entities/oracle";
+import { Fetcher } from "@carrot-kpi/sdk/lib/fetcher";
 import { useProvider, useNetwork } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";

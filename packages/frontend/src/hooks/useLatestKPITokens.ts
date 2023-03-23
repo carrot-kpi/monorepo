@@ -1,6 +1,6 @@
-import { Fetcher } from "@carrot-kpi/sdk";
+import { Fetcher } from "@carrot-kpi/sdk/lib/fetcher";
 import { useProvider, useNetwork } from "wagmi";
-import { KPIToken } from "@carrot-kpi/sdk";
+import { KPIToken } from "@carrot-kpi/sdk/lib/entities/kpi-token";
 import {
     usePreferDecentralization,
     useIPFSGatewayURL,

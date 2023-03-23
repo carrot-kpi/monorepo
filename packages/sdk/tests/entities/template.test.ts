@@ -1,5 +1,8 @@
 import { Wallet } from "@ethersproject/wallet";
-import { Template, TemplateSpecification } from ".";
+import {
+    Template,
+    TemplateSpecification,
+} from "../../src/entities/template.js";
 
 describe("template", () => {
     describe("template specification", () => {

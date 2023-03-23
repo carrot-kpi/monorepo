@@ -1,6 +1,6 @@
 import React from "react";
 import { useKPITokenTemplates, useResetPageScroll } from "@carrot-kpi/react";
-import { Template } from "@carrot-kpi/sdk";
+import { Template } from "@carrot-kpi/sdk/lib/entities/template";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Layout } from "../../components/layout";

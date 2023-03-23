@@ -1,4 +1,4 @@
-import { ChainId } from "@carrot-kpi/sdk";
+import { ChainId } from "@carrot-kpi/sdk/lib/commons";
 import { createAction } from "@reduxjs/toolkit";
 
 export const addTransaction = createAction<{

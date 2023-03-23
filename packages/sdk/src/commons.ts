@@ -1,11 +1,11 @@
-import FACTORY_ABI from "../abis/factory";
-import KPI_TOKEN_ABI from "../abis/kpi-token";
-import ORACLE_ABI from "../abis/oracle";
-import KPI_TOKENS_MANAGER_ABI from "../abis/kpi-tokens-manager";
-import ORACLES_MANAGER_ABI from "../abis/oracles-manager";
-import MULTICALL_ABI from "../abis/multicall";
-import ERC20_ABI from "../abis/erc20";
-import { Cacher } from "../cacher";
+import FACTORY_ABI from "./abis/factory.js";
+import KPI_TOKEN_ABI from "./abis/kpi-token.js";
+import ORACLE_ABI from "./abis/oracle.js";
+import KPI_TOKENS_MANAGER_ABI from "./abis/kpi-tokens-manager.js";
+import ORACLES_MANAGER_ABI from "./abis/oracles-manager.js";
+import MULTICALL_ABI from "./abis/multicall.js";
+import ERC20_ABI from "./abis/erc20.js";
+import { Cacher } from "./cacher.js";
 
 export enum ChainId {
     GNOSIS = 100,

@@ -11,7 +11,7 @@ import {
     Markdown,
 } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import { KPIToken } from "@carrot-kpi/sdk";
+import { KPIToken } from "@carrot-kpi/sdk/lib/entities/kpi-token";
 import { Link } from "react-router-dom";
 
 const rootStyles = cva(

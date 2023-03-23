@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 import { useNetwork } from "wagmi";
 import { ChainIcon } from "../../../chain-icon";
 import { AugmentedChain, SUPPORTED_CHAINS } from "../../../../constants";
-import { ChainId } from "@carrot-kpi/sdk";
+import { ChainId } from "@carrot-kpi/sdk/lib/commons";
 import { ReactComponent as Error } from "../../../../assets/error.svg";
 
 interface NetworksPopoverProps {
