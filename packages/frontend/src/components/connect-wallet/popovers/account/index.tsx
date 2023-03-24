@@ -80,9 +80,10 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
         }, [clipboardState]);
 
         const handleDisconnectClick = useCallback(() => {
-            if (!!readonlyConnector) connect({ connector: readonlyConnector });
+            if (!!readonlyConnector)
+                connect({ connector: readonlyConnector, chainId: chain?.id });
             onClose();
-        }, [connect, onClose, readonlyConnector]);
+        }, [connect, onClose, readonlyConnector, chain?.id]);
 
         const handleCopyToClipboardClick = useCallback(() => {
             copyToClipboard(address);

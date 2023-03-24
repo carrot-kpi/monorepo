@@ -1,7 +1,7 @@
 import React from "react";
 import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
-import { useConnect } from "wagmi";
+import { useConnect, useNetwork } from "wagmi";
 import { getConnectorIcon, ReadonlyConnector } from "../../../../connectors";
 
 interface ConnectPopoverProps {
@@ -12,6 +12,7 @@ interface ConnectPopoverProps {
 
 export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
     function ConnectPopover({ open, anchor, onClose }, ref) {
+        const { chain } = useNetwork();
         const { connectors, connect } = useConnect();
 
         return (
@@ -34,7 +35,7 @@ export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
                             key={connector.id}
                             className="flex gap-4 cursor-pointer"
                             onClick={() => {
-                                connect({ connector });
+                                connect({ connector, chainId: chain?.id });
                                 onClose();
                             }}
                         >
