@@ -1,7 +1,10 @@
 import { KPIToken } from "@carrot-kpi/sdk";
 import { CampaignOrder, CampaignState } from "../pages/campaigns";
 
-export const filterKPITokens = (tokens: KPIToken[], state: CampaignState) => {
+export const filterStateKPITokens = (
+    tokens: KPIToken[],
+    state: CampaignState
+) => {
     if (tokens.length === 0) return [];
 
     if (state === CampaignState.ALL) return tokens;

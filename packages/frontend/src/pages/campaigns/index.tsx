@@ -1,40 +1,27 @@
 import { useKPITokens, usePage, useResetPageScroll } from "@carrot-kpi/react";
-import { Button, SelectOption, Typography } from "@carrot-kpi/ui";
-import { cva } from "class-variance-authority";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { SelectOption, Typography } from "@carrot-kpi/ui";
+import React, {
+    useEffect,
+    useCallback,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
 import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
-import { TemplatesFilter } from "./filters/templates";
-import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
+import { filterStateKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
 import { KPIToken } from "@carrot-kpi/sdk";
 import { useSearch } from "../../hooks/useSearch";
 import { t } from "i18next";
+import { Filters } from "./filters";
 
 export enum CampaignOrder {
     NEWEST,
     OLDEST,
 }
-
-const campaignsFiltersStyles = cva(
-    [
-        "absolute lg:relative",
-        "shadow md:shadow-none",
-        "w-full lg:w-fit",
-        "p-12",
-        "bg-white",
-        "border-r border-gray-400 dark:bg-black",
-    ],
-    {
-        variants: {
-            filtersOpen: {
-                false: ["hidden"],
-            },
-        },
-    }
-);
 
 const ORDERING_OPTIONS = [
     {
@@ -77,24 +64,45 @@ export const Campaigns = () => {
     const { searchQuery, setSearchQuery } = useSearch();
     const { loading, kpiTokens } = useKPITokens(searchQuery);
 
-    //  show filters
-    const [filtersOpen, setFilterOpen] = useState(false);
+    //  toggle filters
     const toggleFilters = () => setFilterOpen(!filtersOpen);
+    const [filtersOpen, setFilterOpen] = useState(false);
 
     // page settings
     const [pageSize, setPageSize] = useState(12);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+
+    // filters
     const [campaignState, setCampaignState] = useState<SelectOption>(
         STATE_OPTIONS[0]
     );
+    const [selectedTemplates, setSelectedTemplates] = useState<Set<number>>(
+        new Set<number>()
+    );
+
+    const handleSelectedTemplatesUpdate = useCallback(
+        (newSelectedTemplates: Set<number>) =>
+            setSelectedTemplates(new Set(newSelectedTemplates)),
+        []
+    );
 
     // filter results
-    const filteredTokens = useMemo(() => {
-        return filterKPITokens(
-            Object.values(kpiTokens),
+    const filteredKPITokensByState = useMemo(() => {
+        const tokens = Object.values(kpiTokens);
+
+        return filterStateKPITokens(
+            tokens,
             campaignState.value as unknown as CampaignState
         );
     }, [kpiTokens, campaignState]);
+
+    const filteredTokens = useMemo(
+        () =>
+            filteredKPITokensByState.filter((token) =>
+                selectedTemplates.has(token.template.id)
+            ),
+        [filteredKPITokensByState, selectedTemplates]
+    );
 
     // sort results
     const sortedFilteredTokens = useMemo(() => {
@@ -154,21 +162,12 @@ export const Campaigns = () => {
                         setSearchQuery={setSearchQuery}
                     />
                     <div className="flex">
-                        <div
-                            className={campaignsFiltersStyles({ filtersOpen })}
-                        >
-                            <div className="space-y-6 md:w-64">
-                                <TemplatesFilter />
-                            </div>
-                            <Button
-                                className={{
-                                    root: "w-full p-1 mt-12 md:hidden",
-                                }}
-                                onClick={toggleFilters}
-                            >
-                                Close filters
-                            </Button>
-                        </div>
+                        <Filters
+                            open={filtersOpen}
+                            toggleFilters={toggleFilters}
+                            selectedTemplates={selectedTemplates}
+                            setSelectedTemplates={handleSelectedTemplatesUpdate}
+                        />
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
                             {!loading && page.length === 0 && (
                                 <div className="flex justify-center w-full">
@@ -177,7 +176,7 @@ export const Campaigns = () => {
                             )}
                             {(loading || page.length > 0) && (
                                 <>
-                                    <div className="flex flex-wrap justify-center lg:justify-start gap-5">
+                                    <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
                                         {loading
                                             ? new Array(pageSize)
                                                   .fill(null)
