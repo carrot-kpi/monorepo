@@ -66,6 +66,8 @@ export const MultiChainLinksUpdater = () => {
     // whenever the target landing chain is set this effect takes
     // care of automatic switching (if supported)
     useEffect(() => {
+        if (!activeConnector) return;
+
         let cancelled = false;
         const switchNetwork = async () => {
             try {
