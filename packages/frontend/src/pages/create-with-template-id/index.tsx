@@ -9,7 +9,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAccount, useNetwork, useProvider } from "wagmi";
 import { Fetcher, Template } from "@carrot-kpi/sdk";
-import { Loader } from "@carrot-kpi/ui";
+import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
@@ -136,6 +136,20 @@ export const CreateWithTemplateId = ({
                         fallback={
                             <div className="bg-green py-10 text-black flex justify-center">
                                 <Loader />
+                            </div>
+                        }
+                        error={
+                            <div className="bg-green py-10 flex justify-center">
+                                <ErrorFeedback
+                                    messages={{
+                                        title: i18n.t(
+                                            "error.initializing.creation.title"
+                                        ),
+                                        description: i18n.t(
+                                            "error.initializing.creation.description"
+                                        ),
+                                    }}
+                                />
                             </div>
                         }
                         i18n={i18n}
