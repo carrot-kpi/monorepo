@@ -14,6 +14,7 @@ type OraclePageProps = Omit<
 
 export function OraclePage({
     fallback,
+    error,
     i18n,
     className,
     oracle,
@@ -25,6 +26,7 @@ export function OraclePage({
             type="page"
             template={oracle?.template}
             fallback={fallback}
+            error={error}
             i18n={i18n}
             className={className}
             additionalProps={{ oracle, ...rest }}
