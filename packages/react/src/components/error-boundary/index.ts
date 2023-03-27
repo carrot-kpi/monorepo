@@ -19,7 +19,7 @@ export class ErrorBoundary extends React.Component<
     }
 
     static getDerivedStateFromError(error: unknown) {
-        console.warn("error catched by boundary", error);
+        console.warn("error caught by boundary", error);
         return { hasError: true };
     }
 
