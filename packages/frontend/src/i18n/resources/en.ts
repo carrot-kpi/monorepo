@@ -61,5 +61,11 @@ export const en = {
         "stateOptions.all": "All",
         "stateOptions.active": "Active",
         "stateOptions.expired": "Expired",
+        "error.initializing.creation.title": "Something went wrong",
+        "error.initializing.creation.description":
+            "Error while bootstrapping the KPI token creation form, please try again later.",
+        "error.initializing.page.title": "Something went wrong",
+        "error.initializing.page.description":
+            "Error while bootstrapping the KPI token campaign page, please try again later.",
     },
 } as const;

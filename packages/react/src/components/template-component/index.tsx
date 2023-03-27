@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactNode, useEffect, useLayoutEffect } from "react";
+import React, {
+    ReactElement,
+    ReactNode,
+    useEffect,
+    useLayoutEffect,
+} from "react";
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
@@ -8,6 +13,7 @@ import { i18n } from "i18next";
 import { cva } from "class-variance-authority";
 import { useTheme } from "../../hooks";
 import { useMedia } from "react-use";
+import { ErrorBoundary } from "../error-boundary";
 
 const wrapperStyles = cva(["h-full"], {
     variants: {
@@ -27,6 +33,7 @@ export interface TemplateComponentProps {
     type: "creationForm" | "page";
     template?: ResolvedTemplate;
     fallback: ReactNode;
+    error: ReactElement;
     i18n: i18n;
     className?: { root?: string; wrapper?: string };
     additionalProps?: any;
@@ -37,6 +44,7 @@ export function TemplateComponent({
     type,
     template,
     fallback,
+    error,
     i18n,
     className,
     additionalProps = {},
@@ -95,11 +103,13 @@ export function TemplateComponent({
                     className: className?.wrapper,
                 })}
             >
-                <Component
-                    {...additionalProps}
-                    i18n={i18n}
-                    t={translateWithNamespace}
-                />
+                <ErrorBoundary fallback={error}>
+                    <Component
+                        {...additionalProps}
+                        i18n={i18n}
+                        t={translateWithNamespace}
+                    />
+                </ErrorBoundary>
             </div>
         </div>
     );
