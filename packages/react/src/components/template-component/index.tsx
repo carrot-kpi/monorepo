@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactNode, useEffect, useLayoutEffect } from "react";
-import { Template } from "@carrot-kpi/sdk";
+import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
 import { useState } from "react";
@@ -25,7 +25,7 @@ const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
 export interface TemplateComponentProps {
     entity: "kpiToken" | "oracle";
     type: "creationForm" | "page";
-    template?: Template;
+    template?: ResolvedTemplate;
     fallback: ReactNode;
     i18n: i18n;
     className?: { root?: string; wrapper?: string };

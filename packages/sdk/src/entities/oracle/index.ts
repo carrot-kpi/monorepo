@@ -1,5 +1,5 @@
 import { ChainId } from "../../commons";
-import { Template } from "../template";
+import { Template, ResolvedTemplate } from "../template";
 
 export class Oracle {
     constructor(
@@ -10,11 +10,29 @@ export class Oracle {
     ) {}
 }
 
-export class OracleWithData extends Oracle {
+export class ResolvedOracle {
+    constructor(
+        public readonly chainId: ChainId,
+        public readonly address: string,
+        public readonly template: ResolvedTemplate,
+        public readonly finalized: boolean
+    ) {}
+
+    public static from(oracle: Oracle, template: ResolvedTemplate) {
+        return new ResolvedOracle(
+            oracle.chainId,
+            oracle.address,
+            template,
+            oracle.finalized
+        );
+    }
+}
+
+export class ResolvedOracleWithData extends ResolvedOracle {
     constructor(
         chainId: ChainId,
         address: string,
-        template: Template,
+        template: ResolvedTemplate,
         finalized: boolean,
         public readonly data: string
     ) {

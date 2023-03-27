@@ -1,43 +1,51 @@
 import { useEffect, useState } from "react";
-import { Template, Fetcher } from "@carrot-kpi/sdk";
+import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
 import { usePreferDecentralization } from "./usePreferDecentralization";
+import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
-export function useOracleTemplate(id?: BigNumberish): {
+export function useResolvedOracleTemplates(ids?: BigNumberish[]): {
     loading: boolean;
-    template: Template | null;
+    resolvedTemplates: ResolvedTemplate[];
 } {
     const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
     const provider = useProvider();
+    const ipfsGatewayURL = useIPFSGatewayURL();
 
-    const [template, setTemplate] = useState<Template | null>(null);
+    const [resolvedTemplates, setResolvedTemplates] = useState<
+        ResolvedTemplate[]
+    >([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let cancelled = false;
-        const fetchData = async (): Promise<void> => {
-            if (!chain || !id) return;
+        async function fetchData(): Promise<void> {
+            if (!chain) return;
             if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchOracleTemplates({
                     provider,
                     preferDecentralization,
-                    ids: [id],
+                    ids,
                 });
-                if (!cancelled) setTemplate(templates[0] || null);
+                const resolved = await Fetcher.resolveTemplates({
+                    ipfsGatewayURL,
+                    templates,
+                });
+                if (!cancelled) setResolvedTemplates(resolved);
             } catch (error) {
-                console.error("error fetching oracle templates", error);
+                console.error("error resolving oracle templates", error);
             } finally {
                 if (!cancelled) setLoading(false);
             }
-        };
+        }
         void fetchData();
         return () => {
             cancelled = true;
         };
-    }, [chain, provider, preferDecentralization, id]);
+    }, [chain, ids, ipfsGatewayURL, preferDecentralization, provider]);
 
-    return { loading, template };
+    return { loading, resolvedTemplates };
 }

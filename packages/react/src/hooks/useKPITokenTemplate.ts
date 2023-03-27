@@ -3,14 +3,12 @@ import { Template, Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
 import { usePreferDecentralization } from "./usePreferDecentralization";
-import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
 export function useKPITokenTemplate(id?: BigNumberish): {
     loading: boolean;
     template: Template | null;
 } {
     const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
 
@@ -25,7 +23,6 @@ export function useKPITokenTemplate(id?: BigNumberish): {
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
                     provider,
-                    ipfsGatewayURL,
                     preferDecentralization,
                     ids: [id],
                 });
@@ -40,7 +37,7 @@ export function useKPITokenTemplate(id?: BigNumberish): {
         return () => {
             cancelled = true;
         };
-    }, [chain, id, ipfsGatewayURL, preferDecentralization, provider]);
+    }, [chain, id, preferDecentralization, provider]);
 
     return { loading, template };
 }

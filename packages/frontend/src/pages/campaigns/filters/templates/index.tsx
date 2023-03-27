@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Checkbox, Skeleton, Typography } from "@carrot-kpi/ui";
-import { useKPITokenTemplates } from "@carrot-kpi/react";
+import {
+    useKPITokenTemplates,
+    useResolvedKPITokenTemplates,
+} from "@carrot-kpi/react";
 
 export const TemplatesFilter = () => {
-    const { loading, templates } = useKPITokenTemplates();
+    const { loading: loadingTemplates, templates } = useKPITokenTemplates();
+
+    const ids = useMemo(() => {
+        if (!templates) return undefined;
+        return templates.map((template) => template.id);
+    }, [templates]);
+    const { loading: resolvingTemplates, resolvedTemplates } =
+        useResolvedKPITokenTemplates(ids);
 
     return (
         <div className="w-full">
@@ -11,14 +21,14 @@ export const TemplatesFilter = () => {
                 Templates
             </Typography>
             <div className="py-6 space-y-4 border-gray-400">
-                {loading ? (
+                {loadingTemplates || resolvingTemplates ? (
                     <>
                         <Skeleton width="40%" />
                         <Skeleton width="40%" />
                         <Skeleton width="40%" />
                     </>
                 ) : (
-                    templates.map((template) => {
+                    resolvedTemplates.map((template) => {
                         return (
                             <Checkbox
                                 key={template.id}

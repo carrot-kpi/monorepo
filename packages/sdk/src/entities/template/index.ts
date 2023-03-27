@@ -1,3 +1,12 @@
+export class Template {
+    constructor(
+        public readonly id: number,
+        public readonly address: string,
+        public readonly version: number,
+        public readonly specificationCID: string
+    ) {}
+}
+
 export class TemplateSpecification {
     constructor(
         public readonly cid: string,
@@ -8,12 +17,23 @@ export class TemplateSpecification {
         public readonly commitHash: string
     ) {}
 }
-
-export class Template {
+export class ResolvedTemplate {
     constructor(
         public readonly id: number,
         public readonly address: string,
         public readonly version: number,
         public readonly specification: TemplateSpecification
     ) {}
+
+    public static from(
+        template: Template,
+        specification: TemplateSpecification
+    ) {
+        return new ResolvedTemplate(
+            template.id,
+            template.address,
+            template.version,
+            specification
+        );
+    }
 }

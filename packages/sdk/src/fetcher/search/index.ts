@@ -1,9 +1,10 @@
-import { KPIToken } from "../../entities/kpi-token";
-import { KPITokensObject, transformInKPITokensObject } from "../serializer";
+import { ResolvedKPIToken } from "../../entities/kpi-token";
+import { transformInKPITokensObject } from "../serializer";
+import { ResolvedKPITokensMap } from "../types";
 
 export function searchKPItokens(
     searchQuery: string,
-    allKPITokens: KPITokensObject
+    allKPITokens: ResolvedKPITokensMap
 ) {
     const filteredTokens = Object.values(allKPITokens).filter((token) =>
         tokenSpecificationIncludesQuery(token, searchQuery)
@@ -12,7 +13,10 @@ export function searchKPItokens(
     return transformInKPITokensObject(filteredTokens);
 }
 
-function tokenSpecificationIncludesQuery(token: KPIToken, searchQuery: string) {
+function tokenSpecificationIncludesQuery(
+    token: ResolvedKPIToken,
+    searchQuery: string
+) {
     const query = searchQuery.toLowerCase();
     const specification = token.specification;
 

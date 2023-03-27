@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
-import { Template, Fetcher } from "@carrot-kpi/sdk";
+import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
 import { usePreferDecentralization } from "./usePreferDecentralization";
+import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
-export function useKPITokenTemplates(ids?: BigNumberish[]): {
+export function useResolvedKPITokenTemplates(ids?: BigNumberish[]): {
     loading: boolean;
-    templates: Template[];
+    resolvedTemplates: ResolvedTemplate[];
 } {
     const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
     const provider = useProvider();
+    const ipfsGatewayURL = useIPFSGatewayURL();
 
-    const [templates, setTemplates] = useState<Template[]>([]);
+    const [resolvedTemplates, setResolvedTemplates] = useState<
+        ResolvedTemplate[]
+    >([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -26,9 +30,13 @@ export function useKPITokenTemplates(ids?: BigNumberish[]): {
                     preferDecentralization,
                     ids,
                 });
-                if (!cancelled) setTemplates(templates);
+                const resolved = await Fetcher.resolveTemplates({
+                    ipfsGatewayURL,
+                    templates,
+                });
+                if (!cancelled) setResolvedTemplates(resolved);
             } catch (error) {
-                console.error("error fetching kpi token templates", error);
+                console.error("error resolving kpi token templates", error);
             } finally {
                 if (!cancelled) setLoading(false);
             }
@@ -37,7 +45,7 @@ export function useKPITokenTemplates(ids?: BigNumberish[]): {
         return () => {
             cancelled = true;
         };
-    }, [chain, ids, preferDecentralization, provider]);
+    }, [chain, ids, ipfsGatewayURL, preferDecentralization, provider]);
 
-    return { loading, templates };
+    return { loading, resolvedTemplates };
 }
