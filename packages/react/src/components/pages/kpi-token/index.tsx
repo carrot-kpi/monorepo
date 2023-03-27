@@ -14,6 +14,7 @@ type KPITokenPageProps = Omit<
 
 export function KPITokenPage({
     fallback,
+    error,
     i18n,
     className,
     kpiToken,
@@ -25,6 +26,7 @@ export function KPITokenPage({
             type="page"
             template={kpiToken?.template}
             fallback={fallback}
+            error={error}
             i18n={i18n}
             className={className}
             additionalProps={{ kpiToken, ...rest }}

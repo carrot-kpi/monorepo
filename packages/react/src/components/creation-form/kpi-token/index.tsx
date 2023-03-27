@@ -15,6 +15,7 @@ type KPITokenCreationFormProps = Omit<
 export function KPITokenCreationForm({
     template,
     fallback,
+    error,
     i18n,
     className,
     ...additionalProps
@@ -25,6 +26,7 @@ export function KPITokenCreationForm({
             type="creationForm"
             template={template}
             fallback={fallback}
+            error={error}
             i18n={i18n}
             className={className}
             additionalProps={additionalProps}
