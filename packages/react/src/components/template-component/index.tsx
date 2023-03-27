@@ -13,7 +13,7 @@ import { i18n } from "i18next";
 import { cva } from "class-variance-authority";
 import { useTheme } from "../../hooks";
 import { useMedia } from "react-use";
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary } from "../error-boundary";
 
 const wrapperStyles = cva(["h-full"], {
     variants: {
