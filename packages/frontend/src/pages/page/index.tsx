@@ -16,7 +16,7 @@ interface PageProps {
 }
 
 export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const { state } = useLocation();
     const { address } = useParams();
     const addTransaction = useAddTransaction();
@@ -71,10 +71,10 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                             <div className="bg-orange py-10 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
-                                        title: i18n.t(
+                                        title: t(
                                             "error.initializing.page.title"
                                         ),
-                                        description: i18n.t(
+                                        description: t(
                                             "error.initializing.page.description"
                                         ),
                                     }}

@@ -24,7 +24,7 @@ export const CreateWithTemplateId = ({
     closing,
     onOutAnimationEnd,
 }: CreateWithTemplateIdProps) => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const { state } = useLocation();
     const navigate = useNavigate();
     const addTransaction = useAddTransaction();
@@ -142,10 +142,10 @@ export const CreateWithTemplateId = ({
                             <div className="bg-green py-10 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
-                                        title: i18n.t(
+                                        title: t(
                                             "error.initializing.creation.title"
                                         ),
-                                        description: i18n.t(
+                                        description: t(
                                             "error.initializing.creation.description"
                                         ),
                                     }}
