@@ -103,9 +103,10 @@ export function useSearchedResolvedKPITokens(searchQuery: string) {
     }, [ipfsGatewayURL, kpiTokens]);
 
     useEffect(() => {
-        if (!searchQuery) setSearchedKPITokens(debouncedSearchableKPITokens);
         setSearchedKPITokens(
-            searchKPItokens(searchQuery, debouncedSearchableKPITokens)
+            !searchQuery
+                ? debouncedSearchableKPITokens
+                : searchKPItokens(searchQuery, debouncedSearchableKPITokens)
         );
     }, [debouncedSearchableKPITokens, ipfsGatewayURL, kpiTokens, searchQuery]);
 
