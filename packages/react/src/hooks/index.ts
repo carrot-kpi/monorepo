@@ -20,6 +20,7 @@ export * from "./useResolvedKPIToken";
 export * from "./useResolvedKPITokenTemplates";
 export * from "./useResolvedOracleTemplates";
 export * from "./useResolvedTemplate";
+export * from "./useResolvedTemplates";
 export * from "./useSetDevMode";
 export * from "./useSetIPFSGatewayURL";
 export * from "./useSetTheme";
