@@ -6,7 +6,6 @@ export const FiltersLoading = () => {
         <>
             <Skeleton width="40%" />
             <Skeleton width="40%" />
-            <Skeleton width="40%" />
         </>
     );
 };

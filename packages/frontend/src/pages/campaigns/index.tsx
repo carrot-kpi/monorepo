@@ -80,9 +80,19 @@ export const Campaigns = () => {
         new Set<number>()
     );
 
+    const [selectedOracles, setSelectedOracles] = useState<Set<number>>(
+        new Set<number>()
+    );
+
     const handleSelectedTemplatesUpdate = useCallback(
         (newSelectedTemplates: Set<number>) =>
             setSelectedTemplates(new Set(newSelectedTemplates)),
+        []
+    );
+
+    const handleSelectedOraclesTemplatesUpdate = useCallback(
+        (newSelectedOracles: Set<number>) =>
+            setSelectedOracles(new Set(newSelectedOracles)),
         []
     );
 
@@ -96,12 +106,28 @@ export const Campaigns = () => {
         );
     }, [kpiTokens, campaignState]);
 
+    const hasOracleTemplate = useMemo(
+        () => (token: KPIToken) =>
+            oraclesTemplateIds(token).some((oracleId) => {
+                return selectedOracles.has(Number(oracleId));
+            }),
+        [selectedOracles]
+    );
+    const hasTemplate = useMemo(
+        () => (token: KPIToken) => selectedTemplates.has(token.template.id),
+        [selectedTemplates]
+    );
+
+    const oraclesTemplateIds = (token: KPIToken) =>
+        token.oracles.map((oracle) => oracle.template.id);
+
     const filteredTokens = useMemo(
         () =>
-            filteredKPITokensByState.filter((token) =>
-                selectedTemplates.has(token.template.id)
+            filteredKPITokensByState.filter(
+                (token) => hasTemplate(token) || hasOracleTemplate(token)
             ),
-        [filteredKPITokensByState, selectedTemplates]
+
+        [filteredKPITokensByState, hasTemplate, hasOracleTemplate]
     );
 
     // sort results
@@ -167,6 +193,10 @@ export const Campaigns = () => {
                             toggleFilters={toggleFilters}
                             selectedTemplates={selectedTemplates}
                             setSelectedTemplates={handleSelectedTemplatesUpdate}
+                            selectedOracles={selectedOracles}
+                            setSelectedOracles={
+                                handleSelectedOraclesTemplatesUpdate
+                            }
                         />
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
                             {!loading && page.length === 0 && (

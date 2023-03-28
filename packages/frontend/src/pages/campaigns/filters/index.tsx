@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import { TemplatesFilter } from "./templates";
+import { OraclesFilter } from "./oracles";
 
 const campaignsFiltersStyles = cva(
     [
@@ -26,19 +27,30 @@ interface FiltersProps {
     toggleFilters: () => void;
     selectedTemplates: Set<number>;
     setSelectedTemplates: (newSelectedTemplates: Set<number>) => void;
+    selectedOracles: Set<number>;
+    setSelectedOracles: (newSelectedOracles: Set<number>) => void;
 }
+
+const Divider = () => <div className="w-full h-0.5 bg-gray-200"></div>;
 
 export const Filters = ({
     open,
     toggleFilters,
     selectedTemplates,
     setSelectedTemplates,
+    setSelectedOracles,
+    selectedOracles,
 }: FiltersProps) => (
     <div className={campaignsFiltersStyles({ open })}>
         <div className="space-y-6 md:w-64">
             <TemplatesFilter
                 setSelectedTemplates={setSelectedTemplates}
                 selectedTemplates={selectedTemplates}
+            />
+            <Divider />
+            <OraclesFilter
+                setSelectedOracles={setSelectedOracles}
+                selectedOracles={selectedOracles}
             />
         </div>
         <Button
