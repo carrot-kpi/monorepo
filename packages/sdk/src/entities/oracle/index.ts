@@ -1,22 +1,34 @@
 import { ChainId } from "../../commons";
 import { Template, ResolvedTemplate } from "../template";
 
-export class Oracle {
+export class BaseOracle {
     constructor(
         public readonly chainId: ChainId,
         public readonly address: string,
-        public readonly template: Template,
         public readonly finalized: boolean
     ) {}
 }
 
-export class ResolvedOracle {
+export class Oracle extends BaseOracle {
     constructor(
-        public readonly chainId: ChainId,
-        public readonly address: string,
+        chainId: ChainId,
+        address: string,
+        public readonly template: Template,
+        finalized: boolean
+    ) {
+        super(chainId, address, finalized);
+    }
+}
+
+export class ResolvedOracle extends BaseOracle {
+    constructor(
+        chainId: ChainId,
+        address: string,
         public readonly template: ResolvedTemplate,
-        public readonly finalized: boolean
-    ) {}
+        finalized: boolean
+    ) {
+        super(chainId, address, finalized);
+    }
 
     public static from(oracle: Oracle, template: ResolvedTemplate) {
         return new ResolvedOracle(

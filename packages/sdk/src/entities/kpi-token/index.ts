@@ -9,14 +9,11 @@ export interface KPITokenSpecification {
     tags: string[];
 }
 
-export class KPIToken {
+export class BaseKPIToken {
     constructor(
         public readonly chainId: ChainId,
         public readonly address: string,
         public readonly owner: string,
-        public readonly template: Template,
-        public readonly oracles: Oracle[],
-        public readonly specificationCID: string,
         public readonly expiration: number,
         public readonly creationTimestamp: number,
         public readonly finalized: boolean
@@ -29,22 +26,48 @@ export class KPIToken {
     }
 }
 
-export class ResolvedKPIToken {
+export class KPIToken extends BaseKPIToken {
     constructor(
-        public readonly chainId: ChainId,
-        public readonly address: string,
-        public readonly owner: string,
+        chainId: ChainId,
+        address: string,
+        owner: string,
+        public readonly template: Template,
+        public readonly oracles: Oracle[],
+        public readonly specificationCID: string,
+        expiration: number,
+        creationTimestamp: number,
+        finalized: boolean
+    ) {
+        super(
+            chainId,
+            address,
+            owner,
+            expiration,
+            creationTimestamp,
+            finalized
+        );
+    }
+}
+
+export class ResolvedKPIToken extends BaseKPIToken {
+    constructor(
+        chainId: ChainId,
+        address: string,
+        owner: string,
         public readonly template: ResolvedTemplate,
         public readonly oracles: ResolvedOracle[],
         public readonly specification: KPITokenSpecification,
-        public readonly expiration: number,
-        public readonly creationTimestamp: number,
-        public readonly finalized: boolean
-    ) {}
-
-    public get expired(): boolean {
-        return (
-            !this.finalized && this.expiration <= Math.floor(Date.now() / 1_000)
+        expiration: number,
+        creationTimestamp: number,
+        finalized: boolean
+    ) {
+        super(
+            chainId,
+            address,
+            owner,
+            expiration,
+            creationTimestamp,
+            finalized
         );
     }
 
@@ -68,23 +91,26 @@ export class ResolvedKPIToken {
     }
 }
 
-export class ResolvedKPITokenWithData {
+export class ResolvedKPITokenWithData extends BaseKPIToken {
     constructor(
-        public readonly chainId: ChainId,
-        public readonly address: string,
-        public readonly owner: string,
+        chainId: ChainId,
+        address: string,
+        owner: string,
         public readonly template: ResolvedTemplate,
         public readonly oracles: ResolvedOracleWithData[],
         public readonly specification: KPITokenSpecification,
-        public readonly expiration: number,
-        public readonly creationTimestamp: number,
-        public readonly finalized: boolean,
+        expiration: number,
+        creationTimestamp: number,
+        finalized: boolean,
         public readonly data: string
-    ) {}
-
-    public get expired(): boolean {
-        return (
-            !this.finalized && this.expiration <= Math.floor(Date.now() / 1_000)
+    ) {
+        super(
+            chainId,
+            address,
+            owner,
+            expiration,
+            creationTimestamp,
+            finalized
         );
     }
 
