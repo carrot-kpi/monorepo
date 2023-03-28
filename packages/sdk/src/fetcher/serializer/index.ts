@@ -1,12 +1,11 @@
-import { KPIToken } from "../../entities/kpi-token";
-
-export type KPITokensObject = Record<string, KPIToken>;
+import { ResolvedKPIToken } from "../../entities/kpi-token";
+import { ResolvedKPITokensMap } from "../types";
 
 export function transformInKPITokensObject(
-    filteredTokens: KPIToken[]
-): KPITokensObject {
+    filteredTokens: ResolvedKPIToken[]
+): ResolvedKPITokensMap {
     return filteredTokens.reduce(
-        (kpiTokensObj: KPITokensObject, token: KPIToken) => {
+        (kpiTokensObj: ResolvedKPITokensMap, token: ResolvedKPIToken) => {
             kpiTokensObj[token.address] = token;
             return kpiTokensObj;
         },

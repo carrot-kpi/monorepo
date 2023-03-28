@@ -8,7 +8,7 @@ import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAccount, useNetwork, useProvider } from "wagmi";
-import { Fetcher, Template } from "@carrot-kpi/sdk";
+import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
@@ -36,8 +36,8 @@ export const CreateWithTemplateId = ({
     const ipfsGatewayURL = useIPFSGatewayURL();
     const queryClient = useQueryClient();
 
-    const [template, setTemplate] = useState<Template | null>(
-        state ? state.template : null
+    const [template, setTemplate] = useState<ResolvedTemplate | null>(
+        state && "specification" in state.template ? state.template : null
     );
     const [show, setShow] = useState(!closing);
     const [formKey, setFormKey] = useState(0);
@@ -78,16 +78,28 @@ export const CreateWithTemplateId = ({
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
                     provider,
-                    ipfsGatewayURL,
                     preferDecentralization,
                     ids: [templateId],
                 });
-                if (templates.length === 0) {
+                if (templates.length !== 1) {
                     console.warn(
-                        `no template with id ${templateId} found on ${chain?.name}`
+                        `inconsistent array length while fetching template with id ${templateId} on ${chain?.name}`
                     );
                     if (!cancelled) setShow(false);
-                } else if (!cancelled) setTemplate(templates[0]);
+                    return;
+                }
+                const resolvedTemplates = await Fetcher.resolveTemplates({
+                    ipfsGatewayURL,
+                    templates: templates,
+                });
+                if (resolvedTemplates.length !== 1) {
+                    console.warn(
+                        `inconsistent array length while resolving template with id ${templateId} on ${chain?.name}`
+                    );
+                    if (!cancelled) setShow(false);
+                    return;
+                }
+                if (!cancelled) setTemplate(resolvedTemplates[0]);
             } catch (error) {
                 console.error(
                     `could not fetch template with id ${templateId}`,

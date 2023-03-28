@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import { Home } from "../home";
 import { Page } from "../page";
-import { Create } from "../create";
 import { Campaigns } from "../campaigns";
 import { CreateWithTemplateId } from "../create-with-template-id";
 import { usePreviousDistinct } from "react-use";
@@ -128,7 +127,6 @@ export const App = ({
         <>
             <Routes location={mainLocation}>
                 <Route path="/" element={<Home templateId={templateId} />} />
-                <Route path="/create" element={<Create />} />
                 <Route path="/campaigns" element={<Campaigns />} />
             </Routes>
             {modalLocation && (

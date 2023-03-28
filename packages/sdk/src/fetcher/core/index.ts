@@ -19,7 +19,17 @@ import {
     FetchContentFromIPFSParams,
     FetchERC20TokensParams,
     ICoreFetcher,
+    ResolveKPITokensParams,
+    ResolveOraclesParams,
+    ResolveTemplatesParams,
 } from "../abstraction";
+import { KPIToken, ResolvedKPIToken } from "../../entities/kpi-token";
+import { Oracle, ResolvedOracle } from "../../entities/oracle";
+import {
+    ResolvedTemplate,
+    TemplateSpecification,
+} from "../../entities/template";
+import { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
 
 // erc20 related interfaces
 const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
@@ -57,7 +67,7 @@ const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
     );
 
 // TODO: check if validation can be extracted in its own function
-class Fetcher implements ICoreFetcher {
+export class CoreFetcher implements ICoreFetcher {
     public async fetchERC20Tokens({
         provider,
         addresses,
@@ -191,7 +201,7 @@ class Fetcher implements ICoreFetcher {
         ipfsGatewayURL,
         cids,
     }: FetchContentFromIPFSParams): Promise<{ [cid: string]: string }> {
-        const allContents = await Promise.all(
+        const allContents = await Promise.allSettled(
             cids.map(async (cid) => {
                 const response = await fetch(`${ipfsGatewayURL}/ipfs/${cid}`);
                 const responseOk = response.ok;
@@ -203,12 +213,143 @@ class Fetcher implements ICoreFetcher {
             })
         );
         const contents: { [cid: string]: string } = {};
-        for (const { cid, content } of allContents) {
+        for (const contentPromise of allContents) {
+            if (contentPromise.status !== "fulfilled") continue;
+            const { cid, content } = contentPromise.value;
             if (!content) continue;
             contents[cid] = content;
         }
         return contents;
     }
-}
 
-export const CoreFetcher = new Fetcher();
+    public async resolveTemplates({
+        ipfsGatewayURL,
+        templates,
+    }: ResolveTemplatesParams): Promise<ResolvedTemplate[]> {
+        return Promise.all(
+            templates.map(async (template) => {
+                const templateSpecificationCID = template.specificationCID;
+                const resolvedTemplateSpecificationCID = `${templateSpecificationCID}/base.json`;
+                const rawTemplateSpecification = (
+                    await this.fetchContentFromIPFS({
+                        ipfsGatewayURL,
+                        cids: [resolvedTemplateSpecificationCID],
+                    })
+                )[resolvedTemplateSpecificationCID];
+                if (!rawTemplateSpecification)
+                    throw new Error(
+                        `couldn't fetch template specification with cid ${templateSpecificationCID}`
+                    );
+                const parsedTemplateSpecification = JSON.parse(
+                    rawTemplateSpecification
+                );
+                const specification = new TemplateSpecification(
+                    templateSpecificationCID,
+                    parsedTemplateSpecification.name,
+                    parsedTemplateSpecification.description,
+                    parsedTemplateSpecification.tags,
+                    parsedTemplateSpecification.repository,
+                    parsedTemplateSpecification.commitHash
+                );
+                return ResolvedTemplate.from(template, specification);
+            })
+        );
+    }
+
+    protected async resolveEntity<T extends KPIToken | Oracle = KPIToken>({
+        ipfsGatewayURL,
+        entity,
+    }: {
+        entity: T;
+        ipfsGatewayURL: string;
+    }): Promise<T extends KPIToken ? ResolvedKPIToken : ResolvedOracle> {
+        const template = (
+            await this.resolveTemplates({
+                ipfsGatewayURL,
+                templates: [entity.template],
+            })
+        )[0];
+
+        if (!("oracles" in entity))
+            // FIXME: this is ugly but the ts compiler is complaining otherwise (not sure why)
+            return ResolvedOracle.from(entity, template) as T extends KPIToken
+                ? ResolvedKPIToken
+                : ResolvedOracle;
+
+        const oracles = await Promise.all(
+            entity.oracles.map(async (oracle) => {
+                return ResolvedOracle.from(
+                    oracle,
+                    (
+                        await this.resolveTemplates({
+                            ipfsGatewayURL,
+                            templates: [oracle.template],
+                        })
+                    )[0]
+                );
+            })
+        );
+
+        const resolvedKPITokenSpecification = (
+            await this.fetchContentFromIPFS({
+                ipfsGatewayURL,
+                cids: [entity.specificationCID],
+            })
+        )[entity.specificationCID];
+        if (!resolvedKPITokenSpecification)
+            throw new Error(
+                `couldn't fetch kpi token specification with cid ${entity.specificationCID}`
+            );
+
+        return ResolvedKPIToken.from(
+            entity,
+            template,
+            oracles,
+            JSON.parse(resolvedKPITokenSpecification)
+        );
+    }
+
+    public async resolveKPITokens({
+        ipfsGatewayURL,
+        kpiTokens,
+    }: ResolveKPITokensParams): Promise<ResolvedKPITokensMap> {
+        const resolvedKPITokens = await Promise.allSettled(
+            kpiTokens.map(async (kpiToken) =>
+                this.resolveEntity({
+                    ipfsGatewayURL,
+                    entity: kpiToken,
+                })
+            )
+        );
+        return resolvedKPITokens.reduce(
+            (accumulator: ResolvedKPITokensMap, kpiToken) => {
+                if (kpiToken.status === "fulfilled")
+                    accumulator[kpiToken.value.address] = kpiToken.value;
+                return accumulator;
+            },
+            {}
+        );
+    }
+
+    public async resolveOracles({
+        ipfsGatewayURL,
+        oracles,
+    }: ResolveOraclesParams): Promise<ResolvedOraclesMap> {
+        const resolvedOracles = await Promise.allSettled(
+            oracles.map(async (oracle) =>
+                this.resolveEntity({
+                    ipfsGatewayURL,
+                    entity: oracle,
+                })
+            )
+        );
+        return resolvedOracles.reduce(
+            (accumulator: ResolvedOraclesMap, oracle) => {
+                if (oracle.status === "fulfilled")
+                    accumulator[oracle.value.address] = oracle.value;
+                return accumulator;
+            },
+            {}
+        );
+    }
+}

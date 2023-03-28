@@ -1,7 +1,6 @@
 import React from "react";
 import {
     Chip,
-    Timer,
     Typography,
     Skeleton,
     Card,
@@ -11,8 +10,10 @@ import {
     Markdown,
 } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import { KPIToken } from "@carrot-kpi/sdk";
+import { KPIToken, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { Link } from "react-router-dom";
+import { useResolvedKPIToken } from "@carrot-kpi/react";
+import { TimeLeft } from "./time-left";
 
 const rootStyles = cva(
     [
@@ -40,16 +41,18 @@ const rootStyles = cva(
 );
 
 interface KPITokenCardProps {
-    kpiToken?: KPIToken;
+    kpiToken?: KPIToken | ResolvedKPIToken;
     noBorder?: boolean;
 }
 
 export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
+    const { loading, resolvedKPIToken } = useResolvedKPIToken(kpiToken);
+
     return (
         <Card className={{ root: rootStyles({ noBorder }) }}>
             <CardTitle>
                 <div className="flex items-center justify-between w-full">
-                    {!!kpiToken ? (
+                    {!loading && !!resolvedKPIToken ? (
                         <Typography
                             weight="medium"
                             uppercase
@@ -57,14 +60,14 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                                 root: "overflow-hidden text-ellipsis whitespace-nowrap",
                             }}
                         >
-                            {kpiToken.specification.title}
+                            {resolvedKPIToken.specification.title}
                         </Typography>
                     ) : (
                         <Skeleton width={80} />
                     )}
                 </div>
                 {/* TODO: handle logo fetching for creators */}
-                {/* {!!kpiToken && (
+                {/* {!!resolvedKPIToken && (
                         <div className="flex items-center border-r border-gray-600">
                             <Skeleton
                                 className={{ root: "w-6 h-6 mx-3" }}
@@ -76,13 +79,13 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
             <CardContent>
                 <div className="h-58">
                     <div className="h-40 overflow-hidden px-4 pt-4">
-                        {!!kpiToken ? (
+                        {!loading && !!resolvedKPIToken ? (
                             <Markdown
                                 className={{
                                     root: "prose prose-headings:mt-0 line-clamp-5 overflow-hidden",
                                 }}
                             >
-                                {kpiToken.specification.description}
+                                {resolvedKPIToken.specification.description}
                             </Markdown>
                         ) : (
                             <div className="flex flex-col gap-3">
@@ -96,14 +99,19 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                     <div className="relative h-16 py-4">
                         <div className="absolute pointer-events-none top-0 left-0 w-full h-full shadow-horizontal-scroller shadow-white dark:shadow-black" />
                         <div className="flex gap-3 overflow-x-auto px-4 scrollbar-none">
-                            {!!kpiToken ? (
+                            {!loading && !!resolvedKPIToken ? (
                                 <>
                                     <Chip>
-                                        {kpiToken.template.specification.name}
+                                        {
+                                            resolvedKPIToken.template
+                                                .specification.name
+                                        }
                                     </Chip>
-                                    {kpiToken.specification.tags.map((tag) => (
-                                        <Chip key={tag}>{tag}</Chip>
-                                    ))}
+                                    {resolvedKPIToken.specification.tags.map(
+                                        (tag) => (
+                                            <Chip key={tag}>{tag}</Chip>
+                                        )
+                                    )}
                                 </>
                             ) : (
                                 <>
@@ -116,29 +124,15 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                 </div>
                 <div className="h-12 flex items-center justify-between w-full border-t border-black dark:border-white">
                     <div className="flex items-center px-4 h-12 w-[40%]">
-                        {!!kpiToken ? (
+                        {!loading && !!resolvedKPIToken ? (
                             <Typography uppercase>Time left</Typography>
                         ) : (
                             <Skeleton width="60%" />
                         )}
                     </div>
                     <div className="flex items-center justify-end px-4 h-12 w-[60%] border-l border-black dark:border-white">
-                        {!!kpiToken ? (
-                            kpiToken.expired ? (
-                                <Typography
-                                    weight="medium"
-                                    uppercase
-                                    className={{ root: "text-red" }}
-                                >
-                                    Expired
-                                </Typography>
-                            ) : (
-                                <Timer
-                                    to={kpiToken.expiration}
-                                    countdown
-                                    seconds
-                                />
-                            )
+                        {!loading && !!resolvedKPIToken ? (
+                            <TimeLeft kpiToken={resolvedKPIToken} />
                         ) : (
                             <Skeleton width="60%" />
                         )}
@@ -147,10 +141,10 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
             </CardContent>
             <CardActions className={{ root: "justify-center" }}>
                 <div className="flex h-6 justify-center items-center w-full">
-                    {!!kpiToken ? (
+                    {!loading && !!resolvedKPIToken ? (
                         <Link
-                            to={`/campaigns/${kpiToken.address}`}
-                            state={{ kpiToken }}
+                            to={`/campaigns/${resolvedKPIToken.address}`}
+                            state={{ resolvedKPIToken }}
                         >
                             <Typography weight="medium">
                                 ↳ VIEW CAMPAIGN

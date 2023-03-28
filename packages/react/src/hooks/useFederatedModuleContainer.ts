@@ -23,11 +23,11 @@ export const useFederatedModuleContainer = (
     useEffect(() => {
         if (!entry || !baseUrl) return;
         let cancelled = false;
-        let container = <RemoteContainer | undefined>(
+        let localContainer = <RemoteContainer | undefined>(
             window[entry as keyof Window]
         );
-        if (!!container && container.__initialized) {
-            setContainer(container);
+        if (!!localContainer && localContainer.__initialized) {
+            setContainer(localContainer);
             return;
         }
         const fetchContainer = async () => {
@@ -38,7 +38,7 @@ export const useFederatedModuleContainer = (
                     console.warn("webpack share scope is undefined");
                     return;
                 }
-                if (!container) {
+                if (!localContainer) {
                     const sanitizedUrl = baseUrl.endsWith("/")
                         ? `${baseUrl}remoteEntry.js`
                         : `${baseUrl}/remoteEntry.js`;
@@ -52,24 +52,31 @@ export const useFederatedModuleContainer = (
                     scriptTag.src = sanitizedUrl;
                     scriptTag.async = true;
                     scriptTag.onload = async () => {
-                        container = <RemoteContainer | undefined>(
+                        localContainer = <RemoteContainer | undefined>(
                             window[entry as keyof Window]
                         );
-                        if (!container) {
+                        if (!localContainer) {
                             console.warn(
                                 "container still undefined after federated module import"
                             );
                             return;
                         }
-                        await container.init(shareScope);
-                        container.__initialized = true;
-                        if (!cancelled) setContainer(container);
+                        try {
+                            await localContainer.init(shareScope);
+                            localContainer.__initialized = true;
+                            if (!cancelled) setContainer(localContainer);
+                        } catch (error) {
+                            console.error(
+                                "could not initialize federated module container",
+                                error
+                            );
+                        }
                     };
                     document.body.appendChild(scriptTag);
                 } else {
-                    await container.init(shareScope);
-                    container.__initialized = true;
-                    if (!cancelled) setContainer(container);
+                    await localContainer.init(shareScope);
+                    localContainer.__initialized = true;
+                    if (!cancelled) setContainer(localContainer);
                 }
             } catch (error) {
                 console.error(

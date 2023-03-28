@@ -1,4 +1,4 @@
-import { Template } from "@carrot-kpi/sdk";
+import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { TemplateBundle } from "../i18n";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
@@ -15,7 +15,7 @@ const MODULE_CACHE: Record<string, CachedModule> = {};
 export const useTemplateModule = (
     entity: "kpiToken" | "oracle",
     type: "creationForm" | "page",
-    template?: Template
+    template?: ResolvedTemplate
 ) => {
     const customBaseURL = useSelector<
         State,
@@ -35,7 +35,7 @@ export const useTemplateModule = (
             `${ipfsGatewayURL}/ipfs/${template.specification.cid}`;
         return {
             baseUrl: root.endsWith("/") ? `${root}${type}` : `${root}/${type}`,
-            entry: `${template.specification.commitHash || ""}${type}`,
+            entry: `${template.specification.commitHash}${type}`,
         };
     }, [customBaseURL, ipfsGatewayURL, template, type]);
     const { loading: loadingFederatedModule, container } =

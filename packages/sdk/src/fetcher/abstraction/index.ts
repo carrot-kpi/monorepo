@@ -3,8 +3,9 @@ import { Provider } from "@ethersproject/providers";
 import { ChainId } from "../../commons";
 import { KPIToken } from "../../entities/kpi-token";
 import { Oracle } from "../../entities/oracle";
-import { Template } from "../../entities/template";
+import { ResolvedTemplate, Template } from "../../entities/template";
 import { Token } from "../../entities/token";
+import { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
 
 export interface FetchERC20TokensParams {
     provider: Provider;
@@ -16,6 +17,21 @@ export interface FetchContentFromIPFSParams {
     cids: string[];
 }
 
+export interface ResolveKPITokensParams {
+    ipfsGatewayURL: string;
+    kpiTokens: KPIToken[];
+}
+
+export interface ResolveOraclesParams {
+    ipfsGatewayURL: string;
+    oracles: Oracle[];
+}
+
+export interface ResolveTemplatesParams {
+    ipfsGatewayURL: string;
+    templates: Template[];
+}
+
 export interface ICoreFetcher {
     fetchERC20Tokens(
         params: FetchERC20TokensParams
@@ -24,6 +40,16 @@ export interface ICoreFetcher {
     fetchContentFromIPFS(
         params: FetchContentFromIPFSParams
     ): Promise<{ [cid: string]: string }>;
+
+    resolveKPITokens(
+        params: ResolveKPITokensParams
+    ): Promise<ResolvedKPITokensMap>;
+
+    resolveOracles(params: ResolveOraclesParams): Promise<ResolvedOraclesMap>;
+
+    resolveTemplates(
+        params: ResolveTemplatesParams
+    ): Promise<ResolvedTemplate[]>;
 }
 
 export interface SupportedInChainParams {
@@ -42,14 +68,11 @@ export interface FetchKPITokenAddressesParams {
 
 export interface FetchEntitiesParams {
     provider: Provider;
-    ipfsGatewayURL: string;
     addresses?: string[];
-    searchQuery?: string;
 }
 
 export interface FetchTemplatesParams {
     provider: Provider;
-    ipfsGatewayURL: string;
     ids?: BigNumberish[];
 }
 

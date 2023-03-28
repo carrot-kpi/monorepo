@@ -1,9 +1,11 @@
 import React from "react";
 import { Checkbox, Skeleton, Typography } from "@carrot-kpi/ui";
-import { useKPITokenTemplates } from "@carrot-kpi/react";
+import { useKPITokenTemplates, useResolvedTemplates } from "@carrot-kpi/react";
 
 export const TemplatesFilter = () => {
-    const { loading, templates } = useKPITokenTemplates();
+    const { loading: loadingTemplates, templates } = useKPITokenTemplates();
+    const { loading: resolvingTemplates, resolvedTemplates } =
+        useResolvedTemplates(templates);
 
     return (
         <div className="w-full">
@@ -11,14 +13,16 @@ export const TemplatesFilter = () => {
                 Templates
             </Typography>
             <div className="py-6 space-y-4 border-gray-400">
-                {loading ? (
+                {loadingTemplates ||
+                resolvingTemplates ||
+                !resolvedTemplates ? (
                     <>
                         <Skeleton width="40%" />
                         <Skeleton width="40%" />
                         <Skeleton width="40%" />
                     </>
                 ) : (
-                    templates.map((template) => {
+                    resolvedTemplates.map((template) => {
                         return (
                             <Checkbox
                                 key={template.id}

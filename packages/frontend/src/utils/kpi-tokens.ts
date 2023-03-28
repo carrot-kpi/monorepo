@@ -1,24 +1,39 @@
-import { KPIToken } from "@carrot-kpi/sdk";
+import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { CampaignOrder, CampaignState } from "../pages/campaigns";
 
-export const filterKPITokens = (tokens: KPIToken[], state: CampaignState) => {
+export const filterResolvedKPITokens = (
+    tokens: ResolvedKPIToken[],
+    state: CampaignState
+) => {
     if (tokens.length === 0) return [];
 
     if (state === CampaignState.ALL) return tokens;
 
     return tokens.filter((token) => {
-        return state === CampaignState.ACTIVE ? !token.expired : token.expired;
+        switch (state) {
+            case CampaignState.ACTIVE:
+                return !token.expired && !token.finalized;
+            case CampaignState.EXPIRED:
+                return token.expired;
+            case CampaignState.FINALIZED:
+                return token.finalized;
+            default:
+                return true;
+        }
     });
 };
 
-export const sortKPITokens = (tokens: KPIToken[], order: CampaignOrder) => {
+export const sortKPITokens = (
+    tokens: ResolvedKPIToken[],
+    order: CampaignOrder
+) => {
     if (tokens.length === 0) return [];
 
     const comparator =
         order === CampaignOrder.NEWEST
-            ? (a: KPIToken, b: KPIToken) =>
+            ? (a: ResolvedKPIToken, b: ResolvedKPIToken) =>
                   b.creationTimestamp - a.creationTimestamp
-            : (a: KPIToken, b: KPIToken) =>
+            : (a: ResolvedKPIToken, b: ResolvedKPIToken) =>
                   a.creationTimestamp - b.creationTimestamp;
 
     return tokens.sort(comparator);
