@@ -1,19 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, {
-    ReactElement,
-    ReactNode,
-    useEffect,
-    useLayoutEffect,
-} from "react";
-import { ResolvedTemplate } from "@carrot-kpi/sdk";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
 import { useState } from "react";
-import { i18n } from "i18next";
 import { cva } from "class-variance-authority";
 import { useTheme } from "../../hooks";
 import { useMedia } from "react-use";
 import { ErrorBoundary } from "../error-boundary";
+import { BaseTemplateComponentProps } from "../../types";
 
 const wrapperStyles = cva(["h-full"], {
     variants: {
@@ -28,17 +22,6 @@ export type NamespacedTranslateFunction = (key: any, options?: any) => any;
 const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
     {};
 
-export interface TemplateComponentProps {
-    entity: "kpiToken" | "oracle";
-    type: "creationForm" | "page";
-    template?: ResolvedTemplate;
-    fallback: ReactNode;
-    error: ReactElement;
-    i18n: i18n;
-    className?: { root?: string; wrapper?: string };
-    additionalProps?: any;
-}
-
 export function TemplateComponent({
     entity,
     type,
@@ -48,7 +31,7 @@ export function TemplateComponent({
     i18n,
     className,
     additionalProps = {},
-}: TemplateComponentProps) {
+}: BaseTemplateComponentProps) {
     const { loading, bundle, Component } = useTemplateModule(
         entity,
         type,

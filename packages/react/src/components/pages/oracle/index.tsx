@@ -1,16 +1,7 @@
 import React from "react";
 import { ReactElement } from "react";
-import {
-    TemplateComponent,
-    TemplateComponentProps,
-} from "../../template-component";
-import { AdditionalOraclePageProps } from "../../../types/templates";
-
-type OraclePageProps = Omit<
-    TemplateComponentProps,
-    "entity" | "type" | "additionalProps" | "template"
-> &
-    AdditionalOraclePageProps;
+import { TemplateComponent } from "../../template-component";
+import { OraclePageProps } from "../../../types/templates";
 
 export function OraclePage({
     fallback,
