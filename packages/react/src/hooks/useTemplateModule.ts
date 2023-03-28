@@ -77,6 +77,11 @@ export const useTemplateModule = (
                     setComponent(() => Component);
                     setBundle(bundle);
                 }
+            } catch (error) {
+                console.error(
+                    "could not get exported component and bundle",
+                    error
+                );
             } finally {
                 if (!cancelled) setLoadingExport(false);
             }

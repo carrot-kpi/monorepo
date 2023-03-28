@@ -77,7 +77,7 @@ export function TemplateComponent({
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
         <div
-            id={`carrot-template-${template.specification.commitHash}`}
+            id={`carrot-template-${template.specification.commitHash}-${type}`}
             className={className?.root}
         >
             <div
