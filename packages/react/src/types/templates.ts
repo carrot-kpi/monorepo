@@ -75,7 +75,7 @@ export type KPITokenCreationFormProps = TemplateComponentProps &
 
 export interface AdditionalRemoteOraclePageProps {
     oracle?: ResolvedOracleWithData | null;
-    kpiToken?: Partial<KPIToken>;
+    kpiToken?: ResolvedKPITokenWithData;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
