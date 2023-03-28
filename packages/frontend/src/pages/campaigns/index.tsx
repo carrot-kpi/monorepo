@@ -7,7 +7,7 @@ import { Layout } from "../../components/layout";
 import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
 import { TemplatesFilter } from "./filters/templates";
-import { filterKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
+import { filterResolvedKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { t } from "i18next";
@@ -101,7 +101,7 @@ export const Campaigns = () => {
 
     // filter results
     const filteredTokens = useMemo(() => {
-        return filterKPITokens(
+        return filterResolvedKPITokens(
             searchedResolvedKPITokens,
             campaignState.value as unknown as CampaignState
         );

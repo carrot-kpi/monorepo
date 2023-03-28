@@ -1,7 +1,7 @@
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { CampaignOrder, CampaignState } from "../pages/campaigns";
 
-export const filterKPITokens = (
+export const filterResolvedKPITokens = (
     tokens: ResolvedKPIToken[],
     state: CampaignState
 ) => {

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "react-use";
 import { useNetwork } from "wagmi";
 
-const searchKPItokens = (
+const searchResolvedKPItokens = (
     searchQuery: string,
     kpiTokens: ResolvedKPIToken[]
 ) => {
@@ -106,7 +106,10 @@ export function useSearchedResolvedKPITokens(searchQuery: string) {
         setSearchedKPITokens(
             !searchQuery
                 ? debouncedSearchableKPITokens
-                : searchKPItokens(searchQuery, debouncedSearchableKPITokens)
+                : searchResolvedKPItokens(
+                      searchQuery,
+                      debouncedSearchableKPITokens
+                  )
         );
     }, [debouncedSearchableKPITokens, ipfsGatewayURL, kpiTokens, searchQuery]);
 
