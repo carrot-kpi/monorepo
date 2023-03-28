@@ -201,7 +201,7 @@ export class CoreFetcher implements ICoreFetcher {
         ipfsGatewayURL,
         cids,
     }: FetchContentFromIPFSParams): Promise<{ [cid: string]: string }> {
-        const allContents = await Promise.all(
+        const allContents = await Promise.allSettled(
             cids.map(async (cid) => {
                 const response = await fetch(`${ipfsGatewayURL}/ipfs/${cid}`);
                 const responseOk = response.ok;
@@ -213,7 +213,9 @@ export class CoreFetcher implements ICoreFetcher {
             })
         );
         const contents: { [cid: string]: string } = {};
-        for (const { cid, content } of allContents) {
+        for (const contentPromise of allContents) {
+            if (contentPromise.status !== "fulfilled") continue;
+            const { cid, content } = contentPromise.value;
             if (!content) continue;
             contents[cid] = content;
         }
@@ -311,7 +313,7 @@ export class CoreFetcher implements ICoreFetcher {
         ipfsGatewayURL,
         kpiTokens,
     }: ResolveKPITokensParams): Promise<ResolvedKPITokensMap> {
-        const resolvedKPITokens = await Promise.all(
+        const resolvedKPITokens = await Promise.allSettled(
             kpiTokens.map(async (kpiToken) =>
                 this.resolveEntity({
                     ipfsGatewayURL,
@@ -321,7 +323,8 @@ export class CoreFetcher implements ICoreFetcher {
         );
         return resolvedKPITokens.reduce(
             (accumulator: ResolvedKPITokensMap, kpiToken) => {
-                accumulator[kpiToken.address] = kpiToken;
+                if (kpiToken.status === "fulfilled")
+                    accumulator[kpiToken.value.address] = kpiToken.value;
                 return accumulator;
             },
             {}
@@ -332,7 +335,7 @@ export class CoreFetcher implements ICoreFetcher {
         ipfsGatewayURL,
         oracles,
     }: ResolveOraclesParams): Promise<ResolvedOraclesMap> {
-        const resolvedOracles = await Promise.all(
+        const resolvedOracles = await Promise.allSettled(
             oracles.map(async (oracle) =>
                 this.resolveEntity({
                     ipfsGatewayURL,
@@ -342,7 +345,8 @@ export class CoreFetcher implements ICoreFetcher {
         );
         return resolvedOracles.reduce(
             (accumulator: ResolvedOraclesMap, oracle) => {
-                accumulator[oracle.address] = oracle;
+                if (oracle.status === "fulfilled")
+                    accumulator[oracle.value.address] = oracle.value;
                 return accumulator;
             },
             {}
