@@ -17,8 +17,6 @@ export * from "./useSetOracleTemplateBaseURL";
 export * from "./useSetPreferDecentralization";
 export * from "./useResetPageScroll";
 export * from "./useResolvedKPIToken";
-export * from "./useResolvedKPITokenTemplates";
-export * from "./useResolvedOracleTemplates";
 export * from "./useResolvedTemplate";
 export * from "./useResolvedTemplates";
 export * from "./useSetDevMode";
