@@ -1,7 +1,6 @@
 import React from "react";
 import {
     Chip,
-    Timer,
     Typography,
     Skeleton,
     Card,
@@ -11,9 +10,10 @@ import {
     Markdown,
 } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
-import { KPIToken } from "@carrot-kpi/sdk";
+import { KPIToken, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { Link } from "react-router-dom";
 import { useResolvedKPIToken } from "@carrot-kpi/react";
+import { TimeLeft } from "./time-left";
 
 const rootStyles = cva(
     [
@@ -41,7 +41,7 @@ const rootStyles = cva(
 );
 
 interface KPITokenCardProps {
-    kpiToken?: KPIToken;
+    kpiToken?: KPIToken | ResolvedKPIToken;
     noBorder?: boolean;
 }
 
@@ -132,21 +132,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                     </div>
                     <div className="flex items-center justify-end px-4 h-12 w-[60%] border-l border-black dark:border-white">
                         {!loading && !!resolvedKPIToken ? (
-                            resolvedKPIToken.expired ? (
-                                <Typography
-                                    weight="medium"
-                                    uppercase
-                                    className={{ root: "text-red" }}
-                                >
-                                    Expired
-                                </Typography>
-                            ) : (
-                                <Timer
-                                    to={resolvedKPIToken.expiration}
-                                    countdown
-                                    seconds
-                                />
-                            )
+                            <TimeLeft kpiToken={resolvedKPIToken} />
                         ) : (
                             <Skeleton width="60%" />
                         )}
