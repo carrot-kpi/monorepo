@@ -43,7 +43,9 @@ export class ResolvedKPIToken {
     ) {}
 
     public get expired(): boolean {
-        return this.expiration <= Math.floor(Date.now() / 1_000);
+        return (
+            !this.finalized && this.expiration <= Math.floor(Date.now() / 1_000)
+        );
     }
 
     public static from(
