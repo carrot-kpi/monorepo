@@ -30,11 +30,15 @@ export const ErrorFeedback = ({
             <Typography
                 variant="2xl"
                 weight="bold"
-                className={className?.title}
+                className={{ root: `cui-text-center ${className?.title}` }}
             >
                 {messages.title}
             </Typography>
-            <Typography className={className?.description}>
+            <Typography
+                className={{
+                    root: `cui-text-center ${className?.description}`,
+                }}
+            >
                 {messages.description}
             </Typography>
         </div>
