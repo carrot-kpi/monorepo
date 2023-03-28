@@ -15,6 +15,7 @@ import { SubgraphFetcher } from "./subgraph";
 import { CoreFetcher } from "./core";
 import { Token } from "../entities/token";
 
+export * from "./types";
 export * from "./abstraction";
 
 class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {

@@ -106,3 +106,9 @@ export class ResolvedKPITokenWithData {
         );
     }
 }
+
+export const isResolvedKPIToken = (
+    kpiToken?: KPIToken | ResolvedKPIToken
+): kpiToken is ResolvedKPIToken => {
+    return !kpiToken ? false : "specification" in kpiToken;
+};

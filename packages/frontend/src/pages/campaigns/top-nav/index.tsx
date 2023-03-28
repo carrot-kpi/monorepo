@@ -1,15 +1,8 @@
-import React, {
-    ChangeEvent,
-    Dispatch,
-    SetStateAction,
-    useCallback,
-    useState,
-} from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import { TextInput, Select, SelectOption } from "@carrot-kpi/ui";
 import { ToggleFiltersButton } from "./toggle-filters-button";
 import { ReactComponent as MagnifyingLens } from "../../../assets/magnifying-lens.svg";
 import { t } from "i18next";
-import { SearchQueryProp } from "../../../hooks/useSearch";
 
 interface CampaignsTopNavProps {
     ordering: SelectOption;
@@ -20,7 +13,7 @@ interface CampaignsTopNavProps {
     onStateChange: (option: SelectOption) => void;
     onToggleFilters: () => void;
     filtersOpen: boolean;
-    setSearchQuery: Dispatch<SetStateAction<SearchQueryProp>>;
+    setSearchQuery: (searchQuery: string) => void;
 }
 
 export const CampaignsTopNav = ({

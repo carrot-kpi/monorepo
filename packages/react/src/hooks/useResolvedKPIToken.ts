@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { KPIToken, Fetcher, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { useNetwork } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
+import { isResolvedKPIToken } from "@carrot-kpi/sdk";
 
-export function useResolvedKPIToken(kpiToken?: KPIToken): {
+export function useResolvedKPIToken(kpiToken?: KPIToken | ResolvedKPIToken): {
     loading: boolean;
     resolvedKPIToken: ResolvedKPIToken | null;
 } {
@@ -11,13 +12,21 @@ export function useResolvedKPIToken(kpiToken?: KPIToken): {
     const ipfsGatewayURL = useIPFSGatewayURL();
 
     const [resolvedKPIToken, setResolvedKPIToken] =
-        useState<ResolvedKPIToken | null>(null);
-    const [loading, setLoading] = useState(true);
+        useState<ResolvedKPIToken | null>(
+            isResolvedKPIToken(kpiToken) ? kpiToken : null
+        );
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !kpiToken) return;
+            if (
+                !chain ||
+                !kpiToken ||
+                resolvedKPIToken ||
+                isResolvedKPIToken(kpiToken)
+            )
+                return;
             if (!cancelled) setLoading(true);
             try {
                 const resolved = (
@@ -41,7 +50,7 @@ export function useResolvedKPIToken(kpiToken?: KPIToken): {
         return () => {
             cancelled = true;
         };
-    }, [chain, ipfsGatewayURL, kpiToken]);
+    }, [chain, ipfsGatewayURL, kpiToken, resolvedKPIToken]);
 
     return { loading, resolvedKPIToken };
 }
