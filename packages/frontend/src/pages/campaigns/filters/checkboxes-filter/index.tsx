@@ -39,22 +39,32 @@ export const CheckboxesFilter = ({
         setSelected(getDefaultSelected(defaultCheckboxes));
     }, [checkboxes, defaultChecked, items, setSelected]);
 
+    const getHtmlDataId = (element: HTMLInputElement) => {
+        const id = element.dataset.id;
+
+        if (id !== undefined) {
+            const parsedId = parseInt(id);
+            if (!isNaN(parsedId)) {
+                return parsedId;
+            }
+        }
+        return 0;
+    };
+
     const handleCheckedChange = (e: ChangeEvent<HTMLInputElement>) => {
         const element = e.target;
-        const elementId = Number(element.getAttribute("data-id"));
-
+        const elementId = getHtmlDataId(element);
         const newCheckboxes = { ...checkboxes };
         newCheckboxes[elementId] = {
             ...newCheckboxes[elementId],
             checked: element.checked,
         };
+
         setCheckboxes(newCheckboxes);
 
         const newSelected = selected;
-
-        if (element.checked === true) newSelected.add(elementId);
-        if (element.checked === false && selected.has(elementId))
-            newSelected.delete(elementId);
+        if (element.checked) newSelected.add(elementId);
+        else if (selected.has(elementId)) newSelected.delete(elementId);
 
         setSelected(newSelected);
     };
