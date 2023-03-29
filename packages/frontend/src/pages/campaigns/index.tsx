@@ -94,9 +94,6 @@ export const Campaigns = () => {
         []
     );
 
-    console.log("selectedTemplates:", selectedTemplates);
-    console.log("selectedOracles:", selectedOracles);
-
     // filter results
     const filteredKPITokensByState = useMemo(() => {
         const tokens = Object.values(kpiTokens);
