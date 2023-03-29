@@ -50,6 +50,7 @@ export const useFederatedModuleContainer = (
                     }
                     scriptTag = document.createElement("script");
                     scriptTag.src = sanitizedUrl;
+                    scriptTag.type = "application/javascript";
                     scriptTag.async = true;
                     scriptTag.onload = async () => {
                         localContainer = <RemoteContainer | undefined>(
@@ -62,8 +63,10 @@ export const useFederatedModuleContainer = (
                             return;
                         }
                         try {
-                            await localContainer.init(shareScope);
-                            localContainer.__initialized = true;
+                            if (!localContainer.__initialized) {
+                                await localContainer.init(shareScope);
+                                localContainer.__initialized = true;
+                            }
                             if (!cancelled) setContainer(localContainer);
                         } catch (error) {
                             console.error(
@@ -72,10 +75,12 @@ export const useFederatedModuleContainer = (
                             );
                         }
                     };
-                    document.body.appendChild(scriptTag);
+                    document.head.appendChild(scriptTag);
                 } else {
-                    await localContainer.init(shareScope);
-                    localContainer.__initialized = true;
+                    if (!localContainer.__initialized) {
+                        await localContainer.init(shareScope);
+                        localContainer.__initialized = true;
+                    }
                     if (!cancelled) setContainer(localContainer);
                 }
             } catch (error) {
