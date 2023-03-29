@@ -61,5 +61,8 @@ export const en = {
         "stateOptions.all": "All",
         "stateOptions.active": "Active",
         "stateOptions.expired": "Expired",
+        "filters.oracles": "Oracles",
+        "filters.templates": "Templates",
+        "filters.close": "Close filters",
     },
 } as const;

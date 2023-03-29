@@ -3,6 +3,7 @@ import { Button } from "@carrot-kpi/ui";
 import { cva } from "class-variance-authority";
 import { TemplatesFilter } from "./templates";
 import { OraclesFilter } from "./oracles";
+import { useTranslation } from "react-i18next";
 
 const campaignsFiltersStyles = cva(
     [
@@ -40,26 +41,30 @@ export const Filters = ({
     setSelectedTemplates,
     setSelectedOracles,
     selectedOracles,
-}: FiltersProps) => (
-    <div className={campaignsFiltersStyles({ open })}>
-        <div className="space-y-6 md:w-64">
-            <TemplatesFilter
-                setSelectedTemplates={setSelectedTemplates}
-                selectedTemplates={selectedTemplates}
-            />
-            <Divider />
-            <OraclesFilter
-                setSelectedOracles={setSelectedOracles}
-                selectedOracles={selectedOracles}
-            />
+}: FiltersProps) => {
+    const { t } = useTranslation();
+
+    return (
+        <div className={campaignsFiltersStyles({ open })}>
+            <div className="space-y-6 md:w-64">
+                <TemplatesFilter
+                    setSelectedTemplates={setSelectedTemplates}
+                    selectedTemplates={selectedTemplates}
+                />
+                <Divider />
+                <OraclesFilter
+                    setSelectedOracles={setSelectedOracles}
+                    selectedOracles={selectedOracles}
+                />
+            </div>
+            <Button
+                className={{
+                    root: "w-full p-1 mt-12 md:hidden",
+                }}
+                onClick={toggleFilters}
+            >
+                {t("filters.close")}
+            </Button>
         </div>
-        <Button
-            className={{
-                root: "w-full p-1 mt-12 md:hidden",
-            }}
-            onClick={toggleFilters}
-        >
-            Close filters
-        </Button>
-    </div>
-);
+    );
+};
