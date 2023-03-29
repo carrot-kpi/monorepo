@@ -1,13 +1,16 @@
 import React, {
     ElementType,
+    ForwardedRef,
     forwardRef,
     HTMLAttributes,
+    ReactElement,
+    ReactNode,
     useCallback,
     useEffect,
     useState,
 } from "react";
 import { mergedCva } from "../../../utils/components";
-import { Popover } from "../../utils";
+import { Popover, PopoverProps } from "../../utils";
 
 const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
     variants: {
@@ -77,25 +80,26 @@ export interface BaseTypographyProps {
     weight?: "normal" | "medium" | "bold";
     uppercase?: boolean;
     truncate?: boolean;
-    className?: { root?: string };
-    children: string;
+    className?: {
+        root?: string;
+        truncatedTextPopover?: PopoverProps["className"];
+    };
+    children: ReactNode;
 }
 
-export type TypographyProps = Omit<
-    HTMLAttributes<
-        BaseTypographyProps["variant"] extends
-            | "h6"
-            | "h5"
-            | "h4"
-            | "h3"
-            | "h2"
-            | "h1"
-            ? HTMLHeadingElement
-            : HTMLParagraphElement
-    >,
-    keyof BaseTypographyProps
-> &
-    BaseTypographyProps;
+export type HTMLElementFromVariant<V extends TypographyVariant> = V extends
+    | "h6"
+    | "h5"
+    | "h4"
+    | "h3"
+    | "h2"
+    | "h1"
+    ? HTMLHeadingElement
+    : HTMLParagraphElement;
+
+export type TypographyProps<V extends TypographyVariant = TypographyVariant> =
+    Omit<HTMLAttributes<HTMLElementFromVariant<V>>, keyof BaseTypographyProps> &
+        BaseTypographyProps;
 
 const COMPONENT_MAP: Record<TypographyVariant, ElementType> = {
     "2xs": "p",
@@ -113,7 +117,7 @@ const COMPONENT_MAP: Record<TypographyVariant, ElementType> = {
     h6: "h6",
 };
 
-export const Typography = forwardRef(function Typography(
+const Component = <V extends TypographyVariant>(
     {
         variant = "md",
         weight,
@@ -122,9 +126,9 @@ export const Typography = forwardRef(function Typography(
         className,
         children,
         ...rest
-    }: TypographyProps,
-    ref
-) {
+    }: TypographyProps<V>,
+    ref: ForwardedRef<HTMLElementFromVariant<V>>
+): ReactElement => {
     const [popoverOpen, setPopoverOpen] = useState(false);
     const [shouldShowPopover, setShouldShowPopover] = useState(false);
     const [rootEl, setRootEl] = useState<HTMLElement | null>(null);
@@ -154,7 +158,14 @@ export const Typography = forwardRef(function Typography(
     return (
         <>
             {truncate && (
-                <Popover open={popoverOpen} anchor={rootEl}>
+                <Popover
+                    open={popoverOpen}
+                    anchor={rootEl}
+                    className={{
+                        ...className?.truncatedTextPopover,
+                        root: `px-3 py-2 ${className?.truncatedTextPopover?.root}`,
+                    }}
+                >
                     <Typography variant="sm">{children}</Typography>
                 </Popover>
             )}
@@ -170,10 +181,10 @@ export const Typography = forwardRef(function Typography(
                 {...rest}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                ref={(element: HTMLElement) => {
+                ref={(element: HTMLElementFromVariant<V>) => {
                     if (ref) {
                         if (typeof ref === "function") ref(element);
-                        else if (ref.current) ref.current = element;
+                        else ref.current = element;
                     }
                     setRootEl(element);
                 }}
@@ -182,4 +193,12 @@ export const Typography = forwardRef(function Typography(
             </Root>
         </>
     );
-});
+};
+
+export const Typography = forwardRef(Component) as <
+    V extends TypographyVariant
+>(
+    props: TypographyProps<V> & {
+        ref?: React.ForwardedRef<HTMLElementFromVariant<V>>;
+    }
+) => ReturnType<typeof Component>;
