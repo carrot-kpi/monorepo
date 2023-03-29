@@ -41,7 +41,7 @@ export const CheckboxesFilter = ({
 
     const handleCheckedChange = (e: ChangeEvent<HTMLInputElement>) => {
         const element = e.target;
-        const elementId = Number(e.target.getAttribute("data-id"));
+        const elementId = Number(element.getAttribute("data-id"));
 
         const newCheckboxes = { ...checkboxes };
         newCheckboxes[elementId] = {
