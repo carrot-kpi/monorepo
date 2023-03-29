@@ -61,7 +61,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
                 ref={(element) => {
                     if (ref) {
                         if (typeof ref === "function") ref(element);
-                        else ref.current = element;
+                        else if (ref.current) ref.current = element;
                     }
                     setPopper(element);
                 }}

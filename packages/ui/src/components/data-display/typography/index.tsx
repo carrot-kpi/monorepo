@@ -2,14 +2,27 @@ import React, {
     ElementType,
     forwardRef,
     HTMLAttributes,
-    ReactNode,
+    useCallback,
+    useEffect,
+    useState,
 } from "react";
 import { mergedCva } from "../../../utils/components";
+import { Popover } from "../../utils";
 
 const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
     variants: {
         uppercase: {
             true: ["cui-uppercase"],
+        },
+        truncate: {
+            true: [
+                "cui-overflow-hidden",
+                "cui-whitespace-nowrap",
+                "cui-text-ellipsis",
+            ],
+        },
+        cursorPointer: {
+            true: ["cui-cursor-pointer"],
         },
         variant: {
             "2xs": ["cui-font-mono", "cui-font-normal", "cui-text-2xs"],
@@ -44,7 +57,7 @@ const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
     },
 });
 
-type TypographyVariant =
+export type TypographyVariant =
     | "2xs"
     | "xs"
     | "sm"
@@ -59,12 +72,13 @@ type TypographyVariant =
     | "h5"
     | "h6";
 
-interface BaseTypographyProps {
+export interface BaseTypographyProps {
     variant?: TypographyVariant;
     weight?: "normal" | "medium" | "bold";
     uppercase?: boolean;
+    truncate?: boolean;
     className?: { root?: string };
-    children: ReactNode;
+    children: string;
 }
 
 export type TypographyProps = Omit<
@@ -104,26 +118,68 @@ export const Typography = forwardRef(function Typography(
         variant = "md",
         weight,
         uppercase,
+        truncate,
         className,
         children,
         ...rest
     }: TypographyProps,
     ref
 ) {
+    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [shouldShowPopover, setShouldShowPopover] = useState(false);
+    const [rootEl, setRootEl] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+        if (!truncate || !rootEl) {
+            setShouldShowPopover(false);
+            return;
+        }
+        const shouldShow = rootEl.offsetWidth < rootEl.scrollWidth;
+        if (!shouldShow) setPopoverOpen(false);
+        setShouldShowPopover(shouldShow);
+    }, [children, rootEl, truncate]);
+
+    const handleMouseEnter = useCallback(() => {
+        if (!truncate || !shouldShowPopover) return;
+        setPopoverOpen(true);
+    }, [shouldShowPopover, truncate]);
+
+    const handleMouseLeave = useCallback(() => {
+        if (!truncate || !shouldShowPopover) return;
+        setPopoverOpen(false);
+    }, [shouldShowPopover, truncate]);
+
     const Root = COMPONENT_MAP[variant];
 
     return (
-        <Root
-            className={rootStyles({
-                variant,
-                weight,
-                uppercase,
-                className: className?.root,
-            })}
-            {...rest}
-            ref={ref}
-        >
-            {children}
-        </Root>
+        <>
+            {truncate && (
+                <Popover open={popoverOpen} anchor={rootEl}>
+                    <Typography variant="sm">{children}</Typography>
+                </Popover>
+            )}
+            <Root
+                className={rootStyles({
+                    variant,
+                    weight,
+                    uppercase,
+                    truncate,
+                    cursorPointer: shouldShowPopover,
+                    className: className?.root,
+                })}
+                {...rest}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                ref={(element: HTMLElement) => {
+                    if (ref) {
+                        if (typeof ref === "function") ref(element);
+                        else if (ref.current) ref.current = element;
+                    }
+                    setRootEl(element);
+                }}
+            >
+                {children}
+            </Root>
+        </>
     );
 });

@@ -54,7 +54,7 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                     ref={(element) => {
                         if (ref) {
                             if (typeof ref === "function") ref(element);
-                            else ref.current = element;
+                            else if (ref.current) ref.current = element;
                         }
                         setAnchorEl(element);
                     }}
