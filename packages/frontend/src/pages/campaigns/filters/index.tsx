@@ -25,10 +25,10 @@ const campaignsFiltersStyles = cva(
 interface FiltersProps {
     open: boolean;
     toggleFilters: () => void;
-    selectedTemplates: Set<number>;
-    setSelectedTemplates: (newSelectedTemplates: Set<number>) => void;
-    selectedOracles: Set<number>;
-    setSelectedOracles: (newSelectedOracles: Set<number>) => void;
+    selectedTemplates: Set<string>;
+    setSelectedTemplates: (newSelectedTemplates: Set<string>) => void;
+    selectedOracles: Set<string>;
+    setSelectedOracles: (newSelectedOracles: Set<string>) => void;
 }
 
 const Divider = () => <div className="w-full h-0.5 bg-gray-200"></div>;

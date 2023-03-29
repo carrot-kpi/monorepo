@@ -1,22 +1,16 @@
 import { Template } from "@carrot-kpi/sdk";
 import { Checkbox, Typography } from "@carrot-kpi/ui";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { FiltersLoading } from "../loading";
-import {
-    CheckboxesObj,
-    generateGroupId,
-    getDefaultCheckboxes,
-    getDefaultSelected,
-} from "../utils";
+import { generateGroupId, getHtmlDataAttributeAddress } from "../utils";
 
 interface CheckboxesFilterProps {
     items: Template[];
     groupId: string;
     title: string;
     loading: boolean;
-    selected: Set<number>;
-    setSelected: (newSelected: Set<number>) => void;
-    defaultChecked: (item: Template) => boolean;
+    selected: Set<string>;
+    setSelected: (newSelected: Set<string>) => void;
 }
 
 export const CheckboxesFilter = ({
@@ -25,53 +19,20 @@ export const CheckboxesFilter = ({
     loading,
     selected,
     setSelected,
-    defaultChecked,
     groupId,
 }: CheckboxesFilterProps) => {
-    const [checkboxes, setCheckboxes] = useState<CheckboxesObj>({});
-
-    const initializeCheckboxes = useCallback(() => {
-        if (items.length === 0) return;
-        if (Object.keys(checkboxes).length !== 0) return;
-
-        const defaultCheckboxes = getDefaultCheckboxes(items, defaultChecked);
-        setCheckboxes(defaultCheckboxes);
-        setSelected(getDefaultSelected(defaultCheckboxes));
-    }, [checkboxes, defaultChecked, items, setSelected]);
-
-    const getHtmlDataId = (element: HTMLInputElement) => {
-        const id = element.dataset.id;
-
-        if (id !== undefined) {
-            const parsedId = parseInt(id);
-            if (!isNaN(parsedId)) {
-                return parsedId;
-            }
-        }
-        return 0;
-    };
-
     const handleCheckedChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const element = e.target;
-        const elementId = getHtmlDataId(element);
-        const newCheckboxes = { ...checkboxes };
-        newCheckboxes[elementId] = {
-            ...newCheckboxes[elementId],
-            checked: element.checked,
-        };
+        const elementAddress = getHtmlDataAttributeAddress(e.target);
 
-        setCheckboxes(newCheckboxes);
+        if (!elementAddress) return;
 
         const newSelected = selected;
-        if (element.checked) newSelected.add(elementId);
-        else if (selected.has(elementId)) newSelected.delete(elementId);
+        if (e.target.checked) newSelected.add(elementAddress);
+        else if (selected.has(elementAddress))
+            newSelected.delete(elementAddress);
 
         setSelected(newSelected);
     };
-
-    useEffect(() => {
-        initializeCheckboxes();
-    }, [initializeCheckboxes]);
 
     return (
         <div className="w-full">
@@ -82,15 +43,15 @@ export const CheckboxesFilter = ({
                 {loading ? (
                     <FiltersLoading />
                 ) : (
-                    Object.values(checkboxes).map((checkbox) => {
+                    items.map((item) => {
                         return (
                             <Checkbox
-                                key={checkbox.id}
+                                key={generateGroupId(groupId, item.id)}
+                                id={generateGroupId(groupId, item.id)}
+                                label={item.specification.name}
+                                checked={selected.has(item.address)}
+                                data-address={item.address}
                                 onChange={handleCheckedChange}
-                                id={generateGroupId(groupId, checkbox.id)}
-                                label={checkbox.name}
-                                checked={checkbox.checked}
-                                data-id={checkbox.id}
                             />
                         );
                     })

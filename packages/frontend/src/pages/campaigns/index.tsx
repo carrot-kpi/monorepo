@@ -76,25 +76,26 @@ export const Campaigns = () => {
     const [campaignState, setCampaignState] = useState<SelectOption>(
         STATE_OPTIONS[0]
     );
-    const [selectedTemplates, setSelectedTemplates] = useState<Set<number>>(
-        new Set<number>()
+    // side filters
+    const [selectedTemplates, setSelectedTemplates] = useState<Set<string>>(
+        new Set<string>()
     );
-
-    const [selectedOracles, setSelectedOracles] = useState<Set<number>>(
-        new Set<number>()
+    const [selectedOracles, setSelectedOracles] = useState<Set<string>>(
+        new Set<string>()
     );
-
     const handleSelectedTemplatesUpdate = useCallback(
-        (newSelectedTemplates: Set<number>) =>
+        (newSelectedTemplates: Set<string>) =>
             setSelectedTemplates(new Set(newSelectedTemplates)),
         []
     );
-
     const handleSelectedOraclesTemplatesUpdate = useCallback(
-        (newSelectedOracles: Set<number>) =>
+        (newSelectedOracles: Set<string>) =>
             setSelectedOracles(new Set(newSelectedOracles)),
         []
     );
+
+    console.log("selectedTemplates:", selectedTemplates);
+    console.log("selectedOracles:", selectedOracles);
 
     // filter results
     const filteredKPITokensByState = useMemo(() => {
@@ -106,29 +107,20 @@ export const Campaigns = () => {
         );
     }, [kpiTokens, campaignState]);
 
-    const hasOracleTemplate = useMemo(
-        () => (token: KPIToken) =>
-            oraclesTemplateIds(token).some((oracleId) => {
-                return selectedOracles.has(Number(oracleId));
-            }),
-        [selectedOracles]
-    );
-    const hasTemplate = useMemo(
-        () => (token: KPIToken) => selectedTemplates.has(token.template.id),
-        [selectedTemplates]
-    );
+    const filteredTokens = useMemo(() => {
+        const noSideFiltersSelected =
+            selectedTemplates.size === 0 && selectedOracles.size === 0;
 
-    const oraclesTemplateIds = (token: KPIToken) =>
-        token.oracles.map((oracle) => oracle.template.id);
+        if (noSideFiltersSelected) return filteredKPITokensByState;
 
-    const filteredTokens = useMemo(
-        () =>
-            filteredKPITokensByState.filter(
-                (token) => hasTemplate(token) || hasOracleTemplate(token)
-            ),
-
-        [filteredKPITokensByState, hasTemplate, hasOracleTemplate]
-    );
+        return filteredKPITokensByState.filter(
+            (token) =>
+                selectedTemplates.has(token.template.address) ||
+                token.oracles
+                    .map((oracle) => oracle.template.address)
+                    .some((oracleAddress) => selectedOracles.has(oracleAddress))
+        );
+    }, [filteredKPITokensByState, selectedTemplates, selectedOracles]);
 
     // sort results
     const sortedFilteredTokens = useMemo(() => {
