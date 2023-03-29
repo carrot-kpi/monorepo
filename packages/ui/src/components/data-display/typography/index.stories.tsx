@@ -9,7 +9,11 @@ export default {
 } as ComponentMeta<typeof TypographyComponent>;
 
 const Template: Story<TypographyProps> = (props: TypographyProps) => {
-    return <TypographyComponent {...props} />;
+    return (
+        <div className="cui-max-w-xs">
+            <TypographyComponent {...props} />
+        </div>
+    );
 };
 
 export const Typography: Story<TypographyProps> = Template.bind({});
