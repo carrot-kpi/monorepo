@@ -7,12 +7,12 @@ import { useTranslation } from "react-i18next";
 
 const campaignsFiltersStyles = cva(
     [
-        "absolute lg:relative",
+        "absolute lg:relative z-10",
         "shadow md:shadow-none",
         "w-full lg:w-fit",
         "p-12",
-        "bg-white",
-        "border-r border-gray-400 dark:bg-black",
+        "bg-white dark:bg-black",
+        "border-r border-gray-400",
     ],
     {
         variants: {
