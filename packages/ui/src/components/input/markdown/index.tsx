@@ -1,7 +1,13 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import React, { ReactElement, useCallback, useId, useState } from "react";
+import React, {
+    ReactElement,
+    useCallback,
+    useEffect,
+    useId,
+    useState,
+} from "react";
 
 import { MenuBar } from "./menu-bar";
 import { BaseInputProps, BaseInputWrapper } from "../commons";
@@ -67,27 +73,37 @@ export const MarkdownInput = ({
 
     const resolvedId = id || generatedId;
 
-    const editor = useEditor({
-        content: value,
-        extensions: [
-            StarterKit.configure({}),
-            Placeholder.configure({
-                placeholder,
-                emptyEditorClass:
-                    "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 dark:before:cui-opacity-20 cui-text-sm cui-font-normal",
-            }),
-        ],
-        editorProps: {
-            attributes: {
-                class: "cui-prose cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full dark:cui-prose-invert prose-pre:dark:cui-bg-gray-700",
+    const [focused, setFocused] = useState(false);
+    const [localValue, setLocalValue] = useState(value);
+
+    const editor = useEditor(
+        {
+            content: value,
+            extensions: [
+                StarterKit.configure({}),
+                Placeholder.configure({
+                    placeholder,
+                    emptyEditorClass:
+                        "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 dark:before:cui-opacity-20 cui-text-sm cui-font-normal",
+                }),
+            ],
+            editorProps: {
+                attributes: {
+                    class: "cui-prose cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full dark:cui-prose-invert prose-pre:dark:cui-bg-gray-700",
+                },
+            },
+            onUpdate: ({ editor }) => {
+                setLocalValue(editor.getHTML());
             },
         },
-        onUpdate: ({ editor }) => {
-            onChange(editor.getHTML());
-        },
-    });
+        []
+    );
 
-    const [focused, setFocused] = useState(false);
+    useEffect(() => {
+        if (!onChange || typeof localValue !== "string" || localValue === value)
+            return;
+        onChange(localValue as string);
+    }, [localValue, onChange, value]);
 
     const handleFocus = useCallback(() => {
         setFocused(true);
