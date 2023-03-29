@@ -100,9 +100,10 @@ export const MarkdownInput = ({
     );
 
     useEffect(() => {
-        if (!onChange || typeof localValue !== "string") return;
+        if (!onChange || typeof localValue !== "string" || localValue === value)
+            return;
         onChange(localValue as string);
-    }, [localValue, onChange]);
+    }, [localValue, onChange, value]);
 
     const handleFocus = useCallback(() => {
         setFocused(true);
