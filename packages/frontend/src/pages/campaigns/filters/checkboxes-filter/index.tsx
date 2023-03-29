@@ -31,17 +31,12 @@ export const CheckboxesFilter = ({
     const [checkboxes, setCheckboxes] = useState<CheckboxesObj>({});
 
     const initializeCheckboxes = useCallback(() => {
-        const hasItems = items.length !== 0;
-        const hasCheckboxes = Object.keys(checkboxes).length !== 0;
+        if (items.length === 0) return;
+        if (Object.keys(checkboxes).length !== 0) return;
 
-        if (hasItems && !hasCheckboxes) {
-            const defaultCheckboxes = getDefaultCheckboxes(
-                items,
-                defaultChecked
-            );
-            setCheckboxes(defaultCheckboxes);
-            setSelected(getDefaultSelected(defaultCheckboxes));
-        }
+        const defaultCheckboxes = getDefaultCheckboxes(items, defaultChecked);
+        setCheckboxes(defaultCheckboxes);
+        setSelected(getDefaultSelected(defaultCheckboxes));
     }, [checkboxes, defaultChecked, items, setSelected]);
 
     const handleCheckedChange = (e: ChangeEvent<HTMLInputElement>) => {
