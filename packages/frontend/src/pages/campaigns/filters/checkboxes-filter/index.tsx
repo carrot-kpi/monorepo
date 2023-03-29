@@ -12,9 +12,6 @@ interface CheckboxesFilterProps {
     setSelected: (newSelected: Set<string>) => void;
 }
 
-const generateGroupId = (group: string, id: number | string) =>
-    `${group}-${id}`;
-
 export const CheckboxesFilter = ({
     items,
     title,
@@ -47,8 +44,8 @@ export const CheckboxesFilter = ({
                     items.map((item) => {
                         return (
                             <Checkbox
-                                key={generateGroupId(groupId, item.id)}
-                                id={generateGroupId(groupId, item.id)}
+                                key={`${groupId}-${item.id}`}
+                                id={`${groupId}-${item.id}`}
                                 label={item.specification.name}
                                 checked={selected.has(item.address)}
                                 data-address={item.address}
