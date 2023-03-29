@@ -2,7 +2,6 @@ import { Template } from "@carrot-kpi/sdk";
 import { Checkbox, Typography } from "@carrot-kpi/ui";
 import React, { ChangeEvent } from "react";
 import { FiltersLoading } from "../loading";
-import { generateGroupId, getHtmlDataAttributeAddress } from "../utils";
 
 interface CheckboxesFilterProps {
     items: Template[];
@@ -13,6 +12,9 @@ interface CheckboxesFilterProps {
     setSelected: (newSelected: Set<string>) => void;
 }
 
+const generateGroupId = (group: string, id: number | string) =>
+    `${group}-${id}`;
+
 export const CheckboxesFilter = ({
     items,
     title,
@@ -22,8 +24,7 @@ export const CheckboxesFilter = ({
     groupId,
 }: CheckboxesFilterProps) => {
     const handleCheckedChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const elementAddress = getHtmlDataAttributeAddress(e.target);
-
+        const elementAddress = e.target.dataset.address;
         if (!elementAddress) return;
 
         const newSelected = selected;
