@@ -1,5 +1,8 @@
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
-import { CampaignOrder, CampaignState } from "../pages/campaigns";
+import {
+    CampaignOrder,
+    CampaignState,
+} from "../pages/campaigns/select-options";
 
 export const filterResolvedKPITokens = (
     tokens: ResolvedKPIToken[],

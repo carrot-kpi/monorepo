@@ -14,52 +14,15 @@ import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
 import { filterResolvedKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
-import { t } from "i18next";
 import { useDebounce } from "react-use";
 import { useSearchedResolvedKPITokens } from "../../hooks/useSearchedResolvedKPITokens";
 import { SideFilters } from "./side-filters";
-
-export enum CampaignOrder {
-    NEWEST,
-    OLDEST,
-}
-
-const ORDERING_OPTIONS = [
-    {
-        label: t("orderingOptions.newest"),
-        value: CampaignOrder.NEWEST,
-    },
-    {
-        label: t("orderingOptions.oldest"),
-        value: CampaignOrder.OLDEST,
-    },
-];
-
-export enum CampaignState {
-    ALL,
-    ACTIVE,
-    EXPIRED,
-    FINALIZED,
-}
-
-const STATE_OPTIONS = [
-    {
-        label: t("stateOptions.all"),
-        value: CampaignState.ALL,
-    },
-    {
-        label: t("stateOptions.active"),
-        value: CampaignState.ACTIVE,
-    },
-    {
-        label: t("stateOptions.expired"),
-        value: CampaignState.EXPIRED,
-    },
-    {
-        label: t("stateOptions.finalized"),
-        value: CampaignState.FINALIZED,
-    },
-];
+import {
+    ORDERING_OPTIONS,
+    STATE_OPTIONS,
+    CampaignOrder,
+    CampaignState,
+} from "./select-options";
 
 export const Campaigns = () => {
     useResetPageScroll();
