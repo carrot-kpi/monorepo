@@ -16,7 +16,7 @@ export const TemplatesFilter = ({
 
     return (
         <CheckboxesFilter
-            title={t("filters.templates")}
+            title={t("sideFilters.templates")}
             groupId="campaigns-templates"
             loading={loading}
             items={resolvedTemplates}

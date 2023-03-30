@@ -62,9 +62,9 @@ export const en = {
         "stateOptions.active": "Active",
         "stateOptions.expired": "Expired",
         "stateOptions.finalized": "Finalized",
-        "filters.oracles": "Oracles",
-        "filters.templates": "Templates",
-        "filters.close": "Close filters",
+        "sideFilters.oracles": "Oracles",
+        "sideFilters.templates": "Templates",
+        "sideFilters.close": "Close filters",
         "error.initializing.creation.title": "Something went wrong",
         "error.initializing.creation.description":
             "Error while bootstrapping the KPI token creation form, please try again later.",

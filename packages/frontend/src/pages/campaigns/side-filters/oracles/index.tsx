@@ -17,7 +17,7 @@ export const OraclesFilter = ({
 
     return (
         <CheckboxesFilter
-            title={t("filters.oracles")}
+            title={t("sideFilters.oracles")}
             groupId="campaigns-oracles"
             loading={loading}
             items={resolvedTemplates}
