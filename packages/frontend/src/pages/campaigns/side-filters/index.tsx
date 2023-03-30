@@ -32,9 +32,7 @@ interface FiltersProps {
     setSelectedOracles: (newSelectedOracles: Set<string>) => void;
 }
 
-const Divider = () => <div className="w-full h-0.5 bg-gray-200"></div>;
-
-export const Filters = ({
+export const SideFilters = ({
     open,
     toggleFilters,
     selectedTemplates,
@@ -51,7 +49,7 @@ export const Filters = ({
                     setSelectedTemplates={setSelectedTemplates}
                     selectedTemplates={selectedTemplates}
                 />
-                <Divider />
+                <div className="w-full h-0.5 bg-gray-200"></div>
                 <OraclesFilter
                     setSelectedOracles={setSelectedOracles}
                     selectedOracles={selectedOracles}

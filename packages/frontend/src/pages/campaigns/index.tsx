@@ -15,7 +15,7 @@ import { CampaignsTopNav } from "./top-nav";
 import { filterResolvedKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
 import { t } from "i18next";
-import { Filters } from "./filters";
+import { SideFilters } from "./side-filters";
 import { useDebounce } from "react-use";
 import { useSearchedResolvedKPITokens } from "../../hooks/useSearchedResolvedKPITokens";
 
@@ -187,7 +187,7 @@ export const Campaigns = () => {
                         setSearchQuery={setSearchQuery}
                     />
                     <div className="flex">
-                        <Filters
+                        <SideFilters
                             open={filtersOpen}
                             toggleFilters={toggleFilters}
                             selectedTemplates={selectedTemplates}
