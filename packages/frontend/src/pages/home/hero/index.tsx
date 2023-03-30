@@ -46,7 +46,16 @@ export const Hero = () => {
                             </Typography>
                             <CreateCampaignButton primary />
                         </div>
-                        <div className="w-full md:w-1/2 aspect-video bg-gray-600 rounded-xl"></div>
+                        <video
+                            className="w-full md:w-1/2 aspect-video rounded-xl"
+                            autoPlay
+                            loop
+                            muted
+                            controls
+                        >
+                            <source src="video.mp4" type="video/mp4" />
+                            {t("video.notSupported")}
+                        </video>
                     </div>
                 </div>
             ) : (

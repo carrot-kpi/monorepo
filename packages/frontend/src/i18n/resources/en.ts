@@ -2,6 +2,7 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "../../constants";
 
 export const en = {
     [CARROT_KPI_FRONTEND_I18N_NAMESPACE]: {
+        "video.notSupported": "The browser doesn't support the video tag.",
         "connect.wallet": "Connect wallet",
         "connect.wallet.unknown": "Unknown",
         "connect.wallet.network": "Network",
