@@ -15,9 +15,9 @@ import { CampaignsTopNav } from "./top-nav";
 import { filterResolvedKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
 import { t } from "i18next";
-import { SideFilters } from "./side-filters";
 import { useDebounce } from "react-use";
 import { useSearchedResolvedKPITokens } from "../../hooks/useSearchedResolvedKPITokens";
+import { SideFilters } from "./side-filters";
 
 export enum CampaignOrder {
     NEWEST,

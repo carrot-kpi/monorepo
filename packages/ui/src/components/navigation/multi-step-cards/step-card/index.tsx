@@ -23,10 +23,10 @@ const headerStyles = mergedCva([
     "cui-border-b",
     "cui-border-black",
     "dark:cui-border-white",
-    "cui-p-6",
+    "cui-p-4",
 ]);
 
-const contentStyles = mergedCva(["cui-p-6"]);
+const contentStyles = mergedCva(["cui-p-4"]);
 
 export interface StepCardProps {
     title: string;
