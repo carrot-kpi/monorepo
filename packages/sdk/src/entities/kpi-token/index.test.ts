@@ -1,13 +1,13 @@
 import { Wallet } from "@ethersproject/wallet";
-import { KPIToken, KPITokenSpecification } from ".";
+import { KPITokenSpecification, ResolvedKPIToken } from ".";
 import { ChainId } from "../../commons";
-import { Oracle } from "../oracle";
-import { Template, TemplateSpecification } from "../template";
+import { ResolvedOracle } from "../oracle";
+import { ResolvedTemplate, TemplateSpecification } from "../template";
 
 describe("kpi token", () => {
     let templateSpecification: TemplateSpecification;
-    let template: Template;
-    let oracle: Oracle;
+    let template: ResolvedTemplate;
+    let oracle: ResolvedOracle;
     let kpiTokenSpecification: KPITokenSpecification;
 
     beforeAll(() => {
@@ -19,13 +19,13 @@ describe("kpi token", () => {
             "Repository",
             "Commit hash"
         );
-        template = new Template(
+        template = new ResolvedTemplate(
             0,
             Wallet.createRandom().address,
             1,
             templateSpecification
         );
-        oracle = new Oracle(
+        oracle = new ResolvedOracle(
             ChainId.SEPOLIA,
             Wallet.createRandom().address,
             template,
@@ -42,7 +42,7 @@ describe("kpi token", () => {
     test("instantiates correctly", () => {
         const kpiTokenAddress = Wallet.createRandom().address;
         const kpiTokenOwner = Wallet.createRandom().address;
-        const kpiToken = new KPIToken(
+        const kpiToken = new ResolvedKPIToken(
             ChainId.SEPOLIA,
             kpiTokenAddress,
             kpiTokenOwner,
@@ -68,7 +68,7 @@ describe("kpi token", () => {
             const pastDate = new Date();
             pastDate.setDate(-2);
 
-            const kpiToken = new KPIToken(
+            const kpiToken = new ResolvedKPIToken(
                 ChainId.SEPOLIA,
                 Wallet.createRandom().address,
                 Wallet.createRandom().address,
@@ -86,7 +86,7 @@ describe("kpi token", () => {
             const futureDate = new Date();
             futureDate.setDate(futureDate.getDate() + 1);
 
-            const kpiToken = new KPIToken(
+            const kpiToken = new ResolvedKPIToken(
                 ChainId.SEPOLIA,
                 Wallet.createRandom().address,
                 Wallet.createRandom().address,

@@ -1,11 +1,34 @@
-import { KPIToken, KPITokenWithData, OracleWithData } from "@carrot-kpi/sdk";
+import {
+    KPIToken,
+    ResolvedKPITokenWithData,
+    ResolvedOracleWithData,
+} from "@carrot-kpi/sdk";
 import { BigNumber } from "@ethersproject/bignumber";
 import { i18n } from "i18next";
 import { NamespacedTranslateFunction } from "../components";
 import { Tx, TxType } from "./transactions";
 import { NavigateFunction } from "react-router-dom";
+import { ResolvedTemplate } from "@carrot-kpi/sdk";
+import { ReactElement, ReactNode } from "react";
 
 export interface BaseTemplateComponentProps {
+    entity: "kpiToken" | "oracle";
+    type: "creationForm" | "page";
+    template?: ResolvedTemplate;
+    fallback: ReactNode;
+    error: ReactElement;
+    i18n: i18n;
+    className?: { root?: string; wrapper?: string };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    additionalProps?: any;
+}
+
+export type TemplateComponentProps = Omit<
+    BaseTemplateComponentProps,
+    "entity" | "type" | "additionalProps"
+>;
+
+export interface BaseRemoteTemplateComponentProps {
     i18n: i18n;
     t: NamespacedTranslateFunction;
 }
@@ -23,7 +46,7 @@ export type OracleChangeCallback<T> = (
     initializationBundleGetter?: OracleInitializationBundleGetter
 ) => void;
 
-export interface AdditionalOracleCreationFormProps<T> {
+export interface AdditionalRemoteOracleCreationFormProps<T> {
     state: Partial<T>;
     kpiToken?: Partial<KPIToken>;
     onChange: OracleChangeCallback<T>;
@@ -31,30 +54,44 @@ export interface AdditionalOracleCreationFormProps<T> {
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
-export type OracleCreationFormProps<T> = BaseTemplateComponentProps &
-    AdditionalOracleCreationFormProps<T>;
+export type OracleRemoteCreationFormProps<T> =
+    BaseRemoteTemplateComponentProps &
+        AdditionalRemoteOracleCreationFormProps<T>;
 
-export interface AdditionalKPITokenCreationFormProps {
+export type OracleCreationFormProps<S> = TemplateComponentProps &
+    AdditionalRemoteOracleCreationFormProps<S>;
+
+export interface AdditionalRemoteKPITokenCreationFormProps {
     onCreate: () => void;
     navigate: NavigateFunction;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
-export type KPITokenCreationFormProps = BaseTemplateComponentProps &
-    AdditionalKPITokenCreationFormProps;
+export type KPITokenRemoteCreationFormProps = BaseRemoteTemplateComponentProps &
+    AdditionalRemoteKPITokenCreationFormProps;
 
-export interface AdditionalOraclePageProps {
-    oracle?: OracleWithData | null;
+export type KPITokenCreationFormProps = TemplateComponentProps &
+    AdditionalRemoteKPITokenCreationFormProps;
+
+export interface AdditionalRemoteOraclePageProps {
+    oracle?: ResolvedOracleWithData | null;
+    kpiToken: ResolvedKPITokenWithData;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
-export type OraclePageProps = BaseTemplateComponentProps &
-    AdditionalOraclePageProps;
+export type OracleRemotePageProps = BaseRemoteTemplateComponentProps &
+    AdditionalRemoteOraclePageProps;
 
-export interface AdditionalKPITokenPageProps {
-    kpiToken?: KPITokenWithData | null;
+export type OraclePageProps = TemplateComponentProps &
+    AdditionalRemoteOraclePageProps;
+
+export interface AdditionalRemoteKPITokenPageProps {
+    kpiToken?: ResolvedKPITokenWithData | null;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
-export type KPITokenPageProps = BaseTemplateComponentProps &
-    AdditionalKPITokenPageProps;
+export type KPITokenRemotePageProps = BaseRemoteTemplateComponentProps &
+    AdditionalRemoteKPITokenPageProps;
+
+export type KPITokenPageProps = TemplateComponentProps &
+    AdditionalRemoteKPITokenPageProps;

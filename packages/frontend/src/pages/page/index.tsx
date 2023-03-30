@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useNetwork } from "wagmi";
 import { useTransition, config as springConfig } from "@react-spring/web";
-import { Loader } from "@carrot-kpi/ui";
+import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { usePrevious } from "react-use";
@@ -16,7 +16,7 @@ interface PageProps {
 }
 
 export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const { state } = useLocation();
     const { address } = useParams();
     const addTransaction = useAddTransaction();
@@ -65,6 +65,20 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                         fallback={
                             <div className="bg-orange py-10 text-black flex justify-center">
                                 <Loader />
+                            </div>
+                        }
+                        error={
+                            <div className="bg-orange py-10 flex justify-center">
+                                <ErrorFeedback
+                                    messages={{
+                                        title: t(
+                                            "error.initializing.page.title"
+                                        ),
+                                        description: t(
+                                            "error.initializing.page.description"
+                                        ),
+                                    }}
+                                />
                             </div>
                         }
                         className={{ root: "w-full h-full" }}

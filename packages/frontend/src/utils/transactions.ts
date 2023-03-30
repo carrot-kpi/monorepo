@@ -3,7 +3,7 @@ import { BigNumber, utils } from "ethers";
 import { TFunction } from "i18next";
 import { providers } from "ethers";
 import { shortenAddress } from "./address";
-import { CoreFetcher } from "@carrot-kpi/sdk";
+import { Fetcher } from "@carrot-kpi/sdk";
 
 type PayloadSerializer<T extends TxType> = (
     serializable: Tx<T>["payload"]
@@ -99,7 +99,7 @@ const SUMMARY_GETTER: {
     [TxType.ERC20_APPROVAL]: async (t, provider, tx) => {
         let token;
         try {
-            const tokens = await CoreFetcher.fetchERC20Tokens({
+            const tokens = await Fetcher.fetchERC20Tokens({
                 provider,
                 addresses: [tx.payload.token],
             });

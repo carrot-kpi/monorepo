@@ -1,5 +1,6 @@
-import { useKPITokens, usePage, useResetPageScroll } from "@carrot-kpi/react";
+import { usePage, useResetPageScroll } from "@carrot-kpi/react";
 import { SelectOption, Typography } from "@carrot-kpi/ui";
+import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 import React, {
     useEffect,
     useCallback,
@@ -11,12 +12,12 @@ import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
 import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
-import { filterStateKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
+import { filterResolvedKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
-import { KPIToken } from "@carrot-kpi/sdk";
-import { useSearch } from "../../hooks/useSearch";
 import { t } from "i18next";
 import { Filters } from "./filters";
+import { useDebounce } from "react-use";
+import { useSearchedResolvedKPITokens } from "../../hooks/useSearchedResolvedKPITokens";
 
 export enum CampaignOrder {
     NEWEST,
@@ -38,6 +39,7 @@ export enum CampaignState {
     ALL,
     ACTIVE,
     EXPIRED,
+    FINALIZED,
 }
 
 const STATE_OPTIONS = [
@@ -53,6 +55,10 @@ const STATE_OPTIONS = [
         label: t("stateOptions.expired"),
         value: CampaignState.EXPIRED,
     },
+    {
+        label: t("stateOptions.finalized"),
+        value: CampaignState.FINALIZED,
+    },
 ];
 
 export const Campaigns = () => {
@@ -60,9 +66,14 @@ export const Campaigns = () => {
     const { t } = useTranslation();
 
     //  fetch KPITokens
-    const [results, setResults] = useState<KPIToken[]>([]);
-    const { searchQuery, setSearchQuery } = useSearch();
-    const { loading, kpiTokens } = useKPITokens(searchQuery);
+    const [results, setResults] = useState<ResolvedKPIToken[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+
+    useDebounce(() => setDebouncedSearchQuery(searchQuery), 300, [searchQuery]);
+
+    const { loading, kpiTokens: searchedResolvedKPITokens } =
+        useSearchedResolvedKPITokens(debouncedSearchQuery);
 
     //  toggle filters
     const toggleFilters = () => setFilterOpen(!filtersOpen);
@@ -80,6 +91,7 @@ export const Campaigns = () => {
     const [selectedTemplates, setSelectedTemplates] = useState<Set<string>>(
         new Set<string>()
     );
+
     const [selectedOracles, setSelectedOracles] = useState<Set<string>>(
         new Set<string>()
     );
@@ -96,19 +108,17 @@ export const Campaigns = () => {
 
     // filter results
     const filteredKPITokensByState = useMemo(() => {
-        const tokens = Object.values(kpiTokens);
-
-        return filterStateKPITokens(
-            tokens,
+        return filterResolvedKPITokens(
+            searchedResolvedKPITokens,
             campaignState.value as unknown as CampaignState
         );
-    }, [kpiTokens, campaignState]);
+    }, [searchedResolvedKPITokens, campaignState]);
 
     const filteredTokens = useMemo(() => {
-        const noSideFiltersSelected =
+        const noFiltersSelected =
             selectedTemplates.size === 0 && selectedOracles.size === 0;
 
-        if (noSideFiltersSelected) return filteredKPITokensByState;
+        if (noFiltersSelected) return filteredKPITokensByState;
 
         return filteredKPITokensByState.filter(
             (token) =>
@@ -188,7 +198,7 @@ export const Campaigns = () => {
                             }
                         />
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
-                            {!loading && page.length === 0 && (
+                            {!loading && results && page.length === 0 && (
                                 <div className="flex justify-center w-full">
                                     <Empty />
                                 </div>

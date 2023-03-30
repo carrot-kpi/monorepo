@@ -1,11 +1,11 @@
 import { Wallet } from "@ethersproject/wallet";
-import { Oracle } from ".";
+import { ResolvedOracle } from ".";
 import { ChainId } from "../../commons";
-import { Template, TemplateSpecification } from "../template";
+import { ResolvedTemplate, TemplateSpecification } from "../template";
 
 describe("oracle", () => {
     let templateSpecification: TemplateSpecification;
-    let template: Template;
+    let template: ResolvedTemplate;
 
     beforeAll(() => {
         templateSpecification = new TemplateSpecification(
@@ -16,7 +16,7 @@ describe("oracle", () => {
             "Repository",
             "Commit hash"
         );
-        template = new Template(
+        template = new ResolvedTemplate(
             0,
             Wallet.createRandom().address,
             1,
@@ -26,7 +26,12 @@ describe("oracle", () => {
 
     test("instantiates correctly", () => {
         const address = Wallet.createRandom().address;
-        const oracle = new Oracle(ChainId.SEPOLIA, address, template, false);
+        const oracle = new ResolvedOracle(
+            ChainId.SEPOLIA,
+            address,
+            template,
+            false
+        );
         expect(oracle.chainId).toBe(ChainId.SEPOLIA);
         expect(oracle.address).toEqual(address);
         expect(oracle.template).toBe(template);

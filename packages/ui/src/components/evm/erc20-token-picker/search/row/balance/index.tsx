@@ -16,7 +16,10 @@ export const Balance = ({ balance, decimals, loading }: BalanceProps) => {
     if (loading) return <Skeleton variant="sm" width="40px" />;
 
     return (
-        <Typography variant="sm">
+        <Typography
+            variant="sm"
+            className={{ root: "cui-pointer-events-none" }}
+        >
             {formatDecimals(commify(formatUnits(balance, decimals)), 4)}
         </Typography>
     );

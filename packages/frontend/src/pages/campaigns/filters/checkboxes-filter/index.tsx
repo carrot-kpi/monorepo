@@ -1,10 +1,10 @@
-import { Template } from "@carrot-kpi/sdk";
+import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { Checkbox, Typography } from "@carrot-kpi/ui";
 import React, { ChangeEvent } from "react";
 import { FiltersLoading } from "../loading";
 
 interface CheckboxesFilterProps {
-    items: Template[];
+    items: ResolvedTemplate[] | null;
     groupId: string;
     title: string;
     loading: boolean;
@@ -41,6 +41,7 @@ export const CheckboxesFilter = ({
                 {loading ? (
                     <FiltersLoading />
                 ) : (
+                    items &&
                     items.map((item) => {
                         return (
                             <Checkbox

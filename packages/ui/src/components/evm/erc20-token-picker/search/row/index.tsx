@@ -39,6 +39,7 @@ const wrapperStyles = mergedCva([
     "cui-flex",
     "cui-flex-col",
     "cui-gap-1",
+    "cui-pointer-events-none",
     "cui-justify-center",
 ]);
 
@@ -122,7 +123,12 @@ export const Row = ({
                     {loading ? (
                         <Skeleton width="40px" />
                     ) : (
-                        <Typography className={className?.textPrimary}>
+                        <Typography
+                            className={{
+                                ...className?.textPrimary,
+                                root: `cui-pointer-events-none ${className?.textPrimary?.root}`,
+                            }}
+                        >
                             {symbol}
                         </Typography>
                     )}
@@ -141,7 +147,7 @@ export const Row = ({
                     </Typography>
                 )}
             </div>
-            <div className="cui-flex cui-gap-1">
+            <div className="cui-pointer-events-none cui-flex cui-gap-1">
                 <Balance
                     loading={loading || loadingBalances}
                     decimals={decimals}

@@ -1,10 +1,7 @@
 import { Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { KPIToken } from "@carrot-kpi/sdk";
-import {
-    usePreferDecentralization,
-    useIPFSGatewayURL,
-} from "@carrot-kpi/react";
+import { usePreferDecentralization } from "@carrot-kpi/react";
 import { useQuery } from "@tanstack/react-query";
 
 export const LATEST_KPI_TOKEN_QUERY_KEY_PREFIX = "latestKPITokens" as string;
@@ -14,7 +11,6 @@ export function useLatestKPITokens(limit = 5): {
     kpiTokens: KPIToken[];
 } {
     const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
 
@@ -36,7 +32,6 @@ export function useLatestKPITokens(limit = 5): {
             });
             const kpiTokens = await Fetcher.fetchKPITokens({
                 provider,
-                ipfsGatewayURL,
                 preferDecentralization,
                 addresses: kpiTokenAddresses,
             });

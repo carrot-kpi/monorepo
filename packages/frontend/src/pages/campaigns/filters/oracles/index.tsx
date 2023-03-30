@@ -1,24 +1,26 @@
 import React from "react";
-import { useOracleTemplates } from "@carrot-kpi/react";
+import { useOracleTemplates, useResolvedTemplates } from "@carrot-kpi/react";
 import { CheckboxesFilter } from "../checkboxes-filter";
 import { useTranslation } from "react-i18next";
 
 export const OraclesFilter = ({
     selectedOracles,
+
     setSelectedOracles,
 }: {
     selectedOracles: Set<string>;
     setSelectedOracles: (newSelectedOracles: Set<string>) => void;
 }) => {
     const { t } = useTranslation();
-    const { loading, templates } = useOracleTemplates();
+    const { templates } = useOracleTemplates();
+    const { loading, resolvedTemplates } = useResolvedTemplates(templates);
 
     return (
         <CheckboxesFilter
             title={t("filters.oracles")}
             groupId="campaigns-oracles"
             loading={loading}
-            items={templates}
+            items={resolvedTemplates}
             selected={selectedOracles}
             setSelected={setSelectedOracles}
         />

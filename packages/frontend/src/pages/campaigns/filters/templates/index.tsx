@@ -1,5 +1,5 @@
 import React from "react";
-import { useKPITokenTemplates } from "@carrot-kpi/react";
+import { useKPITokenTemplates, useResolvedTemplates } from "@carrot-kpi/react";
 import { CheckboxesFilter } from "../checkboxes-filter";
 import { useTranslation } from "react-i18next";
 
@@ -11,14 +11,15 @@ export const TemplatesFilter = ({
     setSelectedTemplates: (newSelectedTemplates: Set<string>) => void;
 }) => {
     const { t } = useTranslation();
-    const { loading, templates } = useKPITokenTemplates();
+    const { templates } = useKPITokenTemplates();
+    const { loading, resolvedTemplates } = useResolvedTemplates(templates);
 
     return (
         <CheckboxesFilter
             title={t("filters.templates")}
             groupId="campaigns-templates"
             loading={loading}
-            items={templates}
+            items={resolvedTemplates}
             selected={selectedTemplates}
             setSelected={setSelectedTemplates}
         />

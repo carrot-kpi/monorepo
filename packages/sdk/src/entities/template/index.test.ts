@@ -1,5 +1,5 @@
 import { Wallet } from "@ethersproject/wallet";
-import { Template, TemplateSpecification } from ".";
+import { ResolvedTemplate, TemplateSpecification } from ".";
 
 describe("template", () => {
     describe("template specification", () => {
@@ -34,7 +34,12 @@ describe("template", () => {
                 "Commit hash"
             );
             const address = Wallet.createRandom().address;
-            const template = new Template(0, address, 1, templateSpecification);
+            const template = new ResolvedTemplate(
+                0,
+                address,
+                1,
+                templateSpecification
+            );
             expect(template.id).toBe(0);
             expect(template.address).toEqual(address);
             expect(template.version).toEqual(1);

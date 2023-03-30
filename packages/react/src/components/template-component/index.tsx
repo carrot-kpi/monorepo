@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactNode, useEffect, useLayoutEffect } from "react";
-import { Template } from "@carrot-kpi/sdk";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
 import { useState } from "react";
-import { i18n } from "i18next";
 import { cva } from "class-variance-authority";
 import { useTheme } from "../../hooks";
 import { useMedia } from "react-use";
+import { ErrorBoundary } from "../error-boundary";
+import { BaseTemplateComponentProps } from "../../types";
 
 const wrapperStyles = cva(["h-full"], {
     variants: {
@@ -22,25 +22,16 @@ export type NamespacedTranslateFunction = (key: any, options?: any) => any;
 const TRANSLATE_CACHE: { [namespace: string]: NamespacedTranslateFunction } =
     {};
 
-export interface TemplateComponentProps {
-    entity: "kpiToken" | "oracle";
-    type: "creationForm" | "page";
-    template?: Template;
-    fallback: ReactNode;
-    i18n: i18n;
-    className?: { root?: string; wrapper?: string };
-    additionalProps?: any;
-}
-
 export function TemplateComponent({
     entity,
     type,
     template,
     fallback,
+    error,
     i18n,
     className,
     additionalProps = {},
-}: TemplateComponentProps) {
+}: BaseTemplateComponentProps) {
     const { loading, bundle, Component } = useTemplateModule(
         entity,
         type,
@@ -86,7 +77,7 @@ export function TemplateComponent({
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
         <div
-            id={`carrot-template-${template.specification.commitHash}`}
+            id={`carrot-template-${template.specification.commitHash}-${type}`}
             className={className?.root}
         >
             <div
@@ -95,11 +86,13 @@ export function TemplateComponent({
                     className: className?.wrapper,
                 })}
             >
-                <Component
-                    {...additionalProps}
-                    i18n={i18n}
-                    t={translateWithNamespace}
-                />
+                <ErrorBoundary fallback={error}>
+                    <Component
+                        {...additionalProps}
+                        i18n={i18n}
+                        t={translateWithNamespace}
+                    />
+                </ErrorBoundary>
             </div>
         </div>
     );

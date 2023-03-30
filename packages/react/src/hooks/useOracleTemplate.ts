@@ -3,14 +3,12 @@ import { Template, Fetcher } from "@carrot-kpi/sdk";
 import { useProvider, useNetwork } from "wagmi";
 import { BigNumberish } from "@ethersproject/bignumber";
 import { usePreferDecentralization } from "./usePreferDecentralization";
-import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
 export function useOracleTemplate(id?: BigNumberish): {
     loading: boolean;
     template: Template | null;
 } {
     const preferDecentralization = usePreferDecentralization();
-    const ipfsGatewayURL = useIPFSGatewayURL();
     const { chain } = useNetwork();
     const provider = useProvider();
 
@@ -25,7 +23,6 @@ export function useOracleTemplate(id?: BigNumberish): {
             try {
                 const templates = await Fetcher.fetchOracleTemplates({
                     provider,
-                    ipfsGatewayURL,
                     preferDecentralization,
                     ids: [id],
                 });
@@ -40,7 +37,7 @@ export function useOracleTemplate(id?: BigNumberish): {
         return () => {
             cancelled = true;
         };
-    }, [chain, provider, preferDecentralization, id, ipfsGatewayURL]);
+    }, [chain, provider, preferDecentralization, id]);
 
     return { loading, template };
 }

@@ -1,10 +1,10 @@
 import {
     Fetcher,
-    KPIToken,
-    KPITokenWithData,
+    ResolvedKPITokenWithData,
     KPI_TOKEN_ABI,
-    OracleWithData,
+    ResolvedOracleWithData,
     ORACLE_ABI,
+    ResolvedKPIToken,
 } from "@carrot-kpi/sdk";
 import { ReadContractConfig } from "@wagmi/core";
 import { useEffect, useState } from "react";
@@ -13,17 +13,17 @@ import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useWatchKPIToken(
-    kpiTokenOrAddress?: KPIToken | string
-): KPITokenWithData | null {
+    kpiTokenOrAddress?: ResolvedKPIToken | string
+): ResolvedKPITokenWithData | null {
     const provider = useProvider();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
 
-    const [kpiToken, setKPIToken] = useState<KPIToken | null>(
+    const [kpiToken, setKPIToken] = useState<ResolvedKPIToken | null>(
         typeof kpiTokenOrAddress === "string" ? null : kpiTokenOrAddress || null
     );
     const [kpiTokenWithData, setKPITokenWithData] =
-        useState<KPITokenWithData | null>(null);
+        useState<ResolvedKPITokenWithData | null>(null);
 
     // in case an address was passed, fetch the kpi token
     useEffect(() => {
@@ -35,7 +35,6 @@ export function useWatchKPIToken(
                 const kpiToken = (
                     await Fetcher.fetchKPITokens({
                         provider,
-                        ipfsGatewayURL,
                         preferDecentralization,
                         addresses: [kpiTokenOrAddress],
                     })
@@ -44,7 +43,13 @@ export function useWatchKPIToken(
                     console.warn(
                         `no kpi token with address ${kpiTokenOrAddress} found`
                     );
-                if (!cancelled) setKPIToken(kpiToken);
+                const resolvedKPIToken = (
+                    await Fetcher.resolveKPITokens({
+                        ipfsGatewayURL,
+                        kpiTokens: [kpiToken],
+                    })
+                )[kpiTokenOrAddress];
+                if (!cancelled) setKPIToken(resolvedKPIToken);
             } catch (error) {
                 console.error(
                     `could not fetch kpi token with address ${kpiTokenOrAddress}`,
@@ -100,11 +105,11 @@ export function useWatchKPIToken(
     useEffect(() => {
         if (!readResults || !kpiToken) return;
 
-        const updatedOracles: OracleWithData[] = [];
+        const updatedOracles: ResolvedOracleWithData[] = [];
         for (let i = 2; i < readResults.length; i += 2) {
             const outdatedOracle = kpiToken.oracles[i % 2];
             updatedOracles.push(
-                new OracleWithData(
+                new ResolvedOracleWithData(
                     outdatedOracle.chainId,
                     outdatedOracle.address,
                     outdatedOracle.template,
@@ -115,17 +120,11 @@ export function useWatchKPIToken(
         }
 
         setKPITokenWithData(
-            new KPITokenWithData(
-                kpiToken.chainId,
-                kpiToken.address,
-                kpiToken.owner,
-                kpiToken.template,
+            ResolvedKPITokenWithData.from(
+                kpiToken,
                 updatedOracles,
-                kpiToken.specification,
-                kpiToken.expiration,
-                kpiToken.creationTimestamp,
-                readResults[1] as unknown as boolean,
-                readResults[0] as unknown as string
+                readResults[0] as unknown as string,
+                readResults[1] as unknown as boolean
             )
         );
     }, [kpiToken, readResults]);
