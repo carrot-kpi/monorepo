@@ -47,13 +47,16 @@ export const Hero = () => {
                             <CreateCampaignButton primary />
                         </div>
                         <video
-                            className="w-full md:w-1/2 aspect-video rounded-xl"
+                            className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500"
                             autoPlay
                             loop
                             muted
                             controls
                         >
-                            <source src="video.mp4" type="video/mp4" />
+                            <source
+                                src="https://d2ci3fqf9s7aw0.cloudfront.net/video.mp4"
+                                type="video/mp4"
+                            />
                             {t("video.notSupported")}
                         </video>
                     </div>
