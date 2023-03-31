@@ -46,7 +46,19 @@ export const Hero = () => {
                             </Typography>
                             <CreateCampaignButton primary />
                         </div>
-                        <div className="w-full md:w-1/2 aspect-video bg-gray-600 rounded-xl"></div>
+                        <video
+                            className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500"
+                            autoPlay
+                            loop
+                            muted
+                            controls
+                        >
+                            <source
+                                src="https://carrot-kpi.dev/hero.mp4"
+                                type="video/mp4"
+                            />
+                            {t("video.notSupported")}
+                        </video>
                     </div>
                 </div>
             ) : (
