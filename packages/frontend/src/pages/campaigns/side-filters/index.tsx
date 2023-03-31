@@ -61,7 +61,7 @@ export const SideFilters = ({
                 }}
                 onClick={toggleFilters}
             >
-                {t("filters.close")}
+                {t("sideFilters.close")}
             </Button>
         </div>
     );
