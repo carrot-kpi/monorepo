@@ -7,9 +7,9 @@ import React, {
     useCallback,
     useState,
 } from "react";
-import { ReactComponent as DangerIcon } from "../../../assets/danger-icon.svg";
 import { ReactComponent as InfoIcon } from "../../../assets/info-icon.svg";
 import { mergedCva } from "../../../utils/components";
+import { ErrorText } from "../../data-display/error-text";
 import { Typography, TypographyProps } from "../../data-display/typography";
 import { Popover } from "../../utils";
 
@@ -150,30 +150,6 @@ export const infoIconStyles = mergedCva([
     "dark:cui-text-white",
 ]);
 
-const errorTextWrapperStyles = mergedCva([
-    "cui-flex",
-    "cui-items-center",
-    "cui-gap-2",
-    "cui-mt-2",
-]);
-
-const errorTextIconStyles = mergedCva(["cui-w-6"], {
-    variants: {
-        variant: {
-            danger: ["cui-stroke-red"],
-            info: ["cui-stroke-black", "dark:cui-stroke-white"],
-        },
-    },
-});
-
-const errorTextStyles = mergedCva([], {
-    variants: {
-        error: {
-            true: ["cui-text-red", "dark:cui-text-red"],
-        },
-    },
-});
-
 export interface BaseInputWrapperProps {
     id: string;
     label?: string;
@@ -304,32 +280,7 @@ export const BaseInputWrapper = ({
                 {iconPlacement === "right" && icon}
                 {actionPlacement === "right" && action}
             </div>
-            {error && errorText && (
-                <div
-                    className={errorTextWrapperStyles({
-                        className: className?.errorTextContainer,
-                    })}
-                >
-                    <DangerIcon
-                        className={errorTextIconStyles({
-                            variant: "danger",
-                            className: className?.errorTextIcon,
-                        })}
-                    />
-                    <Typography
-                        variant="xs"
-                        className={{
-                            ...className?.errorText,
-                            root: errorTextStyles({
-                                error,
-                                className: className?.errorText?.root,
-                            }),
-                        }}
-                    >
-                        {errorText}
-                    </Typography>
-                </div>
-            )}
+            {error && errorText && <ErrorText>{errorText}</ErrorText>}
         </div>
     );
 };
