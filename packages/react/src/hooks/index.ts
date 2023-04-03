@@ -1,5 +1,6 @@
 export * from "./useDecentralizedStorageUploader";
 export * from "./useDevMode";
+export * from "./useERC20TokenPrice";
 export * from "./useFederatedModuleContainer";
 export * from "./useIPFSGatewayURL";
 export * from "./useKPIToken";
