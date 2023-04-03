@@ -47,7 +47,6 @@ export const useERC20TokenPrice = (
 
                 for (const key of keys) {
                     const wrappedPrice = body.coins[key];
-                    console.log({ body, key, wrappedPrice });
                     if (
                         wrappedPrice &&
                         wrappedPrice.confidence > CONFIDENCE_THRESHOLD
