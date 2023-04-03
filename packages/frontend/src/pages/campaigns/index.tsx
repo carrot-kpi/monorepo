@@ -78,10 +78,8 @@ export const Campaigns = () => {
     }, [searchedResolvedKPITokens, campaignState]);
 
     const filteredTokens = useMemo(() => {
-        const noFiltersSelected =
-            selectedTemplates.size === 0 && selectedOracles.size === 0;
-
-        if (noFiltersSelected) return filteredKPITokensByState;
+        if (selectedTemplates.size === 0 && selectedOracles.size === 0)
+            return filteredKPITokensByState;
 
         return filteredKPITokensByState.filter(
             (token) =>
