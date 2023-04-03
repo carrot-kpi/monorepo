@@ -23,13 +23,12 @@ export const useERC20TokenPrice = (
         let cancelled = false;
         const fetchPrice = async () => {
             if (!tokenAddress || !isAddress(tokenAddress) || !chain) return;
-            const apiChainPrefix =
-                DEFILLAMA_API_CHAIN_PREFIX[chain.id as ChainId];
-            if (!apiChainPrefix) return;
             if (!cancelled) setLoading(true);
             try {
                 const checksummedAddress = getAddress(tokenAddress);
                 const keys = [`coingecko:${checksummedAddress}`];
+                const apiChainPrefix =
+                    DEFILLAMA_API_CHAIN_PREFIX[chain.id as ChainId];
                 if (apiChainPrefix)
                     keys.push(`${apiChainPrefix}:${checksummedAddress}`);
                 const response = await fetch(
