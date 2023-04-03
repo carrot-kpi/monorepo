@@ -18,7 +18,7 @@ const navWrapperStyles = cva([""], {
             orange: ["bg-orange"],
         },
         isOpen: {
-            true: ["fixed top-0 left-0 z-10 h-screen w-full"],
+            true: ["fixed top-0 left-0 z-50 h-screen w-full"],
         },
     },
 });

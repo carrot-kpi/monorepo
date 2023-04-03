@@ -24,7 +24,7 @@ const dropdownRootStyles = mergedCva([
     "cui-bg-white",
     "dark:cui-bg-black",
     "dark:cui-border-white",
-    "cui-z-10",
+    "cui-z-20",
     "cui-overflow-hidden",
 ]);
 

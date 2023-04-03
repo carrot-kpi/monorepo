@@ -1,78 +1,28 @@
 import { usePage, useResetPageScroll } from "@carrot-kpi/react";
-import { Button, SelectOption, Typography } from "@carrot-kpi/ui";
-import { cva } from "class-variance-authority";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { SelectOption, Typography } from "@carrot-kpi/ui";
+import { ResolvedKPIToken } from "@carrot-kpi/sdk";
+import React, {
+    useEffect,
+    useCallback,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
 import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { CampaignsTopNav } from "./top-nav";
-import { TemplatesFilter } from "./filters/templates";
 import { filterResolvedKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
-import { ResolvedKPIToken } from "@carrot-kpi/sdk";
-import { t } from "i18next";
 import { useDebounce } from "react-use";
 import { useSearchedResolvedKPITokens } from "../../hooks/useSearchedResolvedKPITokens";
-
-export enum CampaignOrder {
-    NEWEST,
-    OLDEST,
-}
-
-const campaignsFiltersStyles = cva(
-    [
-        "absolute lg:relative",
-        "shadow md:shadow-none",
-        "w-full lg:w-fit",
-        "p-12",
-        "bg-white",
-        "border-r border-gray-400 dark:bg-black",
-    ],
-    {
-        variants: {
-            filtersOpen: {
-                false: ["hidden"],
-            },
-        },
-    }
-);
-
-const ORDERING_OPTIONS = [
-    {
-        label: t("orderingOptions.newest"),
-        value: CampaignOrder.NEWEST,
-    },
-    {
-        label: t("orderingOptions.oldest"),
-        value: CampaignOrder.OLDEST,
-    },
-];
-
-export enum CampaignState {
-    ALL,
-    ACTIVE,
-    EXPIRED,
-    FINALIZED,
-}
-
-const STATE_OPTIONS = [
-    {
-        label: t("stateOptions.all"),
-        value: CampaignState.ALL,
-    },
-    {
-        label: t("stateOptions.active"),
-        value: CampaignState.ACTIVE,
-    },
-    {
-        label: t("stateOptions.expired"),
-        value: CampaignState.EXPIRED,
-    },
-    {
-        label: t("stateOptions.finalized"),
-        value: CampaignState.FINALIZED,
-    },
-];
+import { SideFilters } from "./side-filters";
+import {
+    ORDERING_OPTIONS,
+    STATE_OPTIONS,
+    CampaignOrder,
+    CampaignState,
+} from "./select-options";
 
 export const Campaigns = () => {
     useResetPageScroll();
@@ -88,24 +38,57 @@ export const Campaigns = () => {
     const { loading, kpiTokens: searchedResolvedKPITokens } =
         useSearchedResolvedKPITokens(debouncedSearchQuery);
 
-    //  show filters
-    const [filtersOpen, setFilterOpen] = useState(false);
+    //  toggle filters
     const toggleFilters = () => setFilterOpen(!filtersOpen);
+    const [filtersOpen, setFilterOpen] = useState(false);
 
     // page settings
     const [pageSize, setPageSize] = useState(12);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+
+    // filters
     const [campaignState, setCampaignState] = useState<SelectOption>(
         STATE_OPTIONS[0]
     );
+    // side filters
+    const [selectedTemplates, setSelectedTemplates] = useState<Set<string>>(
+        new Set<string>()
+    );
+
+    const [selectedOracles, setSelectedOracles] = useState<Set<string>>(
+        new Set<string>()
+    );
+    const handleSelectedTemplatesUpdate = useCallback(
+        (newSelectedTemplates: Set<string>) =>
+            setSelectedTemplates(new Set(newSelectedTemplates)),
+        []
+    );
+    const handleSelectedOraclesTemplatesUpdate = useCallback(
+        (newSelectedOracles: Set<string>) =>
+            setSelectedOracles(new Set(newSelectedOracles)),
+        []
+    );
 
     // filter results
-    const filteredTokens = useMemo(() => {
+    const filteredKPITokensByState = useMemo(() => {
         return filterResolvedKPITokens(
             searchedResolvedKPITokens,
             campaignState.value as unknown as CampaignState
         );
     }, [searchedResolvedKPITokens, campaignState]);
+
+    const filteredTokens = useMemo(() => {
+        if (selectedTemplates.size === 0 && selectedOracles.size === 0)
+            return filteredKPITokensByState;
+
+        return filteredKPITokensByState.filter(
+            (token) =>
+                selectedTemplates.has(token.template.address) ||
+                token.oracles
+                    .map((oracle) => oracle.template.address)
+                    .some((oracleAddress) => selectedOracles.has(oracleAddress))
+        );
+    }, [filteredKPITokensByState, selectedTemplates, selectedOracles]);
 
     // sort results
     const sortedFilteredTokens = useMemo(() => {
@@ -165,21 +148,16 @@ export const Campaigns = () => {
                         setSearchQuery={setSearchQuery}
                     />
                     <div className="flex">
-                        <div
-                            className={campaignsFiltersStyles({ filtersOpen })}
-                        >
-                            <div className="space-y-6 md:w-64">
-                                <TemplatesFilter />
-                            </div>
-                            <Button
-                                className={{
-                                    root: "w-full p-1 mt-12 md:hidden",
-                                }}
-                                onClick={toggleFilters}
-                            >
-                                Close filters
-                            </Button>
-                        </div>
+                        <SideFilters
+                            open={filtersOpen}
+                            toggleFilters={toggleFilters}
+                            selectedTemplates={selectedTemplates}
+                            setSelectedTemplates={handleSelectedTemplatesUpdate}
+                            selectedOracles={selectedOracles}
+                            setSelectedOracles={
+                                handleSelectedOraclesTemplatesUpdate
+                            }
+                        />
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
                             {!loading && results && page.length === 0 && (
                                 <div className="flex justify-center w-full">
@@ -188,7 +166,7 @@ export const Campaigns = () => {
                             )}
                             {(loading || page.length > 0) && (
                                 <>
-                                    <div className="flex flex-wrap justify-center lg:justify-start gap-5">
+                                    <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
                                         {loading
                                             ? new Array(pageSize)
                                                   .fill(null)
