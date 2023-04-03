@@ -1,5 +1,5 @@
 import { Button, Loader, Typography } from "@carrot-kpi/ui";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { FeaturedCampaigns } from "../../../components/featured-campaigns";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
@@ -27,6 +27,15 @@ const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
 export const Hero = () => {
     const { t } = useTranslation();
     const { loading, kpiTokens } = useFeaturedKPITokens();
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        if (!videoRef || !videoRef.current) return;
+        const currentRef = videoRef.current;
+        return () => {
+            currentRef.pause();
+        };
+    });
 
     return (
         <div className="relative bg-orange bg-grid-light min-h-[65vh]">
@@ -47,9 +56,9 @@ export const Hero = () => {
                             <CreateCampaignButton primary />
                         </div>
                         <video
+                            ref={videoRef}
                             className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500"
                             autoPlay
-                            loop
                             muted
                             controls
                         >
