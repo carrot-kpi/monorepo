@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@carrot-kpi/sdk": "*",
+        "@ethersproject/address": "^5.7.0",
         "@ethersproject/bignumber": "^5.7.0",
         "@tanstack/query-sync-storage-persister": "^4.24.9",
         "@tanstack/react-query-persist-client": "^4.24.9",

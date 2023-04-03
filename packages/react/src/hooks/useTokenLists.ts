@@ -27,9 +27,10 @@ export const useTokenLists = (
     const [lists, setLists] = useState<TokenList[]>([]);
 
     useEffect(() => {
+        let cancelled = false;
         const fetchLists = async () => {
             if (!urls || urls.length === 0) return;
-            setLoading(true);
+            if (!cancelled) setLoading(true);
             let listResults = [];
             try {
                 listResults = await Promise.allSettled(
@@ -57,17 +58,21 @@ export const useTokenLists = (
                     })
                 );
             } finally {
-                setLoading(false);
+                if (!cancelled) setLoading(false);
             }
-            setLists(
-                listResults.reduce((accumulator: TokenList[], result) => {
-                    if (result.status === "fulfilled")
-                        accumulator.push(result.value);
-                    return accumulator;
-                }, [])
-            );
+            if (!cancelled)
+                setLists(
+                    listResults.reduce((accumulator: TokenList[], result) => {
+                        if (result.status === "fulfilled")
+                            accumulator.push(result.value);
+                        return accumulator;
+                    }, [])
+                );
         };
         void fetchLists();
+        return () => {
+            cancelled = true;
+        };
     }, [ipfsGatewayURL, urls]);
 
     return { loading, lists };
