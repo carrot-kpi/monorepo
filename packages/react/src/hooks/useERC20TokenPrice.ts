@@ -22,7 +22,11 @@ export const useERC20TokenPrice = (
     useEffect(() => {
         let cancelled = false;
         const fetchPrice = async () => {
-            if (!tokenAddress || !isAddress(tokenAddress) || !chain) return;
+            if (!tokenAddress || !isAddress(tokenAddress) || !chain) {
+                setPrice(0);
+                setLoading(false);
+                return;
+            }
             if (!cancelled) setLoading(true);
             try {
                 const checksummedAddress = getAddress(tokenAddress);
@@ -54,6 +58,9 @@ export const useERC20TokenPrice = (
                         return;
                     }
                 }
+
+                // only if no price is found we arrive here
+                if (!cancelled) setPrice(0);
             } catch (error) {
                 console.warn(
                     `error while fetching price of erc20 token at address ${tokenAddress}`,
