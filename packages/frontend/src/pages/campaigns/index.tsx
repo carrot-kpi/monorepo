@@ -5,7 +5,6 @@ import React, {
     useEffect,
     useCallback,
     useMemo,
-    useRef,
     useState,
     SetStateAction,
 } from "react";
@@ -40,14 +39,12 @@ export const Campaigns = () => {
 
     useDebounce(() => setDebouncedSearchQuery(searchQuery), 300, [searchQuery]);
 
-    //  toggle filters
-    const toggleFilters = () => setFilterOpen(!filtersOpen);
-    const [filtersOpen, setFilterOpen] = useState(false);
-
     // page settings
-    const [pageSize, setPageSize] = useState(12);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [filtersOpen, setFilterOpen] = useState(false);
+    const toggleFilters = () => setFilterOpen(!filtersOpen);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const { data, totalPages } = usePagination(results, currentPage);
 
     const handlePageChange = (pageNumber: SetStateAction<number>) => {
         const searchParams = new URLSearchParams(location.search);
@@ -61,7 +58,7 @@ export const Campaigns = () => {
         setCurrentPage(parseInt(pageParams));
     }, [location]);
 
-    // fetch
+    // fetch data
     const { loading, kpiTokens: searchedResolvedKPITokens } =
         useSearchedResolvedKPITokens(debouncedSearchQuery);
 
@@ -121,31 +118,6 @@ export const Campaigns = () => {
         setResults(sortedFilteredTokens);
     }, [sortedFilteredTokens]);
 
-    const { data, totalPages } = usePagination(results, currentPage);
-
-    const resizeObserver = useRef(
-        new ResizeObserver((entries) => {
-            const { width } = entries[0].contentRect;
-            if (width > 600) setFilterOpen(true);
-            else setFilterOpen(false);
-            if (width < 768) {
-                setPageSize(3);
-            } else if (width < 1200) {
-                setPageSize(6);
-            } else {
-                setPageSize(12);
-            }
-        })
-    );
-
-    useEffect(() => {
-        resizeObserver.current.observe(document.body);
-        return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            resizeObserver.current.unobserve(document.body);
-        };
-    }, []);
-
     return (
         <Layout>
             <div className="relative bg-grid-light dark:bg-grid-dark dark:bg-black">
@@ -187,7 +159,7 @@ export const Campaigns = () => {
                                 <>
                                     <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
                                         {loading
-                                            ? new Array(pageSize)
+                                            ? new Array(3)
                                                   .fill(null)
                                                   .map((_, index) => {
                                                       return (
