@@ -134,7 +134,7 @@ export const Navbar = ({
                         <div className="flex items-center">
                             {mode !== "modal" && (
                                 <MenuIcon
-                                    className="xl:hidden"
+                                    className="cursor-pointer xl:hidden"
                                     onClick={() => setOpen(!isOpen)}
                                 />
                             )}
