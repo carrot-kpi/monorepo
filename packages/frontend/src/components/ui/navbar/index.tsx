@@ -75,78 +75,81 @@ export const Navbar = ({
         setPreferencesPopoverOpen(true);
     }, []);
 
-    return isOpen ? (
-        <NavbarVerticalLayout
-            mode={mode}
-            links={links}
-            onNavbarClose={() => setOpen(false)}
-        />
-    ) : (
-        <div className={navWrapperStyles({ bgColor })}>
-            <div className={navbarStyles({ bgColor, mode })}>
-                {mode === "modal" ? (
-                    <Logo className="w-32 h-auto xl:w-[188px] text-black" />
-                ) : (
-                    <NavLink to="/" onClick={() => setOpen(false)}>
+    return (
+        <>
+            {isOpen && (
+                <NavbarVerticalLayout
+                    mode={mode}
+                    links={links}
+                    onNavbarClose={() => setOpen(false)}
+                />
+            )}
+            <div className={navWrapperStyles({ bgColor })}>
+                <div className={navbarStyles({ bgColor, mode })}>
+                    {mode === "modal" ? (
                         <Logo className="w-32 h-auto xl:w-[188px] text-black" />
-                    </NavLink>
-                )}
-                <nav className="items-center gap-4 hidden xl:flex">
-                    <ul className="flex items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 xl:top-[68px]">
-                        {(links || []).map((link) => (
-                            <li key={link.to}>
-                                <NavLink
-                                    className="flex items-start space-x-2 cursor-pointer"
-                                    to={link.to}
-                                    onClick={() => setOpen(false)}
+                    ) : (
+                        <NavLink to="/" onClick={() => setOpen(false)}>
+                            <Logo className="w-32 h-auto xl:w-[188px] text-black" />
+                        </NavLink>
+                    )}
+                    <nav className="items-center gap-4 hidden xl:flex">
+                        <ul className="flex items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 xl:top-[68px]">
+                            {(links || []).map((link) => (
+                                <li key={link.to}>
+                                    <NavLink
+                                        className="flex items-start space-x-2 cursor-pointer"
+                                        to={link.to}
+                                        onClick={() => setOpen(false)}
+                                    >
+                                        <span className="font-mono text-2xl xl:text-base">
+                                            ↳
+                                        </span>
+                                        <p className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]">
+                                            {link.title}
+                                        </p>
+                                    </NavLink>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                    <div className="flex items-center gap-4">
+                        <div className="hidden xl:block">
+                            <ConnectWallet />
+                        </div>
+                        <Button
+                            ref={setPreferencesAnchor}
+                            size="small"
+                            onClick={handlePreferencesPopoverOpen}
+                            icon={SettingsIcon}
+                            className={{
+                                root: "w-12 h-12 p-0 flex justify-center items-center",
+                            }}
+                        />
+                        <PreferencesPopover
+                            open={preferencesPopoverOpen}
+                            anchor={preferencesAnchor}
+                            ref={preferencesPopoverRef}
+                        />
+                        <div className="flex items-center">
+                            {mode !== "modal" && (
+                                <MenuIcon
+                                    className="xl:hidden"
+                                    onClick={() => setOpen(!isOpen)}
+                                />
+                            )}
+                            {mode === "modal" && (
+                                <div
+                                    className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
+                                    onClick={onDismiss}
                                 >
-                                    <span className="font-mono text-2xl xl:text-base">
-                                        ↳
-                                    </span>
-                                    <p className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]">
-                                        {link.title}
-                                    </p>
-                                </NavLink>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-                <div className="flex items-center gap-4">
-                    <div className="hidden xl:block">
-                        <ConnectWallet />
-                    </div>
-                    <Button
-                        ref={setPreferencesAnchor}
-                        size="small"
-                        onClick={handlePreferencesPopoverOpen}
-                        icon={SettingsIcon}
-                        className={{
-                            root: "w-12 h-12 p-0 flex justify-center items-center",
-                        }}
-                    />
-                    <PreferencesPopover
-                        open={preferencesPopoverOpen}
-                        anchor={preferencesAnchor}
-                        ref={preferencesPopoverRef}
-                    />
-                    <div className="flex items-center">
-                        {mode !== "modal" && (
-                            <MenuIcon
-                                className="xl:hidden"
-                                onClick={() => setOpen(!isOpen)}
-                            />
-                        )}
-                        {mode === "modal" && (
-                            <div
-                                className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
-                                onClick={onDismiss}
-                            >
-                                <X className="w-8 h-8" />
-                            </div>
-                        )}
+                                    <X className="w-8 h-8" />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
