@@ -66,10 +66,9 @@ export const Pagination = ({
                             onClick={() => setCurrentPage(currentPage)}
                         />
                     )}
-                    {totalPages - 1 !== currentPage &&
-                        totalPages !== currentPage && (
-                            <PaginationBall>...</PaginationBall>
-                        )}
+                    {totalPages - 1 !== currentPage && isNotLastPage && (
+                        <PaginationBall>...</PaginationBall>
+                    )}
                     {/* if last page, show before page */}
                     {isLastPage && (
                         <PaginationBall
