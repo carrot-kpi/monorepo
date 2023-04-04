@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as Logo } from "../../../assets/logo.svg";
 import { cva } from "class-variance-authority";
-import { ReactComponent as CloseIcon } from "../../../assets/x.svg";
 import { ReactComponent as MenuIcon } from "../../../assets/menu.svg";
 import { ConnectWallet } from "../../connect-wallet";
 import { ReactComponent as X } from "../../../assets/x.svg";
@@ -10,15 +9,13 @@ import { ReactComponent as SettingsIcon } from "../../../assets/settings.svg";
 import { Button } from "@carrot-kpi/ui";
 import { PreferencesPopover } from "./popovers/preferences";
 import { useClickAway, useWindowSize } from "react-use";
+import { NavbarVerticalLayout } from "./vertical-layout";
 
-const navWrapperStyles = cva([""], {
+const navWrapperStyles = cva([], {
     variants: {
         bgColor: {
             green: ["bg-green"],
             orange: ["bg-orange"],
-        },
-        isOpen: {
-            true: ["fixed top-0 left-0 z-50 h-screen w-full"],
         },
     },
 });
@@ -31,9 +28,6 @@ const navbarStyles = cva(
                 green: ["bg-green"],
                 orange: ["bg-orange"],
             },
-            isOpen: {
-                true: ["z-10"],
-            },
             mode: {
                 standard: ["px-6 xl:px-32"],
                 modal: ["px-6 xl:px-10"],
@@ -41,28 +35,6 @@ const navbarStyles = cva(
         },
     }
 );
-
-const navStyles = cva(["flex items-center gap-4"], {
-    variants: {
-        isOpen: {
-            true: [
-                "absolute grid grid-cols-1 gap-6 top-28 left-0 px-6 py-12 w-full",
-            ],
-            false: ["hidden xl:flex"],
-        },
-    },
-});
-
-const navLinksStyles = cva(["flex"], {
-    variants: {
-        isOpen: {
-            true: ["flex-col items-start space-y-7 relative"],
-            false: [
-                "items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 xl:top-[68px]",
-            ],
-        },
-    },
-});
 
 interface LinkProps {
     title: string;
@@ -103,9 +75,15 @@ export const Navbar = ({
         setPreferencesPopoverOpen(true);
     }, []);
 
-    return (
-        <div className={navWrapperStyles({ isOpen, bgColor })}>
-            <div className={navbarStyles({ bgColor, isOpen, mode })}>
+    return isOpen ? (
+        <NavbarVerticalLayout
+            mode={mode}
+            links={links}
+            onNavbarClose={() => setOpen(false)}
+        />
+    ) : (
+        <div className={navWrapperStyles({ bgColor })}>
+            <div className={navbarStyles({ bgColor, mode })}>
                 {mode === "modal" ? (
                     <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                 ) : (
@@ -113,8 +91,8 @@ export const Navbar = ({
                         <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                     </NavLink>
                 )}
-                <nav className={navStyles({ isOpen })}>
-                    <ul className={navLinksStyles({ isOpen })}>
+                <nav className="items-center gap-4 hidden xl:flex">
+                    <ul className="flex items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 xl:top-[68px]">
                         {(links || []).map((link) => (
                             <li key={link.to}>
                                 <NavLink
@@ -153,12 +131,10 @@ export const Navbar = ({
                     />
                     <div className="flex items-center">
                         {mode !== "modal" && (
-                            <div
+                            <MenuIcon
                                 className="xl:hidden"
                                 onClick={() => setOpen(!isOpen)}
-                            >
-                                {isOpen ? <CloseIcon /> : <MenuIcon />}
-                            </div>
+                            />
                         )}
                         {mode === "modal" && (
                             <div

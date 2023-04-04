@@ -116,7 +116,7 @@ export const ConnectWallet = () => {
                     ref={accountPopoverRef}
                 />
             )}
-            <div className="flex flex-col gap-4 xl:flex-row">
+            <div className="flex gap-4 flex-row">
                 <div
                     className={`h-12 w-fit flex items-center ${
                         __PREVIEW_MODE__ ? "" : "cursor-pointer"
