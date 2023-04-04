@@ -1,4 +1,4 @@
-import { usePage, useResetPageScroll } from "@carrot-kpi/react";
+import { usePagination, useResetPageScroll } from "@carrot-kpi/react";
 import { SelectOption, Typography } from "@carrot-kpi/ui";
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 import React, {
@@ -23,6 +23,7 @@ import {
     CampaignOrder,
     CampaignState,
 } from "./select-options";
+import { Pagination } from "../../components/pagination";
 
 export const Campaigns = () => {
     useResetPageScroll();
@@ -35,16 +36,18 @@ export const Campaigns = () => {
 
     useDebounce(() => setDebouncedSearchQuery(searchQuery), 300, [searchQuery]);
 
-    const { loading, kpiTokens: searchedResolvedKPITokens } =
-        useSearchedResolvedKPITokens(debouncedSearchQuery);
-
     //  toggle filters
     const toggleFilters = () => setFilterOpen(!filtersOpen);
     const [filtersOpen, setFilterOpen] = useState(false);
 
     // page settings
     const [pageSize, setPageSize] = useState(12);
+    const [currentPage, setCurrentPage] = useState(1);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+
+    // fetch
+    const { loading, kpiTokens: searchedResolvedKPITokens } =
+        useSearchedResolvedKPITokens(debouncedSearchQuery);
 
     // filters
     const [campaignState, setCampaignState] = useState<SelectOption>(
@@ -102,7 +105,7 @@ export const Campaigns = () => {
         setResults(sortedFilteredTokens);
     }, [sortedFilteredTokens]);
 
-    const page = usePage(results, pageSize, 0);
+    const { data, totalPages } = usePagination(results, currentPage);
 
     const resizeObserver = useRef(
         new ResizeObserver((entries) => {
@@ -159,12 +162,12 @@ export const Campaigns = () => {
                             }
                         />
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
-                            {!loading && results && page.length === 0 && (
+                            {!loading && results && data.length === 0 && (
                                 <div className="flex justify-center w-full">
                                     <Empty />
                                 </div>
                             )}
-                            {(loading || page.length > 0) && (
+                            {(loading || data.length > 0) && (
                                 <>
                                     <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
                                         {loading
@@ -177,7 +180,7 @@ export const Campaigns = () => {
                                                           />
                                                       );
                                                   })
-                                            : page.map((kpiToken) => {
+                                            : data.map((kpiToken) => {
                                                   return (
                                                       <KPITokenCard
                                                           key={kpiToken.address}
@@ -186,7 +189,11 @@ export const Campaigns = () => {
                                                   );
                                               })}
                                     </div>
-                                    <Pagination />
+                                    <Pagination
+                                        setCurrentPage={setCurrentPage}
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                    />
                                 </>
                             )}
                         </div>
@@ -196,18 +203,3 @@ export const Campaigns = () => {
         </Layout>
     );
 };
-
-const PaginationNumber = ({ number }: { number: string | number }) => (
-    <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
-        {number}
-    </div>
-);
-
-const Pagination = () => (
-    <div className="flex mt-6 space-x-4">
-        <PaginationNumber number={1} />
-        <PaginationNumber number={2} />
-        <PaginationNumber number={"..."} />
-        <PaginationNumber number={12} />
-    </div>
-);
