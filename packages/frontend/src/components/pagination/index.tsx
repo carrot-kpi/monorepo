@@ -24,7 +24,7 @@ export const Pagination = ({
     const isNotLastPage = currentPage < totalPages;
 
     return (
-        <div className="flex mt-6 space-x-4">
+        <div className="flex space-x-4">
             {isNotFirstPage && hasMoreThanOnePage && (
                 <div className="flex items-center justify-center">
                     <ArrowIcon

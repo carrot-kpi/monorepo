@@ -156,7 +156,7 @@ export const Campaigns = () => {
                                 </div>
                             )}
                             {(loading || data.length > 0) && (
-                                <>
+                                <div className="space-y-12 md:space-y-16">
                                     <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
                                         {loading
                                             ? new Array(3)
@@ -177,12 +177,13 @@ export const Campaigns = () => {
                                                   );
                                               })}
                                     </div>
+
                                     <Pagination
                                         setCurrentPage={handlePageChange}
                                         currentPage={currentPage}
                                         totalPages={totalPages}
                                     />
-                                </>
+                                </div>
                             )}
                         </div>
                     </div>
