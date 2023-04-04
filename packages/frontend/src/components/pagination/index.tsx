@@ -25,7 +25,7 @@ export const Pagination = ({
 
     return (
         <div className="flex mt-6 space-x-4">
-            {isNotFirstPage && (
+            {isNotFirstPage && hasMoreThanOnePage && (
                 <div className="flex items-center justify-center">
                     <ArrowIcon
                         onClick={() => setCurrentPage(currentPage - 1)}
@@ -98,7 +98,7 @@ export const Pagination = ({
                     onClick={() => setCurrentPage(totalPages)}
                 />
             )}
-            {isNotLastPage && (
+            {isNotLastPage && hasMoreThanOnePage && (
                 <div className="flex items-center justify-center">
                     <ArrowIcon
                         className="cursor-pointer"
