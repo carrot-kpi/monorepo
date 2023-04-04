@@ -7,6 +7,7 @@ import React, {
     useMemo,
     useRef,
     useState,
+    SetStateAction,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
@@ -24,10 +25,13 @@ import {
     CampaignState,
 } from "./select-options";
 import { Pagination } from "../../components/pagination";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Campaigns = () => {
     useResetPageScroll();
     const { t } = useTranslation();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     //  fetch KPITokens
     const [results, setResults] = useState<ResolvedKPIToken[]>([]);
@@ -44,6 +48,18 @@ export const Campaigns = () => {
     const [pageSize, setPageSize] = useState(12);
     const [currentPage, setCurrentPage] = useState(1);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+
+    const handlePageChange = (pageNumber: SetStateAction<number>) => {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set("page", pageNumber.toString());
+        navigate(`?${searchParams}`);
+    };
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const pageParams = searchParams.get("page") ?? "1";
+        setCurrentPage(parseInt(pageParams));
+    }, [location]);
 
     // fetch
     const { loading, kpiTokens: searchedResolvedKPITokens } =
@@ -190,7 +206,7 @@ export const Campaigns = () => {
                                               })}
                                     </div>
                                     <Pagination
-                                        setCurrentPage={setCurrentPage}
+                                        setCurrentPage={handlePageChange}
                                         currentPage={currentPage}
                                         totalPages={totalPages}
                                     />
