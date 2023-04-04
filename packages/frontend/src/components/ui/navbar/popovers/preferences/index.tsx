@@ -62,13 +62,13 @@ export const PreferencesPopover = forwardRef<
             open={open}
             anchor={anchor}
             ref={ref}
-            className={{ root: "px-6 py-7 flex flex-col gap-4 text-center" }}
+            className={{ root: "w-fit p-4 flex flex-col gap-4 text-center" }}
             placement="bottom-end"
         >
             <Typography variant="md" uppercase weight="medium">
                 {t("preferences.title")}
             </Typography>
-            <div className="flex justify-between gap-20 items-center">
+            <div className="flex justify-between gap-4 md:gap-20 items-center">
                 <Typography>{t("preferences.theme")}</Typography>
                 <Popover
                     className={{ root: "p-2" }}
@@ -102,7 +102,7 @@ export const PreferencesPopover = forwardRef<
                 </div>
             </div>
             {!__PREVIEW_MODE__ && (
-                <div className="flex justify-between gap-20 items-center">
+                <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <div className="flex gap-2 items-center">
                         <Typography>
                             {t("preferences.decentralization")}
