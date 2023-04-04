@@ -6,9 +6,7 @@ export const usePagination = <T>(
     totalItems?: number
 ) => {
     const itemsPerPage = totalItems ? totalItems : ITEMS_PER_PAGE;
-
-    const startIndex =
-        currentPage === 1 ? currentPage : (currentPage - 1) * itemsPerPage;
+    const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const slicedData =
         data.length > itemsPerPage ? data.slice(startIndex, endIndex) : data;
