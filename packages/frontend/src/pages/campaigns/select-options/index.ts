@@ -16,6 +16,12 @@ export const ORDERING_OPTIONS = [
     },
 ];
 
+export const getOrderByLabel = (label: string) => {
+    const order = ORDERING_OPTIONS.find((order) => order.label === label);
+    if (order) return order;
+    else return ORDERING_OPTIONS[0];
+};
+
 export enum CampaignState {
     ALL,
     ACTIVE,
