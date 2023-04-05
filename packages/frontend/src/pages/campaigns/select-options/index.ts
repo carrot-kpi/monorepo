@@ -47,3 +47,9 @@ export const STATE_OPTIONS = [
         value: CampaignState.FINALIZED,
     },
 ];
+
+export const getCampaignStateByLabel = (label: string) => {
+    const state = STATE_OPTIONS.find((state) => state.label === label);
+    if (state) return state;
+    else return STATE_OPTIONS[0];
+};

@@ -23,6 +23,7 @@ import {
     CampaignOrder,
     CampaignState,
     getOrderByLabel,
+    getCampaignStateByLabel,
 } from "./select-options";
 import { Pagination } from "../../components/pagination";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -53,6 +54,12 @@ export const Campaigns = () => {
         navigate(`?${searchParams}`);
     };
 
+    const handleStateChange = (campaignState: SelectOption) => {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set("state", campaignState.label);
+        navigate(`?${searchParams}`);
+    };
+
     const handlePageChange = (pageNumber: SetStateAction<number>) => {
         const searchParams = new URLSearchParams(location.search);
         searchParams.set("page", pageNumber.toString());
@@ -66,6 +73,8 @@ export const Campaigns = () => {
         const orderingParams =
             searchParams.get("ordering") ?? ORDERING_OPTIONS[0].label;
         setOrdering(getOrderByLabel(orderingParams));
+        const stateParams = searchParams.get("state") ?? STATE_OPTIONS[0].label;
+        setCampaignState(getCampaignStateByLabel(stateParams));
     }, [location]);
 
     // fetch data
@@ -143,7 +152,7 @@ export const Campaigns = () => {
                         onOrderingChange={handleOrderingChange}
                         state={campaignState}
                         stateOptions={STATE_OPTIONS}
-                        onStateChange={setCampaignState}
+                        onStateChange={handleStateChange}
                         onToggleFilters={toggleFilters}
                         filtersOpen={filtersOpen}
                         setSearchQuery={setSearchQuery}
