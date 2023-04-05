@@ -1,4 +1,14 @@
+import { SelectOption } from "@carrot-kpi/ui";
 import { t } from "i18next";
+
+export const getOptionByLabel = (
+    optionsList: SelectOption[],
+    label: string
+) => {
+    const option = optionsList.find((option) => option.label === label);
+    if (option) return option;
+    else return optionsList[0];
+};
 
 export enum CampaignOrder {
     NEWEST,
@@ -15,12 +25,6 @@ export const ORDERING_OPTIONS = [
         value: CampaignOrder.OLDEST,
     },
 ];
-
-export const getOrderByLabel = (label: string) => {
-    const order = ORDERING_OPTIONS.find((order) => order.label === label);
-    if (order) return order;
-    else return ORDERING_OPTIONS[0];
-};
 
 export enum CampaignState {
     ALL,
@@ -47,9 +51,3 @@ export const STATE_OPTIONS = [
         value: CampaignState.FINALIZED,
     },
 ];
-
-export const getCampaignStateByLabel = (label: string) => {
-    const state = STATE_OPTIONS.find((state) => state.label === label);
-    if (state) return state;
-    else return STATE_OPTIONS[0];
-};
