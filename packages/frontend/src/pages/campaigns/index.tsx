@@ -44,7 +44,7 @@ export const Campaigns = () => {
     const toggleFilters = () => setFilterOpen(!filtersOpen);
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
     const [currentPage, setCurrentPage] = useState(1);
-    const { data, totalPages } = usePagination(results, currentPage);
+    const { data, totalPages } = usePagination(results, currentPage, 4);
 
     const handlePageChange = (pageNumber: SetStateAction<number>) => {
         const searchParams = new URLSearchParams(location.search);

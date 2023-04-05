@@ -1,11 +1,20 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { PaginationBall } from "./pagination-ball";
 import { ReactComponent as ArrowIcon } from "../../assets/arrow.svg";
+import { cva } from "class-variance-authority";
 
-const createArrayWithRange = (start: number, end: number) =>
+const createArrayBetweenRange = (start: number, end: number) =>
     Array.from({ length: end - start }, (_, i) => start + i);
 
-const LOT_OF_PAGES = 4;
+const LOT_OF_PAGES = 5;
+
+const arrowsStyles = cva(["cursor-pointer"], {
+    variants: {
+        show: {
+            false: "invisible",
+        },
+    },
+});
 
 export const Pagination = ({
     totalPages,
@@ -24,15 +33,16 @@ export const Pagination = ({
     const isNotLastPage = currentPage < totalPages;
 
     return (
-        <div className="flex space-x-4">
-            {isNotFirstPage && hasMoreThanOnePage && (
-                <div className="flex items-center justify-center">
-                    <ArrowIcon
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                        className="rotate-180 cursor-pointer"
-                    />
-                </div>
-            )}
+        <div className="flex items-center justify-center space-x-4">
+            <div className="flex items-center justify-center">
+                <ArrowIcon
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    className={arrowsStyles({
+                        show: isNotFirstPage && hasMoreThanOnePage,
+                        className: "rotate-180",
+                    })}
+                />
+            </div>
 
             {/* first page */}
             {hasMoreThanOnePage && (
@@ -81,7 +91,7 @@ export const Pagination = ({
             )}
             {hasMoreThanOnePage &&
                 !hasALotOfPages &&
-                createArrayWithRange(2, totalPages).map((number) => (
+                createArrayBetweenRange(2, totalPages).map((number) => (
                     <PaginationBall
                         key={number}
                         currentPage={currentPage}
@@ -98,14 +108,15 @@ export const Pagination = ({
                     onClick={() => setCurrentPage(totalPages)}
                 />
             )}
-            {isNotLastPage && hasMoreThanOnePage && (
-                <div className="flex items-center justify-center">
-                    <ArrowIcon
-                        className="cursor-pointer"
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                    />
-                </div>
-            )}
+
+            <div className="flex items-center justify-center">
+                <ArrowIcon
+                    className={arrowsStyles({
+                        show: isNotLastPage && hasMoreThanOnePage,
+                    })}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                />
+            </div>
         </div>
     );
 };
