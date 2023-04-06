@@ -6,7 +6,7 @@ import { cva } from "class-variance-authority";
 const createArrayBetweenRange = (start: number, end: number) =>
     Array.from({ length: end - start }, (_, i) => start + i);
 
-const LOT_OF_PAGES = 5;
+const VISIBLE_PAGES_THRESHOLD = 5;
 
 const arrowsStyles = cva(["cursor-pointer"], {
     variants: {
@@ -28,7 +28,7 @@ export const Pagination = ({
     const isFirstPage = currentPage === 1;
     const isLastPage = currentPage === totalPages;
     const hasMoreThanOnePage = totalPages > 1;
-    const hasALotOfPages = totalPages > LOT_OF_PAGES;
+    const hasALotOfPages = totalPages > VISIBLE_PAGES_THRESHOLD;
     const isNotFirstPage = currentPage > 1;
     const isNotLastPage = currentPage < totalPages;
 
