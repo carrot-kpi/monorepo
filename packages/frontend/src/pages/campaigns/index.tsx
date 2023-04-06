@@ -46,11 +46,14 @@ export const Campaigns = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages } = usePagination(results, currentPage, 4);
 
-    const handlePageChange = (pageNumber: SetStateAction<number>) => {
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.set("page", pageNumber.toString());
-        navigate(`?${searchParams}`);
-    };
+    const handlePageChange = useCallback(
+        (pageNumber: SetStateAction<number>) => {
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set("page", pageNumber.toString());
+            navigate(`?${searchParams}`);
+        },
+        [location.search, navigate]
+    );
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
