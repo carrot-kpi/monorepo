@@ -177,12 +177,13 @@ export const Campaigns = () => {
                                                   );
                                               })}
                                     </div>
-
-                                    <Pagination
-                                        setCurrentPage={handlePageChange}
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                    />
+                                    {!loading && data.length > 0 && (
+                                        <Pagination
+                                            setCurrentPage={handlePageChange}
+                                            currentPage={currentPage}
+                                            totalPages={totalPages}
+                                        />
+                                    )}
                                 </div>
                             )}
                         </div>
