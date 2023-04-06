@@ -47,17 +47,23 @@ export const Campaigns = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages } = usePagination(results, currentPage, 4);
 
-    const handleOrderingChange = (orderingState: SelectOption) => {
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.set("ordering", orderingState.label);
-        navigate(`?${searchParams}`);
-    };
+    const handleOrderingChange = useCallback(
+        (orderingState: SelectOption) => {
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set("ordering", orderingState.label);
+            navigate(`?${searchParams}`);
+        },
+        [location.search, navigate]
+    );
 
-    const handleStateChange = (campaignState: SelectOption) => {
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.set("state", campaignState.label);
-        navigate(`?${searchParams}`);
-    };
+    const handleStateChange = useCallback(
+        (campaignState: SelectOption) => {
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set("state", campaignState.label);
+            navigate(`?${searchParams}`);
+        },
+        [location.search, navigate]
+    );
 
     const handlePageChange = useCallback(
         (pageNumber: SetStateAction<number>) => {
