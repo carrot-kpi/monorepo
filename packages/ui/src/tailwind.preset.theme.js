@@ -1,3 +1,23 @@
+const BODY_TEXT_CONFIG = {
+    "3xs": ["0.52rem", { lineHeight: "0.78rem" }],
+    "2xs": ["0.625rem", { lineHeight: "0.9375rem" }],
+    xs: ["0.75rem", { lineHeight: "1.125rem" }],
+    sm: ["0.875rem", { lineHeight: "1.311rem" }],
+    base: ["1rem", { lineHeight: "1.5rem" }],
+    lg: ["1.1875rem", { lineHeight: "1.78125rem" }],
+    xl: ["1.375rem", { lineHeight: "2.0625rem" }],
+    "2xl": ["1.5rem", { lineHeight: "2.25rem" }],
+};
+
+const HEADING_TEXT_CONFIG = {
+    h1: ["4.3125rem", { lineHeight: "4.355625rem" }],
+    h2: ["3rem", { lineHeight: "3.03rem" }],
+    h3: ["2.5rem", { lineHeight: "2.525rem" }],
+    h4: ["1.75rem", { lineHeight: "1.7675rem" }],
+    h5: ["1.5rem", { lineHeight: "1.515rem" }],
+    h6: ["1.14285714286rem", { lineHeight: "1.37142857143rem" }],
+};
+
 /** @type {import('tailwindcss').Config} */
 exports.theme = {
     fontFamily: {
@@ -31,20 +51,8 @@ exports.theme = {
         "gray-100": "#F6F6F6",
     },
     fontSize: {
-        "3xs": ["0.52rem", { lineHeight: "0.78rem" }],
-        "2xs": ["0.625rem", { lineHeight: "0.9375rem" }],
-        xs: ["0.75rem", { lineHeight: "1.125rem" }],
-        sm: ["0.875rem", { lineHeight: "1.311rem" }],
-        base: ["1rem", { lineHeight: "1.5rem" }],
-        lg: ["1.1875rem", { lineHeight: "1.78125rem" }],
-        xl: ["1.375rem", { lineHeight: "2.0625rem" }],
-        "2xl": ["1.5rem", { lineHeight: "2.25rem" }],
-        h1: ["4.3125rem", { lineHeight: "4.355625rem" }],
-        h2: ["3rem", { lineHeight: "3.03rem" }],
-        h3: ["2.5rem", { lineHeight: "2.525rem" }],
-        h4: ["1.75rem", { lineHeight: "1.7675rem" }],
-        h5: ["1.5rem", { lineHeight: "1.515rem" }],
-        h6: ["1.14285714286rem", { lineHeight: "1.37142857143rem" }],
+        ...BODY_TEXT_CONFIG,
+        ...HEADING_TEXT_CONFIG,
     },
     extend: {
         height({ theme }) {
@@ -56,6 +64,52 @@ exports.theme = {
                 },
                 {}
             );
+        },
+        typography: {
+            DEFAULT: {
+                css: {
+                    ...Object.entries(HEADING_TEXT_CONFIG).reduce(
+                        (accumulator, [key, value]) => {
+                            accumulator[key] = {
+                                fontSize: value[0],
+                                lineHeight: value[1].lineHeight,
+                            };
+                            return accumulator;
+                        },
+                        {}
+                    ),
+                    p: {
+                        fontSize: BODY_TEXT_CONFIG.base[0],
+                        lineHeight: BODY_TEXT_CONFIG.base[1].lineHeight,
+                        fontFamily: "mono",
+                    },
+                },
+            },
+            ...Object.entries(BODY_TEXT_CONFIG).reduce(
+                (accumulator, [key, value]) => {
+                    accumulator[key] = {
+                        css: {
+                            p: {
+                                fontSize: value[0],
+                                lineHeight: value[1].lineHeight,
+                                fontFamily: "mono",
+                            },
+                            ...Object.entries(HEADING_TEXT_CONFIG).reduce(
+                                (accumulator, [key, value]) => {
+                                    accumulator[key] = {
+                                        fontSize: value[0],
+                                        lineHeight: value[1].lineHeight,
+                                    };
+                                    return accumulator;
+                                },
+                                {}
+                            ),
+                        },
+                    };
+                    return accumulator;
+                },
+                {}
+            ),
         },
         borderRadius: {
             xxs: "10px",
