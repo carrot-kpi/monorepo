@@ -22,6 +22,7 @@ import {
     STATE_OPTIONS,
     CampaignOrder,
     CampaignState,
+    getOptionByLabel,
 } from "./select-options";
 import { Pagination } from "../../components/pagination";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -46,6 +47,24 @@ export const Campaigns = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages } = usePagination(results, currentPage, 4);
 
+    const handleOrderingChange = useCallback(
+        (orderingState: SelectOption) => {
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set("ordering", orderingState.label);
+            navigate(`?${searchParams}`);
+        },
+        [location.search, navigate]
+    );
+
+    const handleStateChange = useCallback(
+        (campaignState: SelectOption) => {
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set("state", campaignState.label);
+            navigate(`?${searchParams}`);
+        },
+        [location.search, navigate]
+    );
+
     const handlePageChange = useCallback(
         (pageNumber: SetStateAction<number>) => {
             const searchParams = new URLSearchParams(location.search);
@@ -59,6 +78,11 @@ export const Campaigns = () => {
         const searchParams = new URLSearchParams(location.search);
         const pageParams = searchParams.get("page") ?? "1";
         setCurrentPage(parseInt(pageParams));
+        const orderingParams =
+            searchParams.get("ordering") ?? ORDERING_OPTIONS[0].label;
+        setOrdering(getOptionByLabel(ORDERING_OPTIONS, orderingParams));
+        const stateParams = searchParams.get("state") ?? STATE_OPTIONS[0].label;
+        setCampaignState(getOptionByLabel(STATE_OPTIONS, stateParams));
     }, [location]);
 
     // fetch data
@@ -133,10 +157,10 @@ export const Campaigns = () => {
                     <CampaignsTopNav
                         ordering={ordering}
                         orderingOptions={ORDERING_OPTIONS}
-                        onOrderingChange={setOrdering}
+                        onOrderingChange={handleOrderingChange}
                         state={campaignState}
                         stateOptions={STATE_OPTIONS}
-                        onStateChange={setCampaignState}
+                        onStateChange={handleStateChange}
                         onToggleFilters={toggleFilters}
                         filtersOpen={filtersOpen}
                         setSearchQuery={setSearchQuery}
