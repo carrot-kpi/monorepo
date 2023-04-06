@@ -95,7 +95,9 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                 open={open}
                 anchor={anchor}
                 ref={ref}
-                className={{ root: "w-96 px-6 py-7 flex flex-col gap-7" }}
+                className={{
+                    root: "w-fit md:w-96 p-4 flex flex-col gap-7",
+                }}
             >
                 <div className="w-full flex justify-between gap-5">
                     <div className="flex gap-3 items-center">
@@ -121,7 +123,9 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                                 href={blockExplorerHref || ""}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className={{ root: "w-10 h-10 p-0" }}
+                                className={{
+                                    root: "hidden md:flex w-10 h-10 p-0",
+                                }}
                             />
                         )}
                         <Button
@@ -132,7 +136,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                         />
                     </div>
                 </div>
-                <div className="w-full flex justify-between items-center gap-6">
+                <div className="w-full hidden md:flex justify-between items-center gap-6">
                     <Typography weight="medium" uppercase>
                         {t("activity.recent")}
                     </Typography>
@@ -146,7 +150,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                         }}
                     />
                 </div>
-                <div className="w-full">
+                <div className="w-full hidden md:flex">
                     {transactions.length === 0 ? (
                         <Empty
                             vertical
