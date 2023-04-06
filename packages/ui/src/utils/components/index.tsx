@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
 import { extendTailwindMerge } from "tailwind-merge";
 import { theme } from "../../tailwind.preset.theme";
 
@@ -28,4 +28,11 @@ export function mergedCva<T extends object>(
     return (...classListParams: Parameters<typeof classList>) => {
         return twMergeWithConfig(classList(...classListParams));
     };
+}
+
+export function mergedCx(
+    ...params: Parameters<typeof cx>
+): ReturnType<typeof cx> {
+    const classList = cx(...params);
+    return twMergeWithConfig(classList);
 }
