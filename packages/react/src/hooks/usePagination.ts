@@ -1,4 +1,4 @@
-const ITEMS_PER_PAGE = 1;
+const ITEMS_PER_PAGE = 18;
 
 export const usePagination = <T>(
     data: T[],
