@@ -6,7 +6,7 @@ import { cva } from "class-variance-authority";
 const createArrayBetweenRange = (start: number, end: number) =>
     Array.from({ length: end - start }, (_, i) => start + i);
 
-const LOT_OF_PAGES = 5;
+const VISIBLE_PAGES_THRESHOLD = 5;
 
 const arrowsStyles = cva(["cursor-pointer"], {
     variants: {
@@ -25,12 +25,10 @@ export const Pagination = ({
     currentPage: number;
     setCurrentPage: Dispatch<SetStateAction<number>>;
 }) => {
-    const isFirstPage = currentPage === 1;
-    const isLastPage = currentPage === totalPages;
-    const hasMoreThanOnePage = totalPages > 1;
-    const hasALotOfPages = totalPages > LOT_OF_PAGES;
-    const isNotFirstPage = currentPage > 1;
-    const isNotLastPage = currentPage < totalPages;
+    const firstPage = currentPage === 1;
+    const lastPage = currentPage === totalPages;
+    const moreThanOnePage = totalPages > 1;
+    const hasALotOfPages = totalPages > VISIBLE_PAGES_THRESHOLD;
 
     return (
         <div className="flex items-center justify-center space-x-4">
@@ -38,14 +36,14 @@ export const Pagination = ({
                 <ArrowIcon
                     onClick={() => setCurrentPage(currentPage - 1)}
                     className={arrowsStyles({
-                        show: isNotFirstPage && hasMoreThanOnePage,
+                        show: !firstPage && moreThanOnePage,
                         className: "rotate-180",
                     })}
                 />
             </div>
 
             {/* first page */}
-            {hasMoreThanOnePage && (
+            {moreThanOnePage && (
                 <PaginationBall
                     number={1}
                     currentPage={currentPage}
@@ -57,7 +55,7 @@ export const Pagination = ({
             {hasALotOfPages && (
                 <>
                     {/* if first page, show next page */}
-                    {isFirstPage && (
+                    {firstPage && (
                         <PaginationBall
                             number={currentPage + 1}
                             currentPage={currentPage}
@@ -69,18 +67,18 @@ export const Pagination = ({
                         <PaginationBall>...</PaginationBall>
                     )}
 
-                    {isNotFirstPage && isNotLastPage && (
+                    {!firstPage && !lastPage && (
                         <PaginationBall
                             number={currentPage}
                             currentPage={currentPage}
                             onClick={() => setCurrentPage(currentPage)}
                         />
                     )}
-                    {totalPages - 1 !== currentPage && isNotLastPage && (
+                    {totalPages - 1 !== currentPage && !lastPage && (
                         <PaginationBall>...</PaginationBall>
                     )}
                     {/* if last page, show before page */}
-                    {isLastPage && (
+                    {lastPage && (
                         <PaginationBall
                             number={currentPage - 1}
                             currentPage={currentPage}
@@ -89,7 +87,7 @@ export const Pagination = ({
                     )}
                 </>
             )}
-            {hasMoreThanOnePage &&
+            {moreThanOnePage &&
                 !hasALotOfPages &&
                 createArrayBetweenRange(2, totalPages).map((number) => (
                     <PaginationBall
@@ -101,7 +99,7 @@ export const Pagination = ({
                 ))}
 
             {/* last page */}
-            {hasMoreThanOnePage && (
+            {moreThanOnePage && (
                 <PaginationBall
                     currentPage={currentPage}
                     number={totalPages}
@@ -112,7 +110,7 @@ export const Pagination = ({
             <div className="flex items-center justify-center">
                 <ArrowIcon
                     className={arrowsStyles({
-                        show: isNotLastPage && hasMoreThanOnePage,
+                        show: !lastPage && moreThanOnePage,
                     })}
                     onClick={() => setCurrentPage(currentPage + 1)}
                 />

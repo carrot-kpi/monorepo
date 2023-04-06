@@ -2,7 +2,7 @@ import { cva } from "class-variance-authority";
 import React, { MouseEventHandler, ReactNode } from "react";
 
 const paginationBallStyles = cva(
-    ["flex items-center justify-center", " w-12 h-12", "rounded-full"],
+    ["flex items-center justify-center", "w-12 h-12", "rounded-full"],
     {
         variants: {
             isActive: {
@@ -26,15 +26,14 @@ export const PaginationBall = ({
     onClick?: MouseEventHandler<HTMLDivElement>;
     currentPage?: number;
     children?: ReactNode;
-}) => {
-    const isActive = Number(number) === currentPage;
-    const isClickable = !!onClick;
-    return (
-        <div
-            onClick={onClick}
-            className={paginationBallStyles({ isActive, isClickable })}
-        >
-            {children ? children : number}
-        </div>
-    );
-};
+}) => (
+    <div
+        onClick={onClick}
+        className={paginationBallStyles({
+            isActive: Number(number) === currentPage,
+            isClickable: !!onClick,
+        })}
+    >
+        {children ? children : number}
+    </div>
+);
