@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import debounce from "lodash.debounce";
 import { transactionsReducer } from "./reducers/transactions/reducer";
+import { ModalsReducer } from "./reducers/modals/reducer";
 import { loadState, storeState } from "../utils/state";
 
 const rootReducer = combineReducers({
     transactions: transactionsReducer,
+    modals: ModalsReducer,
 });
 
 export const store = configureStore({

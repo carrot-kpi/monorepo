@@ -9,6 +9,8 @@ import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
 import { CreateCampaignButton } from "../../../components/create-campaign-button";
 import { useFeaturedKPITokens } from "../../../hooks/useFeaturedKPITokens";
+import { useSelector } from "../../../state/connector";
+import { HostState } from "../../../state";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -28,25 +30,24 @@ export const Hero = () => {
     const { t } = useTranslation();
     const { loading, kpiTokens } = useFeaturedKPITokens();
     const videoRef = useRef<HTMLVideoElement>(null);
+    const modalIsOpen = useSelector<HostState>((state) => state.modals.isOpen);
 
     useEffect(() => {
         if (!videoRef || !videoRef.current) return;
         const currentRef = videoRef.current;
-        return () => {
-            currentRef.pause();
-        };
-    });
+        modalIsOpen ? currentRef.pause() : currentRef.play();
+    }, [modalIsOpen]);
 
     return (
         <div className="relative bg-orange bg-grid-light min-h-[65vh]">
             {loading ? (
-                <div className="flex justify-center items-center w-full h-full">
+                <div className="flex items-center justify-center w-full h-full">
                     <Loader />
                 </div>
             ) : kpiTokens.length === 0 ? (
-                <div className="px-6 md:px-14 lg:px-36 relative space-y-12 pt-7 pb-16 md:pt-24 md:pb-32">
-                    <div className="flex flex-col md:flex-row justify-around items-center gap-10 md:gap-0">
-                        <div className="flex flex-col items-center md:items-start gap-10 w-full md:w-2/5">
+                <div className="relative px-6 pb-16 space-y-12 md:px-14 lg:px-36 pt-7 md:pt-24 md:pb-32">
+                    <div className="flex flex-col items-center justify-around gap-10 md:flex-row md:gap-0">
+                        <div className="flex flex-col items-center w-full gap-10 md:items-start md:w-2/5">
                             <Typography variant="h1">
                                 {t("home.noFeatured.title")}
                             </Typography>
@@ -57,7 +58,7 @@ export const Hero = () => {
                         </div>
                         <video
                             ref={videoRef}
-                            className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500"
+                            className="w-full bg-gray-500 md:w-1/2 aspect-video rounded-xl"
                             autoPlay
                             muted
                             controls
@@ -71,7 +72,7 @@ export const Hero = () => {
                     </div>
                 </div>
             ) : (
-                <div className="relative space-y-12 pt-7 pb-16 md:pt-24 md:pb-32">
+                <div className="relative pb-16 space-y-12 pt-7 md:pt-24 md:pb-32">
                     <Typography
                         variant="h1"
                         className={{
@@ -80,10 +81,10 @@ export const Hero = () => {
                     >
                         {t("home.featuredCampaigns")}
                     </Typography>
-                    <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32 dark">
+                    <CardHorizontal className="px-6 h-96 md:px-10 lg:px-32 dark">
                         <FeaturedCampaigns />
                     </CardHorizontal>
-                    <div className="px-6 md:px-10 lg:px-32 flex flex-col space-x-0 md:space-x-8 space-y-4 md:space-y-0 md:flex-row">
+                    <div className="flex flex-col px-6 space-x-0 space-y-4 md:px-10 lg:px-32 md:space-x-8 md:space-y-0 md:flex-row">
                         <Button variant="primary" size="big">
                             <Link to="/campaigns">{t("campaign.all")}</Link>
                         </Button>

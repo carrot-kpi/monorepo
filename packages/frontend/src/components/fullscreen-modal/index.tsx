@@ -1,7 +1,9 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Navbar, NavbarProps } from "../ui/navbar";
 import { animated, SpringValue } from "@react-spring/web";
 import { cva } from "class-variance-authority";
+import { setModalIsOpen } from "../../state/reducers/modals";
+import { useDispatch } from "../../state/connector";
 
 const rootStyles = cva(
     [
@@ -36,9 +38,19 @@ export const AnimatedFullscreenModal = ({
     onDismiss,
     children,
 }: FullscreenModalProps) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setModalIsOpen({ isOpen: true }));
+
+        return () => {
+            dispatch(setModalIsOpen({ isOpen: false }));
+        };
+    }, [dispatch]);
+
     return (
         <animated.div style={springStyle} className={rootStyles({ bgColor })}>
-            <div className="flex flex-col h-full w-full">
+            <div className="flex flex-col w-full h-full">
                 <Navbar mode="modal" bgColor={bgColor} onDismiss={onDismiss} />
                 <div className="flex-grow">{children}</div>
             </div>
