@@ -1,21 +1,103 @@
 const BODY_TEXT_CONFIG = {
-    "3xs": ["0.52rem", { lineHeight: "0.78rem" }],
-    "2xs": ["0.625rem", { lineHeight: "0.9375rem" }],
-    xs: ["0.75rem", { lineHeight: "1.125rem" }],
-    sm: ["0.875rem", { lineHeight: "1.311rem" }],
-    base: ["1rem", { lineHeight: "1.5rem" }],
-    lg: ["1.1875rem", { lineHeight: "1.78125rem" }],
-    xl: ["1.375rem", { lineHeight: "2.0625rem" }],
-    "2xl": ["1.5rem", { lineHeight: "2.25rem" }],
+    "3xs": [
+        "0.52rem",
+        {
+            lineHeight: "0.78rem",
+            marginTop: "0.75rem",
+            marginBottom: "0.75rem",
+        },
+    ],
+    "2xs": [
+        "0.625rem",
+        {
+            lineHeight: "0.9375rem",
+            marginTop: "0.75rem",
+            marginBottom: "0.75rem",
+        },
+    ],
+    xs: [
+        "0.75rem",
+        {
+            lineHeight: "1.125rem",
+            marginTop: "0.75rem",
+            marginBottom: "0.75rem",
+        },
+    ],
+    sm: [
+        "0.875rem",
+        {
+            lineHeight: "1.311rem",
+            marginTop: "0.75rem",
+            marginBottom: "0.75rem",
+        },
+    ],
+    base: [
+        "1rem",
+        { lineHeight: "1.5rem", marginTop: "0.75rem", marginBottom: "0.75rem" },
+    ],
+    lg: [
+        "1.1875rem",
+        {
+            lineHeight: "1.78125rem",
+            marginTop: "0.75rem",
+            marginBottom: "0.75rem",
+        },
+    ],
+    xl: [
+        "1.375rem",
+        {
+            lineHeight: "2.0625rem",
+            marginTop: "0.75rem",
+            marginBottom: "0.75rem",
+        },
+    ],
+    "2xl": [
+        "1.5rem",
+        {
+            lineHeight: "2.25rem",
+            marginTop: "0.75rem",
+            marginBottom: "0.75rem",
+        },
+    ],
 };
 
 const HEADING_TEXT_CONFIG = {
-    h1: ["4.3125rem", { lineHeight: "4.355625rem" }],
-    h2: ["3rem", { lineHeight: "3.03rem" }],
-    h3: ["2.5rem", { lineHeight: "2.525rem" }],
-    h4: ["1.75rem", { lineHeight: "1.7675rem" }],
-    h5: ["1.5rem", { lineHeight: "1.515rem" }],
-    h6: ["1.14285714286rem", { lineHeight: "1.37142857143rem" }],
+    h1: [
+        "3.5rem",
+        {
+            lineHeight: "3.535rem",
+            marginBottom: "2rem",
+            marginTop: "3.5rem",
+        },
+    ],
+    h2: [
+        "3rem",
+        { lineHeight: "3.03rem", marginBottom: "1.5rem", marginTop: "3rem" },
+    ],
+    h3: [
+        "2.5rem",
+        { lineHeight: "2.525rem", marginBottom: "1rem", marginTop: "2.5rem" },
+    ],
+    h4: [
+        "1.75rem",
+        {
+            lineHeight: "1.7675rem",
+            marginBottom: "0.7rem",
+            marginTop: "2.3rem",
+        },
+    ],
+    h5: [
+        "1.5rem",
+        { lineHeight: "1.515rem", marginBottom: "0.7rem", marginTop: "2.3rem" },
+    ],
+    h6: [
+        "1.14285714286rem",
+        {
+            lineHeight: "1.37142857143rem",
+            marginBottom: "0.7rem",
+            marginTop: "2.3rem",
+        },
+    ],
 };
 
 /** @type {import('tailwindcss').Config} */
@@ -69,11 +151,14 @@ exports.theme = {
             return {
                 DEFAULT: {
                     css: {
+                        maxWidth: "100%",
                         ...Object.entries(HEADING_TEXT_CONFIG).reduce(
                             (accumulator, [key, value]) => {
                                 accumulator[key] = {
                                     fontSize: value[0],
                                     lineHeight: value[1].lineHeight,
+                                    marginBottom: value[1].marginBottom,
+                                    marginTop: value[1].marginTop,
                                 };
                                 return accumulator;
                             },
@@ -82,6 +167,15 @@ exports.theme = {
                         p: {
                             fontSize: BODY_TEXT_CONFIG.base[0],
                             lineHeight: BODY_TEXT_CONFIG.base[1].lineHeight,
+                            marginBottom: BODY_TEXT_CONFIG.base[1].marginBottom,
+                            marginTop: BODY_TEXT_CONFIG.base[1].marginTop,
+                            fontFamily: theme("fontFamily")["mono"],
+                        },
+                        li: {
+                            fontSize: BODY_TEXT_CONFIG.base[0],
+                            lineHeight: BODY_TEXT_CONFIG.base[1].lineHeight,
+                            marginBottom: BODY_TEXT_CONFIG.base[1].marginBottom,
+                            marginTop: BODY_TEXT_CONFIG.base[1].marginTop,
                             fontFamily: theme("fontFamily")["mono"],
                         },
                     },
@@ -90,9 +184,19 @@ exports.theme = {
                     (accumulator, [key, value]) => {
                         accumulator[key] = {
                             css: {
+                                maxWidth: "100%",
                                 p: {
                                     fontSize: value[0],
                                     lineHeight: value[1].lineHeight,
+                                    marginBottom: value[1].marginBottom,
+                                    marginTop: value[1].marginTop,
+                                    fontFamily: theme("fontFamily")["mono"],
+                                },
+                                li: {
+                                    fontSize: value[0],
+                                    lineHeight: value[1].lineHeight,
+                                    marginBottom: value[1].marginBottom,
+                                    marginTop: value[1].marginTop,
                                     fontFamily: theme("fontFamily")["mono"],
                                 },
                                 ...Object.entries(HEADING_TEXT_CONFIG).reduce(
@@ -100,6 +204,8 @@ exports.theme = {
                                         accumulator[key] = {
                                             fontSize: value[0],
                                             lineHeight: value[1].lineHeight,
+                                            marginBottom: value[1].marginBottom,
+                                            marginTop: value[1].marginTop,
                                         };
                                         return accumulator;
                                     },

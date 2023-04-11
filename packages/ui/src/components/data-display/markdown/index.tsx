@@ -2,13 +2,14 @@ import React, { ReactElement, ReactNode } from "react";
 import { mergedCx } from "../../../utils/components";
 
 export interface MarkdownProps {
-    children: ReactNode;
+    children?: ReactNode;
     className?: { root?: string };
 }
 
 export const Markdown = ({
     children,
     className,
+    ...rest
 }: MarkdownProps): ReactElement => {
     const rootProps =
         typeof children === "string"
@@ -28,6 +29,7 @@ export const Markdown = ({
                 ],
                 className?.root
             )}
+            {...rest}
             {...rootProps}
         >
             {typeof children !== "string" ? children : null}
