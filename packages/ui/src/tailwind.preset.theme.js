@@ -65,51 +65,53 @@ exports.theme = {
                 {}
             );
         },
-        typography: {
-            DEFAULT: {
-                css: {
-                    ...Object.entries(HEADING_TEXT_CONFIG).reduce(
-                        (accumulator, [key, value]) => {
-                            accumulator[key] = {
-                                fontSize: value[0],
-                                lineHeight: value[1].lineHeight,
-                            };
-                            return accumulator;
+        typography({ theme }) {
+            return {
+                DEFAULT: {
+                    css: {
+                        ...Object.entries(HEADING_TEXT_CONFIG).reduce(
+                            (accumulator, [key, value]) => {
+                                accumulator[key] = {
+                                    fontSize: value[0],
+                                    lineHeight: value[1].lineHeight,
+                                };
+                                return accumulator;
+                            },
+                            {}
+                        ),
+                        p: {
+                            fontSize: BODY_TEXT_CONFIG.base[0],
+                            lineHeight: BODY_TEXT_CONFIG.base[1].lineHeight,
+                            fontFamily: theme("fontFamily")["mono"],
                         },
-                        {}
-                    ),
-                    p: {
-                        fontSize: BODY_TEXT_CONFIG.base[0],
-                        lineHeight: BODY_TEXT_CONFIG.base[1].lineHeight,
-                        fontFamily: "mono",
                     },
                 },
-            },
-            ...Object.entries(BODY_TEXT_CONFIG).reduce(
-                (accumulator, [key, value]) => {
-                    accumulator[key] = {
-                        css: {
-                            p: {
-                                fontSize: value[0],
-                                lineHeight: value[1].lineHeight,
-                                fontFamily: "mono",
-                            },
-                            ...Object.entries(HEADING_TEXT_CONFIG).reduce(
-                                (accumulator, [key, value]) => {
-                                    accumulator[key] = {
-                                        fontSize: value[0],
-                                        lineHeight: value[1].lineHeight,
-                                    };
-                                    return accumulator;
+                ...Object.entries(BODY_TEXT_CONFIG).reduce(
+                    (accumulator, [key, value]) => {
+                        accumulator[key] = {
+                            css: {
+                                p: {
+                                    fontSize: value[0],
+                                    lineHeight: value[1].lineHeight,
+                                    fontFamily: theme("fontFamily")["mono"],
                                 },
-                                {}
-                            ),
-                        },
-                    };
-                    return accumulator;
-                },
-                {}
-            ),
+                                ...Object.entries(HEADING_TEXT_CONFIG).reduce(
+                                    (accumulator, [key, value]) => {
+                                        accumulator[key] = {
+                                            fontSize: value[0],
+                                            lineHeight: value[1].lineHeight,
+                                        };
+                                        return accumulator;
+                                    },
+                                    {}
+                                ),
+                            },
+                        };
+                        return accumulator;
+                    },
+                    {}
+                ),
+            };
         },
         borderRadius: {
             xxs: "10px",
