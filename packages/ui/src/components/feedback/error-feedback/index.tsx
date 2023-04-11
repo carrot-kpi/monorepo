@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Typography, TypographyProps } from "../../data-display";
 import { ReactComponent as ErrorSvg } from "../../../assets/error.svg";
-import { cx } from "class-variance-authority";
+import { mergedCx } from "../../../utils/components";
 
 export interface ErrorFeedbackProps {
     messages: {
@@ -22,7 +22,7 @@ export const ErrorFeedback = ({
     return (
         <div className="cui-flex cui-flex-col cui-gap-4 cui-items-center cui-p-8 cui-max-w-lg cui-rounded-xl cui-border cui-border-black dark:cui-border-white cui-bg-white dark:cui-bg-black">
             <ErrorSvg
-                className={cx(
+                className={mergedCx(
                     "cui-text-black dark:cui-text-white",
                     className?.icon
                 )}
