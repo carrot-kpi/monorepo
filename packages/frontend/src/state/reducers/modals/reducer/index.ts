@@ -1,13 +1,13 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { setModalIsOpen } from "../actions";
+import { setModalOpen } from "../actions";
 import { ModalsState } from "../types";
 
 const initialState: ModalsState = {
-    isOpen: false,
+    open: false,
 };
 
 export const ModalsReducer = createReducer(initialState, (builder) =>
-    builder.addCase(setModalIsOpen, (state, action) => {
-        state.isOpen = action.payload.isOpen;
+    builder.addCase(setModalOpen, (state, action) => {
+        state.open = action.payload.open;
     })
 );

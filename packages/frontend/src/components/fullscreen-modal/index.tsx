@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect } from "react";
 import { Navbar, NavbarProps } from "../ui/navbar";
 import { animated, SpringValue } from "@react-spring/web";
 import { cva } from "class-variance-authority";
-import { setModalIsOpen } from "../../state/reducers/modals";
+import { setModalOpen } from "../../state/reducers/modals";
 import { useDispatch } from "../../state/connector";
 
 const rootStyles = cva(
@@ -41,10 +41,10 @@ export const AnimatedFullscreenModal = ({
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setModalIsOpen({ isOpen: true }));
+        dispatch(setModalOpen({ open: true }));
 
         return () => {
-            dispatch(setModalIsOpen({ isOpen: false }));
+            dispatch(setModalOpen({ open: false }));
         };
     }, [dispatch]);
 

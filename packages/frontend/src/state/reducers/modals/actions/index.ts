@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export const setModalIsOpen = createAction<{
-    isOpen: boolean;
-}>("modals/setModalIsOpen");
+export const setModalOpen = createAction<{
+    open: boolean;
+}>("modals/setModalOpen");

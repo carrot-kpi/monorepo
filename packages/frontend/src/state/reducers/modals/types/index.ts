@@ -1,3 +1,3 @@
 export interface ModalsState {
-    isOpen: boolean;
+    open: boolean;
 }

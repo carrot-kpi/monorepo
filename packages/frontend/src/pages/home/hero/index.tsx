@@ -30,7 +30,7 @@ export const Hero = () => {
     const { t } = useTranslation();
     const { loading, kpiTokens } = useFeaturedKPITokens();
     const videoRef = useRef<HTMLVideoElement>(null);
-    const modalIsOpen = useSelector<HostState>((state) => state.modals.isOpen);
+    const modalIsOpen = useSelector<HostState>((state) => state.modals.open);
 
     useEffect(() => {
         if (!videoRef || !videoRef.current) return;
