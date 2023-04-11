@@ -19,7 +19,7 @@ export const Markdown = ({
         <div
             className={mergedCx(
                 [
-                    "font-mono",
+                    "cui-font-mono",
                     "cui-prose",
                     "cui-prose-md",
                     "first:only:prose-p:cui-my-0",
