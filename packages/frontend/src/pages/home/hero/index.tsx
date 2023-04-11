@@ -35,7 +35,7 @@ export const Hero = () => {
     useEffect(() => {
         if (!videoRef || !videoRef.current) return;
         const currentRef = videoRef.current;
-        modalIsOpen ? currentRef.pause() : currentRef.play();
+        if (modalIsOpen) currentRef.pause();
     }, [modalIsOpen]);
 
     return (
