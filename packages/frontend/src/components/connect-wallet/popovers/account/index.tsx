@@ -159,7 +159,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                             className={{ icon: "h-20" }}
                         />
                     ) : (
-                        <div className="h-64 overflow-y-auto cui-scrollbar">
+                        <div className="h-64 pr-0.5 overflow-y-auto cui-scrollbar">
                             {transactions
                                 .sort((a, b) => b.timestamp - a.timestamp)
                                 .map((tx) => {
