@@ -1,3 +1,5 @@
+import { HostState } from "../state";
+
 const CACHE_KEY = "carrot-kpi-host-state-cache";
 
 export const loadState = () => {
@@ -11,9 +13,11 @@ export const loadState = () => {
     }
 };
 
-export const storeState = (state: object) => {
+export const storeState = (state: HostState) => {
     try {
-        localStorage.setItem(CACHE_KEY, JSON.stringify(state));
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { modals, ...serializableState }: HostState = state;
+        localStorage.setItem(CACHE_KEY, JSON.stringify(serializableState));
     } catch (e) {
         console.warn("error while saving serialized shared state", e);
     }

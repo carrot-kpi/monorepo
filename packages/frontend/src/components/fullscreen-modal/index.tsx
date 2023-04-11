@@ -41,10 +41,10 @@ export const AnimatedFullscreenModal = ({
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setModalOpen({ open: true }));
+        dispatch(setModalOpen(true));
 
         return () => {
-            dispatch(setModalOpen({ open: false }));
+            dispatch(setModalOpen(false));
         };
     }, [dispatch]);
 

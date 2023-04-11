@@ -1,5 +1,3 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export const setModalOpen = createAction<{
-    open: boolean;
-}>("modals/setModalOpen");
+export const setModalOpen = createAction<boolean>("modals/setModalOpen");

@@ -8,6 +8,6 @@ const initialState: ModalsState = {
 
 export const ModalsReducer = createReducer(initialState, (builder) =>
     builder.addCase(setModalOpen, (state, action) => {
-        state.open = action.payload.open;
+        state.open = action.payload;
     })
 );

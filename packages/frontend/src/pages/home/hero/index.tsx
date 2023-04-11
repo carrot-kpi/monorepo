@@ -30,13 +30,13 @@ export const Hero = () => {
     const { t } = useTranslation();
     const { loading, kpiTokens } = useFeaturedKPITokens();
     const videoRef = useRef<HTMLVideoElement>(null);
-    const modalIsOpen = useSelector<HostState>((state) => state.modals.open);
+    const modalOpen = useSelector<HostState>((state) => state.modals.open);
 
     useEffect(() => {
         if (!videoRef || !videoRef.current) return;
         const currentRef = videoRef.current;
-        if (modalIsOpen) currentRef.pause();
-    }, [modalIsOpen]);
+        if (modalOpen) currentRef.pause();
+    }, [modalOpen]);
 
     return (
         <div className="relative bg-orange bg-grid-light min-h-[65vh]">
