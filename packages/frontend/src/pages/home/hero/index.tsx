@@ -59,7 +59,6 @@ export const Hero = () => {
                         <video
                             ref={videoRef}
                             className="w-full bg-gray-500 md:w-1/2 aspect-video rounded-xl"
-                            autoPlay
                             muted
                             controls
                         >
