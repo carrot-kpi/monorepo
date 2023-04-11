@@ -159,6 +159,7 @@ exports.theme = {
                                     lineHeight: value[1].lineHeight,
                                     marginBottom: value[1].marginBottom,
                                     marginTop: value[1].marginTop,
+                                    fontFamily: theme("fontFamily")["sans"],
                                 };
                                 return accumulator;
                             },
@@ -206,6 +207,8 @@ exports.theme = {
                                             lineHeight: value[1].lineHeight,
                                             marginBottom: value[1].marginBottom,
                                             marginTop: value[1].marginTop,
+                                            fontFamily:
+                                                theme("fontFamily")["sans"],
                                         };
                                         return accumulator;
                                     },
