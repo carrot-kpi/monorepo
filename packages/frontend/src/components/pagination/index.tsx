@@ -16,15 +16,17 @@ const arrowsStyles = cva(["cursor-pointer"], {
     },
 });
 
+interface PaginationProps {
+    totalPages: number;
+    currentPage: number;
+    setCurrentPage: Dispatch<SetStateAction<number>>;
+}
+
 export const Pagination = ({
     totalPages,
     setCurrentPage,
     currentPage,
-}: {
-    totalPages: number;
-    currentPage: number;
-    setCurrentPage: Dispatch<SetStateAction<number>>;
-}) => {
+}: PaginationProps) => {
     const firstPage = currentPage === 1;
     const lastPage = currentPage === totalPages;
     const moreThanOnePage = totalPages > 1;
