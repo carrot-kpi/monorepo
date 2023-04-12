@@ -5,7 +5,7 @@ const paginationBallStyles = cva(
     ["flex items-center justify-center", "w-12 h-12", "rounded-full"],
     {
         variants: {
-            isActive: {
+            active: {
                 true: "bg-green text-gray-800",
                 false: "bg-gray-200",
             },
@@ -32,7 +32,7 @@ export const PaginationBall = ({
     <div
         onClick={onClick}
         className={paginationBallStyles({
-            isActive: Number(number) === currentPage,
+            active: Number(number) === currentPage,
             isClickable: !!onClick,
         })}
     >
