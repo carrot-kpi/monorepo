@@ -41,7 +41,7 @@ The monorepo contains the following packages under the `packages` folder:
   the underlying protocol.
 - `@carrot-kpi/subgraph`: The official implementation of the Carrot KPI
   subgraph. Carrot is built to work even without a subgraph, but in order to
-  make the experience snappier, a subgraph implementatino is provided too.
+  make the experience snappier, a subgraph implementation is provided too.
 - `@carrot-kpi/ui`: a React implementation of the Carrot design system. Built
   with Typescript and documented with Storybook. The library is used extensively
   in the frontend to implement the various UI components.
