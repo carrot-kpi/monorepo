@@ -16,17 +16,19 @@ const paginationBallStyles = cva(
     }
 );
 
+interface PaginationBallProps {
+    number?: number;
+    onClick?: MouseEventHandler<HTMLDivElement>;
+    currentPage?: number;
+    children?: ReactNode;
+}
+
 export const PaginationBall = ({
     number,
     onClick,
     currentPage,
     children,
-}: {
-    number?: number;
-    onClick?: MouseEventHandler<HTMLDivElement>;
-    currentPage?: number;
-    children?: ReactNode;
-}) => (
+}: PaginationBallProps) => (
     <div
         onClick={onClick}
         className={paginationBallStyles({
