@@ -2,9 +2,10 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 import { Connector } from "wagmi";
 import { Address, Chain, ConnectorData, normalizeChainId } from "@wagmi/core";
 import { constants } from "ethers";
+import { ChainId } from "@carrot-kpi/sdk";
 
 export const READ_ONLY_CONNECTOR_ID = "readonly";
-const DEFAULT_CHAIN_ID = 100; // gnosis
+const DEFAULT_CHAIN_ID = ChainId.GNOSIS; // 100
 
 export type InjectedConnectorOptions = {
     /** Name of connector */
@@ -127,6 +128,7 @@ export class ReadonlyConnector extends Connector<
 
     protected onChainChanged = (chainId: number | string): void => {
         const id = normalizeChainId(chainId);
+        console.log("id:", id);
         const unsupported = this.isChainUnsupported(id);
         this.emit("change", { chain: { id, unsupported } });
     };
