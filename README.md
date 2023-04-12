@@ -1,3 +1,5 @@
+<br />
+
 <p align="center">
     <img src=".github/static/logo.svg" alt="Carrot logo" width="60%" />
 </p>
