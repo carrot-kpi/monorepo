@@ -51,7 +51,7 @@ const RAW_HEADING_TEXT_CONFIG = Object.entries(HEADING_TEXT_SIZES_REM).reduce(
             remSize,
             {
                 lineHeight: scale(remSize, 1.2),
-                marginTop: scale(remSize, 0.3),
+                marginTop: scale(remSize, 0.6),
                 marginBottom: scale(remSize, 0.4),
                 fontWeight: "700",
                 fontFamily: SANS_FONT_FAMILY,
