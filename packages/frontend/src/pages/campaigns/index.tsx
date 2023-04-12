@@ -42,7 +42,10 @@ export const Campaigns = () => {
 
     // page settings
     const [filtersOpen, setFilterOpen] = useState(false);
-    const toggleFilters = () => setFilterOpen(!filtersOpen);
+    const toggleFilters = useCallback(
+        () => setFilterOpen(!filtersOpen),
+        [filtersOpen]
+    );
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
     const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages } = usePagination(results, currentPage);
