@@ -1,110 +1,161 @@
-const BODY_TEXT_CONFIG = {
-    "3xs": [
-        "0.52rem",
-        {
-            lineHeight: "0.78rem",
-            marginTop: "0.75rem",
-            marginBottom: "0.75rem",
-        },
-    ],
-    "2xs": [
-        "0.625rem",
-        {
-            lineHeight: "0.9375rem",
-            marginTop: "0.75rem",
-            marginBottom: "0.75rem",
-        },
-    ],
-    xs: [
-        "0.75rem",
-        {
-            lineHeight: "1.125rem",
-            marginTop: "0.75rem",
-            marginBottom: "0.75rem",
-        },
-    ],
-    sm: [
-        "0.875rem",
-        {
-            lineHeight: "1.311rem",
-            marginTop: "0.75rem",
-            marginBottom: "0.75rem",
-        },
-    ],
-    base: [
-        "1rem",
-        { lineHeight: "1.5rem", marginTop: "0.75rem", marginBottom: "0.75rem" },
-    ],
-    lg: [
-        "1.1875rem",
-        {
-            lineHeight: "1.78125rem",
-            marginTop: "0.75rem",
-            marginBottom: "0.75rem",
-        },
-    ],
-    xl: [
-        "1.375rem",
-        {
-            lineHeight: "2.0625rem",
-            marginTop: "0.75rem",
-            marginBottom: "0.75rem",
-        },
-    ],
-    "2xl": [
-        "1.5rem",
-        {
-            lineHeight: "2.25rem",
-            marginTop: "0.75rem",
-            marginBottom: "0.75rem",
-        },
-    ],
+const scale = (value, scalingFactor) => value * scalingFactor;
+
+const rem = (value) => `${value}rem`;
+
+const SANS_FONT_FAMILY = ["Inter", "ui-sans-serif", "sans-serif"];
+const MONO_FONT_FAMILY = ["IBM Plex Mono", "ui-monospace", "monospace"];
+
+const BODY_TEXT_SIZES_REM = {
+    "3xs": 0.5,
+    "2xs": 0.6,
+    xs: 0.7,
+    sm: 0.8,
+    base: 1,
+    lg: 1.1,
+    xl: 1.2,
+    "2xl": 1.3,
 };
 
-const HEADING_TEXT_CONFIG = {
-    h1: [
-        "3.5rem",
-        {
-            lineHeight: "3.535rem",
-            marginBottom: "2rem",
-            marginTop: "3.5rem",
+// given the base rem sizes of body text, the reduce operation derives the correct raw
+// (js number type) body style to feed into tailwind after performing number to rem unit
+// conversion. This is useful to automatically scale values and keep everything consisten
+// if we want to change base body text sizes.
+const RAW_BODY_TEXT_CONFIG = Object.entries(BODY_TEXT_SIZES_REM).reduce(
+    (accumulator, [key, remSize]) => {
+        accumulator[key] = [
+            remSize,
+            {
+                lineHeight: scale(remSize, 1.6),
+                fontFamily: MONO_FONT_FAMILY,
+            },
+        ];
+        return accumulator;
+    },
+    {}
+);
+
+const HEADING_TEXT_SIZES_REM = {
+    h1: 3,
+    h2: 2,
+    h3: 1.75,
+    h4: 1.5,
+    h5: 1.25,
+    h6: 1,
+};
+
+// this reduce operation has the same end goal as the one performed on the body
+// text, but with additional styles to be applied to heading texts.
+const RAW_HEADING_TEXT_CONFIG = Object.entries(HEADING_TEXT_SIZES_REM).reduce(
+    (accumulator, [key, remSize]) => {
+        accumulator[key] = [
+            remSize,
+            {
+                lineHeight: scale(remSize, 1.2),
+                marginTop: scale(remSize, 0.3),
+                marginBottom: scale(remSize, 0.4),
+                fontWeight: "700",
+                fontFamily: SANS_FONT_FAMILY,
+            },
+        ];
+        return accumulator;
+    },
+    {}
+);
+
+// this function converts numbers in the default raw configs for bofy and heading
+// texts to rem units, making the output objet suitable to be passed to
+// tailwind css's `fontSize` option.
+const getResolvedTextConfig = (rawConfig) =>
+    Object.entries(rawConfig).reduce(
+        (accumulator, [key, [rawRemSize, additionalStyles]]) => {
+            accumulator[key] = [
+                rem(rawRemSize),
+                Object.entries(additionalStyles).reduce(
+                    (accumulator, [key, value]) => {
+                        accumulator[key] =
+                            typeof value === "number" ? rem(value) : value;
+                        return accumulator;
+                    },
+                    {}
+                ),
+            ];
+            return accumulator;
         },
-    ],
-    h2: [
-        "3rem",
-        { lineHeight: "3.03rem", marginBottom: "1.5rem", marginTop: "3rem" },
-    ],
-    h3: [
-        "2.5rem",
-        { lineHeight: "2.525rem", marginBottom: "1rem", marginTop: "2.5rem" },
-    ],
-    h4: [
-        "1.75rem",
-        {
-            lineHeight: "1.7675rem",
-            marginBottom: "0.7rem",
-            marginTop: "2.3rem",
-        },
-    ],
-    h5: [
-        "1.5rem",
-        { lineHeight: "1.515rem", marginBottom: "0.7rem", marginTop: "2.3rem" },
-    ],
-    h6: [
-        "1.14285714286rem",
-        {
-            lineHeight: "1.37142857143rem",
-            marginBottom: "0.7rem",
-            marginTop: "2.3rem",
-        },
-    ],
+        {}
+    );
+
+// this function generates a complete config to be passed to tailwind css's typography config.
+const getTypographyConfig = (variant, scalingFactor, theme) => {
+    const coreConfig = {};
+
+    // handle heading text config per-variant basis
+    for (const [key, value] of Object.entries(RAW_HEADING_TEXT_CONFIG)) {
+        coreConfig[key] = {
+            fontSize: rem(value[0]),
+            ...Object.entries(value[1]).reduce(
+                (accumulator, [attributeName, value]) => {
+                    accumulator[attributeName] =
+                        typeof value === "number"
+                            ? rem(scale(value, scalingFactor))
+                            : value;
+                    return accumulator;
+                },
+                {}
+            ),
+        };
+    }
+
+    const bodyConfig = RAW_BODY_TEXT_CONFIG[variant];
+
+    // custom paragraph styles applying default body text attributes
+    coreConfig.p = {
+        fontSize: rem(bodyConfig[0]),
+        marginTop: rem(scale(bodyConfig[0], 1)),
+        marginBottom: rem(scale(bodyConfig[0], 1)),
+        ...Object.entries(bodyConfig[1]).reduce(
+            (accumulator, [attributeName, value]) => {
+                accumulator[attributeName] =
+                    typeof value === "number"
+                        ? rem(scale(value, scalingFactor))
+                        : value;
+                return accumulator;
+            },
+            {}
+        ),
+    };
+
+    // custom list styles applying default body text attributes
+    coreConfig.li = {
+        fontSize: rem(bodyConfig[0]),
+        ...Object.entries(bodyConfig[1]).reduce(
+            (accumulator, [attributeName, value]) => {
+                accumulator[attributeName] =
+                    typeof value === "number"
+                        ? rem(scale(value, scalingFactor))
+                        : value;
+                return accumulator;
+            },
+            {}
+        ),
+    };
+
+    // set some colors
+    coreConfig["--tw-prose-body"] = theme("colors.black");
+    coreConfig["--tw-prose-bullets"] = theme("colors.orange");
+    coreConfig["--tw-prose-pre-bg"] = theme("colors.gray[700]");
+    coreConfig["--tw-prose-pre-code"] = theme("colors.white");
+
+    // set max width to 100% to give full control to user
+    coreConfig.maxWidth = "100%";
+
+    return { css: coreConfig };
 };
 
 /** @type {import('tailwindcss').Config} */
 exports.theme = {
     fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "sans-serif"],
-        mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
+        sans: SANS_FONT_FAMILY,
+        mono: MONO_FONT_FAMILY,
     },
     colors: {
         // primary
@@ -124,17 +175,19 @@ exports.theme = {
         current: "currentColor",
         white: "#ffffff",
         black: "#000000",
-        "gray-700": "#272727",
-        "gray-600": "#616161",
-        "gray-500": "#828282",
-        "gray-400": "#B3B3B3",
-        "gray-300": "#CBCBCB",
-        "gray-200": "#E9E9E9",
-        "gray-100": "#F6F6F6",
+        gray: {
+            700: "#272727",
+            600: "#616161",
+            500: "#828282",
+            400: "#B3B3B3",
+            300: "#CBCBCB",
+            200: "#E9E9E9",
+            100: "#F6F6F6",
+        },
     },
     fontSize: {
-        ...BODY_TEXT_CONFIG,
-        ...HEADING_TEXT_CONFIG,
+        ...getResolvedTextConfig(RAW_BODY_TEXT_CONFIG),
+        ...getResolvedTextConfig(RAW_HEADING_TEXT_CONFIG),
     },
     extend: {
         height({ theme }) {
@@ -149,77 +202,12 @@ exports.theme = {
         },
         typography({ theme }) {
             return {
-                DEFAULT: {
-                    css: {
-                        maxWidth: "100%",
-                        ...Object.entries(HEADING_TEXT_CONFIG).reduce(
-                            (accumulator, [key, value]) => {
-                                accumulator[key] = {
-                                    fontSize: value[0],
-                                    lineHeight: value[1].lineHeight,
-                                    marginBottom: value[1].marginBottom,
-                                    marginTop: value[1].marginTop,
-                                    fontFamily: theme("fontFamily")["sans"],
-                                };
-                                return accumulator;
-                            },
-                            {}
-                        ),
-                        p: {
-                            fontSize: BODY_TEXT_CONFIG.base[0],
-                            lineHeight: BODY_TEXT_CONFIG.base[1].lineHeight,
-                            marginBottom: BODY_TEXT_CONFIG.base[1].marginBottom,
-                            marginTop: BODY_TEXT_CONFIG.base[1].marginTop,
-                            fontFamily: theme("fontFamily")["mono"],
-                        },
-                        li: {
-                            fontSize: BODY_TEXT_CONFIG.base[0],
-                            lineHeight: BODY_TEXT_CONFIG.base[1].lineHeight,
-                            marginBottom: BODY_TEXT_CONFIG.base[1].marginBottom,
-                            marginTop: BODY_TEXT_CONFIG.base[1].marginTop,
-                            fontFamily: theme("fontFamily")["mono"],
-                        },
-                    },
-                },
-                ...Object.entries(BODY_TEXT_CONFIG).reduce(
-                    (accumulator, [key, value]) => {
-                        accumulator[key] = {
-                            css: {
-                                maxWidth: "100%",
-                                p: {
-                                    fontSize: value[0],
-                                    lineHeight: value[1].lineHeight,
-                                    marginBottom: value[1].marginBottom,
-                                    marginTop: value[1].marginTop,
-                                    fontFamily: theme("fontFamily")["mono"],
-                                },
-                                li: {
-                                    fontSize: value[0],
-                                    lineHeight: value[1].lineHeight,
-                                    marginBottom: value[1].marginBottom,
-                                    marginTop: value[1].marginTop,
-                                    fontFamily: theme("fontFamily")["mono"],
-                                },
-                                ...Object.entries(HEADING_TEXT_CONFIG).reduce(
-                                    (accumulator, [key, value]) => {
-                                        accumulator[key] = {
-                                            fontSize: value[0],
-                                            lineHeight: value[1].lineHeight,
-                                            marginBottom: value[1].marginBottom,
-                                            marginTop: value[1].marginTop,
-                                            fontFamily:
-                                                theme("fontFamily")["sans"],
-                                        };
-                                        return accumulator;
-                                    },
-                                    {}
-                                ),
-                            },
-                        };
-                        return accumulator;
-                    },
-                    {}
-                ),
+                sm: getTypographyConfig("sm", 0.9, theme),
+                base: getTypographyConfig("base", 1, theme),
+                DEFAULT: getTypographyConfig("base", 1, theme),
+                lg: getTypographyConfig("lg", 1.1, theme),
+                xl: getTypographyConfig("xl", 1.2, theme),
+                "2xl": getTypographyConfig("2xl", 1.3, theme),
             };
         },
         borderRadius: {
@@ -232,9 +220,11 @@ exports.theme = {
         },
         backgroundImage: {
             "black-squares":
-                "linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px)",
+                "linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px), " +
+                "linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px)",
             "white-squares":
-                "linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px)",
+                "linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px), " +
+                "linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px)",
         },
         gridTemplateColumns: {
             campaigns: "repeat(auto-fit, minmax(320px, 1fr))",
