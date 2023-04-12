@@ -17,7 +17,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
           }`
         : undefined;
     return (
-        <div className="h-16 flex w-full items-center gap-5">
+        <div className="h-16 flex w-full justify-between gap-5">
             <div className="flex flex-col overflow-hidden">
                 {loading ? (
                     <Skeleton width="40%" />
