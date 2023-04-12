@@ -62,7 +62,7 @@ const RAW_HEADING_TEXT_CONFIG = Object.entries(HEADING_TEXT_SIZES_REM).reduce(
     {}
 );
 
-// this function converts numbers in the default raw configs for bofy and heading
+// this function converts numbers in the default raw configs for body and heading
 // texts to rem units, making the output objet suitable to be passed to
 // tailwind css's `fontSize` option.
 const getResolvedTextConfig = (rawConfig) =>
