@@ -4,10 +4,28 @@ import { Address, Chain, ConnectorData, normalizeChainId } from "@wagmi/core";
 import { constants } from "ethers";
 
 export const READ_ONLY_CONNECTOR_ID = "readonly";
+const DEFAULT_CHAIN_ID = 100; // gnosis
 
 export type InjectedConnectorOptions = {
     /** Name of connector */
     name?: string | ((detectedName: string | string[]) => string);
+};
+
+const getChainIdFromlocalStorage = () => {
+    const wagmiStore = localStorage.getItem("wagmi.store");
+    if (!wagmiStore) return DEFAULT_CHAIN_ID;
+    const parsedStore = JSON.parse(wagmiStore);
+
+    if (
+        parsedStore.state &&
+        parsedStore.state.data &&
+        parsedStore.state.data.chain &&
+        parsedStore.state.data.chain.id
+    ) {
+        return parsedStore.state.data.chain.id;
+    }
+
+    return DEFAULT_CHAIN_ID;
 };
 
 export class ReadonlyConnector extends Connector<
@@ -28,20 +46,10 @@ export class ReadonlyConnector extends Connector<
         Required<ConnectorData>
     > {
         let targetChainId = chainId;
-        let useDefaultChainId = false;
         if (!targetChainId || this.isChainUnsupported(targetChainId)) {
-            try {
-                const lastUsedChainId = await this.getChainId();
-                if (
-                    lastUsedChainId &&
-                    !this.isChainUnsupported(lastUsedChainId)
-                ) {
-                    targetChainId = lastUsedChainId;
-                } else {
-                    useDefaultChainId = true;
-                }
-            } catch (e) {
-                useDefaultChainId = true;
+            const lastUsedChainId = getChainIdFromlocalStorage();
+            if (lastUsedChainId && !this.isChainUnsupported(lastUsedChainId)) {
+                targetChainId = lastUsedChainId;
             }
         }
 
@@ -53,9 +61,7 @@ export class ReadonlyConnector extends Connector<
         provider.on("chainChanged", this.onChainChanged);
         provider.on("disconnect", this.onDisconnect);
 
-        const id = useDefaultChainId
-            ? this.chains[0].id
-            : await this.getChainId();
+        const id = targetChainId || getChainIdFromlocalStorage();
 
         const unsupported = this.isChainUnsupported(id);
 
@@ -82,6 +88,7 @@ export class ReadonlyConnector extends Connector<
         const provider = await this.getProvider();
         const network = await provider.getNetwork();
         const chainId = normalizeChainId(network.chainId);
+
         return chainId;
     }
 
