@@ -128,7 +128,6 @@ export class ReadonlyConnector extends Connector<
 
     protected onChainChanged = (chainId: number | string): void => {
         const id = normalizeChainId(chainId);
-        console.log("id:", id);
         const unsupported = this.isChainUnsupported(id);
         this.emit("change", { chain: { id, unsupported } });
     };
