@@ -5,7 +5,7 @@ import { constants } from "ethers";
 import { ChainId } from "@carrot-kpi/sdk";
 
 export const READ_ONLY_CONNECTOR_ID = "readonly";
-const DEFAULT_CHAIN_ID = ChainId.GNOSIS; // 100
+const DEFAULT_CHAIN_ID = ChainId.GNOSIS;
 
 export type InjectedConnectorOptions = {
     /** Name of connector */
@@ -127,6 +127,7 @@ export class ReadonlyConnector extends Connector<
     protected onAccountsChanged = (): void => {};
 
     protected onChainChanged = (chainId: number | string): void => {
+        console.log("chainId:", chainId);
         const id = normalizeChainId(chainId);
         const unsupported = this.isChainUnsupported(id);
         this.emit("change", { chain: { id, unsupported } });
