@@ -12,11 +12,11 @@ export type InjectedConnectorOptions = {
     name?: string | ((detectedName: string | string[]) => string);
 };
 
-interface wagmiStoreObj {
-    state: {
-        data: {
-            chain: {
-                id: number;
+interface WagmiStore {
+    state?: {
+        data?: {
+            chain?: {
+                id?: number;
             };
         };
     };
@@ -25,7 +25,7 @@ interface wagmiStoreObj {
 const getChainIdFromlocalStorage = () => {
     const wagmiStore = localStorage.getItem("wagmi.store");
     if (!wagmiStore) return DEFAULT_CHAIN_ID;
-    const parsedStore: wagmiStoreObj = JSON.parse(wagmiStore);
+    const parsedStore: WagmiStore = JSON.parse(wagmiStore);
 
     if (
         parsedStore.state &&
