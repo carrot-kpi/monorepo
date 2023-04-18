@@ -44,13 +44,13 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
         const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
         const popoverRef = useRef<HTMLDivElement>(null);
         const [open, setOpen] = useState(false);
-        const [mobile, setMobile] = useState(false);
+        const [modal, setModal] = useState(false);
 
         const resizeObserver = useRef(
             new ResizeObserver((entries) => {
                 const { width } = entries[0].contentRect;
-                if (width < 768) setMobile(true);
-                else setMobile(false);
+                if (width < 640) setModal(true);
+                else setModal(false);
             })
         );
 
@@ -105,7 +105,7 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                         value ? dayjs(value).format("L HH:mm:ss") : undefined
                     }
                 />
-                {mobile ? (
+                {modal ? (
                     <Modal open={open} onDismiss={handlePickerClose}>
                         <DateTimePicker
                             value={value}
