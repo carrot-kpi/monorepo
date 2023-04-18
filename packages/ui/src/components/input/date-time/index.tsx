@@ -1,8 +1,15 @@
-import React, { forwardRef, useRef, useState, useCallback, useId } from "react";
+import React, {
+    forwardRef,
+    useRef,
+    useState,
+    useCallback,
+    useId,
+    useEffect,
+} from "react";
 import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
 import { TextInput } from "../text";
-import { Popover } from "../../utils";
+import { Modal, Popover } from "../../utils";
 import { ReactComponent as Calendar } from "../../../assets/calendar.svg";
 import { DateTimePicker, DateTimePickerProps } from "./picker";
 import { useClickAway } from "react-use";
@@ -37,6 +44,15 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
         const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
         const popoverRef = useRef<HTMLDivElement>(null);
         const [open, setOpen] = useState(false);
+        const [mobile, setMobile] = useState(false);
+
+        const resizeObserver = useRef(
+            new ResizeObserver((entries) => {
+                const { width } = entries[0].contentRect;
+                if (width < 768) setMobile(true);
+                else setMobile(false);
+            })
+        );
 
         const resolvedId = id || generatedId;
 
@@ -44,8 +60,19 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
             setOpen(false);
         });
 
+        useEffect(() => {
+            resizeObserver.current.observe(document.body);
+            return () => {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                resizeObserver.current.unobserve(document.body);
+            };
+        }, []);
+
         const handlePickerOpen = useCallback(() => {
             setOpen(true);
+        }, []);
+        const handlePickerClose = useCallback(() => {
+            setOpen(false);
         }, []);
 
         return (
@@ -78,19 +105,30 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                         value ? dayjs(value).format("L HH:mm:ss") : undefined
                     }
                 />
-                <Popover
-                    anchor={anchorEl}
-                    ref={popoverRef}
-                    open={open}
-                    placement="bottom-start"
-                >
-                    <DateTimePicker
-                        value={value}
-                        onChange={onChange}
-                        min={min}
-                        max={max}
-                    />
-                </Popover>
+                {mobile ? (
+                    <Modal open={open} onDismiss={handlePickerClose}>
+                        <DateTimePicker
+                            value={value}
+                            onChange={onChange}
+                            min={min}
+                            max={max}
+                        />
+                    </Modal>
+                ) : (
+                    <Popover
+                        anchor={anchorEl}
+                        ref={popoverRef}
+                        open={open}
+                        placement="bottom-start"
+                    >
+                        <DateTimePicker
+                            value={value}
+                            onChange={onChange}
+                            min={min}
+                            max={max}
+                        />
+                    </Popover>
+                )}
             </>
         );
     }

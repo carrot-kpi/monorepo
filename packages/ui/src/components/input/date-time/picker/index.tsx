@@ -9,7 +9,7 @@ import { rectifyDate, resolvedValue } from "../../../../utils/date";
 const cellListStyles = mergedCva(
     [
         "cui-h-52",
-        "cui-w-10",
+        "cui-w-full md:cui-w-10",
         "cui-py-2",
         "cui-overflow-y-auto",
         "cui-scrollbar",
@@ -124,8 +124,8 @@ export const DateTimePicker = ({
     );
 
     return (
-        <div className="cui-flex">
-            <div className="cui-p-3">
+        <div className="cui-flex cui-flex-col md:cui-flex-row cui-bg-white dark:cui-bg-black cui-rounded-xxl">
+            <div className="cui-p-3 cui-pb-0 md:cui-p-3">
                 <DatePicker
                     value={value}
                     onChange={handleDateChange}
@@ -137,7 +137,7 @@ export const DateTimePicker = ({
             <div className="cui-flex cui-flex-col">
                 <Typography
                     className={{
-                        root: "cui-p-2 cui-border-b cui-border-black dark:cui-border-white cui-text-center",
+                        root: "cui-p-2 cui-border-none md:cui-border-b cui-border-black dark:cui-border-white cui-text-center",
                     }}
                 >
                     {value ? dayjs(value).format("HH:mm:ss") : "--:--:--"}
