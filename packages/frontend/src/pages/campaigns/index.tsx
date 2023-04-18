@@ -15,7 +15,6 @@ import { CampaignsTopNav } from "./top-nav";
 import { filterResolvedKPITokens, sortKPITokens } from "../../utils/kpi-tokens";
 import { Empty } from "../../components/ui/empty";
 import { useDebounce } from "react-use";
-import { useSearchedResolvedKPITokens } from "../../hooks/useSearchedResolvedKPITokens";
 import { SideFilters } from "./side-filters";
 import {
     ORDERING_OPTIONS,
@@ -26,6 +25,7 @@ import {
 } from "./select-options";
 import { Pagination } from "../../components/pagination";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSearchResolvedKPITokens } from "../../hooks/search/useSearchResolvedKPITokens";
 
 export const Campaigns = () => {
     useResetPageScroll();
@@ -89,8 +89,8 @@ export const Campaigns = () => {
     }, [location]);
 
     // fetch data
-    const { loading, kpiTokens: searchedResolvedKPITokens } =
-        useSearchedResolvedKPITokens(debouncedSearchQuery);
+    const { loading, kpiTokens: resolvedKPITokens } =
+        useSearchResolvedKPITokens(debouncedSearchQuery);
 
     // filters
     const [campaignState, setCampaignState] = useState<SelectOption>(
@@ -118,10 +118,10 @@ export const Campaigns = () => {
     // filter results
     const filteredKPITokensByState = useMemo(() => {
         return filterResolvedKPITokens(
-            searchedResolvedKPITokens,
+            resolvedKPITokens,
             campaignState.value as unknown as CampaignState
         );
-    }, [searchedResolvedKPITokens, campaignState]);
+    }, [resolvedKPITokens, campaignState]);
 
     const filteredTokens = useMemo(() => {
         if (selectedTemplates.size === 0 && selectedOracles.size === 0)
@@ -180,7 +180,7 @@ export const Campaigns = () => {
                             }
                         />
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
-                            {!loading && results && data.length === 0 && (
+                            {!loading && data.length === 0 && (
                                 <div className="flex justify-center w-full">
                                     <Empty />
                                 </div>
