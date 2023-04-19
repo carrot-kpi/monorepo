@@ -46,14 +46,6 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
         const [open, setOpen] = useState(false);
         const [modal, setModal] = useState(false);
 
-        const resizeObserver = useRef(
-            new ResizeObserver((entries) => {
-                const { width } = entries[0].contentRect;
-                if (width < 640) setModal(true);
-                else setModal(false);
-            })
-        );
-
         const resolvedId = id || generatedId;
 
         useClickAway(popoverRef, () => {
@@ -61,16 +53,23 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
         });
 
         useEffect(() => {
-            resizeObserver.current.observe(document.body);
+            const resizeObserver = new ResizeObserver((entries) => {
+                const { width } = entries[0].contentRect;
+                if (width < 640) setModal(true);
+                else setModal(false);
+            });
+
+            resizeObserver.observe(document.body);
             return () => {
                 // eslint-disable-next-line react-hooks/exhaustive-deps
-                resizeObserver.current.unobserve(document.body);
+                resizeObserver.unobserve(document.body);
             };
         }, []);
 
         const handlePickerOpen = useCallback(() => {
             setOpen(true);
         }, []);
+
         const handlePickerClose = useCallback(() => {
             setOpen(false);
         }, []);
