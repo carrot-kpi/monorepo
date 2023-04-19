@@ -50,31 +50,31 @@ export const Campaigns = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages } = usePagination(results, currentPage);
 
-    const handleOrderingChange = useCallback(
-        (orderingState: SelectOption) => {
+    const handleSearchParams = useCallback(
+        (key: string, value: string) => {
             const searchParams = new URLSearchParams(location.search);
-            searchParams.set("ordering", orderingState.label);
+            searchParams.set(key, value);
             navigate(`?${searchParams}`);
         },
         [location.search, navigate]
+    );
+
+    const handleOrderingChange = useCallback(
+        (orderingState: SelectOption) =>
+            handleSearchParams("ordering", orderingState.label),
+        [handleSearchParams]
     );
 
     const handleStateChange = useCallback(
-        (campaignState: SelectOption) => {
-            const searchParams = new URLSearchParams(location.search);
-            searchParams.set("state", campaignState.label);
-            navigate(`?${searchParams}`);
-        },
-        [location.search, navigate]
+        (campaignState: SelectOption) =>
+            handleSearchParams("state", campaignState.label),
+        [handleSearchParams]
     );
 
     const handlePageChange = useCallback(
-        (pageNumber: SetStateAction<number>) => {
-            const searchParams = new URLSearchParams(location.search);
-            searchParams.set("page", pageNumber.toString());
-            navigate(`?${searchParams}`);
-        },
-        [location.search, navigate]
+        (pageNumber: SetStateAction<number>) =>
+            handleSearchParams("page", pageNumber.toString()),
+        [handleSearchParams]
     );
 
     useEffect(() => {

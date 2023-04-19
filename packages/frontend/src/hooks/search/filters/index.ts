@@ -1,25 +1,25 @@
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 
-export const searchResolvedKPItokens = (
-    searchQuery: string,
-    kpiTokens: ResolvedKPIToken[]
+export const filterTokensWithQuery = (
+    query: string,
+    tokens: ResolvedKPIToken[]
 ) => {
-    return kpiTokens.filter((token) =>
-        tokenSpecificationIncludesQuery(token, searchQuery)
+    return tokens.filter((token) =>
+        tokenSpecificationIncludesQuery(token, query)
     );
 };
 
 export const tokenSpecificationIncludesQuery = (
     token: ResolvedKPIToken,
-    searchQuery: string
+    query: string
 ) => {
-    const query = searchQuery.toLowerCase();
+    const lowerCaseQuery = query.toLowerCase();
     const specification = token.specification;
 
     return (
-        includesQuery(specification.title, query) ||
-        includesQuery(specification.description, query) ||
-        includesQuery(specification.tags, query)
+        includesQuery(specification.title, lowerCaseQuery) ||
+        includesQuery(specification.description, lowerCaseQuery) ||
+        includesQuery(specification.tags, lowerCaseQuery)
     );
 };
 
