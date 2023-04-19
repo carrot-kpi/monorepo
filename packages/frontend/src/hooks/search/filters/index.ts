@@ -9,7 +9,7 @@ export const filterTokensWithQuery = (
     );
 };
 
-export const tokenSpecificationIncludesQuery = (
+const tokenSpecificationIncludesQuery = (
     token: ResolvedKPIToken,
     query: string
 ) => {
