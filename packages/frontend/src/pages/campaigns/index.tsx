@@ -25,7 +25,7 @@ import {
 } from "./select-options";
 import { Pagination } from "../../components/pagination";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSearchResolvedKPITokens } from "../../hooks/search/useSearchResolvedKPITokens";
+import { useSearchResolvedKPITokens } from "../../hooks/useSearchResolvedKPITokens";
 
 export const Campaigns = () => {
     useResetPageScroll();
