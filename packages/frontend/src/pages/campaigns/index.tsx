@@ -7,6 +7,7 @@ import React, {
     useMemo,
     useState,
     SetStateAction,
+    useRef,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
@@ -48,7 +49,31 @@ export const Campaigns = () => {
     );
     const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
     const [currentPage, setCurrentPage] = useState(1);
-    const { data, totalPages } = usePagination(results, currentPage);
+    const [pageSize, setPageSize] = useState(12);
+    const { data, totalPages } = usePagination(results, currentPage, pageSize);
+
+    const resizeObserver = useRef(
+        new ResizeObserver((entries) => {
+            const { width } = entries[0].contentRect;
+            if (width > 600) setFilterOpen(true);
+            else setFilterOpen(false);
+            if (width < 768) {
+                setPageSize(3);
+            } else if (width < 1200) {
+                setPageSize(6);
+            } else {
+                setPageSize(12);
+            }
+        })
+    );
+
+    useEffect(() => {
+        resizeObserver.current.observe(document.body);
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            resizeObserver.current.unobserve(document.body);
+        };
+    }, []);
 
     const handleOrderingChange = useCallback(
         (orderingState: SelectOption) => {
