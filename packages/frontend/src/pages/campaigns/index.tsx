@@ -1,12 +1,13 @@
-import { usePage, useResetPageScroll } from "@carrot-kpi/react";
+import { usePagination, useResetPageScroll } from "@carrot-kpi/react";
 import { SelectOption, Typography } from "@carrot-kpi/ui";
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 import React, {
     useEffect,
     useCallback,
     useMemo,
-    useRef,
     useState,
+    SetStateAction,
+    useRef,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
@@ -22,11 +23,16 @@ import {
     STATE_OPTIONS,
     CampaignOrder,
     CampaignState,
+    getOptionByLabel,
 } from "./select-options";
+import { Pagination } from "../../components/pagination";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Campaigns = () => {
     useResetPageScroll();
     const { t } = useTranslation();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     //  fetch KPITokens
     const [results, setResults] = useState<ResolvedKPIToken[]>([]);
@@ -35,16 +41,81 @@ export const Campaigns = () => {
 
     useDebounce(() => setDebouncedSearchQuery(searchQuery), 300, [searchQuery]);
 
+    // page settings
+    const [filtersOpen, setFilterOpen] = useState(false);
+    const toggleFilters = useCallback(
+        () => setFilterOpen(!filtersOpen),
+        [filtersOpen]
+    );
+    const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const { data, totalPages } = usePagination(results, currentPage, pageSize);
+
+    const resizeObserver = useRef(
+        new ResizeObserver((entries) => {
+            const { width } = entries[0].contentRect;
+            if (width > 600) setFilterOpen(true);
+            else setFilterOpen(false);
+            if (width < 768) {
+                setPageSize(3);
+            } else if (width < 1200) {
+                setPageSize(6);
+            } else {
+                setPageSize(12);
+            }
+        })
+    );
+
+    useEffect(() => {
+        resizeObserver.current.observe(document.body);
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            resizeObserver.current.unobserve(document.body);
+        };
+    }, []);
+
+    const handleOrderingChange = useCallback(
+        (orderingState: SelectOption) => {
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set("ordering", orderingState.label);
+            navigate(`?${searchParams}`);
+        },
+        [location.search, navigate]
+    );
+
+    const handleStateChange = useCallback(
+        (campaignState: SelectOption) => {
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set("state", campaignState.label);
+            navigate(`?${searchParams}`);
+        },
+        [location.search, navigate]
+    );
+
+    const handlePageChange = useCallback(
+        (pageNumber: SetStateAction<number>) => {
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set("page", pageNumber.toString());
+            navigate(`?${searchParams}`);
+        },
+        [location.search, navigate]
+    );
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const pageParams = searchParams.get("page") ?? "1";
+        setCurrentPage(parseInt(pageParams));
+        const orderingParams =
+            searchParams.get("ordering") ?? ORDERING_OPTIONS[0].label;
+        setOrdering(getOptionByLabel(ORDERING_OPTIONS, orderingParams));
+        const stateParams = searchParams.get("state") ?? STATE_OPTIONS[0].label;
+        setCampaignState(getOptionByLabel(STATE_OPTIONS, stateParams));
+    }, [location]);
+
+    // fetch data
     const { loading, kpiTokens: searchedResolvedKPITokens } =
         useSearchedResolvedKPITokens(debouncedSearchQuery);
-
-    //  toggle filters
-    const toggleFilters = () => setFilterOpen(!filtersOpen);
-    const [filtersOpen, setFilterOpen] = useState(false);
-
-    // page settings
-    const [pageSize, setPageSize] = useState(12);
-    const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
 
     // filters
     const [campaignState, setCampaignState] = useState<SelectOption>(
@@ -102,31 +173,6 @@ export const Campaigns = () => {
         setResults(sortedFilteredTokens);
     }, [sortedFilteredTokens]);
 
-    const page = usePage(results, pageSize, 0);
-
-    const resizeObserver = useRef(
-        new ResizeObserver((entries) => {
-            const { width } = entries[0].contentRect;
-            if (width > 600) setFilterOpen(true);
-            else setFilterOpen(false);
-            if (width < 768) {
-                setPageSize(3);
-            } else if (width < 1200) {
-                setPageSize(6);
-            } else {
-                setPageSize(12);
-            }
-        })
-    );
-
-    useEffect(() => {
-        resizeObserver.current.observe(document.body);
-        return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            resizeObserver.current.unobserve(document.body);
-        };
-    }, []);
-
     return (
         <Layout>
             <div className="relative bg-grid-light dark:bg-grid-dark dark:bg-black">
@@ -139,10 +185,10 @@ export const Campaigns = () => {
                     <CampaignsTopNav
                         ordering={ordering}
                         orderingOptions={ORDERING_OPTIONS}
-                        onOrderingChange={setOrdering}
+                        onOrderingChange={handleOrderingChange}
                         state={campaignState}
                         stateOptions={STATE_OPTIONS}
-                        onStateChange={setCampaignState}
+                        onStateChange={handleStateChange}
                         onToggleFilters={toggleFilters}
                         filtersOpen={filtersOpen}
                         setSearchQuery={setSearchQuery}
@@ -159,16 +205,16 @@ export const Campaigns = () => {
                             }
                         />
                         <div className="flex flex-col items-center w-full mt-12 mb-32 sm:mx-3 md:mx-4 lg:mx-5">
-                            {!loading && results && page.length === 0 && (
+                            {!loading && results && data.length === 0 && (
                                 <div className="flex justify-center w-full">
                                     <Empty />
                                 </div>
                             )}
-                            {(loading || page.length > 0) && (
-                                <>
+                            {(loading || data.length > 0) && (
+                                <div className="space-y-12 md:space-y-16">
                                     <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
                                         {loading
-                                            ? new Array(pageSize)
+                                            ? new Array(3)
                                                   .fill(null)
                                                   .map((_, index) => {
                                                       return (
@@ -177,7 +223,7 @@ export const Campaigns = () => {
                                                           />
                                                       );
                                                   })
-                                            : page.map((kpiToken) => {
+                                            : data.map((kpiToken) => {
                                                   return (
                                                       <KPITokenCard
                                                           key={kpiToken.address}
@@ -186,8 +232,14 @@ export const Campaigns = () => {
                                                   );
                                               })}
                                     </div>
-                                    <Pagination />
-                                </>
+                                    {!loading && data.length > 0 && (
+                                        <Pagination
+                                            setCurrentPage={handlePageChange}
+                                            currentPage={currentPage}
+                                            totalPages={totalPages}
+                                        />
+                                    )}
+                                </div>
                             )}
                         </div>
                     </div>
@@ -196,18 +248,3 @@ export const Campaigns = () => {
         </Layout>
     );
 };
-
-const PaginationNumber = ({ number }: { number: string | number }) => (
-    <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full cursor-pointer hover:bg-green">
-        {number}
-    </div>
-);
-
-const Pagination = () => (
-    <div className="flex mt-6 space-x-4">
-        <PaginationNumber number={1} />
-        <PaginationNumber number={2} />
-        <PaginationNumber number={"..."} />
-        <PaginationNumber number={12} />
-    </div>
-);
