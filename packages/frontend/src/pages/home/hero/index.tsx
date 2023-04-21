@@ -58,8 +58,7 @@ export const Hero = () => {
                         </div>
                         <video
                             ref={videoRef}
-                            className="w-full bg-gray-500 md:w-1/2 aspect-video rounded-xl"
-                            muted
+                            className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500"
                             controls
                         >
                             <source

@@ -1,4 +1,14 @@
+import { SelectOption } from "@carrot-kpi/ui";
 import { t } from "i18next";
+
+export const getOptionByLabel = (
+    optionsList: SelectOption[],
+    label: string
+) => {
+    const option = optionsList.find((option) => option.label === label);
+    if (option) return option;
+    else return optionsList[0];
+};
 
 export enum CampaignOrder {
     NEWEST,

@@ -11,7 +11,7 @@ export * from "./useNativeCurrency";
 export * from "./useOracle";
 export * from "./useOracleTemplate";
 export * from "./useOracleTemplates";
-export * from "./usePage";
+export * from "./usePagination";
 export * from "./usePreferDecentralization";
 export * from "./useSetKPITokenTemplateBaseURL";
 export * from "./useSetOracleTemplateBaseURL";
