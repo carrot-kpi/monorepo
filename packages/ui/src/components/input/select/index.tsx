@@ -11,11 +11,10 @@ import React, {
 import { BaseInputProps } from "../commons";
 import { ReactComponent as ChevronUp } from "../../../assets/chevron-up.svg";
 import { ReactComponent as ChevronDown } from "../../../assets/chevron-down.svg";
-import { cx } from "class-variance-authority";
 import { Popover } from "../../utils/popover";
 import { TextInput } from "../text";
 import { useClickAway } from "react-use";
-import { mergedCva } from "../../../utils/components";
+import { mergedCva, mergedCx } from "../../../utils/components";
 
 const dropdownRootStyles = mergedCva([
     "cui-rounded-xxl",
@@ -183,7 +182,7 @@ const Component = <O extends SelectOption>(
                             >
                                 {!!renderOption ? (
                                     <div
-                                        className={cx(
+                                        className={mergedCx(
                                             customOptionWrapperStyles(),
                                             className?.customOptionWrapper
                                         )}

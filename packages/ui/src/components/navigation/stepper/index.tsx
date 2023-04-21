@@ -92,13 +92,13 @@ const labelStyles = mergedCva([], {
                 "cui-text-center",
                 "cui-max-w-[100px]",
                 "cui-text-ellipsis",
-                "cui-overflow-hidden ...",
+                "cui-overflow-hidden",
             ],
             automatic: [
                 "cui-text-center md:cui-text-left",
                 "cui-max-w-[100px] md:cui-max-w-full",
                 "cui-text-ellipsis",
-                "cui-overflow-hidden ...",
+                "cui-overflow-hidden",
             ],
         },
         visible: {
@@ -115,7 +115,7 @@ const labelStyles = mergedCva([], {
         {
             layout: "horizontal",
             visible: true,
-            className: ["cui-flex", "cui-line-clamp-2"],
+            className: ["cui-flex"],
         },
         {
             layout: "automatic",
@@ -125,7 +125,7 @@ const labelStyles = mergedCva([], {
         {
             layout: "automatic",
             visible: true,
-            className: ["cui-flex", "cui-line-clamp-2"],
+            className: ["cui-flex"],
         },
     ],
 });
@@ -140,6 +140,7 @@ export interface StepperProps {
     className?: {
         root?: string;
         step?: string;
+        stepLabel?: string;
         square?: string;
         line?: string;
     };
@@ -207,6 +208,7 @@ export const Stepper = ({
                                 root: labelStyles({
                                     layout,
                                     visible: currentStep,
+                                    className: className?.stepLabel,
                                 }),
                             }}
                         >

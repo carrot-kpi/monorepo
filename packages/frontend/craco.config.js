@@ -6,10 +6,6 @@ const shared = require("./shared-dependencies.json");
 module.exports = {
     webpack: {
         configure: (config, { env }) => {
-            config.entry = {
-                main: config.entry,
-                sw: join(__dirname, "./src/sw.ts"),
-            };
             config.plugins.push(
                 new webpack.container.ModuleFederationPlugin({
                     name: "host",
@@ -40,28 +36,14 @@ module.exports = {
                 },
             };
             if (env !== "production") return config;
-            config.optimization = {
-                ...config.optimization,
-                moduleIds: "deterministic",
-                runtimeChunk: "single",
-            };
-            config.output = {
-                ...config.output,
-                publicPath: "auto",
-                filename: (pathData) => {
-                    return pathData.chunk.name === "sw"
-                        ? "sw.js"
-                        : "[name].[contenthash:8].js";
-                },
-                chunkFilename: "[name].[contenthash:8].js",
-                assetModuleFilename: "[name].[contenthash:8][ext]",
-            };
-            // TODO: make Workbox and precaching work
-            // config.plugins.push(
-            //     new WorkboxWebpackPlugin.InjectManifest({
-            //         swSrc: join(__dirname, "/src/sw.ts"),
-            //     })
-            // );
+            // TODO: make Workbox and precaching work (all
+            // cacheable files are now excluded)
+            config.plugins.push(
+                new WorkboxWebpackPlugin.InjectManifest({
+                    swSrc: join(__dirname, "/src/sw.ts"),
+                    exclude: [/.+/],
+                })
+            );
             return config;
         },
     },

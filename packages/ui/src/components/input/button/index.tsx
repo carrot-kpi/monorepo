@@ -8,9 +8,8 @@ import React, {
     ReactNode,
     SVGProps,
 } from "react";
-import { cx } from "class-variance-authority";
 import { ReactComponent as Spinner } from "../../../assets/spinner.svg";
-import { mergedCva } from "../../../utils/components";
+import { mergedCva, mergedCx } from "../../../utils/components";
 
 const buttonStyles = mergedCva(
     [
@@ -230,7 +229,7 @@ const Component = (props: ButtonProps, ref: RefType<typeof props>) => {
                 })}
             >
                 <Spinner
-                    className={cx(
+                    className={mergedCx(
                         iconStyles({
                             size,
                             loading,
