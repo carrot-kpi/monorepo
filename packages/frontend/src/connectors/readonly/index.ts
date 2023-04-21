@@ -2,41 +2,13 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 import { Connector } from "wagmi";
 import { Address, Chain, ConnectorData, normalizeChainId } from "@wagmi/core";
 import { constants } from "ethers";
-import { ChainId } from "@carrot-kpi/sdk";
+import { store } from "../../state";
 
 export const READ_ONLY_CONNECTOR_ID = "readonly";
-const DEFAULT_CHAIN_ID = ChainId.GNOSIS;
 
 export type InjectedConnectorOptions = {
     /** Name of connector */
     name?: string | ((detectedName: string | string[]) => string);
-};
-
-interface WagmiStore {
-    state?: {
-        data?: {
-            chain?: {
-                id?: number;
-            };
-        };
-    };
-}
-
-const getChainIdFromlocalStorage = () => {
-    const wagmiStore = localStorage.getItem("wagmi.store");
-    if (!wagmiStore) return DEFAULT_CHAIN_ID;
-    const parsedStore: WagmiStore = JSON.parse(wagmiStore);
-
-    if (
-        parsedStore.state &&
-        parsedStore.state.data &&
-        parsedStore.state.data.chain &&
-        parsedStore.state.data.chain.id
-    ) {
-        return parsedStore.state.data.chain.id;
-    }
-
-    return DEFAULT_CHAIN_ID;
 };
 
 export class ReadonlyConnector extends Connector<
@@ -53,12 +25,16 @@ export class ReadonlyConnector extends Connector<
         super(config);
     }
 
+    public getChainIdFromState() {
+        return store.getState().chain.id;
+    }
+
     public async connect({ chainId }: { chainId?: number } = {}): Promise<
         Required<ConnectorData>
     > {
         let targetChainId = chainId;
         if (!targetChainId || this.isChainUnsupported(targetChainId)) {
-            const lastUsedChainId = getChainIdFromlocalStorage();
+            const lastUsedChainId = this.getChainIdFromState();
             if (lastUsedChainId && !this.isChainUnsupported(lastUsedChainId)) {
                 targetChainId = lastUsedChainId;
             }
@@ -72,7 +48,7 @@ export class ReadonlyConnector extends Connector<
         provider.on("chainChanged", this.onChainChanged);
         provider.on("disconnect", this.onDisconnect);
 
-        const id = targetChainId || getChainIdFromlocalStorage();
+        const id = targetChainId || this.getChainIdFromState();
 
         const unsupported = this.isChainUnsupported(id);
 

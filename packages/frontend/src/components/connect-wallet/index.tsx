@@ -11,12 +11,13 @@ import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
 import { Avatar } from "./avatar";
+import { useSetChainId } from "../../hooks/useSetChainId";
 
 export const ConnectWallet = () => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
     const { address, connector: activeConnector } = useAccount();
-
+    const setChainId = useSetChainId();
     const [networksPopoverAnchor, setNetworksPopoverAnchor] =
         useState<HTMLDivElement | null>(null);
     const [connectWallet, setConnectWallet] =
@@ -77,12 +78,13 @@ export const ConnectWallet = () => {
         async (chainId: number) => {
             try {
                 await activeConnector?.switchChain?.(chainId);
+                setChainId(chainId);
             } catch (error) {
                 console.warn("could not switch network", error);
             }
             setNetworksPopoverOpen(false);
         },
-        [activeConnector]
+        [activeConnector, setChainId]
     );
 
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;

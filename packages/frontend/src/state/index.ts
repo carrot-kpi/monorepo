@@ -3,8 +3,10 @@ import debounce from "lodash.debounce";
 import { transactionsReducer } from "./reducers/transactions/reducer";
 import { ModalsReducer } from "./reducers/modals/reducer";
 import { loadState, storeState } from "../utils/state";
+import { chainReducer } from "./reducers/chainId/reducer";
 
 const rootReducer = combineReducers({
+    chain: chainReducer,
     transactions: transactionsReducer,
     modals: ModalsReducer,
 });
