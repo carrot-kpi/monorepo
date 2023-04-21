@@ -2,7 +2,7 @@ import { useIPFSGatewayURL, useKPITokens } from "@carrot-kpi/react";
 import { Fetcher, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
-import { filterTokensWithQuery } from "../utils/search";
+import { tokenSpecificationIncludesQuery } from "../utils/search";
 
 export function useSearchResolvedKPITokens(searchQuery: string) {
     const { chain } = useNetwork();
@@ -65,10 +65,10 @@ export function useSearchResolvedKPITokens(searchQuery: string) {
         if (!initialTokens) return;
         if (!searchQuery) setTokens(initialTokens);
 
-        const searchedTokens = filterTokensWithQuery(
-            searchQuery,
-            initialTokens
+        const searchedTokens = initialTokens.filter((token) =>
+            tokenSpecificationIncludesQuery(token, searchQuery)
         );
+
         setTokens(searchedTokens);
     }, [searchQuery, initialTokens]);
 

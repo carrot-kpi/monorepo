@@ -1,15 +1,6 @@
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 
-export const filterTokensWithQuery = (
-    query: string,
-    tokens: ResolvedKPIToken[]
-) => {
-    return tokens.filter((token) =>
-        tokenSpecificationIncludesQuery(token, query)
-    );
-};
-
-const tokenSpecificationIncludesQuery = (
+export const tokenSpecificationIncludesQuery = (
     token: ResolvedKPIToken,
     query: string
 ) => {
