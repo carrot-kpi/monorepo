@@ -13,7 +13,7 @@ const initialState: PreferencesState = {
     // TODO: use system as a default once the dark theme is available
     theme: "light",
     preferDecentralization: false,
-    ipfsGatewayURL: "https://carrot-kpi.dev",
+    ipfsGatewayURL: "https://gateway.carrot-kpi.dev",
     devMode: false,
     kpiTokenTemplateBaseURL: undefined,
     oracleTemplateBaseURL: undefined,
