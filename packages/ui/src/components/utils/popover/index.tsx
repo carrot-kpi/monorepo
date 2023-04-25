@@ -5,13 +5,15 @@ import { mergedCva } from "../../../utils/components";
 
 const dropdownRootStyles = mergedCva(
     [
-        "cui-rounded-xxl",
+        "cui-rounded-xl",
         "cui-border",
         "cui-bg-white",
+        "cui-border-black",
         "dark:cui-bg-black",
         "dark:cui-border-white",
         "cui-z-10",
         "cui-transition-opacity",
+        "cui-shadow-lg",
     ],
     {
         variants: {
