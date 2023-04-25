@@ -25,7 +25,8 @@ const RAW_BODY_TEXT_CONFIG = Object.entries(BODY_TEXT_SIZES_REM).reduce(
         accumulator[key] = [
             remSize,
             {
-                lineHeight: scale(remSize, 1.6),
+                lineHeight: scale(remSize, 1.8),
+                letterSpacing: scale(remSize, 0.02),
                 fontFamily: MONO_FONT_FAMILY,
             },
         ];
@@ -35,12 +36,12 @@ const RAW_BODY_TEXT_CONFIG = Object.entries(BODY_TEXT_SIZES_REM).reduce(
 );
 
 const HEADING_TEXT_SIZES_REM = {
-    h1: 3,
-    h2: 2,
-    h3: 1.75,
-    h4: 1.5,
-    h5: 1.25,
-    h6: 1,
+    h1: 3.25,
+    h2: 2.25,
+    h3: 2,
+    h4: 1.75,
+    h5: 1.5,
+    h6: 1.25,
 };
 
 // this reduce operation has the same end goal as the one performed on the body
@@ -51,8 +52,9 @@ const RAW_HEADING_TEXT_CONFIG = Object.entries(HEADING_TEXT_SIZES_REM).reduce(
             remSize,
             {
                 lineHeight: scale(remSize, 1.2),
-                marginTop: scale(remSize, 0.6),
-                marginBottom: scale(remSize, 0.4),
+                letterSpacing: scale(remSize, 0.02),
+                marginTop: scale(remSize, 0.8),
+                marginBottom: scale(remSize, 0.6),
                 fontWeight: "700",
                 fontFamily: SANS_FONT_FAMILY,
             },
@@ -215,8 +217,9 @@ exports.theme = {
             xxl: "15px",
         },
         backgroundSize: {
-            4: "4rem 4rem",
             2: "2rem 2rem",
+            3: "3rem 3rem",
+            4: "4rem 4rem",
         },
         backgroundImage: {
             "black-squares":
