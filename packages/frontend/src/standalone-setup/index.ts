@@ -9,7 +9,7 @@ import { ReadonlyConnector } from "../connectors";
 import { Chain, ChainProviderFn, Connector } from "wagmi";
 import { FrameConnector } from "../connectors/frame";
 
-const INFURA_PROJECT_ID = "0ebf4dd05d6740f482938b8a80860d13";
+const INFURA_PROJECT_ID = "c3838db5bd7548059b34406877c476c2";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export let standaloneSupportedChains: Chain[] = [];
