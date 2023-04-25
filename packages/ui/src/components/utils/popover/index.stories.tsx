@@ -32,7 +32,7 @@ const Template: Story<PopoverProps> = (props: PopoverProps) => {
                 Hover me to show the popover
             </Typography>
             <PopoverComponent {...props} open={open} anchor={anchor}>
-                <div className="cui-bg-white dark:cui-bg-black cui-text-black dark:cui-white-black cui-p-3 cui-rounded-xl">
+                <div className="cui-bg-white dark:cui-bg-black cui-text-black dark:cui-white-black cui-px-3 cui-py-2 cui-rounded-xl">
                     <Typography>Hello world!</Typography>
                 </div>
             </PopoverComponent>
