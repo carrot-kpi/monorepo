@@ -143,15 +143,21 @@ const Component = <V extends TypographyVariant>(
         setShouldShowPopover(shouldShow);
     }, [children, rootEl, truncate]);
 
-    const handleMouseEnter = useCallback(() => {
-        if (!truncate || !shouldShowPopover) return;
-        setPopoverOpen(true);
-    }, [shouldShowPopover, truncate]);
+    const handleMouseEnter = useCallback(
+        (event: React.MouseEvent<HTMLElementFromVariant<V>, MouseEvent>) => {
+            if (truncate && shouldShowPopover) setPopoverOpen(true);
+            if (rest.onMouseEnter) rest.onMouseEnter(event);
+        },
+        [rest, shouldShowPopover, truncate]
+    );
 
-    const handleMouseLeave = useCallback(() => {
-        if (!truncate || !shouldShowPopover) return;
-        setPopoverOpen(false);
-    }, [shouldShowPopover, truncate]);
+    const handleMouseLeave = useCallback(
+        (event: React.MouseEvent<HTMLElementFromVariant<V>, MouseEvent>) => {
+            if (truncate && shouldShowPopover) setPopoverOpen(false);
+            if (rest.onMouseLeave) rest.onMouseLeave(event);
+        },
+        [rest, shouldShowPopover, truncate]
+    );
 
     const Root = COMPONENT_MAP[variant];
 
