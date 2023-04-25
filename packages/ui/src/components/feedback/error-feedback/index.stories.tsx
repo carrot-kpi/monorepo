@@ -1,22 +1,18 @@
-import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { ErrorFeedback as ErrorFeedbackComponent, ErrorFeedbackProps } from ".";
+import { ErrorFeedback as ErrorFeedbackComponent } from ".";
 
 export default {
     title: "Feedback/Error Feedback",
     component: ErrorFeedbackComponent,
-} as ComponentMeta<typeof ErrorFeedbackComponent>;
+} as Meta<typeof ErrorFeedbackComponent>;
 
-const Template: Story<ErrorFeedbackProps> = (props: ErrorFeedbackProps) => {
-    return <ErrorFeedbackComponent {...props} />;
-};
-
-export const ErrorFeedback: Story<ErrorFeedbackProps> = Template.bind({});
-ErrorFeedback.args = {
-    messages: {
-        title: "Something went wrong",
-        description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.",
+export const ErrorFeedback: StoryObj<typeof ErrorFeedbackComponent> = {
+    args: {
+        messages: {
+            title: "Something went wrong",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.",
+        },
     },
 };

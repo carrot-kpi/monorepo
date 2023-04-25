@@ -1,14 +1,14 @@
 import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { Skeleton as SkeletonComponent, SkeletonProps } from ".";
+import { Skeleton as SkeletonComponent, type SkeletonProps } from ".";
 
 export default {
     title: "Feedback/Skeleton",
     component: SkeletonComponent,
-} as ComponentMeta<typeof SkeletonComponent>;
+} as Meta<typeof SkeletonComponent>;
 
-const Template: Story<SkeletonProps> = (props: SkeletonProps) => {
+const Component = (props: SkeletonProps) => {
     return (
         <div className="cui-flex cui-flex-col cui-gap-2">
             <SkeletonComponent {...props} />
@@ -16,8 +16,10 @@ const Template: Story<SkeletonProps> = (props: SkeletonProps) => {
     );
 };
 
-export const Skeleton: Story<SkeletonProps> = Template.bind({});
-Skeleton.args = {
-    width: 100,
-    height: 20,
+export const Skeleton: StoryObj<typeof SkeletonComponent> = {
+    render: Component,
+    args: {
+        width: 100,
+        height: 20,
+    },
 };

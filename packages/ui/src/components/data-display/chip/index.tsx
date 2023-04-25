@@ -4,6 +4,7 @@ import { Typography } from "../typography";
 
 const rootStyles = mergedCva([
     "cui-bg-transparent",
+    "cui-w-fit",
     "cui-p-1",
     "cui-px-2",
     "cui-text-xs",

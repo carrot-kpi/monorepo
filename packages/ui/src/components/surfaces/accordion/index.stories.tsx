@@ -1,5 +1,5 @@
 import React from "react";
-import { ComponentMeta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { Accordion, Accordion as AccordionComponent } from ".";
 import { AccordionSummary } from "./summary";
@@ -9,9 +9,9 @@ import { Typography } from "../../data-display/typography";
 export default {
     title: "Surfaces/Accordions",
     component: AccordionComponent,
-} as ComponentMeta<typeof AccordionComponent>;
+} as Meta<typeof AccordionComponent>;
 
-export const Accordions = () => (
+const Component = () => (
     <div>
         <Accordion>
             <AccordionSummary>
@@ -75,3 +75,7 @@ export const Accordions = () => (
         </Accordion>
     </div>
 );
+
+export const Accordions: StoryObj<typeof AccordionComponent> = {
+    render: Component,
+};

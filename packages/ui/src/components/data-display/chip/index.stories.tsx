@@ -1,21 +1,20 @@
 import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { Chip as ChipComponent, ChipProps } from ".";
+import { Chip as ChipComponent } from ".";
 
 export default {
     title: "Data display/Chip",
-    component: ChipComponent,
-} as ComponentMeta<typeof ChipComponent>;
+    component: (props) => (
+        <div className="cui-flex cui-gap-2">
+            <ChipComponent {...props} />
+            <ChipComponent {...props} />
+        </div>
+    ),
+} as Meta<typeof ChipComponent>;
 
-const Template: Story<ChipProps> = (props: ChipProps) => (
-    <div className="cui-flex cui-gap-2">
-        <ChipComponent {...props} />
-        <ChipComponent {...props} />
-    </div>
-);
-
-export const Chip: Story<ChipProps> = Template.bind({});
-Chip.args = {
-    children: "Chip example",
+export const Chip: StoryObj<typeof ChipComponent> = {
+    args: {
+        children: "Chip example",
+    },
 };

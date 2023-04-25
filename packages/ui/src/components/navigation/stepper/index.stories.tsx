@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 
 import { Stepper as StepperComponent } from ".";
 import { Card, CardContent, CardTitle } from "../../surfaces";
@@ -8,9 +8,9 @@ import { Typography } from "../../data-display";
 export default {
     title: "Navigation/Stepper",
     component: StepperComponent,
-} as ComponentMeta<typeof StepperComponent>;
+} as Meta<typeof StepperComponent>;
 
-export const Stepper = () => {
+const Component = () => {
     const [step, setStep] = useState<number>(0);
 
     return (
@@ -74,4 +74,8 @@ export const Stepper = () => {
             </div>
         </div>
     );
+};
+
+export const Stepper = {
+    render: Component,
 };

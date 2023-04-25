@@ -1,14 +1,14 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { Checkbox as CheckboxComponent, CheckboxProps } from ".";
 
 export default {
     title: "Input/Checkbox",
     component: CheckboxComponent,
-} as ComponentMeta<typeof CheckboxComponent>;
+} as Meta<typeof CheckboxComponent>;
 
-const Template: Story<CheckboxProps> = (props: CheckboxProps) => {
+const Component = (props: CheckboxProps) => {
     const [checked, setChecked] = useState(false);
 
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +24,9 @@ const Template: Story<CheckboxProps> = (props: CheckboxProps) => {
     );
 };
 
-export const Checkbox: Story<CheckboxProps> = Template.bind({
-    label: "Checkbox",
-});
+export const Checkbox: StoryObj<typeof CheckboxComponent> = {
+    render: Component,
+    args: {
+        label: "Checkbox",
+    },
+};

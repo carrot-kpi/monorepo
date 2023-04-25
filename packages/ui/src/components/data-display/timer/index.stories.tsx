@@ -1,18 +1,14 @@
-import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { Timer as TimerComponent, TimerProps } from ".";
+import { Timer as TimerComponent } from ".";
 
 export default {
     title: "Data display/Timer",
     component: TimerComponent,
-} as ComponentMeta<typeof TimerComponent>;
+} as Meta<typeof TimerComponent>;
 
-const Template: Story<TimerProps> = (props: TimerProps) => {
-    return <TimerComponent {...props} />;
-};
-
-export const Timer: Story<TimerProps> = Template.bind({});
-Timer.args = {
-    to: Math.floor(Date.now() + (86_400 * 2) / 1000),
+export const Timer: StoryObj<typeof TimerComponent> = {
+    args: {
+        to: Math.floor(Date.now() + (86_400 * 2) / 1000),
+    },
 };

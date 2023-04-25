@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { RadioGroup as RadioGroupComponent, RadioGroupProps } from ".";
 import { Radio } from "../radio";
@@ -7,14 +7,14 @@ import { Radio } from "../radio";
 export default {
     title: "Input/Radio Group",
     component: RadioGroupComponent,
-} as ComponentMeta<typeof RadioGroupComponent>;
+} as Meta<typeof RadioGroupComponent>;
 
 enum RadioValue {
     YES = "yes",
     NO = "no",
 }
 
-const Template: Story<RadioGroupProps> = (props: RadioGroupProps) => {
+const Component = (props: RadioGroupProps) => {
     const [radioValue, setRadioValue] = useState(RadioValue.YES);
 
     const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,4 +39,6 @@ const Template: Story<RadioGroupProps> = (props: RadioGroupProps) => {
     );
 };
 
-export const RadioGroup: Story<RadioGroupProps> = Template.bind({});
+export const RadioGroup: StoryObj<typeof RadioGroupComponent> = {
+    render: Component,
+};
