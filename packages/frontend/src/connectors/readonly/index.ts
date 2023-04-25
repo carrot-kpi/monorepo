@@ -25,16 +25,12 @@ export class ReadonlyConnector extends Connector<
         super(config);
     }
 
-    public getChainIdFromState() {
-        return store.getState().chain.id;
-    }
-
     public async connect({ chainId }: { chainId?: number } = {}): Promise<
         Required<ConnectorData>
     > {
         let targetChainId = chainId;
         if (!targetChainId || this.isChainUnsupported(targetChainId)) {
-            const lastUsedChainId = this.getChainIdFromState();
+            const lastUsedChainId = store.getState().chain.id;
             if (lastUsedChainId && !this.isChainUnsupported(lastUsedChainId)) {
                 targetChainId = lastUsedChainId;
             }
@@ -48,7 +44,7 @@ export class ReadonlyConnector extends Connector<
         provider.on("chainChanged", this.onChainChanged);
         provider.on("disconnect", this.onDisconnect);
 
-        const id = targetChainId || this.getChainIdFromState();
+        const id = targetChainId || store.getState().chain.id;
 
         const unsupported = this.isChainUnsupported(id);
 
