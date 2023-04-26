@@ -22,8 +22,8 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,.md}'",
-        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,.md}'",
+        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,md}'",
+        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,md}'",
         "clean": "rimraf ./build && rimraf ./dist",
         "build": "yarn clean && GENERATE_SOURCEMAP=false craco build",
         "build-library": "yarn clean && rollup -c rollup.config.mjs",
