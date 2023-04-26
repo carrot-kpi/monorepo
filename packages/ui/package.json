@@ -69,7 +69,6 @@
         "@fontsource/inter": "^4.5.15",
         "@rollup/plugin-commonjs": "^24.1.0",
         "@rollup/plugin-node-resolve": "^15.0.2",
-        "@rollup/plugin-url": "^8.0.1",
         "@size-limit/preset-small-lib": "^8.1.0",
         "@storybook/addon-actions": "^7.0.7",
         "@storybook/addon-essentials": "^7.0.7",

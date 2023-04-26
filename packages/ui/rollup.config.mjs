@@ -6,7 +6,6 @@ import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
-import url from "@rollup/plugin-url";
 
 export default [
     {
