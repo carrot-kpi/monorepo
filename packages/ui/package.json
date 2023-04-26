@@ -38,7 +38,6 @@
         "@ethersproject/bignumber": "^5.7.0",
         "@ethersproject/units": "^5.7.0",
         "@popperjs/core": "^2.11.7",
-        "@tailwindcss/line-clamp": "^0.4.2",
         "@tiptap/extension-placeholder": "2.0.3",
         "@tiptap/pm": "^2.0.3",
         "@tiptap/react": "2.0.3",

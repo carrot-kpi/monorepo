@@ -47,8 +47,13 @@ body {
 }
 
 .shadow-horizontal-scroller {
-    box-shadow: inset 10px 0 10px var(--tw-shadow-color),
-        inset -10px 0 10px var(--tw-shadow-color);
+    box-shadow: inset -20px 0 12px -12px var(--tw-shadow-color),
+        inset 20px 0 12px -12px var(--tw-shadow-color);
+}
+
+.shadow-vertical-scroller {
+    box-shadow: inset 0 -20px 12px -12px var(--tw-shadow-color),
+        inset 0 20px 12px -12px var(--tw-shadow-color);
 }
 
 @media (min-width: 600px) {
