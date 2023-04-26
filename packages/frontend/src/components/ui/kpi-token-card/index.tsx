@@ -74,7 +74,7 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                 <div className="h-58">
                     <div className="relative">
                         <div className="absolute pointer-events-none top-0 left-0 w-full h-full shadow-vertical-scroller shadow-white dark:shadow-black" />
-                        <div className="h-40 p-4 overflow-y-auto scrollbar-none ">
+                        <div className="h-40 p-4 overflow-y-auto scrollbar-none">
                             {!loading && !!resolvedKPIToken ? (
                                 <Markdown>
                                     {resolvedKPIToken.specification.description}
