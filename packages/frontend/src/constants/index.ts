@@ -16,8 +16,6 @@ export interface AugmentedChain extends Chain {
     iconBackgroundColor: string;
 }
 
-// FunctionComponent<SVGProps<SVGSVGElement> & { title?: string | undefined; }>
-// FunctionComponent<SVGProps<SVGSVGElement>> & { title?: string | undefined; }
 export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
     [ChainId.GNOSIS]: {
         ...gnosis,
