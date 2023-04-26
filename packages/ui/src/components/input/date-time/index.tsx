@@ -10,7 +10,7 @@ import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
 import { TextInput } from "../text";
 import { Modal, Popover } from "../../utils";
-import { ReactComponent as Calendar } from "../../../assets/calendar.svg";
+import Calendar from "../../../icons/calendar";
 import { DateTimePicker, DateTimePickerProps } from "./picker";
 import { useClickAway } from "react-use";
 import dayjs from "dayjs";

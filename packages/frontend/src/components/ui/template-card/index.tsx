@@ -99,6 +99,7 @@ export const KPITokenTemplateCard = ({
                 </div>
             </div>
             <Link
+                className="h-14 flex items-center justify-center space-y-4 border-t border-gray-600 dark:border-white"
                 to={
                     !loading && !!resolvedTemplate
                         ? `/create/${resolvedTemplate.id}`
@@ -106,13 +107,11 @@ export const KPITokenTemplateCard = ({
                 }
                 state={{ template: resolvedTemplate }}
             >
-                <div className="h-14 flex items-center justify-center space-y-4 border-t border-gray-600 dark:border-white">
-                    {!loading && !!resolvedTemplate ? (
-                        <Typography weight="medium">↳ USE TEMPLATE</Typography>
-                    ) : (
-                        <Skeleton width="40%" />
-                    )}
-                </div>
+                {!loading && !!resolvedTemplate ? (
+                    <Typography weight="medium">↳ USE TEMPLATE</Typography>
+                ) : (
+                    <Skeleton width="40%" />
+                )}
             </Link>
         </div>
     );

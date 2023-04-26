@@ -92,6 +92,8 @@ const Component = (props: ERC20TokenPickerProps) => {
         setOpen(false);
     }, []);
 
+    console.log({ open });
+
     return (
         <>
             <div className="cui-flex cui-flex-col cui-gap-2">

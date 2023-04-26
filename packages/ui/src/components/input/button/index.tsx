@@ -8,7 +8,7 @@ import React, {
     ReactNode,
     SVGProps,
 } from "react";
-import { ReactComponent as Spinner } from "../../../assets/spinner.svg";
+import Spinner from "../../../icons/spinner";
 import { mergedCva, mergedCx } from "../../../utils/components";
 
 const buttonStyles = mergedCva(

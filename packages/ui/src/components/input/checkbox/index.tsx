@@ -7,9 +7,9 @@ import React, {
     useState,
 } from "react";
 import { Typography } from "../../data-display";
-import { ReactComponent as InfoIcon } from "../../../assets/info-icon.svg";
+import Info from "../../../icons/info";
 import { BaseInputWrapperProps, infoIconStyles } from "../commons";
-import { ReactComponent as Tick } from "../../../assets/tick.svg";
+import Tick from "../../../icons/tick";
 import { mergedCva } from "../../../utils/components";
 import { Popover } from "../../utils";
 
@@ -154,7 +154,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                     </Typography>
                     {info && (
                         <>
-                            <InfoIcon
+                            <Info
                                 ref={setInfoIcon}
                                 className={infoIconStyles({
                                     className: className?.infoIcon,

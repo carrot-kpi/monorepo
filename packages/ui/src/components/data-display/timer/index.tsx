@@ -1,12 +1,17 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Typography, TypographyProps } from "../typography";
-import { ReactComponent as ClockSvg } from "../../../assets/clock.svg";
+import Clock from "../../../icons/clock";
 import { mergedCva } from "../../../utils/components";
 import { getDurationFromNowToUNIXTimestamp } from "../../../utils/date";
 
 const rootStyles = mergedCva(["cui-flex", "cui-gap-2", "cui-items-center"]);
 
-const iconStyles = mergedCva(["cui-text-black", "dark:cui-text-white"]);
+const iconStyles = mergedCva([
+    "cui-text-black",
+    "dark:cui-text-white",
+    "cui-w-5",
+    "cui-h-5",
+]);
 
 export interface TimerProps {
     to: number;
@@ -48,9 +53,7 @@ export const Timer = ({
             className={{ root: rootStyles({ className: className?.root }) }}
         >
             {icon && (
-                <ClockSvg
-                    className={iconStyles({ className: className?.icon })}
-                />
+                <Clock className={iconStyles({ className: className?.icon })} />
             )}
             {duration.format(
                 seconds ? "DD[D] HH[H] mm[M] ss[S]" : "DD[D] HH[H] mm[M]"

@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as Logo } from "../../../assets/logo.svg";
+import Logo from "../../../icons/logo";
 import { FooterLink } from "../../../constants";
 import { FooterLinks } from "./footer-column";
 

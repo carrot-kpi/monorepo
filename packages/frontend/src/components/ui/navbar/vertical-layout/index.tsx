@@ -2,8 +2,8 @@ import React, { MouseEventHandler, ReactElement } from "react";
 import { NavLink } from "react-router-dom";
 import { NavbarProps } from "..";
 import { ConnectWallet } from "../../../connect-wallet";
-import { ReactComponent as Logo } from "../../../../assets/logo.svg";
-import { ReactComponent as CloseIcon } from "../../../../assets/x.svg";
+import Logo from "../../../../icons/logo";
+import CloseIcon from "../../../../icons/x";
 
 interface NavbarVerticalLayoutProps {
     mode: NavbarProps["mode"];

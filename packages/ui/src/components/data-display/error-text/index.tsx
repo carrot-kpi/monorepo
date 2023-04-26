@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 import { mergedCva } from "../../../utils/components";
-import { ReactComponent as DangerIcon } from "../../../assets/danger-icon.svg";
+import DangerIcon from "../../../icons/danger";
 import { Typography, TypographyProps } from "../typography";
 
 const errorTextWrapperStyles = mergedCva([

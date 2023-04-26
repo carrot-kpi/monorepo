@@ -16,7 +16,7 @@
         "@graphprotocol/graph-cli": "0.38.0",
         "@graphprotocol/graph-ts": "0.29.3",
         "eslint-config-custom": "*",
-        "matchstick-as": "0.5.0",
-        "rimraf": "^4.1.2"
+        "matchstick-as": "0.5.2",
+        "rimraf": "^5.0.0"
     }
 }

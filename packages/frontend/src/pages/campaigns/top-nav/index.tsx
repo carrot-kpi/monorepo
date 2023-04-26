@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
 import { TextInput, Select, SelectOption } from "@carrot-kpi/ui";
 import { ToggleFiltersButton } from "./toggle-filters-button";
-import { ReactComponent as MagnifyingLens } from "../../../assets/magnifying-lens.svg";
+import MagnifyingLens from "../../../icons/magnifying-lens";
 import { t } from "i18next";
 
 interface CampaignsTopNavProps {
@@ -51,7 +51,6 @@ export const CampaignsTopNav = ({
                         />
                         <Select
                             label=""
-                            id="campaigns-filter-order"
                             onChange={onOrderingChange}
                             options={orderingOptions}
                             placeholder="Latest"
@@ -66,7 +65,6 @@ export const CampaignsTopNav = ({
                     <div className="flex flex-row-reverse gap-5 md:flex-row">
                         <Select
                             label=""
-                            id="campaigns-filter-state"
                             onChange={onStateChange}
                             options={stateOptions}
                             placeholder="Latest"
@@ -84,7 +82,6 @@ export const CampaignsTopNav = ({
                     iconPlacement="left"
                     type="search"
                     placeholder={t("search")}
-                    id="search-input-campaigns"
                     onChange={handleSearchChange}
                     value={searchInputValue}
                 />

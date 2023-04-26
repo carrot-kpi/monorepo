@@ -46,7 +46,6 @@ export const CheckboxesFilter = ({
                         return (
                             <Checkbox
                                 key={`${groupId}-${item.id}`}
-                                id={`${groupId}-${item.id}`}
                                 label={item.specification.name}
                                 checked={selected.has(item.address)}
                                 data-address={item.address}

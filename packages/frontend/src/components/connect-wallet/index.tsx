@@ -1,8 +1,8 @@
 import { ChainId } from "@carrot-kpi/sdk";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SUPPORTED_CHAINS } from "../../constants";
-import { ReactComponent as Error } from "../../assets/error.svg";
-import { ReactComponent as CaretDown } from "../../assets/caret-down.svg";
+import Error from "../../icons/error";
+import CaretDown from "../../icons/caret-down";
 import { useTranslation } from "react-i18next";
 import { Button, Typography } from "@carrot-kpi/ui";
 import { useNetwork, useAccount } from "wagmi";

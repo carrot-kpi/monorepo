@@ -37,35 +37,6 @@ module.exports = {
             ],
             include: path.resolve(__dirname, "../"),
         });
-
-        // makes svg import with svgr work
-        config.module.rules.push({
-            test: /\.svg$/,
-            use: [
-                {
-                    loader: "@svgr/webpack",
-                    options: {
-                        prettier: false,
-                        svgo: false,
-                        svgoConfig: {
-                            plugins: [{ removeViewBox: false }],
-                        },
-                        titleProp: true,
-                        ref: true,
-                    },
-                },
-                {
-                    loader: "file-loader",
-                    options: {
-                        name: "static/media/[path][name].[ext]",
-                    },
-                },
-            ],
-            type: "javascript/auto",
-            issuer: {
-                and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
-            },
-        });
         return config;
     },
 };

@@ -8,7 +8,7 @@ import RcSwitch, {
 export interface SwitchProps
     extends Omit<
         React.HTMLAttributes<HTMLButtonElement>,
-        "onChange" | "onClick"
+        "onChange" | "onClick" | "dangerouslySetInnerHTML"
     > {
     className?: string;
     disabled?: boolean;

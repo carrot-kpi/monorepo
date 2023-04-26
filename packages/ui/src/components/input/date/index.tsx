@@ -11,7 +11,7 @@ import { BaseInputProps } from "../commons";
 import dayjs from "dayjs";
 import { TextInput } from "../text";
 import { Modal, Popover } from "../../utils";
-import { ReactComponent as Calendar } from "../../../assets/calendar.svg";
+import Calendar from "../../../icons/calendar";
 import { DatePicker, DatePickerProps } from "./picker";
 import { useClickAway } from "react-use";
 

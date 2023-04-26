@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 
-import { ReactComponent as TickIcon } from "../../../assets/tick.svg";
+import Tick from "../../../icons/tick";
 import { Button as ButtonComponent } from ".";
 
 export default {
@@ -17,14 +17,14 @@ export const Default: StoryObj<typeof ButtonComponent> = {
 export const WithIcon: StoryObj<typeof ButtonComponent> = {
     args: {
         children: "Button",
-        icon: TickIcon,
+        icon: Tick,
         iconPlacement: "left",
     },
 };
 
 export const IconOnly: StoryObj<typeof ButtonComponent> = {
     args: {
-        icon: TickIcon,
+        icon: Tick,
         size: "xsmall",
     },
 };
@@ -33,7 +33,7 @@ export const Secondary: StoryObj<typeof ButtonComponent> = {
     args: {
         children: "Secondary",
         variant: "secondary",
-        icon: TickIcon,
+        icon: Tick,
         size: "xsmall",
     },
 };
@@ -41,7 +41,7 @@ export const Secondary: StoryObj<typeof ButtonComponent> = {
 export const Active: StoryObj<typeof ButtonComponent> = {
     args: {
         children: "I'm active",
-        icon: TickIcon,
+        icon: Tick,
         iconPlacement: "left",
         size: "xsmall",
         active: true,
@@ -51,7 +51,7 @@ export const Active: StoryObj<typeof ButtonComponent> = {
 export const ActiveSecondary: StoryObj<typeof ButtonComponent> = {
     args: {
         children: "secondary with active",
-        icon: TickIcon,
+        icon: Tick,
         iconPlacement: "left",
         size: "xsmall",
         active: true,

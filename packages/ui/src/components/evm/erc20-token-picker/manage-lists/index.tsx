@@ -1,7 +1,7 @@
 import React, { MouseEvent, useCallback } from "react";
 import { Typography, TypographyProps } from "../../../data-display/typography";
-import { ReactComponent as X } from "../../../../assets/x.svg";
-import { ReactComponent as ChevronLeft } from "../../../../assets/chevron-left.svg";
+import X from "../../../../icons/x";
+import ChevronLeft from "../../../../icons/chevron-left";
 import { TokenListWithBalance } from "../types";
 import { RemoteLogo, RemoteLogoProps } from "../../../data-display/remote-logo";
 import { Divider, DividerProps } from "../divider";
