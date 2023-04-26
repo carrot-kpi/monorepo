@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, Ref, useCallback } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
-import { ReactComponent as X } from "../../../../assets/x.svg";
+import X from "../../../../icons/x";
 import { mergedCva } from "../../../../utils/components";
 import { tokenInfoWithBalanceEquals } from "../../../../utils/erc20";
 import { Typography, TypographyProps } from "../../../data-display/typography";
@@ -161,8 +161,8 @@ export const Search = ({
                             return (
                                 <FixedSizeList
                                     ref={fixedListRef}
-                                    height={height}
-                                    width={width}
+                                    height={height || 0}
+                                    width={width || 0}
                                     itemCount={loading ? 10 : tokens.length}
                                     itemData={
                                         loading

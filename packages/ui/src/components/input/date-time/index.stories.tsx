@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { DateTimeInput as DateTimeInputComponent, DateTimeInputProps } from ".";
 
 export default {
     title: "Input/Date Time Picker",
     component: DateTimeInputComponent,
-} as ComponentMeta<typeof DateTimeInputComponent>;
+} as Meta<typeof DateTimeInputComponent>;
 
-const Template: Story<DateTimeInputProps> = (props: DateTimeInputProps) => {
+const Component = (props: DateTimeInputProps) => {
     const [value, setValue] = useState<Date | undefined>();
 
     return (
@@ -16,9 +16,11 @@ const Template: Story<DateTimeInputProps> = (props: DateTimeInputProps) => {
     );
 };
 
-export const DateTimePicker: Story<DateTimeInputProps> = Template.bind({});
-DateTimePicker.args = {
-    label: "Datetime input",
-    placeholder: "Datetime input",
-    min: new Date(),
+export const DateTimePicker: StoryObj<typeof DateTimeInputComponent> = {
+    render: Component,
+    args: {
+        label: "Datetime input",
+        placeholder: "Datetime input",
+        min: new Date(),
+    },
 };

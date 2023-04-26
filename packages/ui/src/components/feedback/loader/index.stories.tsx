@@ -1,22 +1,14 @@
-import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { Loader as LoaderComponent, LoaderProps } from ".";
+import { Loader as LoaderComponent } from ".";
 
 export default {
     title: "Feedback/Loader",
     component: LoaderComponent,
-} as ComponentMeta<typeof LoaderComponent>;
+} as Meta<typeof LoaderComponent>;
 
-const Template: Story<LoaderProps> = (props: LoaderProps) => {
-    return (
-        <div>
-            <LoaderComponent {...props} />
-        </div>
-    );
-};
-
-export const Loader: Story<LoaderProps> = Template.bind({});
-Loader.args = {
-    className: "cui-w-24",
+export const Loader: StoryObj<typeof LoaderComponent> = {
+    args: {
+        className: "cui-w-24",
+    },
 };

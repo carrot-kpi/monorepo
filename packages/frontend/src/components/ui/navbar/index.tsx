@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { ReactComponent as Logo } from "../../../assets/logo.svg";
+import Logo from "../../../icons/logo";
 import { cva } from "class-variance-authority";
-import { ReactComponent as MenuIcon } from "../../../assets/menu.svg";
+import MenuIcon from "../../../icons/menu";
 import { ConnectWallet } from "../../connect-wallet";
-import { ReactComponent as X } from "../../../assets/x.svg";
-import { ReactComponent as SettingsIcon } from "../../../assets/settings.svg";
+import X from "../../../icons/x";
+import SettingsIcon from "../../../icons/settings";
 import { Button } from "@carrot-kpi/ui";
 import { PreferencesPopover } from "./popovers/preferences";
 import { useClickAway, useWindowSize } from "react-use";

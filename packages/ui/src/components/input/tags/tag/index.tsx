@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { ReactElement } from "react";
 import { Typography, TypographyProps } from "../../../data-display/typography";
-import { ReactComponent as RemoveIcon } from "../../../../assets/remove-icon.svg";
+import Remove from "../../../../icons/remove";
 import { mergedCva } from "../../../../utils/components";
 
 const tagStyles = mergedCva([
@@ -41,7 +41,7 @@ export const Tag = ({
             <Typography variant="xs" uppercase className={className?.text}>
                 {text}
             </Typography>
-            <RemoveIcon
+            <Remove
                 className={iconStyles({ className: className?.removeIcon })}
                 onClick={handleRemove}
             />

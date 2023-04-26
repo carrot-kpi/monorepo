@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as LoaderSvg } from "../../../assets/loader.svg";
+import LoaderIcon from "../../../icons/loader";
 import { mergedCx } from "../../../utils/components";
 
 export interface LoaderProps {
@@ -7,5 +7,5 @@ export interface LoaderProps {
 }
 
 export const Loader = ({ className }: LoaderProps) => (
-    <LoaderSvg className={mergedCx("cui-animate-pulse", className)} />
+    <LoaderIcon className={mergedCx("cui-animate-pulse", className)} />
 );

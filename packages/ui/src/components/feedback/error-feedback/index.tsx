@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Typography, TypographyProps } from "../../data-display";
-import { ReactComponent as ErrorSvg } from "../../../assets/error.svg";
+import Error from "../../../icons/error";
 import { mergedCx } from "../../../utils/components";
 
 export interface ErrorFeedbackProps {
@@ -21,7 +21,7 @@ export const ErrorFeedback = ({
 }: ErrorFeedbackProps): ReactElement => {
     return (
         <div className="cui-flex cui-flex-col cui-gap-4 cui-items-center cui-p-8 cui-max-w-lg cui-rounded-xl cui-border cui-border-black dark:cui-border-white cui-bg-white dark:cui-bg-black">
-            <ErrorSvg
+            <Error
                 className={mergedCx(
                     "cui-text-black dark:cui-text-white",
                     className?.icon

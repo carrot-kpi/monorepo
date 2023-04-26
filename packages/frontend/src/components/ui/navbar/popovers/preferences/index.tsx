@@ -83,7 +83,6 @@ export const PreferencesPopover = forwardRef<
                     ref={setDarkThemeSwitch}
                 >
                     <Select
-                        id="theme-select"
                         disabled
                         options={themeOptions}
                         value={

@@ -72,23 +72,22 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
             </CardTitle>
             <CardContent>
                 <div className="h-58">
-                    <div className="h-40 overflow-hidden px-4 pt-4">
-                        {!loading && !!resolvedKPIToken ? (
-                            <Markdown
-                                className={{
-                                    root: "prose prose-headings:mt-0 line-clamp-5 overflow-hidden",
-                                }}
-                            >
-                                {resolvedKPIToken.specification.description}
-                            </Markdown>
-                        ) : (
-                            <div className="flex flex-col gap-3">
-                                <Skeleton width="100%" />
-                                <Skeleton width="100%" />
-                                <Skeleton width="100%" />
-                                <Skeleton width="20%" />
-                            </div>
-                        )}
+                    <div className="relative">
+                        <div className="absolute pointer-events-none top-0 left-0 w-full h-full shadow-vertical-scroller shadow-white dark:shadow-black" />
+                        <div className="h-40 p-4 overflow-y-auto scrollbar-none">
+                            {!loading && !!resolvedKPIToken ? (
+                                <Markdown>
+                                    {resolvedKPIToken.specification.description}
+                                </Markdown>
+                            ) : (
+                                <div className="flex flex-col gap-3">
+                                    <Skeleton width="100%" />
+                                    <Skeleton width="100%" />
+                                    <Skeleton width="100%" />
+                                    <Skeleton width="20%" />
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className="relative h-16 py-4">
                         <div className="absolute pointer-events-none top-0 left-0 w-full h-full shadow-horizontal-scroller shadow-white dark:shadow-black" />

@@ -1,18 +1,18 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import React, { useState } from "react";
 
 import { MultiStepCards as MultiStepCardsComponent } from ".";
 import { Typography } from "../../data-display";
-import { TextInput } from "../../input";
+import { TagsInput, TextInput } from "../../input";
 import { NextStepButton } from "./next-button";
 import { StepCard } from "./step-card";
 
 export default {
     title: "Navigation/Multi Step Cards",
     component: MultiStepCardsComponent,
-} as ComponentMeta<typeof MultiStepCardsComponent>;
+} as Meta<typeof MultiStepCardsComponent>;
 
-export const MultiStepCards = () => {
+const Component = () => {
     const [step, setStep] = useState<number>(0);
 
     const handleStepNext = () => {
@@ -99,4 +99,8 @@ export const MultiStepCards = () => {
             </StepCard>
         </MultiStepCardsComponent>
     );
+};
+
+export const MultiStepCards: StoryObj<typeof TagsInput> = {
+    render: Component,
 };

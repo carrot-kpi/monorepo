@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { PaginationBall } from "./pagination-ball";
-import { ReactComponent as ArrowIcon } from "../../assets/arrow.svg";
+import ArrowIcon from "../../icons/arrow";
 import { cva } from "class-variance-authority";
 
 const createArrayBetweenRange = (start: number, end: number) =>

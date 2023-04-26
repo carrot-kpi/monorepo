@@ -1,10 +1,10 @@
 import React, { ReactNode } from "react";
-import { ReactComponent as CommunityDrivenLogo } from "../../../assets/marquee/community-driven.svg";
-import { ReactComponent as NetworkLogo } from "../../../assets/marquee/network.svg";
-import { ReactComponent as Decentralized100Logo } from "../../../assets/marquee/decentralized100.svg";
-import { ReactComponent as StarsLogo } from "../../../assets/marquee/stars.svg";
-import { ReactComponent as CommunityLogo } from "../../../assets/marquee/community.svg";
-import { ReactComponent as ClaimBounties } from "../../../assets/marquee/claim-bounties.svg";
+import CommunityDrivenLogo from "../../../icons/marquee/community-driven";
+import NetworkLogo from "../../../icons/marquee/network";
+import Decentralized100Logo from "../../../icons/marquee/decentralized100";
+import StarsLogo from "../../../icons/marquee/stars";
+import CommunityLogo from "../../../icons/marquee/community";
+import ClaimBounties from "../../../icons/marquee/claim-bounties";
 import { cva } from "class-variance-authority";
 
 const GreenLogos = () => (

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { Popover as PopoverComponent, PopoverProps } from ".";
 import { Typography } from "../../data-display/typography";
@@ -7,9 +7,9 @@ import { Typography } from "../../data-display/typography";
 export default {
     title: "Utils/Popover",
     component: PopoverComponent,
-} as ComponentMeta<typeof PopoverComponent>;
+} as Meta<typeof PopoverComponent>;
 
-const Template: Story<PopoverProps> = (props: PopoverProps) => {
+const Component = (props: PopoverProps) => {
     const [anchor, setAnchor] = useState<HTMLDivElement | null>(null);
     const [open, setOpen] = useState(false);
 
@@ -40,5 +40,6 @@ const Template: Story<PopoverProps> = (props: PopoverProps) => {
     );
 };
 
-export const Popover: Story<PopoverProps> = Template.bind({});
-Popover.args = {};
+export const Popover: StoryObj<typeof PopoverComponent> = {
+    render: Component,
+};

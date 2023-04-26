@@ -5,7 +5,7 @@ import { useNetwork } from "wagmi";
 import { ChainIcon } from "../../../chain-icon";
 import { AugmentedChain, SUPPORTED_CHAINS } from "../../../../constants";
 import { ChainId } from "@carrot-kpi/sdk";
-import { ReactComponent as Error } from "../../../../assets/error.svg";
+import Error from "../../../../icons/error";
 
 interface NetworksPopoverProps {
     open: boolean;

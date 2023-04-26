@@ -1,16 +1,10 @@
-import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { Switch as SwitchComponent, SwitchProps } from ".";
+import { Switch as SwitchComponent } from ".";
 
 export default {
     title: "Input/Switch",
     component: SwitchComponent,
-} as ComponentMeta<typeof SwitchComponent>;
+} as Meta<typeof SwitchComponent>;
 
-const Template: Story<SwitchProps> = (props: SwitchProps) => (
-    <SwitchComponent {...props} />
-);
-
-export const Switch: Story<SwitchProps> = Template.bind({});
-Switch.args = {};
+export const Switch: StoryObj<typeof SwitchComponent> = { args: {} };

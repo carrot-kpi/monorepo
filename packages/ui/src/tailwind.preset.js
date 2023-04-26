@@ -5,8 +5,5 @@ const { theme } = require("./tailwind.preset.theme");
 module.exports = {
     darkMode: ["class", '[class~="dark"]'],
     theme,
-    plugins: [
-        require("@tailwindcss/typography"),
-        require("@tailwindcss/line-clamp"),
-    ],
+    plugins: [require("@tailwindcss/typography")],
 };

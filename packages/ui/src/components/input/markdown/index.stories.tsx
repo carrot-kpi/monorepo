@@ -1,19 +1,15 @@
-import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { MarkdownInput as MarkdownInputComponent, MarkdownInputProps } from ".";
+import { MarkdownInput as MarkdownInputComponent } from ".";
 
 export default {
     title: "Input/Markdown",
     component: MarkdownInputComponent,
-} as ComponentMeta<typeof MarkdownInputComponent>;
+} as Meta<typeof MarkdownInputComponent>;
 
-const Template: Story<MarkdownInputProps> = (props) => (
-    <MarkdownInputComponent {...props} />
-);
-
-export const Markdown: Story<MarkdownInputProps> = Template.bind({});
-Markdown.args = {
-    label: "Markdown input",
-    placeholder: "Markdown input",
+export const Markdown: StoryObj<typeof MarkdownInputComponent> = {
+    args: {
+        label: "Markdown input",
+        placeholder: "Markdown input",
+    },
 };

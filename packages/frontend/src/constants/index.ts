@@ -2,15 +2,17 @@ import { ChainId } from "@carrot-kpi/sdk";
 import { FunctionComponent, SVGProps } from "react";
 import { gnosis, sepolia } from "wagmi/chains";
 import { Chain } from "wagmi/chains";
-import { ReactComponent as EthereumLogo } from "../assets/chains/ethereum.svg";
-import { ReactComponent as GnosisLogo } from "../assets/chains/gnosis.svg";
+import EthereumLogo from "../icons/chains/ethereum";
+import GnosisLogo from "../icons/chains/gnosis";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
 export interface AugmentedChain extends Chain {
-    logo: FunctionComponent<SVGProps<SVGSVGElement>>;
+    logo: FunctionComponent<
+        SVGProps<SVGSVGElement> & { title?: string | undefined }
+    >;
     iconBackgroundColor: string;
 }
 
@@ -105,7 +107,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             },
             {
                 title: "Brand Assets",
-                to: "/brand-assets",
+                to: "/brand-icons",
             },
         ],
     },

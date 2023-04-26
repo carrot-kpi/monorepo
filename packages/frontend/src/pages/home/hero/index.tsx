@@ -4,7 +4,7 @@ import { FeaturedCampaigns } from "../../../components/featured-campaigns";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
-import { ReactComponent as Plus } from "../../../assets/plus.svg";
+import Plus from "../../../icons/plus";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
 import { CreateCampaignButton } from "../../../components/create-campaign-button";

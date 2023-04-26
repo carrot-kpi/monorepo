@@ -15,15 +15,15 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,.md}'",
-        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,.md}'",
+        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,md}'",
+        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,md}'",
         "build": "yarn clean && rollup -c rollup.config.mjs",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
         "size-limit": "size-limit"
     },
     "dependencies": {
-        "@reduxjs/toolkit": "^1.9.3",
+        "@reduxjs/toolkit": "^1.9.5",
         "lodash.debounce": "^4.0.8",
         "react-redux": "^8.0.5"
     },
@@ -31,15 +31,15 @@
         "react": "^18.2.0"
     },
     "devDependencies": {
-        "@rollup/plugin-commonjs": "^24.0.1",
-        "@rollup/plugin-node-resolve": "^15.0.1",
+        "@rollup/plugin-commonjs": "^24.1.0",
+        "@rollup/plugin-node-resolve": "^15.0.2",
         "@size-limit/preset-small-lib": "^8.1.0",
         "@types/lodash.debounce": "^4.0.7",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
-        "eslint": "^8.33.0",
+        "eslint": "^8.39.0",
         "eslint-config-custom": "*",
-        "rimraf": "^4.1.2",
-        "rollup": "^3.2.3",
+        "rimraf": "^5.0.0",
+        "rollup": "^3.21.0",
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-typescript2": "^0.34.0",
         "size-limit": "^8.1.0",

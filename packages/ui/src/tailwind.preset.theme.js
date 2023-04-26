@@ -26,7 +26,7 @@ const RAW_BODY_TEXT_CONFIG = Object.entries(BODY_TEXT_SIZES_REM).reduce(
             remSize,
             {
                 lineHeight: scale(remSize, 1.8),
-                letterSpacing: scale(remSize, 0.02),
+                letterSpacing: scale(remSize, 0.015),
                 fontFamily: MONO_FONT_FAMILY,
             },
         ];
@@ -52,7 +52,7 @@ const RAW_HEADING_TEXT_CONFIG = Object.entries(HEADING_TEXT_SIZES_REM).reduce(
             remSize,
             {
                 lineHeight: scale(remSize, 1.2),
-                letterSpacing: scale(remSize, 0.02),
+                letterSpacing: scale(remSize, 0.015),
                 marginTop: scale(remSize, 0.8),
                 marginBottom: scale(remSize, 0.6),
                 fontWeight: "700",

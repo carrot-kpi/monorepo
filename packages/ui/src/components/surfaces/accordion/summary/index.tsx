@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 import { useAccordionContext } from "../context";
-import { ReactComponent as ChevronUp } from "../../../../assets/chevron-up.svg";
+import ChevronUp from "../../../../icons/chevron-up";
 import { mergedCva } from "../../../../utils/components";
 
 export interface SummaryProps {

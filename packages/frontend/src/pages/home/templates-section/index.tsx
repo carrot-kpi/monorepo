@@ -25,7 +25,7 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
             >
                 {t("home.templates")}
             </Typography>
-            <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32">
+            <CardHorizontal className="px-6 md:px-10 lg:px-32">
                 {loading ? (
                     <>
                         <KPITokenTemplateCard />

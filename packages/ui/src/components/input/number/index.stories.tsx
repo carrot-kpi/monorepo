@@ -1,21 +1,17 @@
-import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { NumberInput as NumberInputComponent, NumberInputProps } from ".";
+import { NumberInput as NumberInputComponent } from ".";
 
 export default {
     title: "Input/Number",
     component: NumberInputComponent,
-} as ComponentMeta<typeof NumberInputComponent>;
+} as Meta<typeof NumberInputComponent>;
 
-const Template: Story<NumberInputProps> = (props: NumberInputProps) => (
-    <NumberInputComponent {...props} />
-);
-
-export const Number: Story<NumberInputProps> = Template.bind({});
-Number.args = {
-    variant: "md",
-    label: "Number input",
-    placeholder: "Number input",
-    error: false,
+export const Number: StoryObj<typeof NumberInputComponent> = {
+    args: {
+        variant: "md",
+        label: "Number input",
+        placeholder: "Number input",
+        error: false,
+    },
 };

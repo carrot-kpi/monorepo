@@ -9,8 +9,8 @@ import React, {
     useId,
 } from "react";
 import { BaseInputProps } from "../commons";
-import { ReactComponent as ChevronUp } from "../../../assets/chevron-up.svg";
-import { ReactComponent as ChevronDown } from "../../../assets/chevron-down.svg";
+import ChevronUp from "../../../icons/chevron-up";
+import ChevronDown from "../../../icons/chevron-down";
 import { Popover } from "../../utils/popover";
 import { TextInput } from "../text";
 import { useClickAway } from "react-use";
