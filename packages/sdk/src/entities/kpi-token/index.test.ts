@@ -17,7 +17,8 @@ describe("kpi token", () => {
             "Template specification description",
             ["tag 1", "tag 2"],
             "Repository",
-            "Commit hash"
+            "Commit hash",
+            "https://staging-url.com"
         );
         template = new ResolvedTemplate(
             0,

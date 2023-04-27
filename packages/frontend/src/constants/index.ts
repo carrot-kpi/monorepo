@@ -22,7 +22,7 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         ...gnosis,
         logo: GnosisLogo,
         iconBackgroundColor: "#04795b",
-        enabled: !__STAGING__,
+        enabled: !__STAGING_MODE__,
     },
     [ChainId.SEPOLIA]: {
         ...sepolia,
