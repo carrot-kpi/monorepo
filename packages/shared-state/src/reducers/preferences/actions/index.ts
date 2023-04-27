@@ -17,6 +17,10 @@ export const setDevMode = createAction<PreferencesState["devMode"]>(
     "preferences/setDevMode"
 );
 
+export const setStagingMode = createAction<PreferencesState["stagingMode"]>(
+    "preferences/setStagingMode"
+);
+
 export const setKPITokenTemplateBaseURL = createAction<
     PreferencesState["kpiTokenTemplateBaseURL"]
 >("preferences/setKPITokenTemplateBaseURL");

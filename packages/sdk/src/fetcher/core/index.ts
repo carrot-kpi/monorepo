@@ -249,7 +249,8 @@ export class CoreFetcher implements ICoreFetcher {
                     parsedTemplateSpecification.description,
                     parsedTemplateSpecification.tags,
                     parsedTemplateSpecification.repository,
-                    parsedTemplateSpecification.commitHash
+                    parsedTemplateSpecification.commitHash,
+                    parsedTemplateSpecification.stagingURL
                 );
                 return ResolvedTemplate.from(template, specification);
             })
