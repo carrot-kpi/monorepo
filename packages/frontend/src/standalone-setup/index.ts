@@ -4,7 +4,7 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { infuraProvider } from "wagmi/providers/infura";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { SUPPORTED_CHAINS } from "../constants";
+import { ENABLED_CHAINS } from "../constants";
 import { ReadonlyConnector } from "../connectors";
 import { Chain, ChainProviderFn, Connector } from "wagmi";
 import { FrameConnector } from "../connectors/frame";
@@ -16,7 +16,7 @@ export let standaloneSupportedChains: Chain[] = [];
 export let standaloneProviders: ChainProviderFn[] = [];
 export let getStandaloneConnectors: () => Connector[] = () => [];
 if (!__PREVIEW_MODE__) {
-    standaloneSupportedChains = Object.values(SUPPORTED_CHAINS);
+    standaloneSupportedChains = Object.values(ENABLED_CHAINS);
     standaloneProviders = [
         infuraProvider({ apiKey: INFURA_PROJECT_ID }),
         jsonRpcProvider({

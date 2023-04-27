@@ -6,6 +6,7 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "./constants";
 
 declare global {
     const __PREVIEW_MODE__: boolean;
+    const __STAGING__: boolean;
 }
 
 declare module "i18next" {

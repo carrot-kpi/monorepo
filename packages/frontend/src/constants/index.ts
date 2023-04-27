@@ -14,6 +14,7 @@ export interface AugmentedChain extends Chain {
         SVGProps<SVGSVGElement> & { title?: string | undefined }
     >;
     iconBackgroundColor: string;
+    enabled: boolean;
 }
 
 export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
@@ -21,15 +22,32 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         ...gnosis,
         logo: GnosisLogo,
         iconBackgroundColor: "#04795b",
+        enabled: !__STAGING__,
     },
     [ChainId.SEPOLIA]: {
         ...sepolia,
         logo: EthereumLogo,
         iconBackgroundColor: "#8637ea",
+        enabled: true,
     },
 };
 
-export const DEFAULT_CHAIN: Chain = Object.values(SUPPORTED_CHAINS)[0];
+export const ENABLED_CHAINS: { [chainId: number]: AugmentedChain } =
+    Object.entries(SUPPORTED_CHAINS).reduce(
+        (
+            accumulator: { [chainId: number]: AugmentedChain },
+            [chainId, augmentedChain]
+        ) => {
+            if (augmentedChain.enabled)
+                accumulator[parseInt(chainId)] = augmentedChain;
+            return accumulator;
+        },
+        {}
+    );
+
+export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
+    (chain) => chain.enabled
+)[0];
 
 export interface NavbarLink {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

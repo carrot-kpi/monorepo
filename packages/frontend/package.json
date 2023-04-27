@@ -29,7 +29,8 @@
         "build-library": "yarn clean && rollup -c rollup.config.mjs",
         "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
         "size-limit": "size-limit",
-        "start": "craco start"
+        "start": "craco start",
+        "start-staging": "STAGING=true craco start"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
