@@ -18,6 +18,7 @@ export default [
                 preventAssignment: true,
                 values: {
                     __PREVIEW_MODE__: JSON.stringify(true),
+                    __STAGING_MODE__: JSON.stringify(false),
                 },
             }),
             peerDepsExternal(),
