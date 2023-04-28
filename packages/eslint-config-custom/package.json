@@ -7,8 +7,8 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "prettier --check './*.{json,md,js}'",
-        "format": "prettier --write './*.{json,md,js}'"
+        "lint": "prettier --check './**/*.{json,md,js}'",
+        "format": "prettier --write './**/*.{json,md,js}'"
     },
     "peerDependencies": {
         "eslint-config-prettier": "^8.8.0",

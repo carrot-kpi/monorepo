@@ -18,8 +18,8 @@
     },
     "repository": "https://github.com/carrot-kpi/frontend-monorepo.git",
     "scripts": {
-        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './*.{json,md}'",
-        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './*.{json,md}'",
+        "lint": "eslint --ext .tsx,.ts ./src && prettier --check './**/*.{json,md}'",
+        "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
         "build": "yarn clean && rollup -c rollup.config.mjs",
         "clean": "rimraf ./dist",
         "test": "jest",
