@@ -30,6 +30,7 @@ import dayjs from "dayjs";
 import { ReadonlyConnector } from "./connectors";
 import { ThemeUpdater } from "./updaters/theme";
 import { MultiChainLinksUpdater } from "./updaters/multi-chain-links";
+import { initializeFathom } from "./analiytics/fathom";
 
 export * from "./connectors/template-testing";
 
@@ -122,6 +123,15 @@ if (!__PREVIEW_MODE__) {
             <Root />
         </StrictMode>
     );
+
+    if (process.env.NODE_ENV === "production")
+        initializeFathom("YPUQOWIV")
+            .then(() => {
+                console.log("fathom initialized successfully");
+            })
+            .catch((error) => {
+                console.error("could not initialize fathom", error);
+            });
 
     if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
         navigator.serviceWorker
