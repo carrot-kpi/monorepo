@@ -13,7 +13,14 @@ export interface RemoteContainer {
     get: (module: any) => Promise<() => any>;
 }
 
+declare global {
+    interface Window {
+        [key: string]: RemoteContainer;
+    }
+}
+
 export const useFederatedModuleContainer = (
+    type: "creationForm" | "page",
     baseUrl?: string,
     entry?: string
 ) => {
@@ -23,9 +30,7 @@ export const useFederatedModuleContainer = (
     useEffect(() => {
         if (!entry || !baseUrl) return;
         let cancelled = false;
-        let localContainer = <RemoteContainer | undefined>(
-            window[entry as keyof Window]
-        );
+        let localContainer = window[entry];
         if (!!localContainer && localContainer.__initialized) {
             setContainer(localContainer);
             return;
@@ -53,15 +58,17 @@ export const useFederatedModuleContainer = (
                     scriptTag.type = "application/javascript";
                     scriptTag.async = true;
                     scriptTag.onload = async () => {
-                        localContainer = <RemoteContainer | undefined>(
-                            window[entry as keyof Window]
+                        const tmpContainer = <RemoteContainer | undefined>(
+                            window[type]
                         );
-                        if (!localContainer) {
+                        if (!tmpContainer) {
                             console.warn(
                                 "container still undefined after federated module import"
                             );
                             return;
                         }
+                        window[entry] = tmpContainer;
+                        localContainer = window[entry];
                         try {
                             if (!localContainer.__initialized) {
                                 await localContainer.init(shareScope);
@@ -96,7 +103,7 @@ export const useFederatedModuleContainer = (
         return () => {
             cancelled = true;
         };
-    }, [baseUrl, entry]);
+    }, [baseUrl, entry, type]);
 
     return { loading, container };
 };

@@ -5,6 +5,7 @@ import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
 import { State, useSelector } from "@carrot-kpi/shared-state";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { useStagingMode } from "./useStagingMode";
+import { useNetwork } from "wagmi";
 
 interface CachedModule {
     Component: FunctionComponent<unknown>;
@@ -27,23 +28,24 @@ export const useTemplateModule = (
             ? state.preferences.kpiTokenTemplateBaseURL
             : state.preferences.oracleTemplateBaseURL
     );
+    const { chain } = useNetwork();
     const stagingMode = useStagingMode();
     const ipfsGatewayURL = useIPFSGatewayURL();
 
-    const { baseUrl, entry } = useMemo(() => {
-        if (!template) return {};
+    const { baseURL, entry } = useMemo(() => {
+        if (!template || !chain) return {};
         let root;
         if (customBaseURL) root = customBaseURL;
         else if (stagingMode && template.specification.stagingURL)
             root = template.specification.stagingURL;
         else root = `${ipfsGatewayURL}/ipfs/${template.specification.cid}`;
         return {
-            baseUrl: root.endsWith("/") ? `${root}${type}` : `${root}/${type}`,
-            entry: `${template.specification.commitHash}${type}`,
+            baseURL: root.endsWith("/") ? `${root}${type}` : `${root}/${type}`,
+            entry: `${chain.id}-${template.address}-${type}`,
         };
-    }, [customBaseURL, ipfsGatewayURL, stagingMode, template, type]);
+    }, [chain, customBaseURL, ipfsGatewayURL, stagingMode, template, type]);
     const { loading: loadingFederatedModule, container } =
-        useFederatedModuleContainer(baseUrl, entry);
+        useFederatedModuleContainer(type, baseURL, entry);
 
     const [loadingExport, setLoadingExport] = useState(false);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
