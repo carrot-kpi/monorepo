@@ -22,7 +22,7 @@
         "test": "echo 'No tests' && exit 0",
         "size-limit": "size-limit",
         "release": "yarn publish",
-        "sync-fathom-events": "npx ts-node ./bin/sync-fathom-events/index.ts"
+        "sync-fathom-events": "npx ts-node ./scripts/sync-fathom-events/index.ts"
     },
     "dependencies": {
         "@carrot-kpi/sdk": "*",
