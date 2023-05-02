@@ -77,23 +77,18 @@ export function TemplateComponent({
     if (loading || !template || !Component) return <>{fallback}</>;
     return (
         <div
-            id={`carrot-template-${template.specification.commitHash}-${type}`}
-            className={className?.root}
+            className={wrapperStyles({
+                dark,
+                className: className?.root,
+            })}
         >
-            <div
-                className={wrapperStyles({
-                    dark,
-                    className: className?.wrapper,
-                })}
-            >
-                <ErrorBoundary fallback={error}>
-                    <Component
-                        {...additionalProps}
-                        i18n={i18n}
-                        t={translateWithNamespace}
-                    />
-                </ErrorBoundary>
-            </div>
+            <ErrorBoundary fallback={error}>
+                <Component
+                    {...additionalProps}
+                    i18n={i18n}
+                    t={translateWithNamespace}
+                />
+            </ErrorBoundary>
         </div>
     );
 }
