@@ -4,6 +4,7 @@ import { FathomRegisteredEventName, getEventId } from "../analytics/generated";
 
 export const useFathom = () => {
     const [fathom, setFathom] = useState<Fathom | null>(null);
+    const fathomObject = window?.fathom;
 
     useEffect(() => {
         if (!window || !window.fathom) {
@@ -27,7 +28,7 @@ export const useFathom = () => {
         };
 
         setFathom(window.fathom as Fathom);
-    }, []);
+    }, [fathomObject]);
 
     return fathom;
 };
