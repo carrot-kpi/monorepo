@@ -22,6 +22,10 @@ export const useAddTransaction = () => {
             })
         );
         if (!fathom) return;
-        fathom.trackRegisteredGoal(TX_FATHOM_EVENTS[tx.type], 0);
+        try {
+            fathom.trackRegisteredGoal(TX_FATHOM_EVENTS[tx.type], 0);
+        } catch (error) {
+            console.error("could not track registered fathom goal", error);
+        }
     };
 };
