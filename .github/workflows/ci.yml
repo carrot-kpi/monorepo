@@ -30,6 +30,8 @@ jobs:
       - name: Test
         run: yarn test
       - name: Build
+        env:
+          REACT_APP_FATHOM_SITE_ID: ${{ secrets.REACT_APP_FATHOM_SITE_ID }}
         run: yarn build
       - name: Size check
         run: yarn size-limit

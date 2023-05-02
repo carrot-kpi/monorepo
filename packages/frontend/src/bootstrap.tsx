@@ -125,7 +125,7 @@ if (!__PREVIEW_MODE__) {
     );
 
     if (process.env.NODE_ENV === "production")
-        initializeFathom("YPUQOWIV")
+        initializeFathom(process.env.REACT_APP_FATHOM_SITE_ID)
             .then(() => {
                 console.log("fathom initialized successfully");
             })
