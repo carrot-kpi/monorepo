@@ -29,6 +29,11 @@ jobs:
         run: yarn lint
       - name: Test
         run: yarn test
+      - name: Generate Fathom code
+        env:
+          REACT_APP_FATHOM_SITE_ID: ${{ secrets.REACT_APP_FATHOM_SITE_ID }}
+          REACT_APP_FATHOM_API_KEY: ${{ secrets.REACT_APP_FATHOM_API_KEY }}
+        run: yarn sync-fathom-events
       - name: Build
         env:
           REACT_APP_FATHOM_SITE_ID: ${{ secrets.REACT_APP_FATHOM_SITE_ID }}

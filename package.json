@@ -12,6 +12,7 @@
         "build": "turbo run build",
         "build-frontend-library": "turbo run build-library --filter @carrot-kpi/frontend",
         "build-storybook": "turbo run build-storybook --filter @carrot-kpi/ui",
+        "sync-fathom-events": "turbo run sync-fathom-events --filter @carrot-kpi/react",
         "lint": "turbo run lint",
         "format": "turbo run format",
         "start": "turbo run start",

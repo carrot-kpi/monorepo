@@ -1,6 +1,9 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
+        "sync-fathom-events": {
+            "env": ["REACT_APP_FATHOM_SITE_ID", "REACT_APP_FATHOM_API_KEY"]
+        },
         "build": {
             "dependsOn": ["^build"],
             "outputs": ["dist/**", "build/**"]
@@ -35,5 +38,9 @@
         "lint": {},
         "format": {}
     },
-    "globalEnv": ["NODE_ENV", "REACT_APP_FATHOM_SITE_ID"]
+    "globalEnv": [
+        "NODE_ENV",
+        "REACT_APP_FATHOM_SITE_ID",
+        "REACT_APP_FATHOM_API_KEY"
+    ]
 }
