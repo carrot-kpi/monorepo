@@ -12,8 +12,10 @@ module.exports = {
                     shared,
                 }),
                 new webpack.DefinePlugin({
-                    __PREVIEW_MODE__: JSON.stringify(false),
-                    __STAGING_MODE__: JSON.stringify(process.env.STAGING === "true"),
+                    __LIBRARY_MODE__: JSON.stringify(false),
+                    __STAGING_MODE__: JSON.stringify(
+                        process.env.STAGING === "true"
+                    ),
                 }),
                 new webpack.ProvidePlugin({
                     Buffer: ["buffer", "Buffer"],

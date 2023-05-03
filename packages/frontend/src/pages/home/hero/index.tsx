@@ -86,7 +86,7 @@ export const Hero = () => {
                         <Button variant="primary" size="big">
                             <Link to="/campaigns">{t("campaign.all")}</Link>
                         </Button>
-                        {!__PREVIEW_MODE__ && <CreateCampaignButton />}
+                        {!__LIBRARY_MODE__ && <CreateCampaignButton />}
                     </div>
                 </div>
             )}

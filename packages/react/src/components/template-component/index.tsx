@@ -9,7 +9,7 @@ import { useMedia } from "react-use";
 import { ErrorBoundary } from "../error-boundary";
 import { BaseTemplateComponentProps } from "../../types";
 
-const wrapperStyles = cva(["h-full"], {
+const wrapperStyles = cva(["w-full", "h-full"], {
     variants: {
         dark: {
             true: ["dark"],

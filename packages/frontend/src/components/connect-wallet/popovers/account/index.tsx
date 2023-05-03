@@ -115,7 +115,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                                 root: copyAddressStyles({ copiedToClipboard }),
                             }}
                         />
-                        {!__PREVIEW_MODE__ && (
+                        {!__LIBRARY_MODE__ && (
                             <Button
                                 size="xsmall"
                                 icon={External}

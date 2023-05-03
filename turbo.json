@@ -5,7 +5,7 @@
             "dependsOn": ["^build"],
             "outputs": ["dist/**", "build/**"]
         },
-        "build-library": {
+        "build:library": {
             "dependsOn": ["^build"],
             "outputs": ["dist/**"]
         },
@@ -35,5 +35,10 @@
         "lint": {},
         "format": {}
     },
-    "globalEnv": ["NODE_ENV"]
+    "globalEnv": [
+        "NODE_ENV",
+        "REACT_APP_INFURA_PROJECT_ID",
+        "REACT_APP_WALLETCONNECT_PROJECT_ID",
+        "CI"
+    ]
 }
