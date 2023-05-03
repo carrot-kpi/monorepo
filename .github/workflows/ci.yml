@@ -6,9 +6,6 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
-env:
-  REACT_APP_INFURA_PROJECT_ID: ${{ vars.REACT_APP_INFURA_PROJECT_ID }}
-  REACT_APP_WALLETCONNECT_PROJECT_ID: ${{ vars.REACT_APP_WALLETCONNECT_PROJECT_ID }}
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -33,6 +30,9 @@ jobs:
       - name: Test
         run: yarn test
       - name: Build
+        env:
+          REACT_APP_INFURA_PROJECT_ID: ${{ secrets.REACT_APP_INFURA_PROJECT_ID }}
+          REACT_APP_WALLETCONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLETCONNECT_PROJECT_ID }}
         run: yarn build
       - name: Size check
         run: yarn size-limit
