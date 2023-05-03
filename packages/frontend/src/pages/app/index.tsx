@@ -53,8 +53,8 @@ export const App = ({
     const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
     const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
 
-    if (__PREVIEW_MODE__) setPreferDecentralization(true);
-    setDevMode(__PREVIEW_MODE__);
+    if (__LIBRARY_MODE__) setPreferDecentralization(true);
+    setDevMode(__LIBRARY_MODE__);
     setStagingMode(__STAGING_MODE__);
     setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
     setOracleTemplateBaseURL(oracleTemplateBaseURL);

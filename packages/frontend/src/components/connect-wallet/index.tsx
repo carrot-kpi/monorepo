@@ -94,7 +94,7 @@ export const ConnectWallet = () => {
         : Error;
     return (
         <>
-            {!__PREVIEW_MODE__ && (
+            {!__LIBRARY_MODE__ && (
                 <NetworksPopover
                     open={networksPopoverOpen}
                     anchor={networksPopoverAnchor}
@@ -120,7 +120,7 @@ export const ConnectWallet = () => {
             <div className="flex gap-4">
                 <div
                     className={`h-12 w-fit flex items-center ${
-                        __PREVIEW_MODE__ || !multipleEnabledChains
+                        __LIBRARY_MODE__ || !multipleEnabledChains
                             ? ""
                             : "cursor-pointer"
                     } gap-3`}
@@ -148,7 +148,7 @@ export const ConnectWallet = () => {
                             {supportedChain ? chainName : "Unsupported"}
                         </Typography>
                     </div>
-                    {!__PREVIEW_MODE__ && multipleEnabledChains && (
+                    {!__LIBRARY_MODE__ && multipleEnabledChains && (
                         <CaretDown className="w-3" />
                     )}
                 </div>

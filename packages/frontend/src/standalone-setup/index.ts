@@ -9,16 +9,14 @@ import { ReadonlyConnector } from "../connectors";
 import { Chain, ChainProviderFn, Connector } from "wagmi";
 import { FrameConnector } from "../connectors/frame";
 
-const INFURA_PROJECT_ID = "c3838db5bd7548059b34406877c476c2";
-
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export let standaloneSupportedChains: Chain[] = [];
 export let standaloneProviders: ChainProviderFn[] = [];
 export let getStandaloneConnectors: () => Connector[] = () => [];
-if (!__PREVIEW_MODE__) {
+if (!__LIBRARY_MODE__) {
     standaloneSupportedChains = Object.values(ENABLED_CHAINS);
     standaloneProviders = [
-        infuraProvider({ apiKey: INFURA_PROJECT_ID }),
+        infuraProvider({ apiKey: process.env.REACT_APP_INFURA_PROJECT_ID }),
         jsonRpcProvider({
             rpc: () => {
                 return {
@@ -32,7 +30,6 @@ if (!__PREVIEW_MODE__) {
         new InjectedConnector({
             chains: standaloneSupportedChains,
             options: {
-                shimChainChangedDisconnect: true,
                 shimDisconnect: true,
                 name(detectedName) {
                     return detectedName
@@ -46,7 +43,6 @@ if (!__PREVIEW_MODE__) {
         new MetaMaskConnector({
             chains: standaloneSupportedChains,
             options: {
-                shimChainChangedDisconnect: true,
                 shimDisconnect: true,
             },
         }),
@@ -57,7 +53,7 @@ if (!__PREVIEW_MODE__) {
         new WalletConnectConnector({
             chains: standaloneSupportedChains,
             options: {
-                qrcode: true,
+                projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID,
             },
         }),
         new CoinbaseWalletConnector({

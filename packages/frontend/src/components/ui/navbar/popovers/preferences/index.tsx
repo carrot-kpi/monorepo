@@ -100,7 +100,7 @@ export const PreferencesPopover = forwardRef<
                     />
                 </div>
             </div>
-            {!__PREVIEW_MODE__ && (
+            {!__LIBRARY_MODE__ && (
                 <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <div className="flex gap-2 items-center">
                         <Typography>
