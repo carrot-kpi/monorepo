@@ -52,10 +52,13 @@ const syncFathomEvents = async (siteId?: string, authToken?: string) => {
             })
         );
 
-        console.log(`created ${newSiteEvents.length} new events on fathom`);
-        console.log(`synced ${fathomSiteEvents.length} events from fathom`);
+        console.log(`fathom sync ok`);
+        console.table({
+            created: newSiteEvents.length,
+            synced: fathomSiteEvents.length,
+        });
     } catch (error) {
-        console.error("fathom events sync failed", error);
+        console.error("fathom events sync ko", error);
         process.exit(1);
     }
 };

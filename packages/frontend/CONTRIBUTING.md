@@ -35,6 +35,9 @@ build it for a release:
 - `REACT_APP_WALLETCONNECT_PROJECT_ID`: a WalletConnect v2 project ID is
   required in order to enable WalletConnect based wallet connections. You can
   get one by registering [here](https://cloud.walletconnect.com).
+- `REACT_APP_FATHOM_SITE_ID`: id of an existing Fathom site, used to initialize
+  the anonymous tracking (this env is optional). You can get one by registering
+  [here](https://app.usefathom.com).
 
 After you have these envs, you should create a `.env` file in the root of the
 package (or copy the `.env.example` available at the root of the package) and
