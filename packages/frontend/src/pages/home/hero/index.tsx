@@ -2,7 +2,6 @@ import { Button, Loader, Typography } from "@carrot-kpi/ui";
 import React, { useEffect, useRef } from "react";
 import { FeaturedCampaigns } from "../../../components/featured-campaigns";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
-import { DXdaoSideLink } from "./DXdaoSideLink";
 import { Link } from "react-router-dom";
 import Plus from "../../../icons/plus";
 import { useTranslation } from "react-i18next";
@@ -90,9 +89,6 @@ export const Hero = () => {
                     </div>
                 </div>
             )}
-            <div className="absolute invisible left-4 top-1/3 lg:visible ">
-                <DXdaoSideLink />
-            </div>
             <Plus className={plusIconStyles({ y: "top", x: "left" })} />
             <Plus className={plusIconStyles({ y: "top", x: "right" })} />
             <Plus className={plusIconStyles({ y: "bottom", x: "left" })} />
