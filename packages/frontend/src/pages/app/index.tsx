@@ -11,6 +11,7 @@ import { Home } from "../home";
 import { Page } from "../page";
 import { Campaigns } from "../campaigns";
 import { CreateWithTemplateId } from "../create-with-template-id";
+import { useFathomTrackPageWatch } from "../../hooks/useFathomTrackPageWatch";
 import { usePreviousDistinct } from "react-use";
 import {
     useSetPreferDecentralization,
@@ -52,6 +53,8 @@ export const App = ({
     const setStagingMode = useSetStagingMode();
     const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
     const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
+
+    useFathomTrackPageWatch();
 
     if (__LIBRARY_MODE__) setPreferDecentralization(true);
     setDevMode(__LIBRARY_MODE__);

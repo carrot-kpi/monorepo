@@ -1,6 +1,7 @@
 {
     "extends": "tsconfig/react.json",
     "include": ["./src/**/*"],
+    "exclude": ["./src/analytics/generated.ts"],
     "compilerOptions": {
         "outDir": "./dist",
         "rootDir": "./src"
