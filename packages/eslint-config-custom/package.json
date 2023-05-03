@@ -7,17 +7,20 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "prettier --check .",
-        "format": "prettier --write ."
+        "lint": "prettier --check './**/*.{json,md,js}'",
+        "format": "prettier --write './**/*.{json,md,js}'"
     },
-    "dependencies": {
-        "eslint": "^8.33.0",
-        "eslint-config-prettier": "^8.6.0",
-        "eslint-config-turbo": "^0.0.7",
+    "peerDependencies": {
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-config-turbo": "^1.9.3",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.32.2"
     },
     "devDependencies": {
-        "prettier": "^2.8.4"
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-config-turbo": "^1.9.3",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-react": "^7.32.2",
+        "prettier": "^2.8.8"
     }
 }

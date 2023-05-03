@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { mergedCva } from "../../../utils/components";
 import { Typography } from "../../data-display";
-import { ReactComponent as InfoIcon } from "../../../assets/info-icon.svg";
+import Info from "../../../icons/info";
 import { BaseInputWrapperProps, infoIconStyles } from "../commons";
 import { Popover } from "../../utils";
 
@@ -145,7 +145,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
                 </Typography>
                 {info && (
                     <>
-                        <InfoIcon
+                        <Info
                             ref={setInfoIcon}
                             className={infoIconStyles({
                                 className: className?.infoIcon,

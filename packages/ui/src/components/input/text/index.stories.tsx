@@ -1,19 +1,15 @@
-import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { TextInput as TextInputComponent, TextInputProps } from ".";
+import { TextInput as TextInputComponent } from ".";
 
 export default {
     title: "Input/Text",
     component: TextInputComponent,
-} as ComponentMeta<typeof TextInputComponent>;
+} as Meta<typeof TextInputComponent>;
 
-const Template: Story<TextInputProps> = (props: TextInputProps) => (
-    <TextInputComponent {...props} />
-);
-
-export const Text: Story<TextInputProps> = Template.bind({});
-Text.args = {
-    label: "Text input",
-    placeholder: "Text input",
+export const Text: StoryObj<typeof TextInputComponent> = {
+    args: {
+        label: "Text input",
+        placeholder: "Text input",
+    },
 };

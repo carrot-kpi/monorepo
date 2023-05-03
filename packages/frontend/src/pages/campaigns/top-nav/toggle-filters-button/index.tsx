@@ -1,6 +1,6 @@
 import { Button } from "@carrot-kpi/ui";
 import React from "react";
-import { ReactComponent as FiltersIcon } from "../../../../assets/filters-icon.svg";
+import Filters from "../../../../icons/filters";
 
 interface ToggleButtonProps {
     toggle: () => void;
@@ -12,7 +12,7 @@ export const ToggleFiltersButton = ({ toggle, active }: ToggleButtonProps) => (
         variant="secondary"
         onClick={toggle}
         size="xsmall"
-        icon={FiltersIcon}
+        icon={Filters}
         active={active}
     />
 );

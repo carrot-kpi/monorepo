@@ -1,5 +1,5 @@
 import React from "react";
-import { ComponentMeta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { Card as CardComponent } from ".";
 import { CardContent } from "./content";
@@ -11,9 +11,9 @@ import { Button } from "../../input";
 export default {
     title: "Surfaces/Card",
     component: CardComponent,
-} as ComponentMeta<typeof CardComponent>;
+} as Meta<typeof CardComponent>;
 
-export const Card = () => (
+const Component = () => (
     <CardComponent>
         <CardTitle>
             <Typography uppercase>Card title</Typography>
@@ -37,3 +37,7 @@ export const Card = () => (
         </CardActions>
     </CardComponent>
 );
+
+export const Card: StoryObj<typeof CardComponent> = {
+    render: Component,
+};

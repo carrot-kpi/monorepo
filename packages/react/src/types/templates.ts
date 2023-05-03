@@ -18,7 +18,7 @@ export interface BaseTemplateComponentProps {
     fallback: ReactNode;
     error: ReactElement;
     i18n: i18n;
-    className?: { root?: string; wrapper?: string };
+    className?: { root?: string };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     additionalProps?: any;
 }

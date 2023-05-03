@@ -8,7 +8,7 @@ import {
 } from "@carrot-kpi/sdk";
 import { ReadContractConfig } from "@wagmi/core";
 import { useEffect, useState } from "react";
-import { useContractReads, useProvider } from "wagmi";
+import { Address, useContractReads, useProvider } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
@@ -72,24 +72,24 @@ export function useWatchKPIToken(
     const { data: readResults } = useContractReads({
         contracts: [
             {
-                address: kpiToken?.address,
+                address: kpiToken?.address as Address | undefined,
                 abi: KPI_TOKEN_ABI,
                 functionName: "data",
             },
             {
-                address: kpiToken?.address,
+                address: kpiToken?.address as Address | undefined,
                 abi: KPI_TOKEN_ABI,
                 functionName: "finalized",
             },
             ...(kpiToken?.oracles.reduce(
                 (accumulator: Partial<ReadContractConfig>[], oracle) => {
                     accumulator.push({
-                        address: oracle.address,
+                        address: oracle.address as Address,
                         abi: ORACLE_ABI,
                         functionName: "data",
                     });
                     accumulator.push({
-                        address: oracle.address,
+                        address: oracle.address as Address,
                         abi: ORACLE_ABI,
                         functionName: "finalized",
                     });

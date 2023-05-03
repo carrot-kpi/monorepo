@@ -114,7 +114,7 @@ export const Root = ({
     );
 };
 
-if (!__PREVIEW_MODE__) {
+if (!__LIBRARY_MODE__) {
     const container = document.getElementById("root");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const root = createRoot(container!);

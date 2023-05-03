@@ -10,7 +10,8 @@ describe("template", () => {
                 "Template specification description",
                 ["tag 1", "tag 2"],
                 "Repository",
-                "Commit hash"
+                "Commit hash",
+                "https://staging-url.com"
             );
             expect(templateSpecification.cid).toEqual("CID");
             expect(templateSpecification.name).toEqual("Name");
@@ -31,7 +32,8 @@ describe("template", () => {
                 "Template specification description",
                 ["tag 1", "tag 2"],
                 "Repository",
-                "Commit hash"
+                "Commit hash",
+                "https://staging-url.com"
             );
             const address = Wallet.createRandom().address;
             const template = new ResolvedTemplate(

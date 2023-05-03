@@ -1,10 +1,17 @@
-import React, { forwardRef, useRef, useState, useCallback, useId } from "react";
+import React, {
+    forwardRef,
+    useRef,
+    useState,
+    useCallback,
+    useId,
+    useEffect,
+} from "react";
 import { ReactElement } from "react";
 import { BaseInputProps } from "../commons";
 import dayjs from "dayjs";
 import { TextInput } from "../text";
-import { Popover } from "../../utils";
-import { ReactComponent as Calendar } from "../../../assets/calendar.svg";
+import { Modal, Popover } from "../../utils";
+import Calendar from "../../../icons/calendar";
 import { DatePicker, DatePickerProps } from "./picker";
 import { useClickAway } from "react-use";
 
@@ -37,6 +44,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
         const popoverRef = useRef<HTMLDivElement>(null);
         const [open, setOpen] = useState(false);
+        const [modal, setModal] = useState(false);
 
         const resolvedId = id || generatedId;
 
@@ -44,8 +52,26 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             setOpen(false);
         });
 
+        useEffect(() => {
+            const resizeObserver = new ResizeObserver((entries) => {
+                const { width } = entries[0].contentRect;
+                if (width < 640) setModal(true);
+                else setModal(false);
+            });
+
+            resizeObserver.observe(document.body);
+            return () => {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                resizeObserver.unobserve(document.body);
+            };
+        });
+
         const handlePickerOpen = useCallback(() => {
             setOpen(true);
+        }, []);
+
+        const handlePickerClose = useCallback(() => {
+            setOpen(false);
         }, []);
 
         const handleChange = useCallback(
@@ -84,22 +110,35 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                     onClick={handlePickerOpen}
                     value={value ? dayjs(value).format("L") : undefined}
                 />
-                <Popover
-                    anchor={anchorEl}
-                    ref={popoverRef}
-                    open={open}
-                    placement="bottom-start"
-                    className={{
-                        root: "cui-p-2 cui-flex cui-flex-col cui-gap-3",
-                    }}
-                >
-                    <DatePicker
-                        onChange={handleChange}
-                        value={value}
-                        min={min}
-                        max={max}
-                    />
-                </Popover>
+                {modal ? (
+                    <Modal open={open} onDismiss={handlePickerClose}>
+                        <div className="cui-p-3 cui-rounded-xxl cui-bg-white dark:cui-bg-black">
+                            <DatePicker
+                                value={value}
+                                onChange={handleChange}
+                                min={min}
+                                max={max}
+                            />
+                        </div>
+                    </Modal>
+                ) : (
+                    <Popover
+                        anchor={anchorEl}
+                        ref={popoverRef}
+                        open={open}
+                        placement="bottom-start"
+                        className={{
+                            root: "cui-p-3 cui-flex cui-flex-col cui-gap-3",
+                        }}
+                    >
+                        <DatePicker
+                            onChange={handleChange}
+                            value={value}
+                            min={min}
+                            max={max}
+                        />
+                    </Popover>
+                )}
             </>
         );
     }

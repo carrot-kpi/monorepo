@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { Modal as ModalComponent, ModalProps } from ".";
 import { Button } from "../../input";
@@ -8,9 +8,9 @@ import { Typography } from "../../data-display/typography";
 export default {
     title: "Utils/Modal",
     component: ModalComponent,
-} as ComponentMeta<typeof ModalComponent>;
+} as Meta<typeof ModalComponent>;
 
-const Template: Story<ModalProps> = (props: ModalProps) => {
+const Component = (props: ModalProps) => {
     const [open, setOpen] = useState(false);
 
     const handleClick = useCallback(() => {
@@ -33,5 +33,6 @@ const Template: Story<ModalProps> = (props: ModalProps) => {
     );
 };
 
-export const Modal: Story<ModalProps> = Template.bind({});
-Modal.args = {};
+export const Modal: StoryObj<typeof ModalComponent> = {
+    render: Component,
+};

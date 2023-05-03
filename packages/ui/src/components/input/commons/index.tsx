@@ -7,7 +7,7 @@ import React, {
     useCallback,
     useState,
 } from "react";
-import { ReactComponent as InfoIcon } from "../../../assets/info-icon.svg";
+import Info from "../../../icons/info";
 import { mergedCva } from "../../../utils/components";
 import { ErrorText } from "../../data-display/error-text";
 import { Typography, TypographyProps } from "../../data-display/typography";
@@ -248,7 +248,7 @@ export const BaseInputWrapper = ({
                     </Typography>
                     {info && (
                         <>
-                            <InfoIcon
+                            <Info
                                 ref={setInfoIcon}
                                 className={infoIconStyles({
                                     className: className?.infoIcon,

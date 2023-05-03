@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
 import React, { useCallback, useLayoutEffect, useState } from "react";
-import { ReactComponent as ChevronLeft } from "../../../../assets/chevron-left.svg";
-import { ReactComponent as ChevronRight } from "../../../../assets/chevron-right.svg";
+import ChevronLeft from "../../../../icons/chevron-left";
+import ChevronRight from "../../../../icons/chevron-right";
 import { CalendarCell, getCalendarCells } from "../../../../utils/date";
 import { Typography } from "../../../data-display";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";

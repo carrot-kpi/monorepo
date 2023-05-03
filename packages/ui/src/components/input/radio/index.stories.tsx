@@ -1,15 +1,10 @@
-import React from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-import { Radio as RadioComponent, RadioProps } from ".";
+import { Radio as RadioComponent } from ".";
 
 export default {
     title: "Input/Radio",
     component: RadioComponent,
-} as ComponentMeta<typeof RadioComponent>;
+} as Meta<typeof RadioComponent>;
 
-const Template: Story<RadioProps> = (props: RadioProps) => {
-    return <RadioComponent {...props} />;
-};
-
-export const Radio: Story<RadioProps> = Template.bind({});
+export const Radio: StoryObj<typeof RadioComponent> = {};

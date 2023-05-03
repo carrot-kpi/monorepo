@@ -2,7 +2,7 @@ import React from "react";
 import { Tx, TxType } from "@carrot-kpi/react";
 import { Skeleton, Typography } from "@carrot-kpi/ui";
 import { useTransactionSummary } from "../../../../../hooks/useTransactionSummary";
-import { ReactComponent as External } from "../../../../../assets/external.svg";
+import External from "../../../../../icons/external";
 import { getTransactionExplorerLink } from "../../../../../utils/explorers";
 import dayjs from "dayjs";
 import { useNetwork } from "wagmi";

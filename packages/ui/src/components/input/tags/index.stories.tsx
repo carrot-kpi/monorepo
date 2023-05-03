@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-import { ComponentMeta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { TagsInput as TagsInputComponent, TagsInputProps } from ".";
 
 export default {
     title: "Input/Tags",
     component: TagsInputComponent,
-} as ComponentMeta<typeof TagsInputComponent>;
+} as Meta<typeof TagsInputComponent>;
 
-const Template: Story<TagsInputProps> = (props: TagsInputProps) => {
+const Component = (props: TagsInputProps) => {
     const [tags, setTags] = useState<string[]>([]);
 
     return <TagsInputComponent {...props} value={tags} onChange={setTags} />;
 };
 
-export const Tags: Story<TagsInputProps> = Template.bind({});
-Tags.args = {
-    label: "Tags input",
-    placeholder: "Tags input",
-    value: ["tag1", "tag2"],
-    messages: { add: "Add" },
+export const Tags: StoryObj<typeof TagsInputComponent> = {
+    render: Component,
+    args: {
+        label: "Tags input",
+        placeholder: "Tags input",
+        value: ["tag1", "tag2"],
+        messages: { add: "Add" },
+    },
 };

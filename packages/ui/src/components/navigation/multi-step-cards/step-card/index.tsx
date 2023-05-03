@@ -6,6 +6,7 @@ import { Typography } from "../../../data-display";
 const rootStyles = mergedCva([
     "cui-relative",
     "cui-border",
+    "cui-border-black",
     "dark:cui-border-white",
     "cui-flex",
     "cui-max-w-xl",

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ComponentMeta, DecoratorFn, Story } from "@storybook/react";
+import { Meta, DecoratorFn, StoryObj } from "@storybook/react";
 
 import {
     ERC20TokenPicker as ERC20TokenPickerComponent,
@@ -43,11 +43,9 @@ export default {
     title: "EVM/ERC20 Token Picker",
     component: ERC20TokenPickerComponent,
     decorators: [WagmiDecorator],
-} as ComponentMeta<typeof ERC20TokenPickerComponent>;
+} as Meta<typeof ERC20TokenPickerComponent>;
 
-const Template: Story<ERC20TokenPickerProps> = (
-    props: ERC20TokenPickerProps
-) => {
+const Component = (props: ERC20TokenPickerProps) => {
     const {
         connect,
         isLoading: connecting,
@@ -66,9 +64,7 @@ const Template: Story<ERC20TokenPickerProps> = (
     useEffect(() => {
         let cancelled = false;
         const fetchData = async () => {
-            const response = await fetch(
-                "https://carrot-kpi.dev/token-list.json"
-            );
+            const response = await fetch("https://tokens.carrot-kpi.dev");
             if (!response.ok) {
                 console.warn("could not fetch carrot token list");
                 return;
@@ -145,5 +141,6 @@ const Template: Story<ERC20TokenPickerProps> = (
     );
 };
 
-export const ERC20TokenPicker: Story<ERC20TokenPickerProps> = Template.bind({});
-ERC20TokenPicker.args = {};
+export const ERC20TokenPicker: StoryObj<typeof ERC20TokenPickerComponent> = {
+    render: Component,
+};

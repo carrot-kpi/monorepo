@@ -1,5 +1,4 @@
 const path = require("path");
-
 module.exports = {
     stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(ts|tsx)"],
     addons: [
@@ -8,14 +7,14 @@ module.exports = {
         "@storybook/addon-interactions",
         "storybook-dark-mode",
     ],
-    framework: "@storybook/react",
+    framework: "@storybook/react-webpack5",
     typescript: { reactDocgen: "react-docgen-typescript" },
     core: {
-        builder: "@storybook/builder-webpack5",
         disableTelemetry: true,
     },
     staticDirs: ["../public"],
     webpackFinal: async (config) => {
+        // make tailwind work
         config.module.rules.push({
             test: /\.css$/,
             use: [
@@ -38,49 +37,6 @@ module.exports = {
             ],
             include: path.resolve(__dirname, "../"),
         });
-
-        // makes svg import with svgr work
-        config.module.rules
-            .filter((rule) => rule.test.test(".svg"))
-            .forEach((rule) => (rule.exclude = /\.svg$/i));
-        config.module.rules.push({
-            test: /\.svg$/,
-            use: [
-                {
-                    loader: "@svgr/webpack",
-                    options: {
-                        prettier: false,
-                        svgo: false,
-                        svgoConfig: {
-                            plugins: [{ removeViewBox: false }],
-                        },
-                        titleProp: true,
-                        ref: true,
-                    },
-                },
-                {
-                    loader: "file-loader",
-                    options: {
-                        name: "static/media/[path][name].[ext]",
-                    },
-                },
-            ],
-            type: "javascript/auto",
-            issuer: {
-                and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
-            },
-        });
-
-        config.resolve = {
-            ...config.resolve,
-            alias: {
-                "lodash/debounce": path.join(
-                    __dirname,
-                    "../../../node_modules/lodash.debounce/index.js"
-                ),
-            },
-        };
-
         return config;
     },
 };

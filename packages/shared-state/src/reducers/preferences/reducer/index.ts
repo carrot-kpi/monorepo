@@ -5,6 +5,7 @@ import {
     setKPITokenTemplateBaseURL,
     setOracleTemplateBaseURL,
     setPreferDecentralization,
+    setStagingMode,
     setTheme,
 } from "../actions";
 import { PreferencesState } from "../types";
@@ -13,8 +14,9 @@ const initialState: PreferencesState = {
     // TODO: use system as a default once the dark theme is available
     theme: "light",
     preferDecentralization: false,
-    ipfsGatewayURL: "https://carrot-kpi.dev",
+    ipfsGatewayURL: "https://gateway.carrot-kpi.dev",
     devMode: false,
+    stagingMode: false,
     kpiTokenTemplateBaseURL: undefined,
     oracleTemplateBaseURL: undefined,
 };
@@ -32,6 +34,9 @@ export const preferencesReducer = createReducer(initialState, (builder) =>
         })
         .addCase(setDevMode, (state, action) => {
             state.devMode = action.payload;
+        })
+        .addCase(setStagingMode, (state, action) => {
+            state.stagingMode = action.payload;
         })
         .addCase(setKPITokenTemplateBaseURL, (state, action) => {
             state.kpiTokenTemplateBaseURL = action.payload;

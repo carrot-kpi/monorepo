@@ -27,9 +27,9 @@ written in Typescript and managed through `yarn` workspaces and `turborepo`.
 
 The monorepo contains the following packages under the `packages` folder:
 
-- `@carrot-kpi/frontend`: the official implementation of the Carrot frontend
-  orchestrator, handling the various registered templates. Implemented using
-  Typescript and React.
+- `@carrot-kpi/host-frontend`: the official implementation of the Carrot host
+  frontend, presenting the various registered template frontends in a cohesive
+  way. Implemented using Typescript and React.
 - `@carrot-kpi/react`: utility library making it easier to interact with Carrot
   from a React application. It mainly exports utility hooks and components that
   make it easier to work with (mainly render) templates. The library is
@@ -46,8 +46,8 @@ The monorepo contains the following packages under the `packages` folder:
   with Typescript and documented with Storybook. The library is used extensively
   in the frontend to implement the various UI components.
 - `@carrot-kpi/shared-state`: an utility library that implements a shared state
-  store with Redux to be shared between the frontend's orchestrator and the
-  various templates running on Carrot.
+  store with Redux to be shared between the host frontend and the various
+  templates running on Carrot.
 - `@carrot-kpi/eslint-config-custom`: a custom ESLint configuration that exports
   ESlint configs for all the other packages. The per-project ESLint configs are
   adapted started from a base configuration with sane defaults to enforce

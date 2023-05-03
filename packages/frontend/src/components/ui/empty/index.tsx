@@ -2,7 +2,7 @@ import { Typography, TypographyProps } from "@carrot-kpi/ui";
 import { cva, cx } from "class-variance-authority";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ReactComponent as EmptyIllustration } from "../../../assets/empty.svg";
+import EmptyIllustration from "../../../icons/empty";
 
 const rootStyles = cva(
     [

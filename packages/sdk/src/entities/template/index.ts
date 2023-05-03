@@ -14,7 +14,8 @@ export class TemplateSpecification {
         public readonly description: string,
         public readonly tags: string[],
         public readonly repository: string,
-        public readonly commitHash: string
+        public readonly commitHash: string,
+        public readonly stagingURL?: string
     ) {}
 }
 export class ResolvedTemplate {

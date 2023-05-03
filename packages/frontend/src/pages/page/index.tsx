@@ -44,9 +44,9 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     }, [closing]);
 
     useEffect(() => {
-        if (!chain || !previousChain) return;
+        if (!show || !chain || !previousChain) return;
         setShow(previousChain.id === chain.id);
-    }, [chain, closing, previousChain]);
+    }, [chain, show, previousChain]);
 
     const handleDismiss = useCallback(() => {
         setShow(false);

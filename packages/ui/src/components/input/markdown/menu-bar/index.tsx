@@ -1,14 +1,14 @@
 import React, { ReactElement, useMemo } from "react";
 
 import { MenuItem } from "../menu-item";
-import { ReactComponent as H1Icon } from "../../../../assets/h1-icon.svg";
-import { ReactComponent as H2Icon } from "../../../../assets/h2-icon.svg";
-import { ReactComponent as BoldIcon } from "../../../../assets/bold-icon.svg";
-import { ReactComponent as CodeIcon } from "../../../../assets/code-icon.svg";
-import { ReactComponent as DoubleQuotesIcon } from "../../../../assets/double-quotes-icon.svg";
-import { ReactComponent as ItalicIcon } from "../../../../assets/italic-icon.svg";
-import { ReactComponent as ListOrderedIcon } from "../../../../assets/list-ordered-icon.svg";
-import { ReactComponent as ListUnorderedIcon } from "../../../../assets/list-unordered-icon.svg";
+import H1 from "../../../../icons/h1";
+import H2 from "../../../../icons/h2";
+import Bold from "../../../../icons/bold";
+import Code from "../../../../icons/code";
+import DoubleQuotes from "../../../../icons/double-quotes";
+import Italic from "../../../../icons/italic";
+import ListOrdered from "../../../../icons/list-ordered";
+import ListUnordered from "../../../../icons/list-unordered";
 import { Editor } from "@tiptap/react";
 import { mergedCva } from "../../../../utils/components";
 
@@ -36,51 +36,51 @@ export const MenuBar = ({ editor, focused }: MenuBarProps): ReactElement => {
     const items = useMemo(
         () => [
             {
-                icon: H1Icon,
+                icon: H1,
                 title: "Heading 1",
                 action: () =>
                     editor?.chain().focus().toggleHeading({ level: 1 }).run(),
                 isActive: () => !!editor?.isActive("heading", { level: 1 }),
             },
             {
-                icon: H2Icon,
+                icon: H2,
                 title: "Heading 2",
                 action: () =>
                     editor?.chain().focus().toggleHeading({ level: 2 }).run(),
                 isActive: () => !!editor?.isActive("heading", { level: 2 }),
             },
             {
-                icon: BoldIcon,
+                icon: Bold,
                 title: "Bold",
                 action: () => editor?.chain().focus().toggleBold().run(),
                 isActive: () => !!editor?.isActive("bold"),
             },
             {
-                icon: ItalicIcon,
+                icon: Italic,
                 title: "Italic",
                 action: () => editor?.chain().focus().toggleItalic().run(),
                 isActive: () => !!editor?.isActive("italic"),
             },
             {
-                icon: CodeIcon,
+                icon: Code,
                 title: "Code",
                 action: () => editor?.chain().focus().toggleCodeBlock().run(),
                 isActive: () => !!editor?.isActive("code"),
             },
             {
-                icon: DoubleQuotesIcon,
+                icon: DoubleQuotes,
                 title: "Blockquote",
                 action: () => editor?.chain().focus().toggleBlockquote().run(),
                 isActive: () => !!editor?.isActive("blockquote"),
             },
             {
-                icon: ListOrderedIcon,
+                icon: ListOrdered,
                 title: "Ordered List",
                 action: () => editor?.chain().focus().toggleOrderedList().run(),
                 isActive: () => !!editor?.isActive("orderedList"),
             },
             {
-                icon: ListUnorderedIcon,
+                icon: ListUnordered,
                 title: "Bullet List",
                 action: () => editor?.chain().focus().toggleBulletList().run(),
                 isActive: () => !!editor?.isActive("bulletList"),
