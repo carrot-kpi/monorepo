@@ -25,7 +25,7 @@
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './**/*.{json,md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
         "clean": "rimraf ./build && rimraf ./dist",
-        "build:standalone": "yarn clean && yarn check-env && GENERATE_SOURCEMAP=false craco build",
+        "build": "yarn clean && yarn check-env && GENERATE_SOURCEMAP=false craco build",
         "build:library": "yarn clean && yarn check-env && rollup -c rollup.config.mjs",
         "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
         "size-limit": "size-limit",

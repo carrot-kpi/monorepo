@@ -127,9 +127,9 @@ through Webpack it's set to `false`.
 
 Two different commands are available to build the host frontend:
 
-- `build:standalone`: this will build the host frontend in standalone mode. The
-  build's output will be placed under the `build` folder, which will contain a
-  frontend app ready to be published.
+- `build`: this will build the host frontend in standalone mode. The build's
+  output will be placed under the `build` folder, which will contain a frontend
+  app ready to be published.
 - `build:library`: this will bundle the app in library format, ready to be
   consumed by template developers that want functional playground modes for
   their template frontends. The end bundle is put under `dist` and the
