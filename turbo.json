@@ -38,6 +38,7 @@
     "globalEnv": [
         "NODE_ENV",
         "REACT_APP_INFURA_PROJECT_ID",
-        "REACT_APP_WALLETCONNECT_PROJECT_ID"
+        "REACT_APP_WALLETCONNECT_PROJECT_ID",
+        "CI"
     ]
 }
