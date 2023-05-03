@@ -93,10 +93,9 @@ spun up by Carrot Scripts).
 
 Two different commands are available to start a local dev build:
 
-- `start:standard`: this will start a local Webpack dev server serving the app
-  built to run in standard mode, which means the template federated modules will
-  be loaded from decentralized storage options using the on-chain specified
-  cids.
+- `start`: this will start a local Webpack dev server serving the app built to
+  run in standard mode, which means the template federated modules will be
+  loaded from decentralized storage options using the on-chain specified cids.
 - `start:staging`: this will start a local Webpack dev server serving the app
   built to run in staging mode, which means the template federated modules will
   be loaded from the specified `stagingURL` derived from the template's on-chain
