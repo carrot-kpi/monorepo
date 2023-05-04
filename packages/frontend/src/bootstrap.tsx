@@ -124,7 +124,7 @@ if (!__LIBRARY_MODE__) {
         </StrictMode>
     );
 
-    if (process.env.NODE_ENV === "production")
+    if (process.env.NODE_ENV === "production" && !__STAGING_MODE__)
         initializeFathom(process.env.REACT_APP_FATHOM_SITE_ID)
             .then(() => {
                 console.log("fathom initialized successfully");
