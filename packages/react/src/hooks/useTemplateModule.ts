@@ -17,7 +17,8 @@ const MODULE_CACHE: Record<string, CachedModule> = {};
 export const useTemplateModule = (
     entity: "kpiToken" | "oracle",
     type: "creationForm" | "page",
-    template?: ResolvedTemplate
+    template?: ResolvedTemplate,
+    entry?: string
 ) => {
     const customBaseURL = useSelector<
         State,
@@ -32,17 +33,14 @@ export const useTemplateModule = (
     const stagingMode = useStagingMode();
     const ipfsGatewayURL = useIPFSGatewayURL();
 
-    const { baseURL, entry } = useMemo(() => {
-        if (!template || !chain) return {};
+    const baseURL = useMemo(() => {
+        if (!template || !chain) return undefined;
         let root;
         if (customBaseURL) root = customBaseURL;
         else if (stagingMode && template.specification.stagingURL)
             root = template.specification.stagingURL;
         else root = `${ipfsGatewayURL}/ipfs/${template.specification.cid}`;
-        return {
-            baseURL: root.endsWith("/") ? `${root}${type}` : `${root}/${type}`,
-            entry: `${chain.id}-${template.address}-${type}`,
-        };
+        return root.endsWith("/") ? `${root}${type}` : `${root}/${type}`;
     }, [chain, customBaseURL, ipfsGatewayURL, stagingMode, template, type]);
     const { loading: loadingFederatedModule, container } =
         useFederatedModuleContainer(type, baseURL, entry);

@@ -32,11 +32,11 @@ export const useFederatedModuleContainer = (
         let cancelled = false;
         let localContainer = window[entry];
         if (!!localContainer && localContainer.__initialized) {
-            setContainer(localContainer);
+            if (!cancelled) setContainer(localContainer);
             return;
         }
         const fetchContainer = async () => {
-            setLoading(true);
+            if (!cancelled) setLoading(true);
             try {
                 const shareScope = __webpack_share_scopes__.default;
                 if (!shareScope) {
