@@ -1,8 +1,10 @@
-import { TX_FATHOM_EVENTS, Tx, TxType, useFathom } from "@carrot-kpi/react";
+import { Tx, TxType } from "@carrot-kpi/react";
 import { useNetwork } from "wagmi";
 import { useDispatch } from "../state/connector";
 import { addTransaction } from "../state/reducers/transactions";
 import { serializeTransaction } from "../utils/transactions";
+import { useFathom } from "./useFathom";
+import { TX_FATHOM_EVENTS } from "../analytics/fathom";
 
 export const useAddTransaction = () => {
     const dispatch = useDispatch();

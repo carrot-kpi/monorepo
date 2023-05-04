@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { Fathom } from "../analytics/analytics";
-import { FathomRegisteredEventName, getEventId } from "../analytics/generated";
+import { Fathom } from "../analytics/fathom";
+import {
+    FathomRegisteredEventName,
+    getEventId,
+} from "../analytics/fathom/generated";
 
 export const useFathom = () => {
     const [fathom, setFathom] = useState<Fathom | null>(null);

@@ -1,6 +1,6 @@
-import { useFathom } from "@carrot-kpi/react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useFathom } from "./useFathom";
 
 export const useFathomTrackPageWatch = () => {
     const location = useLocation();

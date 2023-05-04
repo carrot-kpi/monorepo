@@ -17,12 +17,11 @@
     "scripts": {
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './**/*.{json,md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
-        "build": "yarn sync-fathom-events && yarn clean && rollup -c rollup.config.mjs",
+        "build": "yarn clean && rollup -c rollup.config.mjs",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
         "size-limit": "size-limit",
-        "release": "yarn publish",
-        "sync-fathom-events": "npx ts-node ./scripts/sync-fathom-events/index.ts"
+        "release": "yarn publish"
     },
     "dependencies": {
         "@carrot-kpi/sdk": "*",

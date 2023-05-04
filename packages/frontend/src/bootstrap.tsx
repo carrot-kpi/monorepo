@@ -30,7 +30,7 @@ import dayjs from "dayjs";
 import { ReadonlyConnector } from "./connectors";
 import { ThemeUpdater } from "./updaters/theme";
 import { MultiChainLinksUpdater } from "./updaters/multi-chain-links";
-import { initializeFathom } from "./analiytics/fathom";
+import { initializeFathom } from "./analytics/fathom";
 
 export * from "./connectors/template-testing";
 

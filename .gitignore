@@ -163,7 +163,7 @@ cache
 tests/.latest.json
 
 # Generated code about Fathom events
-/packages/react/src/analytics/generated.ts
+/packages/frontend/src/analytics/fathom/generated.ts
 
 generated
 .bin

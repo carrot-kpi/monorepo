@@ -9,5 +9,7 @@ const requireEnv = (envName) => {
 
 requireEnv("REACT_APP_INFURA_PROJECT_ID");
 requireEnv("REACT_APP_WALLETCONNECT_PROJECT_ID");
+requireEnv("REACT_APP_FATHOM_SITE_ID");
+requireEnv("REACT_APP_FATHOM_API_KEY");
 
 console.log("env is ok");
