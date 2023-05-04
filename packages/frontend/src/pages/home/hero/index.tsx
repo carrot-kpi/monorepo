@@ -61,8 +61,8 @@ export const Hero = () => {
                             controls
                         >
                             <source
-                                src="https://carrot-kpi.dev/hero.mp4"
-                                type="video/mp4"
+                                src="https://d2l3j8l4t44bvz.cloudfront.net"
+                                type="video/webm"
                             />
                             {t("video.notSupported")}
                         </video>
