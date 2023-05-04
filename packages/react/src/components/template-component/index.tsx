@@ -8,6 +8,7 @@ import { useTheme } from "../../hooks";
 import { useMedia } from "react-use";
 import { ErrorBoundary } from "../error-boundary";
 import { BaseTemplateComponentProps } from "../../types";
+import { useNetwork } from "wagmi";
 
 const wrapperStyles = cva(["w-full", "h-full"], {
     variants: {
@@ -32,10 +33,18 @@ export function TemplateComponent({
     className,
     additionalProps = {},
 }: BaseTemplateComponentProps) {
+    const { chain } = useNetwork();
+
+    const entry =
+        chain && template
+            ? `${chain.id}-${template.id}-${template.version}-${template.address}-${type}`
+            : undefined;
+
     const { loading, bundle, Component } = useTemplateModule(
         entity,
         type,
-        template
+        template,
+        entry
     );
     const theme = useTheme();
     const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
@@ -43,26 +52,24 @@ export function TemplateComponent({
     const [dark, setDark] = useState(false);
     const [translateWithNamespace, setTranslateWithNamespace] =
         useState<NamespacedTranslateFunction>(
-            !!template &&
-                TRANSLATE_CACHE[`${template.specification.cid}${type}`]
-                ? () => TRANSLATE_CACHE[`${template.specification.cid}${type}`]
+            !!template && !!entry && TRANSLATE_CACHE[entry]
+                ? () => TRANSLATE_CACHE[entry]
                 : () => () => ""
         );
 
     useEffect(() => {
-        if (!template || !bundle) return;
-        const namespace = `${template.specification.cid}${type}`;
-        if (TRANSLATE_CACHE[namespace]) {
-            setTranslateWithNamespace(() => TRANSLATE_CACHE[namespace]);
+        if (!template || !bundle || !entry) return;
+        if (TRANSLATE_CACHE[entry]) {
+            setTranslateWithNamespace(() => TRANSLATE_CACHE[entry]);
             return;
         }
-        addBundleForTemplate(i18n, namespace, bundle);
+        addBundleForTemplate(i18n, entry, bundle);
         const namespacedTranslate = (key: any, options?: any) => {
-            return i18n.t(key, { ...options, ns: namespace });
+            return i18n.t(key, { ...options, ns: entry });
         };
-        TRANSLATE_CACHE[namespace] = namespacedTranslate;
+        TRANSLATE_CACHE[entry] = namespacedTranslate;
         setTranslateWithNamespace(() => namespacedTranslate);
-    }, [bundle, template, type, i18n]);
+    }, [bundle, template, type, i18n, entry]);
 
     useLayoutEffect(() => {
         setDark(
