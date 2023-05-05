@@ -27,38 +27,9 @@ export class ReadonlyConnector extends Connector<
     public async connect({ chainId }: { chainId?: number } = {}): Promise<
         Required<ConnectorData>
     > {
-        let targetChainId = chainId;
-        let useDefaultChainId = false;
-        if (!targetChainId || this.isChainUnsupported(targetChainId)) {
-            try {
-                const lastUsedChainId = await this.getChainId();
-                if (
-                    lastUsedChainId &&
-                    !this.isChainUnsupported(lastUsedChainId)
-                ) {
-                    targetChainId = lastUsedChainId;
-                } else {
-                    useDefaultChainId = true;
-                }
-            } catch (e) {
-                useDefaultChainId = true;
-            }
-        }
-
-        const provider = await this.getProvider({
-            chainId: targetChainId,
-            create: true,
-        });
-        provider.on("accountsChanged", this.onAccountsChanged);
-        provider.on("chainChanged", this.onChainChanged);
-        provider.on("disconnect", this.onDisconnect);
-
-        const id = useDefaultChainId
-            ? this.chains[0].id
-            : await this.getChainId();
-
+        const provider = await this.getProvider({ chainId });
+        const id = chainId || this.chains[0].id;
         const unsupported = this.isChainUnsupported(id);
-
         return {
             account: undefined as unknown as Address,
             chain: { id, unsupported },
@@ -85,14 +56,15 @@ export class ReadonlyConnector extends Connector<
         return chainId;
     }
 
-    public async getProvider({
-        chainId,
-        create,
-    }: { chainId?: number; create?: boolean } = {}) {
-        if (!this.provider || chainId || create) {
-            const rpcUrl = this.chains.find((chain) => chain.id === chainId)
-                ?.rpcUrls.default.http;
-            this.provider = new JsonRpcProvider(rpcUrl?.[0], chainId);
+    public async getProvider(config?: { chainId?: number }) {
+        if (!this.provider) {
+            const rpcUrl = this.chains.find(
+                (chain) => chain.id === config?.chainId
+            )?.rpcUrls.default.http;
+            this.provider = new JsonRpcProvider(rpcUrl?.[0], config?.chainId);
+            this.provider.on("accountsChanged", this.onAccountsChanged);
+            this.provider.on("chainChanged", this.onChainChanged);
+            this.provider.on("disconnect", this.onDisconnect);
         }
         return this.provider;
     }
@@ -107,7 +79,7 @@ export class ReadonlyConnector extends Connector<
     }
 
     async switchChain(chainId: number): Promise<Chain> {
-        await this.getProvider({ chainId, create: true });
+        await this.getProvider({ chainId });
         const chain = this.chains.find((x) => x.id === chainId);
         if (!chain)
             throw new Error(`can't find switched chain with id ${chainId}`);
