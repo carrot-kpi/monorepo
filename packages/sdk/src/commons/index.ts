@@ -10,6 +10,7 @@ import { Cacher } from "../cacher";
 export enum ChainId {
     GNOSIS = 100,
     SEPOLIA = 11155111,
+    ARBITRUM_GOERLI = 421613,
 }
 
 export const CACHER = new Cacher("carrot-kpi-sdk");
@@ -34,12 +35,19 @@ export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
         kpiTokensManager: "0x6e787295f8FC487776DE28A4f8a7a21fBd341069",
         oraclesManager: "0xB65Bd5941e8bF11d7F0eF098BFd08CDD30841797",
     },
+    [ChainId.ARBITRUM_GOERLI]: {
+        multicall: "0xcA11bde05977b3631167028862bE2a173976CA11",
+        factory: "0xB6044f769f519a634A5150645484b18d0C031ae8",
+        kpiTokensManager: "0xe37AA274d1bb3815b63cd13064dE443423F74316",
+        oraclesManager: "0xEc0B101CDC03ae65F78cF5477F2b9e0FaB9f2b28",
+    },
 };
 
 export const SUBGRAPH_URL: Record<ChainId, string | null> = {
     [ChainId.GNOSIS]:
         "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-kpi-gnosis",
     [ChainId.SEPOLIA]: null,
+    [ChainId.ARBITRUM_GOERLI]: null,
 };
 
 export {
