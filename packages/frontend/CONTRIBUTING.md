@@ -43,15 +43,12 @@ After you have these envs, you should create a `.env` file in the root of the
 package (or copy the `.env.example` available at the root of the package) and
 paste the values there.
 
-The `.env` file should also `export` 2 additional envs that will be used by the
+The `.env` file should also define 2 additional envs that will be used by the
 `build` command to generate code related to Fathom.
 
-- `REACT_APP_FATHOM_SITE_ID`: same id described above.
-- `REACT_APP_FATHOM_API_KEY`: secret API key for the Fathom APIs. You can get
-  one by registering [here](https://app.usefathom.com).
-
-These two envs **must** be exported (with `source .env`) because they need to be
-read from a script.
+- `FATHOM_SITE_ID`: same id described above.
+- `FATHOM_API_KEY`: secret API key for the Fathom APIs. You can get one by
+  registering [here](https://app.usefathom.com).
 
 A `check-env` script will run before you either start of build the dapp and
 throw an error if the env doesn't look good, so make sure your env is ok.
