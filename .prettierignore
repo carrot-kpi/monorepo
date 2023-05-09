@@ -152,4 +152,4 @@ build
 .turbo
 
 # Generated code about Fathom events
-/packages/frontend/src/analytics/fathom/generated.ts
+/packages/frontend/src/out

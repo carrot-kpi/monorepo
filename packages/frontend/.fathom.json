@@ -1,0 +1,9 @@
+{
+  "events": [
+    "TX_ERC20_APPROVAL",
+    "TX_KPI_TOKEN_CREATION",
+    "TX_KPI_TOKEN_REDEMPTION",
+    "TX_ORACLE_FINALIZATION",
+    "TX_CUSTOM"
+  ]
+}

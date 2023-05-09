@@ -30,7 +30,8 @@ import dayjs from "dayjs";
 import { ReadonlyConnector } from "./connectors";
 import { ThemeUpdater } from "./updaters/theme";
 import { MultiChainLinksUpdater } from "./updaters/multi-chain-links";
-import { initializeFathom } from "./analytics/fathom";
+import * as Fathom from "@guerrap/fathom-client";
+import { registeredEventsResolver } from "./out/fathom/utilities";
 
 export * from "./connectors/template-testing";
 
@@ -124,8 +125,20 @@ if (!__LIBRARY_MODE__) {
         </StrictMode>
     );
 
-    if (process.env.NODE_ENV === "production" && !__STAGING_MODE__)
-        initializeFathom(process.env.REACT_APP_FATHOM_SITE_ID)
+    if (
+        process.env.NODE_ENV === "production" &&
+        process.env.REACT_APP_FATHOM_SITE_ID &&
+        !__STAGING_MODE__
+    )
+        Fathom.initialize(
+            process.env.REACT_APP_FATHOM_SITE_ID,
+            {
+                src: "https://cdn.usefathom.com/script.js",
+                "data-auto": false,
+                "data-spa": "auto",
+            },
+            registeredEventsResolver
+        )
             .then(() => {
                 console.log("fathom initialized successfully");
             })
