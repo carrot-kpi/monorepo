@@ -1,5 +1,4 @@
 import { getAddress, isAddress } from "@ethersproject/address";
-import { CACHER } from "../../commons";
 import { TokenInfoWithBalance } from "../../components/evm/erc20-token-picker/types";
 
 const TRUST_WALLET_CHAIN: { [chainId: number]: string } = {
@@ -92,34 +91,4 @@ export const tokenInfoWithBalanceEquals = (
         tokenA.chainId === tokenB.chainId &&
         tokenA.address.toLowerCase() === tokenB.address.toLowerCase()
     );
-};
-
-export const cacheTokenInfoWithBalance = (
-    token: TokenInfoWithBalance
-): void => {
-    const serializableToken = { ...token };
-    const cachingKey = `imported-erc20-tokens-${serializableToken.chainId}`;
-    delete serializableToken.balance;
-    const previouslyCachedTokensInChain = CACHER.getOrDefault<
-        TokenInfoWithBalance[]
-    >(cachingKey, []);
-    if (
-        previouslyCachedTokensInChain.some((cachedToken) =>
-            tokenInfoWithBalanceEquals(serializableToken, cachedToken)
-        )
-    )
-        return;
-    previouslyCachedTokensInChain.push(serializableToken);
-    CACHER.set(
-        cachingKey,
-        previouslyCachedTokensInChain,
-        Number.MAX_SAFE_INTEGER
-    );
-};
-
-export const cachedTokenInfoWithBalanceInChain = (
-    chainId?: number | null
-): TokenInfoWithBalance[] => {
-    if (!chainId) return [];
-    return CACHER.getOrDefault(`imported-erc20-tokens-${chainId}`, []);
 };
