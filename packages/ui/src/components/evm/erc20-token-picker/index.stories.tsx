@@ -13,11 +13,15 @@ import {
     WagmiConfig,
     useAccount,
     useConnect,
+    useContractReads,
+    Address,
 } from "wagmi";
 import { gnosis } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { Typography } from "../../data-display";
+import { ERC20_ABI } from "@carrot-kpi/sdk";
+import { BigNumber } from "@ethersproject/bignumber";
 
 const CHAIN_ID = gnosis.id;
 
@@ -60,6 +64,43 @@ const Component = (props: ERC20TokenPickerProps) => {
     const [list, setList] = useState<TokenListWithBalance | null>(null);
 
     const lists = useMemo(() => (list ? [list] : []), [list]);
+
+    const {
+        data: rawBalances,
+        isLoading: loadingBalances,
+        isFetching: fetchingBalances,
+    } = useContractReads({
+        contracts: list?.tokens.map((token) => {
+            return {
+                abi: ERC20_ABI,
+                address: token.address as Address,
+                chainId: CHAIN_ID,
+                functionName: "balanceOf",
+                args: [address],
+            };
+        }),
+        allowFailure: true,
+        enabled: !!(list && address),
+    });
+
+    const selectedListWithBalances: TokenListWithBalance | null =
+        useMemo(() => {
+            if (!list) return null;
+            if (rawBalances && rawBalances.length === list.tokens.length) {
+                return {
+                    ...list,
+                    tokens: list.tokens.map((token, index) => {
+                        return {
+                            ...token,
+                            balance: rawBalances[
+                                index
+                            ] as unknown as BigNumber | null,
+                        };
+                    }),
+                };
+            }
+            return list;
+        }, [list, rawBalances]);
 
     useEffect(() => {
         let cancelled = false;
@@ -113,16 +154,19 @@ const Component = (props: ERC20TokenPickerProps) => {
             {!!list && (
                 <ERC20TokenPickerComponent
                     {...props}
-                    loading={!list || props.loading}
+                    loading={
+                        !list ||
+                        loadingBalances ||
+                        fetchingBalances ||
+                        props.loading
+                    }
                     selectedToken={value}
                     onSelectedTokenChange={setValue}
                     open={open}
                     onDismiss={handleDismiss}
                     lists={lists}
-                    selectedList={list}
+                    selectedList={selectedListWithBalances}
                     chainId={CHAIN_ID}
-                    withBalances
-                    accountAddress={address}
                     messages={{
                         search: {
                             title: "Title tokens",

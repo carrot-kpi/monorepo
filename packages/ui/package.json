@@ -58,8 +58,7 @@
     "peerDependencies": {
         "@fontsource/ibm-plex-mono": "^4.5.12",
         "@fontsource/inter": "^4.5.15",
-        "react": "^18.2.0",
-        "wagmi": "^0.12.12"
+        "react": "^18.2.0"
     },
     "devDependencies": {
         "@babel/core": "^7.21.8",
