@@ -25,7 +25,7 @@ export interface ERC20TokenPickerProps {
     onDismiss?: () => void;
     loading?: boolean;
     selectedToken?: TokenInfoWithBalance | null;
-    searchQueryObserver?: (query: string) => void;
+    onSearchQueryChange?: (query: string) => void;
     onSelectedTokenChange?: (token: TokenInfoWithBalance) => void;
     chainId?: number;
     lists?: TokenListWithBalance[];
@@ -45,7 +45,7 @@ export function ERC20TokenPicker({
     open,
     onDismiss,
     loading,
-    searchQueryObserver,
+    onSearchQueryChange,
     onSelectedTokenChange,
     selectedToken,
     chainId,
@@ -65,7 +65,7 @@ export function ERC20TokenPicker({
     useDebounce(
         () => {
             setDebouncedQuery(searchQuery);
-            if (!!searchQueryObserver) searchQueryObserver(searchQuery);
+            if (!!onSearchQueryChange) onSearchQueryChange(searchQuery);
         },
         300,
         [searchQuery]
