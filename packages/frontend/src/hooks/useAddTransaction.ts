@@ -1,5 +1,5 @@
 import { Tx, TxType } from "@carrot-kpi/react";
-import { trackRegisteredGoal } from "@guerrap/fathom-client";
+import { trackRegisteredGoal } from "use-fathom-client";
 import { useNetwork } from "wagmi";
 import { useDispatch } from "../state/connector";
 import { addTransaction } from "../state/reducers/transactions";

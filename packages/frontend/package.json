@@ -38,13 +38,13 @@
         "@carrot-kpi/react": "*",
         "@carrot-kpi/sdk": "*",
         "@carrot-kpi/ui": "*",
-        "@guerrap/fathom-client": "^1.0.0",
         "class-variance-authority": "^0.6.0",
         "dayjs": "^1.11.7",
         "ethereum-blockies-base64": "^1.0.2",
         "ethers": "^5.7.1",
         "react-router-dom": "^6.11.0",
-        "sanitize-html": "^2.9.0"
+        "sanitize-html": "^2.9.0",
+        "use-fathom-client": "^1.1.0"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*",

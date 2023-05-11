@@ -1,4 +1,4 @@
-import { trackPageview } from "@guerrap/fathom-client";
+import { trackPageview } from "use-fathom-client";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 

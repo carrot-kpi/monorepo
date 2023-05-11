@@ -2579,16 +2579,6 @@
   dependencies:
     assemblyscript "0.19.10"
 
-"@guerrap/fathom-client@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@guerrap/fathom-client/-/fathom-client-1.0.0.tgz#3ed8905eae8c3c21220ebb967a42430591d46d46"
-  integrity sha512-gBf+7SBqIL5hzv2i0J9Dg94vJqpPMHZxA+hXmgevRj9cBPtmzcPq29+ZB3vL14dml1meO0DiExB+TTyI+ZvyRQ==
-  dependencies:
-    dotenv "^16.0.3"
-    find-up "^6.3.0"
-    node-fetch "^3.3.1"
-    ora "^6.3.0"
-
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"
@@ -19022,6 +19012,16 @@ ursa-optional@~0.10.0:
   dependencies:
     bindings "^1.5.0"
     nan "^2.14.2"
+
+use-fathom-client@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/use-fathom-client/-/use-fathom-client-1.1.0.tgz#18d5f589d7e59697f18c35771a4bde36e622fa01"
+  integrity sha512-1LzG/IOAfZtIMlSmucbi6AN7q54pDWH4LuBHl04iRTw0nK+5Yoj38biSiN8sg0qRh7JWpA3Gj887IdtUadGq/g==
+  dependencies:
+    dotenv "^16.0.3"
+    find-up "^6.3.0"
+    node-fetch "^3.3.1"
+    ora "^6.3.0"
 
 use-resize-observer@^9.1.0:
   version "9.1.0"
