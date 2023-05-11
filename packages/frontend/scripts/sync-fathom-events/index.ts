@@ -44,7 +44,7 @@ const syncFathomEvents = async (siteId?: string, authToken?: string) => {
 
         const syncedEvents = [...fathomSiteEvents, ...newSiteEvents];
         await writeFile(
-            `${__dirname}/../../src/analytics/generated.ts`,
+            `${__dirname}/../../src/analytics/fathom/generated.ts`,
             generateEventsCode({
                 siteId,
                 events: syncedEvents,
