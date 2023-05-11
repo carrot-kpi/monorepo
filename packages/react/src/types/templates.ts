@@ -11,9 +11,13 @@ import { NavigateFunction } from "react-router-dom";
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { ReactElement, ReactNode } from "react";
 
+export type TemplateEntity = "kpiToken" | "oracle";
+
+export type TemplateType = "creationForm" | "page";
+
 export interface BaseTemplateComponentProps {
-    entity: "kpiToken" | "oracle";
-    type: "creationForm" | "page";
+    entity: TemplateEntity;
+    type: TemplateType;
     template?: ResolvedTemplate;
     fallback: ReactNode;
     error: ReactElement;
@@ -30,6 +34,7 @@ export type TemplateComponentProps = Omit<
 
 export interface BaseRemoteTemplateComponentProps {
     i18n: i18n;
+    template: ResolvedTemplate;
     t: NamespacedTranslateFunction;
 }
 
@@ -95,3 +100,16 @@ export type KPITokenRemotePageProps = BaseRemoteTemplateComponentProps &
 
 export type KPITokenPageProps = TemplateComponentProps &
     AdditionalRemoteKPITokenPageProps;
+
+export type RemoteComponentProps<
+    E extends TemplateEntity,
+    T extends TemplateType
+> = E extends "kpiToken"
+    ? T extends "creationForm"
+        ? KPITokenRemoteCreationFormProps
+        : KPITokenRemotePageProps
+    : E extends "oracle"
+    ? T extends "creationForm"
+        ? OracleRemoteCreationFormProps<unknown>
+        : OracleRemotePageProps
+    : never;

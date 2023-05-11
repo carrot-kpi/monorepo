@@ -94,6 +94,7 @@ export function TemplateComponent({
                     {...additionalProps}
                     i18n={i18n}
                     t={translateWithNamespace}
+                    template={template}
                 />
             </ErrorBoundary>
         </div>
