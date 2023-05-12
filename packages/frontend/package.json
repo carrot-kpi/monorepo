@@ -25,6 +25,7 @@
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './**/*.{json,md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
         "clean": "rimraf ./build && rimraf ./dist",
+        "build": "yarn build:production",
         "build:production": "yarn clean && yarn config-react-env production && yarn prepare-fathom && GENERATE_SOURCEMAP=false craco build",
         "build:staging": "yarn clean && yarn config-react-env staging && yarn prepare-fathom && GENERATE_SOURCEMAP=false STAGING=true craco build",
         "build:library": "yarn clean && yarn config-react-env library && yarn prepare-fathom && rollup -c rollup.config.mjs",
