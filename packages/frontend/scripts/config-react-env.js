@@ -20,7 +20,7 @@ if (SUPPORTED_BUILD_MODES.indexOf(buildMode) < 0) {
 
 const requireEnv = (envName) => {
     const env = process.env[envName];
-    if (!env) throw new Error(`a ${envName} env is required`);
+    if (env === undefined) throw new Error(`a ${envName} env is required`);
 };
 
 console.log(
@@ -28,11 +28,11 @@ console.log(
 );
 
 requireEnv("REACT_APP_INFURA_PROJECT_ID");
+requireEnv("REACT_APP_FATHOM_SITE_ID");
+requireEnv("REACT_APP_WALLETCONNECT_PROJECT_ID");
 
-if (buildMode === "production") {
-    requireEnv("REACT_APP_WALLETCONNECT_PROJECT_ID");
-    requireEnv("REACT_APP_FATHOM_SITE_ID");
-} else {
-    if (!!process.env.REACT_APP_WALLETCONNECT_PROJECT_ID)
-        console.warn("WalletConnect won't be available in the build");
-}
+if (process.env.REACT_APP_FATHOM_SITE_ID === undefined)
+    console.warn("Fathom tracking won't be available in the build");
+
+if (process.env.REACT_APP_WALLETCONNECT_PROJECT_ID === undefined)
+    console.warn("WalletConnect won't be available in the build");
