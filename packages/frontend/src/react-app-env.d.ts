@@ -14,9 +14,9 @@ declare global {
 
     namespace NodeJS {
         interface ProcessEnv {
-            REACT_APP_FATHOM_SITE_ID?: string;
             REACT_APP_INFURA_PROJECT_ID: string;
-            REACT_APP_WALLETCONNECT_PROJECT_ID: string;
+            REACT_APP_WALLETCONNECT_PROJECT_ID?: string;
+            REACT_APP_FATHOM_SITE_ID?: string;
         }
     }
 }

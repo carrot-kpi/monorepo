@@ -30,7 +30,7 @@
         "size-limit": "size-limit",
         "release": "yarn publish",
         "start": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
+        "build:storybook": "storybook build"
     },
     "dependencies": {
         "@carrot-kpi/sdk": "*",

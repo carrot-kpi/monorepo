@@ -25,14 +25,15 @@
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './**/*.{json,md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
         "clean": "rimraf ./build && rimraf ./dist",
-        "build": "yarn clean && yarn check-env && yarn prepare-fathom && GENERATE_SOURCEMAP=false craco build",
-        "build:library": "yarn clean && yarn check-env && rollup -c rollup.config.mjs",
+        "build:production": "yarn clean && yarn config-react-env production && yarn prepare-fathom && GENERATE_SOURCEMAP=false craco build",
+        "build:staging": "yarn clean && yarn config-react-env staging && yarn prepare-fathom && GENERATE_SOURCEMAP=false STAGING=true craco build",
+        "build:library": "yarn clean && yarn config-react-env library && yarn prepare-fathom && rollup -c rollup.config.mjs",
         "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
         "size-limit": "size-limit",
         "prepare-fathom": "prepare-fathom",
-        "check-env": "./scripts/check-env.js",
-        "start": "yarn check-env && craco start",
-        "start:staging": "yarn check-env && STAGING=true craco start"
+        "config-react-env": "./scripts/config-react-env.js",
+        "start": "yarn config-react-env && craco start",
+        "start:staging": "yarn config-react-env && STAGING=true craco start"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",

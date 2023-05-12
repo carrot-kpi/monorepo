@@ -26,7 +26,9 @@ const FATHOM_EVENTS = [...TX_FATHOM_EVENTS];
 const syncFathomEvents = async (siteId?: string, authToken?: string) => {
     try {
         if (!siteId || !authToken) {
-            throw new Error("missing siteId or authToken");
+            throw new Error(
+                "not syncing fathom events: missing site id or auth token"
+            );
         }
 
         const fathomClient = new FathomClient(siteId, authToken);
@@ -63,7 +65,4 @@ const syncFathomEvents = async (siteId?: string, authToken?: string) => {
     }
 };
 
-syncFathomEvents(
-    process.env.REACT_APP_FATHOM_SITE_ID,
-    process.env.REACT_APP_FATHOM_API_KEY
-);
+syncFathomEvents(process.env.FATHOM_SITE_ID, process.env.FATHOM_API_KEY);
