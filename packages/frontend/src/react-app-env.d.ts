@@ -8,11 +8,15 @@ declare global {
     const __LIBRARY_MODE__: boolean;
     const __STAGING_MODE__: boolean;
 
+    interface Window {
+        fathom?: Fathom;
+    }
+
     namespace NodeJS {
         interface ProcessEnv {
-            REACT_APP_FATHOM_SITE_ID?: string;
             REACT_APP_INFURA_PROJECT_ID: string;
-            REACT_APP_WALLETCONNECT_PROJECT_ID: string;
+            REACT_APP_WALLETCONNECT_PROJECT_ID?: string;
+            REACT_APP_FATHOM_SITE_ID?: string;
         }
     }
 }

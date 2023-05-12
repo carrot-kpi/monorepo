@@ -30,11 +30,17 @@ import dayjs from "dayjs";
 import { ReadonlyConnector } from "./connectors";
 import { ThemeUpdater } from "./updaters/theme";
 import { MultiChainLinksUpdater } from "./updaters/multi-chain-links";
-import { initializeFathom } from "./analiytics/fathom";
+import { Fathom } from "./components/fathom";
 
 export * from "./connectors/template-testing";
 
 dayjs.extend(localizedFormat);
+
+console.log(
+    `Carrot host frontend running in ${
+        __LIBRARY_MODE__ ? "library" : __STAGING_MODE__ ? "staging" : "standard"
+    } mode`
+);
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -103,6 +109,7 @@ export const Root = ({
                 >
                     <ThemeUpdater />
                     <MultiChainLinksUpdater />
+                    {!__LIBRARY_MODE__ && !__STAGING_MODE__ && <Fathom />}
                     <App
                         kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
                         oracleTemplateBaseURL={oracleTemplateBaseURL}
@@ -124,24 +131,15 @@ if (!__LIBRARY_MODE__) {
         </StrictMode>
     );
 
-    if (process.env.NODE_ENV === "production")
-        initializeFathom(process.env.REACT_APP_FATHOM_SITE_ID)
-            .then(() => {
-                console.log("fathom initialized successfully");
-            })
-            .catch((error) => {
-                console.error("could not initialize fathom", error);
-            });
-
-    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+    if ("serviceWorker" in navigator) {
         navigator.serviceWorker
             .register("./sw.js")
             .then(() => {
-                console.log("carrot service worker registered successfully");
+                console.log("Carrot service worker registered successfully");
             })
             .catch((error) => {
                 console.error(
-                    "could not register carrot service worker",
+                    "Could not register Carrot service worker",
                     error
                 );
             });

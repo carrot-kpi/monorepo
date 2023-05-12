@@ -26,7 +26,8 @@ if (!__LIBRARY_MODE__) {
             },
         }),
     ];
-    getStandaloneConnectors = () => [
+
+    const connectors: Connector[] = [
         new InjectedConnector({
             chains: standaloneSupportedChains,
             options: {
@@ -50,12 +51,6 @@ if (!__LIBRARY_MODE__) {
             chains: standaloneSupportedChains,
             options: {},
         }),
-        new WalletConnectConnector({
-            chains: standaloneSupportedChains,
-            options: {
-                projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID,
-            },
-        }),
         new CoinbaseWalletConnector({
             chains: standaloneSupportedChains,
             options: {
@@ -68,4 +63,17 @@ if (!__LIBRARY_MODE__) {
             options: { name: "readonly" },
         }),
     ];
+
+    if (!!process.env.REACT_APP_WALLETCONNECT_PROJECT_ID) {
+        connectors.push(
+            new WalletConnectConnector({
+                chains: standaloneSupportedChains,
+                options: {
+                    projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID,
+                },
+            })
+        );
+    }
+
+    getStandaloneConnectors = () => connectors;
 }

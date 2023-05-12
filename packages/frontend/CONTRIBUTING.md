@@ -27,24 +27,34 @@ yarn install
 
 ### Setting up envs
 
-A couple envs are required in order to start up the host frontend locally or
-build it for a release:
+A couple envs are needed in order to start up the host frontend locally or build
+it for a release:
 
 - `REACT_APP_INFURA_PROJECT_ID`: an infura project ID to be used for RPC access
   for various blockchains. You can get one [here](https://www.infura.io/).
 - `REACT_APP_WALLETCONNECT_PROJECT_ID`: a WalletConnect v2 project ID is
   required in order to enable WalletConnect based wallet connections. You can
-  get one by registering [here](https://cloud.walletconnect.com).
+  get one by registering [here](https://cloud.walletconnect.com). If you don't
+  care about WalletConnect support (for example in a local build, you can skip
+  defining this env).
 - `REACT_APP_FATHOM_SITE_ID`: id of an existing Fathom site, used to initialize
-  the anonymous tracking (this env is optional). You can get one by registering
+  the anonymous tracking (this env is optional if you're not building a
+  production bundle). You can get one by registering
   [here](https://app.usefathom.com).
 
 After you have these envs, you should create a `.env` file in the root of the
 package (or copy the `.env.example` available at the root of the package) and
 paste the values there.
 
-A `check-env` script will run before you either start of build the dapp and
-throw an error if the env doesn't look good, so make sure your env is ok.
+The `.env` file must also define 2 additional envs that will be used by the
+`build` command to generate code related to Fathom at build time.
+
+- `FATHOM_SITE_ID`: same id described above.
+- `FATHOM_API_KEY`: secret API key for the Fathom APIs. You can get one by
+  registering [here](https://app.usefathom.com).
+
+A `config-react-env` script will run before you build the dapp and throw an
+error if the env doesn't look good, so make sure your env is ok.
 
 ## Running modes
 
@@ -103,10 +113,19 @@ Two different commands are available to start a local dev build:
 
 ## Building modes
 
-The frontend supports 2 different build modes: **library** and **standalone**.
+The frontend supports 3 different build modes: **library**, **staging** and
+**production**.
 
-In standalone mode the frontend will be built to an optimized frontend ready to
-be released in production, and all the available features will be enabled.
+In production mode the frontend will be built to an optimized app ready to be
+released in production, and all the available features will be enabled.
+
+Staging mode will pretty much result in the same build, but with `stagingURL`
+template loading enabled (see the "running modes" section above for more
+details).
+
+Some features of the app are cut off in staging mode thanks to a
+`__STAGING_MODE__` global set to true if a `STAGING=true` env is set at build
+time.
 
 The library mode on the other hand builds the frontend to a library that can
 then be used to test out templates locally. The utility is for template
@@ -116,22 +135,31 @@ Scripts. This gives them an exact view of how their template would look and
 behave in production on their local machine, without having to publish anything.
 Needless to say, this improves developer experience.
 
-The standalone builts are handled by Webpack through Create React App, while
-library builds are handled by Rollup.
+The production and staging builds are handled by Webpack through Create React
+App, while library builds are handled by Rollup.
 
 Various pieces of the app would not be functional in library mode, so we use a
 `__LIBRARY_MODE__` global in order to remove some parts of the app from the end
 bundle at build time. When building in library mode through Rollup, the
-`__LIBRARY_MODE__` is set to `true`, while when building in standalone mode
-through Webpack it's set to `false`.
+`__LIBRARY_MODE__` is set to `true`, while when building in production and
+staging mode through Webpack it's set to `false`.
 
 ## Building
 
-Two different commands are available to build the host frontend:
+Three different commands are available to build the host frontend:
 
-- `build`: this will build the host frontend in standalone mode. The build's
-  output will be placed under the `build` folder, which will contain a frontend
-  app ready to be published.
+- `build:production`: this will build the host frontend in production mode. The
+  build's output will be placed under the `build` folder, which will contain a
+  frontend app ready to be published. In this build, both
+  `REACT_APP_WALLETCONNECT_PROJECT_ID` and `REACT_APP_FATHOM_SITE_ID` envs are
+  required to enable WalletConnect and Fathom privacy preserving tracking
+  respectively.
+- `build:staging`: this will build the host frontend in staging mode. The
+  build's output will be placed under the `build` folder, which will contain a
+  frontend app ready to be published. In this build the
+  `REACT_APP_WALLETCONNECT_PROJECT_ID` and `REACT_APP_FATHOM_SITE_ID` envs are
+  optional and will activate either WalletConnect or Fathom privacy preserving
+  tracking features only if specified.
 - `build:library`: this will bundle the app in library format, ready to be
   consumed by template developers that want functional playground modes for
   their template frontends. The end bundle is put under `dist` and the
@@ -159,7 +187,7 @@ In case you're building a new feature and it requires adding an env, you do the
 following:
 
 1. If the env is required for the dapp to work correctly, update the
-   `./scripts/check-env.js` script to reflect it.
+   `./scripts/config-react-env.js` script to reflect it.
 2. Add its name to the `.env.example` file (obviously, do not add the env's
    value to the example file)
 3. Update the `./src/react-app-env.d.ts` file to add the env's name to the

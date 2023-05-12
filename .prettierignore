@@ -150,3 +150,6 @@ build
 
 # Turbo config
 .turbo
+
+# Generated code about Fathom events
+/packages/frontend/src/out

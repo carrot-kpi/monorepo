@@ -57,15 +57,5 @@ The monorepo contains the following packages under the `packages` folder:
 
 In order to get started just clone the repo and run `yarn install`.
 
-When running `yarn build` from the root, make sure to have a local `.env` file
-exporting the Fathom related variables (or just have the variables exported on
-the current active terminal), needed to generate the required code; the file
-should look like this (remember to run `source .env`):
-
-```bash
-export REACT_APP_FATHOM_SITE_ID=
-export REACT_APP_FATHOM_API_KEY=
-```
-
 More information on how to contribute will be added in a future
 `CONTRIBUTING.md` file

@@ -2,7 +2,6 @@ import React, {
     ChangeEvent,
     useCallback,
     useEffect,
-    useMemo,
     useRef,
     useState,
 } from "react";
@@ -13,12 +12,6 @@ import { ManageLists, ManageListsProps } from "./manage-lists";
 import { useSearchedTokens } from "./hooks/useSearchedTokens";
 import { FixedSizeList } from "react-window";
 import { useDebounce } from "react-use";
-import { useImportableToken } from "./hooks/useImportableToken";
-import {
-    cacheTokenInfoWithBalance,
-    tokenInfoWithBalanceEquals,
-} from "../../../utils/erc20";
-
 export * from "./types";
 
 type ERC20TokenPickerView =
@@ -32,12 +25,11 @@ export interface ERC20TokenPickerProps {
     onDismiss?: () => void;
     loading?: boolean;
     selectedToken?: TokenInfoWithBalance | null;
+    onSearchQueryChange?: (query: string) => void;
     onSelectedTokenChange?: (token: TokenInfoWithBalance) => void;
-    withBalances?: boolean;
-    accountAddress?: string;
     chainId?: number;
     lists?: TokenListWithBalance[];
-    selectedList?: TokenListWithBalance;
+    selectedList?: TokenListWithBalance | null;
     onSelectedListChange?: (list: TokenListWithBalance) => void;
     className?: {
         search: SearchProps["className"];
@@ -53,9 +45,8 @@ export function ERC20TokenPicker({
     open,
     onDismiss,
     loading,
+    onSearchQueryChange,
     onSelectedTokenChange,
-    withBalances,
-    accountAddress,
     selectedToken,
     chainId,
     lists,
@@ -74,29 +65,13 @@ export function ERC20TokenPicker({
     useDebounce(
         () => {
             setDebouncedQuery(searchQuery);
+            if (!!onSearchQueryChange) onSearchQueryChange(searchQuery);
         },
         300,
         [searchQuery]
     );
 
-    const { tokens: searchableTokens, loadingBalances } = useSearchedTokens(
-        debouncedQuery,
-        chainId,
-        selectedList,
-        withBalances,
-        accountAddress
-    );
-    const { importableToken, loadingBalance: loadingImportableTokenBalance } =
-        useImportableToken(
-            debouncedQuery,
-            chainId,
-            withBalances,
-            accountAddress
-        );
-
-    const tokens = useMemo(() => {
-        return importableToken ? [importableToken] : searchableTokens;
-    }, [importableToken, searchableTokens]);
+    const { tokens } = useSearchedTokens(debouncedQuery, chainId, selectedList);
 
     // on open, clear the search query and scroll to the top of the list
     useEffect(() => {
@@ -116,14 +91,9 @@ export function ERC20TokenPicker({
 
     const handleSelectedTokenChange = useCallback(
         (token: TokenInfoWithBalance) => {
-            if (tokenInfoWithBalanceEquals(importableToken, token)) {
-                cacheTokenInfoWithBalance(token);
-                setDebouncedQuery("");
-                setSearchQuery("");
-            }
             if (onSelectedTokenChange) onSelectedTokenChange(token);
         },
-        [importableToken, onSelectedTokenChange]
+        [onSelectedTokenChange]
     );
 
     const handleManageListsClick = useCallback(() => {
@@ -134,6 +104,11 @@ export function ERC20TokenPicker({
         setCurrentView("search");
     }, []);
 
+    const handleOnDismiss = () => {
+        setSearchQuery("");
+        if (!!onDismiss) onDismiss();
+    };
+
     return (
         <Modal open={open} onDismiss={onDismiss}>
             {currentView === "search" && (
@@ -141,12 +116,8 @@ export function ERC20TokenPicker({
                     tokens={tokens}
                     searchQuery={searchQuery}
                     onSearchQueryChange={handleSearchChange}
-                    loadingBalances={
-                        loadingBalances ||
-                        !!(importableToken && loadingImportableTokenBalance)
-                    }
                     fixedListRef={fixedListRef}
-                    onDismiss={onDismiss}
+                    onDismiss={handleOnDismiss}
                     loading={loading}
                     onSelectedTokenChange={handleSelectedTokenChange}
                     selectedToken={selectedToken}

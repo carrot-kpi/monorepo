@@ -1,25 +1,38 @@
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { TemplateBundle } from "../i18n";
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
 import { State, useSelector } from "@carrot-kpi/shared-state";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { useStagingMode } from "./useStagingMode";
 import { useNetwork } from "wagmi";
+import { RemoteComponentProps, TemplateEntity, TemplateType } from "../types";
 
-interface CachedModule {
-    Component: FunctionComponent<unknown>;
+type ComponentType<
+    E extends TemplateEntity,
+    T extends TemplateType
+> = FunctionComponent<RemoteComponentProps<E, T>>;
+
+interface CachedModule<E extends TemplateEntity, T extends TemplateType> {
+    Component: ComponentType<E, T>;
     bundle: TemplateBundle;
 }
 
-const MODULE_CACHE: Record<string, CachedModule> = {};
-
-export const useTemplateModule = (
-    entity: "kpiToken" | "oracle",
-    type: "creationForm" | "page",
+export const useTemplateModule = <
+    E extends TemplateEntity,
+    T extends TemplateType
+>(
+    entity: E,
+    type: T,
     template?: ResolvedTemplate,
     entry?: string
-) => {
+): {
+    loading: boolean;
+    Component: ComponentType<E, T> | null;
+    bundle: TemplateBundle | null;
+} => {
+    const MODULE_CACHE = useRef<Record<string, CachedModule<E, T>>>({});
+
     const customBaseURL = useSelector<
         State,
         | State["preferences"]["kpiTokenTemplateBaseURL"]
@@ -47,19 +60,21 @@ export const useTemplateModule = (
 
     const [loadingExport, setLoadingExport] = useState(false);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [Component, setComponent] = useState<FunctionComponent<any> | null>(
-        entry && MODULE_CACHE[entry]
-            ? () => MODULE_CACHE[entry].Component
+    const [Component, setComponent] = useState<ComponentType<E, T> | null>(
+        entry && MODULE_CACHE.current[entry]
+            ? () => MODULE_CACHE.current[entry].Component
             : null
     );
     const [bundle, setBundle] = useState<TemplateBundle | null>(
-        entry && MODULE_CACHE[entry] ? MODULE_CACHE[entry].bundle : null
+        entry && MODULE_CACHE.current[entry]
+            ? MODULE_CACHE.current[entry].bundle
+            : null
     );
 
     useEffect(() => {
         if (bundle && Component) return;
-        if (entry && MODULE_CACHE[entry]) {
-            const { Component, bundle } = MODULE_CACHE[entry];
+        if (entry && MODULE_CACHE.current[entry]) {
+            const { Component, bundle } = MODULE_CACHE.current[entry];
             setComponent(() => Component);
             setBundle(bundle);
             return;
@@ -74,7 +89,7 @@ export const useTemplateModule = (
                 const i18nFactory = await container.get("./i18n");
                 const { bundle } = i18nFactory();
                 if (!cancelled) {
-                    MODULE_CACHE[entry] = {
+                    MODULE_CACHE.current[entry] = {
                         Component,
                         bundle,
                     };
@@ -94,7 +109,14 @@ export const useTemplateModule = (
         return () => {
             cancelled = true;
         };
-    }, [Component, bundle, container, entry, loadingFederatedModule]);
+    }, [
+        Component,
+        MODULE_CACHE,
+        bundle,
+        container,
+        entry,
+        loadingFederatedModule,
+    ]);
 
     return {
         loading: loadingFederatedModule || loadingExport,
