@@ -19013,10 +19013,10 @@ ursa-optional@~0.10.0:
     bindings "^1.5.0"
     nan "^2.14.2"
 
-use-fathom-client@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/use-fathom-client/-/use-fathom-client-1.1.0.tgz#18d5f589d7e59697f18c35771a4bde36e622fa01"
-  integrity sha512-1LzG/IOAfZtIMlSmucbi6AN7q54pDWH4LuBHl04iRTw0nK+5Yoj38biSiN8sg0qRh7JWpA3Gj887IdtUadGq/g==
+use-fathom-client@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-fathom-client/-/use-fathom-client-1.2.0.tgz#dcee9156f8702c13b7a47cade35e518077c75312"
+  integrity sha512-9cWKnK/DtSY8uG/QghGMeMyqlz+7B35VF+Us/yb/t04KSiXdbbCW4lq4n2pMRjLGUdTzP3EtiK+0PaNNOJ+12Q==
   dependencies:
     dotenv "^16.0.3"
     find-up "^6.3.0"

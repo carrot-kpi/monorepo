@@ -46,7 +46,7 @@
         "ethers": "^5.7.1",
         "react-router-dom": "^6.11.0",
         "sanitize-html": "^2.9.0",
-        "use-fathom-client": "^1.1.0"
+        "use-fathom-client": "^1.2.0"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*",
