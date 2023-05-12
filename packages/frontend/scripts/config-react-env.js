@@ -23,8 +23,6 @@ const requireEnv = (envName) => {
     if (!env) throw new Error(`a ${envName} env is required`);
 };
 
-const isEnvDefined = (envName) => !!process.env[envName];
-
 console.log(
     `Configuring React app env configuration for build mode "${buildMode}"`
 );
@@ -35,6 +33,6 @@ if (buildMode === "production") {
     requireEnv("REACT_APP_WALLETCONNECT_PROJECT_ID");
     requireEnv("REACT_APP_FATHOM_SITE_ID");
 } else {
-    if (!isEnvDefined("REACT_APP_WALLETCONNECT_PROJECT_ID"))
+    if (!!process.env.REACT_APP_WALLETCONNECT_PROJECT_ID)
         console.warn("WalletConnect won't be available in the build");
 }
