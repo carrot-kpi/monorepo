@@ -46,12 +46,16 @@ After you have these envs, you should create a `.env` file in the root of the
 package (or copy the `.env.example` available at the root of the package) and
 paste the values there.
 
-The `.env` file must also define 2 additional envs that will be used by the
+The `.env` file may also define 2 additional envs that will be used by the
 `build` command to generate code related to Fathom at build time.
 
 - `FATHOM_SITE_ID`: same id described above.
 - `FATHOM_API_KEY`: secret API key for the Fathom APIs. You can get one by
   registering [here](https://app.usefathom.com).
+
+If the `FATHOM_*` environment variables are not defined, the script will still
+work; however, it will skip the events synchronization process. Instead, it will
+only generate the output files.
 
 A `config-react-env` script will run before you build the dapp and throw an
 error if the env doesn't look good, so make sure your env is ok.
