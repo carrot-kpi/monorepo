@@ -39,13 +39,15 @@ the library through Fontsource:
 
 ```
 pnpm install @fontsource/ibm-plex-mono
-pnpm install @fontsource/inter
+pnpm install @carrot-kpi/switzer-font
+
 // or
 yarn add @fontsource/ibm-plex-mono
-yarn add @fontsource/inter
+yarn add @carrot-kpi/switzer-font
+
 // or
 npm install @fontsource/ibm-plex-mono
-npm install @fontsource/inter
+npm install @carrot-kpi/switzer-font
 ```
 
 The library is ready to use after adding the following to your entrypoint:
@@ -54,9 +56,9 @@ The library is ready to use after adding the following to your entrypoint:
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "@fontsource/ibm-plex-mono/700.css";
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/700.css";
+import "@carrot-kpi/switzer-font/400.css";
+import "@carrot-kpi/switzer-font/500.css";
+import "@carrot-kpi/switzer-font/700.css";
 import "@carrot-kpi/ui/styles.css";
 ```
 

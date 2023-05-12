@@ -2,8 +2,8 @@ const scale = (value, scalingFactor) => value * scalingFactor;
 
 const rem = (value) => `${value}rem`;
 
-const SANS_FONT_FAMILY = ["Inter", "ui-sans-serif", "sans-serif"];
-const MONO_FONT_FAMILY = ["IBM Plex Mono", "ui-monospace", "monospace"];
+const SANS_FONT_FAMILY = "Switzer, ui-sans-serif, sans-serif";
+const MONO_FONT_FAMILY = "IBM Plex Mono, ui-monospace, monospace";
 
 const BODY_TEXT_SIZES_REM = {
     "3xs": 0.5,

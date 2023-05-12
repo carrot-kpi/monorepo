@@ -50,8 +50,8 @@
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*",
+        "@carrot-kpi/switzer-font": "^0.1.0",
         "@fontsource/ibm-plex-mono": "^4.5.13",
-        "@fontsource/inter": "^4.5.15",
         "@tanstack/react-query": "^4.24.9",
         "i18next": "^22.0.2",
         "react": "^18.2.0",
@@ -60,9 +60,9 @@
     },
     "devDependencies": {
         "@carrot-kpi/shared-state": "*",
+        "@carrot-kpi/switzer-font": "^0.1.0",
         "@craco/craco": "^7.1.0",
         "@fontsource/ibm-plex-mono": "^4.5.13",
-        "@fontsource/inter": "^4.5.15",
         "@react-spring/web": "^9.7.2",
         "@rollup/plugin-commonjs": "^24.1.0",
         "@rollup/plugin-json": "^6.0.0",
