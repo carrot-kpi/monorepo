@@ -27,19 +27,18 @@ yarn install
 
 ### Setting up envs
 
-A couple envs are needed in order to start up the host frontend locally or build
-it for a release:
+A couple envs are required in order to start up the host frontend locally or
+build it for a release:
 
 - `REACT_APP_INFURA_PROJECT_ID`: an infura project ID to be used for RPC access
   for various blockchains. You can get one [here](https://www.infura.io/).
 - `REACT_APP_WALLETCONNECT_PROJECT_ID`: a WalletConnect v2 project ID is
   required in order to enable WalletConnect based wallet connections. You can
   get one by registering [here](https://cloud.walletconnect.com). If you don't
-  care about WalletConnect support (for example in a local build, you can skip
-  defining this env).
+  care about WalletConnect support you can leave the end empty.
 - `REACT_APP_FATHOM_SITE_ID`: id of an existing Fathom site, used to initialize
-  the anonymous tracking (this env is optional if you're not building a
-  production bundle). You can get one by registering
+  the anonymous tracking (this env must be defined but can be left empty if
+  you're not building a production bundle). You can get one by registering
   [here](https://app.usefathom.com).
 
 After you have these envs, you should create a `.env` file in the root of the
