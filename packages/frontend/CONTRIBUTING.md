@@ -53,8 +53,8 @@ The `.env` file must also define 2 additional envs that will be used by the
 - `FATHOM_API_KEY`: secret API key for the Fathom APIs. You can get one by
   registering [here](https://app.usefathom.com).
 
-A `config-react-env` script will run before you build the dapp and throw an error
-if the env doesn't look good, so make sure your env is ok.
+A `config-react-env` script will run before you build the dapp and throw an
+error if the env doesn't look good, so make sure your env is ok.
 
 ## Running modes
 
