@@ -232,5 +232,15 @@ exports.theme = {
         gridTemplateColumns: {
             campaigns: "repeat(auto-fit, minmax(320px, 1fr))",
         },
+        animation: {
+            "marquee-slow": "marquee 207s linear infinite",
+            "marquee-fast": "marquee 138s linear infinite",
+        },
+        keyframes: {
+            marquee: {
+                "0%": { transform: "translateX(0%)" },
+                "100%": { transform: "translateX(-100%)" },
+            },
+        },
     },
 };
