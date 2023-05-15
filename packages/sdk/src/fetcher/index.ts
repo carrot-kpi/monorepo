@@ -1,4 +1,4 @@
-import { Provider } from "@ethersproject/providers";
+import { Address, type PublicClient } from "viem";
 import { KPIToken } from "../entities/kpi-token";
 import { Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
@@ -20,139 +20,139 @@ export * from "./abstraction";
 
 class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
     private async shouldUseSubgraph({
-        provider,
+        publicClient,
         preferDecentralization,
     }: {
-        provider: Provider;
+        publicClient: PublicClient;
         preferDecentralization?: boolean;
     }) {
         if (preferDecentralization) return false;
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         return SubgraphFetcher.supportedInChain({ chainId });
     }
 
     public async fetchERC20Tokens({
-        provider,
+        publicClient,
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
         if (!addresses || addresses.length === 0) return {};
-        return super.fetchERC20Tokens({ provider, addresses });
+        return super.fetchERC20Tokens({ publicClient, addresses });
     }
 
     public async fetchKPITokensAmount({
-        provider,
+        publicClient,
         preferDecentralization,
     }: FullFetcherFetchKPITokensAmountParams): Promise<number> {
         const useSubgraph = await this.shouldUseSubgraph({
-            provider,
+            publicClient,
             preferDecentralization,
         });
         return useSubgraph
-            ? SubgraphFetcher.fetchKPITokensAmount({ provider })
-            : OnChainFetcher.fetchKPITokensAmount({ provider });
+            ? SubgraphFetcher.fetchKPITokensAmount({ publicClient })
+            : OnChainFetcher.fetchKPITokensAmount({ publicClient });
     }
 
     public async fetchKPITokenAddresses({
-        provider,
+        publicClient,
         preferDecentralization,
         fromIndex,
         toIndex,
-    }: FullFetcherFetchKPITokenAddressesParams): Promise<string[]> {
+    }: FullFetcherFetchKPITokenAddressesParams): Promise<Address[]> {
         const useSubgraph = await this.shouldUseSubgraph({
-            provider,
+            publicClient,
             preferDecentralization,
         });
         return useSubgraph
             ? SubgraphFetcher.fetchKPITokenAddresses({
-                  provider,
+                  publicClient,
                   fromIndex,
                   toIndex,
               })
             : OnChainFetcher.fetchKPITokenAddresses({
-                  provider,
+                  publicClient,
                   fromIndex,
                   toIndex,
               });
     }
 
     async fetchKPITokens({
-        provider,
+        publicClient,
         preferDecentralization,
         addresses,
     }: FullFetcherFetchEntitiesParams): Promise<{
         [address: string]: KPIToken;
     }> {
         const useSubgraph = await this.shouldUseSubgraph({
-            provider,
+            publicClient,
             preferDecentralization,
         });
         return useSubgraph
             ? SubgraphFetcher.fetchKPITokens({
-                  provider,
+                  publicClient,
                   addresses,
               })
             : OnChainFetcher.fetchKPITokens({
-                  provider,
+                  publicClient,
                   addresses,
               });
     }
 
     async fetchOracles({
-        provider,
+        publicClient,
         preferDecentralization,
         addresses,
     }: FullFetcherFetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
         const useSubgraph = await this.shouldUseSubgraph({
-            provider,
+            publicClient,
             preferDecentralization,
         });
         return useSubgraph
             ? SubgraphFetcher.fetchOracles({
-                  provider,
+                  publicClient,
                   addresses,
               })
             : OnChainFetcher.fetchOracles({
-                  provider,
+                  publicClient,
                   addresses,
               });
     }
 
     async fetchKPITokenTemplates({
-        provider,
+        publicClient,
         preferDecentralization,
         ids,
     }: FullFetcherFetchTemplatesParams): Promise<Template[]> {
         const useSubgraph = await this.shouldUseSubgraph({
-            provider,
+            publicClient,
             preferDecentralization,
         });
         return useSubgraph
             ? SubgraphFetcher.fetchKPITokenTemplates({
-                  provider,
+                  publicClient,
                   ids,
               })
             : OnChainFetcher.fetchKPITokenTemplates({
-                  provider,
+                  publicClient,
                   ids,
               });
     }
 
     async fetchOracleTemplates({
-        provider,
+        publicClient,
         preferDecentralization,
         ids,
     }: FullFetcherFetchTemplatesParams): Promise<Template[]> {
         const useSubgraph = await this.shouldUseSubgraph({
-            provider,
+            publicClient,
             preferDecentralization,
         });
         return useSubgraph
             ? SubgraphFetcher.fetchOracleTemplates({
-                  provider,
+                  publicClient,
                   ids,
               })
             : OnChainFetcher.fetchOracleTemplates({
-                  provider,
+                  publicClient,
                   ids,
               });
     }

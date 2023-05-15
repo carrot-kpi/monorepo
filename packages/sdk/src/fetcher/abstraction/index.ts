@@ -1,5 +1,4 @@
-import { BigNumberish } from "@ethersproject/bignumber";
-import { Provider } from "@ethersproject/providers";
+import { Address, type PublicClient } from "viem";
 import { ChainId } from "../../commons";
 import { KPIToken } from "../../entities/kpi-token";
 import { Oracle } from "../../entities/oracle";
@@ -8,8 +7,8 @@ import { Token } from "../../entities/token";
 import { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
 
 export interface FetchERC20TokensParams {
-    provider: Provider;
-    addresses: string[];
+    publicClient: PublicClient;
+    addresses: Address[];
 }
 
 export interface FetchContentFromIPFSParams {
@@ -35,7 +34,7 @@ export interface ResolveTemplatesParams {
 export interface ICoreFetcher {
     fetchERC20Tokens(
         params: FetchERC20TokensParams
-    ): Promise<{ [address: string]: Token }>;
+    ): Promise<{ [address: Address]: Token }>;
 
     fetchContentFromIPFS(
         params: FetchContentFromIPFSParams
@@ -57,28 +56,28 @@ export interface SupportedInChainParams {
 }
 
 export interface FetchKPITokensAmountParams {
-    provider: Provider;
+    publicClient: PublicClient;
 }
 
 export interface FetchKPITokenAddressesParams {
-    provider: Provider;
+    publicClient: PublicClient;
     fromIndex?: number;
     toIndex?: number;
 }
 
 export interface FetchEntitiesParams {
-    provider: Provider;
-    addresses?: string[];
+    publicClient: PublicClient;
+    addresses?: Address[];
 }
 
 export interface FetchTemplatesParams {
-    provider: Provider;
-    ids?: BigNumberish[];
+    publicClient: PublicClient;
+    ids?: number[];
 }
 
 export interface FetchTemplateParams {
-    provider: Provider;
-    id?: BigNumberish;
+    publicClient: PublicClient;
+    id?: number;
 }
 
 export interface IPartialCarrotFetcher {
@@ -88,15 +87,15 @@ export interface IPartialCarrotFetcher {
 
     fetchKPITokenAddresses(
         params: FetchKPITokenAddressesParams
-    ): Promise<string[]>;
+    ): Promise<Address[]>;
 
     fetchKPITokens(
         params: FetchEntitiesParams
-    ): Promise<{ [address: string]: KPIToken }>;
+    ): Promise<{ [address: Address]: KPIToken }>;
 
     fetchOracles(
         params: FetchEntitiesParams
-    ): Promise<{ [address: string]: Oracle }>;
+    ): Promise<{ [address: Address]: Oracle }>;
 
     fetchKPITokenTemplates(params: FetchTemplatesParams): Promise<Template[]>;
 
@@ -122,7 +121,7 @@ export type FullFetcherFetchTemplatesParams = FetchTemplatesParams &
 export interface IFullCarrotFetcher {
     fetchERC20Tokens(
         params: FetchERC20TokensParams
-    ): Promise<{ [address: string]: Token }>;
+    ): Promise<{ [address: Address]: Token }>;
 
     fetchKPITokensAmount(
         params: FullFetcherFetchKPITokensAmountParams
@@ -130,15 +129,15 @@ export interface IFullCarrotFetcher {
 
     fetchKPITokenAddresses(
         params: FetchKPITokenAddressesParams
-    ): Promise<string[]>;
+    ): Promise<Address[]>;
 
     fetchKPITokens(
         params: FullFetcherFetchEntitiesParams
-    ): Promise<{ [address: string]: KPIToken }>;
+    ): Promise<{ [address: Address]: KPIToken }>;
 
     fetchOracles(
         params: FullFetcherFetchEntitiesParams
-    ): Promise<{ [address: string]: Oracle }>;
+    ): Promise<{ [address: Address]: Oracle }>;
 
     fetchKPITokenTemplates(
         params: FullFetcherFetchTemplatesParams

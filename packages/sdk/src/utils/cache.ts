@@ -1,13 +1,14 @@
 import { Token } from "../entities/token";
 import { CACHER } from "../commons";
 import { warn } from "./invariant";
+import { Address } from "viem";
 
-export const erc20TokenCachingKey = (chainId: number, address: string) =>
+export const erc20TokenCachingKey = (chainId: number, address: Address) =>
     `erc20-${chainId}-${address}`;
 
 interface SerializedERC20Token {
     chainId: number;
-    address: string;
+    address: Address;
     decimals: number;
     symbol: string;
     name: string;
@@ -33,7 +34,7 @@ export const cacheERC20Token = (token: Token, validUntil?: number) => {
 
 export const getCachedERC20Token = (
     chainId: number,
-    address: string
+    address: Address
 ): Token | undefined => {
     const serializedERC20Token = CACHER.get<SerializedERC20Token>(
         erc20TokenCachingKey(chainId, address)

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
-import { isAddress, getAddress } from "@ethersproject/address";
+import { isAddress, getAddress } from "viem";
 import { ChainId } from "@carrot-kpi/sdk";
 
 const DEFILLAMA_API_CHAIN_PREFIX: Record<ChainId, string> = {

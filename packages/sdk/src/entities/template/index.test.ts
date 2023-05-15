@@ -1,4 +1,4 @@
-import { Wallet } from "@ethersproject/wallet";
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 import { ResolvedTemplate, TemplateSpecification } from ".";
 
 describe("template", () => {
@@ -35,7 +35,7 @@ describe("template", () => {
                 "Commit hash",
                 "https://staging-url.com"
             );
-            const address = Wallet.createRandom().address;
+            const address = privateKeyToAccount(generatePrivateKey()).address;
             const template = new ResolvedTemplate(
                 0,
                 address,

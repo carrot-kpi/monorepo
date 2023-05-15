@@ -7,7 +7,7 @@ import {
 import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAccount, useNetwork, useProvider } from "wagmi";
+import { useAccount, useNetwork, usePublicClient } from "wagmi";
 import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
@@ -29,7 +29,7 @@ export const CreateWithTemplateId = ({
     const navigate = useNavigate();
     const addTransaction = useAddTransaction();
     const { templateId } = useParams();
-    const provider = useProvider();
+    const publicClient = usePublicClient();
     const { chain } = useNetwork();
     const { address } = useAccount();
     const preferDecentralization = usePreferDecentralization();
@@ -73,13 +73,18 @@ export const CreateWithTemplateId = ({
             console.warn("no template in state and no template id");
             return;
         }
+        const parsedTemplateId = parseInt(templateId);
+        if (isNaN(parsedTemplateId)) {
+            console.warn(`non numeric template id ${templateId}`);
+            return;
+        }
         let cancelled = false;
         const fetchData = async () => {
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
-                    provider,
+                    publicClient,
                     preferDecentralization,
-                    ids: [templateId],
+                    ids: [parsedTemplateId],
                 });
                 if (templates.length !== 1) {
                     console.warn(
@@ -115,7 +120,7 @@ export const CreateWithTemplateId = ({
         chain?.name,
         ipfsGatewayURL,
         preferDecentralization,
-        provider,
+        publicClient,
         state?.template,
         templateId,
     ]);

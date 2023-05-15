@@ -1,6 +1,3 @@
-import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
-import { Contract } from "@ethersproject/contracts";
-import { Interface } from "@ethersproject/abi";
 import {
     KPI_TOKENS_MANAGER_ABI,
     CHAIN_ADDRESSES,
@@ -22,61 +19,52 @@ import {
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
-
-// platform related interfaces
-const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI);
-const ORACLE_INTERFACE = new Interface(ORACLE_ABI);
-const KPI_TOKENS_MANAGER_INTERFACE = new Interface(KPI_TOKENS_MANAGER_ABI);
+import {
+    encodeFunctionData,
+    type Address,
+    decodeFunctionResult,
+    getContract,
+    PublicClient,
+} from "viem";
 
 // platform related functions
-const KPI_TOKEN_TEMPLATE_FUNCTION =
-    KPI_TOKEN_INTERFACE.getFunction("template()");
-const KPI_TOKEN_FINALIZED_FUNCTION =
-    KPI_TOKEN_INTERFACE.getFunction("finalized()");
-const KPI_TOKEN_DESCRIPTION_FUNCTION =
-    KPI_TOKEN_INTERFACE.getFunction("description()");
-const KPI_TOKEN_ORACLES_FUNCTION = KPI_TOKEN_INTERFACE.getFunction("oracles()");
-const KPI_TOKEN_EXPIRATION_FUNCTION =
-    KPI_TOKEN_INTERFACE.getFunction("expiration()");
-const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION = KPI_TOKEN_INTERFACE.getFunction(
-    "creationTimestamp()"
-);
-const KPI_TOKEN_OWNER_FUNCTION = KPI_TOKEN_INTERFACE.getFunction("owner()");
+const KPI_TOKEN_TEMPLATE_FUNCTION_DATA = encodeFunctionData({
+    abi: KPI_TOKEN_ABI,
+    functionName: "template",
+});
+const KPI_TOKEN_FINALIZED_FUNCTION_DATA = encodeFunctionData({
+    abi: KPI_TOKEN_ABI,
+    functionName: "finalized",
+});
+const KPI_TOKEN_DESCRIPTION_FUNCTION_DATA = encodeFunctionData({
+    abi: KPI_TOKEN_ABI,
+    functionName: "description",
+});
+const KPI_TOKEN_ORACLES_FUNCTION_DATA = encodeFunctionData({
+    abi: KPI_TOKEN_ABI,
+    functionName: "oracles",
+});
+const KPI_TOKEN_EXPIRATION_FUNCTION_DATA = encodeFunctionData({
+    abi: KPI_TOKEN_ABI,
+    functionName: "expiration",
+});
+const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA = encodeFunctionData({
+    abi: KPI_TOKEN_ABI,
+    functionName: "creationTimestamp",
+});
+const KPI_TOKEN_OWNER_FUNCTION_DATA = encodeFunctionData({
+    abi: KPI_TOKEN_ABI,
+    functionName: "owner",
+});
 
-const ORACLE_TEMPLATE_FUNCTION = ORACLE_INTERFACE.getFunction("template()");
-const ORACLE_FINALIZED_FUNCTION =
-    KPI_TOKEN_INTERFACE.getFunction("finalized()");
-
-const MANAGER_TEMPLATE_FUNCTION =
-    KPI_TOKENS_MANAGER_INTERFACE.getFunction("template(uint256)");
-
-// platform related function data
-const KPI_TOKEN_TEMPLATE_FUNCTION_DATA = KPI_TOKEN_INTERFACE.encodeFunctionData(
-    KPI_TOKEN_TEMPLATE_FUNCTION
-);
-const KPI_TOKEN_FINALIZED_FUNCTION_DATA =
-    KPI_TOKEN_INTERFACE.encodeFunctionData(KPI_TOKEN_FINALIZED_FUNCTION);
-const KPI_TOKEN_DESCRIPTION_FUNCTION_DATA =
-    KPI_TOKEN_INTERFACE.encodeFunctionData(KPI_TOKEN_DESCRIPTION_FUNCTION);
-const KPI_TOKEN_ORACLES_FUNCTION_DATA = KPI_TOKEN_INTERFACE.encodeFunctionData(
-    KPI_TOKEN_ORACLES_FUNCTION
-);
-const KPI_TOKEN_EXPIRATION_FUNCTION_DATA =
-    KPI_TOKEN_INTERFACE.encodeFunctionData(KPI_TOKEN_EXPIRATION_FUNCTION);
-const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA =
-    KPI_TOKEN_INTERFACE.encodeFunctionData(
-        KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION
-    );
-const KPI_TOKEN_OWNER_FUNCTION_DATA = KPI_TOKEN_INTERFACE.encodeFunctionData(
-    KPI_TOKEN_OWNER_FUNCTION
-);
-
-const ORACLE_TEMPLATE_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
-    ORACLE_TEMPLATE_FUNCTION
-);
-const ORACLE_FINALIZED_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(
-    ORACLE_FINALIZED_FUNCTION
-);
+const ORACLE_TEMPLATE_FUNCTION_DATA = encodeFunctionData({
+    abi: ORACLE_ABI,
+    functionName: "template",
+});
+const ORACLE_FINALIZED_FUNCTION_DATA = encodeFunctionData({
+    abi: ORACLE_ABI,
+    functionName: "finalized",
+});
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
@@ -85,98 +73,111 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokensAmount({
-        provider,
+        publicClient,
     }: FetchKPITokensAmountParams): Promise<number> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        const factoryContract = new Contract(
-            chainAddresses.factory,
-            FACTORY_ABI,
-            provider
-        );
-        return (await factoryContract.kpiTokensAmount()).toNumber();
+        const amount = await publicClient.readContract({
+            abi: FACTORY_ABI,
+            address: chainAddresses.factory,
+            functionName: "kpiTokensAmount",
+        });
+        return Number(amount);
     }
 
     public async fetchKPITokenAddresses({
-        provider,
+        publicClient,
         fromIndex,
         toIndex,
-    }: FetchKPITokenAddressesParams): Promise<string[]> {
-        const { chainId } = await provider.getNetwork();
+    }: FetchKPITokenAddressesParams): Promise<Address[]> {
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        const factoryContract = new Contract(
-            chainAddresses.factory,
-            FACTORY_ABI,
-            provider
-        );
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
-            ? await this.fetchKPITokensAmount({ provider })
+            ? await this.fetchKPITokensAmount({ publicClient })
             : toIndex;
-        return await factoryContract.enumerate(finalFromIndex, finalToIndex);
+        return (
+            await publicClient.readContract({
+                abi: FACTORY_ABI,
+                address: chainAddresses.factory,
+                functionName: "enumerate",
+                args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
+            })
+        ).slice();
     }
 
     public async fetchKPITokens({
-        provider,
+        publicClient,
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        const multicall = new Contract(
-            chainAddresses.multicall,
-            MULTICALL_ABI,
-            provider
-        );
-        const factoryContract = new Contract(
-            chainAddresses.factory,
-            FACTORY_ABI,
-            provider
-        );
 
-        let tokenAddresses;
+        let tokenAddresses: Address[];
         let kpiTokenAmounts;
         if (addresses && addresses.length > 0) {
             kpiTokenAmounts = addresses.length;
             tokenAddresses = addresses;
         } else {
             kpiTokenAmounts = await this.fetchKPITokensAmount({
-                provider,
+                publicClient,
             });
             if (kpiTokenAmounts === 0) return {};
-            tokenAddresses = await factoryContract.enumerate(
-                0,
-                kpiTokenAmounts
-            );
+            tokenAddresses = (await publicClient.readContract({
+                abi: FACTORY_ABI,
+                address: chainAddresses.factory,
+                functionName: "enumerate",
+                args: [0n, BigInt(kpiTokenAmounts)],
+            })) as Address[];
         }
 
-        const [, kpiTokenResult] = await multicall.callStatic.aggregate(
-            tokenAddresses.flatMap((address: string) => {
-                return [
-                    [address, KPI_TOKEN_FINALIZED_FUNCTION_DATA],
-                    [address, KPI_TOKEN_DESCRIPTION_FUNCTION_DATA],
-                    [address, KPI_TOKEN_TEMPLATE_FUNCTION_DATA],
-                    [address, KPI_TOKEN_ORACLES_FUNCTION_DATA],
-                    [address, KPI_TOKEN_EXPIRATION_FUNCTION_DATA],
-                    [address, KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA],
-                    [address, KPI_TOKEN_OWNER_FUNCTION_DATA],
-                ];
-            })
-        );
+        const {
+            result: [, kpiTokenResult],
+        } = await publicClient.simulateContract({
+            abi: MULTICALL_ABI,
+            address: chainAddresses.multicall,
+            functionName: "aggregate",
+            args: [
+                tokenAddresses.flatMap((target) => {
+                    return [
+                        { target, callData: KPI_TOKEN_FINALIZED_FUNCTION_DATA },
+                        {
+                            target,
+                            callData: KPI_TOKEN_DESCRIPTION_FUNCTION_DATA,
+                        },
+                        { target, callData: KPI_TOKEN_TEMPLATE_FUNCTION_DATA },
+                        { target, callData: KPI_TOKEN_ORACLES_FUNCTION_DATA },
+                        {
+                            target,
+                            callData: KPI_TOKEN_EXPIRATION_FUNCTION_DATA,
+                        },
+                        {
+                            target,
+                            callData:
+                                KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA,
+                        },
+                        { target, callData: KPI_TOKEN_OWNER_FUNCTION_DATA },
+                    ];
+                }),
+            ],
+            value: 0n,
+        });
 
-        const allOracleAddresses: string[] = [];
+        const allOracleAddresses: Address[] = [];
         for (let i = 3; i < kpiTokenResult.length; i += 7)
             allOracleAddresses.push(
-                ...KPI_TOKEN_INTERFACE.decodeFunctionResult(
-                    KPI_TOKEN_ORACLES_FUNCTION,
-                    kpiTokenResult[i]
-                )[0]
+                decodeFunctionResult({
+                    abi: KPI_TOKEN_ABI,
+                    functionName: "oracles",
+                    data: kpiTokenResult[i],
+                })[0]
             );
 
         const oracles = await this.fetchOracles({
-            provider,
+            publicClient,
             addresses: allOracleAddresses,
         });
 
@@ -186,39 +187,51 @@ class Fetcher implements IPartialCarrotFetcher {
                 ? addresses.length
                 : kpiTokenAmounts;
         outerLoop: for (let i = 0; i < iUpperLimit; i++) {
-            const kpiTokenTemplate = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-                KPI_TOKEN_TEMPLATE_FUNCTION,
-                kpiTokenResult[i * 7 + 2]
-            )[0];
+            const kpiTokenFinalized = decodeFunctionResult({
+                abi: KPI_TOKEN_ABI,
+                functionName: "finalized",
+                data: kpiTokenResult[i * 7],
+            });
 
-            const kpiTokenFinalized = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-                KPI_TOKEN_FINALIZED_FUNCTION,
-                kpiTokenResult[i * 7]
-            )[0];
-            const kpiTokenDescriptionCID =
-                KPI_TOKEN_INTERFACE.decodeFunctionResult(
-                    KPI_TOKEN_DESCRIPTION_FUNCTION,
-                    kpiTokenResult[i * 7 + 1]
-                )[0];
+            const kpiTokenDescriptionCID = decodeFunctionResult({
+                abi: KPI_TOKEN_ABI,
+                functionName: "description",
+                data: kpiTokenResult[i * 7 + 1],
+            });
 
-            const kpiTokenOracleAddresses =
-                KPI_TOKEN_INTERFACE.decodeFunctionResult(
-                    KPI_TOKEN_ORACLES_FUNCTION,
-                    kpiTokenResult[i * 7 + 3]
-                )[0];
-            const kpiTokenExpiration = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-                KPI_TOKEN_EXPIRATION_FUNCTION,
-                kpiTokenResult[i * 7 + 4]
-            )[0].toNumber();
-            const kpiTokenCreationTimestamp =
-                KPI_TOKEN_INTERFACE.decodeFunctionResult(
-                    KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION,
-                    kpiTokenResult[i * 7 + 5]
-                )[0].toNumber();
-            const kpiTokenOwner = KPI_TOKEN_INTERFACE.decodeFunctionResult(
-                KPI_TOKEN_OWNER_FUNCTION,
-                kpiTokenResult[i * 7 + 6]
-            )[0];
+            const kpiTokenTemplate = decodeFunctionResult({
+                abi: KPI_TOKEN_ABI,
+                functionName: "template",
+                data: kpiTokenResult[i * 7 + 2],
+            });
+
+            const kpiTokenOracleAddresses = decodeFunctionResult({
+                abi: KPI_TOKEN_ABI,
+                functionName: "oracles",
+                data: kpiTokenResult[i * 7 + 3],
+            });
+
+            const kpiTokenExpiration = Number(
+                decodeFunctionResult({
+                    abi: KPI_TOKEN_ABI,
+                    functionName: "expiration",
+                    data: kpiTokenResult[i * 7 + 4],
+                })
+            );
+
+            const kpiTokenCreationTimestamp = Number(
+                decodeFunctionResult({
+                    abi: KPI_TOKEN_ABI,
+                    functionName: "creationTimestamp",
+                    data: kpiTokenResult[i * 7 + 5],
+                })
+            );
+
+            const kpiTokenOwner = decodeFunctionResult({
+                abi: KPI_TOKEN_ABI,
+                functionName: "owner",
+                data: kpiTokenResult[i * 7 + 6],
+            });
 
             const kpiTokenOracles: Oracle[] = [];
             for (const address of kpiTokenOracleAddresses) {
@@ -228,9 +241,9 @@ class Fetcher implements IPartialCarrotFetcher {
             }
 
             const template = new Template(
-                kpiTokenTemplate.id.toNumber(),
+                Number(kpiTokenTemplate.id),
                 kpiTokenTemplate.addrezz,
-                kpiTokenTemplate.version,
+                Number(kpiTokenTemplate.version),
                 kpiTokenTemplate.specification
             );
 
@@ -251,38 +264,43 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchOracles({
-        provider,
+        publicClient,
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        const multicall = new Contract(
-            chainAddresses.multicall,
-            MULTICALL_ABI,
-            provider
-        );
-        const oraclesManagerContract = new Contract(
-            chainAddresses.oraclesManager,
-            ORACLES_MANAGER_ABI,
-            provider
-        );
+        const oraclesManager = getContract({
+            abi: ORACLES_MANAGER_ABI,
+            address: chainAddresses.oraclesManager,
+            publicClient: publicClient,
+        });
 
-        const oracleAmounts = await oraclesManagerContract.templatesAmount();
-        if (oracleAmounts.isZero()) return {};
+        const oracleAmounts = await oraclesManager.read.templatesAmount();
+        if (oracleAmounts == 0n) return {};
         const oracleAddresses =
             addresses && addresses.length > 0
                 ? addresses
-                : await oraclesManagerContract.enumerate(0, oracleAmounts);
+                : (
+                      await oraclesManager.read.enumerate([0n, oracleAmounts])
+                  ).map((oracle) => oracle.addrezz);
 
-        const [, oraclesResult] = await multicall.callStatic.aggregate(
-            oracleAddresses.flatMap((address: string) => {
-                return [
-                    [address, ORACLE_TEMPLATE_FUNCTION_DATA],
-                    [address, ORACLE_FINALIZED_FUNCTION_DATA],
-                ];
-            })
-        );
+        const {
+            result: [, oraclesResult],
+        } = await publicClient.simulateContract({
+            abi: MULTICALL_ABI,
+            address: chainAddresses.multicall,
+            functionName: "aggregate",
+            args: [
+                oracleAddresses.flatMap((target) => {
+                    return [
+                        { target, callData: ORACLE_TEMPLATE_FUNCTION_DATA },
+                        { target, callData: ORACLE_FINALIZED_FUNCTION_DATA },
+                    ];
+                }),
+            ],
+            value: 0n,
+        });
 
         const oracles: { [address: string]: Oracle } = {};
         for (let i = 0; i < oracleAddresses.length; i++) {
@@ -291,25 +309,27 @@ class Fetcher implements IPartialCarrotFetcher {
                 addrezz: templateAddress,
                 specification,
                 version,
-            } = ORACLE_INTERFACE.decodeFunctionResult(
-                ORACLE_TEMPLATE_FUNCTION,
-                oraclesResult[i * 2]
-            )[0];
+            } = decodeFunctionResult({
+                abi: ORACLE_ABI,
+                functionName: "template",
+                data: oraclesResult[i * 2],
+            });
             const oracleAddress = oracleAddresses[i];
             const template = new Template(
-                templateId,
+                Number(templateId),
                 templateAddress,
-                version,
+                Number(version),
                 specification
             );
             oracles[oracleAddress] = new Oracle(
                 chainId,
                 oracleAddress,
                 template,
-                ORACLE_INTERFACE.decodeFunctionResult(
-                    ORACLE_FINALIZED_FUNCTION,
-                    oraclesResult[i * 2 + 1]
-                )[0]
+                decodeFunctionResult({
+                    abi: ORACLE_ABI,
+                    functionName: "finalized",
+                    data: oraclesResult[i * 2 + 1],
+                })
             );
         }
         return oracles;
@@ -317,87 +337,93 @@ class Fetcher implements IPartialCarrotFetcher {
 
     private async fetchTemplates(
         chainId: ChainId,
-        managerContract: Contract,
-        ids?: BigNumberish[]
+        publicClient: PublicClient,
+        managerAddress: Address,
+        ids?: number[]
     ): Promise<Template[]> {
-        let rawTemplates: {
-            id: BigNumber;
-            addrezz: string;
-            version: BigNumber;
-            specification: string;
-        }[];
+        const managerContract = getContract({
+            abi: KPI_TOKENS_MANAGER_ABI,
+            address: managerAddress,
+            publicClient: publicClient,
+        });
+
+        let rawTemplates;
         if (ids && ids.length > 0) {
             const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-            const multicall = new Contract(
-                chainAddresses.multicall,
-                MULTICALL_ABI,
-                managerContract.provider
-            );
-            const [, result] = await multicall.callStatic.aggregate(
-                ids.map((id) => {
-                    return [
-                        managerContract.address,
-                        KPI_TOKENS_MANAGER_INTERFACE.encodeFunctionData(
-                            MANAGER_TEMPLATE_FUNCTION,
-                            [id]
-                        ),
-                    ];
-                })
-            );
+
+            const {
+                result: [, result],
+            } = await publicClient.simulateContract({
+                abi: MULTICALL_ABI,
+                address: chainAddresses.multicall,
+                functionName: "aggregate",
+                args: [
+                    ids.map((id) => {
+                        return {
+                            target: managerAddress,
+                            callData: encodeFunctionData({
+                                abi: KPI_TOKENS_MANAGER_ABI,
+                                functionName: "template",
+                                args: [BigInt(id)],
+                            }),
+                        };
+                    }),
+                ],
+                value: 0n,
+            });
             rawTemplates = result.map(
                 // eslint-disable-next-line
                 (wrappedTemplate: any) =>
-                    KPI_TOKENS_MANAGER_INTERFACE.decodeFunctionResult(
-                        MANAGER_TEMPLATE_FUNCTION,
-                        wrappedTemplate
-                    )[0]
+                    decodeFunctionResult({
+                        abi: KPI_TOKENS_MANAGER_ABI,
+                        functionName: "template",
+                        data: wrappedTemplate,
+                    })
             );
         } else {
-            const templatesAmount = await managerContract.templatesAmount();
-            if (templatesAmount == 0) return [];
-            rawTemplates = await managerContract.enumerate(0, templatesAmount);
+            const templatesAmount =
+                await managerContract.read.templatesAmount();
+            if (templatesAmount == 0n) return [];
+            rawTemplates = await managerContract.read.enumerate([
+                0n,
+                templatesAmount,
+            ]);
         }
 
         return rawTemplates.map((rawTemplate) => {
             return new Template(
-                rawTemplate.id.toNumber(),
+                Number(rawTemplate.id),
                 rawTemplate.addrezz,
-                rawTemplate.version.toNumber(),
+                Number(rawTemplate.version),
                 rawTemplate.specification
             );
         });
     }
 
     public async fetchKPITokenTemplates({
-        provider,
+        publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
-            new Contract(
-                CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
-                KPI_TOKENS_MANAGER_ABI,
-                provider
-            ),
+            publicClient,
+            CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
             ids
         );
     }
 
     public async fetchOracleTemplates({
-        provider,
+        publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         return await this.fetchTemplates(
             chainId,
-            new Contract(
-                CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
-                ORACLES_MANAGER_ABI,
-                provider
-            ),
+            publicClient,
+            CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
             ids
         );
     }

@@ -30,7 +30,7 @@ import {
 } from "./queries";
 import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
 import { enforce } from "../../utils";
-import { getAddress } from "@ethersproject/address";
+import { Address, getAddress } from "viem";
 import { Template } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/subgraph";
@@ -79,9 +79,9 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokensAmount({
-        provider,
+        publicClient,
     }: FetchKPITokensAmountParams): Promise<number> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -98,11 +98,11 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokenAddresses({
-        provider,
+        publicClient,
         fromIndex,
         toIndex,
-    }: FetchKPITokenAddressesParams): Promise<string[]> {
-        const { chainId } = await provider.getNetwork();
+    }: FetchKPITokenAddressesParams): Promise<Address[]> {
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -110,7 +110,7 @@ class Fetcher implements IPartialCarrotFetcher {
         enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
-            ? await this.fetchKPITokensAmount({ provider })
+            ? await this.fetchKPITokensAmount({ publicClient })
             : toIndex;
         const { tokens } = await query<GetKPITokenAddressesQueryResponse>(
             subgraphURL,
@@ -139,10 +139,10 @@ class Fetcher implements IPartialCarrotFetcher {
     };
 
     public async fetchKPITokens({
-        provider,
+        publicClient,
         addresses,
     }: FetchEntitiesParams): Promise<ChainKPITokensMap> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -213,10 +213,10 @@ class Fetcher implements IPartialCarrotFetcher {
     };
 
     public async fetchOracles({
-        provider,
+        publicClient,
         addresses,
     }: FetchEntitiesParams): Promise<ChainOraclesMap> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -271,10 +271,10 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchKPITokenTemplates({
-        provider,
+        publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
@@ -351,10 +351,10 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     public async fetchOracleTemplates({
-        provider,
+        publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await provider.getNetwork();
+        const chainId = await publicClient.getChainId();
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);

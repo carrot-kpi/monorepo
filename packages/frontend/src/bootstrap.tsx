@@ -89,10 +89,7 @@ export const Root = ({
                 return connectors;
             return [
                 ...connectors,
-                new ReadonlyConnector({
-                    chains: resolvedSupportedChains,
-                    options: { name: "readonly" },
-                }),
+                new ReadonlyConnector({ chains: resolvedSupportedChains }),
             ];
         };
     }

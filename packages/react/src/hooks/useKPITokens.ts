@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
-import { useProvider } from "wagmi";
+import { usePublicClient } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useKPITokens(): {
@@ -8,7 +8,7 @@ export function useKPITokens(): {
     kpiTokens: { [address: string]: KPIToken };
 } {
     const preferDecentralization = usePreferDecentralization();
-    const provider = useProvider();
+    const publicClient = usePublicClient();
 
     const [kpiTokens, setKPITokens] = useState<{ [address: string]: KPIToken }>(
         {}
@@ -18,11 +18,11 @@ export function useKPITokens(): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!provider) return;
+            if (!publicClient) return;
             if (!cancelled) setLoading(true);
             try {
                 const kpiTokens = await Fetcher.fetchKPITokens({
-                    provider,
+                    publicClient,
                     preferDecentralization,
                 });
                 if (!cancelled) setKPITokens(kpiTokens);
@@ -36,7 +36,7 @@ export function useKPITokens(): {
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, provider]);
+    }, [preferDecentralization, publicClient]);
 
     return { loading, kpiTokens };
 }

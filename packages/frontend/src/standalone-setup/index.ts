@@ -49,7 +49,6 @@ if (!__LIBRARY_MODE__) {
         }),
         new FrameConnector({
             chains: standaloneSupportedChains,
-            options: {},
         }),
         new CoinbaseWalletConnector({
             chains: standaloneSupportedChains,
@@ -60,7 +59,6 @@ if (!__LIBRARY_MODE__) {
         }),
         new ReadonlyConnector({
             chains: standaloneSupportedChains,
-            options: { name: "readonly" },
         }),
     ];
 

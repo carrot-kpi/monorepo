@@ -1,4 +1,4 @@
-import { Wallet } from "@ethersproject/wallet";
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 import { KPITokenSpecification, ResolvedKPIToken } from ".";
 import { ChainId } from "../../commons";
 import { ResolvedOracle } from "../oracle";
@@ -22,13 +22,13 @@ describe("kpi token", () => {
         );
         template = new ResolvedTemplate(
             0,
-            Wallet.createRandom().address,
+            privateKeyToAccount(generatePrivateKey()).address,
             1,
             templateSpecification
         );
         oracle = new ResolvedOracle(
             ChainId.SEPOLIA,
-            Wallet.createRandom().address,
+            privateKeyToAccount(generatePrivateKey()).address,
             template,
             false
         );
@@ -41,8 +41,10 @@ describe("kpi token", () => {
     });
 
     test("instantiates correctly", () => {
-        const kpiTokenAddress = Wallet.createRandom().address;
-        const kpiTokenOwner = Wallet.createRandom().address;
+        const kpiTokenAddress = privateKeyToAccount(
+            generatePrivateKey()
+        ).address;
+        const kpiTokenOwner = privateKeyToAccount(generatePrivateKey()).address;
         const kpiToken = new ResolvedKPIToken(
             ChainId.SEPOLIA,
             kpiTokenAddress,
@@ -71,8 +73,8 @@ describe("kpi token", () => {
 
             const kpiToken = new ResolvedKPIToken(
                 ChainId.SEPOLIA,
-                Wallet.createRandom().address,
-                Wallet.createRandom().address,
+                privateKeyToAccount(generatePrivateKey()).address,
+                privateKeyToAccount(generatePrivateKey()).address,
                 template,
                 [oracle],
                 kpiTokenSpecification,
@@ -89,8 +91,8 @@ describe("kpi token", () => {
 
             const kpiToken = new ResolvedKPIToken(
                 ChainId.SEPOLIA,
-                Wallet.createRandom().address,
-                Wallet.createRandom().address,
+                privateKeyToAccount(generatePrivateKey()).address,
+                privateKeyToAccount(generatePrivateKey()).address,
                 template,
                 [oracle],
                 kpiTokenSpecification,

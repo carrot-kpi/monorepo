@@ -1,13 +1,13 @@
-import { isAddress, getAddress } from "@ethersproject/address";
+import { isAddress, getAddress, Address } from "viem";
 import { Currency } from "../currency";
 import { enforce } from "../../utils/invariant";
 
 export class Token extends Currency {
-    public readonly address: string;
+    public readonly address: Address;
 
     public constructor(
         public readonly chainId: number,
-        address: string,
+        address: Address,
         decimals: number,
         symbol: string,
         name: string

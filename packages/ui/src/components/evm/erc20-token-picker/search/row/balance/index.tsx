@@ -1,17 +1,16 @@
 import React from "react";
-import { BigNumber } from "@ethersproject/bignumber";
 import { Typography } from "../../../../../data-display";
 import { Skeleton } from "../../../../../feedback";
 import { formatDecimals } from "@carrot-kpi/sdk";
-import { commify, formatUnits } from "@ethersproject/units";
+import { formatUnits } from "viem";
 
 interface BalanceProps {
-    balance?: BigNumber | null;
+    balance?: bigint | null;
     decimals?: number;
     loading?: boolean;
 }
 
-export const Balance = ({ balance, decimals, loading }: BalanceProps) => {
+export const Balance = ({ balance, decimals = 18, loading }: BalanceProps) => {
     if (!balance) return null;
     if (loading) return <Skeleton variant="sm" width="40px" />;
 
@@ -20,7 +19,8 @@ export const Balance = ({ balance, decimals, loading }: BalanceProps) => {
             variant="sm"
             className={{ root: "cui-pointer-events-none" }}
         >
-            {formatDecimals(commify(formatUnits(balance, decimals)), 4)}
+            {/* FIXME: reintroduce commify */}
+            {formatDecimals(formatUnits(balance, decimals), 4)}
         </Typography>
     );
 };

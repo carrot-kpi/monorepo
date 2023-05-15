@@ -1,10 +1,11 @@
+import { type Address, type Hex } from "viem";
 import { ChainId } from "../../commons";
 import { Template, ResolvedTemplate } from "../template";
 
 export class BaseOracle {
     constructor(
         public readonly chainId: ChainId,
-        public readonly address: string,
+        public readonly address: Address,
         public readonly finalized: boolean
     ) {}
 }
@@ -12,7 +13,7 @@ export class BaseOracle {
 export class Oracle extends BaseOracle {
     constructor(
         chainId: ChainId,
-        address: string,
+        address: Address,
         public readonly template: Template,
         finalized: boolean
     ) {
@@ -23,7 +24,7 @@ export class Oracle extends BaseOracle {
 export class ResolvedOracle extends BaseOracle {
     constructor(
         chainId: ChainId,
-        address: string,
+        address: Address,
         public readonly template: ResolvedTemplate,
         finalized: boolean
     ) {
@@ -43,10 +44,10 @@ export class ResolvedOracle extends BaseOracle {
 export class ResolvedOracleWithData extends ResolvedOracle {
     constructor(
         chainId: ChainId,
-        address: string,
+        address: Address,
         template: ResolvedTemplate,
         finalized: boolean,
-        public readonly data: string
+        public readonly data: Hex
     ) {
         super(chainId, address, template, finalized);
     }

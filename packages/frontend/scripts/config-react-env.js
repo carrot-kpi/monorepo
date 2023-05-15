@@ -2,7 +2,7 @@
 
 require("dotenv/config");
 
-const SUPPORTED_BUILD_MODES = ["production", "staging", "library"];
+const SUPPORTED_BUILD_MODES = ["local", "production", "staging", "library"];
 
 const buildMode = process.argv[2];
 if (!buildMode) {

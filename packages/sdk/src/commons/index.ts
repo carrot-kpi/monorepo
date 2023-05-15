@@ -6,6 +6,7 @@ import ORACLES_MANAGER_ABI from "../abis/oracles-manager";
 import MULTICALL_ABI from "../abis/multicall";
 import ERC20_ABI from "../abis/erc20";
 import { Cacher } from "../cacher";
+import { Address } from "viem";
 
 export enum ChainId {
     GNOSIS = 100,
@@ -16,10 +17,10 @@ export enum ChainId {
 export const CACHER = new Cacher("carrot-kpi-sdk");
 
 export interface ChainAddresses {
-    multicall: string;
-    factory: string;
-    kpiTokensManager: string;
-    oraclesManager: string;
+    multicall: Address;
+    factory: Address;
+    kpiTokensManager: Address;
+    oraclesManager: Address;
 }
 
 export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {

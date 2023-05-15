@@ -1,9 +1,9 @@
 {
     "react": { "requiredVersion": "^18.2.0", "singleton": true },
     "react-dom": { "requiredVersion": "^18.2.0", "singleton": true },
-    "wagmi": { "requiredVersion": "^0.12.12", "singleton": true },
+    "wagmi": { "requiredVersion": "^1.0.4", "singleton": true },
     "@carrot-kpi/shared-state": {
-        "requiredVersion": "^0.3.0",
+        "requiredVersion": "^0.3.1",
         "singleton": true
     }
 }

@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { Template, Fetcher } from "@carrot-kpi/sdk";
-import { useProvider, useNetwork } from "wagmi";
-import { BigNumberish } from "@ethersproject/bignumber";
+import { usePublicClient, useNetwork } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useKPITokenTemplate(id?: BigNumberish): {
+export function useKPITokenTemplate(id?: number): {
     loading: boolean;
     template: Template | null;
 } {
     const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
-    const provider = useProvider();
+    const publicClient = usePublicClient();
 
     const [template, setTemplate] = useState<Template | null>(null);
     const [loading, setLoading] = useState(true);
@@ -22,7 +21,7 @@ export function useKPITokenTemplate(id?: BigNumberish): {
             if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
-                    provider,
+                    publicClient,
                     preferDecentralization,
                     ids: [id],
                 });
@@ -37,7 +36,7 @@ export function useKPITokenTemplate(id?: BigNumberish): {
         return () => {
             cancelled = true;
         };
-    }, [chain, id, preferDecentralization, provider]);
+    }, [chain, id, preferDecentralization, publicClient]);
 
     return { loading, template };
 }

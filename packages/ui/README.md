@@ -27,11 +27,12 @@ As a prerequisite, make sure `react` is currently installed in your project.
 For the default (incomplete) installation simply use the following command:
 
 ```
-pnpm install @carrot-kpi/ui
 // or
 yarn add @carrot-kpi/ui
 // or
 npm install @carrot-kpi/ui
+// or
+pnpm install @carrot-kpi/ui
 ```
 
 To make the installation complete you can just install the missing fonts used in
@@ -48,6 +49,10 @@ yarn add @carrot-kpi/switzer-font
 // or
 npm install @fontsource/ibm-plex-mono
 npm install @carrot-kpi/switzer-font
+
+// or
+pnpm install @fontsource/ibm-plex-mono
+pnpm install @carrot-kpi/switzer-font
 ```
 
 The library is ready to use after adding the following to your entrypoint:

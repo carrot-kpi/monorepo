@@ -1,6 +1,7 @@
 import { Template, ResolvedTemplate } from "../template";
 import { Oracle, ResolvedOracle, ResolvedOracleWithData } from "../oracle";
 import { ChainId } from "../../commons";
+import { type Address, type Hex } from "viem";
 
 export interface KPITokenSpecification {
     ipfsHash: string;
@@ -12,8 +13,8 @@ export interface KPITokenSpecification {
 export class BaseKPIToken {
     constructor(
         public readonly chainId: ChainId,
-        public readonly address: string,
-        public readonly owner: string,
+        public readonly address: Address,
+        public readonly owner: Address,
         public readonly expiration: number,
         public readonly creationTimestamp: number,
         public readonly finalized: boolean
@@ -29,8 +30,8 @@ export class BaseKPIToken {
 export class KPIToken extends BaseKPIToken {
     constructor(
         chainId: ChainId,
-        address: string,
-        owner: string,
+        address: Address,
+        owner: Address,
         public readonly template: Template,
         public readonly oracles: Oracle[],
         public readonly specificationCID: string,
@@ -52,8 +53,8 @@ export class KPIToken extends BaseKPIToken {
 export class ResolvedKPIToken extends BaseKPIToken {
     constructor(
         chainId: ChainId,
-        address: string,
-        owner: string,
+        address: Address,
+        owner: Address,
         public readonly template: ResolvedTemplate,
         public readonly oracles: ResolvedOracle[],
         public readonly specification: KPITokenSpecification,
@@ -94,15 +95,15 @@ export class ResolvedKPIToken extends BaseKPIToken {
 export class ResolvedKPITokenWithData extends BaseKPIToken {
     constructor(
         chainId: ChainId,
-        address: string,
-        owner: string,
+        address: Address,
+        owner: Address,
         public readonly template: ResolvedTemplate,
         public readonly oracles: ResolvedOracleWithData[],
         public readonly specification: KPITokenSpecification,
         expiration: number,
         creationTimestamp: number,
         finalized: boolean,
-        public readonly data: string
+        public readonly data: Hex
     ) {
         super(
             chainId,
@@ -117,7 +118,7 @@ export class ResolvedKPITokenWithData extends BaseKPIToken {
     public static from(
         kpiToken: ResolvedKPIToken,
         oracles: ResolvedOracleWithData[],
-        data: string,
+        data: Hex,
         finalized: boolean
     ) {
         return new ResolvedKPITokenWithData(

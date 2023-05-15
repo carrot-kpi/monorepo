@@ -1,5 +1,5 @@
 import { Fetcher } from "@carrot-kpi/sdk";
-import { useProvider, useNetwork } from "wagmi";
+import { usePublicClient, useNetwork } from "wagmi";
 import { KPIToken } from "@carrot-kpi/sdk";
 import { usePreferDecentralization } from "@carrot-kpi/react";
 import { useQuery } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ export function useLatestKPITokens(limit = 5): {
 } {
     const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
-    const provider = useProvider();
+    const publicClient = usePublicClient();
 
     const { data: kpiTokens, isLoading: loading } = useQuery({
         queryKey: [LATEST_KPI_TOKEN_QUERY_KEY_PREFIX, { limit, chain }],
@@ -20,18 +20,18 @@ export function useLatestKPITokens(limit = 5): {
             if (!chain) return [];
 
             const kpiTokensAmount = await Fetcher.fetchKPITokensAmount({
-                provider,
+                publicClient,
                 preferDecentralization,
             });
             const fromIndex = Math.max(kpiTokensAmount - limit, 0);
             const kpiTokenAddresses = await Fetcher.fetchKPITokenAddresses({
-                provider,
+                publicClient,
                 preferDecentralization,
                 fromIndex,
                 toIndex: kpiTokensAmount,
             });
             const kpiTokens = await Fetcher.fetchKPITokens({
-                provider,
+                publicClient,
                 preferDecentralization,
                 addresses: kpiTokenAddresses,
             });
