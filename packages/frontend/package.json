@@ -33,8 +33,8 @@
         "size-limit": "size-limit",
         "prepare-fathom": "prepare-fathom",
         "config-react-env": "./scripts/config-react-env.js",
-        "start": "yarn config-react-env && craco start",
-        "start:staging": "yarn config-react-env && STAGING=true craco start"
+        "start:staging": "yarn config-react-env staging && STAGING=true craco start",
+        "start:production": "yarn config-react-env production && craco start"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
