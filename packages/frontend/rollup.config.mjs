@@ -12,14 +12,11 @@ import replace from "@rollup/plugin-replace";
 
 config();
 
-const reactAppEnvs = Object.entries(process.env).reduce(
-    (envs, [name, value]) => {
-        if (name.startsWith("REACT_APP"))
-            envs[`process.env.${name}`] = JSON.stringify(value);
-        return envs;
-    },
-    {}
-);
+const getEnv = (name, required) => {
+    const value = process.env[name];
+    if (required && !value) throw new Error(`env ${name} is required`);
+    return JSON.stringify(value || "");
+};
 
 export default [
     {
@@ -31,10 +28,10 @@ export default [
                 values: {
                     __LIBRARY_MODE__: JSON.stringify(true),
                     __STAGING_MODE__: JSON.stringify(false),
-                    ...reactAppEnvs,
-                    "process.env.NODE_ENV": JSON.stringify(
-                        process.env.NODE_ENV
-                    ),
+                    __INFURA_PROJECT_ID__: getEnv("INFURA_PROJECT_ID", true),
+                    __WALLETCONNECT_PROJECT_ID__: JSON.stringify(""),
+                    __FATHOM_SITE_ID__: JSON.stringify(""),
+                    "process.env.NODE_ENV": JSON.stringify("production"),
                 },
             }),
             peerDepsExternal(),

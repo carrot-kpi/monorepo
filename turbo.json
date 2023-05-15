@@ -45,11 +45,10 @@
     },
     "globalEnv": [
         "NODE_ENV",
+        "INFURA_PROJECT_ID",
+        "WALLETCONNECT_PROJECT_ID",
         "FATHOM_SITE_ID",
         "FATHOM_API_KEY",
-        "REACT_APP_INFURA_PROJECT_ID",
-        "REACT_APP_WALLETCONNECT_PROJECT_ID",
-        "REACT_APP_FATHOM_SITE_ID",
         "CI",
         "STAGING"
     ]

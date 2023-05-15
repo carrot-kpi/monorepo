@@ -7,17 +7,12 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "./constants";
 declare global {
     const __LIBRARY_MODE__: boolean;
     const __STAGING_MODE__: boolean;
+    const __INFURA_PROJECT_ID__: string;
+    const __WALLETCONNECT_PROJECT_ID__: string | undefined;
+    const __FATHOM_SITE_ID__: string | undefined;
 
     interface Window {
         fathom?: Fathom;
-    }
-
-    namespace NodeJS {
-        interface ProcessEnv {
-            REACT_APP_INFURA_PROJECT_ID: string;
-            REACT_APP_WALLETCONNECT_PROJECT_ID?: string;
-            REACT_APP_FATHOM_SITE_ID?: string;
-        }
     }
 }
 

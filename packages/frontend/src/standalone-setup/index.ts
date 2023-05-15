@@ -16,7 +16,7 @@ export let getStandaloneConnectors: () => Connector[] = () => [];
 if (!__LIBRARY_MODE__) {
     standaloneSupportedChains = Object.values(ENABLED_CHAINS);
     standaloneProviders = [
-        infuraProvider({ apiKey: process.env.REACT_APP_INFURA_PROJECT_ID }),
+        infuraProvider({ apiKey: __INFURA_PROJECT_ID__ }),
         jsonRpcProvider({
             rpc: () => {
                 return {
@@ -62,13 +62,11 @@ if (!__LIBRARY_MODE__) {
         }),
     ];
 
-    if (!!process.env.REACT_APP_WALLETCONNECT_PROJECT_ID) {
+    if (!!__WALLETCONNECT_PROJECT_ID__) {
         connectors.push(
             new WalletConnectConnector({
                 chains: standaloneSupportedChains,
-                options: {
-                    projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID,
-                },
+                options: { projectId: __WALLETCONNECT_PROJECT_ID__ },
             })
         );
     }

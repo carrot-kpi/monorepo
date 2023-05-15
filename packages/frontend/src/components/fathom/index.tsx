@@ -1,14 +1,12 @@
 import { initialize as initializeFathom } from "use-fathom-client";
 import { registeredEventsResolver } from "../../out/fathom/utilities";
 
-const FATHOM_SITE_ID = process.env.REACT_APP_FATHOM_SITE_ID;
-
-if (!!!FATHOM_SITE_ID) console.warn("Fathom tracking is disabled");
+if (!!!__FATHOM_SITE_ID__) console.warn("Fathom tracking is disabled");
 
 export const Fathom = () => {
-    if (!!FATHOM_SITE_ID)
+    if (!!__FATHOM_SITE_ID__)
         initializeFathom(
-            FATHOM_SITE_ID,
+            __FATHOM_SITE_ID__,
             {
                 src: "https://cdn.usefathom.com/script.js",
                 "data-auto": false,
