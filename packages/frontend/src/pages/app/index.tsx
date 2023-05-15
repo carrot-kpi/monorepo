@@ -19,7 +19,11 @@ import {
     useSetOracleTemplateBaseURL,
     useSetDevMode,
     useSetStagingMode,
+    useStagingMode,
 } from "@carrot-kpi/react";
+import { WarningBanner } from "../../components/ui/warning-banner";
+import { Typography } from "@carrot-kpi/ui";
+import { useTranslation } from "react-i18next";
 
 const CREATE_ROUTE_PATH = { path: "/create/:templateId", key: "create" };
 const PAGE_ROUTE_PATH = { path: "/campaigns/:address", key: "page" };
@@ -46,10 +50,12 @@ export const App = ({
     templateId,
 }: AppProps) => {
     const location = useLocation();
+    const { t } = useTranslation();
     const previousLocation = usePreviousDistinct(location);
     const navigate = useNavigate();
     const setPreferDecentralization = useSetPreferDecentralization();
     const setDevMode = useSetDevMode();
+    const stagingMode = useStagingMode();
     const setStagingMode = useSetStagingMode();
     const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
     const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
@@ -131,6 +137,11 @@ export const App = ({
 
     return (
         <>
+            {stagingMode && (
+                <WarningBanner>
+                    <Typography>{t("stagingMode.warning")}</Typography>
+                </WarningBanner>
+            )}
             <Routes location={mainLocation}>
                 <Route path="/" element={<Home templateId={templateId} />} />
                 <Route path="/campaigns" element={<Campaigns />} />
