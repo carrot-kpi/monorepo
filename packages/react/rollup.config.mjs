@@ -15,7 +15,7 @@ export default [
             typescript(),
         ],
         output: {
-            file: resolve("dist/index.js"),
+            dir: resolve("dist"),
             format: "es",
         },
     },
