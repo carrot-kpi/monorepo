@@ -38,7 +38,7 @@
         "i18next": "^22.0.2",
         "react": "^18.2.0",
         "react-i18next": "^12.2.2",
-        "wagmi": "^1.0.4"
+        "wagmi": "^1.0.5"
     },
     "devDependencies": {
         "@carrot-kpi/shared-state": "*",
@@ -61,6 +61,6 @@
         "size-limit": "^8.1.0",
         "tsconfig": "*",
         "typescript": "^5.0.4",
-        "wagmi": "^1.0.4"
+        "wagmi": "^1.0.5"
     }
 }

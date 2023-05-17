@@ -62,7 +62,7 @@
         "i18next": "^22.0.2",
         "react": "^18.2.0",
         "react-i18next": "^12.0.0",
-        "wagmi": "^0.12.12"
+        "wagmi": "^1.0.5"
     },
     "devDependencies": {
         "@carrot-kpi/shared-state": "*",
@@ -103,17 +103,15 @@
         "tailwindcss": "^3.3.2",
         "tsconfig": "*",
         "typescript": "^5.0.4",
-        "wagmi": "^1.0.4",
+        "wagmi": "^1.0.5",
         "workbox-precaching": "^6.5.4",
         "workbox-routing": "^6.5.4"
     },
     "browserslist": {
         "production": [
-            "chrome >= 67",
-            "edge >= 79",
-            "firefox >= 68",
-            "opera >= 54",
-            "safari >= 14"
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
         ],
         "development": [
             "last 1 chrome version",
