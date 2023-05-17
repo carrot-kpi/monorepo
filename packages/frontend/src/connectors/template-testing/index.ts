@@ -28,8 +28,8 @@ export class CarrotConnector extends Connector<
     private provider?: PublicClient;
     private walletClient?: WalletClient;
 
-    constructor(config: { chain: Chain; options: CarrotConnectorOptions }) {
-        super({ ...config, chains: [config.chain] });
+    constructor(config: { chains: Chain[]; options: CarrotConnectorOptions }) {
+        super(config);
     }
 
     async connect({} = {}): Promise<Required<ConnectorData>> {
