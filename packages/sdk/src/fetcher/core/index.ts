@@ -11,7 +11,7 @@ import {
     warn,
 } from "../../utils";
 import {
-    Address,
+    type Address,
     getContract,
     encodeFunctionData,
     decodeFunctionResult,
