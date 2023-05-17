@@ -134,6 +134,7 @@ class Fetcher implements IPartialCarrotFetcher {
             })) as Address[];
         }
 
+        // TODO: try to use publicClient.multicall directly
         const {
             result: [, kpiTokenResult],
         } = await publicClient.simulateContract({
