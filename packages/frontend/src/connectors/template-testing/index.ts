@@ -1,4 +1,4 @@
-import { Hex, createPublicClient, createWalletClient, http } from "viem";
+import { type Hex, createPublicClient, createWalletClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import type {
     Address,
