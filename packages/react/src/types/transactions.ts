@@ -1,5 +1,4 @@
-import type { Hex } from "viem";
-import type { Address } from "wagmi";
+import type { Address, Hex } from "viem";
 
 export interface TxReceipt {
     to: Address;
