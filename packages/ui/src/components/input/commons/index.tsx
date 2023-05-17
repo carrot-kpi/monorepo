@@ -5,6 +5,7 @@ import React, {
     ReactElement,
     ReactNode,
     useCallback,
+    useRef,
     useState,
 } from "react";
 import Info from "../../../icons/info";
@@ -16,7 +17,7 @@ import { Popover } from "../../utils";
 export interface PartialBaseInputProps<V> {
     error?: boolean;
     errorText?: string;
-    variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+    variant?: "xs" | "sm" | "base" | "xl" | "2xl";
     placeholder?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
     value?: V | null;
@@ -94,11 +95,9 @@ export const inputStyles = mergedCva(
     {
         variants: {
             variant: {
-                "2xs": ["cui-text-2xs"],
                 xs: ["cui-text-xs"],
                 sm: ["cui-text-sm"],
-                md: ["cui-text-base"],
-                lg: ["cui-text-lg"],
+                base: ["cui-text-base"],
                 xl: ["cui-text-xl"],
                 "2xl": ["cui-text-2xl"],
             },
@@ -131,7 +130,7 @@ export const inputStyles = mergedCva(
                 className: ["cui-border-transparent"],
             },
         ],
-        defaultVariants: { variant: "md", border: true },
+        defaultVariants: { variant: "base", border: true },
     }
 );
 
@@ -153,7 +152,7 @@ export const infoIconStyles = mergedCva([
 export interface BaseInputWrapperProps {
     id: string;
     label?: string;
-    variant?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+    variant?: "xs" | "sm" | "base" | "xl" | "2xl";
     error?: boolean;
     border?: boolean;
     errorText?: string;
@@ -194,7 +193,7 @@ export const BaseInputWrapper = ({
     className,
     children,
 }: BaseInputWrapperProps): ReactElement => {
-    const [infoIcon, setInfoIcon] = useState<SVGSVGElement | null>(null);
+    const infoIconRef = useRef<HTMLDivElement | null>(null);
 
     const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
 
@@ -248,16 +247,17 @@ export const BaseInputWrapper = ({
                     </Typography>
                     {info && (
                         <>
-                            <Info
-                                ref={setInfoIcon}
-                                className={infoIconStyles({
-                                    className: className?.infoIcon,
-                                })}
-                                onMouseEnter={handleInfoMouseEnter}
-                                onMouseLeave={handleInfoMouseExit}
-                            />
+                            <div ref={infoIconRef}>
+                                <Info
+                                    className={infoIconStyles({
+                                        className: className?.infoIcon,
+                                    })}
+                                    onMouseEnter={handleInfoMouseEnter}
+                                    onMouseLeave={handleInfoMouseExit}
+                                />
+                            </div>
                             <Popover
-                                anchor={infoIcon}
+                                anchor={infoIconRef.current}
                                 open={infoPopoverOpen}
                                 className={{
                                     root: `cui-p-2 ${className?.infoPopover}`,

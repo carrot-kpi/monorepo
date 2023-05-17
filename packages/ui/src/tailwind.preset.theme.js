@@ -5,7 +5,7 @@ const BODY_TEXT_SIZES_REM = {
     "2xl": ["1.5rem"],
     xl: ["1.188rem"],
     base: ["1rem"],
-    sm: ["1rem"],
+    sm: ["0.85rem"],
     xs: ["0.75rem"],
 };
 
