@@ -4,12 +4,7 @@ const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const webpack = require("webpack");
 const { join } = require("path");
 const shared = require("./shared-dependencies.json");
-
-const getEnv = (name, required) => {
-    const value = process.env[name];
-    if (required && !value) throw new Error(`env ${name} is required`);
-    return JSON.stringify(value || "");
-};
+const { getEnv } = require("./utils/env");
 
 module.exports = {
     webpack: {

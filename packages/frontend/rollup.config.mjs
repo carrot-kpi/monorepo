@@ -9,14 +9,9 @@ import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
+import { getEnv } from "./utils/env";
 
 config();
-
-const getEnv = (name, required) => {
-    const value = process.env[name];
-    if (required && !value) throw new Error(`env ${name} is required`);
-    return JSON.stringify(value || "");
-};
 
 export default [
     {
