@@ -9,7 +9,10 @@ import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
-import { getEnv } from "./utils/env";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { getEnv } = require("./utils/env");
 
 config();
 
