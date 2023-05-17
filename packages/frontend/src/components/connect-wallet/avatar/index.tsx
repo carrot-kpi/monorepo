@@ -1,9 +1,8 @@
 import React from "react";
 import makeBlockie from "ethereum-blockies-base64";
-import { type Address, useEnsAvatar } from "wagmi";
+import type { Address } from "wagmi";
 import { cva } from "class-variance-authority";
-import { useEnsName } from "wagmi";
-import { mainnet } from "wagmi";
+import { mainnet, useEnsName, useEnsAvatar } from "wagmi";
 
 const rootStyles = cva(["rounded-full"], {
     variants: {
