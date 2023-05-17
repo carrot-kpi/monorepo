@@ -30,7 +30,7 @@ import {
 } from "./queries";
 import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
 import { enforce } from "../../utils";
-import { Address, getAddress } from "viem";
+import { type Address, getAddress } from "viem";
 import { Template } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/subgraph";
