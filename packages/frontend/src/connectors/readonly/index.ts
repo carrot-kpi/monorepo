@@ -5,8 +5,8 @@ import type {
     ConnectorData,
     PublicClient,
     WalletClient,
-    Connector,
 } from "wagmi";
+import { Connector } from "wagmi";
 import { zeroAddress } from "viem";
 import { normalizeChainId } from "../../utils/chain";
 import { DEFAULT_CHAIN } from "../../constants";
