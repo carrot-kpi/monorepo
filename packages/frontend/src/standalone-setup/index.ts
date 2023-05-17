@@ -16,7 +16,7 @@ export let getStandaloneConnectors: () => Connector[] = () => [];
 if (!__LIBRARY_MODE__) {
     standaloneSupportedChains = Object.values(ENABLED_CHAINS);
     standaloneProviders = [
-        infuraProvider({ apiKey: process.env.REACT_APP_INFURA_PROJECT_ID }),
+        infuraProvider({ apiKey: __INFURA_PROJECT_ID__ }),
         jsonRpcProvider({
             rpc: () => {
                 return {
@@ -49,7 +49,6 @@ if (!__LIBRARY_MODE__) {
         }),
         new FrameConnector({
             chains: standaloneSupportedChains,
-            options: {},
         }),
         new CoinbaseWalletConnector({
             chains: standaloneSupportedChains,
@@ -60,17 +59,14 @@ if (!__LIBRARY_MODE__) {
         }),
         new ReadonlyConnector({
             chains: standaloneSupportedChains,
-            options: { name: "readonly" },
         }),
     ];
 
-    if (!!process.env.REACT_APP_WALLETCONNECT_PROJECT_ID) {
+    if (!!__WALLETCONNECT_PROJECT_ID__) {
         connectors.push(
             new WalletConnectConnector({
                 chains: standaloneSupportedChains,
-                options: {
-                    projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID,
-                },
+                options: { projectId: __WALLETCONNECT_PROJECT_ID__ },
             })
         );
     }

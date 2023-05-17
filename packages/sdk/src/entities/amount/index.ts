@@ -1,7 +1,6 @@
 import { Token, currencyEquals } from "../token";
 import { Currency } from "../currency";
-import { BigNumber } from "@ethersproject/bignumber";
-import { formatUnits } from "@ethersproject/units";
+import { formatUnits } from "viem";
 import Decimal from "decimal.js-light";
 import { enforce } from "../../utils";
 
@@ -9,9 +8,9 @@ export type TokenOrCurrency = Token | Currency;
 
 export class Amount<T extends TokenOrCurrency> extends Decimal {
     public readonly currency: T;
-    public readonly raw: BigNumber;
+    public readonly raw: bigint;
 
-    public constructor(currency: T, amount: BigNumber) {
+    public constructor(currency: T, amount: bigint) {
         super(new Decimal(formatUnits(amount, currency.decimals)));
         this.currency = currency;
         this.raw = amount;
@@ -22,7 +21,7 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
             currencyEquals(this.currency, other.currency),
             "tried to sum different currencies"
         );
-        return new Amount<T>(this.currency, this.raw.add(other.raw));
+        return new Amount<T>(this.currency, this.raw + other.raw);
     }
 
     public minus(other: Amount<T>): Amount<T> {
@@ -34,13 +33,13 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
             this.greaterThan(other),
             "subtraction results in a negative amount"
         );
-        return new Amount<T>(this.currency, this.raw.sub(other.raw));
+        return new Amount<T>(this.currency, this.raw - other.raw);
     }
 
     public multiply<M extends TokenOrCurrency>(other: Amount<M>): Amount<M> {
         return new Amount<M>(
             other.currency,
-            BigNumber.from(
+            BigInt(
                 this.times(other)
                     .times(`1e${other.currency.decimals}`)
                     .toFixed(0)
@@ -51,7 +50,7 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
     public divide<M extends TokenOrCurrency>(other: Amount<M>): Amount<M> {
         return new Amount<M>(
             other.currency,
-            BigNumber.from(
+            BigInt(
                 this.dividedBy(other)
                     .times(`1e${other.currency.decimals}`)
                     .toFixed(0)

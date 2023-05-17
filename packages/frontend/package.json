@@ -1,7 +1,7 @@
 {
     "name": "@carrot-kpi/host-frontend",
     "license": "GPL-3.0-or-later",
-    "version": "0.3.3",
+    "version": "0.4.1",
     "description": "Frontend for Carrot KPI protocol v1.",
     "main": "./dist/bootstrap.js",
     "module": "./dist/bootstrap.js",
@@ -26,15 +26,15 @@
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
         "clean": "rimraf ./build && rimraf ./dist",
         "build": "yarn build:production",
-        "build:production": "yarn clean && yarn config-react-env production && yarn prepare-fathom && GENERATE_SOURCEMAP=false craco build",
-        "build:staging": "yarn clean && yarn config-react-env staging && yarn prepare-fathom && GENERATE_SOURCEMAP=false STAGING=true craco build",
-        "build:library": "yarn clean && yarn config-react-env library && yarn prepare-fathom && rollup -c rollup.config.mjs",
+        "build:production": "yarn clean && yarn prepare-fathom && GENERATE_SOURCEMAP=false craco build",
+        "build:staging": "yarn clean && yarn prepare-fathom && GENERATE_SOURCEMAP=false STAGING=true craco build",
+        "build:library": "yarn clean && yarn prepare-fathom && rollup -c rollup.config.mjs",
         "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
         "size-limit": "size-limit",
         "prepare-fathom": "prepare-fathom",
         "config-react-env": "./scripts/config-react-env.js",
-        "start:staging": "yarn config-react-env staging && STAGING=true craco start",
-        "start:production": "yarn config-react-env production && craco start"
+        "start:staging": "STAGING=true craco start",
+        "start": "craco start"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
@@ -42,11 +42,13 @@
         "@carrot-kpi/ui": "*",
         "class-variance-authority": "^0.6.0",
         "dayjs": "^1.11.7",
+        "eth-provider": "^0.13.6",
         "ethereum-blockies-base64": "^1.0.2",
-        "ethers": "^5.7.1",
-        "react-router-dom": "^6.11.0",
+        "ethereum-provider": "^0.7.7",
+        "react-router-dom": "^6.11.1",
         "sanitize-html": "^2.9.0",
-        "use-fathom-client": "^1.2.0"
+        "use-fathom-client": "^1.3.1",
+        "viem": "^0.3.24"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*",
@@ -56,7 +58,7 @@
         "i18next": "^22.0.2",
         "react": "^18.2.0",
         "react-i18next": "^12.0.0",
-        "wagmi": "^0.12.12"
+        "wagmi": "^1.0.5"
     },
     "devDependencies": {
         "@carrot-kpi/shared-state": "*",
@@ -64,14 +66,14 @@
         "@craco/craco": "^7.1.0",
         "@fontsource/ibm-plex-mono": "^4.5.13",
         "@react-spring/web": "^9.7.2",
-        "@rollup/plugin-commonjs": "^24.1.0",
+        "@rollup/plugin-commonjs": "^25.0.0",
         "@rollup/plugin-json": "^6.0.0",
         "@rollup/plugin-node-resolve": "^15.0.2",
         "@rollup/plugin-replace": "^5.0.2",
         "@size-limit/file": "^8.1.0",
-        "@tanstack/react-query": "^4.29.5",
+        "@tanstack/react-query": "^4.29.7",
         "@types/react": "^18.2.0",
-        "@types/react-dom": "^18.2.1",
+        "@types/react-dom": "^18.2.4",
         "@types/react-router-dom": "^5.3.3",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "@types/sanitize-html": "^2.9.0",
@@ -88,7 +90,7 @@
         "react-scripts": "^5.0.1",
         "react-use": "^17.4.0",
         "rimraf": "^5.0.0",
-        "rollup": "^3.21.3",
+        "rollup": "^3.21.7",
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-postcss": "^4.0.2",
         "rollup-plugin-typescript2": "^0.34.0",
@@ -96,15 +98,17 @@
         "tailwindcss": "^3.3.2",
         "tsconfig": "*",
         "typescript": "^5.0.4",
-        "wagmi": "^0.12.12",
+        "wagmi": "^1.0.5",
         "workbox-precaching": "^6.5.4",
         "workbox-routing": "^6.5.4"
     },
     "browserslist": {
         "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
+            "chrome >= 67",
+            "edge >= 79",
+            "firefox >= 68",
+            "opera >= 54",
+            "safari >= 14"
         ],
         "development": [
             "last 1 chrome version",

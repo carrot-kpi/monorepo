@@ -17,6 +17,8 @@ export default [
         output: {
             file: resolve("dist/index.js"),
             format: "es",
+            sourcemap: true,
+            inlineDynamicImports: true,
         },
     },
 ];

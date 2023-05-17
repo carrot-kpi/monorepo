@@ -1,12 +1,12 @@
-import { BigNumber } from "@ethersproject/bignumber";
+import type { Address, Hex } from "viem";
 
 export interface TxReceipt {
-    to: string;
-    from: string;
-    contractAddress: string;
+    to: Address;
+    from: Address;
+    contractAddress: Address;
     transactionIndex: number;
-    blockHash: string;
-    transactionHash: string;
+    blockHash: Hex;
+    transactionHash: Hex;
     blockNumber: number;
     status?: number;
 }
@@ -24,25 +24,25 @@ export interface CustomTxPayload {
 }
 
 export interface ERC20ApprovalTxPayload {
-    token: string;
-    amount: BigNumber;
-    spender: string;
+    token: Address;
+    amount: bigint;
+    spender: Address;
 }
 
 export interface KPITokenFinalizeTxPayload {
-    address: string;
+    address: Address;
 }
 
 export interface KPITokenRedemptionTxPayload {
-    address: string;
+    address: Address;
 }
 
 export interface OracleFinalizationTxPayload {
-    address: string;
+    address: Address;
 }
 
 export interface OracleCreationTxPayload {
-    address: string;
+    address: Address;
 }
 
 export type TxPayload = {
@@ -54,8 +54,8 @@ export type TxPayload = {
 };
 
 export interface Tx<T extends TxType> {
-    hash: string;
-    from: string;
+    hash: Hex;
+    from: Address;
     timestamp: number;
     receipt: TxReceipt;
     type: T;

@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { Template, Fetcher } from "@carrot-kpi/sdk";
-import { useProvider, useNetwork } from "wagmi";
-import { BigNumberish } from "@ethersproject/bignumber";
+import { usePublicClient, useNetwork } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useOracleTemplates(ids?: BigNumberish[]): {
+export function useOracleTemplates(ids?: number[]): {
     loading: boolean;
     templates: Template[];
 } {
     const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
-    const provider = useProvider();
+    const publicClient = usePublicClient();
 
     const [templates, setTemplates] = useState<Template[]>([]);
     const [loading, setLoading] = useState(true);
@@ -22,7 +21,7 @@ export function useOracleTemplates(ids?: BigNumberish[]): {
             if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchOracleTemplates({
-                    provider,
+                    publicClient,
                     preferDecentralization,
                     ids,
                 });
@@ -37,7 +36,7 @@ export function useOracleTemplates(ids?: BigNumberish[]): {
         return () => {
             cancelled = true;
         };
-    }, [chain, provider, preferDecentralization, ids]);
+    }, [chain, publicClient, preferDecentralization, ids]);
 
     return { loading, templates };
 }

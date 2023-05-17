@@ -1,4 +1,4 @@
-import { getAddress, isAddress } from "@ethersproject/address";
+import { getAddress, isAddress } from "viem";
 import { TokenInfoWithBalance } from "../../components/evm/erc20-token-picker/types";
 
 const TRUST_WALLET_CHAIN: { [chainId: number]: string } = {
@@ -70,9 +70,9 @@ export const sortERC20Tokens = (
 
         let result = 0;
         if (balanceA && balanceB)
-            result = balanceA.gt(balanceB) ? -1 : balanceA.eq(balanceB) ? 0 : 1;
-        else if (balanceA && balanceA.gt("0")) result = -1;
-        else if (balanceB && balanceB.gt("0")) result = 1;
+            result = balanceA > balanceB ? -1 : balanceA === balanceB ? 0 : 1;
+        else if (balanceA && balanceA > 0n) result = -1;
+        else if (balanceB && balanceB > 0n) result = 1;
         if (result !== 0) return result;
 
         if (a.symbol && b.symbol)

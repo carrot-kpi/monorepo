@@ -110,7 +110,7 @@ export const ConnectWallet = () => {
             />
             {address && (
                 <AccountPopover
-                    address={address as string}
+                    address={address}
                     open={accountPopoverOpen}
                     anchor={connectWallet}
                     onClose={handleAccountPopoverClose}

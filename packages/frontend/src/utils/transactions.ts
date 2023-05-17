@@ -1,9 +1,9 @@
 import { Tx, TxType } from "@carrot-kpi/react";
-import { BigNumber, utils } from "ethers";
 import { TFunction } from "i18next";
-import { providers } from "ethers";
 import { shortenAddress } from "./address";
 import { Fetcher } from "@carrot-kpi/sdk";
+import { PublicClient } from "wagmi";
+import { formatUnits } from "viem";
 
 type PayloadSerializer<T extends TxType> = (
     serializable: Tx<T>["payload"]
@@ -21,7 +21,7 @@ const SERIALIZABLE_PAYLOAD_GETTER: {
         return {
             spender: payload.spender,
             token: payload.token,
-            amount: payload.amount.toHexString(),
+            amount: payload.amount,
         };
     },
     [TxType.KPI_TOKEN_CREATION]: defaultSerializablePayloadGetter,
@@ -62,7 +62,7 @@ const PAYLOAD_DESERIALIZER: {
         return {
             spender: rawDeserialized.spender,
             token: rawDeserialized.token,
-            amount: BigNumber.from(rawDeserialized.amount),
+            amount: rawDeserialized.amount,
         };
     },
     [TxType.KPI_TOKEN_CREATION]: JSON.parse,
@@ -84,7 +84,7 @@ export const deserializeTransaction = <T extends TxType>(
 
 type SummaryGetter<T extends TxType> = (
     t: TFunction,
-    provider: providers.Provider,
+    publicClient: PublicClient,
     tx: Tx<T>
 ) => string | Promise<string>;
 
@@ -93,14 +93,14 @@ type SummaryGetter<T extends TxType> = (
 const SUMMARY_GETTER: {
     [T in TxType]: SummaryGetter<T>;
 } = {
-    [TxType.CUSTOM]: (t, provider, tx) => {
+    [TxType.CUSTOM]: (t, _publicClient, tx) => {
         return tx.payload.summary;
     },
-    [TxType.ERC20_APPROVAL]: async (t, provider, tx) => {
+    [TxType.ERC20_APPROVAL]: async (t, publicClient, tx) => {
         let token;
         try {
             const tokens = await Fetcher.fetchERC20Tokens({
-                provider,
+                publicClient,
                 addresses: [tx.payload.token],
             });
             token = tokens[tx.payload.token];
@@ -113,22 +113,22 @@ const SUMMARY_GETTER: {
             });
         }
         return t("transactions.erc20.approval.data", {
-            amount: utils.formatUnits(tx.payload.amount, token.decimals),
+            amount: formatUnits(tx.payload.amount, token.decimals),
             symbol: token.symbol,
             spender: shortenAddress(tx.payload.spender),
         });
     },
-    [TxType.KPI_TOKEN_REDEMPTION]: (t, provider, tx) => {
+    [TxType.KPI_TOKEN_REDEMPTION]: (t, _publicClient, tx) => {
         return t("transactions.kpi.token.redeem", {
             address: shortenAddress(tx.payload.address),
         });
     },
-    [TxType.KPI_TOKEN_CREATION]: (t, provider, tx) => {
+    [TxType.KPI_TOKEN_CREATION]: (t, _publicClient, tx) => {
         return t("transactions.kpi.token.create", {
             address: shortenAddress(tx.payload.address),
         });
     },
-    [TxType.ORACLE_FINALIZATION]: (t, provider, tx) => {
+    [TxType.ORACLE_FINALIZATION]: (t, _publicClient, tx) => {
         return t("transactions.oracle.finalize", {
             address: shortenAddress(tx.payload.address),
         });
@@ -137,8 +137,8 @@ const SUMMARY_GETTER: {
 
 export const getTransactionSummary = <T extends TxType>(
     t: TFunction,
-    provider: providers.Provider,
+    publicClient: PublicClient,
     tx: Tx<T>
 ) => {
-    return SUMMARY_GETTER[tx.type](t, provider, tx);
+    return SUMMARY_GETTER[tx.type](t, publicClient, tx);
 };

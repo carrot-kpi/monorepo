@@ -6,16 +6,15 @@ import {
     ORACLE_ABI,
     ResolvedKPIToken,
 } from "@carrot-kpi/sdk";
-import { ReadContractConfig } from "@wagmi/core";
 import { useEffect, useState } from "react";
-import { Address, useContractReads, useProvider } from "wagmi";
+import { Address, useContractReads, usePublicClient } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useWatchKPIToken(
-    kpiTokenOrAddress?: ResolvedKPIToken | string
+    kpiTokenOrAddress?: ResolvedKPIToken | Address
 ): ResolvedKPITokenWithData | null {
-    const provider = useProvider();
+    const publicClient = usePublicClient();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
 
@@ -34,7 +33,7 @@ export function useWatchKPIToken(
             try {
                 const kpiToken = (
                     await Fetcher.fetchKPITokens({
-                        provider,
+                        publicClient,
                         preferDecentralization,
                         addresses: [kpiTokenOrAddress],
                     })
@@ -66,7 +65,7 @@ export function useWatchKPIToken(
         kpiToken,
         kpiTokenOrAddress,
         preferDecentralization,
-        provider,
+        publicClient,
     ]);
 
     const { data: readResults } = useContractReads({
@@ -81,22 +80,20 @@ export function useWatchKPIToken(
                 abi: KPI_TOKEN_ABI,
                 functionName: "finalized",
             },
-            ...(kpiToken?.oracles.reduce(
-                (accumulator: Partial<ReadContractConfig>[], oracle) => {
-                    accumulator.push({
-                        address: oracle.address as Address,
-                        abi: ORACLE_ABI,
-                        functionName: "data",
-                    });
-                    accumulator.push({
-                        address: oracle.address as Address,
-                        abi: ORACLE_ABI,
-                        functionName: "finalized",
-                    });
-                    return accumulator;
-                },
-                []
-            ) || []),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ...(kpiToken?.oracles.reduce((accumulator: any[], oracle) => {
+                accumulator.push({
+                    address: oracle.address,
+                    abi: ORACLE_ABI,
+                    functionName: "data",
+                });
+                accumulator.push({
+                    address: oracle.address,
+                    abi: ORACLE_ABI,
+                    functionName: "finalized",
+                });
+                return accumulator;
+            }, []) || []),
         ],
         enabled: !!kpiToken,
         watch: true,
@@ -113,8 +110,8 @@ export function useWatchKPIToken(
                     outdatedOracle.chainId,
                     outdatedOracle.address,
                     outdatedOracle.template,
-                    readResults[i + 1] as unknown as boolean,
-                    readResults[i] as unknown as string
+                    readResults[i + 1].result as boolean,
+                    readResults[i].result as Address
                 )
             );
         }
@@ -123,8 +120,8 @@ export function useWatchKPIToken(
             ResolvedKPITokenWithData.from(
                 kpiToken,
                 updatedOracles,
-                readResults[0] as unknown as string,
-                readResults[1] as unknown as boolean
+                readResults[0].result as Address,
+                readResults[1].result as boolean
             )
         );
     }, [kpiToken, readResults]);

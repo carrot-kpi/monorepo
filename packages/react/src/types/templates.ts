@@ -3,13 +3,13 @@ import {
     ResolvedKPITokenWithData,
     ResolvedOracleWithData,
 } from "@carrot-kpi/sdk";
-import { BigNumber } from "@ethersproject/bignumber";
 import { i18n } from "i18next";
 import { NamespacedTranslateFunction } from "../components";
 import { Tx, TxType } from "./transactions";
 import { NavigateFunction } from "react-router-dom";
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { ReactElement, ReactNode } from "react";
+import type { Hex } from "viem";
 
 export type TemplateEntity = "kpiToken" | "oracle";
 
@@ -39,8 +39,8 @@ export interface BaseRemoteTemplateComponentProps {
 }
 
 export interface OracleInitializationBundle {
-    data: string;
-    value: BigNumber;
+    data: Hex;
+    value: bigint;
 }
 
 export type OracleInitializationBundleGetter =

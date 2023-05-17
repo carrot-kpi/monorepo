@@ -1,7 +1,0 @@
-# Base Dockerfile to make Fleek builds work with 
-# yarn and Turborepo
-
-FROM node:alpine
-RUN apk add --no-cache libc6-compat
-RUN apk add --no-cache git
-RUN apk update

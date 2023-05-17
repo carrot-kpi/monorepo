@@ -10,8 +10,12 @@ import {
     getCachedERC20Token,
     warn,
 } from "../../utils";
-import { Contract } from "@ethersproject/contracts";
-import { Interface } from "@ethersproject/abi";
+import {
+    type Address,
+    getContract,
+    encodeFunctionData,
+    decodeFunctionResult,
+} from "viem";
 import { Token } from "../../entities/token";
 import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
 import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
@@ -31,54 +35,41 @@ import {
 } from "../../entities/template";
 import { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
 
-// erc20 related interfaces
-const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI);
-const BYTES_NAME_ERC20_INTERFACE = new Interface(BYTES_NAME_ERC20_ABI);
-const BYTES_SYMBOL_ERC20_INTERFACE = new Interface(BYTES_SYMBOL_ERC20_ABI);
-
-// erc20 related functions
-const ERC20_NAME_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction("name()");
-const ERC20_SYMBOL_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction("symbol()");
-const ERC20_DECIMALS_FUNCTION =
-    STANDARD_ERC20_INTERFACE.getFunction("decimals()");
-const ERC20_BYTES_NAME_FUNCTION =
-    BYTES_NAME_ERC20_INTERFACE.getFunction("name()");
-const ERC20_BYTES_SYMBOL_FUNCTION =
-    BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()");
-
 // erc20 related function datas
-const ERC20_NAME_FUNCTION_DATA = STANDARD_ERC20_INTERFACE.encodeFunctionData(
-    STANDARD_ERC20_INTERFACE.getFunction("name()")
-);
-const ERC20_SYMBOL_FUNCTION_DATA = STANDARD_ERC20_INTERFACE.encodeFunctionData(
-    STANDARD_ERC20_INTERFACE.getFunction("symbol()")
-);
-const ERC20_DECIMALS_FUNCTION_DATA =
-    STANDARD_ERC20_INTERFACE.encodeFunctionData(
-        STANDARD_ERC20_INTERFACE.getFunction("decimals()")
-    );
-const ERC20_BYTES_NAME_FUNCTION_DATA =
-    BYTES_NAME_ERC20_INTERFACE.encodeFunctionData(
-        BYTES_NAME_ERC20_INTERFACE.getFunction("name()")
-    );
-const ERC20_BYTES_SYMBOL_FUNCTION_DATA =
-    BYTES_SYMBOL_ERC20_INTERFACE.encodeFunctionData(
-        BYTES_SYMBOL_ERC20_INTERFACE.getFunction("symbol()")
-    );
+const ERC20_NAME_FUNCTION_DATA = encodeFunctionData({
+    abi: ERC20_ABI,
+    functionName: "name",
+});
+const ERC20_SYMBOL_FUNCTION_DATA = encodeFunctionData({
+    abi: ERC20_ABI,
+    functionName: "symbol",
+});
+const ERC20_DECIMALS_FUNCTION_DATA = encodeFunctionData({
+    abi: ERC20_ABI,
+    functionName: "decimals",
+});
+const ERC20_BYTES_NAME_FUNCTION_DATA = encodeFunctionData({
+    abi: BYTES_NAME_ERC20_ABI,
+    functionName: "name",
+});
+const ERC20_BYTES_SYMBOL_FUNCTION_DATA = encodeFunctionData({
+    abi: BYTES_SYMBOL_ERC20_ABI,
+    functionName: "symbol",
+});
 
 // TODO: check if validation can be extracted in its own function
 export class CoreFetcher implements ICoreFetcher {
     public async fetchERC20Tokens({
-        provider,
+        publicClient,
         addresses,
-    }: FetchERC20TokensParams): Promise<{ [address: string]: Token }> {
-        const chainId = (await provider.getNetwork()).chainId as ChainId;
+    }: FetchERC20TokensParams): Promise<{ [address: Address]: Token }> {
+        const chainId = (await publicClient.getChainId()) as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
         const { cachedTokens, missingTokens } = addresses.reduce(
             (
                 accumulator: {
-                    cachedTokens: { [address: string]: Token };
-                    missingTokens: string[];
+                    cachedTokens: { [address: Address]: Token };
+                    missingTokens: Address[];
                 },
                 address
             ) => {
@@ -92,21 +83,24 @@ export class CoreFetcher implements ICoreFetcher {
         );
         if (missingTokens.length === 0) return cachedTokens;
 
-        const multicall = new Contract(
-            CHAIN_ADDRESSES[chainId].multicall,
-            MULTICALL_ABI,
-            provider
-        );
+        const multicall = getContract({
+            address: CHAIN_ADDRESSES[chainId].multicall,
+            abi: MULTICALL_ABI,
+            publicClient: publicClient,
+        });
 
-        const calls = addresses.flatMap((address: string) => [
-            [address, ERC20_NAME_FUNCTION_DATA],
-            [address, ERC20_SYMBOL_FUNCTION_DATA],
-            [address, ERC20_DECIMALS_FUNCTION_DATA],
-            [address, ERC20_BYTES_NAME_FUNCTION_DATA],
-            [address, ERC20_BYTES_SYMBOL_FUNCTION_DATA],
+        const calls = addresses.flatMap((target) => [
+            { target, callData: ERC20_NAME_FUNCTION_DATA },
+            { target, callData: ERC20_SYMBOL_FUNCTION_DATA },
+            { target, callData: ERC20_DECIMALS_FUNCTION_DATA },
+            { target, callData: ERC20_BYTES_NAME_FUNCTION_DATA },
+            { target, callData: ERC20_BYTES_SYMBOL_FUNCTION_DATA },
         ]);
 
-        const result = await multicall.callStatic.tryAggregate(false, calls);
+        const { result } = await multicall.simulate.tryAggregate([
+            false,
+            calls,
+        ]);
         const fetchedTokens = missingTokens.reduce(
             (
                 accumulator: { [address: string]: Token },
@@ -131,16 +125,18 @@ export class CoreFetcher implements ICoreFetcher {
 
                 let name;
                 try {
-                    name = STANDARD_ERC20_INTERFACE.decodeFunctionResult(
-                        ERC20_NAME_FUNCTION,
-                        wrappedName.returnData
-                    )[0];
+                    name = decodeFunctionResult({
+                        abi: ERC20_ABI,
+                        functionName: "name",
+                        data: wrappedName.returnData,
+                    })[0];
                 } catch (error) {
                     try {
-                        name = BYTES_NAME_ERC20_INTERFACE.decodeFunctionResult(
-                            ERC20_BYTES_NAME_FUNCTION,
-                            wrappedBytesName.returnData
-                        )[0];
+                        name = decodeFunctionResult({
+                            abi: BYTES_NAME_ERC20_ABI,
+                            functionName: "name",
+                            data: wrappedBytesName.returnData,
+                        })[0];
                     } catch (error) {
                         console.warn(
                             `could not decode ERC20 token name for address ${missingToken}`
@@ -151,17 +147,18 @@ export class CoreFetcher implements ICoreFetcher {
 
                 let symbol;
                 try {
-                    symbol = STANDARD_ERC20_INTERFACE.decodeFunctionResult(
-                        ERC20_SYMBOL_FUNCTION,
-                        wrappedSymbol.returnData
-                    )[0];
+                    symbol = decodeFunctionResult({
+                        abi: ERC20_ABI,
+                        functionName: "symbol",
+                        data: wrappedSymbol.returnData,
+                    })[0];
                 } catch (error) {
                     try {
-                        symbol =
-                            BYTES_SYMBOL_ERC20_INTERFACE.decodeFunctionResult(
-                                ERC20_BYTES_SYMBOL_FUNCTION,
-                                wrappedBytesSymbol.returnData
-                            )[0];
+                        symbol = decodeFunctionResult({
+                            abi: BYTES_SYMBOL_ERC20_ABI,
+                            functionName: "symbol",
+                            data: wrappedBytesSymbol.returnData,
+                        });
                     } catch (error) {
                         console.warn(
                             `could not decode ERC20 token symbol for address ${missingToken}`
@@ -174,10 +171,11 @@ export class CoreFetcher implements ICoreFetcher {
                     const token = new Token(
                         chainId,
                         missingToken,
-                        STANDARD_ERC20_INTERFACE.decodeFunctionResult(
-                            ERC20_DECIMALS_FUNCTION,
-                            wrappedDecimals.returnData
-                        )[0],
+                        decodeFunctionResult({
+                            abi: ERC20_ABI,
+                            functionName: "decimals",
+                            data: wrappedDecimals.returnData,
+                        }),
                         symbol,
                         name
                     );

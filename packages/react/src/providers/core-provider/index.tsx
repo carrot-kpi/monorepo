@@ -3,7 +3,7 @@ import {
     ChainProviderFn,
     configureChains,
     Connector,
-    createClient,
+    createConfig,
     WagmiConfig,
 } from "wagmi";
 import { Chain } from "wagmi";
@@ -34,7 +34,7 @@ const InternalSetup = ({
     if (!!ipfsGatewayURL) setIPFSGatewayURL(ipfsGatewayURL);
 
     // TODO: this is the place to implement custom rpc setting
-    const { provider, chains, webSocketProvider } = configureChains(
+    const { chains, publicClient, webSocketPublicClient } = configureChains(
         supportedChains,
         [
             // jsonRpcProvider({
@@ -45,14 +45,14 @@ const InternalSetup = ({
             ...providers,
         ]
     );
-    const client = createClient({
+    const config = createConfig({
         autoConnect: true,
         connectors: getConnectors(chains),
-        provider,
-        webSocketProvider,
+        publicClient,
+        webSocketPublicClient,
     });
 
-    return <WagmiConfig client={client}>{children}</WagmiConfig>;
+    return <WagmiConfig config={config}>{children}</WagmiConfig>;
 };
 
 interface CarrotCoreProviderProps {

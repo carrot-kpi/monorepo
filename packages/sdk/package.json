@@ -3,7 +3,7 @@
     "name": "@carrot-kpi/sdk",
     "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
-    "version": "1.25.0",
+    "version": "1.26.0",
     "description": "An SDK for building applications on top of Carrot v1.",
     "main": "./dist/index.js",
     "module": "./dist/index.js",
@@ -27,14 +27,9 @@
         "release": "yarn publish"
     },
     "dependencies": {
-        "@ethersproject/address": "^5.7.0",
-        "@ethersproject/bignumber": "^5.7.0",
-        "@ethersproject/contracts": "^5.7.0",
-        "@ethersproject/providers": "^5.7.2",
-        "@ethersproject/units": "^5.7.0",
-        "@ethersproject/wallet": "^5.7.0",
         "decimal.js-light": "^2.5.1",
-        "multiformats": "^9.9.0"
+        "multiformats": "^9.9.0",
+        "viem": "^0.3.24"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*"
@@ -44,9 +39,8 @@
         "@babel/preset-env": "^7.21.5",
         "@babel/preset-typescript": "^7.21.5",
         "@carrot-kpi/shared-state": "*",
-        "@ethersproject/abi": "^5.7.0",
         "@jest/globals": "^29.5.0",
-        "@rollup/plugin-commonjs": "^24.1.0",
+        "@rollup/plugin-commonjs": "^25.0.0",
         "@rollup/plugin-node-resolve": "^15.0.2",
         "@size-limit/preset-small-lib": "^8.1.0",
         "@types/jest": "^29.5.1",
@@ -55,11 +49,12 @@
         "eslint-config-custom": "*",
         "jest": "^29.5.0",
         "rimraf": "^5.0.0",
-        "rollup": "^3.21.3",
+        "rollup": "^3.21.7",
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-typescript2": "^0.34.0",
         "size-limit": "^8.1.0",
         "ts-jest": "^29.1.0",
-        "tsconfig": "*"
+        "tsconfig": "*",
+        "typescript": "^5.0.4"
     }
 }

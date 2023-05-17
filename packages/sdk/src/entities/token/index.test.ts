@@ -1,11 +1,11 @@
-import { Wallet } from "@ethersproject/wallet";
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { currencyEquals, Token } from ".";
 import { ChainId } from "../../commons";
 import { Currency } from "../currency";
 
 describe("token", () => {
     test("instantiates correctly", () => {
-        const address = Wallet.createRandom().address;
+        const address = privateKeyToAccount(generatePrivateKey()).address;
         const token = new Token(
             ChainId.SEPOLIA,
             address,
@@ -24,7 +24,7 @@ describe("token", () => {
         test("returns true if tokens are the same instance", () => {
             const token = new Token(
                 ChainId.SEPOLIA,
-                Wallet.createRandom().address,
+                privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
                 "Test token"
@@ -33,7 +33,7 @@ describe("token", () => {
         });
 
         test("returns true if tokens have the same chain id and address", () => {
-            const address = Wallet.createRandom().address;
+            const address = privateKeyToAccount(generatePrivateKey()).address;
             const token1 = new Token(
                 ChainId.SEPOLIA,
                 address,
@@ -56,7 +56,7 @@ describe("token", () => {
         test("returns true if currencies are both tokens and equal", () => {
             const token = new Token(
                 ChainId.SEPOLIA,
-                Wallet.createRandom().address,
+                privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
                 "Test token"
@@ -68,7 +68,7 @@ describe("token", () => {
             const currency = new Currency("TCUR", "Test currency", 18);
             const token = new Token(
                 ChainId.SEPOLIA,
-                Wallet.createRandom().address,
+                privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
                 "Test token"
@@ -80,7 +80,7 @@ describe("token", () => {
             const currency = new Currency("TCUR", "Test currency", 18);
             const token = new Token(
                 ChainId.SEPOLIA,
-                Wallet.createRandom().address,
+                privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
                 "Test token"

@@ -1,7 +1,9 @@
+import { type Address } from "viem";
+
 export class Template {
     constructor(
         public readonly id: number,
-        public readonly address: string,
+        public readonly address: Address,
         public readonly version: number,
         public readonly specificationCID: string
     ) {}
@@ -21,7 +23,7 @@ export class TemplateSpecification {
 export class ResolvedTemplate {
     constructor(
         public readonly id: number,
-        public readonly address: string,
+        public readonly address: Address,
         public readonly version: number,
         public readonly specification: TemplateSpecification
     ) {}

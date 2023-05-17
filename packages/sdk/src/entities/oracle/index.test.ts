@@ -1,4 +1,4 @@
-import { Wallet } from "@ethersproject/wallet";
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 import { ResolvedOracle } from ".";
 import { ChainId } from "../../commons";
 import { ResolvedTemplate, TemplateSpecification } from "../template";
@@ -19,14 +19,14 @@ describe("oracle", () => {
         );
         template = new ResolvedTemplate(
             0,
-            Wallet.createRandom().address,
+            privateKeyToAccount(generatePrivateKey()).address,
             1,
             templateSpecification
         );
     });
 
     test("instantiates correctly", () => {
-        const address = Wallet.createRandom().address;
+        const address = privateKeyToAccount(generatePrivateKey()).address;
         const oracle = new ResolvedOracle(
             ChainId.SEPOLIA,
             address,
