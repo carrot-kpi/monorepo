@@ -10,11 +10,7 @@ export default {
 
 export const Typography: StoryObj<typeof TypographyComponent> = {
     render: (props) => {
-        return (
-            <div className="cui-max-w-xs">
-                <TypographyComponent {...props} />
-            </div>
-        );
+        return <TypographyComponent {...props} />;
     },
     args: {
         children: "Some text",

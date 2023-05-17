@@ -1,144 +1,35 @@
-const scale = (value, scalingFactor) => value * scalingFactor;
-
-const rem = (value) => `${value}rem`;
-
-const SANS_FONT_FAMILY = "Switzer, ui-sans-serif, sans-serif";
-const MONO_FONT_FAMILY = "IBM Plex Mono, ui-monospace, monospace";
+const SANS_FONT_FAMILY = ["Switzer", "ui-sans-serif", "sans-serif"];
+const MONO_FONT_FAMILY = ["IBM Plex Mono", "ui-monospace", "monospace"];
 
 const BODY_TEXT_SIZES_REM = {
-    "3xs": 0.5,
-    "2xs": 0.6,
-    xs: 0.7,
-    sm: 0.8,
-    base: 1,
-    lg: 1.1,
-    xl: 1.2,
-    "2xl": 1.3,
+    "2xl": ["1.5rem"],
+    xl: ["1.188rem"],
+    base: ["1rem"],
+    sm: ["1rem"],
+    xs: ["0.75rem"],
 };
-
-// given the base rem sizes of body text, the reduce operation derives the correct raw
-// (js number type) body style to feed into tailwind after performing number to rem unit
-// conversion. This is useful to automatically scale values and keep everything consisten
-// if we want to change base body text sizes.
-const RAW_BODY_TEXT_CONFIG = Object.entries(BODY_TEXT_SIZES_REM).reduce(
-    (accumulator, [key, remSize]) => {
-        accumulator[key] = [
-            remSize,
-            {
-                lineHeight: scale(remSize, 1.8),
-                letterSpacing: scale(remSize, 0.015),
-                fontFamily: MONO_FONT_FAMILY,
-            },
-        ];
-        return accumulator;
-    },
-    {}
-);
 
 const HEADING_TEXT_SIZES_REM = {
-    h1: 3.25,
-    h2: 2.25,
-    h3: 2,
-    h4: 1.75,
-    h5: 1.5,
-    h6: 1.25,
+    h1: ["8rem", { letterSpacing: "-0.25rem" }],
+    h2: ["6.25rem", { letterSpacing: "-0.15rem" }],
+    h3: ["3rem", { letterSpacing: "-0.05rem" }],
+    h4: ["1.5rem", { letterSpacing: "0rem" }],
 };
 
-// this reduce operation has the same end goal as the one performed on the body
-// text, but with additional styles to be applied to heading texts.
-const RAW_HEADING_TEXT_CONFIG = Object.entries(HEADING_TEXT_SIZES_REM).reduce(
-    (accumulator, [key, remSize]) => {
-        accumulator[key] = [
-            remSize,
-            {
-                lineHeight: scale(remSize, 1.2),
-                letterSpacing: scale(remSize, 0.015),
-                marginTop: scale(remSize, 0.8),
-                marginBottom: scale(remSize, 0.6),
-                fontWeight: "700",
-                fontFamily: SANS_FONT_FAMILY,
-            },
-        ];
-        return accumulator;
-    },
-    {}
-);
-
-// this function converts numbers in the default raw configs for body and heading
-// texts to rem units, making the output objet suitable to be passed to
-// tailwind css's `fontSize` option.
-const getResolvedTextConfig = (rawConfig) =>
-    Object.entries(rawConfig).reduce(
-        (accumulator, [key, [rawRemSize, additionalStyles]]) => {
-            accumulator[key] = [
-                rem(rawRemSize),
-                Object.entries(additionalStyles).reduce(
-                    (accumulator, [key, value]) => {
-                        accumulator[key] =
-                            typeof value === "number" ? rem(value) : value;
-                        return accumulator;
-                    },
-                    {}
-                ),
-            ];
-            return accumulator;
-        },
-        {}
-    );
-
-// this function generates a complete config to be passed to tailwind css's typography config.
-const getTypographyConfig = (variant, scalingFactor, theme) => {
+// this function generates a complete config to be passed to tailwind css's typography plugin config https://tailwindcss.com/docs/typography-plugin
+const getTypographyConfig = (variant, theme) => {
     const coreConfig = {};
 
-    // handle heading text config per-variant basis
-    for (const [key, value] of Object.entries(RAW_HEADING_TEXT_CONFIG)) {
-        coreConfig[key] = {
-            fontSize: rem(value[0]),
-            ...Object.entries(value[1]).reduce(
-                (accumulator, [attributeName, value]) => {
-                    accumulator[attributeName] =
-                        typeof value === "number"
-                            ? rem(scale(value, scalingFactor))
-                            : value;
-                    return accumulator;
-                },
-                {}
-            ),
-        };
-    }
-
-    const bodyConfig = RAW_BODY_TEXT_CONFIG[variant];
+    const bodyConfig = BODY_TEXT_SIZES_REM[variant];
 
     // custom paragraph styles applying default body text attributes
     coreConfig.p = {
-        fontSize: rem(bodyConfig[0]),
-        marginTop: rem(scale(bodyConfig[0], 1)),
-        marginBottom: rem(scale(bodyConfig[0], 1)),
-        ...Object.entries(bodyConfig[1]).reduce(
-            (accumulator, [attributeName, value]) => {
-                accumulator[attributeName] =
-                    typeof value === "number"
-                        ? rem(scale(value, scalingFactor))
-                        : value;
-                return accumulator;
-            },
-            {}
-        ),
+        fontSize: bodyConfig[0],
     };
 
     // custom list styles applying default body text attributes
     coreConfig.li = {
-        fontSize: rem(bodyConfig[0]),
-        ...Object.entries(bodyConfig[1]).reduce(
-            (accumulator, [attributeName, value]) => {
-                accumulator[attributeName] =
-                    typeof value === "number"
-                        ? rem(scale(value, scalingFactor))
-                        : value;
-                return accumulator;
-            },
-            {}
-        ),
+        fontSize: bodyConfig[0],
     };
 
     // set some colors
@@ -188,8 +79,8 @@ exports.theme = {
         },
     },
     fontSize: {
-        ...getResolvedTextConfig(RAW_BODY_TEXT_CONFIG),
-        ...getResolvedTextConfig(RAW_HEADING_TEXT_CONFIG),
+        ...BODY_TEXT_SIZES_REM,
+        ...HEADING_TEXT_SIZES_REM,
     },
     extend: {
         height({ theme }) {
@@ -204,12 +95,11 @@ exports.theme = {
         },
         typography({ theme }) {
             return {
-                sm: getTypographyConfig("sm", 0.9, theme),
-                base: getTypographyConfig("base", 1, theme),
-                DEFAULT: getTypographyConfig("base", 1, theme),
-                lg: getTypographyConfig("lg", 1.1, theme),
-                xl: getTypographyConfig("xl", 1.2, theme),
-                "2xl": getTypographyConfig("2xl", 1.3, theme),
+                sm: getTypographyConfig("sm", theme),
+                base: getTypographyConfig("base", theme),
+                DEFAULT: getTypographyConfig("base", theme),
+                xl: getTypographyConfig("xl", theme),
+                "2xl": getTypographyConfig("2xl", theme),
             };
         },
         borderRadius: {
