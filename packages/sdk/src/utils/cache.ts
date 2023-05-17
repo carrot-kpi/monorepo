@@ -1,7 +1,7 @@
 import { Token } from "../entities/token";
 import { CACHER } from "../commons";
 import { warn } from "./invariant";
-import { Address } from "viem";
+import { type Address } from "viem";
 
 export const erc20TokenCachingKey = (chainId: number, address: Address) =>
     `erc20-${chainId}-${address}`;

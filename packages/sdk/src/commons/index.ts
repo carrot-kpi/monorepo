@@ -6,7 +6,7 @@ import ORACLES_MANAGER_ABI from "../abis/oracles-manager";
 import MULTICALL_ABI from "../abis/multicall";
 import ERC20_ABI from "../abis/erc20";
 import { Cacher } from "../cacher";
-import { Address } from "viem";
+import { type Address } from "viem";
 
 export enum ChainId {
     GNOSIS = 100,
