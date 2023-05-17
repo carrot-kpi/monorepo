@@ -16,6 +16,7 @@ module.exports = {
                     shared,
                 }),
                 new webpack.DefinePlugin({
+                    __DEV__: !production,
                     __LIBRARY_MODE__: JSON.stringify(false),
                     __STAGING_MODE__: JSON.stringify(
                         process.env.STAGING === "true"
