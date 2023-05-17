@@ -16,9 +16,10 @@ export default [
         ],
         output: [
             {
-                dir: resolve("./dist"),
+                file: resolve("./dist/index.js"),
                 format: "es",
                 sourcemap: true,
+                inlineDynamicImports: true,
             },
         ],
     },

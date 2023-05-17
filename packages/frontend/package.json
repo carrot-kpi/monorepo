@@ -40,19 +40,15 @@
         "@carrot-kpi/react": "*",
         "@carrot-kpi/sdk": "*",
         "@carrot-kpi/ui": "*",
-        "@reduxjs/toolkit": "^1.9.5",
         "class-variance-authority": "^0.6.0",
         "dayjs": "^1.11.7",
         "eth-provider": "^0.13.6",
         "ethereum-blockies-base64": "^1.0.2",
         "ethereum-provider": "^0.7.7",
-        "lodash.debounce": "^4.0.8",
-        "react-redux": "^8.0.5",
         "react-router-dom": "^6.11.1",
         "sanitize-html": "^2.9.0",
         "use-fathom-client": "^1.2.0",
-        "viem": "^0.3.24",
-        "workbox-strategies": "^6.5.4"
+        "viem": "^0.3.24"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*",
@@ -76,7 +72,6 @@
         "@rollup/plugin-replace": "^5.0.2",
         "@size-limit/file": "^8.1.0",
         "@tanstack/react-query": "^4.29.7",
-        "@types/lodash.debounce": "^4.0.7",
         "@types/react": "^18.2.0",
         "@types/react-dom": "^18.2.4",
         "@types/react-router-dom": "^5.3.3",
@@ -111,7 +106,7 @@
         "production": [
             ">0.2%",
             "not dead",
-            "not op_mini all"
+            "supports bigint"
         ],
         "development": [
             "last 1 chrome version",
