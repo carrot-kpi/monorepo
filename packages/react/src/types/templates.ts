@@ -9,6 +9,7 @@ import { Tx, TxType } from "./transactions";
 import { NavigateFunction } from "react-router-dom";
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { ReactElement, ReactNode } from "react";
+import type { Hex } from "viem";
 
 export type TemplateEntity = "kpiToken" | "oracle";
 
@@ -38,7 +39,7 @@ export interface BaseRemoteTemplateComponentProps {
 }
 
 export interface OracleInitializationBundle {
-    data: string;
+    data: Hex;
     value: bigint;
 }
 
