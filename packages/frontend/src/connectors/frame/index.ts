@@ -147,6 +147,7 @@ export class FrameConnector extends Connector<Provider, unknown> {
             );
             return targetChain;
         } catch (error) {
+            // Indicates chain is not added to provider
             if ((error as ProviderRpcError).code === 4902) {
                 try {
                     await provider.request({
