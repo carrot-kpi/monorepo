@@ -3,7 +3,6 @@ import {
     ResolvedKPITokenWithData,
     ResolvedOracleWithData,
 } from "@carrot-kpi/sdk";
-import { BigNumber } from "@ethersproject/bignumber";
 import { i18n } from "i18next";
 import { NamespacedTranslateFunction } from "../components";
 import { Tx, TxType } from "./transactions";
@@ -40,7 +39,7 @@ export interface BaseRemoteTemplateComponentProps {
 
 export interface OracleInitializationBundle {
     data: string;
-    value: BigNumber;
+    value: bigint;
 }
 
 export type OracleInitializationBundleGetter =

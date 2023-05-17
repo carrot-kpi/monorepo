@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Meta, DecoratorFn, StoryObj } from "@storybook/react";
+import { Meta, StoryObj, Decorator } from "@storybook/react";
 
 import {
     ERC20TokenPicker as ERC20TokenPickerComponent,
@@ -8,7 +8,7 @@ import {
 import { Button } from "../../input";
 import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
 import {
-    createClient,
+    createConfig,
     configureChains,
     WagmiConfig,
     useAccount,
@@ -21,23 +21,26 @@ import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { Typography } from "../../data-display";
 import { ERC20_ABI } from "@carrot-kpi/sdk";
-import { BigNumber } from "@ethersproject/bignumber";
 
 const CHAIN_ID = gnosis.id;
 
-const { chains, provider } = configureChains([gnosis], [publicProvider()]);
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+    [gnosis],
+    [publicProvider()]
+);
 
 const INJECTED_CONNECTOR = new InjectedConnector({ chains });
 
-const client = createClient({
+const config = createConfig({
     autoConnect: true,
     connectors: [INJECTED_CONNECTOR],
-    provider,
+    publicClient,
+    webSocketPublicClient,
 });
 
-const WagmiDecorator: DecoratorFn = (Story) => {
+const WagmiDecorator: Decorator = (Story) => {
     return (
-        <WagmiConfig client={client}>
+        <WagmiConfig config={config}>
             <Story />
         </WagmiConfig>
     );
@@ -70,15 +73,17 @@ const Component = (props: ERC20TokenPickerProps) => {
         isLoading: loadingBalances,
         isFetching: fetchingBalances,
     } = useContractReads({
-        contracts: list?.tokens.map((token) => {
-            return {
-                abi: ERC20_ABI,
-                address: token.address as Address,
-                chainId: CHAIN_ID,
-                functionName: "balanceOf",
-                args: [address],
-            };
-        }),
+        contracts:
+            address &&
+            list?.tokens.map((token) => {
+                return {
+                    abi: ERC20_ABI,
+                    address: token.address as Address,
+                    chainId: CHAIN_ID,
+                    functionName: "balanceOf",
+                    args: [address],
+                };
+            }),
         allowFailure: true,
         enabled: !!(list && address),
     });
@@ -92,9 +97,9 @@ const Component = (props: ERC20TokenPickerProps) => {
                     tokens: list.tokens.map((token, index) => {
                         return {
                             ...token,
-                            balance: rawBalances[
-                                index
-                            ] as unknown as BigNumber | null,
+                            balance: rawBalances[index] as unknown as
+                                | bigint
+                                | null,
                         };
                     }),
                 };

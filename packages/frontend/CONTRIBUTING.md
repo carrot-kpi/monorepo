@@ -27,28 +27,20 @@ yarn install
 
 ### Setting up envs
 
-A couple envs are required in order to start up the host frontend locally or
-build it for a release:
+An `INFURA_PROJECT_ID` env is required in order to start up the host frontend
+locally or build it for a release. The env is an infura project ID to be used
+for RPC access for various blockchains. You can get one
+[here](https://www.infura.io/).
 
-- `REACT_APP_INFURA_PROJECT_ID`: an infura project ID to be used for RPC access
-  for various blockchains. You can get one [here](https://www.infura.io/).
-- `REACT_APP_WALLETCONNECT_PROJECT_ID`: a WalletConnect v2 project ID is
-  required in order to enable WalletConnect based wallet connections. You can
-  get one by registering [here](https://cloud.walletconnect.com). If you don't
-  care about WalletConnect support you can leave the end empty.
-- `REACT_APP_FATHOM_SITE_ID`: id of an existing Fathom site, used to initialize
-  the anonymous tracking (this env must be defined but can be left empty if
-  you're not building a production bundle). You can get one by registering
+The following optional envs can also be specified:
+
+- `WALLETCONNECT_PROJECT_ID`: a WalletConnect v2 project ID is required in order
+  to enable WalletConnect based wallet connections. You can get one by
+  registering [here](https://cloud.walletconnect.com).
+- `FATHOM_SITE_ID`: id of an existing Fathom site, used to initialize the
+  anonymous tracking (this env must be defined but can be left empty if you're
+  not building a production bundle). You can get one by registering
   [here](https://app.usefathom.com).
-
-After you have these envs, you should create a `.env` file in the root of the
-package (or copy the `.env.example` available at the root of the package) and
-paste the values there.
-
-The `.env` file may also define 2 additional envs that will be used by the
-`build` command to generate code related to Fathom at build time.
-
-- `FATHOM_SITE_ID`: same id described above.
 - `FATHOM_API_KEY`: secret API key for the Fathom APIs. You can get one by
   registering [here](https://app.usefathom.com).
 
@@ -56,8 +48,9 @@ If the `FATHOM_*` environment variables are not defined, the script will still
 work; however, it will skip the events synchronization process. Instead, it will
 only generate the output files.
 
-A `config-react-env` script will run before you build the dapp and throw an
-error if the env doesn't look good, so make sure your env is ok.
+After you have these envs, you should create a `.env` file in the root of the
+package (or copy the `.env.example` available at the root of the package) and
+paste the values there.
 
 ## Running modes
 
@@ -154,15 +147,14 @@ Three different commands are available to build the host frontend:
 - `build:production`: this will build the host frontend in production mode. The
   build's output will be placed under the `build` folder, which will contain a
   frontend app ready to be published. In this build, both
-  `REACT_APP_WALLETCONNECT_PROJECT_ID` and `REACT_APP_FATHOM_SITE_ID` envs are
-  required to enable WalletConnect and Fathom privacy preserving tracking
-  respectively.
+  `WALLETCONNECT_PROJECT_ID` and `FATHOM_SITE_ID` envs are required to enable
+  WalletConnect and Fathom privacy preserving tracking respectively.
 - `build:staging`: this will build the host frontend in staging mode. The
   build's output will be placed under the `build` folder, which will contain a
   frontend app ready to be published. In this build the
-  `REACT_APP_WALLETCONNECT_PROJECT_ID` and `REACT_APP_FATHOM_SITE_ID` envs are
-  optional and will activate either WalletConnect or Fathom privacy preserving
-  tracking features only if specified.
+  `WALLETCONNECT_PROJECT_ID` and `FATHOM_SITE_ID` envs are optional and will
+  activate either WalletConnect or Fathom privacy preserving tracking features
+  only if specified.
 - `build:library`: this will bundle the app in library format, ready to be
   consumed by template developers that want functional playground modes for
   their template frontends. The end bundle is put under `dist` and the
@@ -190,10 +182,10 @@ In case you're building a new feature and it requires adding an env, you do the
 following:
 
 1. If the env is required for the dapp to work correctly, update the
-   `./scripts/config-react-env.js` script to reflect it.
+   `./craco.config.js` and `rollup.config.mjs` files to reflect it.
 2. Add its name to the `.env.example` file (obviously, do not add the env's
    value to the example file)
 3. Update the `./src/react-app-env.d.ts` file to add the env's name to the
-   augmented `NodeJS` namespace.
+   augmented `global` namespace.
 4. Update the `turbo.json` file at the root of the monorepo to add the env to
    the `globalEnv` key.

@@ -5,5 +5,5 @@ interface WarningBannerProps {
 }
 
 export const WarningBanner = ({ children }: WarningBannerProps) => {
-    return <div className="bg-yellow px-10 py-6">{children}</div>;
+    return <div className="bg-yellow px-10 py-6 text-center">{children}</div>;
 };

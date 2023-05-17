@@ -1,18 +1,29 @@
-import { JsonRpcProvider } from "@ethersproject/providers";
-import { Connector } from "wagmi";
-import { Address, Chain, ConnectorData, normalizeChainId } from "@wagmi/core";
+import type { Address, Chain, ConnectorData, WalletClient } from "wagmi";
+import { Connector, ConnectorNotFoundError } from "wagmi";
+import type Provider from "ethereum-provider";
+import {
+    ProviderRpcError,
+    SwitchChainError,
+    UserRejectedRequestError,
+    createWalletClient,
+    custom,
+    getAddress,
+    numberToHex,
+} from "viem";
+import { normalizeChainId } from "../../utils/chain";
+import getProvider from "eth-provider";
 
 export const FRAME_CONNECTOR_ID = "frame";
 
-export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
+export class FrameConnector extends Connector<Provider, unknown> {
     readonly id = FRAME_CONNECTOR_ID;
     readonly name = "Frame";
     ready: boolean;
 
-    private provider?: JsonRpcProvider;
+    private provider?: Provider;
 
-    constructor(config: { chains: Chain[]; options: object }) {
-        super(config);
+    constructor(config: { chains: Chain[] }) {
+        super({ ...config, options: {} });
         this.ready = false;
 
         fetch("http://127.0.0.1:1248", {
@@ -39,15 +50,28 @@ export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
     public async connect({ chainId }: { chainId?: number } = {}): Promise<
         Required<ConnectorData>
     > {
-        const provider = await this.getProvider({ chainId });
-        const id = chainId || this.chains[0].id;
-        const unsupported = this.isChainUnsupported(id);
-        const signer = await provider.getSigner();
-        return {
-            account: (await signer.getAddress()) as Address,
-            chain: { id, unsupported },
-            provider,
-        };
+        const provider = await this.getProvider();
+        if (!provider) throw new ConnectorNotFoundError();
+
+        if (provider.on) {
+            provider.on("accountsChanged", this.onAccountsChanged);
+            provider.on("chainChanged", this.onChainChanged);
+            provider.on("disconnect", this.onDisconnect);
+        }
+
+        this.emit("message", { type: "connecting" });
+
+        const account = getAddress(provider.accounts[0] as string);
+        // Switch to chain if provided
+        let id = await this.getChainId();
+        let unsupported = this.isChainUnsupported(id);
+        if (chainId && id !== chainId) {
+            const chain = await this.switchChain(chainId);
+            id = chain.id;
+            unsupported = this.isChainUnsupported(id);
+        }
+
+        return { account, chain: { id, unsupported } };
     }
 
     public async disconnect() {
@@ -60,23 +84,18 @@ export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
 
     public async getAccount(): Promise<Address> {
         const provider = await this.getProvider();
-        const signer = await provider.getSigner();
-        return (await signer.getAddress()) as Address;
+        return getAddress(provider.accounts[0]);
     }
 
     public async getChainId() {
         const provider = await this.getProvider();
-        const network = await provider.getNetwork();
-        const chainId = normalizeChainId(network.chainId);
-        return chainId;
+        if (!provider.chainId) throw new Error("no chain id in provider");
+        return normalizeChainId(provider.chainId);
     }
 
-    public async getProvider(config?: { chainId?: number }) {
+    public async getProvider(): Promise<Provider> {
         if (!this.provider) {
-            this.provider = new JsonRpcProvider(
-                "http://127.0.0.1:1248",
-                config?.chainId
-            );
+            this.provider = getProvider("frame");
             this.provider.on("accountsChanged", this.onAccountsChanged);
             this.provider.on("chainChanged", this.onChainChanged);
             this.provider.on("disconnect", this.onDisconnect);
@@ -84,26 +103,100 @@ export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
         return this.provider;
     }
 
-    async getSigner() {
-        const provider = await this.getProvider();
-        return provider.getSigner();
+    async getWalletClient({
+        chainId,
+    }: { chainId?: number } = {}): Promise<WalletClient> {
+        const [provider, account] = await Promise.all([
+            this.getProvider(),
+            this.getAccount(),
+        ]);
+        const chain = this.chains.find((x) => x.id === chainId);
+        if (!provider) throw new Error("provider is required.");
+        return createWalletClient({
+            account,
+            chain,
+            transport: custom(provider),
+        });
     }
 
     async isAuthorized() {
-        return true;
+        try {
+            return !!((await this.getProvider()) && (await this.getAccount()));
+        } catch {
+            return false;
+        }
     }
 
     async switchChain(chainId: number): Promise<Chain> {
-        await this.getProvider({ chainId });
-        const chain = this.chains.find((x) => x.id === chainId);
-        if (!chain)
-            throw new Error(`can't find switched chain with id ${chainId}`);
-        this.onChainChanged(chainId);
-        return chain;
+        const provider = await this.getProvider();
+        if (!provider) throw new ConnectorNotFoundError();
+        const targetChain = this.chains.find((chain) => chain.id === chainId);
+        if (!targetChain)
+            throw new Error(`chain with id ${chainId} is not supported`);
+        const hexChainId = numberToHex(chainId);
+
+        try {
+            await provider.request({
+                method: "wallet_switchEthereumChain",
+                params: [{ chainId: hexChainId }],
+            });
+            await new Promise<void>((resolve) =>
+                this.on("change", ({ chain }) => {
+                    if (chain?.id === chainId) resolve();
+                })
+            );
+            return targetChain;
+        } catch (error) {
+            // Indicates chain is not added to provider
+            if ((error as ProviderRpcError).code === 4902) {
+                try {
+                    await provider.request({
+                        method: "wallet_addEthereumChain",
+                        params: [
+                            {
+                                chainId: hexChainId,
+                                chainName: targetChain.name,
+                                nativeCurrency: targetChain.nativeCurrency,
+                                rpcUrls: [
+                                    targetChain.rpcUrls.public?.http[0] ?? "",
+                                ],
+                                blockExplorerUrls:
+                                    this.getBlockExplorerUrls(targetChain),
+                            },
+                        ],
+                    });
+
+                    const currentChainId = await this.getChainId();
+                    if (currentChainId !== targetChain.id)
+                        throw new UserRejectedRequestError(
+                            new Error(
+                                "User rejected switch after adding network."
+                            )
+                        );
+
+                    return targetChain;
+                } catch (error) {
+                    throw new UserRejectedRequestError(error as Error);
+                }
+            }
+
+            if (this.isUserRejectedRequestError(error))
+                throw new UserRejectedRequestError(error as Error);
+            throw new SwitchChainError(error as Error);
+        }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected onAccountsChanged = (): void => {};
+    protected isUserRejectedRequestError(error: unknown) {
+        return (error as ProviderRpcError).code === 4001;
+    }
+
+    protected onAccountsChanged = (accounts: string[]): void => {
+        if (accounts.length === 0) this.emit("disconnect");
+        else
+            this.emit("change", {
+                account: getAddress(accounts[0] as string),
+            });
+    };
 
     protected onChainChanged = (chainId: number | string): void => {
         const id = normalizeChainId(chainId);
@@ -111,6 +204,7 @@ export class FrameConnector extends Connector<JsonRpcProvider, unknown> {
         this.emit("change", { chain: { id, unsupported } });
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected onDisconnect = (): void => {};
+    protected onDisconnect = (): void => {
+        this.emit("disconnect");
+    };
 }

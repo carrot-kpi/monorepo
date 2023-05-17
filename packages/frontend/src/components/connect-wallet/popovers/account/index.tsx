@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
-import { Address, useConnect, useEnsName, useNetwork } from "wagmi";
+import { type Address, useConnect, useEnsName, useNetwork } from "wagmi";
 import { ReadonlyConnector } from "../../../../connectors/readonly";
 import { shortenAddress } from "../../../../utils/address";
 import { Avatar } from "../../avatar";
@@ -32,7 +32,7 @@ const copyAddressStyles = cva(["w-10", "h-10", "p-0"], {
 });
 
 interface AccountPopoverProps {
-    address: string;
+    address: Address;
     open: boolean;
     onClose: () => void;
     anchor?: HTMLElement | null;

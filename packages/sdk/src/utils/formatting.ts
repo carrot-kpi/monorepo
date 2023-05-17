@@ -1,4 +1,4 @@
-import { commify, formatUnits } from "@ethersproject/units";
+import { formatUnits } from "viem";
 import { Amount } from "../entities/amount";
 import { Token } from "../entities/token";
 
@@ -8,7 +8,8 @@ export const formatTokenAmount = (
     nonZeroDecimalsAmount = 4
 ) => {
     let rawBaseAmount = formatDecimals(
-        commify(formatUnits(amount.raw, amount.currency.decimals)),
+        // FIXME: reintroduce commify
+        formatUnits(amount.raw, amount.currency.decimals),
         nonZeroDecimalsAmount
     );
     if (withSymbol)

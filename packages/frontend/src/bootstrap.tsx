@@ -89,10 +89,7 @@ export const Root = ({
                 return connectors;
             return [
                 ...connectors,
-                new ReadonlyConnector({
-                    chains: resolvedSupportedChains,
-                    options: { name: "readonly" },
-                }),
+                new ReadonlyConnector({ chains: resolvedSupportedChains }),
             ];
         };
     }
@@ -131,7 +128,7 @@ if (!__LIBRARY_MODE__) {
         </StrictMode>
     );
 
-    if ("serviceWorker" in navigator) {
+    if (!__DEV__ && "serviceWorker" in navigator) {
         navigator.serviceWorker
             .register("./sw.js")
             .then(() => {

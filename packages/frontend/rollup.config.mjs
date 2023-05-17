@@ -9,17 +9,12 @@ import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { getEnv } = require("./utils/env");
 
 config();
-
-const reactAppEnvs = Object.entries(process.env).reduce(
-    (envs, [name, value]) => {
-        if (name.startsWith("REACT_APP"))
-            envs[`process.env.${name}`] = JSON.stringify(value);
-        return envs;
-    },
-    {}
-);
 
 export default [
     {
@@ -31,10 +26,11 @@ export default [
                 values: {
                     __LIBRARY_MODE__: JSON.stringify(true),
                     __STAGING_MODE__: JSON.stringify(false),
-                    ...reactAppEnvs,
-                    "process.env.NODE_ENV": JSON.stringify(
-                        process.env.NODE_ENV
-                    ),
+                    __DEV__: JSON.stringify(false),
+                    __INFURA_PROJECT_ID__: getEnv("INFURA_PROJECT_ID", true),
+                    __WALLETCONNECT_PROJECT_ID__: JSON.stringify(""),
+                    __FATHOM_SITE_ID__: JSON.stringify(""),
+                    "process.env.NODE_ENV": JSON.stringify("production"),
                 },
             }),
             peerDepsExternal(),
