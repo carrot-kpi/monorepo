@@ -65,7 +65,7 @@ export const PreferencesPopover = forwardRef<
             className={{ root: "w-fit p-4 flex flex-col gap-4 text-center" }}
             placement="bottom-end"
         >
-            <Typography variant="md" uppercase weight="medium">
+            <Typography uppercase weight="medium">
                 {t("preferences.title")}
             </Typography>
             <div className="flex justify-between gap-4 md:gap-20 items-center">

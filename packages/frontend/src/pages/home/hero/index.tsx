@@ -47,7 +47,7 @@ export const Hero = () => {
                 <div className="relative px-6 pb-16 space-y-12 md:px-14 lg:px-36 pt-7 md:pt-24 md:pb-32">
                     <div className="flex flex-col items-center justify-around gap-10 md:flex-row md:gap-0">
                         <div className="flex flex-col items-center w-full gap-10 md:items-start md:w-2/5">
-                            <Typography variant="h1">
+                            <Typography variant="h3">
                                 {t("home.noFeatured.title")}
                             </Typography>
                             <Typography>
@@ -71,7 +71,7 @@ export const Hero = () => {
             ) : (
                 <div className="relative pb-16 space-y-12 pt-7 md:pt-24 md:pb-32">
                     <Typography
-                        variant="h1"
+                        variant="h3"
                         className={{
                             root: "px-6 md:px-10 lg:px-32 dark:text-black",
                         }}
