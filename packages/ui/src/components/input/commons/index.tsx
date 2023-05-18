@@ -2,7 +2,6 @@ import React, {
     ChangeEventHandler,
     FunctionComponent,
     InputHTMLAttributes,
-    LegacyRef,
     ReactElement,
     ReactNode,
     useCallback,
