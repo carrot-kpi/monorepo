@@ -20,7 +20,7 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
     return (
         <div className="relative space-y-16">
             <Typography
-                variant="h2"
+                variant="h3"
                 className={{ root: "px-6 md:px-10 lg:px-32" }}
             >
                 {t("home.templates")}

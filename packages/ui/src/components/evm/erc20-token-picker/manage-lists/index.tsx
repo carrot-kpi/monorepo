@@ -150,7 +150,7 @@ export const ManageLists = ({
                         })}
                         onClick={onSearch}
                     />
-                    <Typography variant="h5" className={className?.title}>
+                    <Typography variant="h4" className={className?.title}>
                         {messages.title}
                     </Typography>
                 </div>

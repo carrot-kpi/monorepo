@@ -141,7 +141,7 @@ export const MultiChainLinksUpdater = () => {
         >
             <div className="bg-white border border-black rounded-xl p-8 flex flex-col items-center gap-4 z-[1] max-w-md">
                 <WrongNetwork className="w-40" />
-                <Typography variant="h5">{t("wrong.network.title")}</Typography>
+                <Typography variant="h4">{t("wrong.network.title")}</Typography>
                 <Typography className={{ root: "text-center" }}>
                     {t("wrong.network.description", {
                         chainName: targetLandingChain?.name,

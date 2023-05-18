@@ -28,6 +28,7 @@ export const en = {
         "home.featuredCampaigns": "Featured campaigns",
         "home.templates": "Templates",
         "home.latestCampaigns": "Latest Campaigns",
+        "home.allCampaigns": "View all campaigns",
         "create.campaign": "Create campaign",
         "create.loading": "Loading",
         "create.template.title": "Title",

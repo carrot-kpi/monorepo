@@ -28,26 +28,22 @@ const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
             true: ["cui-cursor-pointer"],
         },
         variant: {
-            "2xs": ["cui-font-mono", "cui-font-normal", "cui-text-2xs"],
-            xs: ["cui-font-mono", "cui-font-normal", "cui-text-xs"],
-            sm: ["cui-font-mono", "cui-font-normal", "cui-text-sm"],
-            md: ["cui-font-mono", "cui-font-normal", "cui-text-base"],
-            lg: ["cui-font-mono", "cui-font-normal", "cui-text-lg"],
-            xl: ["cui-font-mono", "cui-font-normal", "cui-text-xl"],
-            "2xl": ["cui-font-mono", "cui-font-normal", "cui-text-2xl"],
-            h6: ["cui-font-sans", "cui-font-bold", "cui-text-h6"],
-            h5: ["cui-font-sans", "cui-font-bold", "cui-text-h5"],
-            h4: ["cui-font-sans", "cui-font-bold", "cui-text-h4"],
-            h3: ["cui-font-sans", "cui-font-bold", "cui-text-h3"],
+            xs: ["cui-font-normal", "cui-font-mono", "cui-text-xs"],
+            sm: ["cui-font-normal", "cui-font-mono", "cui-text-sm"],
+            base: ["cui-font-normal", "cui-font-mono", "cui-text-base"],
+            xl: ["cui-font-normal", "cui-font-mono", "cui-text-xl"],
+            "2xl": ["cui-font-normal", "cui-font-mono", "cui-text-2xl"],
+            h4: ["cui-font-bold", "cui-font-sans", "cui-text-h4"],
+            h3: ["cui-font-bold", "cui-font-sans", "cui-text-h3"],
             h2: [
-                "cui-font-sans",
                 "cui-font-bold",
+                "cui-font-sans",
                 "cui-text-h3",
                 "md:cui-text-h2",
             ],
             h1: [
-                "cui-font-sans",
                 "cui-font-bold",
+                "cui-font-sans",
                 "cui-text-h3",
                 "md:cui-text-h1",
             ],
@@ -61,19 +57,15 @@ const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
 });
 
 export type TypographyVariant =
-    | "2xs"
     | "xs"
     | "sm"
-    | "md"
-    | "lg"
+    | "base"
     | "xl"
     | "2xl"
     | "h1"
     | "h2"
     | "h3"
-    | "h4"
-    | "h5"
-    | "h6";
+    | "h4";
 
 export interface BaseTypographyProps {
     variant?: TypographyVariant;
@@ -88,8 +80,6 @@ export interface BaseTypographyProps {
 }
 
 export type HTMLElementFromVariant<V extends TypographyVariant> = V extends
-    | "h6"
-    | "h5"
     | "h4"
     | "h3"
     | "h2"
@@ -102,24 +92,20 @@ export type TypographyProps<V extends TypographyVariant = TypographyVariant> =
         BaseTypographyProps;
 
 const COMPONENT_MAP: Record<TypographyVariant, ElementType> = {
-    "2xs": "p",
     xs: "p",
     sm: "p",
-    md: "p",
-    lg: "p",
+    base: "p",
     xl: "p",
     "2xl": "p",
     h1: "h1",
     h2: "h2",
     h3: "h3",
     h4: "h4",
-    h5: "h5",
-    h6: "h6",
 };
 
 const Component = <V extends TypographyVariant>(
     {
-        variant = "md",
+        variant = "base",
         weight,
         uppercase,
         truncate,

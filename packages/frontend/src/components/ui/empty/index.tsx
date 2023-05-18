@@ -60,7 +60,7 @@ export const Empty = ({
                 <Typography variant={titleVariant || "h3"}>
                     {t("empty.title")}
                 </Typography>
-                <Typography variant={descriptionVariant || "lg"}>
+                <Typography variant={descriptionVariant || "2xl"}>
                     {t("empty.description")}
                 </Typography>
             </div>

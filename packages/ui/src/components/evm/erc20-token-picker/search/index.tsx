@@ -121,7 +121,7 @@ export const Search = ({
                     className: className?.header,
                 })}
             >
-                <Typography variant="h5" className={className?.title}>
+                <Typography variant="h4" className={className?.title}>
                     {messages.title}
                 </Typography>
                 <X

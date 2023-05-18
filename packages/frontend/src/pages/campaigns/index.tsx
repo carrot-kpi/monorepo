@@ -178,7 +178,7 @@ export const Campaigns = () => {
             <div className="relative bg-grid-light dark:bg-grid-dark dark:bg-black">
                 <div className="relative">
                     <div className="px-6 py-16 md:px-10">
-                        <Typography variant="h1">
+                        <Typography variant="h3">
                             {t("campaign.all")}
                         </Typography>
                     </div>

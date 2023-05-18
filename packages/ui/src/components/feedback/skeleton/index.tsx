@@ -10,15 +10,11 @@ const rootStyles = mergedCva(
                 false: ["cui-rounded"],
             },
             variant: {
-                "2xs": ["cui-h-2xs"],
                 xs: ["cui-h-xs"],
                 sm: ["cui-h-sm"],
-                md: ["cui-h-base"],
-                lg: ["cui-h-lg"],
+                base: ["cui-h-base"],
                 xl: ["cui-h-xl"],
                 "2xl": ["cui-h-2xl"],
-                h6: ["cui-h-h6"],
-                h5: ["cui-h-h5"],
                 h4: ["cui-h-h4"],
                 h3: ["cui-h-h3"],
                 h2: ["cui-h-h2"],
@@ -29,19 +25,15 @@ const rootStyles = mergedCva(
 );
 
 type SkeletonVariant =
-    | "2xs"
     | "xs"
     | "sm"
-    | "md"
-    | "lg"
+    | "base"
     | "xl"
     | "2xl"
     | "h1"
     | "h2"
     | "h3"
-    | "h4"
-    | "h5"
-    | "h6";
+    | "h4";
 
 export interface SkeletonProps {
     variant?: SkeletonVariant;
@@ -52,7 +44,7 @@ export interface SkeletonProps {
 }
 
 export const Skeleton = ({
-    variant = "md",
+    variant = "base",
     circular,
     width,
     height,

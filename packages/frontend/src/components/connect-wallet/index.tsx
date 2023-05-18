@@ -141,7 +141,7 @@ export const ConnectWallet = () => {
                         logo={<Logo width={18} height={18} />}
                     />
                     <div className="flex flex-col">
-                        <Typography variant="2xs">
+                        <Typography variant="xs">
                             {t("connect.wallet.network")}
                         </Typography>
                         <Typography variant="sm">
