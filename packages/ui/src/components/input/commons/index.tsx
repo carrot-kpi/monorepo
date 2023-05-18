@@ -2,10 +2,10 @@ import React, {
     ChangeEventHandler,
     FunctionComponent,
     InputHTMLAttributes,
+    LegacyRef,
     ReactElement,
     ReactNode,
     useCallback,
-    useRef,
     useState,
 } from "react";
 import Info from "../../../icons/info";
@@ -193,8 +193,7 @@ export const BaseInputWrapper = ({
     className,
     children,
 }: BaseInputWrapperProps): ReactElement => {
-    const infoIconRef = useRef<HTMLDivElement | null>(null);
-
+    const [infoIcon, setInfoIcon] = useState<SVGSVGElement | null>(null);
     const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
 
     const handleInfoMouseEnter = useCallback(() => {
@@ -247,7 +246,7 @@ export const BaseInputWrapper = ({
                     </Typography>
                     {info && (
                         <>
-                            <div ref={infoIconRef}>
+                            <div ref={setInfoIcon as LegacyRef<HTMLDivElement>}>
                                 <Info
                                     className={infoIconStyles({
                                         className: className?.infoIcon,
@@ -257,7 +256,7 @@ export const BaseInputWrapper = ({
                                 />
                             </div>
                             <Popover
-                                anchor={infoIconRef.current}
+                                anchor={infoIcon}
                                 open={infoPopoverOpen}
                                 className={{
                                     root: `cui-p-2 ${className?.infoPopover}`,
