@@ -193,7 +193,7 @@ export const BaseInputWrapper = ({
     className,
     children,
 }: BaseInputWrapperProps): ReactElement => {
-    const [infoIcon, setInfoIcon] = useState<SVGSVGElement | null>(null);
+    const [infoIcon, setInfoIcon] = useState<HTMLDivElement | null>(null);
     const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
 
     const handleInfoMouseEnter = useCallback(() => {
@@ -246,7 +246,7 @@ export const BaseInputWrapper = ({
                     </Typography>
                     {info && (
                         <>
-                            <div ref={setInfoIcon as LegacyRef<HTMLDivElement>}>
+                            <div ref={setInfoIcon}>
                                 <Info
                                     className={infoIconStyles({
                                         className: className?.infoIcon,
