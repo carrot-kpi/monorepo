@@ -8,6 +8,24 @@ import { ENABLED_CHAINS } from "../constants";
 import { ReadonlyConnector } from "../connectors";
 import { Chain, ChainProviderFn, Connector } from "wagmi";
 import { FrameConnector } from "../connectors/frame";
+import { ChainId } from "@carrot-kpi/sdk";
+
+type RPCConfig = {
+    http: string;
+    webSocket?: string | undefined;
+} | null;
+
+const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
+    [ChainId.SEPOLIA]: null, // covered by the infura connector
+    [ChainId.GNOSIS]: {
+        http: "https://rpc.gnosischain.com",
+        webSocket: "wss://rpc.gnosischain.com/wss",
+    },
+    [ChainId.SCROLL_TESTNET]: {
+        http: "https://alpha-rpc.scroll.io/l2",
+        webSocket: "wss://alpha-rpc.scroll.io/l2/ws",
+    },
+};
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export let standaloneSupportedChains: Chain[] = [];
@@ -18,11 +36,8 @@ if (!__LIBRARY_MODE__) {
     standaloneProviders = [
         infuraProvider({ apiKey: __INFURA_PROJECT_ID__ }),
         jsonRpcProvider({
-            rpc: () => {
-                return {
-                    http: "https://rpc.gnosischain.com",
-                    webSocket: "wss://rpc.gnosischain.com/wss",
-                };
+            rpc: (chain) => {
+                return RPC_BY_CHAIN[chain.id as ChainId] || null;
             },
         }),
     ];
