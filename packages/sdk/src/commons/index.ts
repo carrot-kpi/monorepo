@@ -6,19 +6,12 @@ import ORACLES_MANAGER_ABI from "../abis/oracles-manager";
 import ERC20_ABI from "../abis/erc20";
 import { Cacher } from "../cacher";
 import { type Address } from "viem";
-import { type Chain, gnosis, sepolia, scrollTestnet } from "viem/chains";
 
 export enum ChainId {
-    GNOSIS = gnosis.id,
-    SEPOLIA = sepolia.id,
-    SCROLL_TESTNET = scrollTestnet.id,
+    GNOSIS = 100,
+    SEPOLIA = 11155111,
+    SCROLL_TESTNET = 534353,
 }
-
-export const CHAIN: Record<ChainId, Chain> = {
-    [ChainId.GNOSIS]: gnosis,
-    [ChainId.SEPOLIA]: sepolia,
-    [ChainId.SCROLL_TESTNET]: scrollTestnet,
-};
 
 export const CACHER = new Cacher("carrot-kpi-sdk");
 
