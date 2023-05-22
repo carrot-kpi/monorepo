@@ -23,6 +23,8 @@ export function useLatestKPITokens(limit = 5): {
                 publicClient,
                 preferDecentralization,
             });
+            if (kpiTokensAmount === 0) return [];
+
             const fromIndex = Math.max(kpiTokensAmount - limit, 0);
             const kpiTokenAddresses = await Fetcher.fetchKPITokenAddresses({
                 publicClient,

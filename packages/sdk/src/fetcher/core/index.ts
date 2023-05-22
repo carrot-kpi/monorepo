@@ -1,21 +1,11 @@
-import {
-    MULTICALL_ABI,
-    ChainId,
-    ERC20_ABI,
-    CHAIN_ADDRESSES,
-} from "../../commons";
+import { ChainId, ERC20_ABI } from "../../commons";
 import {
     cacheERC20Token,
     enforce,
     getCachedERC20Token,
     warn,
 } from "../../utils";
-import {
-    type Address,
-    getContract,
-    encodeFunctionData,
-    decodeFunctionResult,
-} from "viem";
+import { type Address } from "viem";
 import { Token } from "../../entities/token";
 import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
 import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
@@ -34,28 +24,6 @@ import {
     TemplateSpecification,
 } from "../../entities/template";
 import { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
-
-// erc20 related function datas
-const ERC20_NAME_FUNCTION_DATA = encodeFunctionData({
-    abi: ERC20_ABI,
-    functionName: "name",
-});
-const ERC20_SYMBOL_FUNCTION_DATA = encodeFunctionData({
-    abi: ERC20_ABI,
-    functionName: "symbol",
-});
-const ERC20_DECIMALS_FUNCTION_DATA = encodeFunctionData({
-    abi: ERC20_ABI,
-    functionName: "decimals",
-});
-const ERC20_BYTES_NAME_FUNCTION_DATA = encodeFunctionData({
-    abi: BYTES_NAME_ERC20_ABI,
-    functionName: "name",
-});
-const ERC20_BYTES_SYMBOL_FUNCTION_DATA = encodeFunctionData({
-    abi: BYTES_SYMBOL_ERC20_ABI,
-    functionName: "symbol",
-});
 
 // TODO: check if validation can be extracted in its own function
 export class CoreFetcher implements ICoreFetcher {
@@ -83,39 +51,47 @@ export class CoreFetcher implements ICoreFetcher {
         );
         if (missingTokens.length === 0) return cachedTokens;
 
-        const multicall = getContract({
-            address: CHAIN_ADDRESSES[chainId].multicall,
-            abi: MULTICALL_ABI,
-            publicClient: publicClient,
+        const result = await publicClient.multicall({
+            contracts: addresses.flatMap((address) => [
+                { address, abi: ERC20_ABI, functionName: "name" },
+                {
+                    address,
+                    abi: ERC20_ABI,
+                    functionName: "symbol",
+                },
+                {
+                    address,
+                    abi: ERC20_ABI,
+                    functionName: "decimals",
+                },
+                {
+                    address,
+                    abi: BYTES_NAME_ERC20_ABI,
+                    functionName: "name",
+                },
+                {
+                    address,
+                    abi: BYTES_SYMBOL_ERC20_ABI,
+                    functionName: "symbol",
+                },
+            ]),
+            allowFailure: true,
         });
-
-        const calls = addresses.flatMap((target) => [
-            { target, callData: ERC20_NAME_FUNCTION_DATA },
-            { target, callData: ERC20_SYMBOL_FUNCTION_DATA },
-            { target, callData: ERC20_DECIMALS_FUNCTION_DATA },
-            { target, callData: ERC20_BYTES_NAME_FUNCTION_DATA },
-            { target, callData: ERC20_BYTES_SYMBOL_FUNCTION_DATA },
-        ]);
-
-        const { result } = await multicall.simulate.tryAggregate([
-            false,
-            calls,
-        ]);
         const fetchedTokens = missingTokens.reduce(
             (
                 accumulator: { [address: string]: Token },
                 missingToken,
                 index
             ) => {
-                const wrappedName = result[index * 5];
-                const wrappedSymbol = result[index * 5 + 1];
-                const wrappedDecimals = result[index * 5 + 2];
-                const wrappedBytesName = result[index * 5 + 3];
-                const wrappedBytesSymbol = result[index * 5 + 4];
+                const rawName = result[index * 5];
+                const rawSymbol = result[index * 5 + 1];
+                const rawDecimals = result[index * 5 + 2];
+                const rawBytesName = result[index * 5 + 3];
+                const rawBytesSymbol = result[index * 5 + 4];
                 if (
-                    (!wrappedSymbol.success && !wrappedBytesSymbol.success) ||
-                    (!wrappedName.success && wrappedBytesName.success) ||
-                    !wrappedDecimals.success
+                    (!rawSymbol.result && !rawBytesSymbol.result) ||
+                    (!rawName.result && rawBytesName.result) ||
+                    !rawDecimals.result
                 ) {
                     console.warn(
                         `could not fetch ERC20 data for address ${missingToken}`
@@ -123,20 +99,18 @@ export class CoreFetcher implements ICoreFetcher {
                     return accumulator;
                 }
 
-                let name;
+                let name: string;
                 try {
-                    name = decodeFunctionResult({
-                        abi: ERC20_ABI,
-                        functionName: "name",
-                        data: wrappedName.returnData,
-                    })[0];
+                    if (!rawName.result)
+                        throw new Error("wrapped name result is undefined");
+                    name = rawName.result as string;
                 } catch (error) {
                     try {
-                        name = decodeFunctionResult({
-                            abi: BYTES_NAME_ERC20_ABI,
-                            functionName: "name",
-                            data: wrappedBytesName.returnData,
-                        })[0];
+                        if (!rawBytesName.result)
+                            throw new Error(
+                                "wrapped bytes name result is undefined"
+                            );
+                        name = rawBytesName.result as string;
                     } catch (error) {
                         console.warn(
                             `could not decode ERC20 token name for address ${missingToken}`
@@ -145,20 +119,18 @@ export class CoreFetcher implements ICoreFetcher {
                     }
                 }
 
-                let symbol;
+                let symbol: string;
                 try {
-                    symbol = decodeFunctionResult({
-                        abi: ERC20_ABI,
-                        functionName: "symbol",
-                        data: wrappedSymbol.returnData,
-                    })[0];
+                    if (!rawSymbol.result)
+                        throw new Error("wrapped symbol result is undefined");
+                    symbol = rawSymbol.result as string;
                 } catch (error) {
                     try {
-                        symbol = decodeFunctionResult({
-                            abi: BYTES_SYMBOL_ERC20_ABI,
-                            functionName: "symbol",
-                            data: wrappedBytesSymbol.returnData,
-                        });
+                        if (!rawBytesSymbol.result)
+                            throw new Error(
+                                "wrapped bytes symbol result is undefined"
+                            );
+                        symbol = rawBytesSymbol.result as string;
                     } catch (error) {
                         console.warn(
                             `could not decode ERC20 token symbol for address ${missingToken}`
@@ -168,14 +140,12 @@ export class CoreFetcher implements ICoreFetcher {
                 }
 
                 try {
+                    if (!rawDecimals.result)
+                        throw new Error("wrapped decimals result is undefined");
                     const token = new Token(
                         chainId,
                         missingToken,
-                        decodeFunctionResult({
-                            abi: ERC20_ABI,
-                            functionName: "decimals",
-                            data: wrappedDecimals.returnData,
-                        }),
+                        rawDecimals.result as number,
                         symbol,
                         name
                     );

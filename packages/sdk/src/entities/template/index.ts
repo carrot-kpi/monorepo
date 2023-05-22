@@ -1,5 +1,12 @@
 import { type Address } from "viem";
 
+export interface OnChainTemplate {
+    addrezz: Address;
+    version: bigint;
+    id: bigint;
+    specification: string;
+}
+
 export class Template {
     constructor(
         public readonly id: number,

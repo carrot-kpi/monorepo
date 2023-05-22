@@ -4,12 +4,11 @@ import {
     KPI_TOKEN_ABI,
     ORACLE_ABI,
     FACTORY_ABI,
-    MULTICALL_ABI,
     ChainId,
     ORACLES_MANAGER_ABI,
 } from "../../commons";
 import { KPIToken } from "../../entities/kpi-token";
-import { Template } from "../../entities/template";
+import { type OnChainTemplate, Template } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { enforce } from "../../utils";
 import {
@@ -20,51 +19,11 @@ import {
     IPartialCarrotFetcher,
 } from "../abstraction";
 import {
-    encodeFunctionData,
     type Address,
     decodeFunctionResult,
     getContract,
     PublicClient,
 } from "viem";
-
-// platform related functions
-const KPI_TOKEN_TEMPLATE_FUNCTION_DATA = encodeFunctionData({
-    abi: KPI_TOKEN_ABI,
-    functionName: "template",
-});
-const KPI_TOKEN_FINALIZED_FUNCTION_DATA = encodeFunctionData({
-    abi: KPI_TOKEN_ABI,
-    functionName: "finalized",
-});
-const KPI_TOKEN_DESCRIPTION_FUNCTION_DATA = encodeFunctionData({
-    abi: KPI_TOKEN_ABI,
-    functionName: "description",
-});
-const KPI_TOKEN_ORACLES_FUNCTION_DATA = encodeFunctionData({
-    abi: KPI_TOKEN_ABI,
-    functionName: "oracles",
-});
-const KPI_TOKEN_EXPIRATION_FUNCTION_DATA = encodeFunctionData({
-    abi: KPI_TOKEN_ABI,
-    functionName: "expiration",
-});
-const KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA = encodeFunctionData({
-    abi: KPI_TOKEN_ABI,
-    functionName: "creationTimestamp",
-});
-const KPI_TOKEN_OWNER_FUNCTION_DATA = encodeFunctionData({
-    abi: KPI_TOKEN_ABI,
-    functionName: "owner",
-});
-
-const ORACLE_TEMPLATE_FUNCTION_DATA = encodeFunctionData({
-    abi: ORACLE_ABI,
-    functionName: "template",
-});
-const ORACLE_FINALIZED_FUNCTION_DATA = encodeFunctionData({
-    abi: ORACLE_ABI,
-    functionName: "finalized",
-});
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
@@ -134,48 +93,52 @@ class Fetcher implements IPartialCarrotFetcher {
             })) as Address[];
         }
 
-        // TODO: try to use publicClient.multicall directly
-        const {
-            result: [, kpiTokenResult],
-        } = await publicClient.simulateContract({
-            abi: MULTICALL_ABI,
-            address: chainAddresses.multicall,
-            functionName: "aggregate",
-            args: [
-                tokenAddresses.flatMap((target) => {
-                    return [
-                        { target, callData: KPI_TOKEN_FINALIZED_FUNCTION_DATA },
-                        {
-                            target,
-                            callData: KPI_TOKEN_DESCRIPTION_FUNCTION_DATA,
-                        },
-                        { target, callData: KPI_TOKEN_TEMPLATE_FUNCTION_DATA },
-                        { target, callData: KPI_TOKEN_ORACLES_FUNCTION_DATA },
-                        {
-                            target,
-                            callData: KPI_TOKEN_EXPIRATION_FUNCTION_DATA,
-                        },
-                        {
-                            target,
-                            callData:
-                                KPI_TOKEN_CREATION_TIMESTAMP_FUNCTION_DATA,
-                        },
-                        { target, callData: KPI_TOKEN_OWNER_FUNCTION_DATA },
-                    ];
-                }),
-            ],
-            value: 0n,
+        const kpiTokenResult = await publicClient.multicall({
+            allowFailure: false,
+            contracts: tokenAddresses.flatMap((address) => {
+                return [
+                    {
+                        address,
+                        abi: KPI_TOKEN_ABI,
+                        functionName: "finalized",
+                    },
+                    {
+                        address,
+                        abi: KPI_TOKEN_ABI,
+                        functionName: "description",
+                    },
+                    {
+                        address,
+                        abi: KPI_TOKEN_ABI,
+                        functionName: "template",
+                    },
+                    {
+                        address,
+                        abi: KPI_TOKEN_ABI,
+                        functionName: "oracles",
+                    },
+                    {
+                        address,
+                        abi: KPI_TOKEN_ABI,
+                        functionName: "expiration",
+                    },
+                    {
+                        address,
+                        abi: KPI_TOKEN_ABI,
+                        functionName: "creationTimestamp",
+                    },
+                    {
+                        address,
+                        abi: KPI_TOKEN_ABI,
+                        functionName: "owner",
+                    },
+                ];
+            }),
         });
 
         const allOracleAddresses: Address[] = [];
         for (let i = 3; i < kpiTokenResult.length; i += 7)
-            allOracleAddresses.push(
-                decodeFunctionResult({
-                    abi: KPI_TOKEN_ABI,
-                    functionName: "oracles",
-                    data: kpiTokenResult[i],
-                })[0]
-            );
+            allOracleAddresses.push(...(kpiTokenResult[i] as Address[]));
 
         const oracles = await this.fetchOracles({
             publicClient,
@@ -188,51 +151,23 @@ class Fetcher implements IPartialCarrotFetcher {
                 ? addresses.length
                 : kpiTokenAmounts;
         outerLoop: for (let i = 0; i < iUpperLimit; i++) {
-            const kpiTokenFinalized = decodeFunctionResult({
-                abi: KPI_TOKEN_ABI,
-                functionName: "finalized",
-                data: kpiTokenResult[i * 7],
-            });
+            const kpiTokenFinalized = kpiTokenResult[i * 7] as boolean;
+            const kpiTokenDescriptionCID = kpiTokenResult[i * 7 + 1] as string;
 
-            const kpiTokenDescriptionCID = decodeFunctionResult({
-                abi: KPI_TOKEN_ABI,
-                functionName: "description",
-                data: kpiTokenResult[i * 7 + 1],
-            });
+            const kpiTokenTemplate = kpiTokenResult[
+                i * 7 + 2
+            ] as OnChainTemplate;
 
-            const kpiTokenTemplate = decodeFunctionResult({
-                abi: KPI_TOKEN_ABI,
-                functionName: "template",
-                data: kpiTokenResult[i * 7 + 2],
-            });
-
-            const kpiTokenOracleAddresses = decodeFunctionResult({
-                abi: KPI_TOKEN_ABI,
-                functionName: "oracles",
-                data: kpiTokenResult[i * 7 + 3],
-            });
-
+            const kpiTokenOracleAddresses = kpiTokenResult[
+                i * 7 + 3
+            ] as Address[];
             const kpiTokenExpiration = Number(
-                decodeFunctionResult({
-                    abi: KPI_TOKEN_ABI,
-                    functionName: "expiration",
-                    data: kpiTokenResult[i * 7 + 4],
-                })
+                kpiTokenResult[i * 7 + 4] as bigint
             );
-
             const kpiTokenCreationTimestamp = Number(
-                decodeFunctionResult({
-                    abi: KPI_TOKEN_ABI,
-                    functionName: "creationTimestamp",
-                    data: kpiTokenResult[i * 7 + 5],
-                })
+                kpiTokenResult[i * 7 + 5] as bigint
             );
-
-            const kpiTokenOwner = decodeFunctionResult({
-                abi: KPI_TOKEN_ABI,
-                functionName: "owner",
-                data: kpiTokenResult[i * 7 + 6],
-            });
+            const kpiTokenOwner = kpiTokenResult[i * 7 + 6] as Address;
 
             const kpiTokenOracles: Oracle[] = [];
             for (const address of kpiTokenOracleAddresses) {
@@ -286,21 +221,14 @@ class Fetcher implements IPartialCarrotFetcher {
                       await oraclesManager.read.enumerate([0n, oracleAmounts])
                   ).map((oracle) => oracle.addrezz);
 
-        const {
-            result: [, oraclesResult],
-        } = await publicClient.simulateContract({
-            abi: MULTICALL_ABI,
-            address: chainAddresses.multicall,
-            functionName: "aggregate",
-            args: [
-                oracleAddresses.flatMap((target) => {
-                    return [
-                        { target, callData: ORACLE_TEMPLATE_FUNCTION_DATA },
-                        { target, callData: ORACLE_FINALIZED_FUNCTION_DATA },
-                    ];
-                }),
-            ],
-            value: 0n,
+        const oraclesResult = await publicClient.multicall({
+            allowFailure: false,
+            contracts: oracleAddresses.flatMap((address) => {
+                return [
+                    { address, abi: ORACLE_ABI, functionName: "template" },
+                    { address, abi: ORACLE_ABI, functionName: "finalized" },
+                ];
+            }),
         });
 
         const oracles: { [address: string]: Oracle } = {};
@@ -310,11 +238,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 addrezz: templateAddress,
                 specification,
                 version,
-            } = decodeFunctionResult({
-                abi: ORACLE_ABI,
-                functionName: "template",
-                data: oraclesResult[i * 2],
-            });
+            } = oraclesResult[i * 2] as OnChainTemplate;
             const oracleAddress = oracleAddresses[i];
             const template = new Template(
                 Number(templateId),
@@ -326,11 +250,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 chainId,
                 oracleAddress,
                 template,
-                decodeFunctionResult({
-                    abi: ORACLE_ABI,
-                    functionName: "finalized",
-                    data: oraclesResult[i * 2 + 1],
-                })
+                oraclesResult[i * 2 + 1] as boolean
             );
         }
         return oracles;
@@ -350,27 +270,16 @@ class Fetcher implements IPartialCarrotFetcher {
 
         let rawTemplates;
         if (ids && ids.length > 0) {
-            const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-
-            const {
-                result: [, result],
-            } = await publicClient.simulateContract({
-                abi: MULTICALL_ABI,
-                address: chainAddresses.multicall,
-                functionName: "aggregate",
-                args: [
-                    ids.map((id) => {
-                        return {
-                            target: managerAddress,
-                            callData: encodeFunctionData({
-                                abi: KPI_TOKENS_MANAGER_ABI,
-                                functionName: "template",
-                                args: [BigInt(id)],
-                            }),
-                        };
-                    }),
-                ],
-                value: 0n,
+            const result = await publicClient.multicall({
+                allowFailure: false,
+                contracts: ids.map((id) => {
+                    return {
+                        address: managerAddress,
+                        abi: KPI_TOKENS_MANAGER_ABI,
+                        functionName: "template",
+                        args: [BigInt(id)],
+                    };
+                }),
             });
             rawTemplates = result.map(
                 // eslint-disable-next-line
