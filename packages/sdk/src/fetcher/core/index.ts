@@ -77,10 +77,6 @@ export class CoreFetcher implements ICoreFetcher {
             ]),
             allowFailure: true,
         });
-        // .simulate.tryAggregate([
-        //     false,
-        //     calls,
-        // ]);
         const fetchedTokens = missingTokens.reduce(
             (
                 accumulator: { [address: string]: Token },
