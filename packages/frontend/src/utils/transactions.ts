@@ -21,7 +21,7 @@ const SERIALIZABLE_PAYLOAD_GETTER: {
         return {
             spender: payload.spender,
             token: payload.token,
-            amount: payload.amount,
+            amount: payload.amount.toString(),
         };
     },
     [TxType.KPI_TOKEN_CREATION]: defaultSerializablePayloadGetter,
@@ -62,7 +62,7 @@ const PAYLOAD_DESERIALIZER: {
         return {
             spender: rawDeserialized.spender,
             token: rawDeserialized.token,
-            amount: rawDeserialized.amount,
+            amount: BigInt(rawDeserialized.amount),
         };
     },
     [TxType.KPI_TOKEN_CREATION]: JSON.parse,
