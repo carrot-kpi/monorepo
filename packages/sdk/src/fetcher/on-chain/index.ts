@@ -89,6 +89,7 @@ class Fetcher implements IPartialCarrotFetcher {
         }
 
         const kpiTokenResult = await publicClient.multicall({
+            multicallAddress: chainAddresses.multicall3,
             allowFailure: false,
             contracts: tokenAddresses.flatMap((address) => {
                 return [
@@ -217,6 +218,7 @@ class Fetcher implements IPartialCarrotFetcher {
                   ).map((oracle) => oracle.addrezz);
 
         const oraclesResult = await publicClient.multicall({
+            multicallAddress: chainAddresses.multicall3,
             allowFailure: false,
             contracts: oracleAddresses.flatMap((address) => {
                 return [
@@ -257,6 +259,8 @@ class Fetcher implements IPartialCarrotFetcher {
         managerAddress: Address,
         ids?: number[]
     ): Promise<Template[]> {
+        const chainAddresses = CHAIN_ADDRESSES[chainId];
+
         const managerContract = getContract({
             abi: KPI_TOKENS_MANAGER_ABI,
             address: managerAddress,
@@ -266,6 +270,7 @@ class Fetcher implements IPartialCarrotFetcher {
         let rawTemplates;
         if (ids && ids.length > 0) {
             rawTemplates = await publicClient.multicall({
+                multicallAddress: chainAddresses.multicall3,
                 allowFailure: false,
                 contracts: ids.map((id) => {
                     return {
