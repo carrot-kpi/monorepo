@@ -18,12 +18,7 @@ import {
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
-import {
-    type Address,
-    decodeFunctionResult,
-    getContract,
-    PublicClient,
-} from "viem";
+import { type Address, getContract, PublicClient } from "viem";
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
@@ -270,7 +265,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
         let rawTemplates;
         if (ids && ids.length > 0) {
-            const result = await publicClient.multicall({
+            rawTemplates = await publicClient.multicall({
                 allowFailure: false,
                 contracts: ids.map((id) => {
                     return {
@@ -281,15 +276,6 @@ class Fetcher implements IPartialCarrotFetcher {
                     };
                 }),
             });
-            rawTemplates = result.map(
-                // eslint-disable-next-line
-                (wrappedTemplate: any) =>
-                    decodeFunctionResult({
-                        abi: KPI_TOKENS_MANAGER_ABI,
-                        functionName: "template",
-                        data: wrappedTemplate,
-                    })
-            );
         } else {
             const templatesAmount =
                 await managerContract.read.templatesAmount();
