@@ -1,7 +1,7 @@
 import { Tx, TxType } from "@carrot-kpi/react";
 import { TFunction } from "i18next";
 import { shortenAddress } from "./address";
-import { Fetcher } from "@carrot-kpi/sdk";
+import { Fetcher, Token } from "@carrot-kpi/sdk";
 import { PublicClient } from "wagmi";
 import { formatUnits } from "viem";
 
@@ -97,13 +97,15 @@ const SUMMARY_GETTER: {
         return tx.payload.summary;
     },
     [TxType.ERC20_APPROVAL]: async (t, publicClient, tx) => {
-        let token;
+        let token: Token;
         try {
             const tokens = await Fetcher.fetchERC20Tokens({
                 publicClient,
                 addresses: [tx.payload.token],
             });
             token = tokens[tx.payload.token];
+            if (!token)
+                throw new Error("could not fetch erc20 token with the fetcher");
         } catch (error) {
             console.warn(
                 `could not get erc20 token at address ${tx.payload.token}`
