@@ -1,4 +1,4 @@
-import { ChainId, ERC20_ABI } from "../../commons";
+import { CHAIN_ADDRESSES, ChainId, ERC20_ABI } from "../../commons";
 import {
     cacheERC20Token,
     enforce,
@@ -33,6 +33,8 @@ export class CoreFetcher implements ICoreFetcher {
     }: FetchERC20TokensParams): Promise<{ [address: Address]: Token }> {
         const chainId = (await publicClient.getChainId()) as ChainId;
         enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+
         const { cachedTokens, missingTokens } = addresses.reduce(
             (
                 accumulator: {
@@ -52,6 +54,7 @@ export class CoreFetcher implements ICoreFetcher {
         if (missingTokens.length === 0) return cachedTokens;
 
         const result = await publicClient.multicall({
+            multicallAddress: chainAddresses.multicall3,
             contracts: addresses.flatMap((address) => [
                 { address, abi: ERC20_ABI, functionName: "name" },
                 {
