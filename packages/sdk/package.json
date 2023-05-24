@@ -3,7 +3,7 @@
     "name": "@carrot-kpi/sdk",
     "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
-    "version": "1.27.2",
+    "version": "1.27.3",
     "description": "An SDK for building applications on top of Carrot v1.",
     "main": "./dist/index.js",
     "module": "./dist/index.js",
