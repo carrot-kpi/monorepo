@@ -95,7 +95,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
     ref
 ): ReactElement {
     const generatedId = useId();
-    const [infoIcon, setInfoIcon] = useState<SVGSVGElement | null>(null);
+    const [infoIcon, setInfoIcon] = useState<HTMLDivElement | null>(null);
     const [infoPopoverOpen, setInfoPopoverOpen] = useState(false);
 
     const resolvedId = id || generatedId;
@@ -145,14 +145,15 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
                 </Typography>
                 {info && (
                     <>
-                        <Info
-                            ref={setInfoIcon}
-                            className={infoIconStyles({
-                                className: className?.infoIcon,
-                            })}
-                            onMouseEnter={handleInfoMouseEnter}
-                            onMouseLeave={handleInfoMouseExit}
-                        />
+                        <div ref={setInfoIcon}>
+                            <Info
+                                className={infoIconStyles({
+                                    className: className?.infoIcon,
+                                })}
+                                onMouseEnter={handleInfoMouseEnter}
+                                onMouseLeave={handleInfoMouseExit}
+                            />
+                        </div>
                         <Popover
                             anchor={infoIcon}
                             open={infoPopoverOpen}
