@@ -4,7 +4,7 @@ import { useTemplateModule } from "../../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../../i18n";
 import { useState } from "react";
 import { cva } from "class-variance-authority";
-import { useTheme } from "../../hooks";
+import { useStagingMode, useTheme } from "../../hooks";
 import { useMedia } from "react-use";
 import { ErrorBoundary } from "../error-boundary";
 import { BaseTemplateComponentProps } from "../../types";
@@ -34,10 +34,11 @@ export function TemplateComponent({
     additionalProps = {},
 }: BaseTemplateComponentProps) {
     const { chain } = useNetwork();
+    const stagingMode = useStagingMode();
 
     const entry =
         chain && template
-            ? `${chain.id}-${template.id}-${template.version}-${template.address}-${type}`
+            ? `${chain.id}-${template.id}-${template.version}-${template.address}-${type}-staging-${stagingMode}`
             : undefined;
 
     const { loading, bundle, Component } = useTemplateModule(
