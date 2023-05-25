@@ -10,6 +10,8 @@ import { forwardRef } from "react";
 import {
     usePreferDecentralization,
     useSetPreferDecentralization,
+    useSetStagingMode,
+    useStagingMode,
 } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
 import { InfoPopover } from "../../../../info-popover";
@@ -25,8 +27,13 @@ export const PreferencesPopover = forwardRef<
     PreferencesPopoverProps
 >(function PreferencesPopover({ open, anchor }, ref) {
     const { t } = useTranslation();
+
     const preferDecentralization = usePreferDecentralization();
     const setPreferDecentralization = useSetPreferDecentralization();
+
+    const stagingMode = useStagingMode();
+    const setStagingMode = useSetStagingMode();
+
     const [darkThemeSwitch, setDarkThemeSwitch] =
         useState<HTMLDivElement | null>(null);
     const themeOptions = useMemo(() => {
@@ -119,6 +126,22 @@ export const PreferencesPopover = forwardRef<
                         checked={preferDecentralization}
                         onChange={setPreferDecentralization}
                     />
+                </div>
+            )}
+            {__STAGING_MODE__ && (
+                <div className="flex justify-between gap-4 md:gap-20 items-center">
+                    <div className="flex gap-2 items-center">
+                        <Typography>{t("preferences.stagingMode")}</Typography>
+                        <InfoPopover>
+                            <Typography
+                                variant="sm"
+                                className={{ root: "max-w-md" }}
+                            >
+                                {t("preferences.stagingMode.info")}
+                            </Typography>
+                        </InfoPopover>
+                    </div>
+                    <Switch checked={stagingMode} onChange={setStagingMode} />
                 </div>
             )}
         </Popover>
