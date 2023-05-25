@@ -4,6 +4,8 @@ import { animated, SpringValue } from "@react-spring/web";
 import { cva } from "class-variance-authority";
 import { setModalOpen } from "../../state/reducers/modals";
 import { useDispatch } from "../../state/connector";
+import { StagingModeBanner } from "../staging-mode-banner";
+import { useStagingMode } from "@carrot-kpi/react";
 
 const rootStyles = cva(
     [
@@ -38,6 +40,7 @@ export const AnimatedFullscreenModal = ({
     onDismiss,
     children,
 }: FullscreenModalProps) => {
+    const stagingMode = useStagingMode();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -51,6 +54,7 @@ export const AnimatedFullscreenModal = ({
     return (
         <animated.div style={springStyle} className={rootStyles({ bgColor })}>
             <div className="flex flex-col w-full h-full">
+                {stagingMode && <StagingModeBanner />}
                 <Navbar mode="modal" bgColor={bgColor} onDismiss={onDismiss} />
                 <div className="flex-grow">{children}</div>
             </div>
