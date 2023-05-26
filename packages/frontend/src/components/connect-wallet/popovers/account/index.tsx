@@ -150,7 +150,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                         }}
                     />
                 </div>
-                <div className="w-full hidden md:flex">
+                <div className="w-full hidden md:flex justify-center">
                     {transactions.length === 0 ? (
                         <Empty
                             vertical

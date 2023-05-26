@@ -96,6 +96,10 @@ export class FrameConnector extends Connector<Provider, unknown> {
     public async getProvider(): Promise<Provider> {
         if (!this.provider) {
             this.provider = getProvider("frame");
+            this.provider.accounts = await this.provider.request({
+                method: "eth_requestAccounts",
+                params: [],
+            });
             this.provider.on("accountsChanged", this.onAccountsChanged);
             this.provider.on("chainChanged", this.onChainChanged);
             this.provider.on("disconnect", this.onDisconnect);
