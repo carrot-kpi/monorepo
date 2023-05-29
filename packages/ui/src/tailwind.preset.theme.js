@@ -2,11 +2,11 @@ const SANS_FONT_FAMILY = ["Switzer", "ui-sans-serif", "sans-serif"];
 const MONO_FONT_FAMILY = ["IBM Plex Mono", "ui-monospace", "monospace"];
 
 const BODY_TEXT_SIZES_REM = {
-    "2xl": ["1.5rem"],
-    xl: ["1.188rem"],
-    base: ["1rem"],
-    sm: ["0.85rem"],
-    xs: ["0.75rem"],
+    "2xl": "1.5rem",
+    xl: "1.188rem",
+    base: "1rem",
+    sm: "0.85rem",
+    xs: "0.75rem",
 };
 
 const HEADING_TEXT_SIZES_REM = {
@@ -16,20 +16,59 @@ const HEADING_TEXT_SIZES_REM = {
     h4: ["1.5rem", { letterSpacing: "0rem" }],
 };
 
+const commonHeadingStyle = {
+    fontFamily: SANS_FONT_FAMILY,
+    fontWeight: 700,
+};
+
 // this function generates a complete config to be passed to tailwind css's typography plugin config https://tailwindcss.com/docs/typography-plugin
 const getTypographyConfig = (variant, theme) => {
     const coreConfig = {};
 
-    const bodyConfig = BODY_TEXT_SIZES_REM[variant];
+    const bodyConfig = {
+        fontSize: BODY_TEXT_SIZES_REM[variant],
+        fontFamily: SANS_FONT_FAMILY,
+    };
+
+    coreConfig.h1 = {
+        ...commonHeadingStyle,
+        fontSize: "3.5rem",
+        letterSpacing: "-0.06rem",
+        marginBottom: "1rem",
+        marginTop: "1.2rem",
+    };
+    coreConfig.h2 = {
+        ...commonHeadingStyle,
+        fontSize: "3rem",
+        letterSpacing: "-0.05rem",
+        marginBottom: "0.9rem",
+        marginTop: "1.1rem",
+    };
+    coreConfig.h3 = {
+        ...commonHeadingStyle,
+        fontSize: "2.5rem",
+        letterSpacing: "-0.04rem",
+        marginBottom: "0.8rem",
+        marginTop: "1rem",
+    };
+    coreConfig.h4 = {
+        ...commonHeadingStyle,
+        fontSize: "2rem",
+        letterSpacing: "-0.03rem",
+        marginBottom: "0.7rem",
+        marginTop: "0.9rem",
+    };
 
     // custom paragraph styles applying default body text attributes
     coreConfig.p = {
         fontSize: bodyConfig[0],
+        fontFamily: SANS_FONT_FAMILY,
     };
 
     // custom list styles applying default body text attributes
     coreConfig.li = {
         fontSize: bodyConfig[0],
+        fontFamily: SANS_FONT_FAMILY,
     };
 
     // set some colors
@@ -37,6 +76,7 @@ const getTypographyConfig = (variant, theme) => {
     coreConfig["--tw-prose-bullets"] = theme("colors.orange");
     coreConfig["--tw-prose-pre-bg"] = theme("colors.gray[700]");
     coreConfig["--tw-prose-pre-code"] = theme("colors.white");
+    coreConfig["--tw-prose-links"] = theme("colors.orange");
 
     // set max width to 100% to give full control to user
     coreConfig.maxWidth = "100%";
