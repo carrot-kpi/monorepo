@@ -60,7 +60,7 @@ const buttonStyles = mergedCva(
                 variant: "secondary",
                 active: false,
                 className: [
-                    "cui-text-black",
+                    "cui-border-black cui-text-black",
                     // dark mode
                     "dark:cui-border-white dark:cui-text-white",
                     "hover:dark:cui-border-black hover:dark:cui-bg-white hover:dark:cui-text-black",

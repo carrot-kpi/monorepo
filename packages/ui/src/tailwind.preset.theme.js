@@ -2,11 +2,11 @@ const SANS_FONT_FAMILY = ["Switzer", "ui-sans-serif", "sans-serif"];
 const MONO_FONT_FAMILY = ["IBM Plex Mono", "ui-monospace", "monospace"];
 
 const BODY_TEXT_SIZES_REM = {
-    "2xl": "1.5rem",
-    xl: "1.188rem",
-    base: "1rem",
-    sm: "0.85rem",
-    xs: "0.75rem",
+    "2xl": ["1.5rem"],
+    xl: ["1.188rem"],
+    base: ["1rem"],
+    sm: ["0.85rem"],
+    xs: ["0.75rem"],
 };
 
 const HEADING_TEXT_SIZES_REM = {
