@@ -23,7 +23,9 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         ...gnosis,
         logo: GnosisLogo,
         iconBackgroundColor: "#04795b",
-        enabled: !__STAGING_MODE__,
+        enabled: true,
+        // FIXME: redisable gnosis in staging mode once tests have been done
+        // enabled: !__STAGING_MODE__,
     },
     [ChainId.SEPOLIA]: {
         ...sepolia,
