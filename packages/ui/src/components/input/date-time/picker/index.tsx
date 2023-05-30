@@ -12,7 +12,8 @@ const cellListStyles = mergedCva(
         "cui-w-full md:cui-w-10",
         "cui-py-2",
         "cui-overflow-y-auto",
-        "cui-scrollbar",
+        "scrollbar-none",
+        "cui-border-black",
     ],
     {
         variants: {
@@ -137,7 +138,7 @@ export const DateTimePicker = ({
             <div className="cui-flex cui-flex-col">
                 <Typography
                     className={{
-                        root: "cui-p-2 cui-border-none md:cui-border-b cui-border-black dark:cui-border-white cui-text-center",
+                        root: "cui-p-2 cui-border-black md:cui-border-b dark:cui-border-white cui-text-center",
                     }}
                 >
                     {value ? dayjs(value).format("HH:mm:ss") : "--:--:--"}

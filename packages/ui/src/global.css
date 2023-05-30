@@ -53,3 +53,12 @@
         @apply cui-bg-gray-500 dark:cui-bg-black;
     }
 }
+
+.scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
