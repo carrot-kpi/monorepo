@@ -40,20 +40,6 @@ export const Markdown: StoryObj<typeof MarkdownComponent> = {
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                     ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
-                <h5>H5 heading</h5>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-                <h6>H6 heading</h6>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
                 <pre>
                     <code>some code</code>
                 </pre>
@@ -62,6 +48,7 @@ export const Markdown: StoryObj<typeof MarkdownComponent> = {
                     <li>List element 2</li>
                     <li>List element 3</li>
                 </ul>
+                <a>Link to nothing</a>
             </>
         ),
     },
