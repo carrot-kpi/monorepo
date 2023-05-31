@@ -24,37 +24,39 @@ export function useWatchKPIToken(
     const [kpiTokenWithData, setKPITokenWithData] =
         useState<ResolvedKPITokenWithData | null>(null);
 
-    // in case an address was passed, fetch the kpi token
+    // in case an address was passed, fetch the kpi token (with retries)
     useEffect(() => {
         if (kpiToken) return;
         if (typeof kpiTokenOrAddress !== "string") return;
         let cancelled = false;
         const fetchData = async () => {
-            try {
-                const kpiToken = (
-                    await Fetcher.fetchKPITokens({
-                        publicClient,
-                        preferDecentralization,
-                        addresses: [kpiTokenOrAddress],
-                    })
-                )[kpiTokenOrAddress];
-                if (!kpiToken)
-                    console.warn(
-                        `no kpi token with address ${kpiTokenOrAddress} found`
+            const interval = setInterval(async () => {
+                try {
+                    const kpiToken = (
+                        await Fetcher.fetchKPITokens({
+                            publicClient,
+                            preferDecentralization,
+                            addresses: [kpiTokenOrAddress],
+                        })
+                    )[kpiTokenOrAddress];
+                    if (!kpiToken) return;
+                    const resolvedKPIToken = (
+                        await Fetcher.resolveKPITokens({
+                            ipfsGatewayURL,
+                            kpiTokens: [kpiToken],
+                        })
+                    )[kpiTokenOrAddress];
+                    if (!cancelled) {
+                        setKPIToken(resolvedKPIToken);
+                        clearInterval(interval);
+                    }
+                } catch (error) {
+                    console.error(
+                        `could not fetch kpi token with address ${kpiTokenOrAddress}`,
+                        error
                     );
-                const resolvedKPIToken = (
-                    await Fetcher.resolveKPITokens({
-                        ipfsGatewayURL,
-                        kpiTokens: [kpiToken],
-                    })
-                )[kpiTokenOrAddress];
-                if (!cancelled) setKPIToken(resolvedKPIToken);
-            } catch (error) {
-                console.error(
-                    `could not fetch kpi token with address ${kpiTokenOrAddress}`,
-                    error
-                );
-            }
+                }
+            }, 1_000);
         };
         void fetchData();
         return () => {
