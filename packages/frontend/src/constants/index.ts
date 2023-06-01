@@ -57,18 +57,28 @@ export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
     (chain) => chain.enabled
 )[0];
 
+export const CARROT_DOMAIN = __DEV__ ? "carrot-kpi.dev" : "carrot-kpi.io";
+
 export interface NavbarLink {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Component?: FunctionComponent<any>;
     title: string;
     to: string;
+    external: boolean;
 }
 
 export const NAVBAR_LINKS: NavbarLink[] = [
     {
         Component: NavLink,
+        title: "About",
+        to: `https://www.${CARROT_DOMAIN}`,
+        external: true,
+    },
+    {
+        Component: NavLink,
         title: "Campaigns",
         to: "/campaigns",
+        external: false,
     },
 ];
 
@@ -83,8 +93,6 @@ export interface FooterLink {
         to: string;
     }[];
 }
-
-export const CARROT_DOMAIN = __DEV__ ? "carrot-kpi.dev" : "carrot-kpi.io";
 
 export const FOOTER_LINKS: FooterLink[] = [
     {
