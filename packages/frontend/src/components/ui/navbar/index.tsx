@@ -10,6 +10,7 @@ import { Button } from "@carrot-kpi/ui";
 import { PreferencesPopover } from "./popovers/preferences";
 import { useClickAway, useWindowSize } from "react-use";
 import { NavbarVerticalLayout } from "./vertical-layout";
+import { NavbarLink } from "../../../constants";
 
 const navWrapperStyles = cva([], {
     variants: {
@@ -36,23 +37,18 @@ const navbarStyles = cva(
     }
 );
 
-interface LinkProps {
-    title: string;
-    to: string;
-}
-
 export interface NavbarProps {
     bgColor?: "green" | "orange";
     mode?: "standard" | "modal";
     onDismiss?: () => void;
-    links?: LinkProps[];
+    links?: NavbarLink[];
 }
 
 export const Navbar = ({
     bgColor,
     mode = "standard",
     onDismiss,
-    links,
+    links = [],
 }: NavbarProps) => {
     const [preferencesAnchor, setPreferencesAnchor] =
         useState<HTMLButtonElement | null>(null);
@@ -95,22 +91,31 @@ export const Navbar = ({
                     )}
                     <nav className="items-center gap-4 hidden xl:flex">
                         <ul className="flex items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 xl:top-[68px]">
-                            {(links || []).map((link) => (
-                                <li key={link.to}>
-                                    <NavLink
-                                        className="flex items-start space-x-2 cursor-pointer"
-                                        to={link.to}
-                                        onClick={() => setOpen(false)}
-                                    >
-                                        <span className="font-mono text-2xl xl:text-base">
-                                            ↳
-                                        </span>
-                                        <p className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]">
-                                            {link.title}
-                                        </p>
-                                    </NavLink>
-                                </li>
-                            ))}
+                            {links.map((link) => {
+                                const additionalProps = link.external
+                                    ? {
+                                          target: "_blank",
+                                          rel: "noopener noreferrer",
+                                      }
+                                    : {};
+                                return (
+                                    <li key={link.to}>
+                                        <NavLink
+                                            className="flex items-start space-x-2 cursor-pointer"
+                                            to={link.to}
+                                            onClick={() => setOpen(false)}
+                                            {...additionalProps}
+                                        >
+                                            <span className="font-mono text-2xl xl:text-base">
+                                                ↳
+                                            </span>
+                                            <p className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]">
+                                                {link.title}
+                                            </p>
+                                        </NavLink>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </nav>
                     <div className="flex items-center gap-4">

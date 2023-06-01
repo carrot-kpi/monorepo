@@ -24,7 +24,13 @@ export const FooterLinks = ({ title, links }: FooterLink) => (
                         {content}
                     </Component>
                 ) : (
-                    <a href={to} className="block" key={to}>
+                    <a
+                        href={to}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                        key={to}
+                    >
                         {content}
                     </a>
                 );
