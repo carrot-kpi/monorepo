@@ -6,7 +6,6 @@ import EthereumLogo from "../icons/chains/ethereum";
 import GnosisLogo from "../icons/chains/gnosis";
 import ScrollLogo from "../icons/chains/scroll";
 import { NavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
@@ -68,17 +67,8 @@ export interface NavbarLink {
 export const NAVBAR_LINKS: NavbarLink[] = [
     {
         Component: NavLink,
-        title: "About",
-        to: "/about",
-    },
-    {
-        Component: NavLink,
         title: "Campaigns",
         to: "/campaigns",
-    },
-    {
-        title: "Community",
-        to: "/community",
     },
 ];
 
@@ -94,27 +84,31 @@ export interface FooterLink {
     }[];
 }
 
+export const CARROT_DOMAIN = __DEV__ ? "carrot-kpi.dev" : "carrot-kpi.io";
+
 export const FOOTER_LINKS: FooterLink[] = [
     {
         title: "About",
         links: [
+            // TODO: add link to faq once we have them
+            // {
+            //     Component: Link,
+            //     title: "Faq",
+            //     to: "/faq",
+            // },
             {
-                Component: Link,
-                title: "Faq",
-                to: "/faq",
+                title: "Documentation",
+                to: `https://docs.${CARROT_DOMAIN}`,
             },
             {
-                title: "Twitter",
-                to: "/twitter",
+                title: "Audits",
+                to: "https://github.com/carrot-kpi/v1-contracts/tree/main/audits",
             },
-            {
-                title: "Keybase",
-                to: "/keybase",
-            },
-            {
-                title: "Forum",
-                to: "/forum",
-            },
+            // TODO: add link to brand assets
+            // {
+            //     label: "Brand Assets",
+            //     href: "#",
+            // },
         ],
     },
     {
@@ -122,50 +116,27 @@ export const FOOTER_LINKS: FooterLink[] = [
         links: [
             {
                 title: "Discord",
-                to: "/Discord",
+                to: "https://discord.gg/vssJce4H",
             },
             {
-                title: "Blog",
-                to: "/Blog",
+                title: "Twitter",
+                to: "https://twitter.com/CarrotEth",
             },
-            {
-                title: "Jobs",
-                to: "/jobs",
-            },
-            {
-                title: "Brand Assets",
-                to: "/brand-icons",
-            },
+            // TODO: add link back once we have it
+            // {
+            //     label: "Brand Forum",
+            //     href: "#",
+            // },
         ],
     },
-    {
-        title: "Documentation",
-        links: [
-            {
-                title: "DIY Liq. Mining",
-                to: "/diy-liq-mining",
-            },
-            {
-                title: "Roadmap",
-                to: "/Roadmap",
-            },
-            {
-                title: "Audits",
-                to: "/audits",
-            },
-            {
-                title: "Token",
-                to: "/token",
-            },
-        ],
-    },
-    {
-        title: "Analytics",
-        links: [
-            {
-                title: "Dune",
-                to: "https://dune.com/hagaetc/dxdao",
-            },
-        ],
-    },
+    // TODO: add back this section once analytics are developed
+    // {
+    //     title: "Analytics",
+    //     links: [
+    //         {
+    //             title: "Dune",
+    //             to: "https://dune.com/hagaetc/dxdao",
+    //         },
+    //     ],
+    // },
 ];
