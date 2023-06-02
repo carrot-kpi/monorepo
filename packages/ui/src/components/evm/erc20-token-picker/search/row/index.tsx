@@ -79,14 +79,14 @@ export const Row = ({
 }: RowProps) => {
     const handleTokenClick = useCallback(
         (event: MouseEvent) => {
-            if (!onSelect || !event.target) return;
+            if (!onSelect || !event.target || loading) return;
             const index = (event.target as HTMLLIElement).dataset.index;
             if (index !== undefined) {
                 const parsedIndex = parseInt(index);
                 if (parsedIndex >= 0) onSelect(parsedIndex);
             }
         },
-        [onSelect]
+        [onSelect, loading]
     );
 
     return (

@@ -97,7 +97,7 @@ const Component = (props: ERC20TokenPickerProps) => {
                     tokens: list.tokens.map((token, index) => {
                         return {
                             ...token,
-                            balance: rawBalances[index] as unknown as
+                            balance: rawBalances[index].result as unknown as
                                 | bigint
                                 | null,
                         };
