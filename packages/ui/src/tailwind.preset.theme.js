@@ -12,7 +12,7 @@ const BODY_TEXT_SIZES_REM = {
 const commonHeadingStyle = {
     fontFamily: SANS_FONT_FAMILY,
     fontWeight: 700,
-    letterSpacing: "-0.04em",
+    letterSpacing: "-0.03em",
     lineHeight: "105%",
 };
 
