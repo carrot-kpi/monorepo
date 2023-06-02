@@ -60,25 +60,27 @@ const getTypographyConfig = (variant, theme) => {
         fontFamily: SANS_FONT_FAMILY,
     };
 
+    const headingsFontFamily = SANS_FONT_FAMILY.join(",");
+
     coreConfig.h1 = {
-        ...commonHeadingStyle,
         fontSize: HEADING_TEXT_SIZES_REM.h1[0],
         ...HEADING_TEXT_SIZES_REM.h1[1],
+        fontFamily: headingsFontFamily,
     };
     coreConfig.h2 = {
-        ...commonHeadingStyle,
         fontSize: HEADING_TEXT_SIZES_REM.h2[0],
         ...HEADING_TEXT_SIZES_REM.h2[1],
+        fontFamily: headingsFontFamily,
     };
     coreConfig.h3 = {
-        ...commonHeadingStyle,
         fontSize: HEADING_TEXT_SIZES_REM.h3[0],
         ...HEADING_TEXT_SIZES_REM.h3[1],
+        fontFamily: headingsFontFamily,
     };
     coreConfig.h4 = {
-        ...commonHeadingStyle,
         fontSize: HEADING_TEXT_SIZES_REM.h4[0],
         ...HEADING_TEXT_SIZES_REM.h4[1],
+        fontFamily: headingsFontFamily,
     };
 
     // custom paragraph styles applying default body text attributes
