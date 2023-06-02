@@ -13,6 +13,7 @@ const commonHeadingStyle = {
     fontFamily: SANS_FONT_FAMILY,
     fontWeight: 700,
     letterSpacing: "-0.04em",
+    lineHeight: "105%",
 };
 
 const HEADING_TEXT_SIZES_REM = {
@@ -44,7 +45,7 @@ const HEADING_TEXT_SIZES_REM = {
         "1.3125rem",
         {
             marginTop: "0.5rem",
-            marginBottom: "0.2rem",
+            marginBottom: "0.5rem",
             ...commonHeadingStyle,
         },
     ],
