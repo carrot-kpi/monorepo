@@ -108,8 +108,8 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                                 </>
                             ) : (
                                 <>
-                                    <Skeleton variant="xl" width={80} />
-                                    <Skeleton variant="xl" width={60} />
+                                    <Skeleton variant="lg" width={80} />
+                                    <Skeleton variant="lg" width={60} />
                                 </>
                             )}
                         </div>
