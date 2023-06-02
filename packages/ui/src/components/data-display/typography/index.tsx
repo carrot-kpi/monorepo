@@ -31,8 +31,8 @@ const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
             xs: ["cui-font-normal", "cui-font-mono", "cui-text-xs"],
             sm: ["cui-font-normal", "cui-font-mono", "cui-text-sm"],
             base: ["cui-font-normal", "cui-font-mono", "cui-text-base"],
+            lg: ["cui-font-normal", "cui-font-mono", "cui-text-lg"],
             xl: ["cui-font-normal", "cui-font-mono", "cui-text-xl"],
-            "2xl": ["cui-font-normal", "cui-font-mono", "cui-text-2xl"],
             h4: ["cui-font-bold", "cui-font-sans", "cui-text-h4"],
             h3: ["cui-font-bold", "cui-font-sans", "cui-text-h3"],
             h2: [
@@ -60,8 +60,8 @@ export type TypographyVariant =
     | "xs"
     | "sm"
     | "base"
+    | "lg"
     | "xl"
-    | "2xl"
     | "h1"
     | "h2"
     | "h3"
@@ -95,8 +95,8 @@ const COMPONENT_MAP: Record<TypographyVariant, ElementType> = {
     xs: "p",
     sm: "p",
     base: "p",
+    lg: "p",
     xl: "p",
-    "2xl": "p",
     h1: "h1",
     h2: "h2",
     h3: "h3",
