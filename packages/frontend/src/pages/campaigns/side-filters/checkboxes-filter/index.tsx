@@ -34,7 +34,7 @@ export const CheckboxesFilter = ({
 
     return (
         <div className="w-full">
-            <Typography variant="xl" weight="medium" uppercase>
+            <Typography variant="lg" weight="medium" uppercase>
                 {title}
             </Typography>
             <div className="py-6 space-y-4 border-gray-400">

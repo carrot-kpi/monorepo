@@ -2,23 +2,53 @@ const SANS_FONT_FAMILY = ["Switzer", "ui-sans-serif", "sans-serif"];
 const MONO_FONT_FAMILY = ["IBM Plex Mono", "ui-monospace", "monospace"];
 
 const BODY_TEXT_SIZES_REM = {
-    "2xl": ["1.5rem"],
-    xl: ["1.188rem"],
+    xl: ["1.5rem"],
+    lg: ["1.188rem"],
     base: ["1rem"],
     sm: ["0.85rem"],
     xs: ["0.75rem"],
 };
 
-const HEADING_TEXT_SIZES_REM = {
-    h1: ["8rem", { letterSpacing: "-0.25rem" }],
-    h2: ["6.25rem", { letterSpacing: "-0.15rem" }],
-    h3: ["3rem", { letterSpacing: "-0.05rem" }],
-    h4: ["1.5rem", { letterSpacing: "0rem" }],
-};
-
 const commonHeadingStyle = {
     fontFamily: SANS_FONT_FAMILY,
     fontWeight: 700,
+    letterSpacing: "-0.03em",
+    lineHeight: "105%",
+};
+
+const HEADING_TEXT_SIZES_REM = {
+    h1: [
+        "3.5rem",
+        {
+            marginTop: "2rem",
+            marginBottom: "1.5rem",
+            ...commonHeadingStyle,
+        },
+    ],
+    h2: [
+        "2.25rem",
+        {
+            marginTop: "1.5rem",
+            marginBottom: "1rem",
+            ...commonHeadingStyle,
+        },
+    ],
+    h3: [
+        "1.5rem",
+        {
+            marginTop: "1rem",
+            marginBottom: "0.5rem",
+            ...commonHeadingStyle,
+        },
+    ],
+    h4: [
+        "1.3125rem",
+        {
+            marginTop: "0.5rem",
+            marginBottom: "0.5rem",
+            ...commonHeadingStyle,
+        },
+    ],
 };
 
 // this function generates a complete config to be passed to tailwind css's typography plugin config https://tailwindcss.com/docs/typography-plugin
@@ -30,33 +60,27 @@ const getTypographyConfig = (variant, theme) => {
         fontFamily: SANS_FONT_FAMILY,
     };
 
+    const headingsFontFamily = SANS_FONT_FAMILY.join(",");
+
     coreConfig.h1 = {
-        ...commonHeadingStyle,
-        fontSize: "3.5rem",
-        letterSpacing: "-0.06rem",
-        marginBottom: "1rem",
-        marginTop: "1.2rem",
+        fontSize: HEADING_TEXT_SIZES_REM.h1[0],
+        ...HEADING_TEXT_SIZES_REM.h1[1],
+        fontFamily: headingsFontFamily,
     };
     coreConfig.h2 = {
-        ...commonHeadingStyle,
-        fontSize: "3rem",
-        letterSpacing: "-0.05rem",
-        marginBottom: "0.9rem",
-        marginTop: "1.1rem",
+        fontSize: HEADING_TEXT_SIZES_REM.h2[0],
+        ...HEADING_TEXT_SIZES_REM.h2[1],
+        fontFamily: headingsFontFamily,
     };
     coreConfig.h3 = {
-        ...commonHeadingStyle,
-        fontSize: "2.5rem",
-        letterSpacing: "-0.04rem",
-        marginBottom: "0.8rem",
-        marginTop: "1rem",
+        fontSize: HEADING_TEXT_SIZES_REM.h3[0],
+        ...HEADING_TEXT_SIZES_REM.h3[1],
+        fontFamily: headingsFontFamily,
     };
     coreConfig.h4 = {
-        ...commonHeadingStyle,
-        fontSize: "2rem",
-        letterSpacing: "-0.03rem",
-        marginBottom: "0.7rem",
-        marginTop: "0.9rem",
+        fontSize: HEADING_TEXT_SIZES_REM.h4[0],
+        ...HEADING_TEXT_SIZES_REM.h4[1],
+        fontFamily: headingsFontFamily,
     };
 
     // custom paragraph styles applying default body text attributes
@@ -138,8 +162,8 @@ exports.theme = {
                 sm: getTypographyConfig("sm", theme),
                 base: getTypographyConfig("base", theme),
                 DEFAULT: getTypographyConfig("base", theme),
+                lg: getTypographyConfig("lg", theme),
                 xl: getTypographyConfig("xl", theme),
-                "2xl": getTypographyConfig("2xl", theme),
             };
         },
         borderRadius: {

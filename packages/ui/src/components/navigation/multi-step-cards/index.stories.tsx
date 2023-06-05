@@ -89,10 +89,10 @@ const Component = () => {
                 messages={{ step: "Step" }}
             >
                 <div className="cui-flex cui-flex-col cui-gap-6">
-                    <Typography variant="xl" weight="medium">
+                    <Typography variant="lg" weight="medium">
                         More step content
                     </Typography>
-                    <Typography variant="xl" weight="medium">
+                    <Typography variant="lg" weight="medium">
                         More step content
                     </Typography>
                 </div>

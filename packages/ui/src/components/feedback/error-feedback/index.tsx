@@ -28,7 +28,7 @@ export const ErrorFeedback = ({
                 )}
             />
             <Typography
-                variant="2xl"
+                variant="xl"
                 weight="bold"
                 className={{ root: `cui-text-center ${className?.title}` }}
             >

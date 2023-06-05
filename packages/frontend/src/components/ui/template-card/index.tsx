@@ -56,7 +56,7 @@ export const KPITokenTemplateCard = ({
                                 <Chip key={tag}>{tag}</Chip>
                             ))
                         ) : (
-                            <Skeleton variant="xl" width={80} />
+                            <Skeleton variant="lg" width={80} />
                         )}
                     </div>
                 </div>
