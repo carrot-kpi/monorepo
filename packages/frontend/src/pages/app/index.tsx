@@ -14,7 +14,6 @@ import { CreateWithTemplateId } from "../create-with-template-id";
 import { useFathomTrackPageWatch } from "../../hooks/useFathomTrackPageWatch";
 import { usePreviousDistinct } from "react-use";
 import {
-    useSetPreferDecentralization,
     useSetKPITokenTemplateBaseURL,
     useSetOracleTemplateBaseURL,
     useSetDevMode,
@@ -50,7 +49,6 @@ export const App = ({
     const location = useLocation();
     const previousLocation = usePreviousDistinct(location);
     const navigate = useNavigate();
-    const setPreferDecentralization = useSetPreferDecentralization();
     const setDevMode = useSetDevMode();
     const stagingMode = useStagingMode();
     const setStagingMode = useSetStagingMode();
@@ -64,7 +62,6 @@ export const App = ({
     const [mainLocation, setMainLocation] = useState(location);
 
     useEffect(() => {
-        if (__LIBRARY_MODE__) setPreferDecentralization(true);
         setDevMode(__LIBRARY_MODE__);
         setStagingMode(__STAGING_MODE__);
         setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
