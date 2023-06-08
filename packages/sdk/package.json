@@ -29,32 +29,32 @@
     "dependencies": {
         "decimal.js-light": "^2.5.1",
         "multiformats": "^9.9.0",
-        "viem": "^0.3.36"
+        "viem": "^1.0.0"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*"
     },
     "devDependencies": {
-        "@babel/core": "^7.21.8",
-        "@babel/preset-env": "^7.21.5",
+        "@babel/core": "^7.22.1",
+        "@babel/preset-env": "^7.22.4",
         "@babel/preset-typescript": "^7.21.5",
         "@carrot-kpi/shared-state": "*",
         "@jest/globals": "^29.5.0",
         "@rollup/plugin-commonjs": "^25.0.0",
-        "@rollup/plugin-node-resolve": "^15.0.2",
+        "@rollup/plugin-node-resolve": "^15.1.0",
         "@size-limit/preset-small-lib": "^8.1.0",
-        "@types/jest": "^29.5.1",
+        "@types/jest": "^29.5.2",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "babel-jest": "^29.5.0",
         "eslint-config-custom": "*",
         "jest": "^29.5.0",
         "rimraf": "^5.0.0",
-        "rollup": "^3.21.7",
+        "rollup": "^3.24.0",
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-typescript2": "^0.34.0",
         "size-limit": "^8.1.0",
         "ts-jest": "^29.1.0",
         "tsconfig": "*",
-        "typescript": "^5.0.4"
+        "typescript": "^5.1.3"
     }
 }

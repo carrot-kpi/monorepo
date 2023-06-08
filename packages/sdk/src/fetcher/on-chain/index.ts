@@ -269,7 +269,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
         let rawTemplates;
         if (ids && ids.length > 0) {
-            rawTemplates = await publicClient.multicall({
+            rawTemplates = (await publicClient.multicall({
                 multicallAddress: chainAddresses.multicall3,
                 allowFailure: false,
                 contracts: ids.map((id) => {
@@ -280,7 +280,7 @@ class Fetcher implements IPartialCarrotFetcher {
                         args: [BigInt(id)],
                     };
                 }),
-            });
+            })) as OnChainTemplate[];
         } else {
             const templatesAmount =
                 await managerContract.read.templatesAmount();
