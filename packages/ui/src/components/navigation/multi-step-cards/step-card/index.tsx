@@ -61,7 +61,7 @@ export const StepCard = ({
                 >
                     {messages.step} {step}
                 </Typography>
-                <Typography variant="h3" className={{ root: "cui-text-white" }}>
+                <Typography variant="h2" className={{ root: "cui-text-white" }}>
                     {title}
                 </Typography>
             </div>

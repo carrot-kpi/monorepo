@@ -35,7 +35,7 @@ export const NextStepPreview = ({
         <Typography weight="medium" className={{ root: "cui-text-white" }}>
             {step}
         </Typography>
-        <Typography variant="h3" className={{ root: "cui-text-white" }}>
+        <Typography variant="h2" className={{ root: "cui-text-white" }}>
             {title}
         </Typography>
     </div>
