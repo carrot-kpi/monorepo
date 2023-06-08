@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { Select as SelectComponent, SelectOption, SelectProps } from ".";
+import {
+    Select as SelectComponent,
+    type SelectOption,
+    type SelectProps,
+} from ".";
 
 export default {
     title: "Input/Select",

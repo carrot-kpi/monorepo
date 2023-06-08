@@ -1,8 +1,8 @@
-import React, { ReactNode, useMemo } from "react";
-import { ReactElement } from "react";
+import React, { type ReactNode, useMemo } from "react";
+import type { ReactElement } from "react";
 import { matchChildByType, mergedCva } from "../../../utils/components";
-import { StepCard, StepCardProps } from "./step-card";
-import { NextStepPreview, NextStepPreviewProps } from "./step-preview";
+import { StepCard, type StepCardProps } from "./step-card";
+import { NextStepPreview, type NextStepPreviewProps } from "./step-preview";
 
 export * from "./step-card";
 export * from "./step-preview";

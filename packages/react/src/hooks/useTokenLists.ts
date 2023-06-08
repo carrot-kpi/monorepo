@@ -1,5 +1,5 @@
 import { uriToHttps, parseENSName } from "@carrot-kpi/sdk";
-import { TokenList } from "@uniswap/token-lists";
+import type { TokenList } from "@uniswap/token-lists";
 import { useEffect, useState } from "react";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 

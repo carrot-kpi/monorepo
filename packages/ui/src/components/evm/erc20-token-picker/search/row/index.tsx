@@ -1,14 +1,14 @@
-import React, { useCallback, MouseEvent } from "react";
+import React, { useCallback, type MouseEvent } from "react";
 import { mergedCva } from "../../../../../utils/components";
 import { getDefaultERC20TokenLogoURL } from "../../../../../utils/erc20";
 import {
     RemoteLogo,
-    RemoteLogoProps,
+    type RemoteLogoProps,
     Typography,
-    TypographyProps,
+    type TypographyProps,
 } from "../../../../data-display";
 import { Skeleton } from "../../../../feedback";
-import { TokenInfoWithBalance } from "../../types";
+import type { TokenInfoWithBalance } from "../../types";
 import { Balance } from "./balance";
 
 const rootStyles = mergedCva(

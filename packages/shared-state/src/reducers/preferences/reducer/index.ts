@@ -8,7 +8,7 @@ import {
     setStagingMode,
     setTheme,
 } from "../actions";
-import { PreferencesState } from "../types";
+import type { PreferencesState } from "../types";
 
 const initialState: PreferencesState = {
     // TODO: use system as a default once the dark theme is available

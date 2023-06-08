@@ -1,6 +1,6 @@
-import { Tx, TxType } from "@carrot-kpi/react";
+import { type Tx, TxType } from "@carrot-kpi/react";
 import { useNetwork } from "wagmi";
-import { HostState } from "../state";
+import type { HostState } from "../state";
 import { useSelector } from "../state/connector";
 import { deserializeTransaction } from "../utils/transactions";
 

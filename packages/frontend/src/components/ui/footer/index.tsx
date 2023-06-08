@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../../../icons/logo";
-import { CARROT_DOMAIN, FooterLink } from "../../../constants";
+import { CARROT_DOMAIN, type FooterLink } from "../../../constants";
 import { FooterLinks } from "./footer-column";
 
 interface FooterProps {

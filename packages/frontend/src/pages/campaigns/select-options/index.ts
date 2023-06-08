@@ -1,4 +1,4 @@
-import { SelectOption } from "@carrot-kpi/ui";
+import type { SelectOption } from "@carrot-kpi/ui";
 import { t } from "i18next";
 
 export const getOptionByLabel = (

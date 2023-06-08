@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import RcSwitch, {
-    SwitchChangeEventHandler,
-    SwitchClickEventHandler,
+    type SwitchChangeEventHandler,
+    type SwitchClickEventHandler,
 } from "rc-switch";
 
 export interface SwitchProps

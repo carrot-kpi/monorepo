@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from "react";
+import React, { type ReactNode, useEffect, useRef } from "react";
 import { mergedCva } from "../../../utils/components";
 
 const rootStyles = mergedCva(

@@ -1,14 +1,14 @@
 import React, {
-    ReactElement,
+    type ReactElement,
+    type MouseEvent as SpecificMouseEvent,
+    type ForwardedRef,
     useCallback,
     useState,
-    MouseEvent as SpecificMouseEvent,
     useRef,
     forwardRef,
-    ForwardedRef,
     useId,
 } from "react";
-import { BaseInputProps } from "../commons";
+import type { BaseInputProps } from "../commons";
 import ChevronUp from "../../../icons/chevron-up";
 import ChevronDown from "../../../icons/chevron-down";
 import { Popover } from "../../utils/popover";

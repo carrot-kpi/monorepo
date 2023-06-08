@@ -1,14 +1,14 @@
 import React, {
-    ChangeEvent,
+    type ChangeEvent,
     useCallback,
     useEffect,
     useRef,
     useState,
 } from "react";
-import { Search, SearchProps } from "./search";
+import { Search, type SearchProps } from "./search";
 import { Modal } from "../../utils/modal";
-import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
-import { ManageLists, ManageListsProps } from "./manage-lists";
+import type { TokenInfoWithBalance, TokenListWithBalance } from "./types";
+import { ManageLists, type ManageListsProps } from "./manage-lists";
 import { useSearchedTokens } from "./hooks/useSearchedTokens";
 import { FixedSizeList } from "react-window";
 import { useDebounce } from "react-use";

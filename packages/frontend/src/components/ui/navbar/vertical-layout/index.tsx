@@ -1,6 +1,6 @@
-import React, { MouseEventHandler, ReactElement } from "react";
+import React, { type MouseEventHandler, type ReactElement } from "react";
 import { NavLink } from "react-router-dom";
-import { NavbarProps } from "..";
+import { type NavbarProps } from "..";
 import { ConnectWallet } from "../../../connect-wallet";
 import Logo from "../../../../icons/logo";
 import CloseIcon from "../../../../icons/x";

@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactNode, useId } from "react";
-import { BaseInputWrapper, BaseInputWrapperProps } from "../commons";
+import React, { type ReactElement, type ReactNode, useId } from "react";
+import { BaseInputWrapper, type BaseInputWrapperProps } from "../commons";
 import { Typography } from "../../data-display";
 import { mergedCva } from "../../../utils/components";
 

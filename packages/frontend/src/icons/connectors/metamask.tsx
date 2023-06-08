@@ -1,5 +1,5 @@
 import React from "react";
-import { SVGIcon } from "../types";
+import type { SVGIcon } from "../types";
 
 const Metamask = (props: SVGIcon) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" {...props}>

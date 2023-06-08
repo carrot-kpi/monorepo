@@ -1,10 +1,10 @@
-import { Address, type PublicClient } from "viem";
+import type { Address, PublicClient } from "viem";
 import { ChainId } from "../../commons";
 import { KPIToken } from "../../entities/kpi-token";
 import { Oracle } from "../../entities/oracle";
 import { ResolvedTemplate, Template } from "../../entities/template";
 import { Token } from "../../entities/token";
-import { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
+import type { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
 
 export interface FetchERC20TokensParams {
     publicClient: PublicClient;

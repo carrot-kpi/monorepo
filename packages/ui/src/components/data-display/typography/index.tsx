@@ -1,16 +1,13 @@
-import React, {
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import type {
     ElementType,
     ForwardedRef,
-    forwardRef,
     HTMLAttributes,
     ReactElement,
     ReactNode,
-    useCallback,
-    useEffect,
-    useState,
 } from "react";
 import { mergedCva } from "../../../utils/components";
-import { Popover, PopoverProps } from "../../utils";
+import { Popover, type PopoverProps } from "../../utils";
 
 const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
     variants: {

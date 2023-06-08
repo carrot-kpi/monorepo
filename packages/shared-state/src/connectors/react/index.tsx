@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React, { createContext, ReactNode } from "react";
+import React, { createContext, type ReactNode } from "react";
 import {
     createDispatchHook,
     createSelectorHook,
     createStoreHook,
     Provider,
-    ReactReduxContextValue,
+    type ReactReduxContextValue,
 } from "react-redux";
 import { store } from "../..";
 

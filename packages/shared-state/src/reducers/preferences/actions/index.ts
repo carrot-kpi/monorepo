@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { PreferencesState } from "../types";
+import type { PreferencesState } from "../types";
 
 export const setTheme = createAction<PreferencesState["theme"]>(
     "preferences/setTheme"

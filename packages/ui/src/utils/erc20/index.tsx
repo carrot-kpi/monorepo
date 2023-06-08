@@ -1,5 +1,5 @@
 import { getAddress, isAddress } from "viem";
-import { TokenInfoWithBalance } from "../../components/evm/erc20-token-picker/types";
+import type { TokenInfoWithBalance } from "../../components/evm/erc20-token-picker/types";
 
 const TRUST_WALLET_CHAIN: { [chainId: number]: string } = {
     100: "xdai",

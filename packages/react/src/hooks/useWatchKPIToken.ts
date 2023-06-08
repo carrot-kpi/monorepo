@@ -7,7 +7,7 @@ import {
     ResolvedKPIToken,
 } from "@carrot-kpi/sdk";
 import { useEffect, useState } from "react";
-import { Address, useContractReads, usePublicClient } from "wagmi";
+import { type Address, useContractReads, usePublicClient } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 

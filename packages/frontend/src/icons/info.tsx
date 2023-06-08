@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { SVGIcon } from "./types";
+import type { SVGIcon } from "./types";
 
 const Info = forwardRef<SVGSVGElement, SVGIcon>(function Info(
     props: SVGIcon,

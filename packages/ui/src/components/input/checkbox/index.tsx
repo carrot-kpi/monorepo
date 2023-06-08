@@ -1,14 +1,14 @@
 import React, {
     forwardRef,
-    HTMLAttributes,
-    ReactElement,
+    type HTMLAttributes,
+    type ReactElement,
     useCallback,
     useId,
     useState,
 } from "react";
 import { Typography } from "../../data-display";
 import Info from "../../../icons/info";
-import { BaseInputWrapperProps, infoIconStyles } from "../commons";
+import { type BaseInputWrapperProps, infoIconStyles } from "../commons";
 import Tick from "../../../icons/tick";
 import { mergedCva } from "../../../utils/components";
 import { Popover } from "../../utils";

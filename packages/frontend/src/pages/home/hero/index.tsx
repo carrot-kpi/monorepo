@@ -9,7 +9,7 @@ import { cva } from "class-variance-authority";
 import { CreateCampaignButton } from "../../../components/create-campaign-button";
 import { useFeaturedKPITokens } from "../../../hooks/useFeaturedKPITokens";
 import { useSelector } from "../../../state/connector";
-import { HostState } from "../../../state";
+import type { HostState } from "../../../state";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {

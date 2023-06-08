@@ -15,7 +15,7 @@ import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import { HashRouter } from "react-router-dom";
 
-import { Chain, ChainProviderFn, Connector } from "wagmi";
+import { type Chain, type ChainProviderFn, Connector } from "wagmi";
 import { App } from "./pages/app";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
 import {

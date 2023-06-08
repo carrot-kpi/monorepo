@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { addTransaction, clearTransactions } from "../actions";
-import { TransactionsState } from "../types";
+import type { TransactionsState } from "../types";
 
 const initialState: TransactionsState = {};
 

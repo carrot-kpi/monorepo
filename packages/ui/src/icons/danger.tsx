@@ -1,5 +1,5 @@
 import React from "react";
-import { SVGIcon } from "./types";
+import type { SVGIcon } from "./types";
 
 const Code = (props: SVGIcon) => (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>

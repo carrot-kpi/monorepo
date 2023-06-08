@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import { RadioGroup as RadioGroupComponent, RadioGroupProps } from ".";
 import { Radio } from "../radio";

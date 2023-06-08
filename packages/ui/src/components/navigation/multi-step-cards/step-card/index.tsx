@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactElement, ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { mergedCva } from "../../../../utils/components";
 import { Typography } from "../../../data-display";
 

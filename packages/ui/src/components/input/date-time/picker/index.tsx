@@ -1,7 +1,7 @@
-import dayjs, { UnitType } from "dayjs";
+import dayjs, { type UnitType } from "dayjs";
 import React, { useCallback, useLayoutEffect } from "react";
 import { Typography } from "../../../data-display";
-import { DatePicker, DatePickerProps } from "../../date/picker";
+import { DatePicker, type DatePickerProps } from "../../date/picker";
 import { enforceDoubleDigits } from "../../../../utils/formatting";
 import { mergedCva } from "../../../../utils/components";
 import { rectifyDate, resolvedValue } from "../../../../utils/date";

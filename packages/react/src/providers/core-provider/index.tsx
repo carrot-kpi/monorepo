@@ -1,13 +1,13 @@
 import React from "react";
 import {
-    ChainProviderFn,
+    type ChainProviderFn,
     configureChains,
     Connector,
     createConfig,
     WagmiConfig,
 } from "wagmi";
-import { Chain } from "wagmi";
-import { ReactNode } from "react";
+import type { Chain } from "wagmi";
+import type { ReactNode } from "react";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";

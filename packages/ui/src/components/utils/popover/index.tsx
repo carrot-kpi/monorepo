@@ -1,6 +1,11 @@
-import React, { forwardRef, ReactElement, ReactNode, useState } from "react";
+import React, {
+    forwardRef,
+    type ReactElement,
+    type ReactNode,
+    useState,
+} from "react";
 import { usePopper } from "react-popper";
-import { Placement } from "@popperjs/core";
+import { type Placement } from "@popperjs/core";
 import { mergedCva } from "../../../utils/components";
 
 const dropdownRootStyles = mergedCva(

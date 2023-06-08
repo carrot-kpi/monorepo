@@ -1,5 +1,5 @@
 import React from "react";
-import { Tx, TxType } from "@carrot-kpi/react";
+import { type Tx, TxType } from "@carrot-kpi/react";
 import { Skeleton, Typography } from "@carrot-kpi/ui";
 import { useTransactionSummary } from "../../../../../hooks/useTransactionSummary";
 import External from "../../../../../icons/external";

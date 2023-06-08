@@ -1,8 +1,8 @@
 import React, {
     forwardRef,
-    HTMLAttributes,
-    ReactElement,
-    ReactNode,
+    type HTMLAttributes,
+    type ReactElement,
+    type ReactNode,
     useCallback,
     useId,
     useState,
@@ -10,7 +10,7 @@ import React, {
 import { mergedCva } from "../../../utils/components";
 import { Typography } from "../../data-display";
 import Info from "../../../icons/info";
-import { BaseInputWrapperProps, infoIconStyles } from "../commons";
+import { type BaseInputWrapperProps, infoIconStyles } from "../commons";
 import { Popover } from "../../utils";
 
 const inputWrapperStyles = mergedCva(

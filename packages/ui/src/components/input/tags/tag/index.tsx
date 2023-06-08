@@ -1,6 +1,9 @@
 import React, { useCallback } from "react";
-import { ReactElement } from "react";
-import { Typography, TypographyProps } from "../../../data-display/typography";
+import type { ReactElement } from "react";
+import {
+    Typography,
+    type TypographyProps,
+} from "../../../data-display/typography";
 import Remove from "../../../../icons/remove";
 import { mergedCva } from "../../../../utils/components";
 

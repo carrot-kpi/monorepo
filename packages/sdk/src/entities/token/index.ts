@@ -1,4 +1,4 @@
-import { isAddress, getAddress, Address } from "viem";
+import { isAddress, getAddress, type Address } from "viem";
 import { Currency } from "../currency";
 import { enforce } from "../../utils/invariant";
 

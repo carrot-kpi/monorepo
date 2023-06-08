@@ -1,4 +1,4 @@
-import { HostState } from "../state";
+import type { HostState } from "../state";
 
 const CACHE_KEY = "carrot-kpi-host-state-cache";
 

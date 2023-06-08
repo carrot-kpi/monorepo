@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from "dayjs";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import ChevronLeft from "../../../../icons/chevron-left";
 import ChevronRight from "../../../../icons/chevron-right";
-import { CalendarCell, getCalendarCells } from "../../../../utils/date";
+import { type CalendarCell, getCalendarCells } from "../../../../utils/date";
 import { Typography } from "../../../data-display";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import { mergedCva } from "../../../../utils/components";

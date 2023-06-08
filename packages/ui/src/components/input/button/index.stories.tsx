@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import Tick from "../../../icons/tick";
 import { Button as ButtonComponent } from ".";

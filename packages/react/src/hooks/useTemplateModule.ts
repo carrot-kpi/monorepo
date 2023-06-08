@@ -1,12 +1,22 @@
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
-import { TemplateBundle } from "../i18n";
-import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
+import type { TemplateBundle } from "../i18n";
+import {
+    type FunctionComponent,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
-import { State, useSelector } from "@carrot-kpi/shared-state";
+import { type State, useSelector } from "@carrot-kpi/shared-state";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { useStagingMode } from "./useStagingMode";
 import { useNetwork } from "wagmi";
-import { RemoteComponentProps, TemplateEntity, TemplateType } from "../types";
+import type {
+    RemoteComponentProps,
+    TemplateEntity,
+    TemplateType,
+} from "../types";
 
 type ComponentType<
     E extends TemplateEntity,

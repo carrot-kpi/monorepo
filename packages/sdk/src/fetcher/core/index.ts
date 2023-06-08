@@ -9,7 +9,7 @@ import { type Address } from "viem";
 import { Token } from "../../entities/token";
 import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
 import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
-import {
+import type {
     FetchContentFromIPFSParams,
     FetchERC20TokensParams,
     ICoreFetcher,
@@ -23,7 +23,7 @@ import {
     ResolvedTemplate,
     TemplateSpecification,
 } from "../../entities/template";
-import { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
+import type { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
 
 // TODO: check if validation can be extracted in its own function
 export class CoreFetcher implements ICoreFetcher {

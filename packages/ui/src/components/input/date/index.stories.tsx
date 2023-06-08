@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import { DateInput as DateInputComponent, DateInputProps } from ".";
 

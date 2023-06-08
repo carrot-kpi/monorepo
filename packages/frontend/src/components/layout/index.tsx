@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import {
-    FooterLink,
+    type FooterLink,
+    type NavbarLink,
     FOOTER_LINKS,
-    NavbarLink,
     NAVBAR_LINKS,
 } from "../../constants";
 import { CarrotMarquee } from "../ui/carrot-marquee";

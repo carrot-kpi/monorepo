@@ -1,5 +1,5 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Typography, TypographyProps } from "../typography";
+import React, { type ReactElement, useEffect, useState } from "react";
+import { Typography, type TypographyProps } from "../typography";
 import Clock from "../../../icons/clock";
 import { mergedCva } from "../../../utils/components";
 import { getDurationFromNowToUNIXTimestamp } from "../../../utils/date";

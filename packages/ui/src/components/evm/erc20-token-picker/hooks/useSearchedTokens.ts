@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { filterERC20Tokens, sortERC20Tokens } from "../../../../utils/erc20";
-import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
+import type { TokenInfoWithBalance, TokenListWithBalance } from "../types";
 
 export const useSearchedTokens = (
     debouncedQuery?: string,

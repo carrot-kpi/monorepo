@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { TemplateType } from "../types";
+import type { TemplateType } from "../types";
 
 declare let __webpack_share_scopes__: {
     default: any;

@@ -1,7 +1,7 @@
 import { ChainId } from "@carrot-kpi/sdk";
-import { FunctionComponent, SVGProps } from "react";
+import type { FunctionComponent, SVGProps } from "react";
 import { gnosis, sepolia, scrollTestnet } from "wagmi/chains";
-import { Chain } from "wagmi/chains";
+import type { Chain } from "wagmi/chains";
 import EthereumLogo from "../icons/chains/ethereum";
 import GnosisLogo from "../icons/chains/gnosis";
 import ScrollLogo from "../icons/chains/scroll";

@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
-import durationPlugin, { Duration } from "dayjs/plugin/duration";
+import durationPlugin, { type Duration } from "dayjs/plugin/duration";
 
 dayjs.extend(durationPlugin);
 

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 import { mergedCx } from "../../../utils/components";
 
 export interface MarkdownProps {

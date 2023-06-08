@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 import { mergedCva } from "../../../../utils/components";
 
 const rootStyles = mergedCva(["cui-flex", "cui-gap-4", "cui-p-4"]);

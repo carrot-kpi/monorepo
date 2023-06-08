@@ -1,10 +1,16 @@
-import React, { MouseEvent, useCallback } from "react";
-import { Typography, TypographyProps } from "../../../data-display/typography";
+import React, { type MouseEvent, useCallback } from "react";
+import {
+    Typography,
+    type TypographyProps,
+} from "../../../data-display/typography";
 import X from "../../../../icons/x";
 import ChevronLeft from "../../../../icons/chevron-left";
-import { TokenListWithBalance } from "../types";
-import { RemoteLogo, RemoteLogoProps } from "../../../data-display/remote-logo";
-import { Divider, DividerProps } from "../divider";
+import type { TokenListWithBalance } from "../types";
+import {
+    RemoteLogo,
+    type RemoteLogoProps,
+} from "../../../data-display/remote-logo";
+import { Divider, type DividerProps } from "../divider";
 import { Skeleton } from "../../../feedback";
 import { mergedCva } from "../../../../utils/components";
 

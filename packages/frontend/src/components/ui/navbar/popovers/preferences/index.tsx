@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import {
     Popover,
     Select,
-    SelectOption,
+    type SelectOption,
     Switch,
     Typography,
 } from "@carrot-kpi/ui";

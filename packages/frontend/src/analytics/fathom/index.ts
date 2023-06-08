@@ -1,5 +1,5 @@
 import { TxType } from "@carrot-kpi/react";
-import { FathomRegisteredEventName } from "../../out/fathom/types";
+import type { FathomRegisteredEventName } from "../../out/fathom/types";
 
 export const TX_FATHOM_EVENTS: Record<TxType, FathomRegisteredEventName> = {
     [TxType.CUSTOM]: "TX_CUSTOM",

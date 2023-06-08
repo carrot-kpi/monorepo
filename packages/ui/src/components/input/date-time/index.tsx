@@ -6,12 +6,12 @@ import React, {
     useId,
     useEffect,
 } from "react";
-import { ReactElement } from "react";
-import { BaseInputProps } from "../commons";
+import type { ReactElement } from "react";
+import type { BaseInputProps } from "../commons";
 import { TextInput } from "../text";
 import { Modal, Popover } from "../../utils";
 import Calendar from "../../../icons/calendar";
-import { DateTimePicker, DateTimePickerProps } from "./picker";
+import { DateTimePicker, type DateTimePickerProps } from "./picker";
 import { useClickAway } from "react-use";
 import dayjs from "dayjs";
 

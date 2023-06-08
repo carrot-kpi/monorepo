@@ -1,6 +1,6 @@
 import React, {
-    ReactElement,
-    ReactNode,
+    type ReactElement,
+    type ReactNode,
     useCallback,
     useMemo,
     useState,

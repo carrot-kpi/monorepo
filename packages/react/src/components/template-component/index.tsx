@@ -7,7 +7,7 @@ import { cva } from "class-variance-authority";
 import { useStagingMode, useTheme } from "../../hooks";
 import { useMedia } from "react-use";
 import { ErrorBoundary } from "../error-boundary";
-import { BaseTemplateComponentProps } from "../../types";
+import type { BaseTemplateComponentProps } from "../../types";
 import { useNetwork } from "wagmi";
 
 const wrapperStyles = cva(["w-full", "h-full"], {

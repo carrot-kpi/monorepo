@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@carrot-kpi/ui";
-import { FooterLink } from "../../../../constants";
+import type { FooterLink } from "../../../../constants";
 
 export const FooterLinks = ({ title, links }: FooterLink) => (
     <ul className="w-40">

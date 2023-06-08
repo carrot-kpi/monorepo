@@ -11,14 +11,15 @@ import { KPIToken } from "../../entities/kpi-token";
 import { type OnChainTemplate, Template } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { enforce } from "../../utils";
-import {
+import type {
     FetchEntitiesParams,
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
-import { type Address, getContract, PublicClient } from "viem";
+import type { Address, PublicClient } from "viem";
+import { getContract } from "viem";
 
 // TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {

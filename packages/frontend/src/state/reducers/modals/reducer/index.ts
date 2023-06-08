@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { setModalOpen } from "../actions";
-import { ModalsState } from "../types";
+import type { ModalsState } from "../types";
 
 const initialState: ModalsState = {
     open: false,

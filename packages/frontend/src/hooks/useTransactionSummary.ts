@@ -1,4 +1,4 @@
-import { Tx, TxType } from "@carrot-kpi/react";
+import { type Tx, TxType } from "@carrot-kpi/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { usePublicClient } from "wagmi";

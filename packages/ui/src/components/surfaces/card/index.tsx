@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { type ReactElement } from "react";
 import { matchChildByType, mergedCva } from "../../../utils/components";
 import { CardActions } from "./actions";
 import { CardContent } from "./content";

@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useCallback, useState } from "react";
-import { TextInput, Select, SelectOption } from "@carrot-kpi/ui";
+import React, { type ChangeEvent, useCallback, useState } from "react";
+import { TextInput, Select, type SelectOption } from "@carrot-kpi/ui";
 import { ToggleFiltersButton } from "./toggle-filters-button";
 import MagnifyingLens from "../../../icons/magnifying-lens";
 import { t } from "i18next";

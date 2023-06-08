@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react";
-import { Typography, TypographyProps } from "../../data-display";
+import React, { type ReactElement } from "react";
+import { Typography, type TypographyProps } from "../../data-display";
 import Error from "../../../icons/error";
 import { mergedCx } from "../../../utils/components";
 

@@ -1,16 +1,18 @@
-import React, {
+import React, { useCallback, useState } from "react";
+import type {
     ChangeEventHandler,
     FunctionComponent,
     InputHTMLAttributes,
     ReactElement,
     ReactNode,
-    useCallback,
-    useState,
 } from "react";
 import Info from "../../../icons/info";
 import { mergedCva } from "../../../utils/components";
 import { ErrorText } from "../../data-display/error-text";
-import { Typography, TypographyProps } from "../../data-display/typography";
+import {
+    Typography,
+    type TypographyProps,
+} from "../../data-display/typography";
 import { Popover } from "../../utils";
 
 export interface PartialBaseInputProps<V> {

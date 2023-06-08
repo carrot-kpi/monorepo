@@ -1,12 +1,12 @@
 import { usePagination, useResetPageScroll } from "@carrot-kpi/react";
-import { SelectOption, Typography } from "@carrot-kpi/ui";
+import { type SelectOption, Typography } from "@carrot-kpi/ui";
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 import React, {
     useEffect,
     useCallback,
     useMemo,
     useState,
-    SetStateAction,
+    type SetStateAction,
     useRef,
 } from "react";
 import { useTranslation } from "react-i18next";

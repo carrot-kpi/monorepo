@@ -1,10 +1,10 @@
 import React, { forwardRef, useCallback, useId, useState } from "react";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { mergedCva } from "../../../utils/components";
 import { Button } from "../button";
-import { BaseInputProps } from "../commons";
+import type { BaseInputProps } from "../commons";
 import { TextInput } from "../text";
-import { Tag, TagProps } from "./tag";
+import { Tag, type TagProps } from "./tag";
 
 const buttonStyles = mergedCva(["cui-h-3"]);
 

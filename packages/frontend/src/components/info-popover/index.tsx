@@ -1,5 +1,5 @@
 import { Popover } from "@carrot-kpi/ui";
-import React, { ReactNode, useCallback, useState } from "react";
+import React, { type ReactNode, useCallback, useState } from "react";
 import Info from "../../icons/info";
 
 interface InfoPopoverProps {

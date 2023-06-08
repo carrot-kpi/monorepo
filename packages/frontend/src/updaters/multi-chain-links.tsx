@@ -1,7 +1,7 @@
 import { Modal, Typography } from "@carrot-kpi/ui";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Chain, useAccount, useNetwork } from "wagmi";
+import { type Chain, useAccount, useNetwork } from "wagmi";
 import { DEFAULT_CHAIN } from "../constants";
 import WrongNetwork from "../icons/wrong-network";
 import { useTranslation } from "react-i18next";

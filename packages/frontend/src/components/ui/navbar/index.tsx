@@ -10,7 +10,7 @@ import { Button } from "@carrot-kpi/ui";
 import { PreferencesPopover } from "./popovers/preferences";
 import { useClickAway, useWindowSize } from "react-use";
 import { NavbarVerticalLayout } from "./vertical-layout";
-import { NavbarLink } from "../../../constants";
+import type { NavbarLink } from "../../../constants";
 
 const navWrapperStyles = cva([], {
     variants: {

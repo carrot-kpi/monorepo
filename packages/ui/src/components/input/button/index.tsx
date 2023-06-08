@@ -1,9 +1,9 @@
-import React, {
+import React, { forwardRef } from "react";
+import type {
     AnchorHTMLAttributes,
     ButtonHTMLAttributes,
     ElementType,
     ForwardedRef,
-    forwardRef,
     FunctionComponent,
     ReactNode,
     SVGProps,

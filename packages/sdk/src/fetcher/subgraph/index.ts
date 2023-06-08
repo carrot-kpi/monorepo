@@ -1,5 +1,5 @@
 import { KPIToken } from "../../entities/kpi-token";
-import {
+import type {
     FetchEntitiesParams,
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
@@ -7,25 +7,27 @@ import {
     IPartialCarrotFetcher,
     SupportedInChainParams,
 } from "../abstraction";
-import {
+import type {
     KPITokenData,
     KPITokenSearchData,
     TemplateData,
     OracleData,
-    GetKPITokensQuery,
     GetKPITokensQueryResponse,
+    GetOraclesQueryResponse,
+    GetTemplatesQueryResponse,
+    GetKPITokensAmountQueryResponse,
+    GetKPITokenAddressesQueryResponse,
+} from "./queries";
+import {
+    GetKPITokensQuery,
     GetKPITokenByAddressesQuery,
     GetOracleByAddressesQuery,
-    GetOraclesQueryResponse,
     GetOraclesQuery,
-    GetTemplatesQueryResponse,
     GetLatestVersionKPITokenTemplatesOfManagerByIdQuery,
     GetLatestVersionKPITokenTemplatesOfManagerQuery,
     GetOracleTemplatesOfManagerByIdQuery,
     GetOracleTemplatesOfManagerQuery,
-    GetKPITokensAmountQueryResponse,
     GetKPITokensAmountQuery,
-    GetKPITokenAddressesQueryResponse,
     GetKPITokenAddressesQuery,
 } from "./queries";
 import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
@@ -34,7 +36,7 @@ import { type Address, getAddress } from "viem";
 import { Template } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/subgraph";
-import { ChainKPITokensMap, ChainOraclesMap } from "../types";
+import type { ChainKPITokensMap, ChainOraclesMap } from "../types";
 
 const PAGE_SIZE = 100;
 
