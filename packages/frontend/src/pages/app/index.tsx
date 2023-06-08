@@ -70,6 +70,14 @@ export const App = ({
     }, []);
 
     useEffect(() => {
+        if (
+            previousLocation &&
+            location.pathname === previousLocation.pathname &&
+            location.search === previousLocation.search &&
+            location.state === previousLocation.state
+        )
+            return;
+
         // detect modal opening and setup. If the previous distinct
         // location was not a modal route, and the current one is,
         // the previous location is set as the main route to prevent
