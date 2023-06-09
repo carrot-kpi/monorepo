@@ -2,7 +2,7 @@ import type { SelectOption } from "@carrot-kpi/ui";
 import { t } from "i18next";
 
 export const getOptionByLabel = (
-    optionsList: SelectOption[],
+    optionsList: SelectOption<number>[],
     label: string
 ) => {
     const option = optionsList.find((option) => option.label === label);
