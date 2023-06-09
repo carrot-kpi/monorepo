@@ -12,13 +12,13 @@ export default {
     component: SelectComponent,
 } as Meta<typeof SelectComponent>;
 
-const Component = (props: SelectProps<number>) => {
+const Component = (props: SelectProps<SelectOption<number>>) => {
     const [value, setValue] = useState<SelectOption<number> | null>(null);
 
     return <SelectComponent {...props} value={value} onChange={setValue} />;
 };
 
-export const Select: StoryObj<typeof SelectComponent<number>> = {
+export const Select: StoryObj<typeof SelectComponent<SelectOption<number>>> = {
     render: Component,
     args: {
         label: "Select input",

@@ -78,12 +78,12 @@ export interface SelectOption<V extends ValueType = ValueType> {
     disabled?: boolean;
 }
 
-export type SelectProps<V extends ValueType> = {
+export type SelectProps<T extends SelectOption<ValueType>> = {
     id?: string;
-    options: SelectOption<V>[];
-    value: SelectOption<V> | null;
-    onChange: (value: SelectOption<V>) => void;
-    renderOption?: (value: SelectOption<V>) => ReactElement;
+    options: T[];
+    value: T | null;
+    onChange: (value: T) => void;
+    renderOption?: (value: T) => ReactElement;
     className?: BaseInputProps<unknown>["className"] & {
         inputRoot?: string;
         wrapper?: string;
@@ -94,7 +94,7 @@ export type SelectProps<V extends ValueType> = {
     };
 } & Omit<BaseInputProps<unknown>, "onChange" | "value" | "id">;
 
-function Component<V extends ValueType>(
+function Component<T extends SelectOption<ValueType>>(
     {
         id,
         options,
@@ -103,7 +103,7 @@ function Component<V extends ValueType>(
         className,
         renderOption,
         ...rest
-    }: SelectProps<V>,
+    }: SelectProps<T>,
     ref: ForwardedRef<HTMLInputElement>
 ): ReactElement {
     const generatedId = useId();
@@ -125,8 +125,7 @@ function Component<V extends ValueType>(
         (event: SpecificMouseEvent<HTMLLIElement>) => {
             if (!event.target) return;
             const value = (event.target as HTMLLIElement).dataset.value;
-            if (!!onChange && !!value)
-                onChange(JSON.parse(value) as SelectOption<V>);
+            if (!!onChange && !!value) onChange(JSON.parse(value) as T);
             setOpen(false);
         },
         [onChange]
@@ -203,6 +202,8 @@ function Component<V extends ValueType>(
     );
 }
 
-export const Select = forwardRef(Component) as <V extends ValueType>(
-    props: SelectProps<V> & { ref?: React.ForwardedRef<HTMLSelectElement> }
+export const Select = forwardRef(Component) as <
+    T extends SelectOption<ValueType>
+>(
+    props: SelectProps<T> & { ref?: React.ForwardedRef<HTMLSelectElement> }
 ) => ReturnType<typeof Component>;
