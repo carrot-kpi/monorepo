@@ -1,7 +1,7 @@
 {
     "name": "@carrot-kpi/host-frontend",
     "license": "GPL-3.0-or-later",
-    "version": "0.7.4",
+    "version": "0.7.5",
     "description": "Frontend for Carrot KPI protocol v1.",
     "main": "./dist/bootstrap.js",
     "module": "./dist/bootstrap.js",
