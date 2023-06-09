@@ -5,12 +5,12 @@ import MagnifyingLens from "../../../icons/magnifying-lens";
 import { t } from "i18next";
 
 interface CampaignsTopNavProps {
-    ordering: SelectOption;
-    orderingOptions: SelectOption[];
-    onOrderingChange: (option: SelectOption) => void;
-    state: SelectOption;
-    stateOptions: SelectOption[];
-    onStateChange: (option: SelectOption) => void;
+    ordering: SelectOption<number>;
+    orderingOptions: SelectOption<number>[];
+    onOrderingChange: (option: SelectOption<number>) => void;
+    state: SelectOption<number>;
+    stateOptions: SelectOption<number>[];
+    onStateChange: (option: SelectOption<number>) => void;
     onToggleFilters: () => void;
     filtersOpen: boolean;
     setSearchQuery: (searchQuery: string) => void;

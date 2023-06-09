@@ -47,7 +47,9 @@ export const Campaigns = () => {
         () => setFilterOpen(!filtersOpen),
         [filtersOpen]
     );
-    const [ordering, setOrdering] = useState<SelectOption>(ORDERING_OPTIONS[0]);
+    const [ordering, setOrdering] = useState<SelectOption<number>>(
+        ORDERING_OPTIONS[0]
+    );
     const [currentPage, setCurrentPage] = useState(1);
 
     const handleSearchParams = useCallback(
@@ -85,13 +87,13 @@ export const Campaigns = () => {
     }, []);
 
     const handleOrderingChange = useCallback(
-        (orderingState: SelectOption) =>
+        (orderingState: SelectOption<number>) =>
             handleSearchParams("ordering", orderingState.label),
         [handleSearchParams]
     );
 
     const handleStateChange = useCallback(
-        (campaignState: SelectOption) =>
+        (campaignState: SelectOption<number>) =>
             handleSearchParams("state", campaignState.label),
         [handleSearchParams]
     );
@@ -118,7 +120,7 @@ export const Campaigns = () => {
         useSearchResolvedKPITokens(debouncedSearchQuery);
 
     // filters
-    const [campaignState, setCampaignState] = useState<SelectOption>(
+    const [campaignState, setCampaignState] = useState<SelectOption<number>>(
         STATE_OPTIONS[0]
     );
     // side filters
