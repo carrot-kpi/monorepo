@@ -15,6 +15,7 @@ import type {
     FetchEntitiesParams,
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
+    FetchLatestKpiTokenAddressesParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
@@ -59,6 +60,26 @@ class Fetcher implements IPartialCarrotFetcher {
                 address: chainAddresses.factory,
                 functionName: "enumerate",
                 args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
+            })
+        ).slice();
+    }
+
+    public async fetchLatestKPITokenAddresses({
+        publicClient,
+        limit,
+    }: FetchLatestKpiTokenAddressesParams): Promise<Address[]> {
+        const chainId = await publicClient.getChainId();
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const finalLimit = limit || 5;
+        const toIndex = await this.fetchKPITokensAmount({ publicClient });
+        const fromIndex = toIndex - finalLimit > 0 ? toIndex - finalLimit : 0;
+        return (
+            await publicClient.readContract({
+                abi: FACTORY_ABI,
+                address: chainAddresses.factory,
+                functionName: "enumerate",
+                args: [BigInt(fromIndex), BigInt(toIndex)],
             })
         ).slice();
     }

@@ -3,6 +3,7 @@ import type {
     FetchEntitiesParams,
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
+    FetchLatestKpiTokenAddressesParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
     SupportedInChainParams,
@@ -17,6 +18,7 @@ import type {
     GetTemplatesQueryResponse,
     GetKPITokensAmountQueryResponse,
     GetKPITokenAddressesQueryResponse,
+    GetLatestKPITokenAddressesQueryResponse,
 } from "./queries";
 import {
     GetKPITokensQuery,
@@ -29,6 +31,7 @@ import {
     GetOracleTemplatesOfManagerQuery,
     GetKPITokensAmountQuery,
     GetKPITokenAddressesQuery,
+    GetLatestKPITokenAddressesQuery,
 } from "./queries";
 import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
 import { enforce } from "../../utils";
@@ -97,6 +100,26 @@ class Fetcher implements IPartialCarrotFetcher {
         if (!factory || !factory.kpiTokensAmount) return 0;
         const kpiTokensAmount = parseInt(factory.kpiTokensAmount);
         return isNaN(kpiTokensAmount) ? 0 : kpiTokensAmount;
+    }
+
+    public async fetchLatestKPITokenAddresses({
+        publicClient,
+        limit,
+    }: FetchLatestKpiTokenAddressesParams): Promise<Address[]> {
+        const chainId = await publicClient.getChainId();
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
+        enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
+        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
+        const { tokens } = await query<GetLatestKPITokenAddressesQueryResponse>(
+            subgraphURL,
+            GetLatestKPITokenAddressesQuery,
+            { limit: limit || 5 }
+        );
+        return !tokens
+            ? []
+            : tokens.map(({ rawAddress }) => getAddress(rawAddress));
     }
 
     public async fetchKPITokenAddresses({
