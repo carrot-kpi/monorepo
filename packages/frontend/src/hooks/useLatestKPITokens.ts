@@ -25,20 +25,21 @@ export function useLatestKPITokens(limit = 5): {
             });
             if (kpiTokensAmount === 0) return [];
 
-            const fromIndex = Math.max(kpiTokensAmount - limit, 0);
-            const kpiTokenAddresses = await Fetcher.fetchKPITokenAddresses({
-                publicClient,
-                preferDecentralization,
-                fromIndex,
-                toIndex: kpiTokensAmount,
-            });
+            const kpiTokenAddresses =
+                await Fetcher.fetchLatestKPITokenAddresses({
+                    publicClient,
+                    preferDecentralization,
+                    limit,
+                });
             const kpiTokens = await Fetcher.fetchKPITokens({
                 publicClient,
                 preferDecentralization,
                 addresses: kpiTokenAddresses,
             });
 
-            return Object.values(kpiTokens).reverse();
+            return preferDecentralization
+                ? Object.values(kpiTokens).reverse()
+                : Object.values(kpiTokens);
         },
     });
 
