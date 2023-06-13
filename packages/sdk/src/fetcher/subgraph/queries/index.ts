@@ -149,7 +149,7 @@ query getKPITokensBySearch($query: String){
 
 export const GetKPITokenByAddressesQuery = `
     query getKPITokenByAddresses($addresses: [Bytes!]!) {
-        tokens: kpitokens(where: { id_in: $addresses }, orderBy: creationTimestamp, orderDirection: desc) {
+        tokens: kpitokens(where: { id_in: $addresses }, orderBy: creationTimestamp, orderDirection: asc) {
             ${KPITokenDataFields}
         }
     }
