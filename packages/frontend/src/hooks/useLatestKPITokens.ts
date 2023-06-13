@@ -37,9 +37,7 @@ export function useLatestKPITokens(limit = 5): {
                 addresses: kpiTokenAddresses,
             });
 
-            return preferDecentralization
-                ? Object.values(kpiTokens).reverse()
-                : Object.values(kpiTokens);
+            return Object.values(kpiTokens).reverse();
         },
     });
 
