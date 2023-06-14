@@ -55,17 +55,19 @@ export const Hero = () => {
                             </Typography>
                             <CreateCampaignButton primary />
                         </div>
-                        <video
-                            ref={videoRef}
-                            className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500"
-                            controls
-                        >
-                            <source
-                                src="https://d2l3j8l4t44bvz.cloudfront.net"
-                                type="video/webm"
-                            />
-                            {t("video.notSupported")}
-                        </video>
+                        <div className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500">
+                            <video
+                                ref={videoRef}
+                                controls
+                                className="w-full h-full rounded-xl"
+                            >
+                                <source
+                                    src="https://d2l3j8l4t44bvz.cloudfront.net"
+                                    type="video/webm"
+                                />
+                                {t("video.notSupported")}
+                            </video>
+                        </div>
                     </div>
                 </div>
             ) : (
