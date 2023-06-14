@@ -3,6 +3,7 @@ import type {
     FetchEntitiesParams,
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
+    FetchLatestKpiTokenAddressesParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
     SupportedInChainParams,
@@ -17,6 +18,7 @@ import type {
     GetTemplatesQueryResponse,
     GetKPITokensAmountQueryResponse,
     GetKPITokenAddressesQueryResponse,
+    GetLatestKPITokenAddressesQueryResponse,
 } from "./queries";
 import {
     GetKPITokensQuery,
@@ -29,10 +31,16 @@ import {
     GetOracleTemplatesOfManagerQuery,
     GetKPITokensAmountQuery,
     GetKPITokenAddressesQuery,
+    GetLatestKPITokenAddressesQuery,
 } from "./queries";
-import { ChainId, SUBGRAPH_URL, CHAIN_ADDRESSES } from "../../commons";
+import {
+    ChainId,
+    SUBGRAPH_URL,
+    CHAIN_ADDRESSES,
+    type ChainAddresses,
+} from "../../commons";
 import { enforce } from "../../utils";
-import { type Address, getAddress } from "viem";
+import { type Address, getAddress, type PublicClient } from "viem";
 import { Template } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/subgraph";
@@ -74,7 +82,6 @@ const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
     );
 };
 
-// TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
     public supportedInChain({ chainId }: SupportedInChainParams): boolean {
         return !!SUBGRAPH_URL[chainId];
@@ -83,12 +90,9 @@ class Fetcher implements IPartialCarrotFetcher {
     public async fetchKPITokensAmount({
         publicClient,
     }: FetchKPITokensAmountParams): Promise<number> {
-        const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
-        enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
+        const { chainAddresses, subgraphURL } = await this.validate({
+            publicClient,
+        });
         const { factory } = await query<GetKPITokensAmountQueryResponse>(
             subgraphURL,
             GetKPITokensAmountQuery,
@@ -99,17 +103,31 @@ class Fetcher implements IPartialCarrotFetcher {
         return isNaN(kpiTokensAmount) ? 0 : kpiTokensAmount;
     }
 
+    public async fetchLatestKPITokenAddresses({
+        publicClient,
+        limit,
+    }: FetchLatestKpiTokenAddressesParams): Promise<Address[]> {
+        const { subgraphURL } = await this.validate({
+            publicClient,
+        });
+        const { tokens } = await query<GetLatestKPITokenAddressesQueryResponse>(
+            subgraphURL,
+            GetLatestKPITokenAddressesQuery,
+            { limit: limit || 5 }
+        );
+        return !tokens
+            ? []
+            : tokens.map(({ rawAddress }) => getAddress(rawAddress));
+    }
+
     public async fetchKPITokenAddresses({
         publicClient,
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<Address[]> {
-        const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
-        enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
+        const { subgraphURL } = await this.validate({
+            publicClient,
+        });
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
             ? await this.fetchKPITokensAmount({ publicClient })
@@ -145,9 +163,9 @@ class Fetcher implements IPartialCarrotFetcher {
         addresses,
     }: FetchEntitiesParams): Promise<ChainKPITokensMap> {
         const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
-        enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
+        const { subgraphURL } = await this.validate({
+            publicClient,
+        });
 
         if (!!addresses) {
             const addressesLength = addresses.length;
@@ -219,9 +237,9 @@ class Fetcher implements IPartialCarrotFetcher {
         addresses,
     }: FetchEntitiesParams): Promise<ChainOraclesMap> {
         const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
-        enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
+        const { subgraphURL } = await this.validate({
+            publicClient,
+        });
         let oracles: Promise<ChainOraclesMap> | ChainOraclesMap = {};
 
         if (!!addresses) {
@@ -276,12 +294,9 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
-        enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
+        const { chainAddresses, subgraphURL } = await this.validate({
+            publicClient,
+        });
         const managerAddress = chainAddresses.kpiTokensManager.toLowerCase();
         if (!!ids) {
             const idsLength = ids.length;
@@ -356,12 +371,9 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
-        enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
+        const { chainAddresses, subgraphURL } = await this.validate({
+            publicClient,
+        });
         const managerAddress = chainAddresses.oraclesManager.toLowerCase();
         if (!!ids) {
             const idsLength = ids.length;
@@ -430,6 +442,24 @@ class Fetcher implements IPartialCarrotFetcher {
             } while (page.length === PAGE_SIZE);
             return templates;
         }
+    }
+
+    private async validate({
+        publicClient,
+    }: {
+        publicClient: PublicClient;
+    }): Promise<{ subgraphURL: string; chainAddresses: ChainAddresses }> {
+        const chainId = await publicClient.getChainId();
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
+        enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
+        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
+
+        return {
+            subgraphURL,
+            chainAddresses,
+        };
     }
 }
 

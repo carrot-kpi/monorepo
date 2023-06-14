@@ -7,6 +7,7 @@ import type {
     FullFetcherFetchEntitiesParams,
     FullFetcherFetchKPITokenAddressesParams,
     FullFetcherFetchKPITokensAmountParams,
+    FullFetcherFetchLatestKPITokenAddressesParams,
     FullFetcherFetchTemplatesParams,
     IFullCarrotFetcher,
 } from "./abstraction";
@@ -72,6 +73,26 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
                   publicClient,
                   fromIndex,
                   toIndex,
+              });
+    }
+
+    public async fetchLatestKPITokenAddresses({
+        publicClient,
+        preferDecentralization,
+        limit: count,
+    }: FullFetcherFetchLatestKPITokenAddressesParams): Promise<Address[]> {
+        const useSubgraph = await this.shouldUseSubgraph({
+            publicClient,
+            preferDecentralization,
+        });
+        return useSubgraph
+            ? SubgraphFetcher.fetchLatestKPITokenAddresses({
+                  publicClient,
+                  limit: count,
+              })
+            : OnChainFetcher.fetchLatestKPITokenAddresses({
+                  publicClient,
+                  limit: count,
               });
     }
 

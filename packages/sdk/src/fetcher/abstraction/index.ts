@@ -65,6 +65,11 @@ export interface FetchKPITokenAddressesParams {
     toIndex?: number;
 }
 
+export interface FetchLatestKpiTokenAddressesParams {
+    publicClient: PublicClient;
+    limit?: number;
+}
+
 export interface FetchEntitiesParams {
     publicClient: PublicClient;
     addresses?: Address[];
@@ -87,6 +92,10 @@ export interface IPartialCarrotFetcher {
 
     fetchKPITokenAddresses(
         params: FetchKPITokenAddressesParams
+    ): Promise<Address[]>;
+
+    fetchLatestKPITokenAddresses(
+        params: FetchLatestKpiTokenAddressesParams
     ): Promise<Address[]>;
 
     fetchKPITokens(
@@ -112,6 +121,9 @@ export type FullFetcherFetchKPITokensAmountParams = FetchKPITokensAmountParams &
 export type FullFetcherFetchKPITokenAddressesParams =
     FetchKPITokenAddressesParams & DecentralizationParams;
 
+export type FullFetcherFetchLatestKPITokenAddressesParams =
+    FetchLatestKpiTokenAddressesParams & DecentralizationParams;
+
 export type FullFetcherFetchEntitiesParams = FetchEntitiesParams &
     DecentralizationParams;
 
@@ -128,7 +140,11 @@ export interface IFullCarrotFetcher {
     ): Promise<number>;
 
     fetchKPITokenAddresses(
-        params: FetchKPITokenAddressesParams
+        params: FullFetcherFetchKPITokenAddressesParams
+    ): Promise<Address[]>;
+
+    fetchLatestKPITokenAddresses(
+        params: FullFetcherFetchLatestKPITokenAddressesParams
     ): Promise<Address[]>;
 
     fetchKPITokens(

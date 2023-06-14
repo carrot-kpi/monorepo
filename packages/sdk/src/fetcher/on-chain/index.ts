@@ -6,6 +6,7 @@ import {
     FACTORY_ABI,
     ChainId,
     ORACLES_MANAGER_ABI,
+    type ChainAddresses,
 } from "../../commons";
 import { KPIToken } from "../../entities/kpi-token";
 import { type OnChainTemplate, Template } from "../../entities/template";
@@ -15,13 +16,13 @@ import type {
     FetchEntitiesParams,
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
+    FetchLatestKpiTokenAddressesParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
 import type { Address, PublicClient } from "viem";
 import { getContract } from "viem";
 
-// TODO: check if validation can be extracted in its own function
 class Fetcher implements IPartialCarrotFetcher {
     public supportedInChain(): boolean {
         return true;
@@ -30,9 +31,7 @@ class Fetcher implements IPartialCarrotFetcher {
     public async fetchKPITokensAmount({
         publicClient,
     }: FetchKPITokensAmountParams): Promise<number> {
-        const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const { chainAddresses } = await this.validate({ publicClient });
         const amount = await publicClient.readContract({
             abi: FACTORY_ABI,
             address: chainAddresses.factory,
@@ -46,21 +45,33 @@ class Fetcher implements IPartialCarrotFetcher {
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<Address[]> {
-        const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const { chainAddresses } = await this.validate({ publicClient });
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
             ? await this.fetchKPITokensAmount({ publicClient })
             : toIndex;
-        return (
-            await publicClient.readContract({
-                abi: FACTORY_ABI,
-                address: chainAddresses.factory,
-                functionName: "enumerate",
-                args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
-            })
-        ).slice();
+        return (await publicClient.readContract({
+            abi: FACTORY_ABI,
+            address: chainAddresses.factory,
+            functionName: "enumerate",
+            args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
+        })) as Address[];
+    }
+
+    public async fetchLatestKPITokenAddresses({
+        publicClient,
+        limit,
+    }: FetchLatestKpiTokenAddressesParams): Promise<Address[]> {
+        const { chainAddresses } = await this.validate({ publicClient });
+        const finalLimit = limit || 5;
+        const toIndex = await this.fetchKPITokensAmount({ publicClient });
+        const fromIndex = toIndex - finalLimit > 0 ? toIndex - finalLimit : 0;
+        return (await publicClient.readContract({
+            abi: FACTORY_ABI,
+            address: chainAddresses.factory,
+            functionName: "enumerate",
+            args: [BigInt(fromIndex), BigInt(toIndex)],
+        })) as Address[];
     }
 
     public async fetchKPITokens({
@@ -68,9 +79,7 @@ class Fetcher implements IPartialCarrotFetcher {
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
         const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-
+        const { chainAddresses } = await this.validate({ publicClient });
         let tokenAddresses: Address[];
         let kpiTokenAmounts;
         if (addresses && addresses.length > 0) {
@@ -201,8 +210,7 @@ class Fetcher implements IPartialCarrotFetcher {
         addresses,
     }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
         const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const { chainAddresses } = await this.validate({ publicClient });
         const oraclesManager = getContract({
             abi: ORACLES_MANAGER_ABI,
             address: chainAddresses.oraclesManager,
@@ -255,12 +263,11 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     private async fetchTemplates(
-        chainId: ChainId,
         publicClient: PublicClient,
         managerAddress: Address,
         ids?: number[]
     ): Promise<Template[]> {
-        const chainAddresses = CHAIN_ADDRESSES[chainId];
+        const { chainAddresses } = await this.validate({ publicClient });
 
         const managerContract = getContract({
             abi: KPI_TOKENS_MANAGER_ABI,
@@ -307,9 +314,8 @@ class Fetcher implements IPartialCarrotFetcher {
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        await this.validate({ publicClient });
         return await this.fetchTemplates(
-            chainId,
             publicClient,
             CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
             ids
@@ -321,13 +327,27 @@ class Fetcher implements IPartialCarrotFetcher {
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
         const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        await this.validate({ publicClient });
         return await this.fetchTemplates(
-            chainId,
             publicClient,
             CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
             ids
         );
+    }
+
+    private async validate({
+        publicClient,
+    }: {
+        publicClient: PublicClient;
+    }): Promise<{ chainAddresses: ChainAddresses }> {
+        const chainId = await publicClient.getChainId();
+        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
+
+        return {
+            chainAddresses,
+        };
     }
 }
 

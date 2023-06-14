@@ -115,6 +115,20 @@ export const GetKPITokenAddressesQuery = `
     }
 `;
 
+export interface GetLatestKPITokenAddressesQueryResponse {
+    tokens?: {
+        rawAddress: string;
+    }[];
+}
+
+export const GetLatestKPITokenAddressesQuery = `
+    query getLatestKPITokenAddresses($limit: Int!) {
+        tokens: kpitokens(first: $limit, orderBy: creationTimestamp, orderDirection: desc) {
+            rawAddress: id
+        }
+    }
+`;
+
 export interface GetKPITokensQueryResponse {
     tokens: KPITokenData[];
 }
@@ -135,7 +149,7 @@ query getKPITokensBySearch($query: String){
 
 export const GetKPITokenByAddressesQuery = `
     query getKPITokenByAddresses($addresses: [Bytes!]!) {
-        tokens: kpitokens(where: { id_in: $addresses }) {
+        tokens: kpitokens(where: { id_in: $addresses }, orderBy: creationTimestamp, orderDirection: asc) {
             ${KPITokenDataFields}
         }
     }
