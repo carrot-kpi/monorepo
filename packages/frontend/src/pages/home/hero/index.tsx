@@ -38,7 +38,7 @@ export const Hero = () => {
     }, [modalOpen]);
 
     return (
-        <div className="relative bg-orange bg-grid-light min-h-[65vh]">
+        <div className="relative bg-orange bg-grid-light">
             {loading ? (
                 <div className="flex items-center justify-center w-full h-full">
                     <Loader />
