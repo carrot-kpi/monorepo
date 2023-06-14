@@ -1,7 +1,7 @@
 const SANS_FONT_FAMILY = ["Switzer", "ui-sans-serif", "sans-serif"];
 const MONO_FONT_FAMILY = ["IBM Plex Mono", "ui-monospace", "monospace"];
 
-const BODY_TEXT_SIZES_REM = {
+const MONO_BODY_TEXT_SIZES_REM = {
     xl: ["1.5rem"],
     lg: ["1.188rem"],
     base: ["1rem"],
@@ -9,11 +9,19 @@ const BODY_TEXT_SIZES_REM = {
     xs: ["0.75rem"],
 };
 
+const SANS_BODY_TEXT_SIZES_REM = {
+    xl: ["1.96rem"],
+    lg: ["1.559rem"],
+    base: ["1.312rem"],
+    sm: ["1.11rem"],
+    xs: ["0.98rem"],
+};
+
 const commonHeadingStyle = {
     fontFamily: SANS_FONT_FAMILY,
     fontWeight: 700,
     letterSpacing: "-0.03em",
-    lineHeight: "105%",
+    lineHeight: "124%",
 };
 
 const HEADING_TEXT_SIZES_REM = {
@@ -56,8 +64,9 @@ const getTypographyConfig = (variant, theme) => {
     const coreConfig = {};
 
     const bodyConfig = {
-        fontSize: BODY_TEXT_SIZES_REM[variant],
+        fontSize: SANS_BODY_TEXT_SIZES_REM[variant],
         fontFamily: SANS_FONT_FAMILY,
+        lineHeight: "146%",
     };
 
     const headingsFontFamily = SANS_FONT_FAMILY.join(",");
@@ -143,7 +152,7 @@ exports.theme = {
         },
     },
     fontSize: {
-        ...BODY_TEXT_SIZES_REM,
+        ...MONO_BODY_TEXT_SIZES_REM,
         ...HEADING_TEXT_SIZES_REM,
     },
     extend: {
