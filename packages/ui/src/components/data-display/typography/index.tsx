@@ -32,18 +32,8 @@ const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
             xl: ["cui-font-normal", "cui-font-mono", "cui-text-xl"],
             h4: ["cui-font-bold", "cui-font-sans", "cui-text-h4"],
             h3: ["cui-font-bold", "cui-font-sans", "cui-text-h3"],
-            h2: [
-                "cui-font-bold",
-                "cui-font-sans",
-                "cui-text-h3",
-                "md:cui-text-h2",
-            ],
-            h1: [
-                "cui-font-bold",
-                "cui-font-sans",
-                "cui-text-h3",
-                "md:cui-text-h1",
-            ],
+            h2: ["cui-font-bold", "cui-font-sans", "cui-text-h2"],
+            h1: ["cui-font-bold", "cui-font-sans", "cui-text-h1"],
         },
         weight: {
             normal: ["cui-font-normal"],
