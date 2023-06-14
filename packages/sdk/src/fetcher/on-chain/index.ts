@@ -54,14 +54,12 @@ class Fetcher implements IPartialCarrotFetcher {
         const finalToIndex = !toIndex
             ? await this.fetchKPITokensAmount({ publicClient })
             : toIndex;
-        return (
-            await publicClient.readContract({
-                abi: FACTORY_ABI,
-                address: chainAddresses.factory,
-                functionName: "enumerate",
-                args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
-            })
-        ).slice();
+        return (await publicClient.readContract({
+            abi: FACTORY_ABI,
+            address: chainAddresses.factory,
+            functionName: "enumerate",
+            args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
+        })) as Address[];
     }
 
     public async fetchLatestKPITokenAddresses({
@@ -74,14 +72,12 @@ class Fetcher implements IPartialCarrotFetcher {
         const finalLimit = limit || 5;
         const toIndex = await this.fetchKPITokensAmount({ publicClient });
         const fromIndex = toIndex - finalLimit > 0 ? toIndex - finalLimit : 0;
-        return (
-            await publicClient.readContract({
-                abi: FACTORY_ABI,
-                address: chainAddresses.factory,
-                functionName: "enumerate",
-                args: [BigInt(fromIndex), BigInt(toIndex)],
-            })
-        ).slice();
+        return (await publicClient.readContract({
+            abi: FACTORY_ABI,
+            address: chainAddresses.factory,
+            functionName: "enumerate",
+            args: [BigInt(fromIndex), BigInt(toIndex)],
+        })) as Address[];
     }
 
     public async fetchKPITokens({
