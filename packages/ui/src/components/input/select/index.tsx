@@ -122,7 +122,7 @@ function Component<T extends SelectOption<ValueType>>(
 
     const getPickHandler = useCallback(
         (option: T) => () => {
-            if (onChange) onChange(option);
+            onChange(option);
             setOpen(false);
         },
         [onChange]
