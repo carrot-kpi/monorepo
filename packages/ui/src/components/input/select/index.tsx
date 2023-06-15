@@ -1,6 +1,5 @@
 import React, {
     type ReactElement,
-    type MouseEvent as SpecificMouseEvent,
     type ForwardedRef,
     useCallback,
     useState,
@@ -121,11 +120,9 @@ function Component<T extends SelectOption<ValueType>>(
         setOpen(!open);
     }, [open]);
 
-    const handlePick = useCallback(
-        (event: SpecificMouseEvent<HTMLLIElement>) => {
-            if (!event.target) return;
-            const value = (event.target as HTMLLIElement).dataset.value;
-            if (!!onChange && !!value) onChange(JSON.parse(value) as T);
+    const getPickHandler = useCallback(
+        (option: T) => () => {
+            onChange(option);
             setOpen(false);
         },
         [onChange]
@@ -177,8 +174,7 @@ function Component<T extends SelectOption<ValueType>>(
                                     picked: value?.value === option.value,
                                     className: className?.option,
                                 })}
-                                onClick={handlePick}
-                                data-value={JSON.stringify(option)}
+                                onClick={getPickHandler(option)}
                                 key={option.value}
                             >
                                 {!!renderOption ? (
