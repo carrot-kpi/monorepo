@@ -1,9 +1,9 @@
 import { formatUnits } from "viem";
 import { Amount } from "../entities/amount";
-import { Token } from "../entities/token";
+import type { Currency } from "../entities/currency";
 
-export const formatTokenAmount = (
-    amount: Amount<Token>,
+export const formatCurrencyAmount = (
+    amount: Amount<Currency>,
     withSymbol = true,
     nonZeroDecimalsAmount = 4
 ) => {
