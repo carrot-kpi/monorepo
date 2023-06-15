@@ -1,6 +1,5 @@
 import React, {
     type ReactElement,
-    type MouseEvent as SpecificMouseEvent,
     type ForwardedRef,
     useCallback,
     useState,
@@ -121,10 +120,13 @@ function Component<T extends SelectOption<ValueType>>(
         setOpen(!open);
     }, [open]);
 
-    const getPickHandler = (option: T) => () => {
-        if (onChange) onChange(option);
-        setOpen(false);
-    };
+    const getPickHandler = useCallback(
+        (option: T) => () => {
+            if (onChange) onChange(option);
+            setOpen(false);
+        },
+        [onChange]
+    );
 
     return (
         <div className={className?.root}>
