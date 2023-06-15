@@ -15,6 +15,7 @@ export interface AugmentedChain extends Chain {
     >;
     iconBackgroundColor: string;
     enabled: boolean;
+    defaultBlockExplorer: string;
 }
 
 export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
@@ -23,6 +24,7 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         logo: GnosisLogo,
         iconBackgroundColor: "#04795b",
         enabled: true,
+        defaultBlockExplorer: "https://gnosisscan.io",
         // FIXME: redisable gnosis in staging mode once tests have been done
         // enabled: !__STAGING_MODE__,
     },
@@ -31,12 +33,14 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         logo: EthereumLogo,
         iconBackgroundColor: "#8637ea",
         enabled: true,
+        defaultBlockExplorer: "https://sepolia.etherscan.io",
     },
     [ChainId.SCROLL_TESTNET]: {
         ...scrollTestnet,
         logo: ScrollLogo,
         iconBackgroundColor: "#213147",
         enabled: true,
+        defaultBlockExplorer: "https://blockscout.scroll.io",
     },
 };
 

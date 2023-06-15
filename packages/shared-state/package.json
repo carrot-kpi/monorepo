@@ -25,23 +25,23 @@
     "dependencies": {
         "@reduxjs/toolkit": "^1.9.5",
         "lodash.debounce": "^4.0.8",
-        "react-redux": "^8.0.7"
+        "react-redux": "8.0.7"
     },
     "peerDependencies": {
         "react": "^18.2.0"
     },
     "devDependencies": {
-        "@rollup/plugin-commonjs": "^25.0.0",
+        "@rollup/plugin-commonjs": "^25.0.1",
         "@rollup/plugin-node-resolve": "^15.1.0",
         "@size-limit/preset-small-lib": "^8.1.0",
         "@types/lodash.debounce": "^4.0.7",
-        "@types/react": "^18.2.9",
+        "@types/react": "^18.2.12",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "eslint": "^8.42.0",
         "eslint-config-custom": "*",
         "react": "^18.2.0",
         "rimraf": "^5.0.0",
-        "rollup": "^3.24.0",
+        "rollup": "^3.25.1",
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-typescript2": "^0.34.0",
         "size-limit": "^8.1.0",
