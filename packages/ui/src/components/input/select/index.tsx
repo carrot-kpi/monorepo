@@ -121,15 +121,10 @@ function Component<T extends SelectOption<ValueType>>(
         setOpen(!open);
     }, [open]);
 
-    const handlePick = useCallback(
-        (event: SpecificMouseEvent<HTMLLIElement>) => {
-            if (!event.target) return;
-            const value = (event.target as HTMLLIElement).dataset.value;
-            if (!!onChange && !!value) onChange(JSON.parse(value) as T);
-            setOpen(false);
-        },
-        [onChange]
-    );
+    const getPickHandler = (option: T) => () => {
+        if (onChange) onChange(option);
+        setOpen(false);
+    };
 
     return (
         <div className={className?.root}>
@@ -177,8 +172,7 @@ function Component<T extends SelectOption<ValueType>>(
                                     picked: value?.value === option.value,
                                     className: className?.option,
                                 })}
-                                onClick={handlePick}
-                                data-value={JSON.stringify(option)}
+                                onClick={getPickHandler(option)}
                                 key={option.value}
                             >
                                 {!!renderOption ? (
