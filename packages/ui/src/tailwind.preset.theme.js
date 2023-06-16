@@ -1,20 +1,12 @@
 const SANS_FONT_FAMILY = ["Switzer", "ui-sans-serif", "sans-serif"];
 const MONO_FONT_FAMILY = ["IBM Plex Mono", "ui-monospace", "monospace"];
 
-const MONO_BODY_TEXT_SIZES_REM = {
+const BODY_TEXT_SIZES_REM = {
     xl: ["1.5rem"],
     lg: ["1.188rem"],
     base: ["1rem"],
     sm: ["0.85rem"],
     xs: ["0.75rem"],
-};
-
-const SANS_BODY_TEXT_SIZES_REM = {
-    xl: ["1.96rem"],
-    lg: ["1.559rem"],
-    base: ["1.312rem"],
-    sm: ["1.11rem"],
-    xs: ["0.98rem"],
 };
 
 const commonHeadingStyle = {
@@ -64,7 +56,7 @@ const getTypographyConfig = (variant, theme) => {
     const coreConfig = {};
 
     const bodyConfig = {
-        fontSize: SANS_BODY_TEXT_SIZES_REM[variant],
+        fontSize: BODY_TEXT_SIZES_REM[variant],
         fontFamily: SANS_FONT_FAMILY,
         lineHeight: "146%",
     };
@@ -93,16 +85,10 @@ const getTypographyConfig = (variant, theme) => {
     };
 
     // custom paragraph styles applying default body text attributes
-    coreConfig.p = {
-        fontSize: bodyConfig[0],
-        fontFamily: SANS_FONT_FAMILY,
-    };
+    coreConfig.p = bodyConfig;
 
     // custom list styles applying default body text attributes
-    coreConfig.li = {
-        fontSize: bodyConfig[0],
-        fontFamily: SANS_FONT_FAMILY,
-    };
+    coreConfig.li = bodyConfig;
 
     // set some colors
     coreConfig["--tw-prose-body"] = theme("colors.black");
@@ -152,8 +138,7 @@ exports.theme = {
         },
     },
     fontSize: {
-        ...MONO_BODY_TEXT_SIZES_REM,
-        ...HEADING_TEXT_SIZES_REM,
+        ...BODY_TEXT_SIZES_REM,
     },
     extend: {
         height({ theme }) {
