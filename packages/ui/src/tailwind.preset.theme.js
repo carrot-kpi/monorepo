@@ -61,27 +61,21 @@ const getTypographyConfig = (variant, theme) => {
         lineHeight: "146%",
     };
 
-    const headingsFontFamily = SANS_FONT_FAMILY.join(",");
-
     coreConfig.h1 = {
         fontSize: HEADING_TEXT_SIZES_REM.h1[0],
         ...HEADING_TEXT_SIZES_REM.h1[1],
-        fontFamily: headingsFontFamily,
     };
     coreConfig.h2 = {
         fontSize: HEADING_TEXT_SIZES_REM.h2[0],
         ...HEADING_TEXT_SIZES_REM.h2[1],
-        fontFamily: headingsFontFamily,
     };
     coreConfig.h3 = {
         fontSize: HEADING_TEXT_SIZES_REM.h3[0],
         ...HEADING_TEXT_SIZES_REM.h3[1],
-        fontFamily: headingsFontFamily,
     };
     coreConfig.h4 = {
         fontSize: HEADING_TEXT_SIZES_REM.h4[0],
         ...HEADING_TEXT_SIZES_REM.h4[1],
-        fontFamily: headingsFontFamily,
     };
 
     // custom paragraph styles applying default body text attributes
@@ -139,6 +133,7 @@ exports.theme = {
     },
     fontSize: {
         ...BODY_TEXT_SIZES_REM,
+        ...HEADING_TEXT_SIZES_REM,
     },
     extend: {
         height({ theme }) {
