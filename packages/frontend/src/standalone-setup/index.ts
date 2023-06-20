@@ -18,7 +18,7 @@ type RPCConfig = {
 const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
     [ChainId.SEPOLIA]: null, // covered by the infura connector
     [ChainId.GNOSIS]: {
-        http: "https://rpc.gnosischain.com",
+        http: "https://rpc.ankr.com/gnosis",
         webSocket: "wss://rpc.gnosischain.com/wss",
     },
     [ChainId.SCROLL_TESTNET]: {
