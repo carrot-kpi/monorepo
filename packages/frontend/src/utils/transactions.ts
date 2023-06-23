@@ -26,6 +26,12 @@ const SERIALIZABLE_PAYLOAD_GETTER: {
     },
     [TxType.KPI_TOKEN_CREATION]: defaultSerializablePayloadGetter,
     [TxType.KPI_TOKEN_REDEMPTION]: defaultSerializablePayloadGetter,
+    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: (payload) => {
+        return {
+            receiver: payload.receiver,
+            token: payload.token,
+        };
+    },
     [TxType.ORACLE_FINALIZATION]: defaultSerializablePayloadGetter,
 };
 
@@ -67,6 +73,7 @@ const PAYLOAD_DESERIALIZER: {
     },
     [TxType.KPI_TOKEN_CREATION]: JSON.parse,
     [TxType.KPI_TOKEN_REDEMPTION]: JSON.parse,
+    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: JSON.parse,
     [TxType.ORACLE_FINALIZATION]: JSON.parse,
 };
 
@@ -123,6 +130,29 @@ const SUMMARY_GETTER: {
     [TxType.KPI_TOKEN_REDEMPTION]: (t, _publicClient, tx) => {
         return t("transactions.kpi.token.redeem", {
             address: shortenAddress(tx.payload.address),
+        });
+    },
+    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: async (t, publicClient, tx) => {
+        let token: Token;
+        try {
+            const tokens = await Fetcher.fetchERC20Tokens({
+                publicClient,
+                addresses: [tx.payload.token],
+            });
+            token = tokens[tx.payload.token];
+            if (!token)
+                throw new Error("could not fetch erc20 token with the fetcher");
+        } catch (error) {
+            console.warn(
+                `could not get erc20 token at address ${tx.payload.token}`
+            );
+            return t("transactions.kpi.token.erc20.recover", {
+                receiver: shortenAddress(tx.payload.receiver),
+            });
+        }
+        return t("transactions.kpi.token.erc20.recover.data", {
+            symbol: token.symbol,
+            receiver: shortenAddress(tx.payload.receiver),
         });
     },
     [TxType.KPI_TOKEN_CREATION]: (t, _publicClient, tx) => {
