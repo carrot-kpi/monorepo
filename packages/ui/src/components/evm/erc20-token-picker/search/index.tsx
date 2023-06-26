@@ -154,7 +154,7 @@ export const Search = ({
             <Divider className={className?.divider} />
             <div
                 className={listWrapperStyles({
-                    empty: tokens.length === 0,
+                    empty: !loading && tokens.length === 0,
                     className: className?.listWrapper,
                 })}
             >
