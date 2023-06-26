@@ -12,6 +12,9 @@ module.exports = {
     core: {
         disableTelemetry: true,
     },
+    docs: {
+        autodocs: false,
+    },
     staticDirs: ["../public"],
     webpackFinal: async (config) => {
         // make tailwind work

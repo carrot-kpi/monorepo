@@ -33,18 +33,18 @@
     "devDependencies": {
         "@rollup/plugin-commonjs": "^25.0.2",
         "@rollup/plugin-node-resolve": "^15.1.0",
-        "@size-limit/preset-small-lib": "^8.1.0",
+        "@size-limit/preset-small-lib": "^8.2.6",
         "@types/lodash.debounce": "^4.0.7",
-        "@types/react": "^18.2.13",
+        "@types/react": "^18.2.14",
         "@types/rollup-plugin-peer-deps-external": "^2.2.1",
         "eslint": "^8.43.0",
         "eslint-config-custom": "*",
         "react": "^18.2.0",
         "rimraf": "^5.0.0",
-        "rollup": "^3.25.1",
+        "rollup": "^3.25.2",
         "rollup-plugin-peer-deps-external": "^2.2.4",
-        "rollup-plugin-typescript2": "^0.34.0",
-        "size-limit": "^8.1.0",
+        "rollup-plugin-typescript2": "^0.35.0",
+        "size-limit": "^8.2.6",
         "tsconfig": "*",
         "typescript": "^5.1.3"
     }
