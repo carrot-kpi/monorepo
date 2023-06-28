@@ -1,16 +1,16 @@
 {
     "gnosis": {
+        "Factory": {
+            "address": "0xD503Bdcc3Cd38D3cEaBa1efA43EFCc03b7Fb1CbA",
+            "startBlock": 28680516
+        },
         "KPITokensManager": {
-            "address": "0xfE0CFcbCb1746054c342aC975278CFb5D6afa33F",
-            "startBlock": 28073263
+            "address": "0xCd85e0690f85A52D260273E5B51336D1151F2832",
+            "startBlock": 28680518
         },
         "OraclesManager": {
-            "address": "0x928d003c0D4e75fb08F4A90E46963c34514E6C42",
-            "startBlock": 28073264
-        },
-        "Factory": {
-            "address": "0x2C9c7E6d05a98f771C22819C80D70827d2d9eBAF",
-            "startBlock": 28073260
+            "address": "0xc9E426B468d334AF6208ef9b3bA5f599d1417c6e",
+            "startBlock": 28680520
         }
     }
 }
