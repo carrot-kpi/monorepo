@@ -39,9 +39,11 @@ export const LatestCampaignsSection = () => {
                     <Empty />
                 )}
             </CardHorizontal>
-            <Link to="/campaigns" className="px-6 md:px-10 lg:px-32">
-                <Button>{t("home.allCampaigns")}</Button>
-            </Link>
+            <div className="px-6 md:px-10 lg:px-32 w-fit">
+                <Link to="/campaigns">
+                    <Button>{t("home.allCampaigns")}</Button>
+                </Link>
+            </div>
         </div>
     );
 };
