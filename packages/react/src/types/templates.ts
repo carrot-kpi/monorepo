@@ -4,7 +4,7 @@ import {
     ResolvedOracleWithData,
 } from "@carrot-kpi/sdk";
 import type { i18n } from "i18next";
-// import type { NamespacedTranslateFunction } from "../components";
+import type { NamespacedTranslateFunction } from "../components";
 import { type Tx, TxType } from "./transactions";
 import type { NavigateFunction } from "react-router-dom";
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
@@ -35,9 +35,7 @@ export type TemplateComponentProps = Omit<
 export interface BaseRemoteTemplateComponentProps {
     i18n: i18n;
     template: ResolvedTemplate;
-    // FIXME: not having the t function here is only for testing purposes.
-    // Once the testing has been done, revert these changes
-    // t: NamespacedTranslateFunction;
+    t: NamespacedTranslateFunction;
 }
 
 export interface OracleInitializationBundle {
