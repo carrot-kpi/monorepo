@@ -1,5 +1,4 @@
-import { useResetPageScroll } from "@carrot-kpi/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout } from "../../components/layout";
 import { Hero } from "./hero";
 import { LatestCampaignsSection } from "./latest-campaigns-section";
@@ -10,7 +9,11 @@ interface HomeProps {
 }
 
 export const Home = ({ templateId }: HomeProps) => {
-    useResetPageScroll();
+    useEffect(() => {
+        const bodyElement = window.document.getElementById("__app_body");
+        if (!bodyElement) return;
+        bodyElement.scroll({ top: 0, left: 0, behavior: "smooth" });
+    }, []);
 
     return (
         <Layout>

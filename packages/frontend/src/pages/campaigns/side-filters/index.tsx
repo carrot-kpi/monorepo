@@ -7,12 +7,13 @@ import { useTranslation } from "react-i18next";
 
 const campaignsFiltersStyles = cva(
     [
+        "z-10",
         "absolute lg:relative",
         "shadow md:shadow-none",
         "w-full lg:w-fit",
         "p-12",
         "bg-white dark:bg-black",
-        "border-r border-gray-400",
+        "border-b md:border-r border-gray-400",
     ],
     {
         variants: {
@@ -44,7 +45,7 @@ export const SideFilters = ({
 
     return (
         <div className={campaignsFiltersStyles({ open })}>
-            <div className="space-y-6 md:w-64">
+            <div className="space-y-6 min-w-max">
                 <TemplatesFilter
                     setSelectedTemplates={setSelectedTemplates}
                     selectedTemplates={selectedTemplates}

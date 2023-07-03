@@ -2,6 +2,8 @@ import { useEffect } from "react";
 
 export const useResetPageScroll = () => {
     useEffect(() => {
-        window.scroll({ top: 0, left: 0 });
+        const bodyElement = window.document.getElementById("__app_body");
+        if (!bodyElement) return;
+        bodyElement.scroll({ top: 0, left: 0, behavior: "smooth" });
     }, []);
 };
