@@ -1,4 +1,4 @@
-import { usePagination, useResetPageScroll } from "@carrot-kpi/react";
+import { usePagination } from "@carrot-kpi/react";
 import { type SelectOption, Typography } from "@carrot-kpi/ui";
 import { ResolvedKPIToken } from "@carrot-kpi/sdk";
 import React, {
@@ -29,7 +29,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSearchResolvedKPITokens } from "../../hooks/useSearchResolvedKPITokens";
 
 export const Campaigns = () => {
-    useResetPageScroll();
     const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
@@ -114,6 +113,12 @@ export const Campaigns = () => {
         const stateParams = searchParams.get("state") ?? STATE_OPTIONS[0].label;
         setCampaignState(getOptionByLabel(STATE_OPTIONS, stateParams));
     }, [location]);
+
+    useEffect(() => {
+        const bodyElement = window.document.getElementById("__app_body");
+        if (!bodyElement) return;
+        bodyElement.scroll({ top: 0, left: 0, behavior: "smooth" });
+    }, []);
 
     // fetch data
     const { loading, kpiTokens: resolvedKPITokens } =

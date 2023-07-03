@@ -15,9 +15,12 @@ const rootStyles = cva(["rounded-full"], {
 interface AvatarProps {
     address: Address;
     variant?: "md" | "lg";
+    className?: {
+        root?: string;
+    };
 }
 
-export const Avatar = ({ address, variant = "md" }: AvatarProps) => {
+export const Avatar = ({ address, variant = "md", className }: AvatarProps) => {
     const { chain } = useNetwork();
 
     const { data: ensName } = useEnsName({
@@ -31,7 +34,7 @@ export const Avatar = ({ address, variant = "md" }: AvatarProps) => {
 
     return (
         <img
-            className={rootStyles({ variant })}
+            className={rootStyles({ variant, className: className?.root })}
             src={ensAvatar || makeBlockie(address)}
         />
     );

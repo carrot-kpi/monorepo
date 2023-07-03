@@ -8,7 +8,7 @@ import X from "../../../icons/x";
 import SettingsIcon from "../../../icons/settings";
 import { Button } from "@carrot-kpi/ui";
 import { PreferencesPopover } from "./popovers/preferences";
-import { useClickAway, useWindowSize } from "react-use";
+import { useClickAway } from "react-use";
 import { NavbarVerticalLayout } from "./vertical-layout";
 import type { NavbarLink } from "../../../constants";
 
@@ -22,7 +22,9 @@ const navWrapperStyles = cva([], {
 });
 
 const navbarStyles = cva(
-    ["relative flex items-center justify-between py-8 xl:py-11"],
+    [
+        "relative flex flex-row-reverse md:flex-row items-center justify-between py-5 md:py-8 xl:py-11",
+    ],
     {
         variants: {
             bgColor: {
@@ -53,19 +55,26 @@ export const Navbar = ({
     const [preferencesAnchor, setPreferencesAnchor] =
         useState<HTMLButtonElement | null>(null);
     const preferencesPopoverRef = useRef<HTMLDivElement>(null);
-    const { width } = useWindowSize();
 
-    const [isOpen, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     const [preferencesPopoverOpen, setPreferencesPopoverOpen] = useState(false);
 
     useClickAway(preferencesPopoverRef, () => {
         setPreferencesPopoverOpen(false);
     });
 
-    // TODO: use size observer to increase performance
     useEffect(() => {
-        if (width > 700) setOpen(false);
-    }, [width]);
+        const resizeObserver = new ResizeObserver((entries) => {
+            const { width } = entries[0].contentRect;
+            if (width > 640) setOpen(false);
+        });
+
+        resizeObserver.observe(document.body);
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            resizeObserver.unobserve(document.body);
+        };
+    });
 
     const handlePreferencesPopoverOpen = useCallback(() => {
         setPreferencesPopoverOpen(true);
@@ -73,13 +82,12 @@ export const Navbar = ({
 
     return (
         <>
-            {isOpen && (
-                <NavbarVerticalLayout
-                    mode={mode}
-                    links={links}
-                    onNavbarClose={() => setOpen(false)}
-                />
-            )}
+            <NavbarVerticalLayout
+                mode={mode}
+                open={open}
+                links={links}
+                onNavbarClose={() => setOpen(false)}
+            />
             <div className={navWrapperStyles({ bgColor })}>
                 <div className={navbarStyles({ bgColor, mode })}>
                     {mode === "modal" ? (
@@ -89,8 +97,8 @@ export const Navbar = ({
                             <Logo className="w-32 h-auto xl:w-[188px] text-black" />
                         </NavLink>
                     )}
-                    <nav className="items-center gap-4 hidden xl:flex">
-                        <ul className="flex items-center space-x-8 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 xl:top-[68px]">
+                    <nav className="hidden md:flex">
+                        <ul className="flex items-center space-x-8">
                             {links.map((link) => {
                                 const additionalProps = link.external
                                     ? {
@@ -118,8 +126,8 @@ export const Navbar = ({
                             })}
                         </ul>
                     </nav>
-                    <div className="flex items-center gap-4">
-                        <div className="hidden xl:block">
+                    <div className="flex flex-row-reverse md:flex-row items-center gap-4">
+                        <div className="hidden md:block">
                             <ConnectWallet />
                         </div>
                         <Button
@@ -139,8 +147,8 @@ export const Navbar = ({
                         <div className="flex items-center">
                             {mode !== "modal" && (
                                 <MenuIcon
-                                    className="cursor-pointer xl:hidden"
-                                    onClick={() => setOpen(!isOpen)}
+                                    className="cursor-pointer md:hidden"
+                                    onClick={() => setOpen(!open)}
                                 />
                             )}
                             {mode === "modal" && (

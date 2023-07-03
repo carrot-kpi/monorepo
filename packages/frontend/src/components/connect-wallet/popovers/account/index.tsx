@@ -101,7 +101,11 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
             >
                 <div className="w-full flex justify-between gap-5">
                     <div className="flex gap-3 items-center">
-                        <Avatar address={address} variant="lg" />
+                        <Avatar
+                            address={address}
+                            variant="lg"
+                            className={{ root: "hidden md:flex" }}
+                        />
                         <Typography>
                             {ensName || shortenAddress(address)}
                         </Typography>

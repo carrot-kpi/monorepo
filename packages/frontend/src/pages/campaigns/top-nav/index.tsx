@@ -43,7 +43,7 @@ export const CampaignsTopNav = ({
     return (
         <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12 dark:bg-black">
             <div className="flex flex-col items-center justify-between w-full md:flex-row">
-                <div className="flex flex-col w-full gap-5 mb-5 md:mb-0 md:flex-row">
+                <div className="flex flex-col w-full gap-5 md:flex-row">
                     <div className="flex gap-5">
                         <ToggleFiltersButton
                             active={filtersOpen}
@@ -62,29 +62,27 @@ export const CampaignsTopNav = ({
                             }}
                         />
                     </div>
-                    <div className="flex flex-row-reverse gap-5 md:flex-row">
-                        <Select
-                            label=""
-                            onChange={onStateChange}
-                            options={stateOptions}
-                            placeholder="Latest"
-                            value={state}
-                            className={{
-                                root: "w-full",
-                                wrapper: "w-full",
-                                input: "w-full",
-                            }}
-                        />
-                    </div>
+                    <Select
+                        label=""
+                        onChange={onStateChange}
+                        options={stateOptions}
+                        placeholder="Latest"
+                        value={state}
+                        className={{
+                            root: "w-full",
+                            wrapper: "w-full",
+                            input: "w-full",
+                        }}
+                    />
+                    <TextInput
+                        icon={MagnifyingLens}
+                        iconPlacement="left"
+                        type="search"
+                        placeholder={t("search")}
+                        onChange={handleSearchChange}
+                        value={searchInputValue}
+                    />
                 </div>
-                <TextInput
-                    icon={MagnifyingLens}
-                    iconPlacement="left"
-                    type="search"
-                    placeholder={t("search")}
-                    onChange={handleSearchChange}
-                    value={searchInputValue}
-                />
             </div>
         </div>
     );
