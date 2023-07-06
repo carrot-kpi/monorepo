@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "@carrot-kpi/v1-monorepo",
+    "name": "@carrot-kpi/monorepo",
     "version": "1.0.0",
     "description": "A monorepo for Carrot v1 packages.",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",

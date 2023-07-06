@@ -16,7 +16,7 @@
     "publishConfig": {
         "access": "public"
     },
-    "repository": "https://github.com/carrot-kpi/v1-monorepo.git",
+    "repository": "https://github.com/carrot-kpi/monorepo.git",
     "scripts": {
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './**/*.{json,md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
