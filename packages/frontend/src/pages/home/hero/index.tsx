@@ -62,8 +62,12 @@ export const Hero = () => {
                                 className="w-full h-full rounded-xl"
                             >
                                 <source
-                                    src="https://d2l3j8l4t44bvz.cloudfront.net"
+                                    src="https://d2l3j8l4t44bvz.cloudfront.net/hero-video.webm"
                                     type="video/webm"
+                                />
+                                <source
+                                    src="https://d2l3j8l4t44bvz.cloudfront.net/hero-video.mp4"
+                                    type="video/mp4"
                                 />
                                 {t("video.notSupported")}
                             </video>
