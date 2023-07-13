@@ -82,5 +82,13 @@ export const en = {
         "error.initializing.page.title": "Something went wrong",
         "error.initializing.page.description":
             "Error while bootstrapping the KPI token campaign page, please try again later.",
+        "authenticate.title": "Welcome to Carrot",
+        "authenticate.summary":
+            "In order to create campaigns it's necessary to sign a message. This request will not trigger a blockchain transaction or cost you any fees.",
+        "authenticate.cancel": "Cancel",
+        "authenticate.sign": "Sign message",
+        "wallet.disconnected.title": "Wallet diconnected",
+        "wallet.disconnected.description":
+            "A connected wallet is required to continue.",
     },
 } as const;

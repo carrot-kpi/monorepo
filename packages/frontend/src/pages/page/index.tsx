@@ -68,7 +68,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                             </div>
                         }
                         error={
-                            <div className="bg-orange py-10 flex justify-center">
+                            <div className="bg-orange bg-grid-light py-10 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
                                         title: t(

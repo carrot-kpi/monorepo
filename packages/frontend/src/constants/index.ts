@@ -9,6 +9,8 @@ import { NavLink } from "react-router-dom";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
+export const PINNING_PROXY_JWT_ISSUER = "carrot-pinning-proxy";
+
 export interface AugmentedChain extends Chain {
     logo: FunctionComponent<
         SVGProps<SVGSVGElement> & { title?: string | undefined }

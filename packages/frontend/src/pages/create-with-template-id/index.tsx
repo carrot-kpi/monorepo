@@ -14,6 +14,8 @@ import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
+import { Authenticate } from "../../components/authenticate";
+import { useIsPinningProxyAuthenticated } from "../../hooks/useIsPinningProxyAuthenticated";
 
 interface CreateWithTemplateIdProps {
     closing?: boolean;
@@ -41,6 +43,7 @@ export const CreateWithTemplateId = ({
     );
     const [show, setShow] = useState(!closing);
     const [formKey, setFormKey] = useState(0);
+    const pinningProxyAuthenticated = useIsPinningProxyAuthenticated();
 
     const transitions = useTransition(show, {
         config: { ...springConfig.default, duration: 100 },
@@ -147,34 +150,38 @@ export const CreateWithTemplateId = ({
                     springStyle={style}
                     onDismiss={handleDismiss}
                 >
-                    <KPITokenCreationForm
-                        key={formKey}
-                        template={template || undefined}
-                        fallback={
-                            <div className="bg-green py-10 text-black flex justify-center">
-                                <Loader />
-                            </div>
-                        }
-                        error={
-                            <div className="bg-green py-10 flex justify-center">
-                                <ErrorFeedback
-                                    messages={{
-                                        title: t(
-                                            "error.initializing.creation.title"
-                                        ),
-                                        description: t(
-                                            "error.initializing.creation.description"
-                                        ),
-                                    }}
-                                />
-                            </div>
-                        }
-                        i18n={i18n}
-                        className={{ root: "w-full h-full" }}
-                        onCreate={handleCreate}
-                        navigate={navigate}
-                        onTx={addTransaction}
-                    />
+                    {!pinningProxyAuthenticated ? (
+                        <Authenticate onCancel={handleDismiss} />
+                    ) : (
+                        <KPITokenCreationForm
+                            key={formKey}
+                            template={template || undefined}
+                            fallback={
+                                <div className="bg-green py-10 text-black flex justify-center">
+                                    <Loader />
+                                </div>
+                            }
+                            error={
+                                <div className="bg-green bg-grid-light py-10 flex justify-center">
+                                    <ErrorFeedback
+                                        messages={{
+                                            title: t(
+                                                "error.initializing.creation.title"
+                                            ),
+                                            description: t(
+                                                "error.initializing.creation.description"
+                                            ),
+                                        }}
+                                    />
+                                </div>
+                            }
+                            i18n={i18n}
+                            className={{ root: "w-full h-full" }}
+                            onCreate={handleCreate}
+                            navigate={navigate}
+                            onTx={addTransaction}
+                        />
+                    )}
                 </AnimatedFullscreenModal>
             )
         );

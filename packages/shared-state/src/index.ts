@@ -2,8 +2,10 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import debounce from "lodash.debounce";
 import { preferencesReducer } from "./reducers/preferences/reducer";
 import { loadState, storeState } from "./utils";
+import { authReducer } from "./reducers/auth/reducer";
 
 const rootReducer = combineReducers({
+    auth: authReducer,
     preferences: preferencesReducer,
 });
 

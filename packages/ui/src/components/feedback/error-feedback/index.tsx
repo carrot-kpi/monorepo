@@ -20,7 +20,7 @@ export const ErrorFeedback = ({
     className,
 }: ErrorFeedbackProps): ReactElement => {
     return (
-        <div className="cui-flex cui-flex-col cui-gap-4 cui-items-center cui-p-8 cui-max-w-lg cui-rounded-xl cui-border cui-border-black dark:cui-border-white cui-bg-white dark:cui-bg-black">
+        <div className="cui-flex cui-flex-col cui-gap-4 cui-h-fit cui-items-center cui-p-8 cui-max-w-lg cui-rounded-xl cui-border cui-border-black dark:cui-border-white cui-bg-white dark:cui-bg-black">
             <Error
                 className={mergedCx(
                     "cui-text-black dark:cui-text-white",
