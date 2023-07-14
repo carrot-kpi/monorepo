@@ -5,8 +5,8 @@ import MagnifyingLens from "../../../icons/magnifying-lens";
 import { t } from "i18next";
 
 interface CampaignsTopNavProps {
-    ordering: SelectOption<number>;
-    orderingOptions: SelectOption<number>[];
+    sort: SelectOption<number>;
+    sortOptions: SelectOption<number>[];
     onOrderingChange: (option: SelectOption<number>) => void;
     state: SelectOption<number>;
     stateOptions: SelectOption<number>[];
@@ -17,8 +17,8 @@ interface CampaignsTopNavProps {
 }
 
 export const CampaignsTopNav = ({
-    ordering,
-    orderingOptions,
+    sort,
+    sortOptions,
     onOrderingChange,
     state,
     stateOptions,
@@ -52,9 +52,9 @@ export const CampaignsTopNav = ({
                         <Select
                             label=""
                             onChange={onOrderingChange}
-                            options={orderingOptions}
+                            options={sortOptions}
                             placeholder="Latest"
-                            value={ordering}
+                            value={sort}
                             className={{
                                 root: "w-full",
                                 wrapper: "w-full",

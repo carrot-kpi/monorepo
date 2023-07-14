@@ -15,7 +15,7 @@ export enum CampaignOrder {
     OLDEST,
 }
 
-export const ORDERING_OPTIONS = [
+export const SORT_OPTIONS = [
     {
         label: t("orderingOptions.newest"),
         value: CampaignOrder.NEWEST,
