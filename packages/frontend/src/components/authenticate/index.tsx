@@ -23,7 +23,6 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             if (!address || !signedLoginMessage) return;
             setLoading(true);
             try {
-                if (!address || !signedLoginMessage) return;
                 const response = await fetch(
                     "https://pinning-proxy.carrot-kpi.dev/token",
                     {
