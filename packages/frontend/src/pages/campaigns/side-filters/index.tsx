@@ -11,9 +11,9 @@ const campaignsFiltersStyles = cva(
         "absolute lg:relative",
         "shadow md:shadow-none",
         "w-full lg:w-fit",
-        "p-12",
+        "py-12",
         "bg-white dark:bg-black",
-        "border-b md:border-r border-gray-400",
+        "border-b md:border-r border-black",
     ],
     {
         variants: {
@@ -46,15 +46,19 @@ export const SideFilters = ({
     return (
         <div className={campaignsFiltersStyles({ open })}>
             <div className="space-y-6 min-w-max">
-                <TemplatesFilter
-                    setSelectedTemplates={setSelectedTemplates}
-                    selectedTemplates={selectedTemplates}
-                />
-                <div className="w-full h-0.5 bg-gray-200"></div>
-                <OraclesFilter
-                    setSelectedOracles={setSelectedOracles}
-                    selectedOracles={selectedOracles}
-                />
+                <div className="px-12">
+                    <TemplatesFilter
+                        setSelectedTemplates={setSelectedTemplates}
+                        selectedTemplates={selectedTemplates}
+                    />
+                </div>
+                <div className="w-full h-px bg-black"></div>
+                <div className="px-12">
+                    <OraclesFilter
+                        setSelectedOracles={setSelectedOracles}
+                        selectedOracles={selectedOracles}
+                    />
+                </div>
             </div>
             <Button
                 className={{

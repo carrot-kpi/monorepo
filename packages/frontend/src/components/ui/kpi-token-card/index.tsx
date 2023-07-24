@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Chip,
     Typography,
@@ -43,10 +43,20 @@ const rootStyles = cva(
 interface KPITokenCardProps {
     kpiToken?: KPIToken | ResolvedKPIToken;
     noBorder?: boolean;
+    onResolved?: (resolved: ResolvedKPIToken) => void;
 }
 
-export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
+export const KPITokenCard = ({
+    kpiToken,
+    noBorder,
+    onResolved,
+}: KPITokenCardProps) => {
     const { loading, resolvedKPIToken } = useResolvedKPIToken(kpiToken);
+
+    useEffect(() => {
+        if (loading || !resolvedKPIToken || !onResolved) return;
+        onResolved(resolvedKPIToken);
+    }, [loading, resolvedKPIToken, onResolved]);
 
     return (
         <Card className={{ root: rootStyles({ noBorder }) }}>

@@ -37,7 +37,7 @@ export const CheckboxesFilter = ({
             <Typography variant="lg" weight="medium" uppercase>
                 {title}
             </Typography>
-            <div className="py-6 space-y-4 border-gray-400">
+            <div className="py-6 space-y-4 border-black">
                 {loading ? (
                     <FiltersLoading />
                 ) : (
