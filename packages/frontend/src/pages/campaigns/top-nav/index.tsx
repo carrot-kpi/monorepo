@@ -1,6 +1,6 @@
 import React, { type ChangeEvent, useCallback, useState } from "react";
 import { TextInput, Select, type SelectOption } from "@carrot-kpi/ui";
-import { ToggleFiltersButton } from "./toggle-filters-button";
+// import { ToggleFiltersButton } from "./toggle-filters-button";
 import MagnifyingLens from "../../../icons/magnifying-lens";
 import { t } from "i18next";
 
@@ -23,8 +23,8 @@ export const CampaignsTopNav = ({
     state,
     stateOptions,
     onStateChange,
-    onToggleFilters,
-    filtersOpen,
+    // onToggleFilters,
+    // filtersOpen,
     setSearchQuery,
 }: CampaignsTopNavProps) => {
     const [searchInputValue, setSearchInputValue] = useState<
@@ -41,14 +41,14 @@ export const CampaignsTopNav = ({
     );
 
     return (
-        <div className="flex px-6 py-6 bg-white border-t border-b border-gray-400 md:px-12 dark:bg-black">
+        <div className="flex px-6 py-6 bg-white border-t border-b border-black md:px-12 dark:bg-black">
             <div className="flex flex-col items-center justify-between w-full md:flex-row">
                 <div className="flex flex-col w-full gap-5 md:flex-row">
                     <div className="flex gap-5">
-                        <ToggleFiltersButton
+                        {/* <ToggleFiltersButton
                             active={filtersOpen}
                             toggle={onToggleFilters}
-                        />
+                        /> */}
                         <Select
                             label=""
                             onChange={onOrderingChange}
