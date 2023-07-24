@@ -32,7 +32,7 @@ const weekdayStyles = mergedCva(
                 false: ["cui-text-gray-600", "dark:cui-text-gray-500"],
             },
         },
-    }
+    },
 );
 
 const cellStyles = mergedCva(
@@ -81,7 +81,7 @@ const cellStyles = mergedCva(
                 ],
             },
         ],
-    }
+    },
 );
 
 export interface DatePickerProps {
@@ -96,7 +96,7 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
     // first day of the month we're currently interested in (also changed
     // when the datepicker user wants to change months)
     const [lookupDate, setLookupDate] = useState<Dayjs>(
-        value ? dayjs(value) : dayjs()
+        value ? dayjs(value) : dayjs(),
     );
     const [cells, setCells] = useState<CalendarCell[]>([]);
 
@@ -122,7 +122,7 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
                     onChange(cells[parsedIndex].value.toDate());
             }
         },
-        [cells, onChange]
+        [cells, onChange],
     );
 
     return (

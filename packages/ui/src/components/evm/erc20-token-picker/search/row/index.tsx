@@ -32,7 +32,7 @@ const rootStyles = mergedCva(
                 false: ["hover:cui-bg-gray-100", "dark:hover:cui-bg-gray-700"],
             },
         },
-    }
+    },
 );
 
 const wrapperStyles = mergedCva([
@@ -86,7 +86,7 @@ export const Row = ({
                 if (parsedIndex >= 0) onSelect(parsedIndex);
             }
         },
-        [onSelect, loading]
+        [onSelect, loading],
     );
 
     return (
@@ -110,7 +110,7 @@ export const Row = ({
                             size="sm"
                             defaultSrc={getDefaultERC20TokenLogoURL(
                                 chainId,
-                                address
+                                address,
                             )}
                             defaultText={symbol}
                             ipfsGatewayURL={ipfsGatewayURL}

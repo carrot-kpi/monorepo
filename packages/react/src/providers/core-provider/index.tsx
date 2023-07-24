@@ -43,7 +43,7 @@ const InternalSetup = ({
             //     }),
             // }),
             ...providers,
-        ]
+        ],
     );
     const config = createConfig({
         autoConnect: true,

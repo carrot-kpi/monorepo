@@ -13,7 +13,7 @@ const paginationBallStyles = cva(
                 true: "cursor-pointer hover:bg-green",
             },
         },
-    }
+    },
 );
 
 interface PaginationBallProps {

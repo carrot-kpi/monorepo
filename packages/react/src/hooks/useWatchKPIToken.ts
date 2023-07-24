@@ -12,14 +12,16 @@ import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useWatchKPIToken(
-    kpiTokenOrAddress?: ResolvedKPIToken | Address
+    kpiTokenOrAddress?: ResolvedKPIToken | Address,
 ): ResolvedKPITokenWithData | null {
     const publicClient = usePublicClient();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
 
     const [kpiToken, setKPIToken] = useState<ResolvedKPIToken | null>(
-        typeof kpiTokenOrAddress === "string" ? null : kpiTokenOrAddress || null
+        typeof kpiTokenOrAddress === "string"
+            ? null
+            : kpiTokenOrAddress || null,
     );
     const [kpiTokenWithData, setKPITokenWithData] =
         useState<ResolvedKPITokenWithData | null>(null);
@@ -52,7 +54,7 @@ export function useWatchKPIToken(
             } catch (error) {
                 console.error(
                     `could not fetch kpi token with address ${kpiTokenOrAddress}`,
-                    error
+                    error,
                 );
             }
         }, 1_000);
@@ -111,8 +113,8 @@ export function useWatchKPIToken(
                     outdatedOracle.address,
                     outdatedOracle.template,
                     readResults[i + 1].result as boolean,
-                    readResults[i].result as Address
-                )
+                    readResults[i].result as Address,
+                ),
             );
         }
 
@@ -121,8 +123,8 @@ export function useWatchKPIToken(
                 kpiToken,
                 updatedOracles,
                 readResults[0].result as Address,
-                readResults[1].result as boolean
-            )
+                readResults[1].result as boolean,
+            ),
         );
     }, [kpiToken, readResults]);
 

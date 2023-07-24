@@ -28,7 +28,7 @@ const dropdownRootStyles = mergedCva(
                 false: ["cui-opacity-0", "cui-pointer-events-none"],
             },
         },
-    }
+    },
 );
 
 export interface PopoverProps {
@@ -50,7 +50,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
             className,
             children,
         },
-        ref
+        ref,
     ): ReactElement {
         const [popper, setPopper] = useState<HTMLDivElement | null>(null);
 
@@ -83,5 +83,5 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
                 {children}
             </div>
         );
-    }
+    },
 );

@@ -53,7 +53,7 @@ export const Grid = ({
     const { data: paginatedItems, totalPages } = usePagination(
         items,
         page,
-        itemsPerPage
+        itemsPerPage,
     );
 
     const handlePageChange = useCallback(
@@ -67,7 +67,7 @@ export const Grid = ({
             if (!bodyElement) return;
             bodyElement.scrollIntoView();
         },
-        [setSearchParams]
+        [setSearchParams],
     );
 
     return (
@@ -86,7 +86,7 @@ export const Grid = ({
                                         onResolved={onResolved}
                                     />
                                 );
-                            }
+                            },
                         )
                     ) : (
                         <Empty />

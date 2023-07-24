@@ -38,7 +38,7 @@ export function useSearchResolvedKPITokens(searchQuery: string) {
                         .catch((error) => {
                             console.warn(
                                 "error while fetching searchable resolved kpi tokens",
-                                error
+                                error,
                             );
                         });
                 }
@@ -66,7 +66,7 @@ export function useSearchResolvedKPITokens(searchQuery: string) {
         if (!searchQuery) setTokens(initialTokens);
 
         const searchedTokens = initialTokens.filter((token) =>
-            tokenSpecificationIncludesQuery(token, searchQuery)
+            tokenSpecificationIncludesQuery(token, searchQuery),
         );
 
         setTokens(searchedTokens);

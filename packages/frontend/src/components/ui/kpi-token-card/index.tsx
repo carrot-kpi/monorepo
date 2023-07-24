@@ -37,7 +37,7 @@ const rootStyles = cva(
         defaultVariants: {
             noBorder: false,
         },
-    }
+    },
 );
 
 interface KPITokenCardProps {
@@ -113,7 +113,7 @@ export const KPITokenCard = ({
                                     {resolvedKPIToken.specification.tags.map(
                                         (tag) => (
                                             <Chip key={tag}>{tag}</Chip>
-                                        )
+                                        ),
                                     )}
                                 </>
                             ) : (

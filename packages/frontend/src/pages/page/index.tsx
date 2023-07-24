@@ -24,7 +24,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const previousChain = usePrevious(chain);
 
     const watchedKPITokenWithData = useWatchKPIToken(
-        state?.kpiToken || address
+        state?.kpiToken || address,
     );
     const [show, setShow] = useState(!closing);
     const transitions = useTransition(show, {
@@ -72,10 +72,10 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                                 <ErrorFeedback
                                     messages={{
                                         title: t(
-                                            "error.initializing.page.title"
+                                            "error.initializing.page.title",
                                         ),
                                         description: t(
-                                            "error.initializing.page.description"
+                                            "error.initializing.page.description",
                                         ),
                                     }}
                                 />

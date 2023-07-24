@@ -94,7 +94,7 @@ export const PreferencesPopover = forwardRef<
                         options={themeOptions}
                         value={
                             themeOptions.find(
-                                (option) => option.value === "light"
+                                (option) => option.value === "light",
                             ) || null
                         }
                         // eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -35,7 +35,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
                             address,
                             signature: signedLoginMessage,
                         }),
-                    }
+                    },
                 );
                 if (!response.ok) throw new Error(await response.text());
                 const { token } = (await response.json()) as { token: string };
@@ -44,7 +44,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             } catch (error) {
                 console.error(
                     "could not get jwt from signed login message",
-                    error
+                    error,
                 );
                 setLoading(false);
             }
@@ -58,7 +58,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             setLoading(true);
             try {
                 const response = await fetch(
-                    `https://pinning-proxy.carrot-kpi.dev/login-message/${address}`
+                    `https://pinning-proxy.carrot-kpi.dev/login-message/${address}`,
                 );
                 if (!response.ok) throw new Error(await response.text());
                 const { message } = (await response.json()) as {
@@ -68,7 +68,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             } catch (error) {
                 console.error(
                     `could not get and sign the login message for address ${address}`,
-                    error
+                    error,
                 );
                 setLoading(false);
             }

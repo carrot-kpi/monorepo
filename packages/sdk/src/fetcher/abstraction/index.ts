@@ -33,21 +33,21 @@ export interface ResolveTemplatesParams {
 
 export interface ICoreFetcher {
     fetchERC20Tokens(
-        params: FetchERC20TokensParams
+        params: FetchERC20TokensParams,
     ): Promise<{ [address: Address]: Token }>;
 
     fetchContentFromIPFS(
-        params: FetchContentFromIPFSParams
+        params: FetchContentFromIPFSParams,
     ): Promise<{ [cid: string]: string }>;
 
     resolveKPITokens(
-        params: ResolveKPITokensParams
+        params: ResolveKPITokensParams,
     ): Promise<ResolvedKPITokensMap>;
 
     resolveOracles(params: ResolveOraclesParams): Promise<ResolvedOraclesMap>;
 
     resolveTemplates(
-        params: ResolveTemplatesParams
+        params: ResolveTemplatesParams,
     ): Promise<ResolvedTemplate[]>;
 }
 
@@ -91,19 +91,19 @@ export interface IPartialCarrotFetcher {
     fetchKPITokensAmount(params: FetchKPITokensAmountParams): Promise<number>;
 
     fetchKPITokenAddresses(
-        params: FetchKPITokenAddressesParams
+        params: FetchKPITokenAddressesParams,
     ): Promise<Address[]>;
 
     fetchLatestKPITokenAddresses(
-        params: FetchLatestKpiTokenAddressesParams
+        params: FetchLatestKpiTokenAddressesParams,
     ): Promise<Address[]>;
 
     fetchKPITokens(
-        params: FetchEntitiesParams
+        params: FetchEntitiesParams,
     ): Promise<{ [address: Address]: KPIToken }>;
 
     fetchOracles(
-        params: FetchEntitiesParams
+        params: FetchEntitiesParams,
     ): Promise<{ [address: Address]: Oracle }>;
 
     fetchKPITokenTemplates(params: FetchTemplatesParams): Promise<Template[]>;
@@ -132,34 +132,34 @@ export type FullFetcherFetchTemplatesParams = FetchTemplatesParams &
 
 export interface IFullCarrotFetcher {
     fetchERC20Tokens(
-        params: FetchERC20TokensParams
+        params: FetchERC20TokensParams,
     ): Promise<{ [address: Address]: Token }>;
 
     fetchKPITokensAmount(
-        params: FullFetcherFetchKPITokensAmountParams
+        params: FullFetcherFetchKPITokensAmountParams,
     ): Promise<number>;
 
     fetchKPITokenAddresses(
-        params: FullFetcherFetchKPITokenAddressesParams
+        params: FullFetcherFetchKPITokenAddressesParams,
     ): Promise<Address[]>;
 
     fetchLatestKPITokenAddresses(
-        params: FullFetcherFetchLatestKPITokenAddressesParams
+        params: FullFetcherFetchLatestKPITokenAddressesParams,
     ): Promise<Address[]>;
 
     fetchKPITokens(
-        params: FullFetcherFetchEntitiesParams
+        params: FullFetcherFetchEntitiesParams,
     ): Promise<{ [address: Address]: KPIToken }>;
 
     fetchOracles(
-        params: FullFetcherFetchEntitiesParams
+        params: FullFetcherFetchEntitiesParams,
     ): Promise<{ [address: Address]: Oracle }>;
 
     fetchKPITokenTemplates(
-        params: FullFetcherFetchTemplatesParams
+        params: FullFetcherFetchTemplatesParams,
     ): Promise<Template[]>;
 
     fetchOracleTemplates(
-        params: FullFetcherFetchTemplatesParams
+        params: FullFetcherFetchTemplatesParams,
     ): Promise<Template[]>;
 }

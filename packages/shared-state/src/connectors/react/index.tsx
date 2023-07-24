@@ -12,7 +12,7 @@ import { store } from "../..";
 export const SharedStateContext = createContext<ReactReduxContextValue>(
     // I know... super ugly... but: https://redux-toolkit.js.org/rtk-query/usage/customizing-create-api#customizing-the-react-redux-hooks
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    null as any
+    null as any,
 );
 
 export const useStore = createStoreHook(SharedStateContext);

@@ -32,7 +32,7 @@ export function useOracle(oracleAddress?: Address): {
             } catch (error) {
                 console.error(
                     `error fetching oracle at address ${oracleAddress}`,
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoading(false);

@@ -15,13 +15,13 @@ describe("oracle", () => {
             ["tag 1", "tag 2"],
             "Repository",
             "Commit hash",
-            "https://staging-url.com"
+            "https://staging-url.com",
         );
         template = new ResolvedTemplate(
             0,
             privateKeyToAccount(generatePrivateKey()).address,
             1,
-            templateSpecification
+            templateSpecification,
         );
     });
 
@@ -31,7 +31,7 @@ describe("oracle", () => {
             ChainId.SEPOLIA,
             address,
             template,
-            false
+            false,
         );
         expect(oracle.chainId).toBe(ChainId.SEPOLIA);
         expect(oracle.address).toEqual(address);

@@ -143,7 +143,7 @@ exports.theme = {
                     accumulator[key] = value[0];
                     return accumulator;
                 },
-                {}
+                {},
             );
         },
         typography({ theme }) {

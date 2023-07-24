@@ -25,7 +25,7 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                 if (isNaN(intId)) return;
                 onNetworkSwitch(intId);
             },
-            [onNetworkSwitch]
+            [onNetworkSwitch],
         );
 
         return (
@@ -64,5 +64,5 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                 })}
             </Popover>
         );
-    }
+    },
 );

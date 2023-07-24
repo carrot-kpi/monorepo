@@ -14,14 +14,14 @@ describe("token amount", () => {
             privateKeyToAccount(generatePrivateKey()).address,
             18,
             "TST1",
-            "Test token 1"
+            "Test token 1",
         );
         token2 = new Token(
             ChainId.SEPOLIA,
             privateKeyToAccount(generatePrivateKey()).address,
             6,
             "TST2",
-            "Test token 2"
+            "Test token 2",
         );
     });
 
@@ -99,8 +99,8 @@ describe("token amount", () => {
                     amount1
                         .times(amount2)
                         .times(`1e${token1.decimals}`)
-                        .toFixed(0)
-                )
+                        .toFixed(0),
+                ),
             );
         });
 
@@ -116,8 +116,8 @@ describe("token amount", () => {
                     amount1
                         .times(amount2)
                         .times(`1e${token2.decimals}`)
-                        .toFixed(0)
-                )
+                        .toFixed(0),
+                ),
             );
         });
     });
@@ -145,8 +145,8 @@ describe("token amount", () => {
                     amount1
                         .dividedBy(amount2)
                         .times(`1e${token1.decimals}`)
-                        .toFixed(0)
-                )
+                        .toFixed(0),
+                ),
             );
         });
 
@@ -162,8 +162,8 @@ describe("token amount", () => {
                     amount1
                         .dividedBy(amount2)
                         .times(`1e${token2.decimals}`)
-                        .toFixed(0)
-                )
+                        .toFixed(0),
+                ),
             );
         });
     });

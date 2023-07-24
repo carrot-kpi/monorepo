@@ -8,7 +8,7 @@ const localUploader: Uploader = async (content: string): Promise<string> => {
     const formData = new FormData();
     formData.append(
         "file",
-        new File([content], "carrot-content", { type: "text/plain" })
+        new File([content], "carrot-content", { type: "text/plain" }),
     );
     const response = await fetch("http://localhost:5002/api/v0/add", {
         method: "POST",
@@ -19,7 +19,7 @@ const localUploader: Uploader = async (content: string): Promise<string> => {
     });
     if (!response.ok)
         throw new Error(
-            `could not upload content to ipfs, request failed with status ${response.status}`
+            `could not upload content to ipfs, request failed with status ${response.status}`,
         );
     const { Hash } = (await response.json()) as { Hash: string };
     return Hash;
@@ -45,11 +45,11 @@ export const useDecentralizedStorageUploader = (): Uploader => {
                 body: JSON.stringify({
                     content: JSON.stringify(btoa(content)),
                 }),
-            }
+            },
         );
         if (!response.ok)
             throw new Error(
-                `could not upload content to ipfs, request failed with status ${response.status}`
+                `could not upload content to ipfs, request failed with status ${response.status}`,
             );
         const { cid } = (await response.json()) as { cid: string };
         return cid;

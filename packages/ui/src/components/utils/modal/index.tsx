@@ -31,7 +31,7 @@ const rootStyles = mergedCva(
                 ],
             },
         },
-    }
+    },
 );
 
 export interface ModalProps {

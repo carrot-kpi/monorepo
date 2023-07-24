@@ -13,7 +13,7 @@ const FRESHNESS_THRESHOLD = "1h";
 const CONFIDENCE_THRESHOLD = 0.8;
 
 export const useERC20TokenPrice = (
-    tokenAddress?: string
+    tokenAddress?: string,
 ): { loading: boolean; price: number } => {
     const { chain } = useNetwork();
 
@@ -38,8 +38,8 @@ export const useERC20TokenPrice = (
                     keys.push(`${apiChainPrefix}:${checksummedAddress}`);
                 const response = await fetch(
                     `https://coins.llama.fi/prices/current/${keys.join(
-                        ","
-                    )}?searchWidth=${FRESHNESS_THRESHOLD}`
+                        ",",
+                    )}?searchWidth=${FRESHNESS_THRESHOLD}`,
                 );
                 if (!response.ok) return;
                 const body = (await response.json()) as {
@@ -65,7 +65,7 @@ export const useERC20TokenPrice = (
             } catch (error) {
                 console.warn(
                     `error while fetching price of erc20 token at address ${tokenAddress}`,
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoading(false);

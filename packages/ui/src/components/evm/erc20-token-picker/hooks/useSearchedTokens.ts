@@ -5,7 +5,7 @@ import type { TokenInfoWithBalance, TokenListWithBalance } from "../types";
 export const useSearchedTokens = (
     debouncedQuery?: string,
     chainId?: number,
-    selectedList?: TokenListWithBalance | null
+    selectedList?: TokenListWithBalance | null,
 ): { tokens: TokenInfoWithBalance[] } => {
     const tokensInChain = useMemo(() => {
         if (!selectedList || !chainId) return [];
@@ -14,7 +14,7 @@ export const useSearchedTokens = (
 
     const filteredSortedTokens = useMemo(() => {
         return sortERC20Tokens(
-            filterERC20Tokens(tokensInChain, debouncedQuery)
+            filterERC20Tokens(tokensInChain, debouncedQuery),
         );
     }, [debouncedQuery, tokensInChain]);
 

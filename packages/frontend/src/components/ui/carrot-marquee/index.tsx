@@ -46,7 +46,7 @@ const marqueeRowStyles = cva(
                 yellow: ["animate-marquee-slow"],
             },
         },
-    }
+    },
 );
 
 const MarqueeRow = ({ children, color }: MarqueeProps) => (

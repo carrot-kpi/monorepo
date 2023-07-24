@@ -18,19 +18,19 @@ describe("kpi token", () => {
             ["tag 1", "tag 2"],
             "Repository",
             "Commit hash",
-            "https://staging-url.com"
+            "https://staging-url.com",
         );
         template = new ResolvedTemplate(
             0,
             privateKeyToAccount(generatePrivateKey()).address,
             1,
-            templateSpecification
+            templateSpecification,
         );
         oracle = new ResolvedOracle(
             ChainId.SEPOLIA,
             privateKeyToAccount(generatePrivateKey()).address,
             template,
-            false
+            false,
         );
         kpiTokenSpecification = {
             ipfsHash: "IPFS hash",
@@ -42,7 +42,7 @@ describe("kpi token", () => {
 
     test("instantiates correctly", () => {
         const kpiTokenAddress = privateKeyToAccount(
-            generatePrivateKey()
+            generatePrivateKey(),
         ).address;
         const kpiTokenOwner = privateKeyToAccount(generatePrivateKey()).address;
         const kpiToken = new ResolvedKPIToken(
@@ -54,7 +54,7 @@ describe("kpi token", () => {
             kpiTokenSpecification,
             123456789,
             123456788,
-            false
+            false,
         );
         expect(kpiToken.chainId).toBe(ChainId.SEPOLIA);
         expect(kpiToken.address).toBe(kpiTokenAddress);
@@ -80,7 +80,7 @@ describe("kpi token", () => {
                 kpiTokenSpecification,
                 Math.floor(pastDate.getTime() / 1000),
                 Math.floor(pastDate.getTime() / 1000) - 1,
-                false
+                false,
             );
             expect(kpiToken.expired).toBeTruthy();
         });
@@ -98,7 +98,7 @@ describe("kpi token", () => {
                 kpiTokenSpecification,
                 Math.floor(futureDate.getTime() / 1000),
                 Math.floor(futureDate.getTime() / 1000) - 1,
-                false
+                false,
             );
             expect(kpiToken.expired).toBeFalsy();
         });

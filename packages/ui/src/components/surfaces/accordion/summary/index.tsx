@@ -29,7 +29,7 @@ const rootStyles = mergedCva(
                 false: ["cui-bg-white", "dark:cui-bg-black"],
             },
         },
-    }
+    },
 );
 
 const expandIconStyles = mergedCva([], {

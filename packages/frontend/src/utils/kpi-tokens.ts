@@ -6,7 +6,7 @@ import {
 
 export const filterResolvedKPITokens = (
     tokens: (KPIToken | ResolvedKPIToken)[],
-    state: CampaignState
+    state: CampaignState,
 ): (KPIToken | ResolvedKPIToken)[] => {
     const tokenValues = Object.values(tokens);
     if (tokenValues.length === 0) return [];
@@ -31,7 +31,7 @@ export const filterResolvedKPITokens = (
 
 export const sortKPITokens = (
     tokens: (KPIToken | ResolvedKPIToken)[],
-    order: CampaignOrder
+    order: CampaignOrder,
 ): (KPIToken | ResolvedKPIToken)[] => {
     const tokenValues = Object.values(tokens);
     if (tokenValues.length === 0) return [];

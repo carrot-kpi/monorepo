@@ -48,7 +48,7 @@ export type OracleInitializationBundleGetter =
 
 export type OracleChangeCallback<T> = (
     internalState: Partial<T>,
-    initializationBundleGetter?: OracleInitializationBundleGetter
+    initializationBundleGetter?: OracleInitializationBundleGetter,
 ) => void;
 
 export interface AdditionalRemoteOracleCreationFormProps<T> {
@@ -103,7 +103,7 @@ export type KPITokenPageProps = TemplateComponentProps &
 
 export type RemoteComponentProps<
     E extends TemplateEntity,
-    T extends TemplateType
+    T extends TemplateType,
 > = E extends "kpiToken"
     ? T extends "creationForm"
         ? KPITokenRemoteCreationFormProps

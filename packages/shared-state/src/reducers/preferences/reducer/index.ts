@@ -43,5 +43,5 @@ export const preferencesReducer = createReducer(initialState, (builder) =>
         })
         .addCase(setOracleTemplateBaseURL, (state, action) => {
             state.oracleTemplateBaseURL = action.payload;
-        })
+        }),
 );

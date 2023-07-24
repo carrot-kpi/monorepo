@@ -34,7 +34,7 @@ export const Timer = ({
     className,
 }: TimerProps): ReactElement => {
     const [duration, setDuration] = useState(
-        getDurationFromNowToUNIXTimestamp(to)
+        getDurationFromNowToUNIXTimestamp(to),
     );
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export const Timer = ({
                 <Clock className={iconStyles({ className: className?.icon })} />
             )}
             {duration.format(
-                seconds ? "DD[D] HH[H] mm[M] ss[S]" : "DD[D] HH[H] mm[M]"
+                seconds ? "DD[D] HH[H] mm[M] ss[S]" : "DD[D] HH[H] mm[M]",
             )}
         </Typography>
     );

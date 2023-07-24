@@ -26,7 +26,7 @@ export const Markdown = ({
                     "dark:cui-prose-invert",
                     "prose-pre:dark:cui-bg-gray-700",
                 ],
-                className?.root
+                className?.root,
             )}
             {...rest}
             {...rootProps}

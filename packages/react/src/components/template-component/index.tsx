@@ -45,7 +45,7 @@ export function TemplateComponent({
         entity,
         type,
         template,
-        entry
+        entry,
     );
     const theme = useTheme();
     const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
@@ -55,7 +55,7 @@ export function TemplateComponent({
         useState<NamespacedTranslateFunction>(
             !!template && !!entry && TRANSLATE_CACHE[entry]
                 ? () => TRANSLATE_CACHE[entry]
-                : () => () => ""
+                : () => () => "",
         );
 
     useEffect(() => {
@@ -78,7 +78,7 @@ export function TemplateComponent({
                 ? true
                 : theme === "light"
                 ? false
-                : systemDarkTheme
+                : systemDarkTheme,
         );
     }, [systemDarkTheme, theme]);
 

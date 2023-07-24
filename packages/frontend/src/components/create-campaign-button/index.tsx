@@ -42,7 +42,7 @@ export const CreateCampaignButton = ({
                 } catch (error) {
                     console.warn(
                         `error while resolving template with id ${template.id}`,
-                        error
+                        error,
                     );
                 } finally {
                     if (!cancelled) setResolvingTemplate(false);

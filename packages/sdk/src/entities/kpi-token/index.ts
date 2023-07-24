@@ -17,7 +17,7 @@ export class BaseKPIToken {
         public readonly owner: Address,
         public readonly expiration: number,
         public readonly creationTimestamp: number,
-        public readonly finalized: boolean
+        public readonly finalized: boolean,
     ) {}
 
     public get expired(): boolean {
@@ -37,7 +37,7 @@ export class KPIToken extends BaseKPIToken {
         public readonly specificationCID: string,
         expiration: number,
         creationTimestamp: number,
-        finalized: boolean
+        finalized: boolean,
     ) {
         super(
             chainId,
@@ -45,7 +45,7 @@ export class KPIToken extends BaseKPIToken {
             owner,
             expiration,
             creationTimestamp,
-            finalized
+            finalized,
         );
     }
 }
@@ -60,7 +60,7 @@ export class ResolvedKPIToken extends BaseKPIToken {
         public readonly specification: KPITokenSpecification,
         expiration: number,
         creationTimestamp: number,
-        finalized: boolean
+        finalized: boolean,
     ) {
         super(
             chainId,
@@ -68,7 +68,7 @@ export class ResolvedKPIToken extends BaseKPIToken {
             owner,
             expiration,
             creationTimestamp,
-            finalized
+            finalized,
         );
     }
 
@@ -76,7 +76,7 @@ export class ResolvedKPIToken extends BaseKPIToken {
         kpiToken: KPIToken,
         template: ResolvedTemplate,
         oracles: ResolvedOracle[],
-        specification: KPITokenSpecification
+        specification: KPITokenSpecification,
     ) {
         return new ResolvedKPIToken(
             kpiToken.chainId,
@@ -87,7 +87,7 @@ export class ResolvedKPIToken extends BaseKPIToken {
             specification,
             kpiToken.expiration,
             kpiToken.creationTimestamp,
-            kpiToken.finalized
+            kpiToken.finalized,
         );
     }
 }
@@ -103,7 +103,7 @@ export class ResolvedKPITokenWithData extends BaseKPIToken {
         expiration: number,
         creationTimestamp: number,
         finalized: boolean,
-        public readonly data: Hex
+        public readonly data: Hex,
     ) {
         super(
             chainId,
@@ -111,7 +111,7 @@ export class ResolvedKPITokenWithData extends BaseKPIToken {
             owner,
             expiration,
             creationTimestamp,
-            finalized
+            finalized,
         );
     }
 
@@ -119,7 +119,7 @@ export class ResolvedKPITokenWithData extends BaseKPIToken {
         kpiToken: ResolvedKPIToken,
         oracles: ResolvedOracleWithData[],
         data: Hex,
-        finalized: boolean
+        finalized: boolean,
     ) {
         return new ResolvedKPITokenWithData(
             kpiToken.chainId,
@@ -131,13 +131,13 @@ export class ResolvedKPITokenWithData extends BaseKPIToken {
             kpiToken.expiration,
             kpiToken.creationTimestamp,
             finalized,
-            data
+            data,
         );
     }
 }
 
 export const isResolvedKPIToken = (
-    kpiToken?: KPIToken | ResolvedKPIToken
+    kpiToken?: KPIToken | ResolvedKPIToken,
 ): kpiToken is ResolvedKPIToken => {
     return !kpiToken ? false : "specification" in kpiToken;
 };

@@ -24,7 +24,7 @@ const rootStyles = cva(
                 false: ["-translate-x-full"],
             },
         },
-    }
+    },
 );
 
 const backgroundStyles = cva(
@@ -45,7 +45,7 @@ const backgroundStyles = cva(
                 false: ["hidden"],
             },
         },
-    }
+    },
 );
 
 interface NavbarVerticalLayoutProps {

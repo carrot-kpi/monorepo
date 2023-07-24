@@ -24,7 +24,7 @@ export const ErrorFeedback = ({
             <Error
                 className={mergedCx(
                     "cui-text-black dark:cui-text-white",
-                    className?.icon
+                    className?.icon,
                 )}
             />
             <Typography

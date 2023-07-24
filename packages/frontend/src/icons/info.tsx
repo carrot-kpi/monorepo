@@ -3,7 +3,7 @@ import type { SVGIcon } from "./types";
 
 const Info = forwardRef<SVGSVGElement, SVGIcon>(function Info(
     props: SVGIcon,
-    ref
+    ref,
 ) {
     return (
         <svg

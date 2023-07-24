@@ -47,7 +47,7 @@ const listWrapperStyles = mergedCva(
                 true: ["cui-flex", "cui-justify-center", "cui-items-center"],
             },
         },
-    }
+    },
 );
 
 const listStyles = mergedCva(["cui-scrollbar"]);
@@ -110,7 +110,7 @@ export const Search = ({
             if (onSelectedTokenChange) onSelectedTokenChange(selectedToken);
             if (onDismiss) onDismiss();
         },
-        [onDismiss, onSelectedTokenChange, tokens]
+        [onDismiss, onSelectedTokenChange, tokens],
     );
 
     return (
@@ -186,7 +186,7 @@ export const Search = ({
                                                 style={style}
                                                 selected={tokenInfoWithBalanceEquals(
                                                     selectedToken,
-                                                    token
+                                                    token,
                                                 )}
                                                 loading={loading}
                                                 loadingBalances={

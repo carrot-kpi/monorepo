@@ -44,9 +44,9 @@ export const MultiStepCards = ({
     const childSteps = useMemo(
         () =>
             React.Children.toArray(children).filter((child) =>
-                matchChildByType(child, StepCard)
+                matchChildByType(child, StepCard),
             ),
-        [children]
+        [children],
     );
     const stepsCount = useMemo(() => childSteps.length, [childSteps.length]);
     const finalActiveStep = useMemo(() => {
@@ -60,9 +60,9 @@ export const MultiStepCards = ({
         () =>
             childSteps.map(
                 (child) =>
-                    ((child as ReactElement).props as StepCardProps).title
+                    ((child as ReactElement).props as StepCardProps).title,
             ),
-        [childSteps]
+        [childSteps],
     );
 
     return (

@@ -21,12 +21,12 @@ export const useAddTransaction = () => {
                 chainId: chain.id,
                 txHash: tx.hash,
                 serializedTx: serializeTransaction(tx),
-            })
+            }),
         );
         try {
             trackRegisteredGoal<FathomRegisteredEventName>(
                 TX_FATHOM_EVENTS[tx.type],
-                0
+                0,
             );
         } catch (error) {
             console.warn("could not track registered fathom goal", error);

@@ -29,7 +29,7 @@ export function useResolvedTemplate(template?: Template): {
             } catch (error) {
                 console.error(
                     `error resolving template at address ${template.address}`,
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoading(false);

@@ -6,11 +6,11 @@ import type { PublicClient } from "wagmi";
 import { formatUnits } from "viem";
 
 type PayloadSerializer<T extends TxType> = (
-    serializable: Tx<T>["payload"]
+    serializable: Tx<T>["payload"],
 ) => object;
 
 const defaultSerializablePayloadGetter = <T extends TxType>(
-    payload: Tx<T>["payload"]
+    payload: Tx<T>["payload"],
 ) => payload;
 
 const SERIALIZABLE_PAYLOAD_GETTER: {
@@ -56,7 +56,7 @@ export const serializeTransaction = <T extends TxType>(tx: Tx<T>) => {
 };
 
 type PayloadDeserializer<T extends TxType> = (
-    serialized: string
+    serialized: string,
 ) => Tx<T>["payload"];
 
 const PAYLOAD_DESERIALIZER: {
@@ -78,13 +78,13 @@ const PAYLOAD_DESERIALIZER: {
 };
 
 export const deserializeTransaction = <T extends TxType>(
-    serialized: string
+    serialized: string,
 ): Tx<T> => {
     const rawDeserializedTx: Tx<T> = JSON.parse(serialized);
     return {
         ...rawDeserializedTx,
         payload: PAYLOAD_DESERIALIZER[rawDeserializedTx.type](
-            JSON.stringify(rawDeserializedTx.payload)
+            JSON.stringify(rawDeserializedTx.payload),
         ),
     };
 };
@@ -92,7 +92,7 @@ export const deserializeTransaction = <T extends TxType>(
 type SummaryGetter<T extends TxType> = (
     t: TFunction,
     publicClient: PublicClient,
-    tx: Tx<T>
+    tx: Tx<T>,
 ) => string | Promise<string>;
 
 // used to force implementation for all tx type variants
@@ -115,7 +115,7 @@ const SUMMARY_GETTER: {
                 throw new Error("could not fetch erc20 token with the fetcher");
         } catch (error) {
             console.warn(
-                `could not get erc20 token at address ${tx.payload.token}`
+                `could not get erc20 token at address ${tx.payload.token}`,
             );
             return t("transactions.erc20.approval", {
                 spender: shortenAddress(tx.payload.spender),
@@ -144,7 +144,7 @@ const SUMMARY_GETTER: {
                 throw new Error("could not fetch erc20 token with the fetcher");
         } catch (error) {
             console.warn(
-                `could not get erc20 token at address ${tx.payload.token}`
+                `could not get erc20 token at address ${tx.payload.token}`,
             );
             return t("transactions.kpi.token.erc20.recover", {
                 receiver: shortenAddress(tx.payload.receiver),
@@ -170,7 +170,7 @@ const SUMMARY_GETTER: {
 export const getTransactionSummary = <T extends TxType>(
     t: TFunction,
     publicClient: PublicClient,
-    tx: Tx<T>
+    tx: Tx<T>,
 ) => {
     return SUMMARY_GETTER[tx.type](t, publicClient, tx);
 };

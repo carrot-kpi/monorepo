@@ -29,13 +29,13 @@ export const Card = ({ className, children }: CardProps): ReactElement => {
     const childrenArray = React.Children.toArray(children);
 
     const titleChildren = childrenArray.find((child) =>
-        matchChildByType(child, CardTitle)
+        matchChildByType(child, CardTitle),
     );
     const contentChildren = childrenArray.find((child) =>
-        matchChildByType(child, CardContent)
+        matchChildByType(child, CardContent),
     );
     const actionsChildren = childrenArray.find((child) =>
-        matchChildByType(child, CardActions)
+        matchChildByType(child, CardActions),
     );
 
     return (

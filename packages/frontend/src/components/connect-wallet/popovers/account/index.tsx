@@ -54,7 +54,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
         const { connectors, connect } = useConnect();
         const readonlyConnector = useMemo(() => {
             return connectors.find(
-                (connector) => connector instanceof ReadonlyConnector
+                (connector) => connector instanceof ReadonlyConnector,
             );
         }, [connectors]);
         const blockExplorerHref = useMemo(() => {
@@ -176,5 +176,5 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                 </div>
             </Popover>
         );
-    }
+    },
 );

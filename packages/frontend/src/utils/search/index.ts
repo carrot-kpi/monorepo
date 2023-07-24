@@ -2,7 +2,7 @@ import { KPIToken, ResolvedKPIToken } from "@carrot-kpi/sdk";
 
 export const tokenSpecificationIncludesQuery = (
     token: KPIToken | ResolvedKPIToken,
-    query: string
+    query: string,
 ) => {
     if ("specification" in token === false) return true;
 

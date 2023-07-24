@@ -28,5 +28,5 @@ export interface SwitchProps
 export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
     function Switch(props, ref): ReactElement {
         return <RcSwitch prefixCls="cui-switch" {...props} ref={ref} />;
-    }
+    },
 );

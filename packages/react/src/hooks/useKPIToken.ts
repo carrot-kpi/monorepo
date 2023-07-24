@@ -32,7 +32,7 @@ export function useKPIToken(kpiTokenAddress?: Address): {
             } catch (error) {
                 console.error(
                     `error fetching kpi token at address ${kpiTokenAddress}`,
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoading(false);

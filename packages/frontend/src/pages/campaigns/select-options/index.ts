@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 export const getOptionByLabel = (
     optionsList: SelectOption<number>[],
-    label: string
+    label: string,
 ) => {
     const option = optionsList.find((option) => option.label === label);
     if (option) return option;

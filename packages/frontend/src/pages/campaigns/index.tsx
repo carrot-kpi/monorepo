@@ -26,7 +26,7 @@ export const Campaigns = () => {
     const { loading, kpiTokens: response } = useKPITokens();
 
     const [kpiTokens, setKpiTokens] = useState<(KPIToken | ResolvedKPIToken)[]>(
-        []
+        [],
     );
     const [kpiTokensReady, setKpiTokensReady] = useState(false);
 
@@ -58,23 +58,23 @@ export const Campaigns = () => {
         setSort(
             getOptionByLabel(
                 SORT_OPTIONS,
-                url.get("sort") ?? SORT_OPTIONS[0].label
-            )
+                url.get("sort") ?? SORT_OPTIONS[0].label,
+            ),
         );
         setState(
             getOptionByLabel(
                 STATE_OPTIONS,
-                url.get("state") ?? STATE_OPTIONS[0].label
-            )
+                url.get("state") ?? STATE_OPTIONS[0].label,
+            ),
         );
     }, [location]);
 
     const sortedAndfilteredKPITokens = useMemo(() => {
         return sortKPITokens(
             filterResolvedKPITokens(kpiTokens, state.value as CampaignState),
-            sort.value as CampaignOrder
+            sort.value as CampaignOrder,
         ).filter((kpiToken) =>
-            tokenSpecificationIncludesQuery(kpiToken, debouncedSearchQuery)
+            tokenSpecificationIncludesQuery(kpiToken, debouncedSearchQuery),
         );
     }, [kpiTokens, state.value, sort.value, debouncedSearchQuery]);
 
@@ -83,7 +83,7 @@ export const Campaigns = () => {
             if (
                 (
                     kpiTokens.find(
-                        (kpiToken) => kpiToken.address === resolved.address
+                        (kpiToken) => kpiToken.address === resolved.address,
                     ) as ResolvedKPIToken
                 ).specification
             )
@@ -104,7 +104,7 @@ export const Campaigns = () => {
             });
             setKpiTokens(updatedKPITokens);
         },
-        [kpiTokens]
+        [kpiTokens],
     );
 
     const updateURLParams = useCallback(
@@ -113,34 +113,34 @@ export const Campaigns = () => {
             searchParams.set(key, value);
             setSearchParams(searchParams);
         },
-        [location.search, setSearchParams]
+        [location.search, setSearchParams],
     );
 
     const toggleFilters = useCallback(
         () => setFilterOpen(!filtersOpen),
-        [filtersOpen]
+        [filtersOpen],
     );
 
     const handleSortChange = useCallback(
         (sort: SelectOption<number>) => updateURLParams("sort", sort.label),
-        [updateURLParams]
+        [updateURLParams],
     );
 
     const handleStateChange = useCallback(
         (state: SelectOption<number>) => updateURLParams("state", state.label),
-        [updateURLParams]
+        [updateURLParams],
     );
 
     const handleTemplatesUpdate = useCallback(
         (newSelectedTemplates: Set<string>) =>
             setTemplates(new Set(newSelectedTemplates)),
-        []
+        [],
     );
 
     const handleOraclesTemplatesUpdate = useCallback(
         (newSelectedOracles: Set<string>) =>
             setOracles(new Set(newSelectedOracles)),
-        []
+        [],
     );
 
     return (

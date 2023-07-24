@@ -159,7 +159,7 @@ export const Stepper = ({
         (clickedStep: number) => () => {
             onClick(clickedStep);
         },
-        [onClick]
+        [onClick],
     );
 
     return (

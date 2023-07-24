@@ -19,7 +19,7 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
     public plus(other: Amount<TokenOrCurrency>): Amount<T> {
         enforce(
             currencyEquals(this.currency, other.currency),
-            "tried to sum different currencies"
+            "tried to sum different currencies",
         );
         return new Amount<T>(this.currency, this.raw + other.raw);
     }
@@ -27,11 +27,11 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
     public minus(other: Amount<T>): Amount<T> {
         enforce(
             currencyEquals(this.currency, other.currency),
-            "tried to subtract different currencies"
+            "tried to subtract different currencies",
         );
         enforce(
             this.greaterThan(other),
-            "subtraction results in a negative amount"
+            "subtraction results in a negative amount",
         );
         return new Amount<T>(this.currency, this.raw - other.raw);
     }
@@ -42,8 +42,8 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
             BigInt(
                 this.times(other)
                     .times(`1e${other.currency.decimals}`)
-                    .toFixed(0)
-            )
+                    .toFixed(0),
+            ),
         );
     }
 
@@ -53,8 +53,8 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
             BigInt(
                 this.dividedBy(other)
                     .times(`1e${other.currency.decimals}`)
-                    .toFixed(0)
-            )
+                    .toFixed(0),
+            ),
         );
     }
 }

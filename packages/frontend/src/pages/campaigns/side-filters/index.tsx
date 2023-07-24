@@ -21,7 +21,7 @@ const campaignsFiltersStyles = cva(
                 false: ["hidden"],
             },
         },
-    }
+    },
 );
 
 interface FiltersProps {

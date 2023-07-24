@@ -24,7 +24,7 @@ const rootStyles = cva(
                 green: ["bg-green"],
             },
         },
-    }
+    },
 );
 
 interface FullscreenModalProps {
