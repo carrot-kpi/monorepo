@@ -23,8 +23,7 @@
         "build": "yarn clean && rollup -c rollup.config.mjs",
         "clean": "rimraf ./dist",
         "test": "jest",
-        "size-limit": "size-limit",
-        "release": "yarn publish"
+        "size-limit": "size-limit"
     },
     "dependencies": {
         "decimal.js-light": "^2.5.1",
