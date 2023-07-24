@@ -6,7 +6,7 @@ import { infuraProvider } from "wagmi/providers/infura";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { ENABLED_CHAINS } from "../constants";
 import { ReadonlyConnector } from "../connectors";
-import { Chain, ChainProviderFn, Connector } from "wagmi";
+import { type Chain, type ChainProviderFn, Connector } from "wagmi";
 import { FrameConnector } from "../connectors/frame";
 import { ChainId } from "@carrot-kpi/sdk";
 
@@ -18,7 +18,7 @@ type RPCConfig = {
 const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
     [ChainId.SEPOLIA]: null, // covered by the infura connector
     [ChainId.GNOSIS]: {
-        http: "https://rpc.gnosischain.com",
+        http: "https://rpc.ankr.com/gnosis",
         webSocket: "wss://rpc.gnosischain.com/wss",
     },
     [ChainId.SCROLL_TESTNET]: {
@@ -82,7 +82,7 @@ if (!__LIBRARY_MODE__) {
             new WalletConnectConnector({
                 chains: standaloneSupportedChains,
                 options: { projectId: __WALLETCONNECT_PROJECT_ID__ },
-            })
+            }),
         );
     }
 

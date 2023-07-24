@@ -489,6 +489,29 @@ export default [
                 type: "uint256",
             },
             {
+                internalType: "uint128",
+                name: "_version",
+                type: "uint128",
+            },
+            {
+                internalType: "string",
+                name: "_newSpecification",
+                type: "string",
+            },
+        ],
+        name: "updateTemplateSpecification",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_id",
+                type: "uint256",
+            },
+            {
                 internalType: "string",
                 name: "_newSpecification",
                 type: "string",

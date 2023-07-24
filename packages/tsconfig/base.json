@@ -21,7 +21,8 @@
         "declaration": true,
         "emitDeclarationOnly": false,
         "declarationMap": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "verbatimModuleSyntax": true
     },
     "exclude": ["node_modules"]
 }

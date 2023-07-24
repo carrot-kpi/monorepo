@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from "react";
+import React, { type ReactElement, useMemo } from "react";
 
 import { MenuItem } from "../menu-item";
 import H1 from "../../../../icons/h1";
@@ -24,7 +24,7 @@ const rootStyles = mergedCva(
                 true: ["cui-border-orange dark:cui-border-orange"],
             },
         },
-    }
+    },
 );
 
 interface MenuBarProps {
@@ -86,7 +86,7 @@ export const MenuBar = ({ editor, focused }: MenuBarProps): ReactElement => {
                 isActive: () => !!editor?.isActive("bulletList"),
             },
         ],
-        [editor]
+        [editor],
     );
 
     return (

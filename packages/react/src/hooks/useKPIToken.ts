@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
-import { usePublicClient, useNetwork, Address } from "wagmi";
+import { usePublicClient, useNetwork, type Address } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useKPIToken(kpiTokenAddress?: Address): {
@@ -32,7 +32,7 @@ export function useKPIToken(kpiTokenAddress?: Address): {
             } catch (error) {
                 console.error(
                     `error fetching kpi token at address ${kpiTokenAddress}`,
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoading(false);

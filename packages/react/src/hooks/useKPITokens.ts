@@ -11,7 +11,7 @@ export function useKPITokens(): {
     const publicClient = usePublicClient();
 
     const [kpiTokens, setKPITokens] = useState<{ [address: string]: KPIToken }>(
-        {}
+        {},
     );
     const [loading, setLoading] = useState(true);
 

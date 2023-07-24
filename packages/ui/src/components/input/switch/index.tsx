@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import RcSwitch, {
-    SwitchChangeEventHandler,
-    SwitchClickEventHandler,
+    type SwitchChangeEventHandler,
+    type SwitchClickEventHandler,
 } from "rc-switch";
 
 export interface SwitchProps
@@ -28,5 +28,5 @@ export interface SwitchProps
 export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
     function Switch(props, ref): ReactElement {
         return <RcSwitch prefixCls="cui-switch" {...props} ref={ref} />;
-    }
+    },
 );

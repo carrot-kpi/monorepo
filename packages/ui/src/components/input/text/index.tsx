@@ -1,6 +1,6 @@
 import React, { forwardRef, useId } from "react";
-import { ReactElement } from "react";
-import { BaseInputProps } from "../commons";
+import type { ReactElement } from "react";
+import type { BaseInputProps } from "../commons";
 import { inputStyles, BaseInputWrapper } from "../commons";
 
 export type TextInputProps = Omit<BaseInputProps<string>, "id"> & {
@@ -25,7 +25,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             value,
             ...rest
         },
-        ref
+        ref,
     ): ReactElement {
         const generatedId = useId();
 
@@ -60,5 +60,5 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 />
             </BaseInputWrapper>
         );
-    }
+    },
 );

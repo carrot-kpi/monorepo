@@ -1,16 +1,18 @@
-import React, {
+import React, { useCallback, useState } from "react";
+import type {
     ChangeEventHandler,
     FunctionComponent,
     InputHTMLAttributes,
     ReactElement,
     ReactNode,
-    useCallback,
-    useState,
 } from "react";
 import Info from "../../../icons/info";
 import { mergedCva } from "../../../utils/components";
 import { ErrorText } from "../../data-display/error-text";
-import { Typography, TypographyProps } from "../../data-display/typography";
+import {
+    Typography,
+    type TypographyProps,
+} from "../../data-display/typography";
 import { Popover } from "../../utils";
 
 export interface PartialBaseInputProps<V> {
@@ -50,7 +52,7 @@ const inputIconWrapperStyles = mergedCva(
                 right: ["cui-right-0"],
             },
         },
-    }
+    },
 );
 
 const inputActionWrapperStyles = mergedCva(
@@ -69,7 +71,7 @@ const inputActionWrapperStyles = mergedCva(
                 right: ["cui-right-0"],
             },
         },
-    }
+    },
 );
 
 export const inputIconStyles = mergedCva([
@@ -130,7 +132,7 @@ export const inputStyles = mergedCva(
             },
         ],
         defaultVariants: { variant: "base", border: true },
-    }
+    },
 );
 
 const labelStyles = mergedCva([

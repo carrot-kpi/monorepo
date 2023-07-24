@@ -1,6 +1,6 @@
 import React, {
-    ReactElement,
-    ReactNode,
+    type ReactElement,
+    type ReactNode,
     useCallback,
     useMemo,
     useState,
@@ -46,7 +46,7 @@ export const Accordion = ({
     const isControlled = useMemo(() => expanded !== undefined, [expanded]);
     const isExpanded = useMemo(
         () => (isControlled ? !!expanded : internalExpanded),
-        [isControlled, expanded, internalExpanded]
+        [isControlled, expanded, internalExpanded],
     );
 
     const { summaryChildren, detailsChildren } = useMemo(() => {
@@ -56,7 +56,7 @@ export const Accordion = ({
                     summaryChildren: ReactNode[];
                     detailsChildren: ReactNode[];
                 },
-                child
+                child,
             ) => {
                 if (matchChildByType(child, AccordionSummary))
                     accumulator.summaryChildren.push(child);
@@ -64,7 +64,7 @@ export const Accordion = ({
                     accumulator.detailsChildren.push(child);
                 return accumulator;
             },
-            { summaryChildren: [], detailsChildren: [] }
+            { summaryChildren: [], detailsChildren: [] },
         );
     }, [children]);
 
@@ -79,7 +79,7 @@ export const Accordion = ({
                 setInternalExpanded(!internalExpanded);
             }
         },
-        [onChange, setInternalExpanded, internalExpanded, isControlled]
+        [onChange, setInternalExpanded, internalExpanded, isControlled],
     );
 
     const accordionContextValue = useMemo(
@@ -87,7 +87,7 @@ export const Accordion = ({
             toggle: handleOnClick,
             expanded: isExpanded,
         }),
-        [handleOnClick, isExpanded]
+        [handleOnClick, isExpanded],
     );
 
     return (

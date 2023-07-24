@@ -3,12 +3,12 @@ import {
     ResolvedKPITokenWithData,
     ResolvedOracleWithData,
 } from "@carrot-kpi/sdk";
-import { i18n } from "i18next";
-import { NamespacedTranslateFunction } from "../components";
-import { Tx, TxType } from "./transactions";
-import { NavigateFunction } from "react-router-dom";
+import type { i18n } from "i18next";
+import type { NamespacedTranslateFunction } from "../components";
+import { type Tx, TxType } from "./transactions";
+import type { NavigateFunction } from "react-router-dom";
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
-import { ReactElement, ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import type { Hex } from "viem";
 
 export type TemplateEntity = "kpiToken" | "oracle";
@@ -48,7 +48,7 @@ export type OracleInitializationBundleGetter =
 
 export type OracleChangeCallback<T> = (
     internalState: Partial<T>,
-    initializationBundleGetter?: OracleInitializationBundleGetter
+    initializationBundleGetter?: OracleInitializationBundleGetter,
 ) => void;
 
 export interface AdditionalRemoteOracleCreationFormProps<T> {
@@ -103,7 +103,7 @@ export type KPITokenPageProps = TemplateComponentProps &
 
 export type RemoteComponentProps<
     E extends TemplateEntity,
-    T extends TemplateType
+    T extends TemplateType,
 > = E extends "kpiToken"
     ? T extends "creationForm"
         ? KPITokenRemoteCreationFormProps

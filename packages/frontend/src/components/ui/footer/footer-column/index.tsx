@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@carrot-kpi/ui";
-import { FooterLink } from "../../../../constants";
+import type { FooterLink } from "../../../../constants";
 
 export const FooterLinks = ({ title, links }: FooterLink) => (
     <ul className="w-40">
@@ -24,7 +24,13 @@ export const FooterLinks = ({ title, links }: FooterLink) => (
                         {content}
                     </Component>
                 ) : (
-                    <a href={to} className="block" key={to}>
+                    <a
+                        href={to}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                        key={to}
+                    >
                         {content}
                     </a>
                 );

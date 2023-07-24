@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import {
     Popover,
     Select,
-    SelectOption,
+    type SelectOption,
     Switch,
     Typography,
 } from "@carrot-kpi/ui";
@@ -94,7 +94,7 @@ export const PreferencesPopover = forwardRef<
                         options={themeOptions}
                         value={
                             themeOptions.find(
-                                (option) => option.value === "light"
+                                (option) => option.value === "light",
                             ) || null
                         }
                         // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -107,27 +107,23 @@ export const PreferencesPopover = forwardRef<
                     />
                 </div>
             </div>
-            {!__LIBRARY_MODE__ && (
-                <div className="flex justify-between gap-4 md:gap-20 items-center">
-                    <div className="flex gap-2 items-center">
-                        <Typography>
-                            {t("preferences.decentralization")}
+            <div className="flex justify-between gap-4 md:gap-20 items-center">
+                <div className="flex gap-2 items-center">
+                    <Typography>{t("preferences.decentralization")}</Typography>
+                    <InfoPopover>
+                        <Typography
+                            variant="sm"
+                            className={{ root: "max-w-md" }}
+                        >
+                            {t("preferences.decentralization.info")}
                         </Typography>
-                        <InfoPopover>
-                            <Typography
-                                variant="sm"
-                                className={{ root: "max-w-md" }}
-                            >
-                                {t("preferences.decentralization.info")}
-                            </Typography>
-                        </InfoPopover>
-                    </div>
-                    <Switch
-                        checked={preferDecentralization}
-                        onChange={setPreferDecentralization}
-                    />
+                    </InfoPopover>
                 </div>
-            )}
+                <Switch
+                    checked={preferDecentralization}
+                    onChange={setPreferDecentralization}
+                />
+            </div>
             {__STAGING_MODE__ && (
                 <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <div className="flex gap-2 items-center">

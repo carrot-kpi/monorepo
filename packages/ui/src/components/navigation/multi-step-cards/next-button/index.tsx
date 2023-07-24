@@ -1,7 +1,7 @@
 import React from "react";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import ChevronDown from "../../../../icons/chevron-down";
-import { Button, ButtonProps } from "../../../input";
+import { Button, type ButtonProps } from "../../../input";
 
 export type NextButtonProps = ButtonProps;
 

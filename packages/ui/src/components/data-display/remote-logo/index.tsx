@@ -50,7 +50,7 @@ const fallbackStyles = mergedCva(
                 "2xl": ["cui-text-xs", "cui-w-10", "cui-h-10"],
             },
         },
-    }
+    },
 );
 
 export interface RemoteLogoProps {

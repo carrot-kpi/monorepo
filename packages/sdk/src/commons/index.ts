@@ -25,21 +25,21 @@ export interface ChainAddresses {
 export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
     [ChainId.GNOSIS]: {
         multicall3: "0xcA11bde05977b3631167028862bE2a173976CA11",
-        factory: "0x2C9c7E6d05a98f771C22819C80D70827d2d9eBAF",
-        kpiTokensManager: "0xfE0CFcbCb1746054c342aC975278CFb5D6afa33F",
-        oraclesManager: "0x928d003c0D4e75fb08F4A90E46963c34514E6C42",
+        factory: "0xD503Bdcc3Cd38D3cEaBa1efA43EFCc03b7Fb1CbA",
+        kpiTokensManager: "0xCd85e0690f85A52D260273E5B51336D1151F2832",
+        oraclesManager: "0xc9E426B468d334AF6208ef9b3bA5f599d1417c6e",
     },
     [ChainId.SEPOLIA]: {
         multicall3: "0xcA11bde05977b3631167028862bE2a173976CA11",
-        factory: "0x38A9B2a80332e9eAA42b6e69Cb829c6264225DCf",
-        kpiTokensManager: "0x07e6527504Fc12b810F30b510D4A900D26a116bE",
-        oraclesManager: "0x75eA380734e44f761c55bb428AB33Ed793544F14",
+        factory: "0x44bBb970E534bCE4B42C5a34b15d5B049704417A",
+        kpiTokensManager: "0xA4537024597F8B9243AbE105D0Cb297Ea2562ef1",
+        oraclesManager: "0x940d1D2F5c5724a37593D323bFde54F81D6f11C0",
     },
     [ChainId.SCROLL_TESTNET]: {
         multicall3: "0xc325890958D399ee26c26D21bBeFbDA17B03a611",
-        factory: "0x64a0745EF9d3772d9739D9350873eD3703bE45eC",
-        kpiTokensManager: "0xD4AC4AaFb81eC774E49AA755A66EfCe4574D6276",
-        oraclesManager: "0xD3Fe5d463dD1fd943CCC2271F2ea980B898B5DA3",
+        factory: "0xDDD3e99f11488290Ff07BAe128Bd6D23362f2455",
+        kpiTokensManager: "0xe0D8CcAa64e8C88DD97f442109d591A7e4F57244",
+        oraclesManager: "0x8d98758EfF88Dc944035B0618a8412C400E71C72",
     },
 };
 

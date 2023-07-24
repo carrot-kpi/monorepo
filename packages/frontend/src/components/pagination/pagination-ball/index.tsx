@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import React, { MouseEventHandler, ReactNode } from "react";
+import React, { type MouseEventHandler, type ReactNode } from "react";
 
 const paginationBallStyles = cva(
     ["flex items-center justify-center", "w-12 h-12", "rounded-full"],
@@ -13,7 +13,7 @@ const paginationBallStyles = cva(
                 true: "cursor-pointer hover:bg-green",
             },
         },
-    }
+    },
 );
 
 interface PaginationBallProps {

@@ -1,7 +1,7 @@
 import { Modal, Typography } from "@carrot-kpi/ui";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Chain, useAccount, useNetwork } from "wagmi";
+import { type Chain, useAccount, useNetwork } from "wagmi";
 import { DEFAULT_CHAIN } from "../constants";
 import WrongNetwork from "../icons/wrong-network";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,7 @@ export const MultiChainLinksUpdater = () => {
         return Object.values(chains).map((c) => c.name.toLowerCase());
     }, [chains]);
     const [targetLandingChain, setTargetLandingChain] = useState<Chain | null>(
-        null
+        null,
     );
     const [triedSwitchingAutomatically, setTriedSwitchingAutomatically] =
         useState(false);
@@ -44,11 +44,11 @@ export const MultiChainLinksUpdater = () => {
                     prevValue.set("chain", targetChain.name.toLowerCase());
                     return prevValue;
                 },
-                { replace: true }
+                { replace: true },
             );
         } else {
             const candidateTargetChain = Object.values(chains).find(
-                (chain) => chain.name.toLowerCase() === chainName
+                (chain) => chain.name.toLowerCase() === chainName,
             );
             if (!candidateTargetChain) return;
             targetChain = candidateTargetChain;
@@ -123,7 +123,7 @@ export const MultiChainLinksUpdater = () => {
                 prevValue.set("chain", chain.name.toLowerCase());
                 return prevValue;
             },
-            { replace: true }
+            { replace: true },
         );
     }, [chain, freeSwitchingEnabled, setSearchParams, supportedChainNames]);
 

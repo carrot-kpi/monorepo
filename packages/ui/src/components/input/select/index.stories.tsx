@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { Select as SelectComponent, SelectOption, SelectProps } from ".";
+import {
+    Select as SelectComponent,
+    type SelectOption,
+    type SelectProps,
+} from ".";
 
 export default {
     title: "Input/Select",
     component: SelectComponent,
 } as Meta<typeof SelectComponent>;
 
-const Component = (props: SelectProps) => {
-    const [value, setValue] = useState<SelectOption | null>(null);
+const Component = (props: SelectProps<SelectOption<number>>) => {
+    const [value, setValue] = useState<SelectOption<number> | null>(null);
 
     return <SelectComponent {...props} value={value} onChange={setValue} />;
 };
 
-export const Select: StoryObj<typeof SelectComponent> = {
+export const Select: StoryObj<typeof SelectComponent<SelectOption<number>>> = {
     render: Component,
     args: {
         label: "Select input",
@@ -22,7 +26,7 @@ export const Select: StoryObj<typeof SelectComponent> = {
         options: [
             {
                 label: "Item 1",
-                value: "1",
+                value: 1,
             },
             {
                 label: "Item 2",

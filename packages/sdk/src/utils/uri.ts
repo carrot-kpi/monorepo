@@ -1,6 +1,6 @@
 export const uriToHttps = (
     uri: string,
-    ipfsGatewayURL?: string | null
+    ipfsGatewayURL?: string | null,
 ): string[] => {
     const protocol = uri.split(":")[0].toLowerCase();
     switch (protocol) {

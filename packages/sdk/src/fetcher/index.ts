@@ -1,12 +1,13 @@
-import { Address, type PublicClient } from "viem";
+import type { Address, PublicClient } from "viem";
 import { KPIToken } from "../entities/kpi-token";
 import { Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
-import {
+import type {
     FetchERC20TokensParams,
     FullFetcherFetchEntitiesParams,
     FullFetcherFetchKPITokenAddressesParams,
     FullFetcherFetchKPITokensAmountParams,
+    FullFetcherFetchLatestKPITokenAddressesParams,
     FullFetcherFetchTemplatesParams,
     IFullCarrotFetcher,
 } from "./abstraction";
@@ -72,6 +73,26 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
                   publicClient,
                   fromIndex,
                   toIndex,
+              });
+    }
+
+    public async fetchLatestKPITokenAddresses({
+        publicClient,
+        preferDecentralization,
+        limit: count,
+    }: FullFetcherFetchLatestKPITokenAddressesParams): Promise<Address[]> {
+        const useSubgraph = await this.shouldUseSubgraph({
+            publicClient,
+            preferDecentralization,
+        });
+        return useSubgraph
+            ? SubgraphFetcher.fetchLatestKPITokenAddresses({
+                  publicClient,
+                  limit: count,
+              })
+            : OnChainFetcher.fetchLatestKPITokenAddresses({
+                  publicClient,
+                  limit: count,
               });
     }
 

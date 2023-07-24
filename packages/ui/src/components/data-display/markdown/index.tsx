@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 import { mergedCx } from "../../../utils/components";
 
 export interface MarkdownProps {
@@ -26,7 +26,7 @@ export const Markdown = ({
                     "dark:cui-prose-invert",
                     "prose-pre:dark:cui-bg-gray-700",
                 ],
-                className?.root
+                className?.root,
             )}
             {...rest}
             {...rootProps}

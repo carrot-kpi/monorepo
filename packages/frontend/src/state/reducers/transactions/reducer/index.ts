@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { addTransaction, clearTransactions } from "../actions";
-import { TransactionsState } from "../types";
+import type { TransactionsState } from "../types";
 
 const initialState: TransactionsState = {};
 
@@ -15,5 +15,5 @@ export const transactionsReducer = createReducer(initialState, (builder) =>
         })
         .addCase(clearTransactions, (state, action) => {
             state[action.payload.chainId] = {};
-        })
+        }),
 );

@@ -1,10 +1,16 @@
-import React, { MouseEvent, useCallback } from "react";
-import { Typography, TypographyProps } from "../../../data-display/typography";
+import React, { type MouseEvent, useCallback } from "react";
+import {
+    Typography,
+    type TypographyProps,
+} from "../../../data-display/typography";
 import X from "../../../../icons/x";
 import ChevronLeft from "../../../../icons/chevron-left";
-import { TokenListWithBalance } from "../types";
-import { RemoteLogo, RemoteLogoProps } from "../../../data-display/remote-logo";
-import { Divider, DividerProps } from "../divider";
+import type { TokenListWithBalance } from "../types";
+import {
+    RemoteLogo,
+    type RemoteLogoProps,
+} from "../../../data-display/remote-logo";
+import { Divider, type DividerProps } from "../divider";
 import { Skeleton } from "../../../feedback";
 import { mergedCva } from "../../../../utils/components";
 
@@ -65,7 +71,7 @@ const listItemStyles = mergedCva(
                 false: ["hover:cui-bg-gray-100", "dark:hover:cui-bg-gray-700"],
             },
         },
-    }
+    },
 );
 
 const LOADING_SKELETON = new Array(5).fill(null).map((_, index) => {
@@ -133,7 +139,7 @@ export const ManageLists = ({
                 }
             }
         },
-        [lists, onDismiss, onSelectedListChange]
+        [lists, onDismiss, onSelectedListChange],
     );
 
     return (

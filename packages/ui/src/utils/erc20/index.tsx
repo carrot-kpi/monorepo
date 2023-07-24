@@ -1,5 +1,5 @@
 import { getAddress, isAddress } from "viem";
-import { TokenInfoWithBalance } from "../../components/evm/erc20-token-picker/types";
+import type { TokenInfoWithBalance } from "../../components/evm/erc20-token-picker/types";
 
 const TRUST_WALLET_CHAIN: { [chainId: number]: string } = {
     100: "xdai",
@@ -10,19 +10,19 @@ const TRUST_WALLET_CHAIN: { [chainId: number]: string } = {
 
 export const getDefaultERC20TokenLogoURL = (
     chainId?: number,
-    address?: string
+    address?: string,
 ): string | null => {
     if (!chainId || !address || !isAddress(address)) return null;
     const prefix = TRUST_WALLET_CHAIN[chainId];
     if (!prefix) return null;
     return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/${prefix}/assets/${getAddress(
-        address
+        address,
     )}/logo.png`;
 };
 
 export const filterERC20Tokens = (
     tokens: TokenInfoWithBalance[],
-    searchQuery?: string
+    searchQuery?: string,
 ): TokenInfoWithBalance[] => {
     if (tokens.length === 0) return [];
     if (!searchQuery) return tokens;
@@ -30,7 +30,7 @@ export const filterERC20Tokens = (
         const lowerCaseDebouncedSearchQuery = searchQuery.toLowerCase();
         const tokenByAddress = tokens.find(
             (token) =>
-                token.address.toLowerCase() === lowerCaseDebouncedSearchQuery
+                token.address.toLowerCase() === lowerCaseDebouncedSearchQuery,
         );
         return !!tokenByAddress ? [tokenByAddress] : [];
     }
@@ -57,12 +57,12 @@ const matchesSearch = (searched: string, parts: string[]): boolean => {
     return parts.every(
         (part) =>
             part.length === 0 ||
-            searchedParts.some((searchedPart) => searchedPart.includes(part))
+            searchedParts.some((searchedPart) => searchedPart.includes(part)),
     );
 };
 
 export const sortERC20Tokens = (
-    tokens: TokenInfoWithBalance[]
+    tokens: TokenInfoWithBalance[],
 ): TokenInfoWithBalance[] => {
     return tokens.sort((a, b) => {
         const balanceA = a.balance;
@@ -83,7 +83,7 @@ export const sortERC20Tokens = (
 
 export const tokenInfoWithBalanceEquals = (
     tokenA?: TokenInfoWithBalance | null,
-    tokenB?: TokenInfoWithBalance | null
+    tokenB?: TokenInfoWithBalance | null,
 ): boolean => {
     return !!(
         tokenA &&

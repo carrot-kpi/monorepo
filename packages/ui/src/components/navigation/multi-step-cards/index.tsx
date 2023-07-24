@@ -1,8 +1,8 @@
-import React, { ReactNode, useMemo } from "react";
-import { ReactElement } from "react";
+import React, { type ReactNode, useMemo } from "react";
+import type { ReactElement } from "react";
 import { matchChildByType, mergedCva } from "../../../utils/components";
-import { StepCard, StepCardProps } from "./step-card";
-import { NextStepPreview, NextStepPreviewProps } from "./step-preview";
+import { StepCard, type StepCardProps } from "./step-card";
+import { NextStepPreview, type NextStepPreviewProps } from "./step-preview";
 
 export * from "./step-card";
 export * from "./step-preview";
@@ -44,9 +44,9 @@ export const MultiStepCards = ({
     const childSteps = useMemo(
         () =>
             React.Children.toArray(children).filter((child) =>
-                matchChildByType(child, StepCard)
+                matchChildByType(child, StepCard),
             ),
-        [children]
+        [children],
     );
     const stepsCount = useMemo(() => childSteps.length, [childSteps.length]);
     const finalActiveStep = useMemo(() => {
@@ -60,9 +60,9 @@ export const MultiStepCards = ({
         () =>
             childSteps.map(
                 (child) =>
-                    ((child as ReactElement).props as StepCardProps).title
+                    ((child as ReactElement).props as StepCardProps).title,
             ),
-        [childSteps]
+        [childSteps],
     );
 
     return (

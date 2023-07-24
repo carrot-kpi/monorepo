@@ -1,5 +1,5 @@
 import React from "react";
-import { SVGIcon } from "./types";
+import type { SVGIcon } from "./types";
 
 const ChevronUp = (props: SVGIcon) => (
     <svg

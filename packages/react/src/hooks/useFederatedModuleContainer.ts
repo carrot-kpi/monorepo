@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { TemplateType } from "../types";
+import type { TemplateType } from "../types";
 
 declare let __webpack_share_scopes__: {
     default: any;
@@ -23,7 +23,7 @@ declare global {
 export const useFederatedModuleContainer = (
     type: TemplateType,
     baseUrl?: string,
-    entry?: string
+    entry?: string,
 ) => {
     const [loading, setLoading] = useState(false);
     const [container, setContainer] = useState<RemoteContainer | null>(null);
@@ -49,7 +49,7 @@ export const useFederatedModuleContainer = (
                         ? `${baseUrl}remoteEntry.js`
                         : `${baseUrl}/remoteEntry.js`;
                     let scriptTag = document.querySelector<HTMLScriptElement>(
-                        `script[src="${sanitizedUrl}"]`
+                        `script[src="${sanitizedUrl}"]`,
                     );
                     if (!!scriptTag) {
                         scriptTag.remove();
@@ -64,7 +64,7 @@ export const useFederatedModuleContainer = (
                         );
                         if (!tmpContainer) {
                             console.warn(
-                                "container still undefined after federated module import"
+                                "container still undefined after federated module import",
                             );
                             return;
                         }
@@ -79,7 +79,7 @@ export const useFederatedModuleContainer = (
                         } catch (error) {
                             console.error(
                                 "could not initialize federated module container",
-                                error
+                                error,
                             );
                         }
                     };
@@ -94,7 +94,7 @@ export const useFederatedModuleContainer = (
             } catch (error) {
                 console.error(
                     "could not initialize federated module container",
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoading(false);

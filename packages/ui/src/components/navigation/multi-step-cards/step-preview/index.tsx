@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { mergedCva } from "../../../../utils/components";
 import { Typography } from "../../../data-display";
 
@@ -35,7 +35,7 @@ export const NextStepPreview = ({
         <Typography weight="medium" className={{ root: "cui-text-white" }}>
             {step}
         </Typography>
-        <Typography variant="h3" className={{ root: "cui-text-white" }}>
+        <Typography variant="h2" className={{ root: "cui-text-white" }}>
             {title}
         </Typography>
     </div>

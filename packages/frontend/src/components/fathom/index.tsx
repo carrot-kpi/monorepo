@@ -12,7 +12,7 @@ export const Fathom = () => {
                 "data-auto": false,
                 "data-spa": "auto",
             },
-            registeredEventsResolver
+            registeredEventsResolver,
         )
             .then(() => {
                 console.log("fathom initialized successfully");

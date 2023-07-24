@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { PaginationBall } from "./pagination-ball";
 import ArrowIcon from "../../icons/arrow";
 import { cva } from "class-variance-authority";
@@ -19,12 +19,12 @@ const arrowsStyles = cva(["cursor-pointer"], {
 interface PaginationProps {
     totalPages: number;
     currentPage: number;
-    setCurrentPage: Dispatch<SetStateAction<number>>;
+    onCurrentPageChange: (page: number) => void;
 }
 
 export const Pagination = ({
     totalPages,
-    setCurrentPage,
+    onCurrentPageChange,
     currentPage,
 }: PaginationProps) => {
     const firstPage = currentPage === 1;
@@ -36,7 +36,7 @@ export const Pagination = ({
         <div className="flex items-center justify-center space-x-4">
             <div className="flex items-center justify-center">
                 <ArrowIcon
-                    onClick={() => setCurrentPage(currentPage - 1)}
+                    onClick={() => onCurrentPageChange(currentPage - 1)}
                     className={arrowsStyles({
                         show: !firstPage && moreThanOnePage,
                         className: "rotate-180",
@@ -49,7 +49,7 @@ export const Pagination = ({
                 <PaginationBall
                     number={1}
                     currentPage={currentPage}
-                    onClick={() => setCurrentPage(1)}
+                    onClick={() => onCurrentPageChange(1)}
                 />
             )}
 
@@ -61,7 +61,7 @@ export const Pagination = ({
                         <PaginationBall
                             number={currentPage + 1}
                             currentPage={currentPage}
-                            onClick={() => setCurrentPage(currentPage + 1)}
+                            onClick={() => onCurrentPageChange(currentPage + 1)}
                         />
                     )}
 
@@ -73,7 +73,7 @@ export const Pagination = ({
                         <PaginationBall
                             number={currentPage}
                             currentPage={currentPage}
-                            onClick={() => setCurrentPage(currentPage)}
+                            onClick={() => onCurrentPageChange(currentPage)}
                         />
                     )}
                     {totalPages - 1 !== currentPage && !lastPage && (
@@ -84,7 +84,7 @@ export const Pagination = ({
                         <PaginationBall
                             number={currentPage - 1}
                             currentPage={currentPage}
-                            onClick={() => setCurrentPage(currentPage - 1)}
+                            onClick={() => onCurrentPageChange(currentPage - 1)}
                         />
                     )}
                 </>
@@ -95,7 +95,7 @@ export const Pagination = ({
                     <PaginationBall
                         key={number}
                         currentPage={currentPage}
-                        onClick={() => setCurrentPage(number)}
+                        onClick={() => onCurrentPageChange(number)}
                         number={number}
                     />
                 ))}
@@ -105,7 +105,7 @@ export const Pagination = ({
                 <PaginationBall
                     currentPage={currentPage}
                     number={totalPages}
-                    onClick={() => setCurrentPage(totalPages)}
+                    onClick={() => onCurrentPageChange(totalPages)}
                 />
             )}
 
@@ -114,7 +114,7 @@ export const Pagination = ({
                     className={arrowsStyles({
                         show: !lastPage && moreThanOnePage,
                     })}
-                    onClick={() => setCurrentPage(currentPage + 1)}
+                    onClick={() => onCurrentPageChange(currentPage + 1)}
                 />
             </div>
         </div>

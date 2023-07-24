@@ -1,6 +1,6 @@
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import { Checkbox, Typography } from "@carrot-kpi/ui";
-import React, { ChangeEvent } from "react";
+import React, { type ChangeEvent } from "react";
 import { FiltersLoading } from "../loading";
 
 interface CheckboxesFilterProps {
@@ -34,10 +34,10 @@ export const CheckboxesFilter = ({
 
     return (
         <div className="w-full">
-            <Typography variant="xl" weight="medium" uppercase>
+            <Typography variant="lg" weight="medium" uppercase>
                 {title}
             </Typography>
-            <div className="py-6 space-y-4 border-gray-400">
+            <div className="py-6 space-y-4 border-black">
                 {loading ? (
                     <FiltersLoading />
                 ) : (

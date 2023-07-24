@@ -1,14 +1,13 @@
 import React, {
-    ReactElement,
+    type ReactElement,
+    type ForwardedRef,
     useCallback,
     useState,
-    MouseEvent as SpecificMouseEvent,
     useRef,
     forwardRef,
-    ForwardedRef,
     useId,
 } from "react";
-import { BaseInputProps } from "../commons";
+import type { BaseInputProps } from "../commons";
 import ChevronUp from "../../../icons/chevron-up";
 import ChevronDown from "../../../icons/chevron-down";
 import { Popover } from "../../utils/popover";
@@ -65,25 +64,25 @@ const optionStyles = mergedCva(
         defaultVariants: {
             picked: false,
         },
-    }
+    },
 );
 
 const customOptionWrapperStyles = mergedCva(["cui-pointer-events-none"]);
 
-export interface SelectOption {
+export type ValueType = string | number;
+
+export interface SelectOption<V extends ValueType = ValueType> {
     label: string;
-    value: ValueType;
+    value: V;
     disabled?: boolean;
 }
 
-export type ValueType = string | number;
-
-export type SelectProps<O extends SelectOption = SelectOption> = {
+export type SelectProps<T extends SelectOption<ValueType>> = {
     id?: string;
-    options: O[];
-    value: O | null;
-    onChange: (value: O) => void;
-    renderOption?: (value: O) => ReactElement;
+    options: T[];
+    value: T | null;
+    onChange: (value: T) => void;
+    renderOption?: (value: T) => ReactElement;
     className?: BaseInputProps<unknown>["className"] & {
         inputRoot?: string;
         wrapper?: string;
@@ -94,7 +93,7 @@ export type SelectProps<O extends SelectOption = SelectOption> = {
     };
 } & Omit<BaseInputProps<unknown>, "onChange" | "value" | "id">;
 
-const Component = <O extends SelectOption>(
+function Component<T extends SelectOption<ValueType>>(
     {
         id,
         options,
@@ -103,9 +102,9 @@ const Component = <O extends SelectOption>(
         className,
         renderOption,
         ...rest
-    }: SelectProps<O>,
-    ref: ForwardedRef<HTMLInputElement>
-): ReactElement => {
+    }: SelectProps<T>,
+    ref: ForwardedRef<HTMLInputElement>,
+): ReactElement {
     const generatedId = useId();
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -121,14 +120,12 @@ const Component = <O extends SelectOption>(
         setOpen(!open);
     }, [open]);
 
-    const handlePick = useCallback(
-        (event: SpecificMouseEvent<HTMLLIElement>) => {
-            if (!event.target) return;
-            const value = (event.target as HTMLLIElement).dataset.value;
-            if (!!onChange && !!value) onChange(JSON.parse(value) as O);
+    const getPickHandler = useCallback(
+        (option: T) => () => {
+            onChange(option);
             setOpen(false);
         },
-        [onChange]
+        [onChange],
     );
 
     return (
@@ -177,15 +174,14 @@ const Component = <O extends SelectOption>(
                                     picked: value?.value === option.value,
                                     className: className?.option,
                                 })}
-                                onClick={handlePick}
-                                data-value={JSON.stringify(option)}
+                                onClick={getPickHandler(option)}
                                 key={option.value}
                             >
                                 {!!renderOption ? (
                                     <div
                                         className={mergedCx(
                                             customOptionWrapperStyles(),
-                                            className?.customOptionWrapper
+                                            className?.customOptionWrapper,
                                         )}
                                     >
                                         {renderOption(option)}
@@ -200,8 +196,10 @@ const Component = <O extends SelectOption>(
             </Popover>
         </div>
     );
-};
+}
 
-export const Select = forwardRef(Component) as <O extends SelectOption>(
-    props: SelectProps<O> & { ref?: React.ForwardedRef<HTMLSelectElement> }
+export const Select = forwardRef(Component) as <
+    T extends SelectOption<ValueType>,
+>(
+    props: SelectProps<T> & { ref?: React.ForwardedRef<HTMLSelectElement> },
 ) => ReturnType<typeof Component>;

@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Meta, StoryObj, Decorator } from "@storybook/react";
+import type { Meta, StoryObj, Decorator } from "@storybook/react";
 
 import {
     ERC20TokenPicker as ERC20TokenPickerComponent,
-    ERC20TokenPickerProps,
+    type ERC20TokenPickerProps,
 } from ".";
 import { Button } from "../../input";
-import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
+import type { TokenInfoWithBalance, TokenListWithBalance } from "./types";
 import {
     createConfig,
     configureChains,
@@ -14,7 +14,7 @@ import {
     useAccount,
     useConnect,
     useContractReads,
-    Address,
+    type Address,
 } from "wagmi";
 import { gnosis } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
@@ -26,7 +26,7 @@ const CHAIN_ID = gnosis.id;
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
     [gnosis],
-    [publicProvider()]
+    [publicProvider()],
 );
 
 const INJECTED_CONNECTOR = new InjectedConnector({ chains });
@@ -97,7 +97,7 @@ const Component = (props: ERC20TokenPickerProps) => {
                     tokens: list.tokens.map((token, index) => {
                         return {
                             ...token,
-                            balance: rawBalances[index] as unknown as
+                            balance: rawBalances[index].result as unknown as
                                 | bigint
                                 | null,
                         };

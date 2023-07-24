@@ -6,12 +6,12 @@ import React, {
     useId,
     useEffect,
 } from "react";
-import { ReactElement } from "react";
-import { BaseInputProps } from "../commons";
+import type { ReactElement } from "react";
+import type { BaseInputProps } from "../commons";
 import { TextInput } from "../text";
 import { Modal, Popover } from "../../utils";
 import Calendar from "../../../icons/calendar";
-import { DateTimePicker, DateTimePickerProps } from "./picker";
+import { DateTimePicker, type DateTimePickerProps } from "./picker";
 import { useClickAway } from "react-use";
 import dayjs from "dayjs";
 
@@ -38,7 +38,7 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
             max,
             ...rest
         },
-        ref
+        ref,
     ): ReactElement {
         const generatedId = useId();
         const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
@@ -130,5 +130,5 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                 )}
             </>
         );
-    }
+    },
 );

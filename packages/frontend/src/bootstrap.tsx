@@ -15,7 +15,7 @@ import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import { HashRouter } from "react-router-dom";
 
-import { Chain, ChainProviderFn, Connector } from "wagmi";
+import { type Chain, type ChainProviderFn, Connector } from "wagmi";
 import { App } from "./pages/app";
 import { CarrotCoreProvider } from "@carrot-kpi/react";
 import {
@@ -39,7 +39,7 @@ dayjs.extend(localizedFormat);
 console.log(
     `Carrot host frontend running in ${
         __LIBRARY_MODE__ ? "library" : __STAGING_MODE__ ? "staging" : "standard"
-    } mode`
+    } mode`,
 );
 
 const queryClient = new QueryClient({
@@ -83,7 +83,7 @@ export const Root = ({
             const connectors = getAdditionalConnectors();
             if (
                 connectors.some(
-                    (connector) => connector instanceof ReadonlyConnector
+                    (connector) => connector instanceof ReadonlyConnector,
                 )
             )
                 return connectors;
@@ -125,7 +125,7 @@ if (!__LIBRARY_MODE__) {
     root.render(
         <StrictMode>
             <Root />
-        </StrictMode>
+        </StrictMode>,
     );
 
     if (!__DEV__ && "serviceWorker" in navigator) {
@@ -137,7 +137,7 @@ if (!__LIBRARY_MODE__) {
             .catch((error) => {
                 console.error(
                     "Could not register Carrot service worker",
-                    error
+                    error,
                 );
             });
     }

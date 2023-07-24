@@ -1,10 +1,10 @@
 import React, { forwardRef, useCallback, useId, useState } from "react";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { mergedCva } from "../../../utils/components";
 import { Button } from "../button";
-import { BaseInputProps } from "../commons";
+import type { BaseInputProps } from "../commons";
 import { TextInput } from "../text";
-import { Tag, TagProps } from "./tag";
+import { Tag, type TagProps } from "./tag";
 
 const buttonStyles = mergedCva(["cui-h-3"]);
 
@@ -33,7 +33,7 @@ export type TagsInputProps = Omit<
 export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
     function TagsInput(
         { id, className, value, variant, messages, onChange, ...rest },
-        ref
+        ref,
     ): ReactElement {
         const generatedId = useId();
         const [inputValue, setInputValue] = useState<string>("");
@@ -49,7 +49,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
             (event: React.ChangeEvent<HTMLInputElement>) => {
                 setInputValue(event.target.value);
             },
-            []
+            [],
         );
 
         const handleKeyDown = useCallback(
@@ -57,7 +57,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                 if (event.key !== "Enter" || !inputValue) return;
                 addTag();
             },
-            [addTag, inputValue]
+            [addTag, inputValue],
         );
 
         const handleOnClick = useCallback(() => {
@@ -70,7 +70,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                 if (!!value && value.length > 0)
                     onChange(value.filter((_, i) => i !== index));
             },
-            [onChange, value]
+            [onChange, value],
         );
 
         return (
@@ -121,5 +121,5 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                 )}
             </div>
         );
-    }
+    },
 );

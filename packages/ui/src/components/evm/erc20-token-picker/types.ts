@@ -1,4 +1,4 @@
-import { TokenInfo, TokenList } from "@uniswap/token-lists";
+import type { TokenInfo, TokenList } from "@uniswap/token-lists";
 
 export type TokenInfoWithBalance = Omit<TokenInfo, "balance"> & {
     balance?: bigint | null;

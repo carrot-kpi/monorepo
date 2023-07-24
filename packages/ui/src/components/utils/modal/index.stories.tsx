@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { Modal as ModalComponent, ModalProps } from ".";
+import { Modal as ModalComponent, type ModalProps } from ".";
 import { Button } from "../../input";
 import { Typography } from "../../data-display/typography";
 

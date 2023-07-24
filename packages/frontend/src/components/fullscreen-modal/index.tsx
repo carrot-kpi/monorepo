@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect } from "react";
-import { Navbar, NavbarProps } from "../ui/navbar";
+import React, { type ReactNode, useEffect } from "react";
+import { Navbar, type NavbarProps } from "../ui/navbar";
 import { animated, SpringValue } from "@react-spring/web";
 import { cva } from "class-variance-authority";
 import { setModalOpen } from "../../state/reducers/modals";
@@ -24,7 +24,7 @@ const rootStyles = cva(
                 green: ["bg-green"],
             },
         },
-    }
+    },
 );
 
 interface FullscreenModalProps {

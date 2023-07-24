@@ -1,14 +1,14 @@
 import React, {
-    ChangeEvent,
+    type ChangeEvent,
     useCallback,
     useEffect,
     useRef,
     useState,
 } from "react";
-import { Search, SearchProps } from "./search";
+import { Search, type SearchProps } from "./search";
 import { Modal } from "../../utils/modal";
-import { TokenInfoWithBalance, TokenListWithBalance } from "./types";
-import { ManageLists, ManageListsProps } from "./manage-lists";
+import type { TokenInfoWithBalance, TokenListWithBalance } from "./types";
+import { ManageLists, type ManageListsProps } from "./manage-lists";
 import { useSearchedTokens } from "./hooks/useSearchedTokens";
 import { FixedSizeList } from "react-window";
 import { useDebounce } from "react-use";
@@ -68,7 +68,7 @@ export function ERC20TokenPicker({
             if (!!onSearchQueryChange) onSearchQueryChange(searchQuery);
         },
         300,
-        [searchQuery]
+        [searchQuery],
     );
 
     const { tokens } = useSearchedTokens(debouncedQuery, chainId, selectedList);
@@ -86,14 +86,14 @@ export function ERC20TokenPicker({
             setSearchQuery(event.target.value);
             if (!!fixedListRef.current) fixedListRef.current.scrollTo(0);
         },
-        []
+        [],
     );
 
     const handleSelectedTokenChange = useCallback(
         (token: TokenInfoWithBalance) => {
             if (onSelectedTokenChange) onSelectedTokenChange(token);
         },
-        [onSelectedTokenChange]
+        [onSelectedTokenChange],
     );
 
     const handleManageListsClick = useCallback(() => {

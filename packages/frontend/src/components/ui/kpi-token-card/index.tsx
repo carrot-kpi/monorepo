@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Chip,
     Typography,
@@ -37,16 +37,26 @@ const rootStyles = cva(
         defaultVariants: {
             noBorder: false,
         },
-    }
+    },
 );
 
 interface KPITokenCardProps {
     kpiToken?: KPIToken | ResolvedKPIToken;
     noBorder?: boolean;
+    onResolved?: (resolved: ResolvedKPIToken) => void;
 }
 
-export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
+export const KPITokenCard = ({
+    kpiToken,
+    noBorder,
+    onResolved,
+}: KPITokenCardProps) => {
     const { loading, resolvedKPIToken } = useResolvedKPIToken(kpiToken);
+
+    useEffect(() => {
+        if (loading || !resolvedKPIToken || !onResolved) return;
+        onResolved(resolvedKPIToken);
+    }, [loading, resolvedKPIToken, onResolved]);
 
     return (
         <Card className={{ root: rootStyles({ noBorder }) }}>
@@ -103,13 +113,13 @@ export const KPITokenCard = ({ kpiToken, noBorder }: KPITokenCardProps) => {
                                     {resolvedKPIToken.specification.tags.map(
                                         (tag) => (
                                             <Chip key={tag}>{tag}</Chip>
-                                        )
+                                        ),
                                     )}
                                 </>
                             ) : (
                                 <>
-                                    <Skeleton variant="xl" width={80} />
-                                    <Skeleton variant="xl" width={60} />
+                                    <Skeleton variant="lg" width={80} />
+                                    <Skeleton variant="lg" width={60} />
                                 </>
                             )}
                         </div>

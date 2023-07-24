@@ -2,7 +2,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import React, {
-    ReactElement,
+    type ReactElement,
     useCallback,
     useEffect,
     useId,
@@ -10,7 +10,7 @@ import React, {
 } from "react";
 
 import { MenuBar } from "./menu-bar";
-import { BaseInputProps, BaseInputWrapper } from "../commons";
+import { type BaseInputProps, BaseInputWrapper } from "../commons";
 import { mergedCva } from "../../../utils/components";
 
 export interface MarkdownInputProps
@@ -55,7 +55,7 @@ export const markdownInputContentStyles = mergedCva(
                 ],
             },
         },
-    }
+    },
 );
 
 export const MarkdownInput = ({
@@ -96,7 +96,7 @@ export const MarkdownInput = ({
                 setLocalValue(editor.getHTML());
             },
         },
-        []
+        [],
     );
 
     useEffect(() => {

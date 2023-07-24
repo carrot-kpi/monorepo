@@ -3,7 +3,7 @@ import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
 import { useNetwork } from "wagmi";
 import { ChainIcon } from "../../../chain-icon";
-import { AugmentedChain, SUPPORTED_CHAINS } from "../../../../constants";
+import { type AugmentedChain, SUPPORTED_CHAINS } from "../../../../constants";
 import { ChainId } from "@carrot-kpi/sdk";
 import Error from "../../../../icons/error";
 
@@ -25,7 +25,7 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                 if (isNaN(intId)) return;
                 onNetworkSwitch(intId);
             },
-            [onNetworkSwitch]
+            [onNetworkSwitch],
         );
 
         return (
@@ -64,5 +64,5 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                 })}
             </Popover>
         );
-    }
+    },
 );

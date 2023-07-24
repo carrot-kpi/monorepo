@@ -1,14 +1,14 @@
-import React, { useCallback, MouseEvent } from "react";
+import React, { useCallback, type MouseEvent } from "react";
 import { mergedCva } from "../../../../../utils/components";
 import { getDefaultERC20TokenLogoURL } from "../../../../../utils/erc20";
 import {
     RemoteLogo,
-    RemoteLogoProps,
+    type RemoteLogoProps,
     Typography,
-    TypographyProps,
+    type TypographyProps,
 } from "../../../../data-display";
 import { Skeleton } from "../../../../feedback";
-import { TokenInfoWithBalance } from "../../types";
+import type { TokenInfoWithBalance } from "../../types";
 import { Balance } from "./balance";
 
 const rootStyles = mergedCva(
@@ -32,7 +32,7 @@ const rootStyles = mergedCva(
                 false: ["hover:cui-bg-gray-100", "dark:hover:cui-bg-gray-700"],
             },
         },
-    }
+    },
 );
 
 const wrapperStyles = mergedCva([
@@ -79,14 +79,14 @@ export const Row = ({
 }: RowProps) => {
     const handleTokenClick = useCallback(
         (event: MouseEvent) => {
-            if (!onSelect || !event.target) return;
+            if (!onSelect || !event.target || loading) return;
             const index = (event.target as HTMLLIElement).dataset.index;
             if (index !== undefined) {
                 const parsedIndex = parseInt(index);
                 if (parsedIndex >= 0) onSelect(parsedIndex);
             }
         },
-        [onSelect]
+        [onSelect, loading],
     );
 
     return (
@@ -110,7 +110,7 @@ export const Row = ({
                             size="sm"
                             defaultSrc={getDefaultERC20TokenLogoURL(
                                 chainId,
-                                address
+                                address,
                             )}
                             defaultText={symbol}
                             ipfsGatewayURL={ipfsGatewayURL}

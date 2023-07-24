@@ -54,7 +54,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
         const { connectors, connect } = useConnect();
         const readonlyConnector = useMemo(() => {
             return connectors.find(
-                (connector) => connector instanceof ReadonlyConnector
+                (connector) => connector instanceof ReadonlyConnector,
             );
         }, [connectors]);
         const blockExplorerHref = useMemo(() => {
@@ -101,7 +101,11 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
             >
                 <div className="w-full flex justify-between gap-5">
                     <div className="flex gap-3 items-center">
-                        <Avatar address={address} variant="lg" />
+                        <Avatar
+                            address={address}
+                            variant="lg"
+                            className={{ root: "hidden md:flex" }}
+                        />
                         <Typography>
                             {ensName || shortenAddress(address)}
                         </Typography>
@@ -172,5 +176,5 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                 </div>
             </Popover>
         );
-    }
+    },
 );

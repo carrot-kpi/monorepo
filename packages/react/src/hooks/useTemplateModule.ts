@@ -1,16 +1,26 @@
 import { ResolvedTemplate } from "@carrot-kpi/sdk";
-import { TemplateBundle } from "../i18n";
-import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
+import type { TemplateBundle } from "../i18n";
+import {
+    type FunctionComponent,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
-import { State, useSelector } from "@carrot-kpi/shared-state";
+import { type State, useSelector } from "@carrot-kpi/shared-state";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { useStagingMode } from "./useStagingMode";
 import { useNetwork } from "wagmi";
-import { RemoteComponentProps, TemplateEntity, TemplateType } from "../types";
+import type {
+    RemoteComponentProps,
+    TemplateEntity,
+    TemplateType,
+} from "../types";
 
 type ComponentType<
     E extends TemplateEntity,
-    T extends TemplateType
+    T extends TemplateType,
 > = FunctionComponent<RemoteComponentProps<E, T>>;
 
 interface CachedModule<E extends TemplateEntity, T extends TemplateType> {
@@ -20,12 +30,12 @@ interface CachedModule<E extends TemplateEntity, T extends TemplateType> {
 
 export const useTemplateModule = <
     E extends TemplateEntity,
-    T extends TemplateType
+    T extends TemplateType,
 >(
     entity: E,
     type: T,
     template?: ResolvedTemplate,
-    entry?: string
+    entry?: string,
 ): {
     loading: boolean;
     Component: ComponentType<E, T> | null;
@@ -40,7 +50,7 @@ export const useTemplateModule = <
     >((state) =>
         entity === "kpiToken"
             ? state.preferences.kpiTokenTemplateBaseURL
-            : state.preferences.oracleTemplateBaseURL
+            : state.preferences.oracleTemplateBaseURL,
     );
     const { chain } = useNetwork();
     const stagingMode = useStagingMode();
@@ -63,12 +73,12 @@ export const useTemplateModule = <
     const [Component, setComponent] = useState<ComponentType<E, T> | null>(
         entry && MODULE_CACHE.current[entry]
             ? () => MODULE_CACHE.current[entry].Component
-            : null
+            : null,
     );
     const [bundle, setBundle] = useState<TemplateBundle | null>(
         entry && MODULE_CACHE.current[entry]
             ? MODULE_CACHE.current[entry].bundle
-            : null
+            : null,
     );
 
     useEffect(() => {
@@ -99,7 +109,7 @@ export const useTemplateModule = <
             } catch (error) {
                 console.error(
                     "could not get exported component and bundle",
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoadingExport(false);

@@ -11,7 +11,7 @@ describe("token", () => {
             address,
             18,
             "TST",
-            "Test token"
+            "Test token",
         );
         expect(token.chainId).toBe(ChainId.SEPOLIA);
         expect(token.address).toBe(address);
@@ -27,7 +27,7 @@ describe("token", () => {
                 privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
-                "Test token"
+                "Test token",
             );
             expect(token.equals(token)).toBeTruthy();
         });
@@ -39,14 +39,14 @@ describe("token", () => {
                 address,
                 18,
                 "TST1",
-                "Test token 1"
+                "Test token 1",
             );
             const token2 = new Token(
                 ChainId.SEPOLIA,
                 address,
                 18,
                 "TST2",
-                "Test token 2"
+                "Test token 2",
             );
             expect(token1.equals(token2)).toBeTruthy();
         });
@@ -59,7 +59,7 @@ describe("token", () => {
                 privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
-                "Test token"
+                "Test token",
             );
             expect(currencyEquals(token, token)).toBeTruthy();
         });
@@ -71,7 +71,7 @@ describe("token", () => {
                 privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
-                "Test token"
+                "Test token",
             );
             expect(currencyEquals(token, currency)).toBeFalsy();
         });
@@ -83,7 +83,7 @@ describe("token", () => {
                 privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
-                "Test token"
+                "Test token",
             );
             expect(currencyEquals(currency, token)).toBeFalsy();
         });

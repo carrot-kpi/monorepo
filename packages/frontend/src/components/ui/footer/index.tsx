@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../../../icons/logo";
-import { FooterLink } from "../../../constants";
+import { CARROT_DOMAIN, type FooterLink } from "../../../constants";
 import { FooterLinks } from "./footer-column";
 
 interface FooterProps {
@@ -10,7 +10,7 @@ interface FooterProps {
 export const Footer = ({ footerLinks }: FooterProps) => (
     <div className="w-full py-16 bg-black md:py-24 lg:py-32">
         <div className="relative h-full mx-auto w-full md:w-[96%] bg-grid-dark">
-            <div className="mx-auto py-14 md:py-24 xl:py-32 w-[90%]">
+            <div className="mx-auto py-14 md:py-24 xl:py-32 w-[80%]">
                 <Logo className="relative w-full h-auto text-orange" />
             </div>
         </div>
@@ -22,7 +22,9 @@ export const Footer = ({ footerLinks }: FooterProps) => (
             </div>
             <div className="flex items-end">
                 <a
-                    href="https://carrot-web-zeta.vercel.app/"
+                    href={`https://www.${CARROT_DOMAIN}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="px-6 py-5 font-mono text-black border border-black bg-orange rounded-xxl"
                 >
                     Carrot info page

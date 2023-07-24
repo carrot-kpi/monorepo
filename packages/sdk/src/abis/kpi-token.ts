@@ -4,9 +4,9 @@ export default [
         name: "creationTimestamp",
         outputs: [
             {
-                internalType: "uint64",
+                internalType: "uint256",
                 name: "",
-                type: "uint64",
+                type: "uint256",
             },
         ],
         stateMutability: "view",
@@ -43,9 +43,9 @@ export default [
         name: "expiration",
         outputs: [
             {
-                internalType: "uint64",
+                internalType: "uint256",
                 name: "",
-                type: "uint64",
+                type: "uint256",
             },
         ],
         stateMutability: "view",

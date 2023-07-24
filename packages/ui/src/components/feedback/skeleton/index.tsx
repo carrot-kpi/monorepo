@@ -13,23 +13,23 @@ const rootStyles = mergedCva(
                 xs: ["cui-h-xs"],
                 sm: ["cui-h-sm"],
                 base: ["cui-h-base"],
+                lg: ["cui-h-lg"],
                 xl: ["cui-h-xl"],
-                "2xl": ["cui-h-2xl"],
                 h4: ["cui-h-h4"],
                 h3: ["cui-h-h3"],
                 h2: ["cui-h-h2"],
                 h1: ["cui-h-h1"],
             },
         },
-    }
+    },
 );
 
 type SkeletonVariant =
     | "xs"
     | "sm"
     | "base"
+    | "lg"
     | "xl"
-    | "2xl"
     | "h1"
     | "h2"
     | "h3"

@@ -3,7 +3,7 @@ const ITEMS_PER_PAGE = 18;
 export const usePagination = <T>(
     data: T[],
     currentPage: number,
-    totalItems?: number
+    totalItems?: number,
 ) => {
     const itemsPerPage = totalItems ? totalItems : ITEMS_PER_PAGE;
     const startIndex = (currentPage - 1) * itemsPerPage;

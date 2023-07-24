@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import CommunityDrivenLogo from "../../../icons/marquee/community-driven";
 import NetworkLogo from "../../../icons/marquee/network";
 import Decentralized100Logo from "../../../icons/marquee/decentralized100";
@@ -46,7 +46,7 @@ const marqueeRowStyles = cva(
                 yellow: ["animate-marquee-slow"],
             },
         },
-    }
+    },
 );
 
 const MarqueeRow = ({ children, color }: MarqueeProps) => (

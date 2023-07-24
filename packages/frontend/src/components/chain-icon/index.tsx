@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 
 const rootStyles = cva([
     "flex",

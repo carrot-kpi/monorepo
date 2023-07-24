@@ -1,15 +1,18 @@
-import React, { ChangeEventHandler, Ref, useCallback } from "react";
+import React, { type ChangeEventHandler, type Ref, useCallback } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import X from "../../../../icons/x";
 import { mergedCva } from "../../../../utils/components";
 import { tokenInfoWithBalanceEquals } from "../../../../utils/erc20";
-import { Typography, TypographyProps } from "../../../data-display/typography";
-import { Button, ButtonProps } from "../../../input/button";
-import { TextInput, TextInputProps } from "../../../input/text";
-import { Divider, DividerProps } from "../divider";
-import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
-import { Row, RowProps } from "./row";
+import {
+    Typography,
+    type TypographyProps,
+} from "../../../data-display/typography";
+import { Button, type ButtonProps } from "../../../input/button";
+import { TextInput, type TextInputProps } from "../../../input/text";
+import { Divider, type DividerProps } from "../divider";
+import type { TokenInfoWithBalance, TokenListWithBalance } from "../types";
+import { Row, type RowProps } from "./row";
 
 const rootStyles = mergedCva([
     "cui-flex",
@@ -44,7 +47,7 @@ const listWrapperStyles = mergedCva(
                 true: ["cui-flex", "cui-justify-center", "cui-items-center"],
             },
         },
-    }
+    },
 );
 
 const listStyles = mergedCva(["cui-scrollbar"]);
@@ -107,7 +110,7 @@ export const Search = ({
             if (onSelectedTokenChange) onSelectedTokenChange(selectedToken);
             if (onDismiss) onDismiss();
         },
-        [onDismiss, onSelectedTokenChange, tokens]
+        [onDismiss, onSelectedTokenChange, tokens],
     );
 
     return (
@@ -151,7 +154,7 @@ export const Search = ({
             <Divider className={className?.divider} />
             <div
                 className={listWrapperStyles({
-                    empty: tokens.length === 0,
+                    empty: !loading && tokens.length === 0,
                     className: className?.listWrapper,
                 })}
             >
@@ -183,7 +186,7 @@ export const Search = ({
                                                 style={style}
                                                 selected={tokenInfoWithBalanceEquals(
                                                     selectedToken,
-                                                    token
+                                                    token,
                                                 )}
                                                 loading={loading}
                                                 loadingBalances={

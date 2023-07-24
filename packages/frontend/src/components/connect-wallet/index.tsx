@@ -11,8 +11,17 @@ import { NetworksPopover } from "./popovers/networks";
 import { ConnectPopover } from "./popovers/connect";
 import { AccountPopover } from "./popovers/account";
 import { Avatar } from "./avatar";
+import { cva } from "class-variance-authority";
 
-export const ConnectWallet = () => {
+const rootStyles = cva(["flex", "gap-4"]);
+
+interface ConnectWalletProps {
+    className?: {
+        root?: string;
+    };
+}
+
+export const ConnectWallet = ({ className }: ConnectWalletProps) => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
     const { address, connector: activeConnector } = useAccount();
@@ -82,7 +91,7 @@ export const ConnectWallet = () => {
             }
             setNetworksPopoverOpen(false);
         },
-        [activeConnector]
+        [activeConnector],
     );
 
     const multipleEnabledChains = Object.keys(ENABLED_CHAINS).length > 1;
@@ -117,7 +126,7 @@ export const ConnectWallet = () => {
                     ref={accountPopoverRef}
                 />
             )}
-            <div className="flex gap-4">
+            <div className={rootStyles({ className: className?.root })}>
                 <div
                     className={`h-12 w-fit flex items-center ${
                         __LIBRARY_MODE__ || !multipleEnabledChains

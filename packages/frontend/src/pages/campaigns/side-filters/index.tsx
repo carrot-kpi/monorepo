@@ -7,12 +7,13 @@ import { useTranslation } from "react-i18next";
 
 const campaignsFiltersStyles = cva(
     [
+        "z-10",
         "absolute lg:relative",
         "shadow md:shadow-none",
         "w-full lg:w-fit",
-        "p-12",
+        "py-12",
         "bg-white dark:bg-black",
-        "border-r border-gray-400",
+        "border-b md:border-r border-black",
     ],
     {
         variants: {
@@ -20,7 +21,7 @@ const campaignsFiltersStyles = cva(
                 false: ["hidden"],
             },
         },
-    }
+    },
 );
 
 interface FiltersProps {
@@ -44,16 +45,20 @@ export const SideFilters = ({
 
     return (
         <div className={campaignsFiltersStyles({ open })}>
-            <div className="space-y-6 md:w-64">
-                <TemplatesFilter
-                    setSelectedTemplates={setSelectedTemplates}
-                    selectedTemplates={selectedTemplates}
-                />
-                <div className="w-full h-0.5 bg-gray-200"></div>
-                <OraclesFilter
-                    setSelectedOracles={setSelectedOracles}
-                    selectedOracles={selectedOracles}
-                />
+            <div className="space-y-6 min-w-max">
+                <div className="px-12">
+                    <TemplatesFilter
+                        setSelectedTemplates={setSelectedTemplates}
+                        selectedTemplates={selectedTemplates}
+                    />
+                </div>
+                <div className="w-full h-px bg-black"></div>
+                <div className="px-12">
+                    <OraclesFilter
+                        setSelectedOracles={setSelectedOracles}
+                        selectedOracles={selectedOracles}
+                    />
+                </div>
             </div>
             <Button
                 className={{

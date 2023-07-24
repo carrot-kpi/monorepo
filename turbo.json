@@ -34,9 +34,6 @@
         "start": {
             "dependsOn": ["^build"]
         },
-        "publish": {
-            "dependsOn": ["^build"]
-        },
         "size-limit": {
             "dependsOn": ["build"]
         },

@@ -9,7 +9,7 @@ import { cva } from "class-variance-authority";
 import { CreateCampaignButton } from "../../../components/create-campaign-button";
 import { useFeaturedKPITokens } from "../../../hooks/useFeaturedKPITokens";
 import { useSelector } from "../../../state/connector";
-import { HostState } from "../../../state";
+import type { HostState } from "../../../state";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -38,7 +38,7 @@ export const Hero = () => {
     }, [modalOpen]);
 
     return (
-        <div className="relative bg-orange bg-grid-light min-h-[65vh]">
+        <div className="relative bg-orange bg-grid-light">
             {loading ? (
                 <div className="flex items-center justify-center w-full h-full">
                     <Loader />
@@ -47,7 +47,7 @@ export const Hero = () => {
                 <div className="relative px-6 pb-16 space-y-12 md:px-14 lg:px-36 pt-7 md:pt-24 md:pb-32">
                     <div className="flex flex-col items-center justify-around gap-10 md:flex-row md:gap-0">
                         <div className="flex flex-col items-center w-full gap-10 md:items-start md:w-2/5">
-                            <Typography variant="h3">
+                            <Typography variant="h1">
                                 {t("home.noFeatured.title")}
                             </Typography>
                             <Typography>
@@ -55,23 +55,29 @@ export const Hero = () => {
                             </Typography>
                             <CreateCampaignButton primary />
                         </div>
-                        <video
-                            ref={videoRef}
-                            className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500"
-                            controls
-                        >
-                            <source
-                                src="https://d2l3j8l4t44bvz.cloudfront.net"
-                                type="video/webm"
-                            />
-                            {t("video.notSupported")}
-                        </video>
+                        <div className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500">
+                            <video
+                                ref={videoRef}
+                                controls
+                                className="w-full h-full rounded-xl"
+                            >
+                                <source
+                                    src="https://d2l3j8l4t44bvz.cloudfront.net/hero-video.webm"
+                                    type="video/webm"
+                                />
+                                <source
+                                    src="https://d2l3j8l4t44bvz.cloudfront.net/hero-video.mp4"
+                                    type="video/mp4"
+                                />
+                                {t("video.notSupported")}
+                            </video>
+                        </div>
                     </div>
                 </div>
             ) : (
                 <div className="relative pb-16 space-y-12 pt-7 md:pt-24 md:pb-32">
                     <Typography
-                        variant="h3"
+                        variant="h1"
                         className={{
                             root: "px-6 md:px-10 lg:px-32 dark:text-black",
                         }}

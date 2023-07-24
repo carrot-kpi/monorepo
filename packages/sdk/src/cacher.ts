@@ -23,7 +23,7 @@ export class Cacher {
 
     public getOrDefault<T extends object | string>(
         key: string,
-        defaultValue: T
+        defaultValue: T,
     ): T {
         const cachedItem = this.get<T>(key);
         return cachedItem || defaultValue;
@@ -32,11 +32,11 @@ export class Cacher {
     public set<T extends object | string>(
         key: string,
         value: T,
-        validUntil: number
+        validUntil: number,
     ) {
         localStorage.setItem(
             this.namespacedKey(key),
-            JSON.stringify({ validUntil, data: value })
+            JSON.stringify({ validUntil, data: value }),
         );
     }
 

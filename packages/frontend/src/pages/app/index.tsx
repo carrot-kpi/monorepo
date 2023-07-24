@@ -4,7 +4,7 @@ import {
     Routes,
     useLocation,
     matchPath,
-    Location,
+    type Location,
     useNavigate,
 } from "react-router-dom";
 import { Home } from "../home";
@@ -14,7 +14,6 @@ import { CreateWithTemplateId } from "../create-with-template-id";
 import { useFathomTrackPageWatch } from "../../hooks/useFathomTrackPageWatch";
 import { usePreviousDistinct } from "react-use";
 import {
-    useSetPreferDecentralization,
     useSetKPITokenTemplateBaseURL,
     useSetOracleTemplateBaseURL,
     useSetDevMode,
@@ -50,7 +49,6 @@ export const App = ({
     const location = useLocation();
     const previousLocation = usePreviousDistinct(location);
     const navigate = useNavigate();
-    const setPreferDecentralization = useSetPreferDecentralization();
     const setDevMode = useSetDevMode();
     const stagingMode = useStagingMode();
     const setStagingMode = useSetStagingMode();
@@ -64,7 +62,6 @@ export const App = ({
     const [mainLocation, setMainLocation] = useState(location);
 
     useEffect(() => {
-        if (__LIBRARY_MODE__) setPreferDecentralization(true);
         setDevMode(__LIBRARY_MODE__);
         setStagingMode(__STAGING_MODE__);
         setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
@@ -73,6 +70,14 @@ export const App = ({
     }, []);
 
     useEffect(() => {
+        if (
+            previousLocation &&
+            location.pathname === previousLocation.pathname &&
+            location.search === previousLocation.search &&
+            location.state === previousLocation.state
+        )
+            return;
+
         // detect modal opening and setup. If the previous distinct
         // location was not a modal route, and the current one is,
         // the previous location is set as the main route to prevent
@@ -80,7 +85,7 @@ export const App = ({
         // is set as the modals one in order to correctly mount the
         // component with animations etc etc.
         const openingModal = MODAL_ROUTE_PATHS.find(({ path }) =>
-            matchPath({ path }, location.pathname)
+            matchPath({ path }, location.pathname),
         );
         if (openingModal) {
             // in case previous location is not there (for example when
@@ -91,14 +96,14 @@ export const App = ({
             const isPreviousLocationModal =
                 previousLocation &&
                 !!MODAL_ROUTE_PATHS.find(({ path }) =>
-                    matchPath({ path }, previousLocation.pathname)
+                    matchPath({ path }, previousLocation.pathname),
                 );
             // if the previous location was a modal (i.e. if we're switching
             // through modals) set default location as main
             setMainLocation(
                 isPreviousLocationModal
                     ? DEFAULT_LOCATION
-                    : previousLocation || DEFAULT_LOCATION
+                    : previousLocation || DEFAULT_LOCATION,
             );
             setModalLocation(location);
             return;

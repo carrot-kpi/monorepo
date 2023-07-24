@@ -1,7 +1,7 @@
 import React from "react";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { TemplateComponent } from "../../template-component";
-import { KPITokenPageProps } from "../../../types/templates";
+import type { KPITokenPageProps } from "../../../types/templates";
 
 export function KPITokenPage({
     fallback,

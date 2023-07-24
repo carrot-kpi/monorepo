@@ -1,21 +1,23 @@
 import React from "react";
-import { Tx, TxType } from "@carrot-kpi/react";
+import { type Tx, TxType } from "@carrot-kpi/react";
+import type { ChainId } from "@carrot-kpi/sdk";
 import { Skeleton, Typography } from "@carrot-kpi/ui";
 import { useTransactionSummary } from "../../../../../hooks/useTransactionSummary";
 import External from "../../../../../icons/external";
 import { getTransactionExplorerLink } from "../../../../../utils/explorers";
 import dayjs from "dayjs";
 import { useNetwork } from "wagmi";
+import { SUPPORTED_CHAINS } from "../../../../../constants";
 
 export const Transaction = <T extends TxType>(tx: Tx<T>) => {
     const { chain } = useNetwork();
     const { loading, summary } = useTransactionSummary(tx);
 
-    const href = chain?.blockExplorers?.default
-        ? `${getTransactionExplorerLink(chain.blockExplorers.default.url)}/tx/${
-              tx.hash
-          }`
-        : undefined;
+    const href = `${getTransactionExplorerLink(
+        SUPPORTED_CHAINS[(chain?.id || Number.MAX_SAFE_INTEGER) as ChainId]
+            .defaultBlockExplorer,
+    )}/tx/${tx.hash}`;
+
     return (
         <div className="h-16 flex w-full justify-between gap-5">
             <div className="flex flex-col overflow-hidden">

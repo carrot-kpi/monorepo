@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
-import durationPlugin, { Duration } from "dayjs/plugin/duration";
+import durationPlugin, { type Duration } from "dayjs/plugin/duration";
 
 dayjs.extend(durationPlugin);
 
@@ -35,7 +35,7 @@ export const getCalendarCells = (date: Dayjs): CalendarCell[] => {
     const lastMonth = date.subtract(1, "month");
     for (let i = 0; i < cellsToPrepend; i++)
         calendarCells.unshift(
-            prepareCell(lastMonth, lastMonth.daysInMonth() - i)
+            prepareCell(lastMonth, lastMonth.daysInMonth() - i),
         );
 
     // add to end from next month
@@ -50,7 +50,7 @@ export const getCalendarCells = (date: Dayjs): CalendarCell[] => {
 export const resolvedValue = (
     value?: Date | null,
     min?: Date | null,
-    max?: Date | null
+    max?: Date | null,
 ) => {
     return rectifyDate(value ? dayjs(value) : dayjs(), min, max);
 };
@@ -58,7 +58,7 @@ export const resolvedValue = (
 export const rectifyDate = (
     value: Dayjs,
     min?: Date | null,
-    max?: Date | null
+    max?: Date | null,
 ) => {
     if (!!(min && value.isBefore(min))) return dayjs(min);
     if (!!(max && value.isAfter(max))) return dayjs(max);

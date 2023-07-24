@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 import { useAccordionContext } from "../context";
 import ChevronUp from "../../../../icons/chevron-up";
 import { mergedCva } from "../../../../utils/components";
@@ -29,7 +29,7 @@ const rootStyles = mergedCva(
                 false: ["cui-bg-white", "dark:cui-bg-black"],
             },
         },
-    }
+    },
 );
 
 const expandIconStyles = mergedCva([], {

@@ -7,7 +7,7 @@ export interface TemplateBundle {
 export const addBundleForTemplate = (
     i18n: i18n,
     namespace: string,
-    bundle: TemplateBundle
+    bundle: TemplateBundle,
 ) => {
     Object.entries(bundle).forEach(([language, keys]) => {
         if (i18n.hasResourceBundle(language, namespace)) return;

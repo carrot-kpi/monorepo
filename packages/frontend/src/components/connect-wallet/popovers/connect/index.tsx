@@ -46,5 +46,5 @@ export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
                 })}
             </Popover>
         );
-    }
+    },
 );

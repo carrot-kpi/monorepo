@@ -1,5 +1,5 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Typography, TypographyProps } from "../typography";
+import React, { type ReactElement, useEffect, useState } from "react";
+import { Typography, type TypographyProps } from "../typography";
 import Clock from "../../../icons/clock";
 import { mergedCva } from "../../../utils/components";
 import { getDurationFromNowToUNIXTimestamp } from "../../../utils/date";
@@ -34,7 +34,7 @@ export const Timer = ({
     className,
 }: TimerProps): ReactElement => {
     const [duration, setDuration] = useState(
-        getDurationFromNowToUNIXTimestamp(to)
+        getDurationFromNowToUNIXTimestamp(to),
     );
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export const Timer = ({
                 <Clock className={iconStyles({ className: className?.icon })} />
             )}
             {duration.format(
-                seconds ? "DD[D] HH[H] mm[M] ss[S]" : "DD[D] HH[H] mm[M]"
+                seconds ? "DD[D] HH[H] mm[M] ss[S]" : "DD[D] HH[H] mm[M]",
             )}
         </Typography>
     );

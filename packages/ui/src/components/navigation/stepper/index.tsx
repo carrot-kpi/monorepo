@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactElement, useCallback } from "react";
+import { type ReactElement, useCallback } from "react";
 import { mergedCva } from "../../../utils/components";
 import { Typography } from "../../data-display";
 
@@ -159,7 +159,7 @@ export const Stepper = ({
         (clickedStep: number) => () => {
             onClick(clickedStep);
         },
-        [onClick]
+        [onClick],
     );
 
     return (

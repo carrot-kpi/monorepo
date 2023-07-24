@@ -1,7 +1,7 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 import { mergedCva } from "../../../utils/components";
 import DangerIcon from "../../../icons/danger";
-import { Typography, TypographyProps } from "../typography";
+import { Typography, type TypographyProps } from "../typography";
 
 const errorTextWrapperStyles = mergedCva([
     "cui-flex",

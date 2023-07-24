@@ -12,7 +12,7 @@ export class Template {
         public readonly id: number,
         public readonly address: Address,
         public readonly version: number,
-        public readonly specificationCID: string
+        public readonly specificationCID: string,
     ) {}
 }
 
@@ -24,7 +24,7 @@ export class TemplateSpecification {
         public readonly tags: string[],
         public readonly repository: string,
         public readonly commitHash: string,
-        public readonly stagingURL?: string
+        public readonly stagingURL?: string,
     ) {}
 }
 export class ResolvedTemplate {
@@ -32,18 +32,18 @@ export class ResolvedTemplate {
         public readonly id: number,
         public readonly address: Address,
         public readonly version: number,
-        public readonly specification: TemplateSpecification
+        public readonly specification: TemplateSpecification,
     ) {}
 
     public static from(
         template: Template,
-        specification: TemplateSpecification
+        specification: TemplateSpecification,
     ) {
         return new ResolvedTemplate(
             template.id,
             template.address,
             template.version,
-            specification
+            specification,
         );
     }
 }

@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { type FC, type ReactNode } from "react";
 import { cva, cx } from "class-variance-authority";
 import { extendTailwindMerge } from "tailwind-merge";
 import { theme } from "../../tailwind.preset.theme";

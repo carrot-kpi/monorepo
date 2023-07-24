@@ -1,7 +1,7 @@
 import React, { forwardRef, useId } from "react";
-import { ReactElement } from "react";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
-import { BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
+import type { ReactElement } from "react";
+import { NumericFormat, type NumericFormatProps } from "react-number-format";
+import { type BaseInputProps, inputStyles, BaseInputWrapper } from "../commons";
 
 export type NumberInputProps = Omit<
     NumericFormatProps & BaseInputProps<string>,
@@ -27,7 +27,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             className,
             ...rest
         },
-        ref
+        ref,
     ): ReactElement {
         const generatedId = useId();
 
@@ -66,5 +66,5 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 />
             </BaseInputWrapper>
         );
-    }
+    },
 );

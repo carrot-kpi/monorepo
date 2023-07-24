@@ -14,6 +14,8 @@ import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
+import { Authenticate } from "../../components/authenticate";
+import { useIsPinningProxyAuthenticated } from "../../hooks/useIsPinningProxyAuthenticated";
 
 interface CreateWithTemplateIdProps {
     closing?: boolean;
@@ -37,10 +39,11 @@ export const CreateWithTemplateId = ({
     const queryClient = useQueryClient();
 
     const [template, setTemplate] = useState<ResolvedTemplate | null>(
-        state && "specification" in state.template ? state.template : null
+        state && "specification" in state.template ? state.template : null,
     );
     const [show, setShow] = useState(!closing);
     const [formKey, setFormKey] = useState(0);
+    const pinningProxyAuthenticated = useIsPinningProxyAuthenticated();
 
     const transitions = useTransition(show, {
         config: { ...springConfig.default, duration: 100 },
@@ -88,7 +91,7 @@ export const CreateWithTemplateId = ({
                 });
                 if (templates.length !== 1) {
                     console.warn(
-                        `inconsistent array length while fetching template with id ${templateId} on ${chain?.name}`
+                        `inconsistent array length while fetching template with id ${templateId} on ${chain?.name}`,
                     );
                     if (!cancelled) setShow(false);
                     return;
@@ -99,7 +102,7 @@ export const CreateWithTemplateId = ({
                 });
                 if (resolvedTemplates.length !== 1) {
                     console.warn(
-                        `inconsistent array length while resolving template with id ${templateId} on ${chain?.name}`
+                        `inconsistent array length while resolving template with id ${templateId} on ${chain?.name}`,
                     );
                     if (!cancelled) setShow(false);
                     return;
@@ -108,7 +111,7 @@ export const CreateWithTemplateId = ({
             } catch (error) {
                 console.error(
                     `could not fetch template with id ${templateId}`,
-                    error
+                    error,
                 );
             }
         };
@@ -131,7 +134,7 @@ export const CreateWithTemplateId = ({
             // FIXME: kinda sus and ugly. The example in the docs say we
             // can use the query prefix direcy, but it's apparently not
             // true here
-            LATEST_KPI_TOKEN_QUERY_KEY_PREFIX as unknown as readonly unknown[]
+            LATEST_KPI_TOKEN_QUERY_KEY_PREFIX as unknown as readonly unknown[],
         );
     }, [queryClient]);
 
@@ -147,34 +150,38 @@ export const CreateWithTemplateId = ({
                     springStyle={style}
                     onDismiss={handleDismiss}
                 >
-                    <KPITokenCreationForm
-                        key={formKey}
-                        template={template || undefined}
-                        fallback={
-                            <div className="bg-green py-10 text-black flex justify-center">
-                                <Loader />
-                            </div>
-                        }
-                        error={
-                            <div className="bg-green py-10 flex justify-center">
-                                <ErrorFeedback
-                                    messages={{
-                                        title: t(
-                                            "error.initializing.creation.title"
-                                        ),
-                                        description: t(
-                                            "error.initializing.creation.description"
-                                        ),
-                                    }}
-                                />
-                            </div>
-                        }
-                        i18n={i18n}
-                        className={{ root: "w-full h-full" }}
-                        onCreate={handleCreate}
-                        navigate={navigate}
-                        onTx={addTransaction}
-                    />
+                    {!pinningProxyAuthenticated ? (
+                        <Authenticate onCancel={handleDismiss} />
+                    ) : (
+                        <KPITokenCreationForm
+                            key={formKey}
+                            template={template || undefined}
+                            fallback={
+                                <div className="bg-green py-10 text-black flex justify-center">
+                                    <Loader />
+                                </div>
+                            }
+                            error={
+                                <div className="bg-green bg-grid-light py-10 flex justify-center">
+                                    <ErrorFeedback
+                                        messages={{
+                                            title: t(
+                                                "error.initializing.creation.title",
+                                            ),
+                                            description: t(
+                                                "error.initializing.creation.description",
+                                            ),
+                                        }}
+                                    />
+                                </div>
+                            }
+                            i18n={i18n}
+                            className={{ root: "w-full h-full" }}
+                            onCreate={handleCreate}
+                            navigate={navigate}
+                            onTx={addTransaction}
+                        />
+                    )}
                 </AnimatedFullscreenModal>
             )
         );

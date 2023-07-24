@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Fetcher, Oracle } from "@carrot-kpi/sdk";
-import { usePublicClient, useNetwork, Address } from "wagmi";
+import { usePublicClient, useNetwork, type Address } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useOracle(oracleAddress?: Address): {
@@ -32,7 +32,7 @@ export function useOracle(oracleAddress?: Address): {
             } catch (error) {
                 console.error(
                     `error fetching oracle at address ${oracleAddress}`,
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoading(false);

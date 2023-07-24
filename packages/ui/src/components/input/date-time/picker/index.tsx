@@ -1,7 +1,7 @@
-import dayjs, { UnitType } from "dayjs";
+import dayjs, { type UnitType } from "dayjs";
 import React, { useCallback, useLayoutEffect } from "react";
 import { Typography } from "../../../data-display";
-import { DatePicker, DatePickerProps } from "../../date/picker";
+import { DatePicker, type DatePickerProps } from "../../date/picker";
 import { enforceDoubleDigits } from "../../../../utils/formatting";
 import { mergedCva } from "../../../../utils/components";
 import { rectifyDate, resolvedValue } from "../../../../utils/date";
@@ -22,7 +22,7 @@ const cellListStyles = mergedCva(
                 false: ["cui-rounded-br-xxl"],
             },
         },
-    }
+    },
 );
 
 const cellStyles = mergedCva(
@@ -61,7 +61,7 @@ const cellStyles = mergedCva(
                 false: ["cui-cursor-pointer"],
             },
         },
-    }
+    },
 );
 
 export type DateTimePickerProps = DatePickerProps;
@@ -99,10 +99,10 @@ export const DateTimePicker = ({
                         .date(newValue.getDate())
                         .month(newValue.getMonth())
                         .year(newValue.getFullYear())
-                        .toDate()
+                        .toDate(),
                 );
         },
-        [onChange, value]
+        [onChange, value],
     );
 
     const handleTimeChange = useCallback(
@@ -116,12 +116,12 @@ export const DateTimePicker = ({
                 const initialDate = resolvedValue(value, min, max);
                 const pickedDate = initialDate.set(
                     unit as UnitType,
-                    parsedNewValue
+                    parsedNewValue,
                 );
                 onChange(rectifyDate(pickedDate, min, max).toDate());
             }
         },
-        [max, min, onChange, value]
+        [max, min, onChange, value],
     );
 
     return (
@@ -151,12 +151,12 @@ export const DateTimePicker = ({
                             let disabled = false;
                             if (value && (min || max)) {
                                 const atTime = dayjs(value).hour(
-                                    parseInt(hour)
+                                    parseInt(hour),
                                 );
                                 disabled = !rectifyDate(
                                     atTime,
                                     min,
-                                    max
+                                    max,
                                 ).isSame(atTime);
                             }
                             return (
@@ -186,12 +186,12 @@ export const DateTimePicker = ({
                             let disabled = false;
                             if (value) {
                                 const atTime = dayjs(value).minute(
-                                    parseInt(minute)
+                                    parseInt(minute),
                                 );
                                 disabled = !rectifyDate(
                                     atTime,
                                     min,
-                                    max
+                                    max,
                                 ).isSame(atTime);
                             }
                             return (
@@ -221,12 +221,12 @@ export const DateTimePicker = ({
                             let disabled = false;
                             if (value && (min || max)) {
                                 const atTime = dayjs(value).second(
-                                    parseInt(second)
+                                    parseInt(second),
                                 );
                                 disabled = !rectifyDate(
                                     atTime,
                                     min,
-                                    max
+                                    max,
                                 ).isSame(atTime);
                             }
                             return (

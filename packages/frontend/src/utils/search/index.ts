@@ -1,11 +1,13 @@
-import { ResolvedKPIToken } from "@carrot-kpi/sdk";
+import { KPIToken, ResolvedKPIToken } from "@carrot-kpi/sdk";
 
 export const tokenSpecificationIncludesQuery = (
-    token: ResolvedKPIToken,
-    query: string
+    token: KPIToken | ResolvedKPIToken,
+    query: string,
 ) => {
+    if ("specification" in token === false) return true;
+
     const lowerCaseQuery = query.toLowerCase();
-    const specification = token.specification;
+    const specification = (token as ResolvedKPIToken).specification;
 
     return (
         includesQuery(specification.title, lowerCaseQuery) ||

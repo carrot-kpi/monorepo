@@ -1,8 +1,8 @@
 import React, {
     forwardRef,
-    HTMLAttributes,
-    ReactElement,
-    ReactNode,
+    type HTMLAttributes,
+    type ReactElement,
+    type ReactNode,
     useCallback,
     useId,
     useState,
@@ -10,7 +10,7 @@ import React, {
 import { mergedCva } from "../../../utils/components";
 import { Typography } from "../../data-display";
 import Info from "../../../icons/info";
-import { BaseInputWrapperProps, infoIconStyles } from "../commons";
+import { type BaseInputWrapperProps, infoIconStyles } from "../commons";
 import { Popover } from "../../utils";
 
 const inputWrapperStyles = mergedCva(
@@ -21,7 +21,7 @@ const inputWrapperStyles = mergedCva(
                 true: ["cui-gap-2"],
             },
         },
-    }
+    },
 );
 
 const radioBackgroundStyles = mergedCva(
@@ -40,7 +40,7 @@ const radioBackgroundStyles = mergedCva(
                 true: ["cui-bg-orange"],
             },
         },
-    }
+    },
 );
 
 const inputStyles = mergedCva([
@@ -92,7 +92,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
         onChange,
         ...rest
     },
-    ref
+    ref,
 ): ReactElement {
     const generatedId = useId();
     const [infoIcon, setInfoIcon] = useState<HTMLDivElement | null>(null);

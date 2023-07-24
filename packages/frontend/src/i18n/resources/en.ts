@@ -60,6 +60,10 @@ export const en = {
             "Approved {{amount}} {{symbol}} to {{spender}}",
         "transactions.erc20.approval": "Approved ERC20 token to {{spender}}",
         "transactions.kpi.token.redeem": "Redeemed on {{address}}",
+        "transactions.kpi.token.erc20.recover":
+            "Recovered ERC20 collateral to {{receiver}}",
+        "transactions.kpi.token.erc20.recover.data":
+            "Recovered {{symbol}} to {{receiver}}",
         "transactions.kpi.token.create": "Created KPI token {{address}}",
         "transactions.oracle.finalize": "Finalized oracle {{address}}",
         "activity.recent": "Recent activity",
@@ -78,5 +82,13 @@ export const en = {
         "error.initializing.page.title": "Something went wrong",
         "error.initializing.page.description":
             "Error while bootstrapping the KPI token campaign page, please try again later.",
+        "authenticate.title": "Welcome to Carrot",
+        "authenticate.summary":
+            "In order to create campaigns it's necessary to sign a message. This request will not trigger a blockchain transaction or cost you any fees.",
+        "authenticate.cancel": "Cancel",
+        "authenticate.sign": "Sign message",
+        "wallet.disconnected.title": "Wallet diconnected",
+        "wallet.disconnected.description":
+            "A connected wallet is required to continue.",
     },
 } as const;

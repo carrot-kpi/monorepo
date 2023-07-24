@@ -1,14 +1,14 @@
 import React, {
     forwardRef,
-    HTMLAttributes,
-    ReactElement,
+    type HTMLAttributes,
+    type ReactElement,
     useCallback,
     useId,
     useState,
 } from "react";
 import { Typography } from "../../data-display";
 import Info from "../../../icons/info";
-import { BaseInputWrapperProps, infoIconStyles } from "../commons";
+import { type BaseInputWrapperProps, infoIconStyles } from "../commons";
 import Tick from "../../../icons/tick";
 import { mergedCva } from "../../../utils/components";
 import { Popover } from "../../utils";
@@ -39,7 +39,7 @@ const checkmarkBackgroundStyles = mergedCva(
                 true: ["cui-bg-orange"],
             },
         },
-    }
+    },
 );
 
 const checkmarkStyles = mergedCva(
@@ -60,7 +60,7 @@ const checkmarkStyles = mergedCva(
                 false: ["cui-opacity-0"],
             },
         },
-    }
+    },
 );
 
 const inputStyles = mergedCva([
@@ -99,7 +99,7 @@ export type CheckboxProps = Omit<
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     function Checkbox(
         { id, label, className, checked, info, ...rest },
-        ref
+        ref,
     ): ReactElement {
         const generatedId = useId();
         const [infoIcon, setInfoIcon] = useState<HTMLDivElement | null>(null);
@@ -177,5 +177,5 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 </label>
             </div>
         );
-    }
+    },
 );

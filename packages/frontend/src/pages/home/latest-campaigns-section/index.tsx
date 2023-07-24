@@ -20,7 +20,7 @@ export const LatestCampaignsSection = () => {
     return (
         <div className="relative flex flex-col gap-16">
             <Typography
-                variant="h3"
+                variant="h1"
                 className={{ root: "px-6 md:px-10 lg:px-32" }}
             >
                 {t("home.latestCampaigns")}
@@ -39,9 +39,11 @@ export const LatestCampaignsSection = () => {
                     <Empty />
                 )}
             </CardHorizontal>
-            <Link to="/campaigns" className="px-6 md:px-10 lg:px-32">
-                <Button>{t("home.allCampaigns")}</Button>
-            </Link>
+            <div className="px-6 md:px-10 lg:px-32 w-fit">
+                <Link to="/campaigns">
+                    <Button>{t("home.allCampaigns")}</Button>
+                </Link>
+            </div>
         </div>
     );
 };

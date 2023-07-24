@@ -5,7 +5,7 @@ interface SubgraphError {
 export const query = async <R>(
     url: string,
     query: string,
-    variables: { [key: string]: unknown }
+    variables: { [key: string]: unknown },
 ) => {
     const response = await fetch(url, {
         method: "POST",
@@ -19,7 +19,7 @@ export const query = async <R>(
     });
     if (!response.ok) {
         throw new Error(
-            `response not ok while executing subgraph query: ${await response.text()}`
+            `response not ok while executing subgraph query: ${await response.text()}`,
         );
     }
     const responseJSON = await response.json();
@@ -29,7 +29,7 @@ export const query = async <R>(
             `error returned from subgraph:\n${errors
                 .filter((error) => !!error && !!error.message)
                 .map((error) => `- ${error.message}`)
-                .join("\n")}`
+                .join("\n")}`,
         );
     }
     return responseJSON.data as R;

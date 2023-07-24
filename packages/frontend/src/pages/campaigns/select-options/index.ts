@@ -1,9 +1,9 @@
-import { SelectOption } from "@carrot-kpi/ui";
+import type { SelectOption } from "@carrot-kpi/ui";
 import { t } from "i18next";
 
 export const getOptionByLabel = (
-    optionsList: SelectOption[],
-    label: string
+    optionsList: SelectOption<number>[],
+    label: string,
 ) => {
     const option = optionsList.find((option) => option.label === label);
     if (option) return option;
@@ -15,7 +15,7 @@ export enum CampaignOrder {
     OLDEST,
 }
 
-export const ORDERING_OPTIONS = [
+export const SORT_OPTIONS = [
     {
         label: t("orderingOptions.newest"),
         value: CampaignOrder.NEWEST,

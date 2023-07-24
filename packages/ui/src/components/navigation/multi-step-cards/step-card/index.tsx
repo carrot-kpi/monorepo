@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactElement, ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { mergedCva } from "../../../../utils/components";
 import { Typography } from "../../../data-display";
 
@@ -61,7 +61,7 @@ export const StepCard = ({
                 >
                     {messages.step} {step}
                 </Typography>
-                <Typography variant="h3" className={{ root: "cui-text-white" }}>
+                <Typography variant="h2" className={{ root: "cui-text-white" }}>
                     {title}
                 </Typography>
             </div>

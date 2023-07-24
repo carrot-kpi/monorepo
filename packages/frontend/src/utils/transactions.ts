@@ -1,16 +1,16 @@
-import { Tx, TxType } from "@carrot-kpi/react";
-import { TFunction } from "i18next";
+import { type Tx, TxType } from "@carrot-kpi/react";
+import type { TFunction } from "i18next";
 import { shortenAddress } from "./address";
 import { Fetcher, Token } from "@carrot-kpi/sdk";
-import { PublicClient } from "wagmi";
+import type { PublicClient } from "wagmi";
 import { formatUnits } from "viem";
 
 type PayloadSerializer<T extends TxType> = (
-    serializable: Tx<T>["payload"]
+    serializable: Tx<T>["payload"],
 ) => object;
 
 const defaultSerializablePayloadGetter = <T extends TxType>(
-    payload: Tx<T>["payload"]
+    payload: Tx<T>["payload"],
 ) => payload;
 
 const SERIALIZABLE_PAYLOAD_GETTER: {
@@ -26,6 +26,12 @@ const SERIALIZABLE_PAYLOAD_GETTER: {
     },
     [TxType.KPI_TOKEN_CREATION]: defaultSerializablePayloadGetter,
     [TxType.KPI_TOKEN_REDEMPTION]: defaultSerializablePayloadGetter,
+    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: (payload) => {
+        return {
+            receiver: payload.receiver,
+            token: payload.token,
+        };
+    },
     [TxType.ORACLE_FINALIZATION]: defaultSerializablePayloadGetter,
 };
 
@@ -50,7 +56,7 @@ export const serializeTransaction = <T extends TxType>(tx: Tx<T>) => {
 };
 
 type PayloadDeserializer<T extends TxType> = (
-    serialized: string
+    serialized: string,
 ) => Tx<T>["payload"];
 
 const PAYLOAD_DESERIALIZER: {
@@ -67,17 +73,18 @@ const PAYLOAD_DESERIALIZER: {
     },
     [TxType.KPI_TOKEN_CREATION]: JSON.parse,
     [TxType.KPI_TOKEN_REDEMPTION]: JSON.parse,
+    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: JSON.parse,
     [TxType.ORACLE_FINALIZATION]: JSON.parse,
 };
 
 export const deserializeTransaction = <T extends TxType>(
-    serialized: string
+    serialized: string,
 ): Tx<T> => {
     const rawDeserializedTx: Tx<T> = JSON.parse(serialized);
     return {
         ...rawDeserializedTx,
         payload: PAYLOAD_DESERIALIZER[rawDeserializedTx.type](
-            JSON.stringify(rawDeserializedTx.payload)
+            JSON.stringify(rawDeserializedTx.payload),
         ),
     };
 };
@@ -85,7 +92,7 @@ export const deserializeTransaction = <T extends TxType>(
 type SummaryGetter<T extends TxType> = (
     t: TFunction,
     publicClient: PublicClient,
-    tx: Tx<T>
+    tx: Tx<T>,
 ) => string | Promise<string>;
 
 // used to force implementation for all tx type variants
@@ -108,7 +115,7 @@ const SUMMARY_GETTER: {
                 throw new Error("could not fetch erc20 token with the fetcher");
         } catch (error) {
             console.warn(
-                `could not get erc20 token at address ${tx.payload.token}`
+                `could not get erc20 token at address ${tx.payload.token}`,
             );
             return t("transactions.erc20.approval", {
                 spender: shortenAddress(tx.payload.spender),
@@ -123,6 +130,29 @@ const SUMMARY_GETTER: {
     [TxType.KPI_TOKEN_REDEMPTION]: (t, _publicClient, tx) => {
         return t("transactions.kpi.token.redeem", {
             address: shortenAddress(tx.payload.address),
+        });
+    },
+    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: async (t, publicClient, tx) => {
+        let token: Token;
+        try {
+            const tokens = await Fetcher.fetchERC20Tokens({
+                publicClient,
+                addresses: [tx.payload.token],
+            });
+            token = tokens[tx.payload.token];
+            if (!token)
+                throw new Error("could not fetch erc20 token with the fetcher");
+        } catch (error) {
+            console.warn(
+                `could not get erc20 token at address ${tx.payload.token}`,
+            );
+            return t("transactions.kpi.token.erc20.recover", {
+                receiver: shortenAddress(tx.payload.receiver),
+            });
+        }
+        return t("transactions.kpi.token.erc20.recover.data", {
+            symbol: token.symbol,
+            receiver: shortenAddress(tx.payload.receiver),
         });
     },
     [TxType.KPI_TOKEN_CREATION]: (t, _publicClient, tx) => {
@@ -140,7 +170,7 @@ const SUMMARY_GETTER: {
 export const getTransactionSummary = <T extends TxType>(
     t: TFunction,
     publicClient: PublicClient,
-    tx: Tx<T>
+    tx: Tx<T>,
 ) => {
     return SUMMARY_GETTER[tx.type](t, publicClient, tx);
 };

@@ -34,7 +34,7 @@ export function templateId(
     return Bytes.fromHexString(
         managerAddress
             .toHex()
-            .concat(onChainId.toHex().concat(onChainVersion.toHex()))
+            .concat(onChainId.toString().concat(onChainVersion.toString()))
     );
 }
 

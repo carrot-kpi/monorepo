@@ -7,20 +7,25 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "prettier --check './**/*.{json,md,js}'",
-        "format": "prettier --write './**/*.{json,md,js}'"
+        "lint": "eslint --ext .js ./ && prettier --check './**/*.{json,md}'",
+        "format": "eslint --fix --ext .js ./ && prettier --write './**/*.{json,md}'"
+    },
+    "dependencies": {
+        "@typescript-eslint/eslint-plugin": "^6.2.0",
+        "@typescript-eslint/parser": "^6.2.0",
+        "eslint": "latest",
+        "eslint-config-next": "latest",
+        "eslint-config-prettier": "latest",
+        "eslint-config-turbo": "latest"
     },
     "peerDependencies": {
-        "eslint-config-prettier": "^8.8.0",
-        "eslint-config-turbo": "^1.9.3",
-        "eslint-plugin-prettier": "^4.2.1",
-        "eslint-plugin-react": "^7.32.2"
+        "eslint-plugin-prettier": "latest",
+        "eslint-plugin-react": "latest",
+        "prettier": "latest"
     },
     "devDependencies": {
-        "eslint-config-prettier": "^8.8.0",
-        "eslint-config-turbo": "^1.9.4",
-        "eslint-plugin-prettier": "^4.2.1",
-        "eslint-plugin-react": "^7.32.2",
-        "prettier": "^2.8.8"
+        "eslint-plugin-prettier": "latest",
+        "eslint-plugin-react": "latest",
+        "prettier": "latest"
     }
 }

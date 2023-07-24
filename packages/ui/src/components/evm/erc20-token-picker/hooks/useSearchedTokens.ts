@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { filterERC20Tokens, sortERC20Tokens } from "../../../../utils/erc20";
-import { TokenInfoWithBalance, TokenListWithBalance } from "../types";
+import type { TokenInfoWithBalance, TokenListWithBalance } from "../types";
 
 export const useSearchedTokens = (
     debouncedQuery?: string,
     chainId?: number,
-    selectedList?: TokenListWithBalance | null
+    selectedList?: TokenListWithBalance | null,
 ): { tokens: TokenInfoWithBalance[] } => {
     const tokensInChain = useMemo(() => {
         if (!selectedList || !chainId) return [];
@@ -14,7 +14,7 @@ export const useSearchedTokens = (
 
     const filteredSortedTokens = useMemo(() => {
         return sortERC20Tokens(
-            filterERC20Tokens(tokensInChain, debouncedQuery)
+            filterERC20Tokens(tokensInChain, debouncedQuery),
         );
     }, [debouncedQuery, tokensInChain]);
 

@@ -6,7 +6,7 @@ export class BaseOracle {
     constructor(
         public readonly chainId: ChainId,
         public readonly address: Address,
-        public readonly finalized: boolean
+        public readonly finalized: boolean,
     ) {}
 }
 
@@ -15,7 +15,7 @@ export class Oracle extends BaseOracle {
         chainId: ChainId,
         address: Address,
         public readonly template: Template,
-        finalized: boolean
+        finalized: boolean,
     ) {
         super(chainId, address, finalized);
     }
@@ -26,7 +26,7 @@ export class ResolvedOracle extends BaseOracle {
         chainId: ChainId,
         address: Address,
         public readonly template: ResolvedTemplate,
-        finalized: boolean
+        finalized: boolean,
     ) {
         super(chainId, address, finalized);
     }
@@ -36,7 +36,7 @@ export class ResolvedOracle extends BaseOracle {
             oracle.chainId,
             oracle.address,
             template,
-            oracle.finalized
+            oracle.finalized,
         );
     }
 }
@@ -47,7 +47,7 @@ export class ResolvedOracleWithData extends ResolvedOracle {
         address: Address,
         template: ResolvedTemplate,
         finalized: boolean,
-        public readonly data: Hex
+        public readonly data: Hex,
     ) {
         super(chainId, address, template, finalized);
     }

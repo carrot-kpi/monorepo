@@ -1,6 +1,6 @@
 import React from "react";
-import { ReactElement } from "react";
-import { OracleCreationFormProps } from "../../../types/templates";
+import type { ReactElement } from "react";
+import type { OracleCreationFormProps } from "../../../types/templates";
 import { TemplateComponent } from "../../template-component";
 
 export function OracleCreationForm<S>({

@@ -1,16 +1,13 @@
-import React, {
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import type {
     ElementType,
     ForwardedRef,
-    forwardRef,
     HTMLAttributes,
     ReactElement,
     ReactNode,
-    useCallback,
-    useEffect,
-    useState,
 } from "react";
 import { mergedCva } from "../../../utils/components";
-import { Popover, PopoverProps } from "../../utils";
+import { Popover, type PopoverProps } from "../../utils";
 
 const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
     variants: {
@@ -31,22 +28,12 @@ const rootStyles = mergedCva(["cui-text-black dark:cui-text-white"], {
             xs: ["cui-font-normal", "cui-font-mono", "cui-text-xs"],
             sm: ["cui-font-normal", "cui-font-mono", "cui-text-sm"],
             base: ["cui-font-normal", "cui-font-mono", "cui-text-base"],
+            lg: ["cui-font-normal", "cui-font-mono", "cui-text-lg"],
             xl: ["cui-font-normal", "cui-font-mono", "cui-text-xl"],
-            "2xl": ["cui-font-normal", "cui-font-mono", "cui-text-2xl"],
             h4: ["cui-font-bold", "cui-font-sans", "cui-text-h4"],
             h3: ["cui-font-bold", "cui-font-sans", "cui-text-h3"],
-            h2: [
-                "cui-font-bold",
-                "cui-font-sans",
-                "cui-text-h3",
-                "md:cui-text-h2",
-            ],
-            h1: [
-                "cui-font-bold",
-                "cui-font-sans",
-                "cui-text-h3",
-                "md:cui-text-h1",
-            ],
+            h2: ["cui-font-bold", "cui-font-sans", "cui-text-h2"],
+            h1: ["cui-font-bold", "cui-font-sans", "cui-text-h1"],
         },
         weight: {
             normal: ["cui-font-normal"],
@@ -60,8 +47,8 @@ export type TypographyVariant =
     | "xs"
     | "sm"
     | "base"
+    | "lg"
     | "xl"
-    | "2xl"
     | "h1"
     | "h2"
     | "h3"
@@ -95,8 +82,8 @@ const COMPONENT_MAP: Record<TypographyVariant, ElementType> = {
     xs: "p",
     sm: "p",
     base: "p",
+    lg: "p",
     xl: "p",
-    "2xl": "p",
     h1: "h1",
     h2: "h2",
     h3: "h3",
@@ -113,7 +100,7 @@ const Component = <V extends TypographyVariant>(
         children,
         ...rest
     }: TypographyProps<V>,
-    ref: ForwardedRef<HTMLElementFromVariant<V>>
+    ref: ForwardedRef<HTMLElementFromVariant<V>>,
 ): ReactElement => {
     const [popoverOpen, setPopoverOpen] = useState(false);
     const [shouldShowPopover, setShouldShowPopover] = useState(false);
@@ -134,7 +121,7 @@ const Component = <V extends TypographyVariant>(
             if (truncate && shouldShowPopover) setPopoverOpen(true);
             if (rest.onMouseEnter) rest.onMouseEnter(event);
         },
-        [rest, shouldShowPopover, truncate]
+        [rest, shouldShowPopover, truncate],
     );
 
     const handleMouseLeave = useCallback(
@@ -142,7 +129,7 @@ const Component = <V extends TypographyVariant>(
             if (truncate && shouldShowPopover) setPopoverOpen(false);
             if (rest.onMouseLeave) rest.onMouseLeave(event);
         },
-        [rest, shouldShowPopover, truncate]
+        [rest, shouldShowPopover, truncate],
     );
 
     const Root = COMPONENT_MAP[variant];
@@ -188,9 +175,9 @@ const Component = <V extends TypographyVariant>(
 };
 
 export const Typography = forwardRef(Component) as <
-    V extends TypographyVariant
+    V extends TypographyVariant,
 >(
     props: TypographyProps<V> & {
         ref?: React.ForwardedRef<HTMLElementFromVariant<V>>;
-    }
+    },
 ) => ReturnType<typeof Component>;
