@@ -2,7 +2,7 @@ import { createAction } from "@reduxjs/toolkit";
 import type { PreferencesState } from "../types";
 
 export const setTheme = createAction<PreferencesState["theme"]>(
-    "preferences/setTheme"
+    "preferences/setTheme",
 );
 
 export const setPreferDecentralization = createAction<
@@ -14,11 +14,11 @@ export const setIPFSGatewayURL = createAction<
 >("preferences/setIPFSGatewayURL");
 
 export const setDevMode = createAction<PreferencesState["devMode"]>(
-    "preferences/setDevMode"
+    "preferences/setDevMode",
 );
 
 export const setStagingMode = createAction<PreferencesState["stagingMode"]>(
-    "preferences/setStagingMode"
+    "preferences/setStagingMode",
 );
 
 export const setKPITokenTemplateBaseURL = createAction<

@@ -9,5 +9,5 @@ const initialState: AuthState = {
 export const authReducer = createReducer(initialState, (builder) =>
     builder.addCase(setPinningProxyJWT, (state, action) => {
         state.pinningProxyJWT = action.payload;
-    })
+    }),
 );

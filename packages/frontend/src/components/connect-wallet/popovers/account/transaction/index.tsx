@@ -15,7 +15,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
 
     const href = `${getTransactionExplorerLink(
         SUPPORTED_CHAINS[(chain?.id || Number.MAX_SAFE_INTEGER) as ChainId]
-            .defaultBlockExplorer
+            .defaultBlockExplorer,
     )}/tx/${tx.hash}`;
 
     return (

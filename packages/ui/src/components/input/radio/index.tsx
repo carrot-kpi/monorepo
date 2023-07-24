@@ -21,7 +21,7 @@ const inputWrapperStyles = mergedCva(
                 true: ["cui-gap-2"],
             },
         },
-    }
+    },
 );
 
 const radioBackgroundStyles = mergedCva(
@@ -40,7 +40,7 @@ const radioBackgroundStyles = mergedCva(
                 true: ["cui-bg-orange"],
             },
         },
-    }
+    },
 );
 
 const inputStyles = mergedCva([
@@ -92,7 +92,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
         onChange,
         ...rest
     },
-    ref
+    ref,
 ): ReactElement {
     const generatedId = useId();
     const [infoIcon, setInfoIcon] = useState<HTMLDivElement | null>(null);

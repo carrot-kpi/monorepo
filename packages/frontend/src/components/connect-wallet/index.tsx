@@ -91,7 +91,7 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
             }
             setNetworksPopoverOpen(false);
         },
-        [activeConnector]
+        [activeConnector],
     );
 
     const multipleEnabledChains = Object.keys(ENABLED_CHAINS).length > 1;

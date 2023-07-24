@@ -76,7 +76,7 @@ const buttonStyles = mergedCva(
                 ],
             },
         ],
-    }
+    },
 );
 
 const iconStyles = mergedCva(
@@ -92,7 +92,7 @@ const iconStyles = mergedCva(
                 true: ["cui-animate-spin"],
             },
         },
-    }
+    },
 );
 
 const spinnerWrapperStyles = mergedCva(
@@ -123,7 +123,7 @@ const spinnerWrapperStyles = mergedCva(
                 ],
             },
         ],
-    }
+    },
 );
 
 const spinnerStyles = mergedCva([], {
@@ -235,7 +235,7 @@ const Component = (props: ButtonProps, ref: RefType<typeof props>) => {
                             loading,
                         }),
                         spinnerStyles({ hasIcon, loading }),
-                        className?.icon
+                        className?.icon,
                     )}
                 />
             </div>
@@ -274,5 +274,5 @@ const Component = (props: ButtonProps, ref: RefType<typeof props>) => {
 export const Button = forwardRef(Component) as <P extends ButtonProps>(
     props: P & {
         ref?: RefType<P>;
-    }
+    },
 ) => ReturnType<typeof Component>;

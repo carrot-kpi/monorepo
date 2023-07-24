@@ -38,7 +38,7 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
             max,
             ...rest
         },
-        ref
+        ref,
     ): ReactElement {
         const generatedId = useId();
         const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
@@ -130,5 +130,5 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                 )}
             </>
         );
-    }
+    },
 );

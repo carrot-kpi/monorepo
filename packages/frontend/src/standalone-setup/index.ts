@@ -82,7 +82,7 @@ if (!__LIBRARY_MODE__) {
             new WalletConnectConnector({
                 chains: standaloneSupportedChains,
                 options: { projectId: __WALLETCONNECT_PROJECT_ID__ },
-            })
+            }),
         );
     }
 

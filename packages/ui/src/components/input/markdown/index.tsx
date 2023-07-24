@@ -55,7 +55,7 @@ export const markdownInputContentStyles = mergedCva(
                 ],
             },
         },
-    }
+    },
 );
 
 export const MarkdownInput = ({
@@ -96,7 +96,7 @@ export const MarkdownInput = ({
                 setLocalValue(editor.getHTML());
             },
         },
-        []
+        [],
     );
 
     useEffect(() => {

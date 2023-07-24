@@ -41,7 +41,7 @@ export class FrameConnector extends Connector<Provider, unknown> {
             .catch((error) => {
                 console.warn(
                     "error while checking if frame is available",
-                    error
+                    error,
                 );
                 this.ready = false;
             });
@@ -147,7 +147,7 @@ export class FrameConnector extends Connector<Provider, unknown> {
             await new Promise<void>((resolve) =>
                 this.on("change", ({ chain }) => {
                     if (chain?.id === chainId) resolve();
-                })
+                }),
             );
             return targetChain;
         } catch (error) {
@@ -174,8 +174,8 @@ export class FrameConnector extends Connector<Provider, unknown> {
                     if (currentChainId !== targetChain.id)
                         throw new UserRejectedRequestError(
                             new Error(
-                                "User rejected switch after adding network."
-                            )
+                                "User rejected switch after adding network.",
+                            ),
                         );
 
                     return targetChain;

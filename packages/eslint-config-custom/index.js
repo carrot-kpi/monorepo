@@ -4,6 +4,6 @@ module.exports = {
     plugins: ["@typescript-eslint", "prettier"],
     ignorePatterns: ["node_modules/", "dist/", "build/", ".turbo/"],
     rules: {
-        "prettier/prettier": "error",
-    },
+        "prettier/prettier": "error"
+    }
 };

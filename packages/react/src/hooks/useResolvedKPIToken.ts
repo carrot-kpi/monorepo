@@ -13,7 +13,7 @@ export function useResolvedKPIToken(kpiToken?: KPIToken | ResolvedKPIToken): {
 
     const [resolvedKPIToken, setResolvedKPIToken] =
         useState<ResolvedKPIToken | null>(
-            isResolvedKPIToken(kpiToken) ? kpiToken : null
+            isResolvedKPIToken(kpiToken) ? kpiToken : null,
         );
     const [loading, setLoading] = useState(false);
 
@@ -40,7 +40,7 @@ export function useResolvedKPIToken(kpiToken?: KPIToken | ResolvedKPIToken): {
             } catch (error) {
                 console.error(
                     `error resolving kpi token at address ${kpiToken.address}`,
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoading(false);

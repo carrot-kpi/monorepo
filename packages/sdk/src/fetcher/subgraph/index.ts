@@ -53,7 +53,7 @@ const mapRawTemplate = (rawOracleTemplate: TemplateData) => {
         parseInt(rawOracleTemplate.managerId),
         getAddress(rawOracleTemplate.rawAddress),
         rawOracleTemplate.version,
-        rawOracleTemplate.specificationCid
+        rawOracleTemplate.specificationCid,
     );
 };
 
@@ -62,7 +62,7 @@ const mapRawOracle = (chainId: ChainId, rawOracle: OracleData) => {
         chainId,
         getAddress(rawOracle.rawAddress),
         mapRawTemplate(rawOracle.template),
-        rawOracle.finalized
+        rawOracle.finalized,
     );
 };
 
@@ -73,12 +73,12 @@ const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
         getAddress(rawKPIToken.rawOwner),
         mapRawTemplate(rawKPIToken.template),
         rawKPIToken.oracles.map((rawOracle) =>
-            mapRawOracle(chainId, rawOracle)
+            mapRawOracle(chainId, rawOracle),
         ),
         rawKPIToken.descriptionCid,
         parseInt(rawKPIToken.expiration),
         parseInt(rawKPIToken.creationTimestamp),
-        rawKPIToken.finalized
+        rawKPIToken.finalized,
     );
 };
 
@@ -96,7 +96,7 @@ class Fetcher implements IPartialCarrotFetcher {
         const { factory } = await query<GetKPITokensAmountQueryResponse>(
             subgraphURL,
             GetKPITokensAmountQuery,
-            { factoryAddress: chainAddresses.factory.toLowerCase() }
+            { factoryAddress: chainAddresses.factory.toLowerCase() },
         );
         if (!factory || !factory.kpiTokensAmount) return 0;
         const kpiTokensAmount = parseInt(factory.kpiTokensAmount);
@@ -113,7 +113,7 @@ class Fetcher implements IPartialCarrotFetcher {
         const { tokens } = await query<GetLatestKPITokenAddressesQueryResponse>(
             subgraphURL,
             GetLatestKPITokenAddressesQuery,
-            { limit: limit || 5 }
+            { limit: limit || 5 },
         );
         return !tokens
             ? []
@@ -135,7 +135,7 @@ class Fetcher implements IPartialCarrotFetcher {
         const { tokens } = await query<GetKPITokenAddressesQueryResponse>(
             subgraphURL,
             GetKPITokenAddressesQuery,
-            { skip: finalFromIndex, limit: finalToIndex }
+            { skip: finalFromIndex, limit: finalToIndex },
         );
         return !tokens
             ? []
@@ -144,13 +144,13 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public normalizeKpiTokens = async (
         rawTokensList: KPITokenSearchData[] | KPITokenData[],
-        chainId: ChainId
+        chainId: ChainId,
     ) => {
         const kpiTokens: ChainKPITokensMap = {};
         rawTokensList.map((rawToken) => {
             const kpiToken = mapRawKPIToken(
                 chainId,
-                "kpiToken" in rawToken ? rawToken.kpiToken : rawToken
+                "kpiToken" in rawToken ? rawToken.kpiToken : rawToken,
             );
             kpiTokens[kpiToken.address] = kpiToken;
         });
@@ -185,7 +185,7 @@ class Fetcher implements IPartialCarrotFetcher {
                     await query<GetKPITokensQueryResponse>(
                         subgraphURL,
                         GetKPITokenByAddressesQuery,
-                        { addresses: addressesChunk }
+                        { addresses: addressesChunk },
                     );
                 if (rawKPITokens.length === 0) break;
 
@@ -207,7 +207,7 @@ class Fetcher implements IPartialCarrotFetcher {
                     await query<GetKPITokensQueryResponse>(
                         subgraphURL,
                         GetKPITokensQuery,
-                        { limit: PAGE_SIZE, lastID }
+                        { limit: PAGE_SIZE, lastID },
                     );
                 page = rawTokens;
                 if (page.length === 0) break;
@@ -220,7 +220,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public normalizeOracle = async (
         oraclesList: OracleData[],
-        chainId: ChainId
+        chainId: ChainId,
     ) => {
         const oracles: ChainOraclesMap = {};
 
@@ -260,7 +260,7 @@ class Fetcher implements IPartialCarrotFetcher {
                     await query<GetOraclesQueryResponse>(
                         subgraphURL,
                         GetOracleByAddressesQuery,
-                        { addresses: addressesChunk }
+                        { addresses: addressesChunk },
                     );
                 if (rawOracles.length === 0) break;
                 oracles = this.normalizeOracle(rawOracles, chainId);
@@ -279,7 +279,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 const result = await query<GetOraclesQueryResponse>(
                     subgraphURL,
                     GetOraclesQuery,
-                    { limit: PAGE_SIZE, lastID }
+                    { limit: PAGE_SIZE, lastID },
                 );
                 page = result.oracles;
                 if (page.length === 0) break;
@@ -313,7 +313,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 const { manager } = await query<GetTemplatesQueryResponse>(
                     subgraphURL,
                     GetLatestVersionKPITokenTemplatesOfManagerByIdQuery,
-                    { managerAddress, ids: idsChunk }
+                    { managerAddress, ids: idsChunk },
                 );
                 if (!manager || manager.templateSets.length === 0) break;
                 manager.templateSets.map((templateSet) => {
@@ -343,7 +343,7 @@ class Fetcher implements IPartialCarrotFetcher {
                         managerAddress,
                         limit: PAGE_SIZE,
                         lastID,
-                    }
+                    },
                 );
                 if (!manager || manager.templateSets.length === 0) break;
                 page = manager.templateSets.reduce(
@@ -355,7 +355,7 @@ class Fetcher implements IPartialCarrotFetcher {
                             accumulator.push(templateSet.templates[0]);
                         return accumulator;
                     },
-                    []
+                    [],
                 );
                 if (page.length === 0) break;
                 page.map((rawTemplate) => {
@@ -390,7 +390,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 const { manager } = await query<GetTemplatesQueryResponse>(
                     subgraphURL,
                     GetOracleTemplatesOfManagerByIdQuery,
-                    { managerAddress, ids: idsChunk }
+                    { managerAddress, ids: idsChunk },
                 );
                 if (!manager || manager.templateSets.length === 0) break;
                 manager.templateSets.map((templateSet) => {
@@ -420,7 +420,7 @@ class Fetcher implements IPartialCarrotFetcher {
                         managerAddress,
                         limit: PAGE_SIZE,
                         lastID,
-                    }
+                    },
                 );
                 if (!manager) break;
                 page = manager.templateSets.reduce(
@@ -432,7 +432,7 @@ class Fetcher implements IPartialCarrotFetcher {
                             accumulator.push(templateSet.templates[0]);
                         return accumulator;
                     },
-                    []
+                    [],
                 );
                 if (page.length === 0) break;
                 page.map((rawTemplate) => {

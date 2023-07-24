@@ -27,7 +27,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             className,
             ...rest
         },
-        ref
+        ref,
     ): ReactElement {
         const generatedId = useId();
 
@@ -66,5 +66,5 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 />
             </BaseInputWrapper>
         );
-    }
+    },
 );

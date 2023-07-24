@@ -31,5 +31,5 @@ registerRoute(
     ({ url }) => !!urlContainsCID(url),
     new CacheFirst({
         cacheName: IPFS_CACHE_NAME,
-    })
+    }),
 );

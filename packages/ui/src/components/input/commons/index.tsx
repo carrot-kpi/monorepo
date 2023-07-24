@@ -52,7 +52,7 @@ const inputIconWrapperStyles = mergedCva(
                 right: ["cui-right-0"],
             },
         },
-    }
+    },
 );
 
 const inputActionWrapperStyles = mergedCva(
@@ -71,7 +71,7 @@ const inputActionWrapperStyles = mergedCva(
                 right: ["cui-right-0"],
             },
         },
-    }
+    },
 );
 
 export const inputIconStyles = mergedCva([
@@ -132,7 +132,7 @@ export const inputStyles = mergedCva(
             },
         ],
         defaultVariants: { variant: "base", border: true },
-    }
+    },
 );
 
 const labelStyles = mergedCva([

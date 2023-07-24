@@ -20,7 +20,7 @@ import type {
 
 type ComponentType<
     E extends TemplateEntity,
-    T extends TemplateType
+    T extends TemplateType,
 > = FunctionComponent<RemoteComponentProps<E, T>>;
 
 interface CachedModule<E extends TemplateEntity, T extends TemplateType> {
@@ -30,12 +30,12 @@ interface CachedModule<E extends TemplateEntity, T extends TemplateType> {
 
 export const useTemplateModule = <
     E extends TemplateEntity,
-    T extends TemplateType
+    T extends TemplateType,
 >(
     entity: E,
     type: T,
     template?: ResolvedTemplate,
-    entry?: string
+    entry?: string,
 ): {
     loading: boolean;
     Component: ComponentType<E, T> | null;
@@ -50,7 +50,7 @@ export const useTemplateModule = <
     >((state) =>
         entity === "kpiToken"
             ? state.preferences.kpiTokenTemplateBaseURL
-            : state.preferences.oracleTemplateBaseURL
+            : state.preferences.oracleTemplateBaseURL,
     );
     const { chain } = useNetwork();
     const stagingMode = useStagingMode();
@@ -73,12 +73,12 @@ export const useTemplateModule = <
     const [Component, setComponent] = useState<ComponentType<E, T> | null>(
         entry && MODULE_CACHE.current[entry]
             ? () => MODULE_CACHE.current[entry].Component
-            : null
+            : null,
     );
     const [bundle, setBundle] = useState<TemplateBundle | null>(
         entry && MODULE_CACHE.current[entry]
             ? MODULE_CACHE.current[entry].bundle
-            : null
+            : null,
     );
 
     useEffect(() => {
@@ -109,7 +109,7 @@ export const useTemplateModule = <
             } catch (error) {
                 console.error(
                     "could not get exported component and bundle",
-                    error
+                    error,
                 );
             } finally {
                 if (!cancelled) setLoadingExport(false);

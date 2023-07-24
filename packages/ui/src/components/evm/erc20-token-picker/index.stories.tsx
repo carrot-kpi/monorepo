@@ -26,7 +26,7 @@ const CHAIN_ID = gnosis.id;
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
     [gnosis],
-    [publicProvider()]
+    [publicProvider()],
 );
 
 const INJECTED_CONNECTOR = new InjectedConnector({ chains });

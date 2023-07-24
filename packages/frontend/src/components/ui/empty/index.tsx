@@ -25,7 +25,7 @@ const rootStyles = cva(
                 false: ["md:flex-row", "md:text-left"],
             },
         },
-    }
+    },
 );
 
 interface EmptyProps {

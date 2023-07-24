@@ -8,5 +8,5 @@ export const addTransaction = createAction<{
 }>("transactions/addTransaction");
 
 export const clearTransactions = createAction<{ chainId: ChainId }>(
-    "transactions/clearTransactions"
+    "transactions/clearTransactions",
 );

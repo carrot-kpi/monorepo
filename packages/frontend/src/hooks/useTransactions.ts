@@ -12,7 +12,7 @@ export const useTransactions = (): Tx<TxType>[] => {
         const serializedTransactionsMap = state.transactions[chain.id];
         if (!serializedTransactionsMap) return [];
         return Object.values(serializedTransactionsMap).map(
-            deserializeTransaction
+            deserializeTransaction,
         );
     });
 };

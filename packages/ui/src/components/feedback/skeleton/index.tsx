@@ -21,7 +21,7 @@ const rootStyles = mergedCva(
                 h1: ["cui-h-h1"],
             },
         },
-    }
+    },
 );
 
 type SkeletonVariant =

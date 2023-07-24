@@ -10,17 +10,22 @@
         "lint": "prettier --check './**/*.{json,md,js}'",
         "format": "prettier --write './**/*.{json,md,js}'"
     },
+    "dependencies": {
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "@typescript-eslint/parser": "^6.1.0",
+        "eslint": "latest",
+        "eslint-config-next": "latest",
+        "eslint-config-prettier": "latest",
+        "eslint-config-turbo": "latest"
+    },
     "peerDependencies": {
-        "eslint-config-prettier": "^8.8.0",
-        "eslint-config-turbo": "^1.9.3",
-        "eslint-plugin-prettier": "^4.2.1",
-        "eslint-plugin-react": "^7.32.2"
+        "eslint-plugin-prettier": "latest",
+        "eslint-plugin-react": "latest",
+        "prettier": "latest"
     },
     "devDependencies": {
-        "eslint-config-prettier": "^8.8.0",
-        "eslint-config-turbo": "1.10.9",
-        "eslint-plugin-prettier": "^4.2.1",
-        "eslint-plugin-react": "^7.33.0",
-        "prettier": "^2.8.8"
+        "eslint-plugin-prettier": "latest",
+        "eslint-plugin-react": "latest",
+        "prettier": "latest"
     }
 }

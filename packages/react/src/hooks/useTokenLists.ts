@@ -19,7 +19,7 @@ const fetchList = async (url: string): Promise<TokenList | null> => {
 };
 
 export const useTokenLists = (
-    urls?: string[]
+    urls?: string[],
 ): { loading: boolean; lists: TokenList[] } => {
     const ipfsGatewayURL = useIPFSGatewayURL();
 
@@ -49,13 +49,13 @@ export const useTokenLists = (
                         }
                         for (let i = 0; i < resolvedUrls.length; i++) {
                             const fetchedList = await fetchList(
-                                resolvedUrls[i]
+                                resolvedUrls[i],
                             );
                             if (fetchedList === null) continue;
                             return fetchedList;
                         }
                         throw new Error(`unrecognized list url ${url}`);
-                    })
+                    }),
                 );
             } finally {
                 if (!cancelled) setLoading(false);
@@ -66,7 +66,7 @@ export const useTokenLists = (
                         if (result.status === "fulfilled")
                             accumulator.push(result.value);
                         return accumulator;
-                    }, [])
+                    }, []),
                 );
         };
         void fetchLists();

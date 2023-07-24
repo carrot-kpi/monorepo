@@ -11,12 +11,12 @@ describe("template", () => {
                 ["tag 1", "tag 2"],
                 "Repository",
                 "Commit hash",
-                "https://staging-url.com"
+                "https://staging-url.com",
             );
             expect(templateSpecification.cid).toEqual("CID");
             expect(templateSpecification.name).toEqual("Name");
             expect(templateSpecification.description).toEqual(
-                "Template specification description"
+                "Template specification description",
             );
             expect(templateSpecification.tags).toEqual(["tag 1", "tag 2"]);
             expect(templateSpecification.repository).toEqual("Repository");
@@ -33,14 +33,14 @@ describe("template", () => {
                 ["tag 1", "tag 2"],
                 "Repository",
                 "Commit hash",
-                "https://staging-url.com"
+                "https://staging-url.com",
             );
             const address = privateKeyToAccount(generatePrivateKey()).address;
             const template = new ResolvedTemplate(
                 0,
                 address,
                 1,
-                templateSpecification
+                templateSpecification,
             );
             expect(template.id).toBe(0);
             expect(template.address).toEqual(address);

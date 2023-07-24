@@ -100,7 +100,7 @@ const Component = <V extends TypographyVariant>(
         children,
         ...rest
     }: TypographyProps<V>,
-    ref: ForwardedRef<HTMLElementFromVariant<V>>
+    ref: ForwardedRef<HTMLElementFromVariant<V>>,
 ): ReactElement => {
     const [popoverOpen, setPopoverOpen] = useState(false);
     const [shouldShowPopover, setShouldShowPopover] = useState(false);
@@ -121,7 +121,7 @@ const Component = <V extends TypographyVariant>(
             if (truncate && shouldShowPopover) setPopoverOpen(true);
             if (rest.onMouseEnter) rest.onMouseEnter(event);
         },
-        [rest, shouldShowPopover, truncate]
+        [rest, shouldShowPopover, truncate],
     );
 
     const handleMouseLeave = useCallback(
@@ -129,7 +129,7 @@ const Component = <V extends TypographyVariant>(
             if (truncate && shouldShowPopover) setPopoverOpen(false);
             if (rest.onMouseLeave) rest.onMouseLeave(event);
         },
-        [rest, shouldShowPopover, truncate]
+        [rest, shouldShowPopover, truncate],
     );
 
     const Root = COMPONENT_MAP[variant];
@@ -175,9 +175,9 @@ const Component = <V extends TypographyVariant>(
 };
 
 export const Typography = forwardRef(Component) as <
-    V extends TypographyVariant
+    V extends TypographyVariant,
 >(
     props: TypographyProps<V> & {
         ref?: React.ForwardedRef<HTMLElementFromVariant<V>>;
-    }
+    },
 ) => ReturnType<typeof Component>;

@@ -41,7 +41,7 @@ export class CoreFetcher implements ICoreFetcher {
                     cachedTokens: { [address: Address]: Token };
                     missingTokens: Address[];
                 },
-                address
+                address,
             ) => {
                 const cachedToken = getCachedERC20Token(chainId, address);
                 if (!!cachedToken)
@@ -49,7 +49,7 @@ export class CoreFetcher implements ICoreFetcher {
                 else accumulator.missingTokens.push(address);
                 return accumulator;
             },
-            { cachedTokens: {}, missingTokens: [] }
+            { cachedTokens: {}, missingTokens: [] },
         );
         if (missingTokens.length === 0) return cachedTokens;
 
@@ -84,7 +84,7 @@ export class CoreFetcher implements ICoreFetcher {
             (
                 accumulator: { [address: string]: Token },
                 missingToken,
-                index
+                index,
             ) => {
                 const rawName = result[index * 5];
                 const rawSymbol = result[index * 5 + 1];
@@ -97,7 +97,7 @@ export class CoreFetcher implements ICoreFetcher {
                     !rawDecimals.result
                 ) {
                     console.warn(
-                        `could not fetch ERC20 data for address ${missingToken}`
+                        `could not fetch ERC20 data for address ${missingToken}`,
                     );
                     return accumulator;
                 }
@@ -111,12 +111,12 @@ export class CoreFetcher implements ICoreFetcher {
                     try {
                         if (!rawBytesName.result)
                             throw new Error(
-                                "wrapped bytes name result is undefined"
+                                "wrapped bytes name result is undefined",
                             );
                         name = rawBytesName.result as string;
                     } catch (error) {
                         console.warn(
-                            `could not decode ERC20 token name for address ${missingToken}`
+                            `could not decode ERC20 token name for address ${missingToken}`,
                         );
                         return accumulator;
                     }
@@ -131,12 +131,12 @@ export class CoreFetcher implements ICoreFetcher {
                     try {
                         if (!rawBytesSymbol.result)
                             throw new Error(
-                                "wrapped bytes symbol result is undefined"
+                                "wrapped bytes symbol result is undefined",
                             );
                         symbol = rawBytesSymbol.result as string;
                     } catch (error) {
                         console.warn(
-                            `could not decode ERC20 token symbol for address ${missingToken}`
+                            `could not decode ERC20 token symbol for address ${missingToken}`,
                         );
                         return accumulator;
                     }
@@ -150,19 +150,19 @@ export class CoreFetcher implements ICoreFetcher {
                         missingToken,
                         rawDecimals.result as number,
                         symbol,
-                        name
+                        name,
                     );
                     cacheERC20Token(token);
                     accumulator[missingToken] = token;
                 } catch (error) {
                     console.error(
-                        `error decoding ERC20 data for address ${missingToken}`
+                        `error decoding ERC20 data for address ${missingToken}`,
                     );
                     throw error;
                 }
                 return accumulator;
             },
-            {}
+            {},
         );
 
         return { ...cachedTokens, ...fetchedTokens };
@@ -181,7 +181,7 @@ export class CoreFetcher implements ICoreFetcher {
                     cid,
                     content: responseOk ? await response.text() : null,
                 };
-            })
+            }),
         );
         const contents: { [cid: string]: string } = {};
         for (const contentPromise of allContents) {
@@ -209,10 +209,10 @@ export class CoreFetcher implements ICoreFetcher {
                 )[resolvedTemplateSpecificationCID];
                 if (!rawTemplateSpecification)
                     throw new Error(
-                        `couldn't fetch template specification with cid ${templateSpecificationCID}`
+                        `couldn't fetch template specification with cid ${templateSpecificationCID}`,
                     );
                 const parsedTemplateSpecification = JSON.parse(
-                    rawTemplateSpecification
+                    rawTemplateSpecification,
                 );
                 const specification = new TemplateSpecification(
                     templateSpecificationCID,
@@ -221,10 +221,10 @@ export class CoreFetcher implements ICoreFetcher {
                     parsedTemplateSpecification.tags,
                     parsedTemplateSpecification.repository,
                     parsedTemplateSpecification.commitHash,
-                    parsedTemplateSpecification.stagingURL
+                    parsedTemplateSpecification.stagingURL,
                 );
                 return ResolvedTemplate.from(template, specification);
-            })
+            }),
         );
     }
 
@@ -257,9 +257,9 @@ export class CoreFetcher implements ICoreFetcher {
                             ipfsGatewayURL,
                             templates: [oracle.template],
                         })
-                    )[0]
+                    )[0],
                 );
-            })
+            }),
         );
 
         const resolvedKPITokenSpecification = (
@@ -270,14 +270,14 @@ export class CoreFetcher implements ICoreFetcher {
         )[entity.specificationCID];
         if (!resolvedKPITokenSpecification)
             throw new Error(
-                `couldn't fetch kpi token specification with cid ${entity.specificationCID}`
+                `couldn't fetch kpi token specification with cid ${entity.specificationCID}`,
             );
 
         return ResolvedKPIToken.from(
             entity,
             template,
             oracles,
-            JSON.parse(resolvedKPITokenSpecification)
+            JSON.parse(resolvedKPITokenSpecification),
         );
     }
 
@@ -290,8 +290,8 @@ export class CoreFetcher implements ICoreFetcher {
                 this.resolveEntity({
                     ipfsGatewayURL,
                     entity: kpiToken,
-                })
-            )
+                }),
+            ),
         );
         return resolvedKPITokens.reduce(
             (accumulator: ResolvedKPITokensMap, kpiToken) => {
@@ -299,7 +299,7 @@ export class CoreFetcher implements ICoreFetcher {
                     accumulator[kpiToken.value.address] = kpiToken.value;
                 return accumulator;
             },
-            {}
+            {},
         );
     }
 
@@ -312,8 +312,8 @@ export class CoreFetcher implements ICoreFetcher {
                 this.resolveEntity({
                     ipfsGatewayURL,
                     entity: oracle,
-                })
-            )
+                }),
+            ),
         );
         return resolvedOracles.reduce(
             (accumulator: ResolvedOraclesMap, oracle) => {
@@ -321,7 +321,7 @@ export class CoreFetcher implements ICoreFetcher {
                     accumulator[oracle.value.address] = oracle.value;
                 return accumulator;
             },
-            {}
+            {},
         );
     }
 }

@@ -37,7 +37,7 @@ export const CampaignsTopNav = ({
             setSearchQuery(inputValue);
             setSearchInputValue(inputValue);
         },
-        [setSearchQuery]
+        [setSearchQuery],
     );
 
     return (

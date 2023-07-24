@@ -168,10 +168,10 @@ class Fetcher implements IPartialCarrotFetcher {
                 i * 7 + 3
             ] as Address[];
             const kpiTokenExpiration = Number(
-                kpiTokenResult[i * 7 + 4] as bigint
+                kpiTokenResult[i * 7 + 4] as bigint,
             );
             const kpiTokenCreationTimestamp = Number(
-                kpiTokenResult[i * 7 + 5] as bigint
+                kpiTokenResult[i * 7 + 5] as bigint,
             );
             const kpiTokenOwner = kpiTokenResult[i * 7 + 6] as Address;
 
@@ -186,7 +186,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 Number(kpiTokenTemplate.id),
                 kpiTokenTemplate.addrezz,
                 Number(kpiTokenTemplate.version),
-                kpiTokenTemplate.specification
+                kpiTokenTemplate.specification,
             );
 
             const kpiTokenAddress = tokenAddresses[i];
@@ -199,7 +199,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 kpiTokenDescriptionCID,
                 kpiTokenExpiration,
                 kpiTokenCreationTimestamp,
-                kpiTokenFinalized
+                kpiTokenFinalized,
             );
         }
         return allKPITokens;
@@ -250,13 +250,13 @@ class Fetcher implements IPartialCarrotFetcher {
                 Number(templateId),
                 templateAddress,
                 Number(version),
-                specification
+                specification,
             );
             oracles[oracleAddress] = new Oracle(
                 chainId,
                 oracleAddress,
                 template,
-                oraclesResult[i * 2 + 1] as boolean
+                oraclesResult[i * 2 + 1] as boolean,
             );
         }
         return oracles;
@@ -265,7 +265,7 @@ class Fetcher implements IPartialCarrotFetcher {
     private async fetchTemplates(
         publicClient: PublicClient,
         managerAddress: Address,
-        ids?: number[]
+        ids?: number[],
     ): Promise<Template[]> {
         const { chainAddresses } = await this.validate({ publicClient });
 
@@ -304,7 +304,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 Number(rawTemplate.id),
                 rawTemplate.addrezz,
                 Number(rawTemplate.version),
-                rawTemplate.specification
+                rawTemplate.specification,
             );
         });
     }
@@ -318,7 +318,7 @@ class Fetcher implements IPartialCarrotFetcher {
         return await this.fetchTemplates(
             publicClient,
             CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
-            ids
+            ids,
         );
     }
 
@@ -331,7 +331,7 @@ class Fetcher implements IPartialCarrotFetcher {
         return await this.fetchTemplates(
             publicClient,
             CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
-            ids
+            ids,
         );
     }
 

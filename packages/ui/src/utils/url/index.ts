@@ -3,7 +3,7 @@ import { parseENSName, uriToHttps } from "@carrot-kpi/sdk";
 export const resolveSrc = (
     src?: string | string[] | null,
     ipfsGatewayURL?: string | null,
-    defaultSrc: string | string[] | null = []
+    defaultSrc: string | string[] | null = [],
 ) => {
     if (!src && !!defaultSrc)
         return typeof defaultSrc === "string" ? [defaultSrc] : defaultSrc;
@@ -12,7 +12,7 @@ export const resolveSrc = (
     if (src instanceof Array)
         return src.reduce((accumulator: string[], src) => {
             return accumulator.concat(
-                resolveSingleSrc(src, ipfsGatewayURL, defaultSrc)
+                resolveSingleSrc(src, ipfsGatewayURL, defaultSrc),
             );
         }, []);
     return [];
@@ -21,7 +21,7 @@ export const resolveSrc = (
 const resolveSingleSrc = (
     src?: string | null,
     ipfsGatewayURL?: string | null,
-    defaultSrc: string | string[] | null = []
+    defaultSrc: string | string[] | null = [],
 ): string[] => {
     if (!src) return [];
     const resolvedDefaultSrcs = !!!defaultSrc
@@ -35,10 +35,10 @@ const resolveSingleSrc = (
         const lowerCaseName = name.toLowerCase();
         return resolvedDefaultSrcs.concat(
             `https://${lowerCaseName}.eth.limo/${path}`,
-            `https://${lowerCaseName}.eth.link/${path}`
+            `https://${lowerCaseName}.eth.link/${path}`,
         );
     }
     return resolvedDefaultSrcs.concat(
-        uriToHttps(src, ipfsGatewayURL || undefined)
+        uriToHttps(src, ipfsGatewayURL || undefined),
     );
 };

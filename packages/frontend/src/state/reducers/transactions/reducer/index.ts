@@ -15,5 +15,5 @@ export const transactionsReducer = createReducer(initialState, (builder) =>
         })
         .addCase(clearTransactions, (state, action) => {
             state[action.payload.chainId] = {};
-        })
+        }),
 );

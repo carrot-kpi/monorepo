@@ -71,7 +71,7 @@ const listItemStyles = mergedCva(
                 false: ["hover:cui-bg-gray-100", "dark:hover:cui-bg-gray-700"],
             },
         },
-    }
+    },
 );
 
 const LOADING_SKELETON = new Array(5).fill(null).map((_, index) => {
@@ -139,7 +139,7 @@ export const ManageLists = ({
                 }
             }
         },
-        [lists, onDismiss, onSelectedListChange]
+        [lists, onDismiss, onSelectedListChange],
     );
 
     return (

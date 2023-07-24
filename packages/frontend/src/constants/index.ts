@@ -50,17 +50,17 @@ export const ENABLED_CHAINS: { [chainId: number]: AugmentedChain } =
     Object.entries(SUPPORTED_CHAINS).reduce(
         (
             accumulator: { [chainId: number]: AugmentedChain },
-            [chainId, augmentedChain]
+            [chainId, augmentedChain],
         ) => {
             if (augmentedChain.enabled)
                 accumulator[parseInt(chainId)] = augmentedChain;
             return accumulator;
         },
-        {}
+        {},
     );
 
 export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
-    (chain) => chain.enabled
+    (chain) => chain.enabled,
 )[0];
 
 export const CARROT_DOMAIN = __DEV__ ? "carrot-kpi.dev" : "carrot-kpi.io";

@@ -10,7 +10,7 @@ export class Token extends Currency {
         address: Address,
         decimals: number,
         symbol: string,
-        name: string
+        name: string,
     ) {
         super(symbol, name, decimals);
         enforce(isAddress(address), `${address} is not a valid address.`);
@@ -27,7 +27,7 @@ export class Token extends Currency {
 
 export function currencyEquals(
     currencyA: Currency,
-    currencyB: Currency
+    currencyB: Currency,
 ): boolean {
     if (currencyA instanceof Token && currencyB instanceof Token)
         return currencyA.equals(currencyB);

@@ -64,7 +64,7 @@ const optionStyles = mergedCva(
         defaultVariants: {
             picked: false,
         },
-    }
+    },
 );
 
 const customOptionWrapperStyles = mergedCva(["cui-pointer-events-none"]);
@@ -103,7 +103,7 @@ function Component<T extends SelectOption<ValueType>>(
         renderOption,
         ...rest
     }: SelectProps<T>,
-    ref: ForwardedRef<HTMLInputElement>
+    ref: ForwardedRef<HTMLInputElement>,
 ): ReactElement {
     const generatedId = useId();
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -125,7 +125,7 @@ function Component<T extends SelectOption<ValueType>>(
             onChange(option);
             setOpen(false);
         },
-        [onChange]
+        [onChange],
     );
 
     return (
@@ -181,7 +181,7 @@ function Component<T extends SelectOption<ValueType>>(
                                     <div
                                         className={mergedCx(
                                             customOptionWrapperStyles(),
-                                            className?.customOptionWrapper
+                                            className?.customOptionWrapper,
                                         )}
                                     >
                                         {renderOption(option)}
@@ -199,7 +199,7 @@ function Component<T extends SelectOption<ValueType>>(
 }
 
 export const Select = forwardRef(Component) as <
-    T extends SelectOption<ValueType>
+    T extends SelectOption<ValueType>,
 >(
-    props: SelectProps<T> & { ref?: React.ForwardedRef<HTMLSelectElement> }
+    props: SelectProps<T> & { ref?: React.ForwardedRef<HTMLSelectElement> },
 ) => ReturnType<typeof Component>;

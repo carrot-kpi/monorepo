@@ -39,7 +39,7 @@ export const CreateWithTemplateId = ({
     const queryClient = useQueryClient();
 
     const [template, setTemplate] = useState<ResolvedTemplate | null>(
-        state && "specification" in state.template ? state.template : null
+        state && "specification" in state.template ? state.template : null,
     );
     const [show, setShow] = useState(!closing);
     const [formKey, setFormKey] = useState(0);
@@ -91,7 +91,7 @@ export const CreateWithTemplateId = ({
                 });
                 if (templates.length !== 1) {
                     console.warn(
-                        `inconsistent array length while fetching template with id ${templateId} on ${chain?.name}`
+                        `inconsistent array length while fetching template with id ${templateId} on ${chain?.name}`,
                     );
                     if (!cancelled) setShow(false);
                     return;
@@ -102,7 +102,7 @@ export const CreateWithTemplateId = ({
                 });
                 if (resolvedTemplates.length !== 1) {
                     console.warn(
-                        `inconsistent array length while resolving template with id ${templateId} on ${chain?.name}`
+                        `inconsistent array length while resolving template with id ${templateId} on ${chain?.name}`,
                     );
                     if (!cancelled) setShow(false);
                     return;
@@ -111,7 +111,7 @@ export const CreateWithTemplateId = ({
             } catch (error) {
                 console.error(
                     `could not fetch template with id ${templateId}`,
-                    error
+                    error,
                 );
             }
         };
@@ -134,7 +134,7 @@ export const CreateWithTemplateId = ({
             // FIXME: kinda sus and ugly. The example in the docs say we
             // can use the query prefix direcy, but it's apparently not
             // true here
-            LATEST_KPI_TOKEN_QUERY_KEY_PREFIX as unknown as readonly unknown[]
+            LATEST_KPI_TOKEN_QUERY_KEY_PREFIX as unknown as readonly unknown[],
         );
     }, [queryClient]);
 
@@ -166,10 +166,10 @@ export const CreateWithTemplateId = ({
                                     <ErrorFeedback
                                         messages={{
                                             title: t(
-                                                "error.initializing.creation.title"
+                                                "error.initializing.creation.title",
                                             ),
                                             description: t(
-                                                "error.initializing.creation.description"
+                                                "error.initializing.creation.description",
                                             ),
                                         }}
                                     />

@@ -36,7 +36,7 @@ const navbarStyles = cva(
                 modal: ["px-6 xl:px-10"],
             },
         },
-    }
+    },
 );
 
 export interface NavbarProps {

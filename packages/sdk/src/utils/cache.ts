@@ -28,16 +28,16 @@ export const cacheERC20Token = (token: Token, validUntil?: number) => {
             symbol: token.symbol,
             name: token.name,
         },
-        validUntil
+        validUntil,
     );
 };
 
 export const getCachedERC20Token = (
     chainId: number,
-    address: Address
+    address: Address,
 ): Token | undefined => {
     const serializedERC20Token = CACHER.get<SerializedERC20Token>(
-        erc20TokenCachingKey(chainId, address)
+        erc20TokenCachingKey(chainId, address),
     );
     if (!!!serializedERC20Token) return;
     return new Token(
@@ -45,6 +45,6 @@ export const getCachedERC20Token = (
         serializedERC20Token.address,
         serializedERC20Token.decimals,
         serializedERC20Token.symbol,
-        serializedERC20Token.name
+        serializedERC20Token.name,
     );
 };
