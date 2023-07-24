@@ -9,6 +9,7 @@
         "packages/*"
     ],
     "scripts": {
+        "changeset:publish": "yarn run build && changeset publish",
         "build": "turbo run build",
         "build:frontend-production": "turbo run build:production --filter @carrot-kpi/host-frontend",
         "build:frontend-staging": "turbo run build:staging --filter @carrot-kpi/host-frontend",
@@ -19,11 +20,11 @@
         "start": "turbo run start",
         "test": "turbo run test",
         "size-limit": "turbo run size-limit",
-        "release": "turbo run release",
         "commitlint": "commitlint -e",
         "prepare": "husky install"
     },
     "devDependencies": {
+        "@changesets/cli": "^2.26.2",
         "@commitlint/cli": "^17.6.6",
         "@commitlint/config-conventional": "^17.6.6",
         "husky": "^8.0.1",

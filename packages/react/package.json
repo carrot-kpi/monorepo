@@ -20,8 +20,7 @@
         "build": "yarn clean && rollup -c rollup.config.mjs",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
-        "size-limit": "size-limit",
-        "release": "yarn publish"
+        "size-limit": "size-limit"
     },
     "dependencies": {
         "@carrot-kpi/sdk": "*",

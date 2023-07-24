@@ -28,7 +28,6 @@
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
         "size-limit": "size-limit",
-        "release": "yarn publish",
         "start": "storybook dev -p 6006",
         "build:storybook": "storybook build"
     },
