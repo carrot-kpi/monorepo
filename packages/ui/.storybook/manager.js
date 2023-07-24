@@ -1,4 +1,5 @@
 import { create } from "@storybook/theming";
+import { addons } from "@storybook/manager-api";
 
 const createCustomThemeVariant = (base) => {
     return create({
@@ -9,8 +10,14 @@ const createCustomThemeVariant = (base) => {
         brandTarget: "_self",
         colorPrimary: "#EF692B",
         colorSecondary: "#D6602A",
+        appBg: "black",
     });
 };
 
-export const light = createCustomThemeVariant("light");
-export const dark = createCustomThemeVariant("dark");
+addons.setConfig({
+    theme: createCustomThemeVariant("light"),
+});
+
+addons.setConfig({
+    theme: createCustomThemeVariant("dark"),
+});

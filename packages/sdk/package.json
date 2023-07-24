@@ -29,7 +29,7 @@
     "dependencies": {
         "decimal.js-light": "^2.5.1",
         "multiformats": "^9.9.0",
-        "viem": "^1.1.7"
+        "viem": "^1.4.1"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*"
