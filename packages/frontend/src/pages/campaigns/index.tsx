@@ -28,6 +28,7 @@ export const Campaigns = () => {
     const [kpiTokens, setKpiTokens] = useState<(KPIToken | ResolvedKPIToken)[]>(
         []
     );
+    const [kpiTokensReady, setKpiTokensReady] = useState(false);
 
     // filters
     const [searchQuery, setSearchQuery] = useState("");
@@ -49,6 +50,7 @@ export const Campaigns = () => {
     useEffect(() => {
         if (loading || kpiTokens.length > 0) return;
         setKpiTokens(Object.values(response));
+        setKpiTokensReady(true);
     }, [response, kpiTokens, loading]);
 
     useEffect(() => {
@@ -176,6 +178,7 @@ export const Campaigns = () => {
                             <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
                                 <Grid
                                     loading={loading}
+                                    kpiTokensReady={kpiTokensReady}
                                     items={sortedAndfilteredKPITokens}
                                     onResolved={handleOnResolvedKPIToken}
                                 />
