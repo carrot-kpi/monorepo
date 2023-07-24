@@ -7,12 +7,12 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "prettier --check './**/*.{json,md,js}'",
-        "format": "prettier --write './**/*.{json,md,js}'"
+        "lint": "eslint --ext .js ./ && prettier --check './**/*.{json,md}'",
+        "format": "eslint --fix --ext .js ./ && prettier --write './**/*.{json,md}'"
     },
     "dependencies": {
-        "@typescript-eslint/eslint-plugin": "^6.1.0",
-        "@typescript-eslint/parser": "^6.1.0",
+        "@typescript-eslint/eslint-plugin": "^6.2.0",
+        "@typescript-eslint/parser": "^6.2.0",
         "eslint": "latest",
         "eslint-config-next": "latest",
         "eslint-config-prettier": "latest",
