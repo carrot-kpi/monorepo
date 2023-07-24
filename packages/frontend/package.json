@@ -40,7 +40,7 @@
         "@carrot-kpi/react": "*",
         "@carrot-kpi/sdk": "*",
         "@carrot-kpi/ui": "*",
-        "class-variance-authority": "^0.6.1",
+        "class-variance-authority": "^0.7.0",
         "dayjs": "^1.11.8",
         "eth-provider": "^0.13.6",
         "ethereum-blockies-base64": "^1.0.2",
