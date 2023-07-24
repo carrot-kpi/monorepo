@@ -5,7 +5,12 @@ module.exports = {
         "@storybook/addon-links",
         "@storybook/addon-essentials",
         "@storybook/addon-interactions",
-        "storybook-dark-mode",
+        {
+            name: "@storybook/addon-styling",
+            options: {
+                postCss: true,
+            },
+        },
     ],
     framework: "@storybook/react-webpack5",
     typescript: { reactDocgen: "react-docgen-typescript" },
