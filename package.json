@@ -10,6 +10,7 @@
     ],
     "scripts": {
         "changeset:publish": "yarn run build && changeset publish",
+        "changeset:check": "changeset status",
         "build": "turbo run build",
         "build:frontend-production": "turbo run build:production --filter @carrot-kpi/host-frontend",
         "build:frontend-staging": "turbo run build:staging --filter @carrot-kpi/host-frontend",
