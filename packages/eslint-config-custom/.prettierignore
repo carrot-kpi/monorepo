@@ -153,3 +153,5 @@ build
 
 # Generated code about Fathom events
 /packages/frontend/src/out
+
+CHANGELOG.md
