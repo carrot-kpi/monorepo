@@ -7,22 +7,27 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  changesets:
-    name: Changesets
+  changeset:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Create release pull request or publish to npm
-        id: changesets
+      - name: Create release pull request
         uses: changesets/action@v1
         with:
           commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Publish
-        if: steps.changesets.outputs.hasChangesets == 'true'
-        run: yarn changeset:publish
