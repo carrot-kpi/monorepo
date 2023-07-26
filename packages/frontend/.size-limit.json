@@ -1,6 +1,6 @@
 [
     {
-        "path": "build/",
+        "path": "dist/",
         "limit": "5 MB"
     }
 ]
