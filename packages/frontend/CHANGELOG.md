@@ -1,5 +1,16 @@
 # @carrot-kpi/host-frontend
 
+## 0.13.0
+
+### Minor Changes
+
+-   4866722: Implement featured KPI tokens hook
+
+### Patch Changes
+
+-   Updated dependencies [0570ebf]
+    -   @carrot-kpi/react@0.51.3
+
 ## 0.12.1
 
 ### Patch Changes
