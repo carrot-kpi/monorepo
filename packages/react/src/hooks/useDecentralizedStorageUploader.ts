@@ -43,7 +43,7 @@ export const useDecentralizedStorageUploader = (): Uploader => {
                     Authorization: `Bearer ${pinningProxyJWT}`,
                 },
                 body: JSON.stringify({
-                    content: JSON.stringify(btoa(content)),
+                    content: btoa(content),
                 }),
             },
         );
