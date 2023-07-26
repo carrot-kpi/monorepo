@@ -1,5 +1,12 @@
 # @carrot-kpi/react
 
+## 0.51.2
+
+### Patch Changes
+
+-   49f8897: Remove double JSON.stringify in useDecentralizedStorageUploader
+    hook
+
 ## 0.51.1
 
 ### Patch Changes
