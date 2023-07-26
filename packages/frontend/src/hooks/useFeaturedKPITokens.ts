@@ -27,7 +27,9 @@ export function useFeaturedKPITokens(): {
             enforce(chain.id in ChainId, "unsupported chain");
 
             const featuredBlacklistedKPITokens = (await (
-                await fetch(FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION)
+                await fetch(
+                    FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION,
+                )
             ).json()) as FeaturedBlacklistedKPITokens;
 
             const kpiTokens = await Fetcher.fetchKPITokens({
