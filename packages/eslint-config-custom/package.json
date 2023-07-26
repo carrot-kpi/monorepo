@@ -1,11 +1,9 @@
 {
+    "private": true,
     "name": "eslint-config-custom",
     "version": "0.1.0",
     "main": "index.js",
     "license": "GPL-3.0-or-later",
-    "publishConfig": {
-        "access": "public"
-    },
     "scripts": {
         "lint": "eslint --ext .js ./ && prettier --check './**/*.{json,md}'",
         "format": "eslint --fix --ext .js ./ && prettier --write './**/*.{json,md}'"
