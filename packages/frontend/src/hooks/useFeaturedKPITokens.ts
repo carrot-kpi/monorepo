@@ -2,7 +2,7 @@ import { usePreferDecentralization } from "@carrot-kpi/react";
 import { ChainId, Fetcher, KPIToken, enforce } from "@carrot-kpi/sdk";
 import { useQuery } from "@tanstack/react-query";
 import { useNetwork, usePublicClient, type Address } from "wagmi";
-import { FEATURED_KPIY_TOKENS_CONIGURATION_LOCATION } from "../constants";
+import { FEATURED_KPI_TOKENS_CONIGURATION_LOCATION } from "../constants";
 
 type FeaturedBlacklistedKPITokens = Record<
     ChainId,
@@ -27,7 +27,7 @@ export function useFeaturedKPITokens(): {
             enforce(chain.id in ChainId, "unsupported chain");
 
             const featuredBlacklistedKPITokens = (await (
-                await fetch(FEATURED_KPIY_TOKENS_CONIGURATION_LOCATION)
+                await fetch(FEATURED_KPI_TOKENS_CONIGURATION_LOCATION)
             ).json()) as FeaturedBlacklistedKPITokens;
 
             const kpiTokens = await Fetcher.fetchKPITokens({
