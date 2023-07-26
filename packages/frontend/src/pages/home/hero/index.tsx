@@ -1,6 +1,5 @@
 import { Button, Loader, Typography } from "@carrot-kpi/ui";
 import React, { useEffect, useRef } from "react";
-import { FeaturedCampaigns } from "../../../components/featured-campaigns";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { Link } from "react-router-dom";
 import Plus from "../../../icons/plus";
@@ -10,6 +9,7 @@ import { CreateCampaignButton } from "../../../components/create-campaign-button
 import { useFeaturedKPITokens } from "../../../hooks/useFeaturedKPITokens";
 import { useSelector } from "../../../state/connector";
 import type { HostState } from "../../../state";
+import { KPITokenCard } from "../../../components/ui/kpi-token-card";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -40,7 +40,7 @@ export const Hero = () => {
     return (
         <div className="relative bg-orange bg-grid-light">
             {loading ? (
-                <div className="flex items-center justify-center w-full h-full">
+                <div className="flex items-center justify-center py-36">
                     <Loader />
                 </div>
             ) : kpiTokens.length === 0 ? (
@@ -84,8 +84,14 @@ export const Hero = () => {
                     >
                         {t("home.featuredCampaigns")}
                     </Typography>
-                    <CardHorizontal className="px-6 h-96 md:px-10 lg:px-32 dark">
-                        <FeaturedCampaigns />
+                    <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32 dark">
+                        {kpiTokens.map((kpiToken) => (
+                            <KPITokenCard
+                                key={kpiToken.address}
+                                kpiToken={kpiToken}
+                                noBorder
+                            />
+                        ))}
                     </CardHorizontal>
                     <div className="flex flex-col px-6 space-x-0 space-y-4 md:px-10 lg:px-32 md:space-x-8 md:space-y-0 md:flex-row">
                         <Button variant="primary" size="big">
