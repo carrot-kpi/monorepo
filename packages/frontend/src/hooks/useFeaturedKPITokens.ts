@@ -31,12 +31,15 @@ export function useFeaturedKPITokens(): {
                     FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION,
                 )
             ).json()) as FeaturedBlacklistedKPITokens;
+            const featuredKPITokens =
+                featuredBlacklistedKPITokens[chain.id as ChainId].featured;
+
+            if (featuredKPITokens.length === 0) return [];
 
             const kpiTokens = await Fetcher.fetchKPITokens({
                 publicClient,
                 preferDecentralization,
-                addresses:
-                    featuredBlacklistedKPITokens[chain.id as ChainId].featured,
+                addresses: featuredKPITokens,
             });
 
             return Object.values(kpiTokens).reverse();
