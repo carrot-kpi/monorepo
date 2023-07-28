@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
-import { usePublicClient } from "wagmi";
+import { usePublicClient, type Address } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useKPITokens(): {
+export function useKPITokens(blacklisted?: Address[]): {
     loading: boolean;
     kpiTokens: { [address: string]: KPIToken };
 } {
@@ -24,6 +24,7 @@ export function useKPITokens(): {
                 const kpiTokens = await Fetcher.fetchKPITokens({
                     publicClient,
                     preferDecentralization,
+                    blacklisted,
                 });
                 if (!cancelled) setKPITokens(kpiTokens);
             } catch (error) {
@@ -36,7 +37,7 @@ export function useKPITokens(): {
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, publicClient]);
+    }, [preferDecentralization, blacklisted, publicClient]);
 
     return { loading, kpiTokens };
 }
