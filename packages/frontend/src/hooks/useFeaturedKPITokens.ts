@@ -1,13 +1,15 @@
 import { usePreferDecentralization } from "@carrot-kpi/react";
-import { ChainId, Fetcher, KPIToken, enforce } from "@carrot-kpi/sdk";
-import { useQuery } from "@tanstack/react-query";
-import { useNetwork, usePublicClient, type Address } from "wagmi";
-import { FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION } from "../constants";
-
-type FeaturedBlacklistedKPITokens = Record<
+import {
     ChainId,
-    { featured: Address[]; blacklisted: Address[] }
->;
+    Fetcher,
+    KPIToken,
+    enforce,
+    type FeaturedBlacklistedKPITokens,
+    FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION,
+} from "@carrot-kpi/sdk";
+import { useQuery } from "@tanstack/react-query";
+import { useNetwork, usePublicClient } from "wagmi";
+import { useBlacklistedTokens } from "./useBlacklistedTokens";
 
 export const FEATURED_KPI_TOKEN_QUERY_KEY_PREFIX =
     "featuredKPITokens" as string;
@@ -19,6 +21,7 @@ export function useFeaturedKPITokens(): {
     const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
     const publicClient = usePublicClient();
+    const { blacklistedKPITokens } = useBlacklistedTokens(chain?.id as ChainId);
 
     const { data: kpiTokens, isLoading: loading } = useQuery({
         queryKey: [FEATURED_KPI_TOKEN_QUERY_KEY_PREFIX, { chain }],
@@ -37,8 +40,9 @@ export function useFeaturedKPITokens(): {
             if (featuredKPITokens.length === 0) return [];
 
             const kpiTokens = await Fetcher.fetchKPITokens({
-                publicClient,
                 preferDecentralization,
+                publicClient,
+                blacklisted: blacklistedKPITokens,
                 addresses: featuredKPITokens,
             });
 

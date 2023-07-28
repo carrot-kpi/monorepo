@@ -11,9 +11,6 @@ export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
 export const PINNING_PROXY_JWT_ISSUER = "carrot-pinning-proxy";
 
-export const FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION =
-    "https://d2l3j8l4t44bvz.cloudfront.net/featured-blacklisted-kpi-tokens.json";
-
 export interface AugmentedChain extends Chain {
     logo: FunctionComponent<
         SVGProps<SVGSVGElement> & { title?: string | undefined }
