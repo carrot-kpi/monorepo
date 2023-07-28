@@ -1,10 +1,12 @@
 import { Token } from "../entities/token";
-import { CACHER } from "../commons";
+import { CACHER, ChainId } from "../commons";
 import { warn } from "./invariant";
 import { type Address } from "viem";
 
 export const erc20TokenCachingKey = (chainId: number, address: Address) =>
     `erc20-${chainId}-${address}`;
+export const blacklistedKPITokensCachingKey = (chainId: number) =>
+    `blacklisted-kpi-tokens-${chainId}`;
 
 interface SerializedERC20Token {
     chainId: number;
@@ -20,7 +22,7 @@ export const cacheERC20Token = (token: Token, validUntil?: number) => {
         warn(true, `invalid valid until while caching erc20 token`);
     }
     CACHER.set<SerializedERC20Token>(
-        `erc20-${token.chainId}-${token.address}`,
+        erc20TokenCachingKey(token.chainId, token.address),
         {
             chainId: token.chainId,
             address: token.address,
@@ -28,6 +30,22 @@ export const cacheERC20Token = (token: Token, validUntil?: number) => {
             symbol: token.symbol,
             name: token.name,
         },
+        validUntil,
+    );
+};
+
+export const cacheBlacklistedKPITokens = (
+    addresses: Address[],
+    chainId: ChainId,
+    validUntil?: number,
+) => {
+    if (!validUntil || validUntil < Date.now()) {
+        validUntil = Date.now() + 172_800_000; // 2 days by default
+        warn(true, `invalid valid until while caching blacklisted kpi tokens`);
+    }
+    CACHER.set<Address[]>(
+        blacklistedKPITokensCachingKey(chainId),
+        addresses,
         validUntil,
     );
 };
@@ -47,4 +65,14 @@ export const getCachedERC20Token = (
         serializedERC20Token.symbol,
         serializedERC20Token.name,
     );
+};
+
+export const getCachedBlacklistedKPITokens = (
+    chainId: number,
+): Address[] | undefined => {
+    const serializedBlacklistedKPITokens = CACHER.get<Address[]>(
+        blacklistedKPITokensCachingKey(chainId),
+    );
+    if (!!!serializedBlacklistedKPITokens) return;
+    return serializedBlacklistedKPITokens;
 };

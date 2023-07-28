@@ -4,10 +4,11 @@ import { Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
 import type {
     FetchERC20TokensParams,
-    FullFetcherFetchEntitiesParams,
     FullFetcherFetchKPITokenAddressesParams,
     FullFetcherFetchKPITokensAmountParams,
+    FullFetcherFetchKPITokensParams,
     FullFetcherFetchLatestKPITokenAddressesParams,
+    FullFetcherFetchOraclesParams,
     FullFetcherFetchTemplatesParams,
     IFullCarrotFetcher,
 } from "./abstraction";
@@ -63,14 +64,19 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
             publicClient,
             preferDecentralization,
         });
+        const blacklisted = await this.fetchBlacklistedKPITokens({
+            chainId: await publicClient.getChainId(),
+        });
         return useSubgraph
             ? SubgraphFetcher.fetchKPITokenAddresses({
                   publicClient,
+                  blacklisted,
                   fromIndex,
                   toIndex,
               })
             : OnChainFetcher.fetchKPITokenAddresses({
                   publicClient,
+                  blacklisted,
                   fromIndex,
                   toIndex,
               });
@@ -85,13 +91,18 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
             publicClient,
             preferDecentralization,
         });
+        const blacklisted = await this.fetchBlacklistedKPITokens({
+            chainId: await publicClient.getChainId(),
+        });
         return useSubgraph
             ? SubgraphFetcher.fetchLatestKPITokenAddresses({
                   publicClient,
+                  blacklisted,
                   limit: count,
               })
             : OnChainFetcher.fetchLatestKPITokenAddresses({
                   publicClient,
+                  blacklisted,
                   limit: count,
               });
     }
@@ -100,20 +111,25 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
         publicClient,
         preferDecentralization,
         addresses,
-    }: FullFetcherFetchEntitiesParams): Promise<{
+    }: FullFetcherFetchKPITokensParams): Promise<{
         [address: string]: KPIToken;
     }> {
         const useSubgraph = await this.shouldUseSubgraph({
             publicClient,
             preferDecentralization,
         });
+        const blacklisted = await this.fetchBlacklistedKPITokens({
+            chainId: await publicClient.getChainId(),
+        });
         return useSubgraph
             ? SubgraphFetcher.fetchKPITokens({
                   publicClient,
+                  blacklisted,
                   addresses,
               })
             : OnChainFetcher.fetchKPITokens({
                   publicClient,
+                  blacklisted,
                   addresses,
               });
     }
@@ -122,7 +138,7 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
         publicClient,
         preferDecentralization,
         addresses,
-    }: FullFetcherFetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
+    }: FullFetcherFetchOraclesParams): Promise<{ [address: string]: Oracle }> {
         const useSubgraph = await this.shouldUseSubgraph({
             publicClient,
             preferDecentralization,

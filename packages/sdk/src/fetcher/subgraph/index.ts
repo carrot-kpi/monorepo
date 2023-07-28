@@ -1,9 +1,10 @@
 import { KPIToken } from "../../entities/kpi-token";
 import type {
-    FetchEntitiesParams,
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
+    FetchKPITokensParams,
     FetchLatestKpiTokenAddressesParams,
+    FetchOraclesParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
     SupportedInChainParams,
@@ -105,6 +106,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchLatestKPITokenAddresses({
         publicClient,
+        blacklisted,
         limit,
     }: FetchLatestKpiTokenAddressesParams): Promise<Address[]> {
         const { subgraphURL } = await this.validate({
@@ -113,7 +115,10 @@ class Fetcher implements IPartialCarrotFetcher {
         const { tokens } = await query<GetLatestKPITokenAddressesQueryResponse>(
             subgraphURL,
             GetLatestKPITokenAddressesQuery,
-            { limit: limit || 5 },
+            {
+                limit: limit || 5,
+                blacklisted: blacklisted.length > 0 ? blacklisted : [""],
+            },
         );
         return !tokens
             ? []
@@ -122,6 +127,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchKPITokenAddresses({
         publicClient,
+        blacklisted,
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<Address[]> {
@@ -135,7 +141,11 @@ class Fetcher implements IPartialCarrotFetcher {
         const { tokens } = await query<GetKPITokenAddressesQueryResponse>(
             subgraphURL,
             GetKPITokenAddressesQuery,
-            { skip: finalFromIndex, limit: finalToIndex },
+            {
+                skip: finalFromIndex,
+                limit: finalToIndex,
+                blacklisted: blacklisted.length > 0 ? blacklisted : [""],
+            },
         );
         return !tokens
             ? []
@@ -160,15 +170,19 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchKPITokens({
         publicClient,
+        blacklisted,
         addresses,
-    }: FetchEntitiesParams): Promise<ChainKPITokensMap> {
+    }: FetchKPITokensParams): Promise<ChainKPITokensMap> {
         const chainId = await publicClient.getChainId();
         const { subgraphURL } = await this.validate({
             publicClient,
         });
 
         if (!!addresses) {
-            const addressesLength = addresses.length;
+            const nonBlacklistedAddresses = addresses.filter(
+                (address) => !blacklisted.includes(address),
+            );
+            const addressesLength = nonBlacklistedAddresses.length;
             if (addressesLength === 0) return {};
             const finalIndex = addressesLength - 1;
             let fromIndex = 0;
@@ -178,7 +192,7 @@ class Fetcher implements IPartialCarrotFetcher {
                     : fromIndex + PAGE_SIZE;
             let kpiTokens: Promise<ChainKPITokensMap> | ChainKPITokensMap = {};
             while (toIndex < addressesLength) {
-                const addressesChunk = addresses
+                const addressesChunk = nonBlacklistedAddresses
                     .slice(fromIndex, toIndex + 1)
                     .map((address) => address.toLowerCase());
                 const { tokens: rawKPITokens } =
@@ -207,7 +221,12 @@ class Fetcher implements IPartialCarrotFetcher {
                     await query<GetKPITokensQueryResponse>(
                         subgraphURL,
                         GetKPITokensQuery,
-                        { limit: PAGE_SIZE, lastID },
+                        {
+                            limit: PAGE_SIZE,
+                            blacklisted:
+                                blacklisted.length > 0 ? blacklisted : [""],
+                            lastID,
+                        },
                     );
                 page = rawTokens;
                 if (page.length === 0) break;
@@ -235,7 +254,7 @@ class Fetcher implements IPartialCarrotFetcher {
     public async fetchOracles({
         publicClient,
         addresses,
-    }: FetchEntitiesParams): Promise<ChainOraclesMap> {
+    }: FetchOraclesParams): Promise<ChainOraclesMap> {
         const chainId = await publicClient.getChainId();
         const { subgraphURL } = await this.validate({
             publicClient,

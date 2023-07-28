@@ -108,8 +108,8 @@ export interface GetKPITokenAddressesQueryResponse {
 }
 
 export const GetKPITokenAddressesQuery = `
-    query getKPITokenAddresses($skip: Int!, $limit: Int!) {
-        tokens: kpitokens(skip: $skip, limit: $limit) {
+    query getKPITokenAddresses($skip: Int!, $limit: Int!, $blacklisted: [Bytes!]!) {
+        tokens: kpitokens(skip: $skip, limit: $limit, where: { id_not_in: $blacklisted }) {
             rawAddress: id
         }
     }
@@ -122,8 +122,8 @@ export interface GetLatestKPITokenAddressesQueryResponse {
 }
 
 export const GetLatestKPITokenAddressesQuery = `
-    query getLatestKPITokenAddresses($limit: Int!) {
-        tokens: kpitokens(first: $limit, orderBy: creationTimestamp, orderDirection: desc) {
+    query getLatestKPITokenAddresses($limit: Int!, $blacklisted: [Bytes!]!) {
+        tokens: kpitokens(first: $limit, where: { id_not_in: $blacklisted }, orderBy: creationTimestamp, orderDirection: desc) {
             rawAddress: id
         }
     }
@@ -156,8 +156,8 @@ export const GetKPITokenByAddressesQuery = `
 `;
 
 export const GetKPITokensQuery = `
-    query getKPITokens($limit: Int!, $lastID: Bytes) {
-        tokens: kpitokens(first: $limit, where: { id_gt: $lastID }) {
+    query getKPITokens($limit: Int!, $blacklisted: [Bytes!]!, $lastID: Bytes) {
+        tokens: kpitokens(first: $limit, where: { id_not_in: $blacklisted, id_gt: $lastID }) {
             ${KPITokenDataFields}
         }
     }
