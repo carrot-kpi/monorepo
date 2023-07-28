@@ -117,7 +117,8 @@ class Fetcher implements IPartialCarrotFetcher {
             GetLatestKPITokenAddressesQuery,
             {
                 limit: limit || 5,
-                blacklisted: blacklisted.length > 0 ? blacklisted : [""],
+                blacklisted:
+                    blacklisted && blacklisted.length > 0 ? blacklisted : [""],
             },
         );
         return !tokens
@@ -144,7 +145,8 @@ class Fetcher implements IPartialCarrotFetcher {
             {
                 skip: finalFromIndex,
                 limit: finalToIndex,
-                blacklisted: blacklisted.length > 0 ? blacklisted : [""],
+                blacklisted:
+                    blacklisted && blacklisted.length > 0 ? blacklisted : [""],
             },
         );
         return !tokens
@@ -179,9 +181,12 @@ class Fetcher implements IPartialCarrotFetcher {
         });
 
         if (!!addresses) {
-            const nonBlacklistedAddresses = addresses.filter(
-                (address) => !blacklisted.includes(address),
-            );
+            const nonBlacklistedAddresses =
+                blacklisted && blacklisted.length > 0
+                    ? addresses.filter(
+                          (address) => !blacklisted.includes(address),
+                      )
+                    : addresses;
             const addressesLength = nonBlacklistedAddresses.length;
             if (addressesLength === 0) return {};
             const finalIndex = addressesLength - 1;
@@ -224,7 +229,9 @@ class Fetcher implements IPartialCarrotFetcher {
                         {
                             limit: PAGE_SIZE,
                             blacklisted:
-                                blacklisted.length > 0 ? blacklisted : [""],
+                                blacklisted && blacklisted.length > 0
+                                    ? blacklisted
+                                    : [""],
                             lastID,
                         },
                     );

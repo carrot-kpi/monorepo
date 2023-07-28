@@ -49,10 +49,6 @@ export interface ICoreFetcher {
     resolveTemplates(
         params: ResolveTemplatesParams,
     ): Promise<ResolvedTemplate[]>;
-
-    fetchBlacklistedKPITokens(
-        params: FetchBlackListedKPITokensParams,
-    ): Promise<Address[]>;
 }
 
 export interface SupportedInChainParams {
@@ -65,14 +61,14 @@ export interface FetchKPITokensAmountParams {
 
 export interface FetchKPITokenAddressesParams {
     publicClient: PublicClient;
-    blacklisted: Address[];
+    blacklisted?: Address[];
     fromIndex?: number;
     toIndex?: number;
 }
 
 export interface FetchLatestKpiTokenAddressesParams {
     publicClient: PublicClient;
-    blacklisted: Address[];
+    blacklisted?: Address[];
     limit?: number;
 }
 
@@ -83,7 +79,7 @@ export interface FetchOraclesParams {
 
 export interface FetchKPITokensParams {
     publicClient: PublicClient;
-    blacklisted: Address[];
+    blacklisted?: Address[];
     addresses?: Address[];
 }
 
@@ -134,25 +130,16 @@ export interface DecentralizationParams {
 export type FullFetcherFetchKPITokensAmountParams = FetchKPITokensAmountParams &
     DecentralizationParams;
 
-export type FullFetcherFetchKPITokenAddressesParams = Omit<
-    FetchKPITokenAddressesParams,
-    "blacklisted"
-> &
-    DecentralizationParams;
+export type FullFetcherFetchKPITokenAddressesParams =
+    FetchKPITokenAddressesParams & DecentralizationParams;
 
-export type FullFetcherFetchLatestKPITokenAddressesParams = Omit<
-    FetchLatestKpiTokenAddressesParams,
-    "blacklisted"
-> &
-    DecentralizationParams;
+export type FullFetcherFetchLatestKPITokenAddressesParams =
+    FetchLatestKpiTokenAddressesParams & DecentralizationParams;
 
 export type FullFetcherFetchOraclesParams = FetchOraclesParams &
     DecentralizationParams;
 
-export type FullFetcherFetchKPITokensParams = Omit<
-    FetchKPITokensParams,
-    "blacklisted"
-> &
+export type FullFetcherFetchKPITokensParams = FetchKPITokensParams &
     DecentralizationParams;
 
 export type FullFetcherFetchTemplatesParams = FetchTemplatesParams &

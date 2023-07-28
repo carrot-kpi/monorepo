@@ -51,7 +51,7 @@ export const SUBGRAPH_URL: Record<ChainId, string | null> = {
 };
 
 export const FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION =
-    "https://d2l3j8l4t44bvz.cloudfront.net/featured-blacklisted-kpi-tokens.json";
+    "https://static.carrot-kpi.dev/featured-blacklisted-kpi-tokens.json";
 
 export {
     FACTORY_ABI,

@@ -1,12 +1,10 @@
 import { Token } from "../entities/token";
-import { CACHER, ChainId } from "../commons";
+import { CACHER } from "../commons";
 import { warn } from "./invariant";
 import { type Address } from "viem";
 
 export const erc20TokenCachingKey = (chainId: number, address: Address) =>
     `erc20-${chainId}-${address}`;
-export const blacklistedKPITokensCachingKey = (chainId: number) =>
-    `blacklisted-kpi-tokens-${chainId}`;
 
 interface SerializedERC20Token {
     chainId: number;
@@ -34,22 +32,6 @@ export const cacheERC20Token = (token: Token, validUntil?: number) => {
     );
 };
 
-export const cacheBlacklistedKPITokens = (
-    addresses: Address[],
-    chainId: ChainId,
-    validUntil?: number,
-) => {
-    if (!validUntil || validUntil < Date.now()) {
-        validUntil = Date.now() + 172_800_000; // 2 days by default
-        warn(true, `invalid valid until while caching blacklisted kpi tokens`);
-    }
-    CACHER.set<Address[]>(
-        blacklistedKPITokensCachingKey(chainId),
-        addresses,
-        validUntil,
-    );
-};
-
 export const getCachedERC20Token = (
     chainId: number,
     address: Address,
@@ -65,14 +47,4 @@ export const getCachedERC20Token = (
         serializedERC20Token.symbol,
         serializedERC20Token.name,
     );
-};
-
-export const getCachedBlacklistedKPITokens = (
-    chainId: number,
-): Address[] | undefined => {
-    const serializedBlacklistedKPITokens = CACHER.get<Address[]>(
-        blacklistedKPITokensCachingKey(chainId),
-    );
-    if (!!!serializedBlacklistedKPITokens) return;
-    return serializedBlacklistedKPITokens;
 };

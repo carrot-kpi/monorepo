@@ -58,9 +58,11 @@ class Fetcher implements IPartialCarrotFetcher {
             functionName: "enumerate",
             args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
         })) as Address[];
-        return fetchedKPITokens.filter(
-            (address) => !blacklisted.includes(address),
-        );
+        return blacklisted && blacklisted.length > 0
+            ? fetchedKPITokens.filter(
+                  (address) => !blacklisted.includes(address),
+              )
+            : fetchedKPITokens;
     }
 
     public async fetchLatestKPITokenAddresses({
@@ -85,9 +87,12 @@ class Fetcher implements IPartialCarrotFetcher {
             })) as Address[];
 
             if (fetchedKPITokens.length === 0) break;
-            const nonBlacklistedKPITokens = fetchedKPITokens.filter(
-                (address) => !blacklisted.includes(address),
-            );
+            const nonBlacklistedKPITokens =
+                blacklisted && blacklisted.length > 0
+                    ? fetchedKPITokens.filter(
+                          (address) => !blacklisted.includes(address),
+                      )
+                    : fetchedKPITokens;
             finalFetchedKPITokens = finalFetchedKPITokens.concat(
                 nonBlacklistedKPITokens.filter(
                     (address) => !finalFetchedKPITokens.includes(address),
@@ -124,9 +129,13 @@ class Fetcher implements IPartialCarrotFetcher {
             })) as Address[];
         }
 
-        tokenAddresses = tokenAddresses.filter(
-            (address) => !blacklisted.includes(address),
-        );
+        tokenAddresses =
+            blacklisted && blacklisted.length > 0
+                ? tokenAddresses.filter(
+                      (address) => !blacklisted.includes(address),
+                  )
+                : tokenAddresses;
+        console.log("fetcher", { tokenAddresses, blacklisted });
         const kpiTokenResult = await publicClient.multicall({
             multicallAddress: chainAddresses.multicall3,
             allowFailure: false,
@@ -182,8 +191,8 @@ class Fetcher implements IPartialCarrotFetcher {
 
         const allKPITokens: Record<string, KPIToken> = {};
         const iUpperLimit =
-            addresses && addresses.length > 0
-                ? addresses.length
+            tokenAddresses && tokenAddresses.length > 0
+                ? tokenAddresses.length
                 : kpiTokenAmounts;
         outerLoop: for (let i = 0; i < iUpperLimit; i++) {
             const kpiTokenFinalized = kpiTokenResult[i * 7] as boolean;
@@ -196,6 +205,7 @@ class Fetcher implements IPartialCarrotFetcher {
             const kpiTokenOracleAddresses = kpiTokenResult[
                 i * 7 + 3
             ] as Address[];
+            console.log("loop", { kpiTokenOracleAddresses, kpiTokenResult });
             const kpiTokenExpiration = Number(
                 kpiTokenResult[i * 7 + 4] as bigint,
             );

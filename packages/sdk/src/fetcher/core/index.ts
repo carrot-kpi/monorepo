@@ -1,14 +1,7 @@
+import { CHAIN_ADDRESSES, ChainId, ERC20_ABI } from "../../commons";
 import {
-    CHAIN_ADDRESSES,
-    ChainId,
-    ERC20_ABI,
-    FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION,
-} from "../../commons";
-import {
-    cacheBlacklistedKPITokens,
     cacheERC20Token,
     enforce,
-    getCachedBlacklistedKPITokens,
     getCachedERC20Token,
     warn,
 } from "../../utils";
@@ -17,7 +10,6 @@ import { Token } from "../../entities/token";
 import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
 import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
 import type {
-    FetchBlackListedKPITokensParams,
     FetchContentFromIPFSParams,
     FetchERC20TokensParams,
     ICoreFetcher,
@@ -31,11 +23,7 @@ import {
     ResolvedTemplate,
     TemplateSpecification,
 } from "../../entities/template";
-import type {
-    FeaturedBlacklistedKPITokens,
-    ResolvedKPITokensMap,
-    ResolvedOraclesMap,
-} from "../types";
+import type { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
 
 // TODO: check if validation can be extracted in its own function
 export class CoreFetcher implements ICoreFetcher {
@@ -335,29 +323,5 @@ export class CoreFetcher implements ICoreFetcher {
             },
             {},
         );
-    }
-
-    public async fetchBlacklistedKPITokens({
-        chainId,
-    }: FetchBlackListedKPITokensParams) {
-        const cachedBlacklistedKPITokens =
-            getCachedBlacklistedKPITokens(chainId);
-
-        if (!cachedBlacklistedKPITokens) {
-            const featuredBlacklistedKPITokens = (await (
-                await fetch(
-                    FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION,
-                )
-            ).json()) as FeaturedBlacklistedKPITokens;
-
-            cacheBlacklistedKPITokens(
-                featuredBlacklistedKPITokens[chainId].blacklisted,
-                chainId,
-                Date.now() + 86_400_000, // 1 day
-            );
-            return featuredBlacklistedKPITokens[chainId].blacklisted;
-        }
-
-        return cachedBlacklistedKPITokens;
     }
 }

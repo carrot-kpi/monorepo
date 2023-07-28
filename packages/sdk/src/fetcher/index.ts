@@ -57,15 +57,13 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
     public async fetchKPITokenAddresses({
         publicClient,
         preferDecentralization,
+        blacklisted,
         fromIndex,
         toIndex,
     }: FullFetcherFetchKPITokenAddressesParams): Promise<Address[]> {
         const useSubgraph = await this.shouldUseSubgraph({
             publicClient,
             preferDecentralization,
-        });
-        const blacklisted = await this.fetchBlacklistedKPITokens({
-            chainId: await publicClient.getChainId(),
         });
         return useSubgraph
             ? SubgraphFetcher.fetchKPITokenAddresses({
@@ -85,14 +83,12 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
     public async fetchLatestKPITokenAddresses({
         publicClient,
         preferDecentralization,
+        blacklisted,
         limit: count,
     }: FullFetcherFetchLatestKPITokenAddressesParams): Promise<Address[]> {
         const useSubgraph = await this.shouldUseSubgraph({
             publicClient,
             preferDecentralization,
-        });
-        const blacklisted = await this.fetchBlacklistedKPITokens({
-            chainId: await publicClient.getChainId(),
         });
         return useSubgraph
             ? SubgraphFetcher.fetchLatestKPITokenAddresses({
@@ -110,6 +106,7 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
     async fetchKPITokens({
         publicClient,
         preferDecentralization,
+        blacklisted,
         addresses,
     }: FullFetcherFetchKPITokensParams): Promise<{
         [address: string]: KPIToken;
@@ -117,9 +114,6 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
         const useSubgraph = await this.shouldUseSubgraph({
             publicClient,
             preferDecentralization,
-        });
-        const blacklisted = await this.fetchBlacklistedKPITokens({
-            chainId: await publicClient.getChainId(),
         });
         return useSubgraph
             ? SubgraphFetcher.fetchKPITokens({
