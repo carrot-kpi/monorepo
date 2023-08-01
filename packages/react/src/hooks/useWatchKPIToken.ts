@@ -13,6 +13,7 @@ import { usePreferDecentralization } from "./usePreferDecentralization";
 
 export function useWatchKPIToken(
     kpiTokenOrAddress?: ResolvedKPIToken | Address,
+    blacklisted?: Address[],
 ): ResolvedKPITokenWithData | null {
     const publicClient = usePublicClient();
     const ipfsGatewayURL = useIPFSGatewayURL();
@@ -37,6 +38,7 @@ export function useWatchKPIToken(
                     await Fetcher.fetchKPITokens({
                         publicClient,
                         preferDecentralization,
+                        blacklisted,
                         addresses: [kpiTokenOrAddress],
                     })
                 )[kpiTokenOrAddress];
@@ -66,6 +68,7 @@ export function useWatchKPIToken(
         ipfsGatewayURL,
         kpiToken,
         kpiTokenOrAddress,
+        blacklisted,
         preferDecentralization,
         publicClient,
     ]);

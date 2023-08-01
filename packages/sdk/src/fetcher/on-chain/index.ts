@@ -13,10 +13,11 @@ import { type OnChainTemplate, Template } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
 import { enforce } from "../../utils";
 import type {
-    FetchEntitiesParams,
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
+    FetchKPITokensParams,
     FetchLatestKpiTokenAddressesParams,
+    FetchOraclesParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "../abstraction";
@@ -42,6 +43,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
     public async fetchKPITokenAddresses({
         publicClient,
+        blacklisted,
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<Address[]> {
@@ -50,34 +52,63 @@ class Fetcher implements IPartialCarrotFetcher {
         const finalToIndex = !toIndex
             ? await this.fetchKPITokensAmount({ publicClient })
             : toIndex;
-        return (await publicClient.readContract({
+        const fetchedKPITokens = (await publicClient.readContract({
             abi: FACTORY_ABI,
             address: chainAddresses.factory,
             functionName: "enumerate",
             args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
         })) as Address[];
+        return blacklisted && blacklisted.length > 0
+            ? fetchedKPITokens.filter(
+                  (address) => !blacklisted.includes(address),
+              )
+            : fetchedKPITokens;
     }
 
     public async fetchLatestKPITokenAddresses({
         publicClient,
+        blacklisted,
         limit,
     }: FetchLatestKpiTokenAddressesParams): Promise<Address[]> {
         const { chainAddresses } = await this.validate({ publicClient });
         const finalLimit = limit || 5;
         const toIndex = await this.fetchKPITokensAmount({ publicClient });
-        const fromIndex = toIndex - finalLimit > 0 ? toIndex - finalLimit : 0;
-        return (await publicClient.readContract({
-            abi: FACTORY_ABI,
-            address: chainAddresses.factory,
-            functionName: "enumerate",
-            args: [BigInt(fromIndex), BigInt(toIndex)],
-        })) as Address[];
+
+        let fromIndex = toIndex - finalLimit > 0 ? toIndex - finalLimit : 0;
+        let finalFetchedKPITokens: Address[] = [];
+        while (finalFetchedKPITokens.length < finalLimit) {
+            if (fromIndex < 0) break;
+
+            const fetchedKPITokens = (await publicClient.readContract({
+                abi: FACTORY_ABI,
+                address: chainAddresses.factory,
+                functionName: "enumerate",
+                args: [BigInt(fromIndex), BigInt(toIndex)],
+            })) as Address[];
+
+            if (fetchedKPITokens.length === 0) break;
+            const nonBlacklistedKPITokens =
+                blacklisted && blacklisted.length > 0
+                    ? fetchedKPITokens.filter(
+                          (address) => !blacklisted.includes(address),
+                      )
+                    : fetchedKPITokens;
+            finalFetchedKPITokens = finalFetchedKPITokens.concat(
+                nonBlacklistedKPITokens.filter(
+                    (address) => !finalFetchedKPITokens.includes(address),
+                ),
+            );
+
+            fromIndex = fromIndex - (finalLimit - finalFetchedKPITokens.length);
+        }
+        return finalFetchedKPITokens;
     }
 
     public async fetchKPITokens({
         publicClient,
+        blacklisted,
         addresses,
-    }: FetchEntitiesParams): Promise<{ [address: string]: KPIToken }> {
+    }: FetchKPITokensParams): Promise<{ [address: string]: KPIToken }> {
         const chainId = await publicClient.getChainId();
         const { chainAddresses } = await this.validate({ publicClient });
         let tokenAddresses: Address[];
@@ -98,6 +129,13 @@ class Fetcher implements IPartialCarrotFetcher {
             })) as Address[];
         }
 
+        tokenAddresses =
+            blacklisted && blacklisted.length > 0
+                ? tokenAddresses.filter(
+                      (address) => !blacklisted.includes(address),
+                  )
+                : tokenAddresses;
+        console.log("fetcher", { tokenAddresses, blacklisted });
         const kpiTokenResult = await publicClient.multicall({
             multicallAddress: chainAddresses.multicall3,
             allowFailure: false,
@@ -153,8 +191,8 @@ class Fetcher implements IPartialCarrotFetcher {
 
         const allKPITokens: Record<string, KPIToken> = {};
         const iUpperLimit =
-            addresses && addresses.length > 0
-                ? addresses.length
+            tokenAddresses && tokenAddresses.length > 0
+                ? tokenAddresses.length
                 : kpiTokenAmounts;
         outerLoop: for (let i = 0; i < iUpperLimit; i++) {
             const kpiTokenFinalized = kpiTokenResult[i * 7] as boolean;
@@ -167,6 +205,7 @@ class Fetcher implements IPartialCarrotFetcher {
             const kpiTokenOracleAddresses = kpiTokenResult[
                 i * 7 + 3
             ] as Address[];
+            console.log("loop", { kpiTokenOracleAddresses, kpiTokenResult });
             const kpiTokenExpiration = Number(
                 kpiTokenResult[i * 7 + 4] as bigint,
             );
@@ -208,7 +247,7 @@ class Fetcher implements IPartialCarrotFetcher {
     public async fetchOracles({
         publicClient,
         addresses,
-    }: FetchEntitiesParams): Promise<{ [address: string]: Oracle }> {
+    }: FetchOraclesParams): Promise<{ [address: string]: Oracle }> {
         const chainId = await publicClient.getChainId();
         const { chainAddresses } = await this.validate({ publicClient });
         const oraclesManager = getContract({

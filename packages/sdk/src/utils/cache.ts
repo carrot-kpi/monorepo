@@ -20,7 +20,7 @@ export const cacheERC20Token = (token: Token, validUntil?: number) => {
         warn(true, `invalid valid until while caching erc20 token`);
     }
     CACHER.set<SerializedERC20Token>(
-        `erc20-${token.chainId}-${token.address}`,
+        erc20TokenCachingKey(token.chainId, token.address),
         {
             chainId: token.chainId,
             address: token.address,
