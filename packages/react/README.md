@@ -112,10 +112,10 @@ particular, know that you can take advantage of development-only optimizations:
 
 ```js
 // ./types/index.d.ts
-declare var __DEV__: boolean;
+declare var __PROD__: boolean;
 
 // inside your code...
-if (__DEV__) {
+if (!__PROD__) {
   console.log("foo");
 }
 ```
