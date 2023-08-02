@@ -2,4 +2,4 @@
 "@carrot-kpi/host-frontend": patch
 ---
 
-Replace **DEV** env with **PROD** and fix carrot domain configuration
+Replace `__DEV__` env with `__PROD__` and fix carrot domain configuration
