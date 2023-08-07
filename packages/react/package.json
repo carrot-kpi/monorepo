@@ -33,11 +33,11 @@
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*",
-        "@tanstack/react-query": "^4.24.9",
+        "@tanstack/react-query": "^4.32.0",
         "i18next": "^22.0.2",
         "react": "^18.2.0",
-        "react-i18next": "^12.2.2",
-        "wagmi": "^1.0.5"
+        "react-i18next": "^13.0.1",
+        "wagmi": "^1.3.9"
     },
     "devDependencies": {
         "@carrot-kpi/shared-state": "*",
