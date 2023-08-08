@@ -1,5 +1,18 @@
 # @carrot-kpi/react
 
+## 0.52.0
+
+### Minor Changes
+
+-   84ff58a: Upgrade dependencies
+-   84ff58a: Add optional blacklist param to KPI token hooks
+
+### Patch Changes
+
+-   Updated dependencies [84ff58a]
+-   Updated dependencies [84ff58a]
+    -   @carrot-kpi/sdk@1.31.0
+
 ## 0.51.3
 
 ### Patch Changes
