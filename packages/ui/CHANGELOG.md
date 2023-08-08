@@ -1,5 +1,18 @@
 # @carrot-kpi/ui
 
+## 0.50.0
+
+### Minor Changes
+
+-   84ff58a: Upgrade dependencies
+
+### Patch Changes
+
+-   84ff58a: Fix an issue with the svg error icon of the inputs components
+-   Updated dependencies [84ff58a]
+-   Updated dependencies [84ff58a]
+    -   @carrot-kpi/sdk@1.31.0
+
 ## 0.49.1
 
 ### Patch Changes
