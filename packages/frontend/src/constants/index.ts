@@ -11,9 +11,6 @@ export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
 export const PINNING_PROXY_JWT_ISSUER = "carrot-pinning-proxy";
 
-export const FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION =
-    "https://d2l3j8l4t44bvz.cloudfront.net/featured-blacklisted-kpi-tokens.json";
-
 export interface AugmentedChain extends Chain {
     logo: FunctionComponent<
         SVGProps<SVGSVGElement> & { title?: string | undefined }
@@ -66,7 +63,9 @@ export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
     (chain) => chain.enabled,
 )[0];
 
-export const CARROT_DOMAIN = __DEV__ ? "carrot-kpi.dev" : "carrot-kpi.io";
+export const CARROT_DOMAIN = __PROD__
+    ? "carrot-kpi.community"
+    : "carrot-kpi.dev";
 
 export interface NavbarLink {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

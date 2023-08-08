@@ -38,13 +38,13 @@ export const Hero = () => {
     }, [modalOpen]);
 
     return (
-        <div className="relative bg-orange bg-grid-light">
+        <div className="relative flex items-center bg-orange bg-grid-light h-[780px]">
             {loading ? (
                 <div className="flex items-center justify-center w-full h-full">
                     <Loader />
                 </div>
             ) : kpiTokens.length === 0 ? (
-                <div className="relative px-6 pb-16 space-y-12 md:px-14 lg:px-36 pt-7 md:pt-24 md:pb-32">
+                <div className="px-6 space-y-12 md:px-14 lg:px-36 mt-7 md:pt-24 md:pb-32">
                     <div className="flex flex-col items-center justify-around gap-10 md:flex-row md:gap-0">
                         <div className="flex flex-col items-center w-full gap-10 md:items-start md:w-2/5">
                             <Typography variant="h1">
@@ -55,18 +55,18 @@ export const Hero = () => {
                             </Typography>
                             <CreateCampaignButton primary />
                         </div>
-                        <div className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500">
+                        <div className="w-full mb-16 md:mb-0 md:w-1/2 aspect-video rounded-xl bg-gray-500">
                             <video
                                 ref={videoRef}
                                 controls
                                 className="w-full h-full rounded-xl"
                             >
                                 <source
-                                    src="https://d2l3j8l4t44bvz.cloudfront.net/hero-video.webm"
+                                    src="https://static.carrot-kpi.dev/hero-video.webm"
                                     type="video/webm"
                                 />
                                 <source
-                                    src="https://d2l3j8l4t44bvz.cloudfront.net/hero-video.mp4"
+                                    src="https://static.carrot-kpi.dev/hero-video.mp4"
                                     type="video/mp4"
                                 />
                                 {t("video.notSupported")}
@@ -75,15 +75,17 @@ export const Hero = () => {
                     </div>
                 </div>
             ) : (
-                <div className="relative pb-16 space-y-12 pt-7 md:pt-24 md:pb-32">
-                    <Typography
-                        variant="h1"
-                        className={{
-                            root: "px-6 md:px-10 lg:px-32 dark:text-black",
-                        }}
-                    >
-                        {t("home.featuredCampaigns")}
-                    </Typography>
+                <div className="mb-16 space-y-12 mt-7 md:mt-24 md:mb-32">
+                    <div className="w-[100px] md:w-full">
+                        <Typography
+                            variant="h1"
+                            className={{
+                                root: "px-6 md:px-10 lg:px-32 dark:text-black",
+                            }}
+                        >
+                            {t("home.featuredCampaigns")}
+                        </Typography>
+                    </div>
                     <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32 dark">
                         {kpiTokens.map((kpiToken) => (
                             <KPITokenCard

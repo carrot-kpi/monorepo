@@ -61,17 +61,25 @@ export interface FetchKPITokensAmountParams {
 
 export interface FetchKPITokenAddressesParams {
     publicClient: PublicClient;
+    blacklisted?: Address[];
     fromIndex?: number;
     toIndex?: number;
 }
 
 export interface FetchLatestKpiTokenAddressesParams {
     publicClient: PublicClient;
+    blacklisted?: Address[];
     limit?: number;
 }
 
-export interface FetchEntitiesParams {
+export interface FetchOraclesParams {
     publicClient: PublicClient;
+    addresses?: Address[];
+}
+
+export interface FetchKPITokensParams {
+    publicClient: PublicClient;
+    blacklisted?: Address[];
     addresses?: Address[];
 }
 
@@ -83,6 +91,10 @@ export interface FetchTemplatesParams {
 export interface FetchTemplateParams {
     publicClient: PublicClient;
     id?: number;
+}
+
+export interface FetchBlackListedKPITokensParams {
+    chainId: ChainId;
 }
 
 export interface IPartialCarrotFetcher {
@@ -99,11 +111,11 @@ export interface IPartialCarrotFetcher {
     ): Promise<Address[]>;
 
     fetchKPITokens(
-        params: FetchEntitiesParams,
+        params: FetchKPITokensParams,
     ): Promise<{ [address: Address]: KPIToken }>;
 
     fetchOracles(
-        params: FetchEntitiesParams,
+        params: FetchOraclesParams,
     ): Promise<{ [address: Address]: Oracle }>;
 
     fetchKPITokenTemplates(params: FetchTemplatesParams): Promise<Template[]>;
@@ -124,7 +136,10 @@ export type FullFetcherFetchKPITokenAddressesParams =
 export type FullFetcherFetchLatestKPITokenAddressesParams =
     FetchLatestKpiTokenAddressesParams & DecentralizationParams;
 
-export type FullFetcherFetchEntitiesParams = FetchEntitiesParams &
+export type FullFetcherFetchOraclesParams = FetchOraclesParams &
+    DecentralizationParams;
+
+export type FullFetcherFetchKPITokensParams = FetchKPITokensParams &
     DecentralizationParams;
 
 export type FullFetcherFetchTemplatesParams = FetchTemplatesParams &
@@ -148,11 +163,11 @@ export interface IFullCarrotFetcher {
     ): Promise<Address[]>;
 
     fetchKPITokens(
-        params: FullFetcherFetchEntitiesParams,
+        params: FullFetcherFetchKPITokensParams,
     ): Promise<{ [address: Address]: KPIToken }>;
 
     fetchOracles(
-        params: FullFetcherFetchEntitiesParams,
+        params: FullFetcherFetchOraclesParams,
     ): Promise<{ [address: Address]: Oracle }>;
 
     fetchKPITokenTemplates(

@@ -50,6 +50,9 @@ export const SUBGRAPH_URL: Record<ChainId, string | null> = {
     [ChainId.SCROLL_TESTNET]: null,
 };
 
+export const FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION =
+    "https://static.carrot-kpi.dev/featured-blacklisted-kpi-tokens.json";
+
 export {
     FACTORY_ABI,
     KPI_TOKEN_ABI,

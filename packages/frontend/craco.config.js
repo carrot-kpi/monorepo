@@ -16,21 +16,21 @@ module.exports = {
                     shared,
                 }),
                 new webpack.DefinePlugin({
-                    __DEV__: !production,
+                    __PROD__: production,
                     __LIBRARY_MODE__: JSON.stringify(false),
                     __STAGING_MODE__: JSON.stringify(
-                        process.env.STAGING === "true"
+                        process.env.STAGING === "true",
                     ),
                     __INFURA_PROJECT_ID__: getEnv("INFURA_PROJECT_ID", true),
                     __WALLETCONNECT_PROJECT_ID__: getEnv(
                         "WALLETCONNECT_PROJECT_ID",
-                        production
+                        production,
                     ),
                     __FATHOM_SITE_ID__: getEnv("FATHOM_SITE_ID", production),
                 }),
                 new webpack.ProvidePlugin({
                     Buffer: ["buffer", "Buffer"],
-                })
+                }),
             );
             if (config.ignoreWarnings)
                 config.ignoreWarnings.push(/Failed to parse source map/);
@@ -56,7 +56,7 @@ module.exports = {
                 new WorkboxWebpackPlugin.InjectManifest({
                     swSrc: join(__dirname, "/src/sw.ts"),
                     exclude: [/.+/],
-                })
+                }),
             );
             return config;
         },

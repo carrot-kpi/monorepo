@@ -40,14 +40,16 @@ export const ErrorText = ({
                 className: className?.root,
             })}
         >
-            {typeof children === "string" && !!children && (
-                <DangerIcon
-                    className={errorTextIconStyles({
-                        variant: "danger",
-                        className: className?.icon,
-                    })}
-                />
-            )}
+            <div>
+                {typeof children === "string" && !!children && (
+                    <DangerIcon
+                        className={errorTextIconStyles({
+                            variant: "danger",
+                            className: className?.icon,
+                        })}
+                    />
+                )}
+            </div>
             <Typography
                 variant="xs"
                 className={{
