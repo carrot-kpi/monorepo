@@ -1,5 +1,12 @@
 # @carrot-kpi/sdk
 
+## 1.31.0
+
+### Minor Changes
+
+-   84ff58a: Upgrade dependencies
+-   84ff58a: Implement the KPI tokens blacklist filters in the fetcher
+
 ## 1.30.1
 
 ### Patch Changes
