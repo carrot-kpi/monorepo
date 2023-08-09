@@ -16,7 +16,6 @@ module.exports = {
                 for (oneOf of rule.oneOf) {
                     if (!oneOf.use) continue;
                     for (const use of oneOf.use) {
-                        console.log(use.loader);
                         if (use.loader.includes("postcss-loader")) {
                             use.options.postcssOptions.plugins.push("cssnano");
                         }
