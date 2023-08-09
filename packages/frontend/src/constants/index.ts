@@ -64,7 +64,7 @@ export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
 )[0];
 
 export const CARROT_DOMAIN = __PROD__
-    ? "carrot-kpi.community"
+    ? "carrot.community"
     : "carrot-kpi.dev";
 
 export interface NavbarLink {
