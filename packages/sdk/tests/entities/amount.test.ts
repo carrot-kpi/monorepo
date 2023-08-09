@@ -1,9 +1,9 @@
 import { describe, test } from "@jest/globals";
 import { parseUnits } from "viem";
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
-import { ChainId } from "../../commons";
-import { Token } from "../token";
-import { Amount } from "./";
+import { ChainId } from "../../src/commons";
+import { Token } from "../../src/entities/token";
+import { Amount } from "../../src/entities/amount";
 
 describe("token amount", () => {
     let token1: Token, token2: Token;

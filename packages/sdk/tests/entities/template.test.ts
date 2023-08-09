@@ -1,5 +1,5 @@
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
-import { ResolvedTemplate, TemplateSpecification } from ".";
+import { ResolvedTemplate, TemplateSpecification } from "../../src/entities/template";
 
 describe("template", () => {
     describe("template specification", () => {

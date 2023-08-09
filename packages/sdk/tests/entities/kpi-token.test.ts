@@ -1,8 +1,8 @@
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
-import { KPITokenSpecification, ResolvedKPIToken } from ".";
-import { ChainId } from "../../commons";
-import { ResolvedOracle } from "../oracle";
-import { ResolvedTemplate, TemplateSpecification } from "../template";
+import { KPITokenSpecification, ResolvedKPIToken } from "../../src/entities/kpi-token";
+import { ChainId } from "../../src/commons";
+import { ResolvedOracle } from "../../src/entities/oracle";
+import { ResolvedTemplate, TemplateSpecification } from "../../src/entities/template";
 
 describe("kpi token", () => {
     let templateSpecification: TemplateSpecification;
