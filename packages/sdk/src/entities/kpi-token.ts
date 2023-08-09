@@ -1,6 +1,6 @@
-import { Template, ResolvedTemplate } from "../template";
-import { Oracle, ResolvedOracle, ResolvedOracleWithData } from "../oracle";
-import { ChainId } from "../../commons";
+import { Template, ResolvedTemplate } from "./template";
+import { Oracle, ResolvedOracle, ResolvedOracleWithData } from "./oracle";
+import { ChainId } from "../commons";
 import { type Address, type Hex } from "viem";
 
 export interface KPITokenSpecification {

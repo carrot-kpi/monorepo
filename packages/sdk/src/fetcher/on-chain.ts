@@ -7,11 +7,11 @@ import {
     ChainId,
     ORACLES_MANAGER_ABI,
     type ChainAddresses,
-} from "../../commons";
-import { KPIToken } from "../../entities/kpi-token";
-import { type OnChainTemplate, Template } from "../../entities/template";
-import { Oracle } from "../../entities/oracle";
-import { enforce } from "../../utils";
+} from "../commons";
+import { KPIToken } from "../entities/kpi-token";
+import { type OnChainTemplate, Template } from "../entities/template";
+import { Oracle } from "../entities/oracle";
+import { enforce } from "../utils";
 import type {
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
@@ -20,7 +20,7 @@ import type {
     FetchOraclesParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
-} from "../abstraction";
+} from "./abstraction";
 import type { Address, PublicClient } from "viem";
 import { getContract } from "viem";
 

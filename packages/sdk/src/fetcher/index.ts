@@ -1,7 +1,7 @@
 import type { Address, PublicClient } from "viem";
 import { KPIToken } from "../entities/kpi-token";
-import { Template } from "../entities/template";
-import { Oracle } from "../entities/oracle";
+import { Template } from "../entities/template/template";
+import { Oracle } from "../entities/oracle/oracle";
 import type {
     FetchERC20TokensParams,
     FullFetcherFetchKPITokenAddressesParams,

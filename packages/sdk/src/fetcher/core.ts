@@ -1,14 +1,9 @@
-import { CHAIN_ADDRESSES, ChainId, ERC20_ABI } from "../../commons";
-import {
-    cacheERC20Token,
-    enforce,
-    getCachedERC20Token,
-    warn,
-} from "../../utils";
+import { CHAIN_ADDRESSES, ChainId, ERC20_ABI } from "../commons";
+import { cacheERC20Token, enforce, getCachedERC20Token, warn } from "../utils";
 import { type Address } from "viem";
-import { Token } from "../../entities/token";
-import BYTES_NAME_ERC20_ABI from "../../abis/erc20-name-bytes";
-import BYTES_SYMBOL_ERC20_ABI from "../../abis/erc20-symbol-bytes";
+import { Token } from "../entities/token";
+import BYTES_NAME_ERC20_ABI from "../abis/erc20-name-bytes";
+import BYTES_SYMBOL_ERC20_ABI from "../abis/erc20-symbol-bytes";
 import type {
     FetchContentFromIPFSParams,
     FetchERC20TokensParams,
@@ -16,14 +11,11 @@ import type {
     ResolveKPITokensParams,
     ResolveOraclesParams,
     ResolveTemplatesParams,
-} from "../abstraction";
-import { KPIToken, ResolvedKPIToken } from "../../entities/kpi-token";
-import { Oracle, ResolvedOracle } from "../../entities/oracle";
-import {
-    ResolvedTemplate,
-    TemplateSpecification,
-} from "../../entities/template";
-import type { ResolvedKPITokensMap, ResolvedOraclesMap } from "../types";
+} from "./abstraction";
+import { KPIToken, ResolvedKPIToken } from "../entities/kpi-token";
+import { Oracle, ResolvedOracle } from "../entities/oracle";
+import { ResolvedTemplate, TemplateSpecification } from "../entities/template";
+import type { ResolvedKPITokensMap, ResolvedOraclesMap } from "./types";
 
 // TODO: check if validation can be extracted in its own function
 export class CoreFetcher implements ICoreFetcher {

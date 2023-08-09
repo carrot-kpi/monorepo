@@ -1,8 +1,8 @@
-import { Token, currencyEquals } from "../token";
-import { Currency } from "../currency";
+import { Token, currencyEquals } from "./token";
+import { Currency } from "./currency";
 import { formatUnits } from "viem";
 import Decimal from "decimal.js-light";
-import { enforce } from "../../utils";
+import { enforce } from "../utils";
 
 export type TokenOrCurrency = Token | Currency;
 
