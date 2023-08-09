@@ -58,18 +58,38 @@
     },
     "typesVersions": {
         "*": {
-          "commons": ["./dist/commons.d.ts"],
-          "cacher": ["./dist/cacher.d.ts"],
-          "fetcher": ["./dist/fetcher/index.d.ts"],
-          "utils": ["./dist/utils/index.d.ts"],
-          "entities/amount": ["./dist/entities/amount.d.ts"],
-          "entities/currency": ["./dist/entities/currency.d.ts"],
-          "entities/kpi-token": ["./dist/entities/kpi-token.d.ts"],
-          "entities/oracle": ["./dist/entities/oracle.d.ts"],
-          "entities/template": ["./dist/entities/template.d.ts"],
-          "entities/token": ["./dist/entities/token.d.ts"]
+            "commons": [
+                "./dist/commons.d.ts"
+            ],
+            "cacher": [
+                "./dist/cacher.d.ts"
+            ],
+            "fetcher": [
+                "./dist/fetcher/index.d.ts"
+            ],
+            "utils": [
+                "./dist/utils/index.d.ts"
+            ],
+            "entities/amount": [
+                "./dist/entities/amount.d.ts"
+            ],
+            "entities/currency": [
+                "./dist/entities/currency.d.ts"
+            ],
+            "entities/kpi-token": [
+                "./dist/entities/kpi-token.d.ts"
+            ],
+            "entities/oracle": [
+                "./dist/entities/oracle.d.ts"
+            ],
+            "entities/template": [
+                "./dist/entities/template.d.ts"
+            ],
+            "entities/token": [
+                "./dist/entities/token.d.ts"
+            ]
         }
-      },
+    },
     "publishConfig": {
         "access": "public"
     },
