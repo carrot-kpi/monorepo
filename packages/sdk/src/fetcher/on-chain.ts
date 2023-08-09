@@ -203,7 +203,6 @@ class Fetcher implements IPartialCarrotFetcher {
             const kpiTokenOracleAddresses = kpiTokenResult[
                 i * 7 + 3
             ] as Address[];
-            console.log("loop", { kpiTokenOracleAddresses, kpiTokenResult });
             const kpiTokenExpiration = Number(
                 kpiTokenResult[i * 7 + 4] as bigint,
             );
