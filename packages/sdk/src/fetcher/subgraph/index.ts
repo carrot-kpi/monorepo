@@ -42,8 +42,8 @@ import {
 } from "../../commons";
 import { enforce } from "../../utils";
 import { type Address, getAddress, type PublicClient } from "viem";
-import { Template } from "../../entities/template/template";
-import { Oracle } from "../../entities/oracle/oracle";
+import { Template } from "../../entities/template";
+import { Oracle } from "../../entities/oracle";
 import { query } from "../../utils/subgraph";
 import type { ChainKPITokensMap, ChainOraclesMap } from "../types";
 
