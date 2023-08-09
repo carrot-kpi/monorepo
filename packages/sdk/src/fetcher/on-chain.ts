@@ -7,11 +7,11 @@ import {
     ChainId,
     ORACLES_MANAGER_ABI,
     type ChainAddresses,
-} from "../../commons";
-import { KPIToken } from "../../entities/kpi-token";
-import { type OnChainTemplate, Template } from "../../entities/template";
-import { Oracle } from "../../entities/oracle";
-import { enforce } from "../../utils";
+} from "../commons";
+import { KPIToken } from "../entities/kpi-token";
+import { type OnChainTemplate, Template } from "../entities/template";
+import { Oracle } from "../entities/oracle";
+import { enforce } from "../utils";
 import type {
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
@@ -20,9 +20,8 @@ import type {
     FetchOraclesParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
-} from "../abstraction";
+} from "./abstraction";
 import type { Address, PublicClient } from "viem";
-import { getContract } from "viem";
 
 class Fetcher implements IPartialCarrotFetcher {
     public supportedInChain(): boolean {
@@ -135,7 +134,6 @@ class Fetcher implements IPartialCarrotFetcher {
                       (address) => !blacklisted.includes(address),
                   )
                 : tokenAddresses;
-        console.log("fetcher", { tokenAddresses, blacklisted });
         const kpiTokenResult = await publicClient.multicall({
             multicallAddress: chainAddresses.multicall3,
             allowFailure: false,
@@ -205,7 +203,6 @@ class Fetcher implements IPartialCarrotFetcher {
             const kpiTokenOracleAddresses = kpiTokenResult[
                 i * 7 + 3
             ] as Address[];
-            console.log("loop", { kpiTokenOracleAddresses, kpiTokenResult });
             const kpiTokenExpiration = Number(
                 kpiTokenResult[i * 7 + 4] as bigint,
             );
@@ -250,19 +247,23 @@ class Fetcher implements IPartialCarrotFetcher {
     }: FetchOraclesParams): Promise<{ [address: string]: Oracle }> {
         const chainId = await publicClient.getChainId();
         const { chainAddresses } = await this.validate({ publicClient });
-        const oraclesManager = getContract({
+
+        const oracleAmounts = await publicClient.readContract({
             abi: ORACLES_MANAGER_ABI,
             address: chainAddresses.oraclesManager,
-            publicClient: publicClient,
+            functionName: "templatesAmount",
         });
-
-        const oracleAmounts = await oraclesManager.read.templatesAmount();
         if (oracleAmounts == 0n) return {};
         const oracleAddresses =
             addresses && addresses.length > 0
                 ? addresses
                 : (
-                      await oraclesManager.read.enumerate([0n, oracleAmounts])
+                      await publicClient.readContract({
+                          abi: ORACLES_MANAGER_ABI,
+                          address: chainAddresses.oraclesManager,
+                          functionName: "enumerate",
+                          args: [0n, oracleAmounts],
+                      })
                   ).map((oracle) => oracle.addrezz);
 
         const oraclesResult = await publicClient.multicall({
@@ -308,12 +309,6 @@ class Fetcher implements IPartialCarrotFetcher {
     ): Promise<Template[]> {
         const { chainAddresses } = await this.validate({ publicClient });
 
-        const managerContract = getContract({
-            abi: KPI_TOKENS_MANAGER_ABI,
-            address: managerAddress,
-            publicClient: publicClient,
-        });
-
         let rawTemplates;
         if (ids && ids.length > 0) {
             rawTemplates = (await publicClient.multicall({
@@ -329,13 +324,18 @@ class Fetcher implements IPartialCarrotFetcher {
                 }),
             })) as OnChainTemplate[];
         } else {
-            const templatesAmount =
-                await managerContract.read.templatesAmount();
+            const templatesAmount = await publicClient.readContract({
+                abi: KPI_TOKENS_MANAGER_ABI,
+                address: managerAddress,
+                functionName: "templatesAmount",
+            });
             if (templatesAmount == 0n) return [];
-            rawTemplates = await managerContract.read.enumerate([
-                0n,
-                templatesAmount,
-            ]);
+            rawTemplates = await publicClient.readContract({
+                abi: KPI_TOKENS_MANAGER_ABI,
+                address: managerAddress,
+                functionName: "enumerate",
+                args: [0n, templatesAmount],
+            });
         }
 
         return rawTemplates.map((rawTemplate) => {

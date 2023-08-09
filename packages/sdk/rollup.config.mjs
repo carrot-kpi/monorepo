@@ -6,8 +6,19 @@ import typescript from "rollup-plugin-typescript2";
 
 export default [
     {
-        input: resolve("./src/index.ts"),
-        preserveSymlinks: true,
+        input: [
+            "src/index.ts",
+            "src/commons.ts",
+            "src/cacher.ts",
+            "src/fetcher/index.ts",
+            "src/utils/index.ts",
+            "src/entities/amount.ts",
+            "src/entities/currency.ts",
+            "src/entities/kpi-token.ts",
+            "src/entities/oracle.ts",
+            "src/entities/template.ts",
+            "src/entities/token.ts",
+        ],
         plugins: [
             peerDepsExternal(),
             nodeResolve({ preferBuiltins: true }),
@@ -16,10 +27,11 @@ export default [
         ],
         output: [
             {
-                file: resolve("./dist/index.js"),
+                dir: resolve("./dist"),
+                preserveModules: true,
+                preserveModulesRoot: "src",
                 format: "es",
                 sourcemap: true,
-                inlineDynamicImports: true,
             },
         ],
     },

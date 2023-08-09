@@ -1,7 +1,10 @@
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
-import { ResolvedOracle } from ".";
-import { ChainId } from "../../commons";
-import { ResolvedTemplate, TemplateSpecification } from "../template";
+import { ResolvedOracle } from "../../src/entities/oracle";
+import { ChainId } from "../../src/commons";
+import {
+    ResolvedTemplate,
+    TemplateSpecification,
+} from "../../src/entities/template";
 
 describe("oracle", () => {
     let templateSpecification: TemplateSpecification;

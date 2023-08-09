@@ -1,10 +1,10 @@
-import FACTORY_ABI from "../abis/factory";
-import KPI_TOKEN_ABI from "../abis/kpi-token";
-import ORACLE_ABI from "../abis/oracle";
-import KPI_TOKENS_MANAGER_ABI from "../abis/kpi-tokens-manager";
-import ORACLES_MANAGER_ABI from "../abis/oracles-manager";
-import ERC20_ABI from "../abis/erc20";
-import { Cacher } from "../cacher";
+import FACTORY_ABI from "./abis/factory";
+import KPI_TOKEN_ABI from "./abis/kpi-token";
+import ORACLE_ABI from "./abis/oracle";
+import KPI_TOKENS_MANAGER_ABI from "./abis/kpi-tokens-manager";
+import ORACLES_MANAGER_ABI from "./abis/oracles-manager";
+import ERC20_ABI from "./abis/erc20";
+import { Cacher } from "./cacher";
 import { type Address } from "viem";
 
 export enum ChainId {

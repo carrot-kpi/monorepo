@@ -1,5 +1,5 @@
-import { ResolvedKPIToken } from "../../entities/kpi-token";
-import type { ResolvedKPITokensMap } from "../types";
+import { ResolvedKPIToken } from "../entities/kpi-token";
+import type { ResolvedKPITokensMap } from "./types";
 
 export function transformInKPITokensObject(
     filteredTokens: ResolvedKPIToken[],

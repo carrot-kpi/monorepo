@@ -1,7 +1,7 @@
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
-import { currencyEquals, Token } from ".";
-import { ChainId } from "../../commons";
-import { Currency } from "../currency";
+import { currencyEquals, Token } from "../../src/entities/token";
+import { ChainId } from "../../src/commons";
+import { Currency } from "../../src/entities/currency";
 
 describe("token", () => {
     test("instantiates correctly", () => {

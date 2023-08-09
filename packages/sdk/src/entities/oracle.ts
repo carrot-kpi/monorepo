@@ -1,6 +1,6 @@
 import { type Address, type Hex } from "viem";
-import { ChainId } from "../../commons";
-import { Template, ResolvedTemplate } from "../template";
+import { ChainId } from "../commons";
+import { Template, ResolvedTemplate } from "./template";
 
 export class BaseOracle {
     constructor(
