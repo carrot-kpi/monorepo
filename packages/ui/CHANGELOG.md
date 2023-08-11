@@ -1,5 +1,22 @@
 # @carrot-kpi/ui
 
+## 0.51.0
+
+### Minor Changes
+
+-   deae513: Upgrade dependencies
+-   deae513: Flatten package file structure and make it tree shakeable
+
+### Patch Changes
+
+-   deae513: Fix an issue with the svg error icon of the inputs components
+-   Updated dependencies [deae513]
+-   Updated dependencies [deae513]
+-   Updated dependencies [deae513]
+-   Updated dependencies [deae513]
+-   Updated dependencies [deae513]
+    -   @carrot-kpi/sdk@1.32.0
+
 ## 0.50.0
 
 ### Minor Changes
