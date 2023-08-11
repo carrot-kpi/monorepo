@@ -5,88 +5,99 @@
     "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
     "version": "1.32.0",
     "description": "An SDK for building applications on top of Carrot v1.",
-    "main": "./dist/index.js",
-    "module": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "typings": "./dist/index.d.ts",
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/es/index.js",
+    "types": "./dist/types/index.d.ts",
+    "typings": "./dist/types/index.d.ts",
     "sideEffects": false,
     "exports": {
         ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.js"
+            "types": "./dist/types/index.d.ts",
+            "import": "./dist/es/index.js",
+            "default": "./dist/cjs/index.js"
         },
         "./commons": {
-            "types": "./dist/commons.d.ts",
-            "import": "./dist/commons.js"
+            "types": "./dist/types/commons.d.ts",
+            "import": "./dist/es/commons.js",
+            "default": "./dist/cjs/commons.js"
         },
         "./cacher": {
-            "types": "./dist/cacher.d.ts",
-            "import": "./dist/cacher.js"
+            "types": "./dist/types/cacher.d.ts",
+            "import": "./dist/es/cacher.js",
+            "default": "./dist/cjs/cacher.js"
         },
         "./fetcher": {
-            "types": "./dist/fetcher/index.d.ts",
-            "import": "./dist/fetcher/index.js"
+            "types": "./dist/types/fetcher/index.d.ts",
+            "import": "./dist/es/fetcher/index.js",
+            "default": "./dist/cjs/fetcher/index.js"
         },
         "./utils": {
-            "types": "./dist/utils/index.d.ts",
-            "import": "./dist/utils/index.js"
+            "types": "./dist/types/utils/index.d.ts",
+            "import": "./dist/es/utils/index.js",
+            "default": "./dist/cjs/utils/index.js"
         },
         "./entities/amount": {
-            "types": "./dist/entities/amount.d.ts",
-            "import": "./dist/entities/amount.js"
+            "types": "./dist/types/entities/amount.d.ts",
+            "import": "./dist/es/entities/amount.js",
+            "default": "./dist/cjs/entities/amount.js"
         },
         "./entities/currency": {
-            "types": "./dist/entities/currency.d.ts",
-            "import": "./dist/entities/currency.js"
+            "types": "./dist/types/entities/currency.d.ts",
+            "import": "./dist/es/entities/currency.js",
+            "default": "./dist/cjs/entities/currency.js"
         },
         "./entities/kpi-token": {
-            "types": "./dist/entities/kpi-token.d.ts",
-            "import": "./dist/entities/kpi-token.js"
+            "types": "./dist/types/entities/kpi-token.d.ts",
+            "import": "./dist/es/entities/kpi-token.js",
+            "default": "./dist/cjs/entities/kpi-token.js"
         },
         "./entities/oracle": {
-            "types": "./dist/entities/oracle.d.ts",
-            "import": "./dist/entities/oracle.js"
+            "types": "./dist/types/entities/oracle.d.ts",
+            "import": "./dist/es/entities/oracle.js",
+            "default": "./dist/cjs/entities/oracle.js"
         },
         "./entities/template": {
-            "types": "./dist/entities/template.d.ts",
-            "import": "./dist/entities/template.js"
+            "types": "./dist/types/entities/template.d.ts",
+            "import": "./dist/es/entities/template.js",
+            "default": "./dist/cjs/entities/template.js"
         },
         "./entities/token": {
-            "types": "./dist/entities/token.d.ts",
-            "import": "./dist/entities/token.js"
+            "types": "./dist/types/entities/token.d.ts",
+            "import": "./dist/es/entities/token.js",
+            "default": "./dist/cjs/entities/token.js"
         }
     },
     "typesVersions": {
         "*": {
             "commons": [
-                "./dist/commons.d.ts"
+                "./dist/types/commons.d.ts"
             ],
             "cacher": [
-                "./dist/cacher.d.ts"
+                "./dist/types/cacher.d.ts"
             ],
             "fetcher": [
-                "./dist/fetcher/index.d.ts"
+                "./dist/types/fetcher/index.d.ts"
             ],
             "utils": [
-                "./dist/utils/index.d.ts"
+                "./dist/types/utils/index.d.ts"
             ],
             "entities/amount": [
-                "./dist/entities/amount.d.ts"
+                "./dist/types/entities/amount.d.ts"
             ],
             "entities/currency": [
-                "./dist/entities/currency.d.ts"
+                "./dist/types/entities/currency.d.ts"
             ],
             "entities/kpi-token": [
-                "./dist/entities/kpi-token.d.ts"
+                "./dist/types/entities/kpi-token.d.ts"
             ],
             "entities/oracle": [
-                "./dist/entities/oracle.d.ts"
+                "./dist/types/entities/oracle.d.ts"
             ],
             "entities/template": [
-                "./dist/entities/template.d.ts"
+                "./dist/types/entities/template.d.ts"
             ],
             "entities/token": [
-                "./dist/entities/token.d.ts"
+                "./dist/types/entities/token.d.ts"
             ]
         }
     },
