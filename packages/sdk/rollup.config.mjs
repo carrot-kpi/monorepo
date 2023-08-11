@@ -23,14 +23,24 @@ export default [
             peerDepsExternal(),
             nodeResolve({ preferBuiltins: true }),
             commonjs(),
-            typescript({ tsconfig: resolve("./tsconfig.build.json") }),
+            typescript({
+                tsconfig: resolve("./tsconfig.build.json"),
+                useTsconfigDeclarationDir: true,
+            }),
         ],
         output: [
             {
-                dir: resolve("./dist"),
+                dir: resolve("./dist/es"),
                 preserveModules: true,
                 preserveModulesRoot: "src",
                 format: "es",
+                sourcemap: true,
+            },
+            {
+                dir: resolve("./dist/cjs"),
+                preserveModules: true,
+                preserveModulesRoot: "src",
+                format: "cjs",
                 sourcemap: true,
             },
         ],
