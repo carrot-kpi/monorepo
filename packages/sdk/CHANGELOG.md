@@ -1,5 +1,20 @@
 # @carrot-kpi/sdk
 
+## 1.33.0
+
+### Minor Changes
+
+-   e23d81e: Make the SDK package tree shakeable
+-   e23d81e: Upgrade dependencies
+-   e23d81e: Support CJS
+-   e23d81e: Implement the KPI tokens blacklist filters in the fetcher
+
+### Patch Changes
+
+-   e23d81e: Move tests in dedicated tests folder
+-   e23d81e: Flattened module structure
+-   60c6228: Force release
+
 ## 1.32.0
 
 ### Minor Changes

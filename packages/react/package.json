@@ -2,7 +2,7 @@
     "name": "@carrot-kpi/react",
     "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
-    "version": "0.53.0",
+    "version": "0.54.0",
     "main": "./dist/index.js",
     "module": "./dist/index.js",
     "types": "./dist/index.d.ts",

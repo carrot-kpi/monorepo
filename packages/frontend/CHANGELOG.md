@@ -1,5 +1,36 @@
 # @carrot-kpi/host-frontend
 
+## 0.16.0
+
+### Minor Changes
+
+-   e23d81e: Upgrade dependencies
+-   e23d81e: Use ESBuild instead of Terser to minify build
+-   e23d81e: Minify CSS
+-   e23d81e: Flatten React library file structure and make it tree shakeable
+-   e23d81e: Add dedicated hook for the blacklisted KPI tokens
+
+### Patch Changes
+
+-   e23d81e: Replace `__DEV__` env with `__PROD__` and fix carrot domain
+    configuration
+-   e23d81e: Avoid fetching all KPI tokens as featured when the blacklist is
+    empty
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [e23d81e]
+-   Updated dependencies [60c6228]
+-   Updated dependencies [e23d81e]
+    -   @carrot-kpi/sdk@1.33.0
+    -   @carrot-kpi/react@0.54.0
+    -   @carrot-kpi/ui@0.52.0
+
 ## 0.15.0
 
 ### Minor Changes
