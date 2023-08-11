@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useLayoutEffect } from "react";
-import { useTemplateModule } from "../../hooks/useTemplateModule";
-import { addBundleForTemplate } from "../../i18n";
+import { useTemplateModule } from "../hooks/useTemplateModule";
+import { addBundleForTemplate } from "../i18n";
 import { useState } from "react";
 import { cva } from "class-variance-authority";
-import { useStagingMode, useTheme } from "../../hooks";
+import { useStagingMode } from "../hooks/useStagingMode";
+import { useTheme } from "../hooks/useTheme";
 import { useMedia } from "react-use";
-import { ErrorBoundary } from "../error-boundary";
-import type { BaseTemplateComponentProps } from "../../types";
+import { ErrorBoundary } from "./error-boundary";
+import type { BaseTemplateComponentProps } from "../types/templates";
 import { useNetwork } from "wagmi";
 
 const wrapperStyles = cva(["w-full", "h-full"], {
