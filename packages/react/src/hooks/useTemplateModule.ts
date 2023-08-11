@@ -16,7 +16,7 @@ import type {
     RemoteComponentProps,
     TemplateEntity,
     TemplateType,
-} from "../types";
+} from "../types/templates";
 
 type ComponentType<
     E extends TemplateEntity,

@@ -4,7 +4,7 @@ import {
     ResolvedOracleWithData,
 } from "@carrot-kpi/sdk";
 import type { i18n } from "i18next";
-import type { NamespacedTranslateFunction } from "../components";
+import type { NamespacedTranslateFunction } from "../components/template-component";
 import { type Tx, TxType } from "./transactions";
 import type { NavigateFunction } from "react-router-dom";
 import { ResolvedTemplate } from "@carrot-kpi/sdk";

@@ -17,7 +17,7 @@ import { HashRouter } from "react-router-dom";
 
 import { type Chain, type ChainProviderFn, Connector } from "wagmi";
 import { App } from "./pages/app";
-import { CarrotCoreProvider } from "@carrot-kpi/react";
+import { CoreProvider } from "@carrot-kpi/react";
 import {
     getStandaloneConnectors,
     standaloneProviders,
@@ -97,7 +97,7 @@ export const Root = ({
     return (
         <HashRouter>
             <HostStateProvider>
-                <CarrotCoreProvider
+                <CoreProvider
                     supportedChains={resolvedSupportedChains}
                     providers={resolvedProviders}
                     getConnectors={resolvedGetConnectors}
@@ -112,7 +112,7 @@ export const Root = ({
                         oracleTemplateBaseURL={oracleTemplateBaseURL}
                         templateId={templateId}
                     />
-                </CarrotCoreProvider>
+                </CoreProvider>
             </HostStateProvider>
         </HashRouter>
     );

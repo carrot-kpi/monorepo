@@ -1,7 +1,7 @@
 import React from "react";
 import type { ReactElement } from "react";
-import type { KPITokenCreationFormProps } from "../../../types/templates";
-import { TemplateComponent } from "../../template-component";
+import type { KPITokenCreationFormProps } from "../types/templates";
+import { TemplateComponent } from "./template-component";
 
 export function KPITokenCreationForm({
     template,

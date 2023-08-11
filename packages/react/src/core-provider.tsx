@@ -12,7 +12,7 @@ import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
-import { useSetIPFSGatewayURL } from "../../hooks/useSetIPFSGatewayURL";
+import { useSetIPFSGatewayURL } from "./hooks/useSetIPFSGatewayURL";
 
 interface InternalSetupProps {
     children: ReactNode;
@@ -55,7 +55,7 @@ const InternalSetup = ({
     return <WagmiConfig config={config}>{children}</WagmiConfig>;
 };
 
-interface CarrotCoreProviderProps {
+interface CoreProviderProps {
     children: ReactNode;
     supportedChains: Chain[];
     providers: ChainProviderFn[];
@@ -64,14 +64,14 @@ interface CarrotCoreProviderProps {
     reactQueryClient: QueryClient;
 }
 
-export const CarrotCoreProvider = ({
+export const CoreProvider = ({
     children,
     supportedChains,
     providers,
     getConnectors,
     ipfsGatewayURL,
     reactQueryClient,
-}: CarrotCoreProviderProps) => {
+}: CoreProviderProps) => {
     persistQueryClient({
         queryClient: reactQueryClient,
         persister: createSyncStoragePersister({
