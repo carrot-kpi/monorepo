@@ -1,5 +1,22 @@
 # @carrot-kpi/react
 
+## 0.53.0
+
+### Minor Changes
+
+-   deae513: Upgrade dependencies
+-   deae513: Add optional blacklist param to KPI token hooks
+-   deae513: Flatten React library file structure and make it tree shakeable
+
+### Patch Changes
+
+-   Updated dependencies [deae513]
+-   Updated dependencies [deae513]
+-   Updated dependencies [deae513]
+-   Updated dependencies [deae513]
+-   Updated dependencies [deae513]
+    -   @carrot-kpi/sdk@1.32.0
+
 ## 0.52.0
 
 ### Minor Changes

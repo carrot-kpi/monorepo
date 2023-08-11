@@ -1,5 +1,18 @@
 # @carrot-kpi/sdk
 
+## 1.32.0
+
+### Minor Changes
+
+-   deae513: Make the SDK package tree shakeable
+-   deae513: Upgrade dependencies
+-   deae513: Implement the KPI tokens blacklist filters in the fetcher
+
+### Patch Changes
+
+-   deae513: Move tests in dedicated tests folder
+-   deae513: Flattened module structure
+
 ## 1.31.0
 
 ### Minor Changes
