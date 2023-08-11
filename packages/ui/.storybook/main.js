@@ -1,6 +1,6 @@
 const path = require("path");
 module.exports = {
-    stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(ts|tsx)"],
+    stories: ["../stories/*.stories.@(ts|tsx)"],
     addons: [
         "@storybook/addon-links",
         "@storybook/addon-essentials",
@@ -34,7 +34,7 @@ module.exports = {
                                 tailwindcss: {
                                     config: path.resolve(
                                         __dirname,
-                                        "../src/tailwind.config.js"
+                                        "../src/tailwind.config.js",
                                     ),
                                 },
                                 autoprefixer: {},
