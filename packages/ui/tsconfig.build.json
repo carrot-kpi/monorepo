@@ -1,7 +1,6 @@
 {
     "extends": "tsconfig/ui.json",
     "include": ["./src/**/*", "./custom.d.ts"],
-    "exclude": ["./src/**/*.stories.tsx"],
     "compilerOptions": {
         "outDir": "./dist",
         "declaration": true,
