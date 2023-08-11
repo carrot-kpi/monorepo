@@ -1,6 +1,6 @@
 [
     {
         "path": "dist/",
-        "limit": "5 MB"
+        "limit": "4 MB"
     }
 ]
