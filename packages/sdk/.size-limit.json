@@ -1,6 +1,6 @@
 [
     {
-        "path": "dist/index.js",
-        "limit": "80 kB"
+        "path": "dist",
+        "limit": "250kB"
     }
 ]
