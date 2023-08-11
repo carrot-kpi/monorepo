@@ -8,9 +8,86 @@
     "main": "./dist/index.js",
     "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
+    "typings": "./dist/index.d.ts",
+    "sideEffects": false,
     "exports": {
         ".": {
+            "types": "./dist/index.d.ts",
             "import": "./dist/index.js"
+        },
+        "./commons": {
+            "types": "./dist/commons.d.ts",
+            "import": "./dist/commons.js"
+        },
+        "./cacher": {
+            "types": "./dist/cacher.d.ts",
+            "import": "./dist/cacher.js"
+        },
+        "./fetcher": {
+            "types": "./dist/fetcher/index.d.ts",
+            "import": "./dist/fetcher/index.js"
+        },
+        "./utils": {
+            "types": "./dist/utils/index.d.ts",
+            "import": "./dist/utils/index.js"
+        },
+        "./entities/amount": {
+            "types": "./dist/entities/amount.d.ts",
+            "import": "./dist/entities/amount.js"
+        },
+        "./entities/currency": {
+            "types": "./dist/entities/currency.d.ts",
+            "import": "./dist/entities/currency.js"
+        },
+        "./entities/kpi-token": {
+            "types": "./dist/entities/kpi-token.d.ts",
+            "import": "./dist/entities/kpi-token.js"
+        },
+        "./entities/oracle": {
+            "types": "./dist/entities/oracle.d.ts",
+            "import": "./dist/entities/oracle.js"
+        },
+        "./entities/template": {
+            "types": "./dist/entities/template.d.ts",
+            "import": "./dist/entities/template.js"
+        },
+        "./entities/token": {
+            "types": "./dist/entities/token.d.ts",
+            "import": "./dist/entities/token.js"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "commons": [
+                "./dist/commons.d.ts"
+            ],
+            "cacher": [
+                "./dist/cacher.d.ts"
+            ],
+            "fetcher": [
+                "./dist/fetcher/index.d.ts"
+            ],
+            "utils": [
+                "./dist/utils/index.d.ts"
+            ],
+            "entities/amount": [
+                "./dist/entities/amount.d.ts"
+            ],
+            "entities/currency": [
+                "./dist/entities/currency.d.ts"
+            ],
+            "entities/kpi-token": [
+                "./dist/entities/kpi-token.d.ts"
+            ],
+            "entities/oracle": [
+                "./dist/entities/oracle.d.ts"
+            ],
+            "entities/template": [
+                "./dist/entities/template.d.ts"
+            ],
+            "entities/token": [
+                "./dist/entities/token.d.ts"
+            ]
         }
     },
     "publishConfig": {

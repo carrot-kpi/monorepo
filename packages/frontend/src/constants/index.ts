@@ -63,9 +63,7 @@ export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
     (chain) => chain.enabled,
 )[0];
 
-export const CARROT_DOMAIN = __PROD__
-    ? "carrot-kpi.community"
-    : "carrot-kpi.dev";
+export const CARROT_DOMAIN = __PROD__ ? "carrot.community" : "carrot-kpi.dev";
 
 export interface NavbarLink {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,14 +1,133 @@
 {
     "name": "@carrot-kpi/ui",
+    "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
     "version": "0.50.0",
-    "license": "GPL-3.0-or-later",
     "main": "./dist/index.js",
     "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
+    "typings": "./dist/index.d.ts",
+    "sideEffects": false,
     "exports": {
         ".": {
+            "types": "./dist/index.d.ts",
             "import": "./dist/index.js"
+        },
+        "./accordion": {
+            "types": "./dist/components/accordion/index.d.ts",
+            "import": "./dist/components/accordion/index.js"
+        },
+        "./card": {
+            "types": "./dist/components/card/index.d.ts",
+            "import": "./dist/components/card/index.js"
+        },
+        "./date-input": {
+            "types": "./dist/components/date-input/index.d.ts",
+            "import": "./dist/components/date-input/index.js"
+        },
+        "./date-time-input": {
+            "types": "./dist/components/date-time-input/index.d.ts",
+            "import": "./dist/components/date-time-input/index.js"
+        },
+        "./erc20-token-picker": {
+            "types": "./dist/components/erc20-token-picker/index.d.ts",
+            "import": "./dist/components/erc20-token-picker/index.js"
+        },
+        "./markdown-input": {
+            "types": "./dist/components/markdown-input/index.d.ts",
+            "import": "./dist/components/markdown-input/index.js"
+        },
+        "./multi-step-cards": {
+            "types": "./dist/components/multi-step-cards/index.d.ts",
+            "import": "./dist/components/multi-step-cards/index.js"
+        },
+        "./button": {
+            "types": "./dist/components/button.d.ts",
+            "import": "./dist/components/button.js"
+        },
+        "./checkbox": {
+            "types": "./dist/components/checkbox.d.ts",
+            "import": "./dist/components/checkbox.js"
+        },
+        "./chip": {
+            "types": "./dist/components/chip.d.ts",
+            "import": "./dist/components/chip.js"
+        },
+        "./erc20-token-logo": {
+            "types": "./dist/components/erc20-token-logo.d.ts",
+            "import": "./dist/components/erc20-token-logo.js"
+        },
+        "./error-feedback": {
+            "types": "./dist/components/error-feedback.d.ts",
+            "import": "./dist/components/error-feedback.js"
+        },
+        "./error-text": {
+            "types": "./dist/components/error-text.d.ts",
+            "import": "./dist/components/error-text.js"
+        },
+        "./loader": {
+            "types": "./dist/components/loader.d.ts",
+            "import": "./dist/components/loader.js"
+        },
+        "./markdown": {
+            "types": "./dist/components/markdown.d.ts",
+            "import": "./dist/components/markdown.js"
+        },
+        "./modal": {
+            "types": "./dist/components/modal.d.ts",
+            "import": "./dist/components/modal.js"
+        },
+        "./number-input": {
+            "types": "./dist/components/number-input.d.ts",
+            "import": "./dist/components/number-input.js"
+        },
+        "./popover": {
+            "types": "./dist/components/popover.d.ts",
+            "import": "./dist/components/popover.js"
+        },
+        "./radio-group": {
+            "types": "./dist/components/radio-group.d.ts",
+            "import": "./dist/components/radio-group.js"
+        },
+        "./radio": {
+            "types": "./dist/components/radio.d.ts",
+            "import": "./dist/components/radio.js"
+        },
+        "./remote-logo": {
+            "types": "./dist/components/remote-logo.d.ts",
+            "import": "./dist/components/remote-logo.js"
+        },
+        "./select": {
+            "types": "./dist/components/select.d.ts",
+            "import": "./dist/components/select.js"
+        },
+        "./skeleton": {
+            "types": "./dist/components/skeleton.d.ts",
+            "import": "./dist/components/skeleton.js"
+        },
+        "./stepper": {
+            "types": "./dist/components/stepper.d.ts",
+            "import": "./dist/components/stepper.js"
+        },
+        "./switch": {
+            "types": "./dist/components/switch.d.ts",
+            "import": "./dist/components/switch.js"
+        },
+        "./tags-input": {
+            "types": "./dist/components/tags-input.d.ts",
+            "import": "./dist/components/tags-input.js"
+        },
+        "./text-input": {
+            "types": "./dist/components/text-input.d.ts",
+            "import": "./dist/components/text-input.js"
+        },
+        "./timer": {
+            "types": "./dist/components/timer.d.ts",
+            "import": "./dist/components/timer.js"
+        },
+        "./typography": {
+            "types": "./dist/components/typography.d.ts",
+            "import": "./dist/components/typography.js"
         },
         "./styles.css": {
             "import": "./dist/styles.css"
@@ -16,6 +135,97 @@
         "./tailwind-preset": {
             "import": "./dist/tailwind.preset.js",
             "require": "./dist/tailwind.preset.cjs"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "accordion": [
+                "./dist/components/accordion/index.d.ts"
+            ],
+            "card": [
+                "./dist/components/card/index.d.ts"
+            ],
+            "date-input": [
+                "./dist/components/date-input/index.d.ts"
+            ],
+            "date-time-input": [
+                "./dist/components/date-time-input/index.d.ts"
+            ],
+            "erc20-token-picker": [
+                "./dist/components/erc20-token-picker/index.d.ts"
+            ],
+            "markdown-input": [
+                "./dist/components/markdown-input/index.d.ts"
+            ],
+            "multi-step-cards": [
+                "./dist/components/multi-step-cards/index.d.ts"
+            ],
+            "button": [
+                "./dist/components/button.d.ts"
+            ],
+            "checkbox": [
+                "./dist/components/checkbox.d.ts"
+            ],
+            "chip": [
+                "./dist/components/chip.d.ts"
+            ],
+            "erc20-token-logo": [
+                "./dist/components/erc20-token-logo.d.ts"
+            ],
+            "error-feedback": [
+                "./dist/components/error-feedback.d.ts"
+            ],
+            "error-text": [
+                "./dist/components/error-text.d.ts"
+            ],
+            "loader": [
+                "./dist/components/loader.d.ts"
+            ],
+            "markdown": [
+                "./dist/components/markdown.d.ts"
+            ],
+            "modal": [
+                "./dist/components/modal.d.ts"
+            ],
+            "number-input": [
+                "./dist/components/number-input.d.ts"
+            ],
+            "popover": [
+                "./dist/components/popover.d.ts"
+            ],
+            "radio-group": [
+                "./dist/components/radio-group.d.ts"
+            ],
+            "radio": [
+                "./dist/components/radio.d.ts"
+            ],
+            "remote-logo": [
+                "./dist/components/remote-logo.d.ts"
+            ],
+            "select": [
+                "./dist/components/select.d.ts"
+            ],
+            "skeleton": [
+                "./dist/components/skeleton.d.ts"
+            ],
+            "stepper": [
+                "./dist/components/stepper.d.ts"
+            ],
+            "switch": [
+                "./dist/components/switch.d.ts"
+            ],
+            "tags-input": [
+                "./dist/components/tags-input.d.ts"
+            ],
+            "text-input": [
+                "./dist/components/text-input.d.ts"
+            ],
+            "timer": [
+                "./dist/components/timer.d.ts"
+            ],
+            "typography": [
+                "./dist/components/typography.d.ts"
+            ]
         }
     },
     "publishConfig": {

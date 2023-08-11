@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const webpack = require("webpack");
+const { EsbuildPlugin } = require("esbuild-loader");
 const { join } = require("path");
 const shared = require("./shared-dependencies.json");
 const { getEnv } = require("./utils/env");
@@ -10,6 +11,19 @@ module.exports = {
     webpack: {
         configure: (config, { env }) => {
             const production = env === "production";
+
+            for (const rule of config.module.rules) {
+                for (oneOf of rule.oneOf) {
+                    if (!oneOf.use) continue;
+                    for (const use of oneOf.use) {
+                        if (use.loader.includes("postcss-loader")) {
+                            use.options.postcssOptions.plugins.push("cssnano");
+                        }
+                    }
+                }
+            }
+
+            config.optimization.minimizer = [new EsbuildPlugin({})];
             config.plugins.push(
                 new webpack.container.ModuleFederationPlugin({
                     name: "host",
