@@ -3,12 +3,13 @@
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
     "version": "0.4.1",
     "license": "GPL-3.0-or-later",
-    "main": "./dist/index.js",
-    "module": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "main": "./dist/cjs/index.cjs",
+    "module": "./dist/mjs/index.mjs",
+    "types": "./dist/types/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/index.js"
+            "import": "./dist/es/index.mjs",
+            "default": "./dist/cjs/index.cjs"
         }
     },
     "publishConfig": {
@@ -17,7 +18,7 @@
     "scripts": {
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './**/*.{json,md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
-        "build": "yarn clean && rollup -c rollup.config.mjs",
+        "build": "yarn clean && rollup -c rollup.config.mjs && tsc",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
         "size-limit": "size-limit"
@@ -44,8 +45,8 @@
         "react": "^18.2.0",
         "rimraf": "^5.0.0",
         "rollup": "^3.26.3",
+        "rollup-plugin-esbuild": "^5.0.0",
         "rollup-plugin-peer-deps-external": "^2.2.4",
-        "rollup-plugin-typescript2": "^0.35.0",
         "size-limit": "^8.2.6",
         "tsconfig": "*",
         "typescript": "^5.1.3"

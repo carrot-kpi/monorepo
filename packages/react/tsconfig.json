@@ -5,7 +5,7 @@
     "compilerOptions": {
         "declaration": true,
         "emitDeclarationOnly": true,
-        "outDir": "./dist",
+        "declarationDir": "./dist/types",
         "rootDir": "./src"
     }
 }

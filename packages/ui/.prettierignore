@@ -155,3 +155,5 @@ build
 /packages/frontend/src/out
 
 CHANGELOG.md
+
+storybook-static

@@ -55,12 +55,23 @@ export default [
             commonjs(),
             esbuild(),
         ],
-        output: {
-            dir: resolve("./dist"),
-            preserveModules: true,
-            preserveModulesRoot: "src",
-            format: "es",
-            sourcemap: true,
-        },
+        output: [
+            {
+                dir: resolve("./dist/es"),
+                preserveModules: true,
+                preserveModulesRoot: "src",
+                format: "es",
+                sourcemap: true,
+                entryFileNames: "[name].mjs",
+            },
+            {
+                dir: resolve("./dist/cjs"),
+                preserveModules: true,
+                preserveModulesRoot: "src",
+                format: "cjs",
+                sourcemap: true,
+                entryFileNames: "[name].cjs",
+            },
+        ],
     },
 ];

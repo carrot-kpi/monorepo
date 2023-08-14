@@ -2,7 +2,7 @@ import { resolve } from "path";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import typescript from "rollup-plugin-typescript2";
+import esbuild from "rollup-plugin-esbuild";
 
 export default [
     {
@@ -12,11 +12,25 @@ export default [
             peerDepsExternal(),
             nodeResolve({ preferBuiltins: true }),
             commonjs(),
-            typescript(),
+            esbuild(),
         ],
-        output: {
-            file: resolve("dist/index.js"),
-            format: "es",
-        },
+        output: [
+            {
+                dir: resolve("./dist/es"),
+                preserveModules: true,
+                preserveModulesRoot: "src",
+                format: "es",
+                sourcemap: true,
+                entryFileNames: "[name].mjs",
+            },
+            {
+                dir: resolve("./dist/cjs"),
+                preserveModules: true,
+                preserveModulesRoot: "src",
+                format: "cjs",
+                sourcemap: true,
+                entryFileNames: "[name].cjs",
+            },
+        ],
     },
 ];
