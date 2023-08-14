@@ -3,290 +3,331 @@
     "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
     "version": "0.54.1",
-    "main": "./dist/index.js",
-    "module": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "typings": "./dist/index.d.ts",
+    "main": "./dist/cjs/index.cjs",
+    "module": "./dist/es/index.mjs",
+    "types": "./dist/types/index.d.ts",
+    "typings": "./dist/types/index.d.ts",
     "sideEffects": false,
     "exports": {
         ".": {
-            "import": "./dist/index.js"
+            "types": "./dist/types/index.d.ts",
+            "import": "./dist/es/index.mjs",
+            "default": "./dist/cjs/index.cjs"
         },
         "./error-boundary": {
-            "types": "./dist/components/error-boundary.d.ts",
-            "import": "./dist/components/error-boundary.js"
+            "types": "./dist/types/components/error-boundary.d.ts",
+            "import": "./dist/es/components/error-boundary.mjs",
+            "default": "./dist/cjs/components/error-boundary.cjs"
         },
         "./kpi-token-creation-form": {
-            "types": "./dist/components/kpi-token-creation-form.d.ts",
-            "import": "./dist/components/kpi-token-creation-form.js"
+            "types": "./dist/types/components/kpi-token-creation-form.d.ts",
+            "import": "./dist/es/components/kpi-token-creation-form.mjs",
+            "default": "./dist/cjs/components/kpi-token-creation-form.cjs"
         },
         "./kpi-token-page": {
-            "types": "./dist/components/kpi-token-page.d.ts",
-            "import": "./dist/components/kpi-token-page.js"
+            "types": "./dist/types/components/kpi-token-page.d.ts",
+            "import": "./dist/es/components/kpi-token-page.mjs",
+            "default": "./dist/cjs/components/kpi-token-page.cjs"
         },
         "./oracle-creation-form": {
-            "types": "./dist/components/oracle-creation-form.d.ts",
-            "import": "./dist/components/oracle-creation-form.js"
+            "types": "./dist/types/components/oracle-creation-form.d.ts",
+            "import": "./dist/es/components/oracle-creation-form.mjs",
+            "default": "./dist/cjs/components/oracle-creation-form.cjs"
         },
         "./oracle-page": {
-            "types": "./dist/components/oracle-page.d.ts",
-            "import": "./dist/components/oracle-page.js"
+            "types": "./dist/types/components/oracle-page.d.ts",
+            "import": "./dist/es/components/oracle-page.mjs",
+            "default": "./dist/cjs/components/oracle-page.cjs"
         },
         "./template-component": {
-            "types": "./dist/components/template-component.d.ts",
-            "import": "./dist/components/template-component.js"
+            "types": "./dist/types/components/template-component.d.ts",
+            "import": "./dist/es/components/template-component.mjs",
+            "default": "./dist/cjs/components/template-component.cjs"
         },
         "./useDecentralizedStorageUploader": {
-            "types": "./dist/hooks/useDecentralizedStorageUploader.d.ts",
-            "import": "./dist/hooks/useDecentralizedStorageUploader.js"
+            "types": "./dist/types/hooks/useDecentralizedStorageUploader.d.ts",
+            "import": "./dist/es/hooks/useDecentralizedStorageUploader.mjs",
+            "default": "./dist/cjs/hooks/useDecentralizedStorageUploader.cjs"
         },
         "./useDevMode": {
-            "types": "./dist/hooks/useDevMode.d.ts",
-            "import": "./dist/hooks/useDevMode.js"
+            "types": "./dist/types/hooks/useDevMode.d.ts",
+            "import": "./dist/es/hooks/useDevMode.mjs",
+            "default": "./dist/cjs/hooks/useDevMode.cjs"
         },
         "./useERC20TokenPrice": {
-            "types": "./dist/hooks/useERC20TokenPrice.d.ts",
-            "import": "./dist/hooks/useERC20TokenPrice.js"
+            "types": "./dist/types/hooks/useERC20TokenPrice.d.ts",
+            "import": "./dist/es/hooks/useERC20TokenPrice.mjs",
+            "default": "./dist/cjs/hooks/useERC20TokenPrice.cjs"
         },
         "./useFederatedModuleContainer": {
-            "types": "./dist/hooks/useFederatedModuleContainer.d.ts",
-            "import": "./dist/hooks/useFederatedModuleContainer.js"
+            "types": "./dist/types/hooks/useFederatedModuleContainer.d.ts",
+            "import": "./dist/es/hooks/useFederatedModuleContainer.mjs",
+            "default": "./dist/cjs/hooks/useFederatedModuleContainer.cjs"
         },
         "./useIPFSGatewayURL": {
-            "types": "./dist/hooks/useIPFSGatewayURL.d.ts",
-            "import": "./dist/hooks/useIPFSGatewayURL.js"
+            "types": "./dist/types/hooks/useIPFSGatewayURL.d.ts",
+            "import": "./dist/es/hooks/useIPFSGatewayURL.mjs",
+            "default": "./dist/cjs/hooks/useIPFSGatewayURL.cjs"
         },
         "./useKPIToken": {
-            "types": "./dist/hooks/useKPIToken.d.ts",
-            "import": "./dist/hooks/useKPIToken.js"
+            "types": "./dist/types/hooks/useKPIToken.d.ts",
+            "import": "./dist/es/hooks/useKPIToken.mjs",
+            "default": "./dist/cjs/hooks/useKPIToken.cjs"
         },
         "./useKPITokenTemplate": {
-            "types": "./dist/hooks/useKPITokenTemplate.d.ts",
-            "import": "./dist/hooks/useKPITokenTemplate.js"
+            "types": "./dist/types/hooks/useKPITokenTemplate.d.ts",
+            "import": "./dist/es/hooks/useKPITokenTemplate.mjs",
+            "default": "./dist/cjs/hooks/useKPITokenTemplate.cjs"
         },
         "./useKPITokenTemplates": {
-            "types": "./dist/hooks/useKPITokenTemplates.d.ts",
-            "import": "./dist/hooks/useKPITokenTemplates.js"
+            "types": "./dist/types/hooks/useKPITokenTemplates.d.ts",
+            "import": "./dist/es/hooks/useKPITokenTemplates.mjs",
+            "default": "./dist/cjs/hooks/useKPITokenTemplates.cjs"
         },
         "./useKPITokens": {
-            "types": "./dist/hooks/useKPITokens.d.ts",
-            "import": "./dist/hooks/useKPITokens.js"
+            "types": "./dist/types/hooks/useKPITokens.d.ts",
+            "import": "./dist/es/hooks/useKPITokens.mjs",
+            "default": "./dist/cjs/hooks/useKPITokens.cjs"
         },
         "./useNativeCurrency": {
-            "types": "./dist/hooks/useNativeCurrency.d.ts",
-            "import": "./dist/hooks/useNativeCurrency.js"
+            "types": "./dist/types/hooks/useNativeCurrency.d.ts",
+            "import": "./dist/es/hooks/useNativeCurrency.mjs",
+            "default": "./dist/cjs/hooks/useNativeCurrency.cjs"
         },
         "./useOracle": {
-            "types": "./dist/hooks/useOracle.d.ts",
-            "import": "./dist/hooks/useOracle.js"
+            "types": "./dist/types/hooks/useOracle.d.ts",
+            "import": "./dist/es/hooks/useOracle.mjs",
+            "default": "./dist/cjs/hooks/useOracle.cjs"
         },
         "./useOracleTemplate": {
-            "types": "./dist/hooks/useOracleTemplate.d.ts",
-            "import": "./dist/hooks/useOracleTemplate.js"
+            "types": "./dist/types/hooks/useOracleTemplate.d.ts",
+            "import": "./dist/es/hooks/useOracleTemplate.mjs",
+            "default": "./dist/cjs/hooks/useOracleTemplate.cjs"
         },
         "./useOracleTemplates": {
-            "types": "./dist/hooks/useOracleTemplates.d.ts",
-            "import": "./dist/hooks/useOracleTemplates.js"
+            "types": "./dist/types/hooks/useOracleTemplates.d.ts",
+            "import": "./dist/es/hooks/useOracleTemplates.mjs",
+            "default": "./dist/cjs/hooks/useOracleTemplates.cjs"
         },
         "./usePagination": {
-            "types": "./dist/hooks/usePagination.d.ts",
-            "import": "./dist/hooks/usePagination.js"
+            "types": "./dist/types/hooks/usePagination.d.ts",
+            "import": "./dist/es/hooks/usePagination.mjs",
+            "default": "./dist/cjs/hooks/usePagination.cjs"
         },
         "./usePreferDecentralization": {
-            "types": "./dist/hooks/usePreferDecentralization.d.ts",
-            "import": "./dist/hooks/usePreferDecentralization.js"
+            "types": "./dist/types/hooks/usePreferDecentralization.d.ts",
+            "import": "./dist/es/hooks/usePreferDecentralization.mjs",
+            "default": "./dist/cjs/hooks/usePreferDecentralization.cjs"
         },
         "./useResolvedKPIToken": {
-            "types": "./dist/hooks/useResolvedKPIToken.d.ts",
-            "import": "./dist/hooks/useResolvedKPIToken.js"
+            "types": "./dist/types/hooks/useResolvedKPIToken.d.ts",
+            "import": "./dist/es/hooks/useResolvedKPIToken.mjs",
+            "default": "./dist/cjs/hooks/useResolvedKPIToken.cjs"
         },
         "./useResolvedTemplate": {
-            "types": "./dist/hooks/useResolvedTemplate.d.ts",
-            "import": "./dist/hooks/useResolvedTemplate.js"
+            "types": "./dist/types/hooks/useResolvedTemplate.d.ts",
+            "import": "./dist/es/hooks/useResolvedTemplate.mjs",
+            "default": "./dist/cjs/hooks/useResolvedTemplate.cjs"
         },
         "./useResolvedTemplates": {
-            "types": "./dist/hooks/useResolvedTemplates.d.ts",
-            "import": "./dist/hooks/useResolvedTemplates.js"
+            "types": "./dist/types/hooks/useResolvedTemplates.d.ts",
+            "import": "./dist/es/hooks/useResolvedTemplates.mjs",
+            "default": "./dist/cjs/hooks/useResolvedTemplates.cjs"
         },
         "./useSetDevMode": {
-            "types": "./dist/hooks/useSetDevMode.d.ts",
-            "import": "./dist/hooks/useSetDevMode.js"
+            "types": "./dist/types/hooks/useSetDevMode.d.ts",
+            "import": "./dist/es/hooks/useSetDevMode.mjs",
+            "default": "./dist/cjs/hooks/useSetDevMode.cjs"
         },
         "./useSetIPFSGatewayURL": {
-            "types": "./dist/hooks/useSetIPFSGatewayURL.d.ts",
-            "import": "./dist/hooks/useSetIPFSGatewayURL.js"
+            "types": "./dist/types/hooks/useSetIPFSGatewayURL.d.ts",
+            "import": "./dist/es/hooks/useSetIPFSGatewayURL.mjs",
+            "default": "./dist/cjs/hooks/useSetIPFSGatewayURL.cjs"
         },
         "./useSetKPITokenTemplateBaseURL": {
-            "types": "./dist/hooks/useSetKPITokenTemplateBaseURL.d.ts",
-            "import": "./dist/hooks/useSetKPITokenTemplateBaseURL.js"
+            "types": "./dist/types/hooks/useSetKPITokenTemplateBaseURL.d.ts",
+            "import": "./dist/es/hooks/useSetKPITokenTemplateBaseURL.mjs",
+            "default": "./dist/cjs/hooks/useSetKPITokenTemplateBaseURL.cjs"
         },
         "./useSetOracleTemplateBaseURL": {
-            "types": "./dist/hooks/useSetOracleTemplateBaseURL.d.ts",
-            "import": "./dist/hooks/useSetOracleTemplateBaseURL.js"
+            "types": "./dist/types/hooks/useSetOracleTemplateBaseURL.d.ts",
+            "import": "./dist/es/hooks/useSetOracleTemplateBaseURL.mjs",
+            "default": "./dist/cjs/hooks/useSetOracleTemplateBaseURL.cjs"
         },
         "./useSetPreferDecentralization": {
-            "types": "./dist/hooks/useSetPreferDecentralization.d.ts",
-            "import": "./dist/hooks/useSetPreferDecentralization.js"
+            "types": "./dist/types/hooks/useSetPreferDecentralization.d.ts",
+            "import": "./dist/es/hooks/useSetPreferDecentralization.mjs",
+            "default": "./dist/cjs/hooks/useSetPreferDecentralization.cjs"
         },
         "./useSetStagingMode": {
-            "types": "./dist/hooks/useSetStagingMode.d.ts",
-            "import": "./dist/hooks/useSetStagingMode.js"
+            "types": "./dist/types/hooks/useSetStagingMode.d.ts",
+            "import": "./dist/es/hooks/useSetStagingMode.mjs",
+            "default": "./dist/cjs/hooks/useSetStagingMode.cjs"
         },
         "./useSetTheme": {
-            "types": "./dist/hooks/useSetTheme.d.ts",
-            "import": "./dist/hooks/useSetTheme.js"
+            "types": "./dist/types/hooks/useSetTheme.d.ts",
+            "import": "./dist/es/hooks/useSetTheme.mjs",
+            "default": "./dist/cjs/hooks/useSetTheme.cjs"
         },
         "./useStagingMode": {
-            "types": "./dist/hooks/useStagingMode.d.ts",
-            "import": "./dist/hooks/useStagingMode.js"
+            "types": "./dist/types/hooks/useStagingMode.d.ts",
+            "import": "./dist/es/hooks/useStagingMode.mjs",
+            "default": "./dist/cjs/hooks/useStagingMode.cjs"
         },
         "./useTemplateModule": {
-            "types": "./dist/hooks/useTemplateModule.d.ts",
-            "import": "./dist/hooks/useTemplateModule.js"
+            "types": "./dist/types/hooks/useTemplateModule.d.ts",
+            "import": "./dist/es/hooks/useTemplateModule.mjs",
+            "default": "./dist/cjs/hooks/useTemplateModule.cjs"
         },
         "./useTheme": {
-            "types": "./dist/hooks/useTheme.d.ts",
-            "import": "./dist/hooks/useTheme.js"
+            "types": "./dist/types/hooks/useTheme.d.ts",
+            "import": "./dist/es/hooks/useTheme.mjs",
+            "default": "./dist/cjs/hooks/useTheme.cjs"
         },
         "./useTokenLists": {
-            "types": "./dist/hooks/useTokenLists.d.ts",
-            "import": "./dist/hooks/useTokenLists.js"
+            "types": "./dist/types/hooks/useTokenLists.d.ts",
+            "import": "./dist/es/hooks/useTokenLists.mjs",
+            "default": "./dist/cjs/hooks/useTokenLists.cjs"
         },
         "./useWatchKPIToken": {
-            "types": "./dist/hooks/useWatchKPIToken.d.ts",
-            "import": "./dist/hooks/useWatchKPIToken.js"
+            "types": "./dist/types/hooks/useWatchKPIToken.d.ts",
+            "import": "./dist/es/hooks/useWatchKPIToken.mjs",
+            "default": "./dist/cjs/hooks/useWatchKPIToken.cjs"
         },
         "./types/templates": {
-            "types": "./dist/types/templates.d.ts",
-            "import": "./dist/types/templates.js"
+            "types": "./dist/types/types/templates.d.ts",
+            "import": "./dist/es/types/templates.mjs",
+            "default": "./dist/cjs/types/templates.cjs"
         },
         "./types/transactions": {
-            "types": "./dist/types/transactions.d.ts",
-            "import": "./dist/types/transactions.js"
+            "types": "./dist/types/types/transactions.d.ts",
+            "import": "./dist/es/types/transactions.mjs",
+            "default": "./dist/cjs/types/transactions.cjs"
         },
         "./core-provider": {
-            "types": "./dist/core-provider.d.ts",
-            "import": "./dist/core-provider.js"
+            "types": "./dist/types/core-provider.d.ts",
+            "import": "./dist/es/core-provider.mjs",
+            "default": "./dist/cjs/core-provider.cjs"
         }
     },
     "typesVersions": {
         "*": {
             "error-boundary": [
-                "./dist/components/error-boundary.d.ts"
+                "./dist/types/components/error-boundary.d.ts"
             ],
             "kpi-token-creation-form": [
-                "./dist/components/kpi-token-creation-form.d.ts"
+                "./dist/types/components/kpi-token-creation-form.d.ts"
             ],
             "kpi-token-page": [
-                "./dist/components/kpi-token-page.d.ts"
+                "./dist/types/components/kpi-token-page.d.ts"
             ],
             "oracle-creation-form": [
-                "./dist/components/oracle-creation-form.d.ts"
+                "./dist/types/components/oracle-creation-form.d.ts"
             ],
             "oracle-page": [
-                "./dist/components/oracle-page.d.ts"
+                "./dist/types/components/oracle-page.d.ts"
             ],
             "template-component": [
-                "./dist/components/template-component.d.ts"
+                "./dist/types/components/template-component.d.ts"
             ],
             "useDecentralizedStorageUploader": [
-                "./dist/hooks/useDecentralizedStorageUploader.d.ts"
+                "./dist/types/hooks/useDecentralizedStorageUploader.d.ts"
             ],
             "useDevMode": [
-                "./dist/hooks/useDevMode.d.ts"
+                "./dist/types/hooks/useDevMode.d.ts"
             ],
             "useERC20TokenPrice": [
-                "./dist/hooks/useERC20TokenPrice.d.ts"
+                "./dist/types/hooks/useERC20TokenPrice.d.ts"
             ],
             "useFederatedModuleContainer": [
-                "./dist/hooks/useFederatedModuleContainer.d.ts"
+                "./dist/types/hooks/useFederatedModuleContainer.d.ts"
             ],
             "useIPFSGatewayURL": [
-                "./dist/hooks/useIPFSGatewayURL.d.ts"
+                "./dist/types/hooks/useIPFSGatewayURL.d.ts"
             ],
             "useKPIToken": [
-                "./dist/hooks/useKPIToken.d.ts"
+                "./dist/types/hooks/useKPIToken.d.ts"
             ],
             "useKPITokenTemplate": [
-                "./dist/hooks/useKPITokenTemplate.d.ts"
+                "./dist/types/hooks/useKPITokenTemplate.d.ts"
             ],
             "useKPITokenTemplates": [
-                "./dist/hooks/useKPITokenTemplates.d.ts"
+                "./dist/types/hooks/useKPITokenTemplates.d.ts"
             ],
             "useKPITokens": [
-                "./dist/hooks/useKPITokens.d.ts"
+                "./dist/types/hooks/useKPITokens.d.ts"
             ],
             "useNativeCurrency": [
-                "./dist/hooks/useNativeCurrency.d.ts"
+                "./dist/types/hooks/useNativeCurrency.d.ts"
             ],
             "useOracle": [
-                "./dist/hooks/useOracle.d.ts"
+                "./dist/types/hooks/useOracle.d.ts"
             ],
             "useOracleTemplate": [
-                "./dist/hooks/useOracleTemplate.d.ts"
+                "./dist/types/hooks/useOracleTemplate.d.ts"
             ],
             "useOracleTemplates": [
-                "./dist/hooks/useOracleTemplates.d.ts"
+                "./dist/types/hooks/useOracleTemplates.d.ts"
             ],
             "usePagination": [
-                "./dist/hooks/usePagination.d.ts"
+                "./dist/types/hooks/usePagination.d.ts"
             ],
             "usePreferDecentralization": [
-                "./dist/hooks/usePreferDecentralization.d.ts"
+                "./dist/types/hooks/usePreferDecentralization.d.ts"
             ],
             "useResolvedKPIToken": [
-                "./dist/hooks/useResolvedKPIToken.d.ts"
+                "./dist/types/hooks/useResolvedKPIToken.d.ts"
             ],
             "useResolvedTemplate": [
-                "./dist/hooks/useResolvedTemplate.d.ts"
+                "./dist/types/hooks/useResolvedTemplate.d.ts"
             ],
             "useResolvedTemplates": [
-                "./dist/hooks/useResolvedTemplates.d.ts"
+                "./dist/types/hooks/useResolvedTemplates.d.ts"
             ],
             "useSetDevMode": [
-                "./dist/hooks/useSetDevMode.d.ts"
+                "./dist/types/hooks/useSetDevMode.d.ts"
             ],
             "useSetIPFSGatewayURL": [
-                "./dist/hooks/useSetIPFSGatewayURL.d.ts"
+                "./dist/types/hooks/useSetIPFSGatewayURL.d.ts"
             ],
             "useSetKPITokenTemplateBaseURL": [
-                "./dist/hooks/useSetKPITokenTemplateBaseURL.d.ts"
+                "./dist/types/hooks/useSetKPITokenTemplateBaseURL.d.ts"
             ],
             "useSetOracleTemplateBaseURL": [
-                "./dist/hooks/useSetOracleTemplateBaseURL.d.ts"
+                "./dist/types/hooks/useSetOracleTemplateBaseURL.d.ts"
             ],
             "useSetPreferDecentralization": [
-                "./dist/hooks/useSetPreferDecentralization.d.ts"
+                "./dist/types/hooks/useSetPreferDecentralization.d.ts"
             ],
             "useSetStagingMode": [
-                "./dist/hooks/useSetStagingMode.d.ts"
+                "./dist/types/hooks/useSetStagingMode.d.ts"
             ],
             "useSetTheme": [
-                "./dist/hooks/useSetTheme.d.ts"
+                "./dist/types/hooks/useSetTheme.d.ts"
             ],
             "useStagingMode": [
-                "./dist/hooks/useStagingMode.d.ts"
+                "./dist/types/hooks/useStagingMode.d.ts"
             ],
             "useTemplateModule": [
-                "./dist/hooks/useTemplateModule.d.ts"
+                "./dist/types/hooks/useTemplateModule.d.ts"
             ],
             "useTheme": [
-                "./dist/hooks/useTheme.d.ts"
+                "./dist/types/hooks/useTheme.d.ts"
             ],
             "useTokenLists": [
-                "./dist/hooks/useTokenLists.d.ts"
+                "./dist/types/hooks/useTokenLists.d.ts"
             ],
             "useWatchKPIToken": [
-                "./dist/hooks/useWatchKPIToken.d.ts"
+                "./dist/types/hooks/useWatchKPIToken.d.ts"
             ],
             "types/templates": [
-                "./dist/types/templates.d.ts"
+                "./dist/types/types/templates.d.ts"
             ],
             "types/transactions": [
-                "./dist/types/transactions.d.ts"
+                "./dist/types/types/transactions.d.ts"
             ],
             "core-provider": [
-                "./dist/core-provider.d.ts"
+                "./dist/types/core-provider.d.ts"
             ]
         }
     },
