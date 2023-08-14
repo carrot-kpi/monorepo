@@ -1,6 +1,10 @@
 [
     {
-        "path": "dist",
-        "limit": "250kB"
+        "path": "./dist/cjs/**/*.cjs",
+        "limit": "60 KB"
+    },
+    {
+        "path": "./dist/es/**/*.mjs",
+        "limit": "60 KB"
     }
 ]
