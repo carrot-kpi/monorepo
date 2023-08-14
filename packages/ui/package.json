@@ -166,7 +166,7 @@
         "./tailwind-preset": {
             "types": "./dist/types/tailwind-preset.d.ts",
             "import": "./dist/es/tailwind-preset.mjs",
-            "default": "./dist/tailwind-preset.cjs"
+            "default": "./dist/cjs/tailwind-preset.cjs"
         }
     },
     "typesVersions": {

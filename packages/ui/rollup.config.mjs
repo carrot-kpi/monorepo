@@ -78,7 +78,7 @@ export default [
         ],
     },
     {
-        input: resolve("./src/tailwind-preset.js"),
+        input: resolve("./src/global.css"),
         plugins: [
             postcss({
                 plugins: [
