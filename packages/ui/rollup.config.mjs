@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
@@ -10,7 +9,7 @@ import autoprefixer from "autoprefixer";
 export default [
     {
         input: [
-            "src/global.css",
+            "src/tailwind-preset.js",
             "src/index.ts",
             "src/components/index.ts",
             "src/components/accordion/index.tsx",
@@ -48,7 +47,7 @@ export default [
             commonjs(),
             postcss({
                 plugins: [
-                    tailwindcss({ config: resolve("src/tailwind.config.js") }),
+                    tailwindcss({ config: resolve("src/tailwind-config.js") }),
                     autoprefixer,
                 ],
                 extract: resolve("dist/styles.css"),
@@ -60,31 +59,37 @@ export default [
         ],
         output: [
             {
-                dir: resolve("./dist"),
+                dir: resolve("./dist/es"),
                 preserveModules: true,
                 preserveModulesRoot: "src",
                 format: "es",
                 sourcemap: true,
+                entryFileNames: "[name].mjs",
+            },
+            {
+                dir: resolve("./dist/cjs"),
+                preserveModules: true,
+                preserveModulesRoot: "src",
+                format: "cjs",
+                sourcemap: true,
+                entryFileNames: "[name].cjs",
             },
         ],
     },
     {
-        input: [resolve("./src/tailwind.preset.js")],
+        input: resolve("./src/tailwind.preset.js"),
         plugins: [
-            peerDepsExternal(),
-            nodeResolve({ preferBuiltins: true, rootDir: resolve("../..") }),
-            commonjs(),
+            postcss({
+                plugins: [
+                    tailwindcss({ config: "src/tailwind-config.js" }),
+                    autoprefixer,
+                ],
+                extract: "styles.css",
+            }),
         ],
         output: [
             {
-                file: resolve("dist/tailwind.preset.js"),
-                format: "es",
-                exports: "auto",
-            },
-            {
-                file: resolve("dist/tailwind.preset.cjs"),
-                format: "cjs",
-                exports: "auto",
+                dir: resolve("./dist"),
             },
         ],
     },

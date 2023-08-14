@@ -23,7 +23,7 @@ export default [
             peerDepsExternal(),
             nodeResolve({ preferBuiltins: true }),
             commonjs(),
-            esbuild({ target: "es2022", tsconfig: "./tsconfig.build.json" }),
+            esbuild({ target: "es2020", tsconfig: "./tsconfig.build.json" }),
         ],
         output: [
             {

@@ -3,228 +3,260 @@
     "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
     "version": "0.52.1",
-    "main": "./dist/index.js",
-    "module": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "typings": "./dist/index.d.ts",
+    "main": "./dist/cjs/index.cjs",
+    "module": "./dist/es/index.mjs",
+    "types": "./dist/types/index.d.ts",
+    "typings": "./dist/types/index.d.ts",
     "sideEffects": false,
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
-            "import": "./dist/index.js"
+            "import": "./dist/es/index.mjs",
+            "default": "./dist/cjs/index.cjs"
         },
         "./accordion": {
-            "types": "./dist/components/accordion/index.d.ts",
-            "import": "./dist/components/accordion/index.js"
+            "types": "./dist/types/components/accordion/index.d.ts",
+            "import": "./dist/es/components/accordion/index.mjs",
+            "default": "./dist/cjs/components/accordion/index.cjs"
         },
         "./card": {
-            "types": "./dist/components/card/index.d.ts",
-            "import": "./dist/components/card/index.js"
+            "types": "./dist/types/components/card/index.d.ts",
+            "import": "./dist/es/components/card/index.mjs",
+            "default": "./dist/cjs/components/card/index.cjs"
         },
         "./date-input": {
-            "types": "./dist/components/date-input/index.d.ts",
-            "import": "./dist/components/date-input/index.js"
+            "types": "./dist/types/components/date-input/index.d.ts",
+            "import": "./dist/es/components/date-input/index.mjs",
+            "default": "./dist/cjs/components/date-input/index.cjs"
         },
         "./date-time-input": {
-            "types": "./dist/components/date-time-input/index.d.ts",
-            "import": "./dist/components/date-time-input/index.js"
+            "types": "./dist/types/components/date-time-input/index.d.ts",
+            "import": "./dist/es/components/date-time-input/index.mjs",
+            "default": "./dist/cjs/components/date-time-input/index.cjs"
         },
         "./erc20-token-picker": {
-            "types": "./dist/components/erc20-token-picker/index.d.ts",
-            "import": "./dist/components/erc20-token-picker/index.js"
+            "types": "./dist/types/components/erc20-token-picker/index.d.ts",
+            "import": "./dist/es/components/erc20-token-picker/index.mjs",
+            "default": "./dist/cjs/components/erc20-token-picker/index.cjs"
         },
         "./markdown-input": {
-            "types": "./dist/components/markdown-input/index.d.ts",
-            "import": "./dist/components/markdown-input/index.js"
+            "types": "./dist/types/components/markdown-input/index.d.ts",
+            "import": "./dist/es/components/markdown-input/index.mjs",
+            "default": "./dist/cjs/components/markdown-input/index.cjs"
         },
         "./multi-step-cards": {
-            "types": "./dist/components/multi-step-cards/index.d.ts",
-            "import": "./dist/components/multi-step-cards/index.js"
+            "types": "./dist/types/components/multi-step-cards/index.d.ts",
+            "import": "./dist/es/components/multi-step-cards/index.mjs",
+            "default": "./dist/cjs/components/multi-step-cards/index.cjs"
         },
         "./button": {
-            "types": "./dist/components/button.d.ts",
-            "import": "./dist/components/button.js"
+            "types": "./dist/types/components/button.d.ts",
+            "import": "./dist/es/components/button.mjs",
+            "default": "./dist/cjs/components/button.cjs"
         },
         "./checkbox": {
-            "types": "./dist/components/checkbox.d.ts",
-            "import": "./dist/components/checkbox.js"
+            "types": "./dist/types/components/checkbox.d.ts",
+            "import": "./dist/es/components/checkbox.mjs",
+            "default": "./dist/cjs/components/checkbox.cjs"
         },
         "./chip": {
-            "types": "./dist/components/chip.d.ts",
-            "import": "./dist/components/chip.js"
+            "types": "./dist/types/components/chip.d.ts",
+            "import": "./dist/es/components/chip.mjs",
+            "default": "./dist/cjs/components/chip.cjs"
         },
         "./erc20-token-logo": {
-            "types": "./dist/components/erc20-token-logo.d.ts",
-            "import": "./dist/components/erc20-token-logo.js"
+            "types": "./dist/types/components/erc20-token-logo.d.ts",
+            "import": "./dist/es/components/erc20-token-logo.mjs",
+            "default": "./dist/cjs/components/erc20-token-logo.cjs"
         },
         "./error-feedback": {
-            "types": "./dist/components/error-feedback.d.ts",
-            "import": "./dist/components/error-feedback.js"
+            "types": "./dist/types/components/error-feedback.d.ts",
+            "import": "./dist/es/components/error-feedback.mjs",
+            "default": "./dist/cjs/components/error-feedback.cjs"
         },
         "./error-text": {
-            "types": "./dist/components/error-text.d.ts",
-            "import": "./dist/components/error-text.js"
+            "types": "./dist/types/components/error-text.d.ts",
+            "import": "./dist/es/components/error-text.mjs",
+            "default": "./dist/cjs/components/error-text.cjs"
         },
         "./loader": {
-            "types": "./dist/components/loader.d.ts",
-            "import": "./dist/components/loader.js"
+            "types": "./dist/types/components/loader.d.ts",
+            "import": "./dist/es/components/loader.mjs",
+            "default": "./dist/cjs/components/loader.cjs"
         },
         "./markdown": {
-            "types": "./dist/components/markdown.d.ts",
-            "import": "./dist/components/markdown.js"
+            "types": "./dist/types/components/markdown.d.ts",
+            "import": "./dist/es/components/markdown.mjs",
+            "default": "./dist/cjs/components/markdown.cjs"
         },
         "./modal": {
-            "types": "./dist/components/modal.d.ts",
-            "import": "./dist/components/modal.js"
+            "types": "./dist/types/components/modal.d.ts",
+            "import": "./dist/es/components/modal.mjs",
+            "default": "./dist/cjs/components/modal.cjs"
         },
         "./number-input": {
-            "types": "./dist/components/number-input.d.ts",
-            "import": "./dist/components/number-input.js"
+            "types": "./dist/types/components/number-input.d.ts",
+            "import": "./dist/es/components/number-input.mjs",
+            "default": "./dist/cjs/components/number-input.cjs"
         },
         "./popover": {
-            "types": "./dist/components/popover.d.ts",
-            "import": "./dist/components/popover.js"
+            "types": "./dist/types/components/popover.d.ts",
+            "import": "./dist/es/components/popover.mjs",
+            "default": "./dist/cjs/components/popover.cjs"
         },
         "./radio-group": {
-            "types": "./dist/components/radio-group.d.ts",
-            "import": "./dist/components/radio-group.js"
+            "types": "./dist/types/components/radio-group.d.ts",
+            "import": "./dist/es/components/radio-group.mjs",
+            "default": "./dist/cjs/components/radio-group.cjs"
         },
         "./radio": {
-            "types": "./dist/components/radio.d.ts",
-            "import": "./dist/components/radio.js"
+            "types": "./dist/types/components/radio.d.ts",
+            "import": "./dist/es/components/radio.mjs",
+            "default": "./dist/cjs/components/radio.cjs"
         },
         "./remote-logo": {
-            "types": "./dist/components/remote-logo.d.ts",
-            "import": "./dist/components/remote-logo.js"
+            "types": "./dist/types/components/remote-logo.d.ts",
+            "import": "./dist/es/components/remote-logo.mjs",
+            "default": "./dist/cjs/components/remote-logo.cjs"
         },
         "./select": {
-            "types": "./dist/components/select.d.ts",
-            "import": "./dist/components/select.js"
+            "types": "./dist/types/components/select.d.ts",
+            "import": "./dist/es/components/select.mjs",
+            "default": "./dist/cjs/components/select.cjs"
         },
         "./skeleton": {
-            "types": "./dist/components/skeleton.d.ts",
-            "import": "./dist/components/skeleton.js"
+            "types": "./dist/types/components/skeleton.d.ts",
+            "import": "./dist/es/components/skeleton.mjs",
+            "default": "./dist/cjs/components/skeleton.cjs"
         },
         "./stepper": {
-            "types": "./dist/components/stepper.d.ts",
-            "import": "./dist/components/stepper.js"
+            "types": "./dist/types/components/stepper.d.ts",
+            "import": "./dist/es/components/stepper.mjs",
+            "default": "./dist/cjs/components/stepper.cjs"
         },
         "./switch": {
-            "types": "./dist/components/switch.d.ts",
-            "import": "./dist/components/switch.js"
+            "types": "./dist/types/components/switch.d.ts",
+            "import": "./dist/es/components/switch.mjs",
+            "default": "./dist/cjs/components/switch.cjs"
         },
         "./tags-input": {
-            "types": "./dist/components/tags-input.d.ts",
-            "import": "./dist/components/tags-input.js"
+            "types": "./dist/types/components/tags-input.d.ts",
+            "import": "./dist/es/components/tags-input.mjs",
+            "default": "./dist/cjs/components/tags-input.cjs"
         },
         "./text-input": {
-            "types": "./dist/components/text-input.d.ts",
-            "import": "./dist/components/text-input.js"
+            "types": "./dist/types/components/text-input.d.ts",
+            "import": "./dist/es/components/text-input.mjs",
+            "default": "./dist/cjs/components/text-input.cjs"
         },
         "./timer": {
-            "types": "./dist/components/timer.d.ts",
-            "import": "./dist/components/timer.js"
+            "types": "./dist/types/components/timer.d.ts",
+            "import": "./dist/es/components/timer.mjs",
+            "default": "./dist/cjs/components/timer.cjs"
         },
         "./typography": {
-            "types": "./dist/components/typography.d.ts",
-            "import": "./dist/components/typography.js"
+            "types": "./dist/types/components/typography.d.ts",
+            "import": "./dist/es/components/typography.mjs",
+            "default": "./dist/cjs/components/typography.cjs"
         },
         "./styles.css": {
-            "import": "./dist/styles.css"
+            "import": "./dist/styles.css",
+            "default": "./dist/styles.css"
         },
         "./tailwind-preset": {
-            "import": "./dist/tailwind.preset.js",
-            "require": "./dist/tailwind.preset.cjs"
+            "types": "./dist/types/tailwind-preset.d.ts",
+            "import": "./dist/es/tailwind-preset.mjs",
+            "default": "./dist/tailwind-preset.cjs"
         }
     },
     "typesVersions": {
         "*": {
             "accordion": [
-                "./dist/components/accordion/index.d.ts"
+                "./dist/types/components/accordion/index.d.ts"
             ],
             "card": [
-                "./dist/components/card/index.d.ts"
+                "./dist/types/components/card/index.d.ts"
             ],
             "date-input": [
-                "./dist/components/date-input/index.d.ts"
+                "./dist/types/components/date-input/index.d.ts"
             ],
             "date-time-input": [
-                "./dist/components/date-time-input/index.d.ts"
+                "./dist/types/components/date-time-input/index.d.ts"
             ],
             "erc20-token-picker": [
-                "./dist/components/erc20-token-picker/index.d.ts"
+                "./dist/types/components/erc20-token-picker/index.d.ts"
             ],
             "markdown-input": [
-                "./dist/components/markdown-input/index.d.ts"
+                "./dist/types/components/markdown-input/index.d.ts"
             ],
             "multi-step-cards": [
-                "./dist/components/multi-step-cards/index.d.ts"
+                "./dist/types/components/multi-step-cards/index.d.ts"
             ],
             "button": [
-                "./dist/components/button.d.ts"
+                "./dist/types/components/button.d.ts"
             ],
             "checkbox": [
-                "./dist/components/checkbox.d.ts"
+                "./dist/types/components/checkbox.d.ts"
             ],
             "chip": [
-                "./dist/components/chip.d.ts"
+                "./dist/types/components/chip.d.ts"
             ],
             "erc20-token-logo": [
-                "./dist/components/erc20-token-logo.d.ts"
+                "./dist/types/components/erc20-token-logo.d.ts"
             ],
             "error-feedback": [
-                "./dist/components/error-feedback.d.ts"
+                "./dist/types/components/error-feedback.d.ts"
             ],
             "error-text": [
-                "./dist/components/error-text.d.ts"
+                "./dist/types/components/error-text.d.ts"
             ],
             "loader": [
-                "./dist/components/loader.d.ts"
+                "./dist/types/components/loader.d.ts"
             ],
             "markdown": [
-                "./dist/components/markdown.d.ts"
+                "./dist/types/components/markdown.d.ts"
             ],
             "modal": [
-                "./dist/components/modal.d.ts"
+                "./dist/types/components/modal.d.ts"
             ],
             "number-input": [
-                "./dist/components/number-input.d.ts"
+                "./dist/types/components/number-input.d.ts"
             ],
             "popover": [
-                "./dist/components/popover.d.ts"
+                "./dist/types/components/popover.d.ts"
             ],
             "radio-group": [
-                "./dist/components/radio-group.d.ts"
+                "./dist/types/components/radio-group.d.ts"
             ],
             "radio": [
-                "./dist/components/radio.d.ts"
+                "./dist/types/components/radio.d.ts"
             ],
             "remote-logo": [
-                "./dist/components/remote-logo.d.ts"
+                "./dist/types/components/remote-logo.d.ts"
             ],
             "select": [
-                "./dist/components/select.d.ts"
+                "./dist/types/components/select.d.ts"
             ],
             "skeleton": [
-                "./dist/components/skeleton.d.ts"
+                "./dist/types/components/skeleton.d.ts"
             ],
             "stepper": [
-                "./dist/components/stepper.d.ts"
+                "./dist/types/components/stepper.d.ts"
             ],
             "switch": [
-                "./dist/components/switch.d.ts"
+                "./dist/types/components/switch.d.ts"
             ],
             "tags-input": [
-                "./dist/components/tags-input.d.ts"
+                "./dist/types/components/tags-input.d.ts"
             ],
             "text-input": [
-                "./dist/components/text-input.d.ts"
+                "./dist/types/components/text-input.d.ts"
             ],
             "timer": [
-                "./dist/components/timer.d.ts"
+                "./dist/types/components/timer.d.ts"
             ],
             "typography": [
-                "./dist/components/typography.d.ts"
+                "./dist/types/components/typography.d.ts"
             ]
         }
     },
@@ -234,7 +266,7 @@
     "scripts": {
         "lint": "eslint --ext .tsx,.ts ./src && prettier --check './**/*.{json,md}'",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write './**/*.{json,md}'",
-        "build": "yarn clean && rollup -c rollup.config.mjs && tsc --project ./tsconfig.build.json",
+        "build": "yarn clean && rollup -c rollup.config.mjs && tsc --project ./tsconfig.build.json && rimraf ./dist/global.js",
         "clean": "rimraf ./dist",
         "test": "echo 'No tests' && exit 0",
         "size-limit": "size-limit",

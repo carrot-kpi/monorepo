@@ -1,7 +1,11 @@
 [
     {
-        "path": "./dist/**/*.js",
-        "limit": "660 KB"
+        "path": "./dist/es/**/*.mjs",
+        "limit": "700 KB"
+    },
+    {
+        "path": "./dist/cjs/**/*.cjs",
+        "limit": "700 KB"
     },
     {
         "path": "./dist/styles.css",
