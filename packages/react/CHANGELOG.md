@@ -1,5 +1,15 @@
 # @carrot-kpi/react
 
+## 0.54.1
+
+### Patch Changes
+
+-   fc779d3: Use ESBuild + tsc to generate code and typings, and add specific
+    .cjs or .mjs extension in SDK package
+-   Updated dependencies [fc779d3]
+-   Updated dependencies [fc779d3]
+    -   @carrot-kpi/sdk@1.33.1
+
 ## 0.54.0
 
 ### Minor Changes
