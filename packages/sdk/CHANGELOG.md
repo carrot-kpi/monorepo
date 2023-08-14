@@ -1,5 +1,13 @@
 # @carrot-kpi/sdk
 
+## 1.33.2
+
+### Patch Changes
+
+-   6844bec: Force release
+-   6844bec: Use ESBuild + tsc to generate code and typings, and add specific
+    .cjs or .mjs extension in SDK package
+
 ## 1.33.1
 
 ### Patch Changes

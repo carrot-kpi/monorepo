@@ -1,5 +1,19 @@
 # @carrot-kpi/react
 
+## 0.55.0
+
+### Minor Changes
+
+-   6844bec: Export both cjs and mjs bundles
+
+### Patch Changes
+
+-   6844bec: Use ESBuild + tsc to generate code and typings, and add specific
+    .cjs or .mjs extension in SDK package
+-   Updated dependencies [6844bec]
+-   Updated dependencies [6844bec]
+    -   @carrot-kpi/sdk@1.33.2
+
 ## 0.54.1
 
 ### Patch Changes

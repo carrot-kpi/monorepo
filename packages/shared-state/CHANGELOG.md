@@ -1,5 +1,11 @@
 # @carrot-kpi/shared-state
 
+## 0.5.0
+
+### Minor Changes
+
+-   6844bec: Export both cjs and mjs bundles
+
 ## 0.4.1
 
 ### Patch Changes

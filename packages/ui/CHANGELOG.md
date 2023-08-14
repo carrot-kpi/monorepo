@@ -1,5 +1,19 @@
 # @carrot-kpi/ui
 
+## 0.53.0
+
+### Minor Changes
+
+-   6844bec: Export both mjs and cjs versions of the package
+
+### Patch Changes
+
+-   6844bec: Use ESBuild + tsc to generate code and typings, and add specific
+    .cjs or .mjs extension in SDK package
+-   Updated dependencies [6844bec]
+-   Updated dependencies [6844bec]
+    -   @carrot-kpi/sdk@1.33.2
+
 ## 0.52.1
 
 ### Patch Changes
