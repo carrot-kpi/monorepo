@@ -1,7 +1,7 @@
 import React, { type FC, type ReactNode } from "react";
 import { cva, cx } from "class-variance-authority";
 import { extendTailwindMerge } from "tailwind-merge";
-import { theme } from "../tailwind.preset.theme";
+import { theme } from "../tailwind-preset-theme";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const classGroups: { [key: string]: any } = {};

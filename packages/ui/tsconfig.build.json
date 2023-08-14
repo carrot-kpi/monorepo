@@ -2,8 +2,11 @@
     "extends": "tsconfig/ui.json",
     "include": ["./src/**/*", "./custom.d.ts"],
     "compilerOptions": {
-        "outDir": "./dist",
         "declaration": true,
+        "emitDeclarationOnly": true,
+        "declarationDir": "./dist/types",
+        "allowJs": true,
+        "outDir": "./dist",
         "rootDir": "./src"
     }
 }

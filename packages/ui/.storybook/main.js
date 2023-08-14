@@ -34,7 +34,7 @@ module.exports = {
                                 tailwindcss: {
                                     config: path.resolve(
                                         __dirname,
-                                        "../src/tailwind.config.js",
+                                        "../src/tailwind-config.js",
                                     ),
                                 },
                                 autoprefixer: {},
