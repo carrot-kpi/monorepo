@@ -3,6 +3,8 @@
     "include": ["./src/**/*"],
     "exclude": ["./src/analytics/generated.ts"],
     "compilerOptions": {
+        "declaration": true,
+        "emitDeclarationOnly": true,
         "outDir": "./dist",
         "rootDir": "./src"
     }
