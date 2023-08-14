@@ -1,10 +1,10 @@
 {
     "extends": "tsconfig/ui.json",
     "include": ["./src/**/*"],
-    "exclude": ["./src/**/*.test.ts"],
+    "exclude": ["./test/**/*"],
     "compilerOptions": {
-        "outDir": "./dist",
         "declaration": true,
+        "emitDeclarationOnly": true,
         "declarationDir": "./dist/types",
         "rootDir": "./src"
     }
