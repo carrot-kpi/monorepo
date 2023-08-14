@@ -5,6 +5,7 @@ import esbuild from "rollup-plugin-esbuild";
 import postcss from "rollup-plugin-postcss";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
+import { resolve } from "path";
 
 export default [
     {
@@ -77,7 +78,7 @@ export default [
         ],
     },
     {
-        input: resolve("./src/tailwind.preset.js"),
+        input: resolve("./src/tailwind-preset.js"),
         plugins: [
             postcss({
                 plugins: [
