@@ -11,11 +11,12 @@ module.exports = {
     webpack: {
         configure: (config, { env }) => {
             const production = env === "production";
-
             for (const rule of config.module.rules) {
+                if (!rule.oneOf) continue;
                 for (oneOf of rule.oneOf) {
                     if (!oneOf.use) continue;
                     for (const use of oneOf.use) {
+                        if (!use.loader) continue;
                         if (use.loader.includes("postcss-loader")) {
                             use.options.postcssOptions.plugins.push("cssnano");
                         }
