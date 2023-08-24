@@ -60,14 +60,15 @@ export const Hero = () => {
                                 ref={videoRef}
                                 controls
                                 preload="metadata"
+                                poster={require("../../../images/video-poster.png")}
                                 className="w-full h-full rounded-xl"
                             >
                                 <source
-                                    src="https://static.carrot-kpi.dev/hero-video.webm#t=0.001"
+                                    src="https://static.carrot-kpi.dev/hero-video.webm"
                                     type="video/webm"
                                 />
                                 <source
-                                    src="https://static.carrot-kpi.dev/hero-video.mp4#t=0.001"
+                                    src="https://static.carrot-kpi.dev/hero-video.mp4"
                                     type="video/mp4"
                                 />
                                 {t("video.notSupported")}
