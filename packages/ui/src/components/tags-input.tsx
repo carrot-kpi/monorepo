@@ -73,7 +73,17 @@ export type TagsInputProps = Omit<
 
 export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
     function TagsInput(
-        { id, className, value, variant, messages, onChange, ...rest },
+        {
+            id,
+            className,
+            value,
+            variant,
+            messages,
+            onChange,
+            disabled,
+            loading,
+            ...rest
+        },
         ref,
     ): ReactElement {
         const generatedId = useId();
@@ -125,6 +135,8 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                         <Button
                             onClick={handleOnClick}
                             size="xsmall"
+                            loading={loading}
+                            disabled={disabled}
                             className={{
                                 root: buttonStyles({
                                     className: className?.button,
@@ -137,6 +149,8 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                     value={inputValue}
                     onChange={handleOnChange}
                     onKeyDown={handleKeyDown}
+                    disabled={disabled}
+                    loading={loading}
                     className={{
                         ...className,
                         input: `cui-pr-16 ${className?.input}`,

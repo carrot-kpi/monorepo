@@ -94,7 +94,7 @@ export type CheckboxProps = Omit<
     "type" | "className" | "id" | keyof BaseCheckboxProps
 > &
     BaseCheckboxProps &
-    Omit<BaseInputWrapperProps, "id">;
+    Omit<BaseInputWrapperProps, "id" | "loading">;
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     function Checkbox(
