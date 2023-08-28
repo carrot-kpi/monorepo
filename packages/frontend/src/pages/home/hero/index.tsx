@@ -59,6 +59,8 @@ export const Hero = () => {
                             <video
                                 ref={videoRef}
                                 controls
+                                preload="metadata"
+                                poster={require("../../../images/video-poster.png")}
                                 className="w-full h-full rounded-xl"
                             >
                                 <source

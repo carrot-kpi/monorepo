@@ -17,6 +17,7 @@ export interface PartialBaseInputProps<V> {
     errorText?: string;
     variant?: "xs" | "sm" | "base" | "xl" | "2xl";
     placeholder?: string;
+    loading?: boolean;
     onChange?: ChangeEventHandler<HTMLInputElement>;
     value?: V | null;
     border?: boolean;
@@ -119,6 +120,11 @@ export const inputStyles = mergedCva(
             },
             hasLeftIcon: {
                 true: ["cui-pl-12"],
+            },
+            loading: {
+                true: [
+                    "cui-bg-gray-200 dark:cui-bg-gray-600 cui-animate-pulse",
+                ],
             },
         },
         compoundVariants: [

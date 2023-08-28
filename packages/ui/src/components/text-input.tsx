@@ -23,6 +23,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             error = false,
             className,
             value,
+            loading,
+            disabled,
             ...rest
         },
         ref,
@@ -49,10 +51,12 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                     type="text"
                     ref={ref}
                     value={value || ""}
+                    disabled={loading || disabled}
                     {...rest}
                     className={inputStyles({
                         error,
                         variant,
+                        loading,
                         border,
                         hasLeftIcon: !!icon && iconPlacement === "left",
                         className: className?.input,
