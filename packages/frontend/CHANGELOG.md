@@ -1,5 +1,11 @@
 # @carrot-kpi/host-frontend
 
+## 0.16.3
+
+### Patch Changes
+
+-   f31ce4d: Force publish
+
 ## 0.16.2
 
 ### Patch Changes
