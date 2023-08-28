@@ -10,6 +10,7 @@ import { useFeaturedKPITokens } from "../../../hooks/useFeaturedKPITokens";
 import { useSelector } from "../../../state/connector";
 import type { HostState } from "../../../state";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
+import VideoPoster from "../../../images/video-poster.png";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -60,7 +61,7 @@ export const Hero = () => {
                                 ref={videoRef}
                                 controls
                                 preload="metadata"
-                                poster={require("../../../images/video-poster.png")}
+                                poster={VideoPoster}
                                 className="w-full h-full rounded-xl"
                             >
                                 <source
