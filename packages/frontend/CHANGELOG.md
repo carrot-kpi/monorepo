@@ -1,5 +1,14 @@
 # @carrot-kpi/host-frontend
 
+## 0.16.2
+
+### Patch Changes
+
+-   20b6cbb: Replace video poster require with import
+-   20b6cbb: Add poster to hero video, add new Discord link
+-   Updated dependencies [20b6cbb]
+    -   @carrot-kpi/ui@0.55.0
+
 ## 0.16.1
 
 ### Patch Changes
