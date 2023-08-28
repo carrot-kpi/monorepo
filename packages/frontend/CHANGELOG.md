@@ -1,5 +1,13 @@
 # @carrot-kpi/host-frontend
 
+## 0.16.1
+
+### Patch Changes
+
+-   266f6cb: Add poster to hero video, add new Discord link
+-   Updated dependencies [266f6cb]
+    -   @carrot-kpi/ui@0.54.0
+
 ## 0.16.0
 
 ### Minor Changes

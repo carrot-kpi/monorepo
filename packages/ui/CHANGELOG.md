@@ -1,5 +1,11 @@
 # @carrot-kpi/ui
 
+## 0.54.0
+
+### Minor Changes
+
+-   266f6cb: Add loading states for number, select, tags, dates and text inputs
+
 ## 0.53.0
 
 ### Minor Changes
