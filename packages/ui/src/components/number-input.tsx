@@ -29,6 +29,8 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             actionPlacement,
             error = false,
             className,
+            loading,
+            disabled,
             ...rest
         },
         ref,
@@ -56,6 +58,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                     thousandSeparator=","
                     decimalSeparator="."
                     value={value}
+                    disabled={disabled || loading}
                     placeholder={placeholder}
                     getInputRef={ref}
                     id={resolvedId}
@@ -64,6 +67,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                         error,
                         variant,
                         border,
+                        loading,
                         hasLeftIcon: !!icon && iconPlacement === "left",
                         className: className?.input,
                     })}

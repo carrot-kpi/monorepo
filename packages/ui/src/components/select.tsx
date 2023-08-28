@@ -83,6 +83,7 @@ export type SelectProps<T extends SelectOption<ValueType>> = {
     value: T | null;
     onChange: (value: T) => void;
     renderOption?: (value: T) => ReactElement;
+    loading?: boolean;
     className?: BaseInputProps<unknown>["className"] & {
         inputRoot?: string;
         wrapper?: string;
@@ -101,6 +102,8 @@ function Component<T extends SelectOption<ValueType>>(
         onChange,
         className,
         renderOption,
+        disabled,
+        loading,
         ...rest
     }: SelectProps<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -117,8 +120,9 @@ function Component<T extends SelectOption<ValueType>>(
     });
 
     const handleClick = useCallback(() => {
+        if (!open && (disabled || loading)) return;
         setOpen(!open);
-    }, [open]);
+    }, [disabled, loading, open]);
 
     const getPickHandler = useCallback(
         (option: T) => () => {
@@ -142,6 +146,8 @@ function Component<T extends SelectOption<ValueType>>(
                 readOnly
                 icon={open ? ChevronUp : ChevronDown}
                 value={value?.label || ""}
+                disabled={disabled}
+                loading={loading}
                 {...rest}
                 className={{
                     ...className,

@@ -37,6 +37,8 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
             onChange,
             min,
             max,
+            loading,
+            disabled,
             ...rest
         },
         ref,
@@ -68,8 +70,9 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
         }, []);
 
         const handlePickerOpen = useCallback(() => {
+            if (!open && (disabled || loading)) return;
             setOpen(true);
-        }, []);
+        }, [disabled, loading, open]);
 
         const handlePickerClose = useCallback(() => {
             setOpen(false);
@@ -94,6 +97,8 @@ export const DateTimeInput = forwardRef<HTMLInputElement, DateTimeInputProps>(
                     errorText={errorText}
                     info={info}
                     icon={Calendar}
+                    disabled={disabled}
+                    loading={loading}
                     className={{
                         ...className,
                         input: `cui-cursor-pointer ${className?.input}`,

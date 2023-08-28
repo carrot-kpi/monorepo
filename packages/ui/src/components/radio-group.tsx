@@ -4,7 +4,7 @@ import { Typography } from "./typography";
 import { mergedCva } from "../utils/components";
 
 export interface RadioGroupProps
-    extends Omit<BaseInputWrapperProps, "className" | "id"> {
+    extends Omit<BaseInputWrapperProps, "className" | "id" | "loading"> {
     id?: string;
     className?: BaseInputWrapperProps["className"] & {
         radioInputsWrapper?: string;
