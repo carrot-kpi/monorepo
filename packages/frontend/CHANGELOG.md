@@ -1,5 +1,11 @@
 # @carrot-kpi/host-frontend
 
+## 0.16.3
+
+### Patch Changes
+
+-   9d74c0c: Force release
+
 ## 0.16.2
 
 ### Patch Changes
