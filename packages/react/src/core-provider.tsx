@@ -44,6 +44,7 @@ const InternalSetup = ({
             // }),
             ...providers,
         ],
+        { stallTimeout: 60_000 },
     );
     const config = createConfig({
         autoConnect: true,
