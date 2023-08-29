@@ -1,5 +1,11 @@
 # @carrot-kpi/react
 
+## 0.55.1
+
+### Patch Changes
+
+-   c0c59da: Increase default provider timeout to 1 minute
+
 ## 0.55.0
 
 ### Minor Changes
