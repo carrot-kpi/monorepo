@@ -1,10 +1,11 @@
-const path = require("path");
+const { dirname, join, resolve } = require("path");
+
 module.exports = {
     stories: ["../stories/*.stories.@(ts|tsx)"],
     addons: [
-        "@storybook/addon-links",
-        "@storybook/addon-essentials",
-        "@storybook/addon-interactions",
+        getAbsolutePath("@storybook/addon-links"),
+        getAbsolutePath("@storybook/addon-essentials"),
+        getAbsolutePath("@storybook/addon-interactions"),
         {
             name: "@storybook/addon-styling",
             options: {
@@ -12,7 +13,7 @@ module.exports = {
             },
         },
     ],
-    framework: "@storybook/react-webpack5",
+    framework: getAbsolutePath("@storybook/react-webpack5"),
     typescript: { reactDocgen: "react-docgen-typescript" },
     core: {
         disableTelemetry: true,
@@ -32,7 +33,7 @@ module.exports = {
                         postcssOptions: {
                             plugins: {
                                 tailwindcss: {
-                                    config: path.resolve(
+                                    config: resolve(
                                         __dirname,
                                         "../src/tailwind-config.js",
                                     ),
@@ -43,8 +44,12 @@ module.exports = {
                     },
                 },
             ],
-            include: path.resolve(__dirname, "../"),
+            include: resolve(__dirname, "../"),
         });
         return config;
     },
 };
+
+function getAbsolutePath(value) {
+    return dirname(require.resolve(join(value, "package.json")));
+}
