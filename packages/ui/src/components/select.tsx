@@ -62,9 +62,13 @@ const optionStyles = mergedCva(
                     "dark:hover:cui-bg-gray-600",
                 ],
             },
+            noResults: {
+                true: ["cui-cursor-default", "cui-pointer-events-none"],
+            },
         },
         defaultVariants: {
             picked: false,
+            noResults: false,
         },
     },
 );
@@ -220,7 +224,7 @@ function Component<T extends SelectOption<ValueType>>(
                     {filteredOptions.length === 0 && noResultsText ? (
                         <li
                             className={optionStyles({
-                                picked: false,
+                                noResults: true,
                                 className: className?.option,
                             })}
                         >
