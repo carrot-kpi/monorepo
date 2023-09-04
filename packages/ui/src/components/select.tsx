@@ -91,7 +91,9 @@ export type SelectProps<T extends SelectOption<ValueType>> = {
     onChange: (value: T) => void;
     renderOption?: (value: T) => ReactElement;
     loading?: boolean;
-    noResultsText?: string;
+    messages: {
+        noResults?: string;
+    };
     className?: BaseInputProps<unknown>["className"] & {
         inputRoot?: string;
         wrapper?: string;
@@ -113,7 +115,7 @@ function Component<T extends SelectOption<ValueType>>(
         renderOption,
         disabled,
         loading,
-        noResultsText,
+        messages,
         ...rest
     }: SelectProps<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -221,14 +223,14 @@ function Component<T extends SelectOption<ValueType>>(
                         className: className?.list,
                     })}
                 >
-                    {filteredOptions.length === 0 && noResultsText ? (
+                    {filteredOptions.length === 0 && messages.noResults ? (
                         <li
                             className={optionStyles({
                                 noResults: true,
                                 className: className?.option,
                             })}
                         >
-                            {noResultsText}
+                            {messages.noResults}
                         </li>
                     ) : (
                         filteredOptions.map((option) => {
