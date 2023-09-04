@@ -6,13 +6,15 @@ import React, {
     useRef,
     forwardRef,
     useId,
+    type ChangeEvent,
+    useEffect,
 } from "react";
 import type { BaseInputProps } from "./commons/input";
 import ChevronUp from "../icons/chevron-up";
 import ChevronDown from "../icons/chevron-down";
 import { Popover } from "./popover";
 import { TextInput } from "./text-input";
-import { useClickAway } from "react-use";
+import { useClickAway, useDebounce } from "react-use";
 import { mergedCva, mergedCx } from "../utils/components";
 
 const dropdownRootStyles = mergedCva([
@@ -81,9 +83,11 @@ export type SelectProps<T extends SelectOption<ValueType>> = {
     id?: string;
     options: T[];
     value: T | null;
+    search?: boolean;
     onChange: (value: T) => void;
     renderOption?: (value: T) => ReactElement;
     loading?: boolean;
+    noResultsText?: string;
     className?: BaseInputProps<unknown>["className"] & {
         inputRoot?: string;
         wrapper?: string;
@@ -99,11 +103,13 @@ function Component<T extends SelectOption<ValueType>>(
         id,
         options,
         value,
+        search,
         onChange,
         className,
         renderOption,
         disabled,
         loading,
+        noResultsText,
         ...rest
     }: SelectProps<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -112,6 +118,10 @@ function Component<T extends SelectOption<ValueType>>(
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
+    const [focus, setFocus] = useState(false);
+    const [query, setQuery] = useState("");
+    const [debouncedQuery, setdebouncedQuery] = useState(query);
+    const [filteredOptions, setFilteredOptions] = useState(options);
 
     const resolvedId = id || generatedId;
 
@@ -119,15 +129,46 @@ function Component<T extends SelectOption<ValueType>>(
         setOpen(false);
     });
 
+    useEffect(() => {
+        setFilteredOptions(
+            options.filter((option) =>
+                option.label
+                    .toLowerCase()
+                    .includes(debouncedQuery.toLowerCase()),
+            ),
+        );
+    }, [debouncedQuery, options]);
+
+    useDebounce(
+        () => {
+            setdebouncedQuery(query);
+        },
+        200,
+        [query],
+    );
+
     const handleClick = useCallback(() => {
         if (!open && (disabled || loading)) return;
         setOpen(!open);
     }, [disabled, loading, open]);
 
+    const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.target.value);
+    }, []);
+
+    const handleFocus = useCallback(() => {
+        setFocus(true);
+    }, []);
+
+    const handleBlur = useCallback(() => {
+        setFocus(false);
+        setQuery("");
+    }, []);
+
     const getPickHandler = useCallback(
         (option: T) => () => {
-            onChange(option);
             setOpen(false);
+            onChange(option);
         },
         [onChange],
     );
@@ -143,9 +184,9 @@ function Component<T extends SelectOption<ValueType>>(
                     setAnchorEl(element);
                 }}
                 id={resolvedId}
-                readOnly
+                readOnly={!search}
                 icon={open ? ChevronUp : ChevronDown}
-                value={value?.label || ""}
+                value={focus && search ? query : value?.label}
                 disabled={disabled}
                 loading={loading}
                 {...rest}
@@ -154,6 +195,9 @@ function Component<T extends SelectOption<ValueType>>(
                     input: `cui-cursor-pointer ${className?.input}`,
                     inputIcon: `cui-w-4 ${className?.inputIcon}`,
                 }}
+                onBlur={handleBlur}
+                onFocus={handleFocus}
+                onChange={handleChange}
                 onClick={handleClick}
             />
             <Popover
@@ -173,31 +217,42 @@ function Component<T extends SelectOption<ValueType>>(
                         className: className?.list,
                     })}
                 >
-                    {options.map((option) => {
-                        return (
-                            <li
-                                className={optionStyles({
-                                    picked: value?.value === option.value,
-                                    className: className?.option,
-                                })}
-                                onClick={getPickHandler(option)}
-                                key={option.value}
-                            >
-                                {!!renderOption ? (
-                                    <div
-                                        className={mergedCx(
-                                            customOptionWrapperStyles(),
-                                            className?.customOptionWrapper,
-                                        )}
-                                    >
-                                        {renderOption(option)}
-                                    </div>
-                                ) : (
-                                    option.label
-                                )}
-                            </li>
-                        );
-                    })}
+                    {filteredOptions.length === 0 && noResultsText ? (
+                        <li
+                            className={optionStyles({
+                                picked: false,
+                                className: className?.option,
+                            })}
+                        >
+                            {noResultsText}
+                        </li>
+                    ) : (
+                        filteredOptions.map((option) => {
+                            return (
+                                <li
+                                    className={optionStyles({
+                                        picked: value?.value === option.value,
+                                        className: className?.option,
+                                    })}
+                                    onClick={getPickHandler(option)}
+                                    key={option.value}
+                                >
+                                    {!!renderOption ? (
+                                        <div
+                                            className={mergedCx(
+                                                customOptionWrapperStyles(),
+                                                className?.customOptionWrapper,
+                                            )}
+                                        >
+                                            {renderOption(option)}
+                                        </div>
+                                    ) : (
+                                        option.label
+                                    )}
+                                </li>
+                            );
+                        })
+                    )}
                 </ul>
             </Popover>
         </div>
