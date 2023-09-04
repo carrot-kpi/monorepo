@@ -92,7 +92,7 @@ export type SelectProps<T extends SelectOption<ValueType>> = {
     renderOption?: (value: T) => ReactElement;
     loading?: boolean;
     messages: {
-        noResults?: string;
+        noResults: string;
     };
     className?: BaseInputProps<unknown>["className"] & {
         inputRoot?: string;
