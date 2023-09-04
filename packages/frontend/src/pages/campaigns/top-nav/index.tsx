@@ -51,6 +51,7 @@ export const CampaignsTopNav = ({
                         /> */}
                         <Select
                             label=""
+                            messages={{ noResults: "" }}
                             onChange={onOrderingChange}
                             options={sortOptions}
                             placeholder="Latest"
@@ -64,6 +65,7 @@ export const CampaignsTopNav = ({
                     </div>
                     <Select
                         label=""
+                        messages={{ noResults: "" }}
                         onChange={onStateChange}
                         options={stateOptions}
                         placeholder="Latest"
