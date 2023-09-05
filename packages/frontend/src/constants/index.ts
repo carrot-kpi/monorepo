@@ -1,6 +1,6 @@
 import { ChainId } from "@carrot-kpi/sdk";
 import type { FunctionComponent, SVGProps } from "react";
-import { gnosis, sepolia, scrollTestnet } from "wagmi/chains";
+import { gnosis, sepolia, scrollSepolia } from "wagmi/chains";
 import type { Chain } from "wagmi/chains";
 import EthereumLogo from "../icons/chains/ethereum";
 import GnosisLogo from "../icons/chains/gnosis";
@@ -37,8 +37,8 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         enabled: true,
         defaultBlockExplorer: "https://sepolia.etherscan.io",
     },
-    [ChainId.SCROLL_TESTNET]: {
-        ...scrollTestnet,
+    [ChainId.SCROLL_SEPOLIA]: {
+        ...scrollSepolia,
         logo: ScrollLogo,
         iconBackgroundColor: "#213147",
         enabled: true,
