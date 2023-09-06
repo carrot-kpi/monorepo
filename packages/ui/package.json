@@ -159,6 +159,11 @@
             "import": "./dist/es/components/typography.mjs",
             "default": "./dist/cjs/components/typography.cjs"
         },
+        "./warning-box": {
+            "types": "./dist/types/components/warning-box.d.ts",
+            "import": "./dist/es/components/warning-box.mjs",
+            "default": "./dist/cjs/components/warning-box.cjs"
+        },
         "./styles.css": {
             "import": "./dist/styles.css",
             "default": "./dist/styles.css"
@@ -257,6 +262,9 @@
             ],
             "typography": [
                 "./dist/types/components/typography.d.ts"
+            ],
+            "warning-box": [
+                "./dist/types/components/warning-box.d.ts"
             ]
         }
     },
