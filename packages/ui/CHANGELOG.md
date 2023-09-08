@@ -1,5 +1,21 @@
 # @carrot-kpi/ui
 
+## 0.56.0
+
+### Minor Changes
+
+-   f476e46: Add new WarningBox component
+-   f476e46: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+-   f476e46: Add option to make the Select component queryable
+
+### Patch Changes
+
+-   f476e46: Update dependencies
+-   Updated dependencies [f476e46]
+-   Updated dependencies [f476e46]
+    -   @carrot-kpi/sdk@1.34.0
+
 ## 0.55.0
 
 ### Minor Changes
