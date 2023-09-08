@@ -6,7 +6,7 @@ import { ChainId } from "@carrot-kpi/sdk";
 const DEFILLAMA_API_CHAIN_PREFIX: Record<ChainId, string> = {
     [ChainId.GNOSIS]: "xdai",
     [ChainId.SEPOLIA]: "",
-    [ChainId.SCROLL_TESTNET]: "",
+    [ChainId.SCROLL_SEPOLIA]: "",
 };
 
 const FRESHNESS_THRESHOLD = "1h";

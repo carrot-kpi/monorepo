@@ -1,6 +1,6 @@
 import { ChainId } from "@carrot-kpi/sdk";
 import type { FunctionComponent, SVGProps } from "react";
-import { gnosis, sepolia, scrollTestnet } from "wagmi/chains";
+import { gnosis, sepolia, scrollSepolia } from "wagmi/chains";
 import type { Chain } from "wagmi/chains";
 import EthereumLogo from "../icons/chains/ethereum";
 import GnosisLogo from "../icons/chains/gnosis";
@@ -37,8 +37,8 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         enabled: true,
         defaultBlockExplorer: "https://sepolia.etherscan.io",
     },
-    [ChainId.SCROLL_TESTNET]: {
-        ...scrollTestnet,
+    [ChainId.SCROLL_SEPOLIA]: {
+        ...scrollSepolia,
         logo: ScrollLogo,
         iconBackgroundColor: "#213147",
         enabled: true,
@@ -63,7 +63,8 @@ export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
     (chain) => chain.enabled,
 )[0];
 
-export const CARROT_DOMAIN = __PROD__ ? "carrot.community" : "carrot-kpi.dev";
+export const CARROT_DOMAIN =
+    __PROD__ && !__STAGING_MODE__ ? "carrot.community" : "carrot-kpi.dev";
 
 export interface NavbarLink {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

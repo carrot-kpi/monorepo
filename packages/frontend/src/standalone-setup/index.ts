@@ -21,9 +21,9 @@ const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
         http: "https://rpc.ankr.com/gnosis",
         webSocket: "wss://rpc.gnosischain.com/wss",
     },
-    [ChainId.SCROLL_TESTNET]: {
-        http: "https://alpha-rpc.scroll.io/l2",
-        webSocket: "wss://alpha-rpc.scroll.io/l2/ws",
+    [ChainId.SCROLL_SEPOLIA]: {
+        http: "https://sepolia-rpc.scroll.io",
+        webSocket: "wss://sepolia-rpc.scroll.io",
     },
 };
 

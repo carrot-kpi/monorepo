@@ -92,6 +92,7 @@ export const PreferencesPopover = forwardRef<
                     <Select
                         disabled
                         options={themeOptions}
+                        messages={{ noResults: "" }}
                         value={
                             themeOptions.find(
                                 (option) => option.value === "light",

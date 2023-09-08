@@ -23,6 +23,9 @@ export const Select: StoryObj<typeof SelectComponent<SelectOption<number>>> = {
     args: {
         label: "Select input",
         placeholder: "Pick an option",
+        messages: {
+            noResults: "No results found",
+        },
         options: [
             {
                 label: "Item 1",
