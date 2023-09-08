@@ -1,7 +1,7 @@
 {
     "name": "@carrot-kpi/shared-state",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "license": "GPL-3.0-or-later",
     "main": "./dist/cjs/index.cjs",
     "module": "./dist/mjs/index.mjs",
