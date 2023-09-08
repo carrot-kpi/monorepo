@@ -1,5 +1,23 @@
 # @carrot-kpi/host-frontend
 
+## 0.17.0
+
+### Minor Changes
+
+-   f476e46: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+
+### Patch Changes
+
+-   f476e46: Update dependencies
+-   Updated dependencies [f476e46]
+-   Updated dependencies [f476e46]
+-   Updated dependencies [f476e46]
+-   Updated dependencies [f476e46]
+    -   @carrot-kpi/ui@0.56.0
+    -   @carrot-kpi/react@0.56.0
+    -   @carrot-kpi/sdk@1.34.0
+
 ## 0.16.3
 
 ### Patch Changes
