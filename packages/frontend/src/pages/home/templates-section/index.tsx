@@ -15,7 +15,7 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
     const ids = useMemo(() => {
         return !templateId ? undefined : [templateId];
     }, [templateId]);
-    const { loading, templates } = useKPITokenTemplates(ids);
+    const { loading, templates } = useKPITokenTemplates({ ids });
 
     return (
         <div className="relative space-y-16">
