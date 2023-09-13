@@ -11,18 +11,22 @@ import { type Address, useContractReads, usePublicClient } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
+interface WatchKPITokenParams {
+    kpiTokenOrAddress?: ResolvedKPIToken | Address;
+    blacklisted?: Address[];
+}
+
 export function useWatchKPIToken(
-    kpiTokenOrAddress?: ResolvedKPIToken | Address,
-    blacklisted?: Address[],
+    params?: WatchKPITokenParams,
 ): ResolvedKPITokenWithData | null {
     const publicClient = usePublicClient();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
 
     const [kpiToken, setKPIToken] = useState<ResolvedKPIToken | null>(
-        typeof kpiTokenOrAddress === "string"
+        typeof params?.kpiTokenOrAddress === "string"
             ? null
-            : kpiTokenOrAddress || null,
+            : params?.kpiTokenOrAddress || null,
     );
     const [kpiTokenWithData, setKPITokenWithData] =
         useState<ResolvedKPITokenWithData | null>(null);
@@ -30,7 +34,9 @@ export function useWatchKPIToken(
     // in case an address was passed, fetch the kpi token (with retries)
     useEffect(() => {
         if (kpiToken) return;
-        if (typeof kpiTokenOrAddress !== "string") return;
+        if (typeof params?.kpiTokenOrAddress !== "string") return;
+        const kpiTokenOrAddress = params.kpiTokenOrAddress;
+
         let cancelled = false;
         const interval = setInterval(async () => {
             try {
@@ -38,7 +44,7 @@ export function useWatchKPIToken(
                     await Fetcher.fetchKPITokens({
                         publicClient,
                         preferDecentralization,
-                        blacklisted,
+                        blacklisted: params.blacklisted,
                         addresses: [kpiTokenOrAddress],
                     })
                 )[kpiTokenOrAddress];
@@ -67,8 +73,8 @@ export function useWatchKPIToken(
     }, [
         ipfsGatewayURL,
         kpiToken,
-        kpiTokenOrAddress,
-        blacklisted,
+        params?.kpiTokenOrAddress,
+        params?.blacklisted,
         preferDecentralization,
         publicClient,
     ]);

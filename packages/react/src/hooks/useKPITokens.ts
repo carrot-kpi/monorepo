@@ -3,7 +3,11 @@ import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
 import { usePublicClient, type Address } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useKPITokens(blacklisted?: Address[]): {
+interface KPITokensParams {
+    blacklisted?: Address[];
+}
+
+export function useKPITokens(params?: KPITokensParams): {
     loading: boolean;
     kpiTokens: { [address: string]: KPIToken };
 } {
@@ -24,7 +28,7 @@ export function useKPITokens(blacklisted?: Address[]): {
                 const kpiTokens = await Fetcher.fetchKPITokens({
                     publicClient,
                     preferDecentralization,
-                    blacklisted,
+                    blacklisted: params?.blacklisted,
                 });
                 if (!cancelled) setKPITokens(kpiTokens);
             } catch (error) {
@@ -37,7 +41,7 @@ export function useKPITokens(blacklisted?: Address[]): {
         return () => {
             cancelled = true;
         };
-    }, [preferDecentralization, blacklisted, publicClient]);
+    }, [preferDecentralization, params?.blacklisted, publicClient]);
 
     return { loading, kpiTokens };
 }

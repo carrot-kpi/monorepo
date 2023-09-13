@@ -20,11 +20,17 @@ declare global {
     }
 }
 
-export const useFederatedModuleContainer = (
-    type: TemplateType,
-    baseUrl?: string,
-    entry?: string,
-) => {
+interface FederatedModuleContainerParams {
+    type: TemplateType;
+    baseUrl?: string;
+    entry?: string;
+}
+
+export const useFederatedModuleContainer = ({
+    type,
+    baseUrl,
+    entry,
+}: FederatedModuleContainerParams) => {
     const [loading, setLoading] = useState(false);
     const [container, setContainer] = useState<RemoteContainer | null>(null);
 

@@ -3,7 +3,11 @@ import { Template, Fetcher } from "@carrot-kpi/sdk";
 import { usePublicClient, useNetwork } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useOracleTemplate(id?: number): {
+interface OracleTemplateParams {
+    id?: number;
+}
+
+export function useOracleTemplate(params?: OracleTemplateParams): {
     loading: boolean;
     template: Template | null;
 } {
@@ -17,13 +21,13 @@ export function useOracleTemplate(id?: number): {
     useEffect(() => {
         let cancelled = false;
         const fetchData = async (): Promise<void> => {
-            if (!chain || !id) return;
+            if (!chain || !params?.id) return;
             if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchOracleTemplates({
                     publicClient,
                     preferDecentralization,
-                    ids: [id],
+                    ids: [params.id],
                 });
                 if (!cancelled) setTemplate(templates[0] || null);
             } catch (error) {
@@ -36,7 +40,7 @@ export function useOracleTemplate(id?: number): {
         return () => {
             cancelled = true;
         };
-    }, [chain, publicClient, preferDecentralization, id]);
+    }, [chain, publicClient, preferDecentralization, params?.id]);
 
     return { loading, template };
 }
