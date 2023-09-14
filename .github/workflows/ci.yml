@@ -38,7 +38,4 @@ jobs:
       - name: Build
         run: yarn build
       - name: Size check
-        uses: actions/checkout@v1
-        uses: andresz1/size-limit-action@v1
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn size-limit
