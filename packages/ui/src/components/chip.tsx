@@ -54,8 +54,10 @@ export const Chip = ({
     active,
     children,
     className,
+    ...rest
 }: ChipProps) => (
     <div
+        {...rest}
         className={rootStyles({
             size,
             clickable,
