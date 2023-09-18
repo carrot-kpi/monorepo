@@ -18,8 +18,12 @@ const fetchList = async (url: string): Promise<TokenList | null> => {
     return (await response.json()) as TokenList;
 };
 
+interface TokenListParams {
+    urls?: string[];
+}
+
 export const useTokenLists = (
-    urls?: string[],
+    params?: TokenListParams,
 ): { loading: boolean; lists: TokenList[] } => {
     const ipfsGatewayURL = useIPFSGatewayURL();
 
@@ -29,12 +33,12 @@ export const useTokenLists = (
     useEffect(() => {
         let cancelled = false;
         const fetchLists = async () => {
-            if (!urls || urls.length === 0) return;
+            if (!params?.urls || params.urls.length === 0) return;
             if (!cancelled) setLoading(true);
             let listResults = [];
             try {
                 listResults = await Promise.allSettled(
-                    urls.map(async (url) => {
+                    params.urls.map(async (url) => {
                         const parsedENSName = parseENSName(url);
                         let resolvedUrls: string[];
                         if (!!parsedENSName) {
@@ -73,7 +77,7 @@ export const useTokenLists = (
         return () => {
             cancelled = true;
         };
-    }, [ipfsGatewayURL, urls]);
+    }, [ipfsGatewayURL, params?.urls]);
 
     return { loading, lists };
 };

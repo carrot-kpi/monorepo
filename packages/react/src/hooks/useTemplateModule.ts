@@ -28,19 +28,24 @@ interface CachedModule<E extends TemplateEntity, T extends TemplateType> {
     bundle: TemplateBundle;
 }
 
+interface TemplateModuleParams<E, T> {
+    entity: E;
+    type: T;
+    template?: ResolvedTemplate;
+    entry?: string;
+}
+
 export const useTemplateModule = <
     E extends TemplateEntity,
     T extends TemplateType,
 >(
-    entity: E,
-    type: T,
-    template?: ResolvedTemplate,
-    entry?: string,
+    params: TemplateModuleParams<E, T>,
 ): {
     loading: boolean;
     Component: ComponentType<E, T> | null;
     bundle: TemplateBundle | null;
 } => {
+    const { entity, type, entry, template } = params;
     const MODULE_CACHE = useRef<Record<string, CachedModule<E, T>>>({});
 
     const customBaseURL = useSelector<
@@ -66,7 +71,7 @@ export const useTemplateModule = <
         return root.endsWith("/") ? `${root}${type}` : `${root}/${type}`;
     }, [chain, customBaseURL, ipfsGatewayURL, stagingMode, template, type]);
     const { loading: loadingFederatedModule, container } =
-        useFederatedModuleContainer(type, baseURL, entry);
+        useFederatedModuleContainer({ type, baseUrl: baseURL, entry });
 
     const [loadingExport, setLoadingExport] = useState(false);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

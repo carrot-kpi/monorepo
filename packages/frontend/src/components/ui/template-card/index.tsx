@@ -12,7 +12,7 @@ interface KPITokenTemplateCardProps {
 export const KPITokenTemplateCard = ({
     template,
 }: KPITokenTemplateCardProps) => {
-    const { loading, resolvedTemplate } = useResolvedTemplate(template);
+    const { loading, resolvedTemplate } = useResolvedTemplate({ template });
 
     return (
         <div className="relative min-w-[320px] w-[320px] flex flex-col justify-between border m-1 bg-white border-gray-600 dark:bg-black dark:border-white">

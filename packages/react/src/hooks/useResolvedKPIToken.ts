@@ -4,7 +4,11 @@ import { useNetwork } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { isResolvedKPIToken } from "@carrot-kpi/sdk";
 
-export function useResolvedKPIToken(kpiToken?: KPIToken | ResolvedKPIToken): {
+interface ResolvedKPITokenParams {
+    kpiToken?: KPIToken | ResolvedKPIToken;
+}
+
+export function useResolvedKPIToken(params?: ResolvedKPITokenParams): {
     loading: boolean;
     resolvedKPIToken: ResolvedKPIToken | null;
 } {
@@ -13,7 +17,9 @@ export function useResolvedKPIToken(kpiToken?: KPIToken | ResolvedKPIToken): {
 
     const [resolvedKPIToken, setResolvedKPIToken] =
         useState<ResolvedKPIToken | null>(
-            isResolvedKPIToken(kpiToken) ? kpiToken : null,
+            params?.kpiToken && isResolvedKPIToken(params?.kpiToken)
+                ? params.kpiToken
+                : null,
         );
     const [loading, setLoading] = useState(false);
 
@@ -22,9 +28,9 @@ export function useResolvedKPIToken(kpiToken?: KPIToken | ResolvedKPIToken): {
         async function fetchData(): Promise<void> {
             if (
                 !chain ||
-                !kpiToken ||
+                !params?.kpiToken ||
                 resolvedKPIToken ||
-                isResolvedKPIToken(kpiToken)
+                isResolvedKPIToken(params.kpiToken)
             )
                 return;
             if (!cancelled) setLoading(true);
@@ -32,14 +38,14 @@ export function useResolvedKPIToken(kpiToken?: KPIToken | ResolvedKPIToken): {
                 const resolved = (
                     await Fetcher.resolveKPITokens({
                         ipfsGatewayURL,
-                        kpiTokens: [kpiToken],
+                        kpiTokens: [params.kpiToken],
                     })
-                )[kpiToken.address];
+                )[params.kpiToken.address];
                 if (!resolved) return;
                 if (!cancelled) setResolvedKPIToken(resolved);
             } catch (error) {
                 console.error(
-                    `error resolving kpi token at address ${kpiToken.address}`,
+                    `error resolving kpi token at address ${params.kpiToken.address}`,
                     error,
                 );
             } finally {
@@ -50,7 +56,7 @@ export function useResolvedKPIToken(kpiToken?: KPIToken | ResolvedKPIToken): {
         return () => {
             cancelled = true;
         };
-    }, [chain, ipfsGatewayURL, kpiToken, resolvedKPIToken]);
+    }, [chain, ipfsGatewayURL, params?.kpiToken, resolvedKPIToken]);
 
     return { loading, resolvedKPIToken };
 }

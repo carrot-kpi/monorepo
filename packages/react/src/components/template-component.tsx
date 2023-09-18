@@ -42,12 +42,12 @@ export function TemplateComponent({
             ? `${chain.id}-${template.id}-${template.version}-${template.address}-${type}-staging-${stagingMode}`
             : undefined;
 
-    const { loading, bundle, Component } = useTemplateModule(
+    const { loading, bundle, Component } = useTemplateModule({
         entity,
         type,
         template,
         entry,
-    );
+    });
     const theme = useTheme();
     const systemDarkTheme = useMedia("(prefers-color-scheme: dark)");
 

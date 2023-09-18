@@ -12,8 +12,12 @@ const DEFILLAMA_API_CHAIN_PREFIX: Record<ChainId, string> = {
 const FRESHNESS_THRESHOLD = "1h";
 const CONFIDENCE_THRESHOLD = 0.8;
 
+interface ERC20TokenPriceParams {
+    tokenAddress?: string;
+}
+
 export const useERC20TokenPrice = (
-    tokenAddress?: string,
+    params?: ERC20TokenPriceParams,
 ): { loading: boolean; price: number } => {
     const { chain } = useNetwork();
 
@@ -23,14 +27,18 @@ export const useERC20TokenPrice = (
     useEffect(() => {
         let cancelled = false;
         const fetchPrice = async () => {
-            if (!tokenAddress || !isAddress(tokenAddress) || !chain) {
+            if (
+                !params?.tokenAddress ||
+                !isAddress(params.tokenAddress) ||
+                !chain
+            ) {
                 setPrice(0);
                 setLoading(false);
                 return;
             }
             if (!cancelled) setLoading(true);
             try {
-                const checksummedAddress = getAddress(tokenAddress);
+                const checksummedAddress = getAddress(params.tokenAddress);
                 const keys = [`coingecko:${checksummedAddress}`];
                 const apiChainPrefix =
                     DEFILLAMA_API_CHAIN_PREFIX[chain.id as ChainId];
@@ -64,7 +72,7 @@ export const useERC20TokenPrice = (
                 if (!cancelled) setPrice(0);
             } catch (error) {
                 console.warn(
-                    `error while fetching price of erc20 token at address ${tokenAddress}`,
+                    `error while fetching price of erc20 token at address ${params.tokenAddress}`,
                     error,
                 );
             } finally {
@@ -75,7 +83,7 @@ export const useERC20TokenPrice = (
         return () => {
             cancelled = true;
         };
-    }, [chain, tokenAddress]);
+    }, [chain, params?.tokenAddress]);
 
     return { loading, price };
 };
