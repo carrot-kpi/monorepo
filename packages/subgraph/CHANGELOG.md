@@ -1,5 +1,16 @@
 # @carrot-kpi/subgraph
 
+## 0.6.0
+
+### Minor Changes
+
+-   5704e1b: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+
+### Patch Changes
+
+-   5704e1b: Update dependencies
+
 ## 0.5.0
 
 ### Minor Changes
