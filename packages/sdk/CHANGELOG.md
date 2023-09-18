@@ -1,5 +1,16 @@
 # @carrot-kpi/sdk
 
+## 1.35.0
+
+### Minor Changes
+
+-   991d3da: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+
+### Patch Changes
+
+-   991d3da: Update dependencies
+
 ## 1.34.0
 
 ### Minor Changes
