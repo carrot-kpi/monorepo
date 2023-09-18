@@ -16,25 +16,39 @@ import { Popover } from "./popover";
 import { TextInput } from "./text-input";
 import { useClickAway, useDebounce } from "react-use";
 import { mergedCva, mergedCx } from "../utils/components";
+import { FixedSizeList } from "react-window";
 
-const dropdownRootStyles = mergedCva([
-    "cui-rounded-xxl",
-    "cui-border",
-    "cui-border-black",
-    "cui-max-h-48",
-    "cui-bg-white",
-    "dark:cui-bg-black",
-    "dark:cui-border-white",
-    "cui-z-20",
-    "cui-overflow-hidden",
+const dropdownRootStyles = mergedCva(
+    [
+        "cui-rounded-xxl",
+        "cui-border",
+        "cui-border-black",
+        "cui-max-h-48",
+        "cui-bg-white",
+        "dark:cui-bg-black",
+        "dark:cui-border-white",
+        "cui-z-20",
+        "cui-overflow-hidden",
+        "cui-h-fit",
+    ],
+    {
+        variants: {
+            empty: {
+                true: ["cui-h-fit"],
+            },
+        },
+    },
+);
+
+const emptyOptionListStyles = mergedCva([
+    "cui-flex",
+    "cui-justify-center",
+    "cui-items-center",
+    "cui-p-3",
+    "cui-h-12",
 ]);
 
-const optionListStyles = mergedCva([
-    "cui-max-h-48",
-    "cui-w-full",
-    "cui-scrollbar",
-    "cui-overflow-y-auto",
-]);
+const optionListStyles = mergedCva(["cui-scrollbar"]);
 
 const optionStyles = mergedCva(
     [
@@ -62,13 +76,9 @@ const optionStyles = mergedCva(
                     "dark:hover:cui-bg-gray-600",
                 ],
             },
-            noResults: {
-                true: ["cui-cursor-default", "cui-pointer-events-none"],
-            },
         },
         defaultVariants: {
             picked: false,
-            noResults: false,
         },
     },
 );
@@ -98,6 +108,8 @@ export type SelectProps<T extends SelectOption<ValueType>> = {
         inputRoot?: string;
         wrapper?: string;
         dropdownRoot?: string;
+        listWrapper?: string;
+        emptyList?: string;
         list?: string;
         option?: string;
         customOptionWrapper?: string;
@@ -124,7 +136,6 @@ function Component<T extends SelectOption<ValueType>>(
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
-    const [focus, setFocus] = useState(false);
     const [query, setQuery] = useState("");
     const [debouncedQuery, setdebouncedQuery] = useState(query);
     const [filteredOptions, setFilteredOptions] = useState(options);
@@ -133,6 +144,7 @@ function Component<T extends SelectOption<ValueType>>(
 
     useClickAway(dropdownRef, () => {
         setOpen(false);
+        setQuery("");
     });
 
     useEffect(() => {
@@ -162,15 +174,6 @@ function Component<T extends SelectOption<ValueType>>(
         setQuery(e.target.value);
     }, []);
 
-    const handleFocus = useCallback(() => {
-        setFocus(true);
-    }, []);
-
-    const handleBlur = useCallback(() => {
-        setFocus(false);
-        setQuery("");
-    }, []);
-
     const getPickHandler = useCallback(
         (option: T) => () => {
             setOpen(false);
@@ -192,7 +195,7 @@ function Component<T extends SelectOption<ValueType>>(
                 id={resolvedId}
                 readOnly={!search}
                 icon={open ? ChevronUp : ChevronDown}
-                value={focus && search ? query : value?.label}
+                value={open && search ? query : value?.label}
                 disabled={disabled}
                 loading={loading}
                 {...rest}
@@ -201,8 +204,6 @@ function Component<T extends SelectOption<ValueType>>(
                     input: `cui-cursor-pointer ${className?.input}`,
                     inputIcon: `cui-w-4 ${className?.inputIcon}`,
                 }}
-                onBlur={handleBlur}
-                onFocus={handleFocus}
                 onChange={handleChange}
                 onClick={handleClick}
             />
@@ -212,36 +213,45 @@ function Component<T extends SelectOption<ValueType>>(
                 placement="bottom-start"
                 className={{
                     root: dropdownRootStyles({
+                        empty: filteredOptions.length === 0,
                         className: className?.dropdownRoot,
                     }),
                 }}
                 ref={dropdownRef}
             >
-                <ul
-                    style={{ width: anchorEl?.parentElement?.clientWidth }}
-                    className={optionListStyles({
-                        className: className?.list,
-                    })}
-                >
-                    {filteredOptions.length === 0 && messages.noResults ? (
-                        <li
-                            className={optionStyles({
-                                noResults: true,
-                                className: className?.option,
-                            })}
-                        >
-                            {messages.noResults}
-                        </li>
-                    ) : (
-                        filteredOptions.map((option) => {
+                {filteredOptions.length === 0 ? (
+                    <div
+                        style={{
+                            width: anchorEl?.parentElement?.clientWidth,
+                        }}
+                        className={emptyOptionListStyles({
+                            className: className?.emptyList,
+                        })}
+                    >
+                        {messages.noResults}
+                    </div>
+                ) : (
+                    <FixedSizeList
+                        height={Math.min(filteredOptions.length, 4) * 48}
+                        width={anchorEl?.parentElement?.clientWidth || "auto"}
+                        itemCount={filteredOptions.length}
+                        itemData={filteredOptions}
+                        itemSize={48}
+                        className={optionListStyles({
+                            className: className?.list,
+                        })}
+                    >
+                        {({ index, style }) => {
+                            const option = filteredOptions[index];
                             return (
-                                <li
+                                <div
+                                    key={index}
+                                    style={style}
                                     className={optionStyles({
                                         picked: value?.value === option.value,
                                         className: className?.option,
                                     })}
                                     onClick={getPickHandler(option)}
-                                    key={option.value}
                                 >
                                     {!!renderOption ? (
                                         <div
@@ -255,11 +265,11 @@ function Component<T extends SelectOption<ValueType>>(
                                     ) : (
                                         option.label
                                     )}
-                                </li>
+                                </div>
                             );
-                        })
-                    )}
-                </ul>
+                        }}
+                    </FixedSizeList>
+                )}
             </Popover>
         </div>
     );
