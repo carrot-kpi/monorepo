@@ -9,7 +9,6 @@ import React, {
     type ChangeEvent,
     useEffect,
 } from "react";
-import AutoSizer from "react-virtualized-auto-sizer";
 import type { BaseInputProps } from "./commons/input";
 import ChevronUp from "../icons/chevron-up";
 import ChevronDown from "../icons/chevron-down";
@@ -30,7 +29,7 @@ const dropdownRootStyles = mergedCva(
         "dark:cui-border-white",
         "cui-z-20",
         "cui-overflow-hidden",
-        "cui-h-full",
+        "cui-h-fit",
     ],
     {
         variants: {
@@ -55,6 +54,7 @@ const optionStyles = mergedCva(
     [
         "cui-cursor-pointer",
         "cui-p-3",
+        "cui-h-12",
         "cui-font-mono",
         "cui-font-normal",
         "cui-outline-none",
@@ -231,57 +231,44 @@ function Component<T extends SelectOption<ValueType>>(
                         {messages.noResults}
                     </div>
                 ) : (
-                    <AutoSizer disableWidth>
-                        {({ height }) => {
+                    <FixedSizeList
+                        height={Math.min(filteredOptions.length, 4) * 48}
+                        width={anchorEl?.parentElement?.clientWidth || "auto"}
+                        itemCount={filteredOptions.length}
+                        itemData={filteredOptions}
+                        itemSize={48}
+                        className={optionListStyles({
+                            className: className?.list,
+                        })}
+                    >
+                        {({ index, style }) => {
+                            const option = filteredOptions[index];
                             return (
-                                <FixedSizeList
-                                    height={height}
-                                    width={"auto"}
-                                    itemCount={filteredOptions.length}
-                                    itemData={filteredOptions}
-                                    itemSize={48}
-                                    style={{
-                                        width: anchorEl?.parentElement
-                                            ?.clientWidth,
-                                    }}
-                                    className={optionListStyles({
-                                        className: className?.list,
+                                <div
+                                    key={index}
+                                    style={style}
+                                    className={optionStyles({
+                                        picked: value?.value === option.value,
+                                        className: className?.option,
                                     })}
+                                    onClick={getPickHandler(option)}
                                 >
-                                    {({ index, style }) => {
-                                        const option = filteredOptions[index];
-                                        return (
-                                            <div
-                                                key={index}
-                                                style={style}
-                                                className={optionStyles({
-                                                    picked:
-                                                        value?.value ===
-                                                        option.value,
-                                                    className:
-                                                        className?.option,
-                                                })}
-                                                onClick={getPickHandler(option)}
-                                            >
-                                                {!!renderOption ? (
-                                                    <div
-                                                        className={mergedCx(
-                                                            customOptionWrapperStyles(),
-                                                            className?.customOptionWrapper,
-                                                        )}
-                                                    >
-                                                        {renderOption(option)}
-                                                    </div>
-                                                ) : (
-                                                    option.label
-                                                )}
-                                            </div>
-                                        );
-                                    }}
-                                </FixedSizeList>
+                                    {!!renderOption ? (
+                                        <div
+                                            className={mergedCx(
+                                                customOptionWrapperStyles(),
+                                                className?.customOptionWrapper,
+                                            )}
+                                        >
+                                            {renderOption(option)}
+                                        </div>
+                                    ) : (
+                                        option.label
+                                    )}
+                                </div>
                             );
                         }}
-                    </AutoSizer>
+                    </FixedSizeList>
                 )}
             </Popover>
         </div>
