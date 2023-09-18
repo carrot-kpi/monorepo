@@ -16,5 +16,8 @@ export default {
 export const Chip: StoryObj<typeof ChipComponent> = {
     args: {
         children: "Chip example",
+        size: "small",
+        clickable: false,
+        active: false,
     },
 };
