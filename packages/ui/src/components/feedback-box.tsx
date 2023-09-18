@@ -38,7 +38,7 @@ export interface FeedbackBoxProps {
     };
     icon?: boolean;
     children?: ReactNode;
-    className?: { root?: string; title?: string };
+    className?: { root?: string; title?: string; titleContainer?: string };
 }
 
 export const FeedbackBox = ({
@@ -57,7 +57,11 @@ export const FeedbackBox = ({
                 className: className?.root,
             })}
         >
-            <div className={titleContainerStyles()}>
+            <div
+                className={titleContainerStyles({
+                    className: className?.titleContainer,
+                })}
+            >
                 {icon && <Warning className="cui-mr-3" />}
                 {messages && (
                     <Typography
