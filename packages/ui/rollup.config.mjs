@@ -41,7 +41,7 @@ export default [
             "src/components/text-input.tsx",
             "src/components/timer.tsx",
             "src/components/typography.tsx",
-            "src/components/warning-box.tsx",
+            "src/components/feedback-box.tsx",
         ],
         plugins: [
             peerDepsExternal(),

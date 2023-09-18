@@ -156,7 +156,7 @@ const wrapperStyles = mergedCva([], {
     ],
 });
 
-export interface BaseProps {
+export interface BaseButtonProps {
     onClick?: (event: React.MouseEvent) => void;
     disabled?: boolean;
     loading?: boolean;
@@ -174,12 +174,10 @@ export interface BaseProps {
     children?: ReactNode;
 }
 
-export type CleanHTMLButtonProps = BaseProps &
-    BaseProps &
-    Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps>;
-export type CleanHTMLAnchorProps = BaseProps &
-    BaseProps &
-    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps>;
+export type CleanHTMLButtonProps = BaseButtonProps &
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseButtonProps>;
+export type CleanHTMLAnchorProps = BaseButtonProps &
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps>;
 
 export type ButtonProps = CleanHTMLButtonProps | CleanHTMLAnchorProps;
 
