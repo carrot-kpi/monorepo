@@ -1,5 +1,26 @@
 # @carrot-kpi/ui
 
+## 0.58.0
+
+### Minor Changes
+
+-   87f1cf0: Replace WarningBox with extended and more flexible FeedbackBox and
+    add size variants and selectability to chips
+-   87f1cf0: Add new WarningBox component
+-   87f1cf0: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+-   87f1cf0: Add option to make the Select component queryable
+-   87f1cf0: Add title container class customization option to feedback box
+    component
+
+### Patch Changes
+
+-   87f1cf0: Fix double error build error
+-   87f1cf0: Update dependencies
+-   Updated dependencies [87f1cf0]
+-   Updated dependencies [87f1cf0]
+    -   @carrot-kpi/sdk@1.36.0
+
 ## 0.57.0
 
 ### Minor Changes

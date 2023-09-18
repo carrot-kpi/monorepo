@@ -1,5 +1,16 @@
 # @carrot-kpi/shared-state
 
+## 0.8.0
+
+### Minor Changes
+
+-   87f1cf0: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+
+### Patch Changes
+
+-   87f1cf0: Update dependencies
+
 ## 0.7.0
 
 ### Minor Changes
