@@ -1,5 +1,33 @@
 # @carrot-kpi/host-frontend
 
+## 0.22.0
+
+### Minor Changes
+
+-   a76a1c9: Replace WarningBox with extended and more flexible FeedbackBox and
+    add size variants and selectability to chips
+-   a76a1c9: Improve react library retrocompatibility
+-   a76a1c9: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+
+### Patch Changes
+
+-   a76a1c9: Update dependencies
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+-   Updated dependencies [a76a1c9]
+    -   @carrot-kpi/ui@0.61.0
+    -   @carrot-kpi/react@0.61.0
+    -   @carrot-kpi/sdk@1.39.0
+
 ## 0.21.0
 
 ### Minor Changes
