@@ -55,7 +55,6 @@ const optionStyles = mergedCva(
     [
         "cui-cursor-pointer",
         "cui-p-3",
-        "cui-h-12",
         "cui-font-mono",
         "cui-font-normal",
         "cui-outline-none",
@@ -137,7 +136,6 @@ function Component<T extends SelectOption<ValueType>>(
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
-    const [focus, setFocus] = useState(false);
     const [query, setQuery] = useState("");
     const [debouncedQuery, setdebouncedQuery] = useState(query);
     const [filteredOptions, setFilteredOptions] = useState(options);
@@ -146,6 +144,7 @@ function Component<T extends SelectOption<ValueType>>(
 
     useClickAway(dropdownRef, () => {
         setOpen(false);
+        setQuery("");
     });
 
     useEffect(() => {
@@ -175,15 +174,6 @@ function Component<T extends SelectOption<ValueType>>(
         setQuery(e.target.value);
     }, []);
 
-    const handleFocus = useCallback(() => {
-        setFocus(true);
-    }, []);
-
-    const handleBlur = useCallback(() => {
-        setFocus(false);
-        setQuery("");
-    }, []);
-
     const getPickHandler = useCallback(
         (option: T) => () => {
             setOpen(false);
@@ -205,7 +195,7 @@ function Component<T extends SelectOption<ValueType>>(
                 id={resolvedId}
                 readOnly={!search}
                 icon={open ? ChevronUp : ChevronDown}
-                value={focus && search ? query : value?.label}
+                value={open && search ? query : value?.label}
                 disabled={disabled}
                 loading={loading}
                 {...rest}
@@ -214,8 +204,6 @@ function Component<T extends SelectOption<ValueType>>(
                     input: `cui-cursor-pointer ${className?.input}`,
                     inputIcon: `cui-w-4 ${className?.inputIcon}`,
                 }}
-                onBlur={handleBlur}
-                onFocus={handleFocus}
                 onChange={handleChange}
                 onClick={handleClick}
             />
@@ -247,7 +235,7 @@ function Component<T extends SelectOption<ValueType>>(
                         {({ height }) => {
                             return (
                                 <FixedSizeList
-                                    height={height || 0}
+                                    height={height}
                                     width={"auto"}
                                     itemCount={filteredOptions.length}
                                     itemData={filteredOptions}
@@ -263,7 +251,7 @@ function Component<T extends SelectOption<ValueType>>(
                                     {({ index, style }) => {
                                         const option = filteredOptions[index];
                                         return (
-                                            <li
+                                            <div
                                                 key={index}
                                                 style={style}
                                                 className={optionStyles({
@@ -287,7 +275,7 @@ function Component<T extends SelectOption<ValueType>>(
                                                 ) : (
                                                     option.label
                                                 )}
-                                            </li>
+                                            </div>
                                         );
                                     }}
                                 </FixedSizeList>
