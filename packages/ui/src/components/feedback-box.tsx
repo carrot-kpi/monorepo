@@ -17,17 +17,9 @@ const rootStyles = mergedCva(["cui-p-4", "cui-border", "cui-border-black"], {
     },
 });
 
-const titleContainerStyles = mergedCva([
-    "cui-flex",
-    "cui-mb-2",
-    "cui-items-end",
-]);
+const titleContainerStyles = mergedCva(["cui-flex", "cui-items-center"]);
 
-const titleStyles = mergedCva([
-    "cui-leading-4",
-    "cui-font-medium",
-    "cui-uppercase",
-]);
+const titleStyles = mergedCva(["cui-leading-4", "cui-font-medium", "cui-mb-2"]);
 
 export interface FeedbackBoxProps {
     variant?: "info" | "warning";
@@ -62,9 +54,10 @@ export const FeedbackBox = ({
                     className: className?.titleContainer,
                 })}
             >
-                {icon && <Warning className="cui-mr-3" />}
-                {messages && (
+                {icon && <Warning className="cui-mr-3 cui-mb-2" />}
+                {messages?.title && (
                     <Typography
+                        uppercase
                         className={{
                             root: titleStyles({ className: className?.title }),
                         }}
