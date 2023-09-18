@@ -9,8 +9,10 @@ const rootStyles = mergedCva(["cui-p-4", "cui-border", "cui-border-black"], {
             info: ["cui-bg-green"],
             warning: ["cui-bg-yellow"],
         },
-        roundedBorder: {
-            true: ["cui-rounded-lg"],
+        border: {
+            rounded: ["cui-rounded-lg"],
+            squared: [],
+            none: ["cui-border-none"],
         },
     },
 });
@@ -28,9 +30,10 @@ const titleStyles = mergedCva([
 ]);
 
 export interface FeedbackBoxProps {
-    variant: "info" | "warning";
+    variant?: "info" | "warning";
+    border?: "none" | "rounded" | "squared";
     roundedBorder?: boolean;
-    messages: {
+    messages?: {
         title: string;
     };
     icon?: boolean;
@@ -39,8 +42,8 @@ export interface FeedbackBoxProps {
 }
 
 export const FeedbackBox = ({
-    variant,
-    roundedBorder,
+    variant = "info",
+    border = "rounded",
     messages,
     icon,
     children,
@@ -50,19 +53,21 @@ export const FeedbackBox = ({
         <div
             className={rootStyles({
                 variant,
-                roundedBorder,
+                border,
                 className: className?.root,
             })}
         >
             <div className={titleContainerStyles()}>
                 {icon && <Warning className="cui-mr-3" />}
-                <Typography
-                    className={{
-                        root: titleStyles({ className: className?.title }),
-                    }}
-                >
-                    {messages.title}
-                </Typography>
+                {messages && (
+                    <Typography
+                        className={{
+                            root: titleStyles({ className: className?.title }),
+                        }}
+                    >
+                        {messages.title}
+                    </Typography>
+                )}
             </div>
             {children}
         </div>
