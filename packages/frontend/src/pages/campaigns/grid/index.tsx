@@ -50,11 +50,11 @@ export const Grid = ({
         };
     });
 
-    const { data: paginatedItems, totalPages } = usePagination(
-        items,
-        page,
-        itemsPerPage,
-    );
+    const { data: paginatedItems, totalPages } = usePagination({
+        data: items,
+        currentPage: page,
+        totalItems: itemsPerPage,
+    });
 
     const handlePageChange = useCallback(
         (page: number) => {

@@ -3,7 +3,11 @@ import { Fetcher, Oracle } from "@carrot-kpi/sdk";
 import { usePublicClient, useNetwork, type Address } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useOracle(oracleAddress?: Address): {
+interface OracleParams {
+    oracleAddress?: Address;
+}
+
+export function useOracle(params?: OracleParams): {
     loading: boolean;
     oracle: Oracle | null;
 } {
@@ -17,21 +21,21 @@ export function useOracle(oracleAddress?: Address): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !oracleAddress) return;
+            if (!chain || !params?.oracleAddress) return;
             if (!cancelled) setLoading(true);
             try {
                 const fetchedOracle = (
                     await Fetcher.fetchOracles({
                         publicClient,
                         preferDecentralization,
-                        addresses: [oracleAddress],
+                        addresses: [params.oracleAddress],
                     })
-                )[oracleAddress];
+                )[params.oracleAddress];
                 if (!fetchedOracle) return;
                 if (!cancelled) setOracle(fetchedOracle);
             } catch (error) {
                 console.error(
-                    `error fetching oracle at address ${oracleAddress}`,
+                    `error fetching oracle at address ${params.oracleAddress}`,
                     error,
                 );
             } finally {
@@ -42,7 +46,7 @@ export function useOracle(oracleAddress?: Address): {
         return () => {
             cancelled = true;
         };
-    }, [chain, oracleAddress, preferDecentralization, publicClient]);
+    }, [chain, params?.oracleAddress, preferDecentralization, publicClient]);
 
     return { loading, oracle };
 }

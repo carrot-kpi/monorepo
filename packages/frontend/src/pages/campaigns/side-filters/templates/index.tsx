@@ -12,7 +12,7 @@ export const TemplatesFilter = ({
 }) => {
     const { t } = useTranslation();
     const { templates } = useKPITokenTemplates();
-    const { loading, resolvedTemplates } = useResolvedTemplates(templates);
+    const { loading, resolvedTemplates } = useResolvedTemplates({ templates });
 
     return (
         <CheckboxesFilter

@@ -26,10 +26,10 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const previousChain = usePrevious(chain);
     const { blacklistedKPITokens } = useBlacklistedTokens(chain?.id as ChainId);
 
-    const watchedKPITokenWithData = useWatchKPIToken(
-        state?.kpiToken || address,
-        blacklistedKPITokens,
-    );
+    const watchedKPITokenWithData = useWatchKPIToken({
+        kpiTokenOrAddress: state?.kpiToken || address,
+        blacklisted: blacklistedKPITokens,
+    });
     const [show, setShow] = useState(!closing);
     const transitions = useTransition(show, {
         config: { ...springConfig.default, duration: 100 },

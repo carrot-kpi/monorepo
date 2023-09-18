@@ -3,7 +3,11 @@ import { Template, Fetcher } from "@carrot-kpi/sdk";
 import { usePublicClient, useNetwork } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useKPITokenTemplate(id?: number): {
+interface KPITokenTemplateParams {
+    id?: number;
+}
+
+export function useKPITokenTemplate(params?: KPITokenTemplateParams): {
     loading: boolean;
     template: Template | null;
 } {
@@ -17,13 +21,13 @@ export function useKPITokenTemplate(id?: number): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !id) return;
+            if (!chain || !params?.id) return;
             if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
                     publicClient,
                     preferDecentralization,
-                    ids: [id],
+                    ids: [params.id],
                 });
                 if (!cancelled) setTemplate(templates[0] || null);
             } catch (error) {
@@ -36,7 +40,7 @@ export function useKPITokenTemplate(id?: number): {
         return () => {
             cancelled = true;
         };
-    }, [chain, id, preferDecentralization, publicClient]);
+    }, [chain, params?.id, preferDecentralization, publicClient]);
 
     return { loading, template };
 }

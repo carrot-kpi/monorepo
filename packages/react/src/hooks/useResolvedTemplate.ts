@@ -3,7 +3,11 @@ import { Template, Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useNetwork } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 
-export function useResolvedTemplate(template?: Template): {
+interface ResolvedTemplateParams {
+    template?: Template;
+}
+
+export function useResolvedTemplate(params?: ResolvedTemplateParams): {
     loading: boolean;
     resolvedTemplate: ResolvedTemplate | null;
 } {
@@ -17,18 +21,18 @@ export function useResolvedTemplate(template?: Template): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !template) return;
+            if (!chain || !params?.template) return;
             if (!cancelled) setLoading(true);
             try {
                 const resolved = await Fetcher.resolveTemplates({
                     ipfsGatewayURL,
-                    templates: [template],
+                    templates: [params.template],
                 });
                 if (resolved.length !== 1) return;
                 if (!cancelled) setResolvedTemplate(resolved[0]);
             } catch (error) {
                 console.error(
-                    `error resolving template at address ${template.address}`,
+                    `error resolving template at address ${params.template.address}`,
                     error,
                 );
             } finally {
@@ -39,7 +43,7 @@ export function useResolvedTemplate(template?: Template): {
         return () => {
             cancelled = true;
         };
-    }, [chain, ipfsGatewayURL, template]);
+    }, [chain, ipfsGatewayURL, params?.template]);
 
     return { loading, resolvedTemplate };
 }

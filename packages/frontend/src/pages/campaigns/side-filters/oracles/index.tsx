@@ -13,7 +13,7 @@ export const OraclesFilter = ({
 }) => {
     const { t } = useTranslation();
     const { templates } = useOracleTemplates();
-    const { loading, resolvedTemplates } = useResolvedTemplates(templates);
+    const { loading, resolvedTemplates } = useResolvedTemplates({ templates });
 
     return (
         <CheckboxesFilter

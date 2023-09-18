@@ -3,10 +3,12 @@ import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
 import { usePublicClient, useNetwork, type Address } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
-export function useKPIToken(
-    kpiTokenAddress?: Address,
-    blacklisted?: Address[],
-): {
+interface KPITokenParams {
+    kpiTokenAddress?: Address;
+    blacklisted?: Address[];
+}
+
+export function useKPIToken(params?: KPITokenParams): {
     loading: boolean;
     kpiToken: KPIToken | null;
 } {
@@ -20,22 +22,22 @@ export function useKPIToken(
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !kpiTokenAddress) return;
+            if (!chain || !params?.kpiTokenAddress) return;
             if (!cancelled) setLoading(true);
             try {
                 const kpiToken = (
                     await Fetcher.fetchKPITokens({
                         publicClient,
                         preferDecentralization,
-                        blacklisted,
-                        addresses: [kpiTokenAddress],
+                        blacklisted: params.blacklisted,
+                        addresses: [params.kpiTokenAddress],
                     })
-                )[kpiTokenAddress];
+                )[params.kpiTokenAddress];
                 if (!kpiToken) return;
                 if (!cancelled) setKPIToken(kpiToken);
             } catch (error) {
                 console.error(
-                    `error fetching kpi token at address ${kpiTokenAddress}`,
+                    `error fetching kpi token at address ${params.kpiTokenAddress}`,
                     error,
                 );
             } finally {
@@ -48,9 +50,9 @@ export function useKPIToken(
         };
     }, [
         chain,
-        kpiTokenAddress,
+        params?.blacklisted,
+        params?.kpiTokenAddress,
         preferDecentralization,
-        blacklisted,
         publicClient,
     ]);
 

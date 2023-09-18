@@ -51,7 +51,7 @@ export const KPITokenCard = ({
     noBorder,
     onResolved,
 }: KPITokenCardProps) => {
-    const { loading, resolvedKPIToken } = useResolvedKPIToken(kpiToken);
+    const { loading, resolvedKPIToken } = useResolvedKPIToken({ kpiToken });
 
     useEffect(() => {
         if (loading || !resolvedKPIToken || !onResolved) return;
