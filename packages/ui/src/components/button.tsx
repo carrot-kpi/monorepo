@@ -175,10 +175,8 @@ export interface BaseProps {
 }
 
 export type CleanHTMLButtonProps = BaseProps &
-    BaseProps &
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps>;
 export type CleanHTMLAnchorProps = BaseProps &
-    BaseProps &
     Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps>;
 
 export type ButtonProps = CleanHTMLButtonProps | CleanHTMLAnchorProps;
