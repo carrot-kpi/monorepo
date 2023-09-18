@@ -1,5 +1,16 @@
 # eslint-config-custom
 
+## 0.5.0
+
+### Minor Changes
+
+-   f93ba88: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+
+### Patch Changes
+
+-   f93ba88: Update dependencies
+
 ## 0.4.0
 
 ### Minor Changes
