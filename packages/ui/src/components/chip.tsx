@@ -23,13 +23,20 @@ const rootStyles = mergedCva(
                 true: ["cui-cursor-pointer", "hover:cui-bg-orange"],
             },
             active: {
-                true: ["cui-bg-black"],
+                true: ["cui-cursor-pointer", "cui-bg-black"],
             },
         },
+        compoundVariants: [
+            {
+                clickable: true,
+                active: true,
+                className: ["hover:cui-bg-black"],
+            },
+        ],
     },
 );
 
-const textStyles = mergedCva([], {
+const textStyles = mergedCva(["cui-transition-colors"], {
     variants: {
         active: {
             true: ["cui-text-white"],
