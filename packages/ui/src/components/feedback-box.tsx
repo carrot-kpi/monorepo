@@ -3,12 +3,17 @@ import { mergedCva } from "../utils/components";
 import { Typography } from "./typography";
 import Warning from "../icons/warning";
 
-const rootStyles = mergedCva([
-    "cui-p-4",
-    "cui-border",
-    "cui-border-black",
-    "cui-bg-yellow",
-]);
+const rootStyles = mergedCva(["cui-p-4", "cui-border", "cui-border-black"], {
+    variants: {
+        variant: {
+            info: ["cui-bg-green"],
+            warning: ["cui-bg-yellow"],
+        },
+        roundedBorder: {
+            true: ["cui-rounded-lg"],
+        },
+    },
+});
 
 const titleContainerStyles = mergedCva([
     "cui-flex",
@@ -22,7 +27,9 @@ const titleStyles = mergedCva([
     "cui-uppercase",
 ]);
 
-export interface WarningBoxProps {
+export interface FeedbackBoxProps {
+    variant: "info" | "warning";
+    roundedBorder?: boolean;
     messages: {
         title: string;
     };
@@ -31,14 +38,22 @@ export interface WarningBoxProps {
     className?: { root?: string; title?: string };
 }
 
-export const WarningBox = ({
+export const FeedbackBox = ({
+    variant,
+    roundedBorder,
     messages,
     icon,
     children,
     className,
-}: WarningBoxProps) => {
+}: FeedbackBoxProps) => {
     return (
-        <div className={rootStyles({ className: className?.root })}>
+        <div
+            className={rootStyles({
+                variant,
+                roundedBorder,
+                className: className?.root,
+            })}
+        >
             <div className={titleContainerStyles()}>
                 {icon && <Warning className="cui-mr-3" />}
                 <Typography

@@ -27,4 +27,4 @@ export * from "./tags-input";
 export * from "./text-input";
 export * from "./timer";
 export * from "./typography";
-export * from "./warning-box";
+export * from "./feedback-box";
