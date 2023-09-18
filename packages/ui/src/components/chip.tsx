@@ -37,7 +37,7 @@ const textStyles = mergedCva([], {
     },
 });
 
-export interface BaseProps {
+export interface BaseChipsProps {
     size?: "big" | "small";
     clickable?: boolean;
     active?: boolean;
@@ -45,8 +45,8 @@ export interface BaseProps {
     children: ReactNode;
 }
 
-export type ChipProps = BaseProps &
-    Omit<HTMLAttributes<HTMLDivElement>, keyof BaseProps>;
+export type ChipProps = BaseChipsProps &
+    Omit<HTMLAttributes<HTMLDivElement>, keyof BaseChipsProps>;
 
 export const Chip = ({
     size = "small",
