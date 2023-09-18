@@ -9,6 +9,7 @@ import React, {
     type ChangeEvent,
     useEffect,
 } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
 import type { BaseInputProps } from "./commons/input";
 import ChevronUp from "../icons/chevron-up";
 import ChevronDown from "../icons/chevron-down";
@@ -16,25 +17,39 @@ import { Popover } from "./popover";
 import { TextInput } from "./text-input";
 import { useClickAway, useDebounce } from "react-use";
 import { mergedCva, mergedCx } from "../utils/components";
+import { FixedSizeList } from "react-window";
 
-const dropdownRootStyles = mergedCva([
-    "cui-rounded-xxl",
-    "cui-border",
-    "cui-border-black",
-    "cui-max-h-48",
-    "cui-bg-white",
-    "dark:cui-bg-black",
-    "dark:cui-border-white",
-    "cui-z-20",
-    "cui-overflow-hidden",
+const dropdownRootStyles = mergedCva(
+    [
+        "cui-rounded-xxl",
+        "cui-border",
+        "cui-border-black",
+        "cui-max-h-48",
+        "cui-bg-white",
+        "dark:cui-bg-black",
+        "dark:cui-border-white",
+        "cui-z-20",
+        "cui-overflow-hidden",
+        "cui-h-full",
+    ],
+    {
+        variants: {
+            empty: {
+                true: ["cui-h-fit"],
+            },
+        },
+    },
+);
+
+const emptyOptionListStyles = mergedCva([
+    "cui-flex",
+    "cui-justify-center",
+    "cui-items-center",
+    "cui-p-3",
+    "cui-h-12",
 ]);
 
-const optionListStyles = mergedCva([
-    "cui-max-h-48",
-    "cui-w-full",
-    "cui-scrollbar",
-    "cui-overflow-y-auto",
-]);
+const optionListStyles = mergedCva(["cui-scrollbar"]);
 
 const optionStyles = mergedCva(
     [
@@ -62,13 +77,9 @@ const optionStyles = mergedCva(
                     "dark:hover:cui-bg-gray-600",
                 ],
             },
-            noResults: {
-                true: ["cui-cursor-default", "cui-pointer-events-none"],
-            },
         },
         defaultVariants: {
             picked: false,
-            noResults: false,
         },
     },
 );
@@ -98,6 +109,8 @@ export type SelectProps<T extends SelectOption<ValueType>> = {
         inputRoot?: string;
         wrapper?: string;
         dropdownRoot?: string;
+        listWrapper?: string;
+        emptyList?: string;
         list?: string;
         option?: string;
         customOptionWrapper?: string;
@@ -212,54 +225,76 @@ function Component<T extends SelectOption<ValueType>>(
                 placement="bottom-start"
                 className={{
                     root: dropdownRootStyles({
+                        empty: filteredOptions.length === 0,
                         className: className?.dropdownRoot,
                     }),
                 }}
                 ref={dropdownRef}
             >
-                <ul
-                    style={{ width: anchorEl?.parentElement?.clientWidth }}
-                    className={optionListStyles({
-                        className: className?.list,
-                    })}
-                >
-                    {filteredOptions.length === 0 && messages.noResults ? (
-                        <li
-                            className={optionStyles({
-                                noResults: true,
-                                className: className?.option,
-                            })}
-                        >
-                            {messages.noResults}
-                        </li>
-                    ) : (
-                        filteredOptions.map((option) => {
+                {filteredOptions.length === 0 ? (
+                    <div
+                        style={{
+                            width: anchorEl?.parentElement?.clientWidth,
+                        }}
+                        className={emptyOptionListStyles({
+                            className: className?.emptyList,
+                        })}
+                    >
+                        {messages.noResults}
+                    </div>
+                ) : (
+                    <AutoSizer disableWidth>
+                        {({ height }) => {
                             return (
-                                <li
-                                    className={optionStyles({
-                                        picked: value?.value === option.value,
-                                        className: className?.option,
+                                <FixedSizeList
+                                    height={height || 0}
+                                    width={"auto"}
+                                    itemCount={filteredOptions.length}
+                                    itemData={filteredOptions}
+                                    itemSize={48}
+                                    style={{
+                                        width: anchorEl?.parentElement
+                                            ?.clientWidth,
+                                    }}
+                                    className={optionListStyles({
+                                        className: className?.list,
                                     })}
-                                    onClick={getPickHandler(option)}
-                                    key={option.value}
                                 >
-                                    {!!renderOption ? (
-                                        <div
-                                            className={mergedCx(
-                                                customOptionWrapperStyles(),
-                                                className?.customOptionWrapper,
-                                            )}
-                                        >
-                                            {renderOption(option)}
-                                        </div>
-                                    ) : (
-                                        option.label
-                                    )}
-                                </li>
+                                    {({ index, style }) => {
+                                        const option = filteredOptions[index];
+                                        return (
+                                            <li
+                                                key={index}
+                                                style={style}
+                                                className={optionStyles({
+                                                    picked:
+                                                        value?.value ===
+                                                        option.value,
+                                                    className:
+                                                        className?.option,
+                                                })}
+                                                onClick={getPickHandler(option)}
+                                            >
+                                                {!!renderOption ? (
+                                                    <div
+                                                        className={mergedCx(
+                                                            customOptionWrapperStyles(),
+                                                            className?.customOptionWrapper,
+                                                        )}
+                                                    >
+                                                        {renderOption(option)}
+                                                    </div>
+                                                ) : (
+                                                    option.label
+                                                )}
+                                            </li>
+                                        );
+                                    }}
+                                </FixedSizeList>
                             );
-                        })
-                    )}
-                </ul>
+                        }}
+                    </AutoSizer>
+                )}
             </Popover>
         </div>
     );
