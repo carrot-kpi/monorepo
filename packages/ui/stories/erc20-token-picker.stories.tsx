@@ -113,7 +113,9 @@ const Component = (props: ERC20TokenPickerProps) => {
     useEffect(() => {
         let cancelled = false;
         const fetchData = async () => {
-            const response = await fetch("https://tokens.carrot-kpi.dev");
+            const response = await fetch(
+                "https://static.carrot-kpi.dev/token-list.json",
+            );
             if (!response.ok) {
                 console.warn("could not fetch carrot token list");
                 return;
