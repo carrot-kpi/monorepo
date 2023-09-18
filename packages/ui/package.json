@@ -2,7 +2,7 @@
     "name": "@carrot-kpi/ui",
     "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
-    "version": "0.59.0",
+    "version": "0.60.0",
     "main": "./dist/cjs/index.cjs",
     "module": "./dist/es/index.mjs",
     "types": "./dist/types/index.d.ts",
