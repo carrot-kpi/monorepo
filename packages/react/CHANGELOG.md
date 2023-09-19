@@ -1,5 +1,13 @@
 # @carrot-kpi/react
 
+## 0.62.1
+
+### Patch Changes
+
+-   1fb54e1: Force release
+-   Updated dependencies [1fb54e1]
+    -   @carrot-kpi/sdk@1.40.1
+
 ## 0.62.0
 
 ### Minor Changes
