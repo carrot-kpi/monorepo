@@ -1,5 +1,37 @@
 # @carrot-kpi/host-frontend
 
+## 0.23.0
+
+### Minor Changes
+
+-   33fdb2f: Replace WarningBox with extended and more flexible FeedbackBox and
+    add size variants and selectability to chips
+-   33fdb2f: Improve react library retrocompatibility
+-   33fdb2f: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+
+### Patch Changes
+
+-   33fdb2f: Fix Frame connector not accepting undefined chain ids on
+    getWalletClient
+-   33fdb2f: Avoid rerenders in virtualized select component
+-   33fdb2f: Update dependencies
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+    -   @carrot-kpi/ui@0.62.0
+    -   @carrot-kpi/react@0.62.0
+    -   @carrot-kpi/sdk@1.40.0
+
 ## 0.22.0
 
 ### Minor Changes

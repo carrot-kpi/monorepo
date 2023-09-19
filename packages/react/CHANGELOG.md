@@ -1,5 +1,20 @@
 # @carrot-kpi/react
 
+## 0.62.0
+
+### Minor Changes
+
+-   33fdb2f: Improve react library retrocompatibility
+-   33fdb2f: Upgrade dependencies and add Scroll Sepolia testnet support through
+    the new Carrot contracts lib
+
+### Patch Changes
+
+-   33fdb2f: Update dependencies
+-   Updated dependencies [33fdb2f]
+-   Updated dependencies [33fdb2f]
+    -   @carrot-kpi/sdk@1.40.0
+
 ## 0.61.0
 
 ### Minor Changes
