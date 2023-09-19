@@ -1,5 +1,15 @@
 # @carrot-kpi/host-frontend
 
+## 0.23.1
+
+### Patch Changes
+
+-   1fb54e1: Force release
+-   Updated dependencies [1fb54e1]
+    -   @carrot-kpi/react@0.62.1
+    -   @carrot-kpi/sdk@1.40.1
+    -   @carrot-kpi/ui@0.62.1
+
 ## 0.23.0
 
 ### Minor Changes

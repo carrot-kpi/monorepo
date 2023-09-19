@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.40.1
+
+### Patch Changes
+
+-   1fb54e1: Force release
+
 ## 1.40.0
 
 ### Minor Changes
