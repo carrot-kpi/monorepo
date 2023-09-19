@@ -114,7 +114,9 @@ export class FrameConnector extends Connector<Provider, unknown> {
             this.getProvider(),
             this.getAccount(),
         ]);
-        const chain = this.chains.find((x) => x.id === chainId);
+        const chain = chainId
+            ? this.chains.find((x) => x.id === chainId)
+            : this.chains[0];
         if (!chain) throw new Error(`chain ${chainId} is not supported`);
         if (!provider) throw new Error("provider is required.");
         return createWalletClient({

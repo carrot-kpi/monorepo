@@ -37,7 +37,7 @@ export const PreferencesPopover = forwardRef<
     const [darkThemeSwitch, setDarkThemeSwitch] =
         useState<HTMLDivElement | null>(null);
     const themeOptions = useMemo(() => {
-        const options: SelectOption[] = [
+        const options: SelectOption<string>[] = [
             {
                 value: "light",
                 label: t("theme.light"),

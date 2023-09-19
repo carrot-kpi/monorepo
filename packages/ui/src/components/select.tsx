@@ -8,6 +8,7 @@ import React, {
     useId,
     type ChangeEvent,
     useEffect,
+    useMemo,
 } from "react";
 import type { BaseInputProps } from "./commons/input";
 import ChevronUp from "../icons/chevron-up";
@@ -16,7 +17,7 @@ import { Popover } from "./popover";
 import { TextInput } from "./text-input";
 import { useClickAway, useDebounce } from "react-use";
 import { mergedCva, mergedCx } from "../utils/components";
-import { FixedSizeList } from "react-window";
+import { FixedSizeList, type ListChildComponentProps } from "react-window";
 
 const dropdownRootStyles = mergedCva(
     [
@@ -87,10 +88,21 @@ const customOptionWrapperStyles = mergedCva(["cui-pointer-events-none"]);
 
 export type ValueType = string | number;
 
-export interface SelectOption<V extends ValueType = ValueType> {
+export interface SelectOption<V extends ValueType> {
     label: string;
     value: V;
     disabled?: boolean;
+}
+
+export interface ClassName extends Pick<BaseInputProps<unknown>, "className"> {
+    inputRoot?: string;
+    wrapper?: string;
+    dropdownRoot?: string;
+    listWrapper?: string;
+    emptyList?: string;
+    list?: string;
+    option?: string;
+    customOptionWrapper?: string;
 }
 
 export type SelectProps<T extends SelectOption<ValueType>> = {
@@ -104,17 +116,13 @@ export type SelectProps<T extends SelectOption<ValueType>> = {
     messages: {
         noResults: string;
     };
-    className?: BaseInputProps<unknown>["className"] & {
-        inputRoot?: string;
-        wrapper?: string;
-        dropdownRoot?: string;
-        listWrapper?: string;
-        emptyList?: string;
-        list?: string;
-        option?: string;
-        customOptionWrapper?: string;
-    };
+    className?: ClassName;
 } & Omit<BaseInputProps<unknown>, "onChange" | "value" | "id">;
+
+type ItemData<T extends SelectOption<ValueType>> = Pick<
+    SelectProps<T>,
+    "options" | "value" | "onChange" | "renderOption"
+> & { className?: Pick<ClassName, "option" | "customOptionWrapper"> };
 
 function Component<T extends SelectOption<ValueType>>(
     {
@@ -174,13 +182,24 @@ function Component<T extends SelectOption<ValueType>>(
         setQuery(e.target.value);
     }, []);
 
-    const getPickHandler = useCallback(
-        (option: T) => () => {
+    const handleInnerChange = useCallback(
+        (item: T) => {
             setOpen(false);
-            onChange(option);
+            onChange(item);
         },
         [onChange],
     );
+
+    const itemData = useMemo(() => {
+        const data: ItemData<T> = {
+            options: filteredOptions,
+            onChange: handleInnerChange,
+            value,
+            className,
+            renderOption,
+        };
+        return data;
+    }, [className, handleInnerChange, filteredOptions, renderOption, value]);
 
     return (
         <div className={className?.root}>
@@ -231,46 +250,56 @@ function Component<T extends SelectOption<ValueType>>(
                         {messages.noResults}
                     </div>
                 ) : (
-                    <FixedSizeList
+                    <FixedSizeList<ItemData<T>>
                         height={Math.min(filteredOptions.length, 4) * 48}
                         width={anchorEl?.parentElement?.clientWidth || "auto"}
                         itemCount={filteredOptions.length}
-                        itemData={filteredOptions}
+                        itemData={itemData}
                         itemSize={48}
                         className={optionListStyles({
                             className: className?.list,
                         })}
                     >
-                        {({ index, style }) => {
-                            const option = filteredOptions[index];
-                            return (
-                                <div
-                                    key={index}
-                                    style={style}
-                                    className={optionStyles({
-                                        picked: value?.value === option.value,
-                                        className: className?.option,
-                                    })}
-                                    onClick={getPickHandler(option)}
-                                >
-                                    {!!renderOption ? (
-                                        <div
-                                            className={mergedCx(
-                                                customOptionWrapperStyles(),
-                                                className?.customOptionWrapper,
-                                            )}
-                                        >
-                                            {renderOption(option)}
-                                        </div>
-                                    ) : (
-                                        option.label
-                                    )}
-                                </div>
-                            );
-                        }}
+                        {OptionRow}
                     </FixedSizeList>
                 )}
             </Popover>
+        </div>
+    );
+}
+
+function OptionRow<T extends SelectOption<ValueType>>({
+    index,
+    style,
+    data: { onChange, options, className, value, renderOption },
+}: ListChildComponentProps<ItemData<T>>) {
+    const item = options[index];
+
+    const handleClick = useCallback(() => {
+        onChange(item);
+    }, [item, onChange]);
+
+    return (
+        <div
+            style={style}
+            className={optionStyles({
+                picked: value?.value === item.value,
+                className: className?.option,
+            })}
+            onClick={handleClick}
+        >
+            {!!renderOption ? (
+                <div
+                    className={mergedCx(
+                        customOptionWrapperStyles(),
+                        className?.customOptionWrapper,
+                    )}
+                >
+                    {renderOption(item)}
+                </div>
+            ) : (
+                item.label
+            )}
         </div>
     );
 }
