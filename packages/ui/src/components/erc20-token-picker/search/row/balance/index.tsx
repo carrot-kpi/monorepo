@@ -19,8 +19,10 @@ export const Balance = ({ balance, decimals = 18, loading }: BalanceProps) => {
             variant="sm"
             className={{ root: "cui-pointer-events-none" }}
         >
-            {/* FIXME: reintroduce commify */}
-            {formatDecimals(formatUnits(balance, decimals), 4)}
+            {formatDecimals({
+                number: formatUnits(balance, decimals),
+                decimalsAmount: 4,
+            })}
         </Typography>
     );
 };
