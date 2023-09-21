@@ -4,7 +4,7 @@ import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 import { ChainId } from "../../src/commons";
 import { Token } from "../../src/entities/token";
 import { Amount } from "../../src/entities/amount";
-import { formatCurrencyAmount } from "../../src/utils";
+import { formatCurrencyAmount, formatDecimals } from "../../src/utils";
 
 describe("formatting utilities", () => {
     let token: Token;
@@ -218,6 +218,17 @@ describe("formatting utilities", () => {
                     }),
                 ).toBe("1,000.1");
             });
+        });
+    });
+
+    describe("format decimals", () => {
+        test("works with integer numbers in the billions", () => {
+            expect(
+                formatDecimals({
+                    number: "10000000000",
+                    decimalsAmount: 2,
+                }),
+            ).toBe("10,000,000,000");
         });
     });
 });
