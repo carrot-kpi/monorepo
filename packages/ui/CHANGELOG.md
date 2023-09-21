@@ -1,5 +1,14 @@
 # @carrot-kpi/ui
 
+## 0.62.2
+
+### Patch Changes
+
+-   e0b5e47: Add commify option in format decimal number and format currency
+    amount utility functions
+-   Updated dependencies [e0b5e47]
+    -   @carrot-kpi/sdk@1.41.0
+
 ## 0.62.1
 
 ### Patch Changes
