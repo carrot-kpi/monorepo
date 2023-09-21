@@ -37,7 +37,7 @@ export const formatDecimals = ({
     commify = true,
 }: FormatDecimalsParams): string => {
     const decimalIndex = number.indexOf(".");
-    if (decimalIndex > -1)
+    if (decimalIndex === -1)
         return commify ? Number(number).toLocaleString() : number;
     let i = decimalIndex + 1;
     while (i < number.length) {
