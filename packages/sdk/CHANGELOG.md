@@ -1,5 +1,12 @@
 # @carrot-kpi/sdk
 
+## 1.41.1
+
+### Patch Changes
+
+-   c046978: Fix format decimals functions behavior when no decimal is actually
+    there
+
 ## 1.41.0
 
 ### Minor Changes
