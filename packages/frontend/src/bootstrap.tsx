@@ -106,7 +106,9 @@ export const Root = ({
                 >
                     <ThemeUpdater />
                     <MultiChainLinksUpdater />
-                    {!__LIBRARY_MODE__ && !__STAGING_MODE__ && <Fathom />}
+                    {__PROD__ && !__LIBRARY_MODE__ && !__STAGING_MODE__ && (
+                        <Fathom />
+                    )}
                     <App
                         kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
                         oracleTemplateBaseURL={oracleTemplateBaseURL}

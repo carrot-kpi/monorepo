@@ -23,7 +23,7 @@ import { gnosis } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { Typography } from "../src/components/typography";
-import { ERC20_ABI } from "@carrot-kpi/sdk";
+import { ERC20_ABI, Service, getServiceURL } from "@carrot-kpi/sdk";
 
 const CHAIN_ID = gnosis.id;
 
@@ -114,7 +114,7 @@ const Component = (props: ERC20TokenPickerProps) => {
         let cancelled = false;
         const fetchData = async () => {
             const response = await fetch(
-                "https://static.carrot-kpi.dev/token-list.json",
+                `${getServiceURL(Service.STATIC_CDN, false)}/token-list.json`,
             );
             if (!response.ok) {
                 console.warn("could not fetch carrot token list");
