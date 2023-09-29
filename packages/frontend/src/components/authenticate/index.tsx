@@ -5,6 +5,7 @@ import { t } from "i18next";
 import { useAccount, useSignMessage } from "wagmi";
 import WalletDisconnected from "../../icons/wallet-disconnected";
 import { useSetPinningProxyJWT } from "../../hooks/useSetPinningProxyJWT";
+import { PINNING_PROXY_URL } from "../../constants";
 
 interface AuthenticateProps {
     onCancel: () => void;
@@ -23,20 +24,17 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             if (!address || !signedLoginMessage) return;
             setLoading(true);
             try {
-                const response = await fetch(
-                    "https://pinning-proxy.carrot-kpi.dev/token",
-                    {
-                        method: "POST",
-                        headers: {
-                            Accept: "application/json",
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            address,
-                            signature: signedLoginMessage,
-                        }),
+                const response = await fetch(`${PINNING_PROXY_URL}/token`, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
                     },
-                );
+                    body: JSON.stringify({
+                        address,
+                        signature: signedLoginMessage,
+                    }),
+                });
                 if (!response.ok) throw new Error(await response.text());
                 const { token } = (await response.json()) as { token: string };
                 setPinningProxyJWT(token);
@@ -58,7 +56,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             setLoading(true);
             try {
                 const response = await fetch(
-                    `https://pinning-proxy.carrot-kpi.dev/login-message/${address}`,
+                    `${PINNING_PROXY_URL}/login-message/${address}`,
                 );
                 if (!response.ok) throw new Error(await response.text());
                 const { message } = (await response.json()) as {

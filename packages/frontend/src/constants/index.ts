@@ -6,10 +6,17 @@ import EthereumLogo from "../icons/chains/ethereum";
 import GnosisLogo from "../icons/chains/gnosis";
 import ScrollLogo from "../icons/chains/scroll";
 import { NavLink } from "react-router-dom";
+import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
 export const PINNING_PROXY_JWT_ISSUER = "carrot-pinning-proxy";
+
+const prod = __PROD__ && !__LIBRARY_MODE__ && !__STAGING_MODE__;
+
+export const IPFS_GATEWAY_URL = getServiceURL(Service.IPFS_GATEWAY, prod);
+export const PINNING_PROXY_URL = getServiceURL(Service.PINNING_PROXY, prod);
+export const STATIC_CDN_URL = getServiceURL(Service.STATIC_CDN, prod);
 
 export interface AugmentedChain extends Chain {
     logo: FunctionComponent<
@@ -25,10 +32,8 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         ...gnosis,
         logo: GnosisLogo,
         iconBackgroundColor: "#04795b",
-        enabled: true,
+        enabled: !__STAGING_MODE__,
         defaultBlockExplorer: "https://gnosisscan.io",
-        // FIXME: redisable gnosis in staging mode once tests have been done
-        // enabled: !__STAGING_MODE__,
     },
     [ChainId.SEPOLIA]: {
         ...sepolia,
@@ -63,8 +68,9 @@ export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
     (chain) => chain.enabled,
 )[0];
 
-export const CARROT_DOMAIN =
-    __PROD__ && !__STAGING_MODE__ ? "carrot.community" : "carrot-kpi.dev";
+export const CARROT_DOMAIN = prod
+    ? "carrot.community"
+    : "staging.carrot.community";
 
 export interface NavbarLink {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

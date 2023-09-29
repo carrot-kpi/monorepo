@@ -1,5 +1,7 @@
 import { useSelector, type State } from "@carrot-kpi/shared-state";
+import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
 import { useDevMode } from "./useDevMode";
+import { useStagingMode } from "./useStagingMode";
 
 export type DecentralizedStorageOption = "ipfs";
 export type Uploader = (content: string) => Promise<string>;
@@ -27,6 +29,7 @@ const localUploader: Uploader = async (content: string): Promise<string> => {
 
 export const useDecentralizedStorageUploader = (): Uploader => {
     const devMode = useDevMode();
+    const stagingMode = useStagingMode();
     const pinningProxyJWT = useSelector<
         State,
         State["auth"]["pinningProxyJWT"]
@@ -34,7 +37,10 @@ export const useDecentralizedStorageUploader = (): Uploader => {
 
     const remoteUploader = async (content: string): Promise<string> => {
         const response = await fetch(
-            "https://pinning-proxy.carrot-kpi.dev/pins",
+            `${getServiceURL(
+                Service.PINNING_PROXY,
+                !devMode && !stagingMode,
+            )}/pins`,
             {
                 method: "POST",
                 headers: {
