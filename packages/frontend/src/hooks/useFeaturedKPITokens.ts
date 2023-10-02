@@ -5,11 +5,11 @@ import {
     KPIToken,
     enforce,
     type FeaturedBlacklistedKPITokens,
-    FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION,
 } from "@carrot-kpi/sdk";
 import { useQuery } from "@tanstack/react-query";
 import { useNetwork, usePublicClient } from "wagmi";
 import { useBlacklistedTokens } from "./useBlacklistedTokens";
+import { STATIC_CDN_URL } from "../constants";
 
 export const FEATURED_KPI_TOKEN_QUERY_KEY_PREFIX =
     "featuredKPITokens" as string;
@@ -31,7 +31,7 @@ export function useFeaturedKPITokens(): {
 
             const featuredBlacklistedKPITokens = (await (
                 await fetch(
-                    FEATURED_BLACKLISTED_KPI_TOKENS_CONFIGURATION_LOCATION,
+                    `${STATIC_CDN_URL}/featured-blacklisted-kpi-tokens.json`,
                 )
             ).json()) as FeaturedBlacklistedKPITokens;
             const featuredKPITokens =

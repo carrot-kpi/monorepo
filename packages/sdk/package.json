@@ -36,6 +36,41 @@
             "import": "./dist/es/utils/index.mjs",
             "default": "./dist/cjs/utils/index.cjs"
         },
+        "./utils/cache": {
+            "types": "./dist/types/utils/cache.d.ts",
+            "import": "./dist/es/utils/cache.mjs",
+            "default": "./dist/cjs/utils/cache.cjs"
+        },
+        "./utils/cid": {
+            "types": "./dist/types/utils/cid.d.ts",
+            "import": "./dist/es/utils/cid.mjs",
+            "default": "./dist/cjs/utils/cid.cjs"
+        },
+        "./utils/ens": {
+            "types": "./dist/types/utils/ens.d.ts",
+            "import": "./dist/es/utils/ens.mjs",
+            "default": "./dist/cjs/utils/ens.cjs"
+        },
+        "./utils/formatting": {
+            "types": "./dist/types/utils/formatting.d.ts",
+            "import": "./dist/es/utils/formatting.mjs",
+            "default": "./dist/cjs/utils/formatting.cjs"
+        },
+        "./utils/invariant": {
+            "types": "./dist/types/utils/invariant.d.ts",
+            "import": "./dist/es/utils/invariant.mjs",
+            "default": "./dist/cjs/utils/invariant.cjs"
+        },
+        "./utils/services": {
+            "types": "./dist/types/utils/services.d.ts",
+            "import": "./dist/es/utils/services.mjs",
+            "default": "./dist/cjs/utils/services.cjs"
+        },
+        "./utils/uri": {
+            "types": "./dist/types/utils/uri.d.ts",
+            "import": "./dist/es/utils/uri.mjs",
+            "default": "./dist/cjs/utils/uri.cjs"
+        },
         "./entities/amount": {
             "types": "./dist/types/entities/amount.d.ts",
             "import": "./dist/es/entities/amount.mjs",
@@ -80,6 +115,27 @@
             ],
             "utils": [
                 "./dist/types/utils/index.d.ts"
+            ],
+            "utils/cache": [
+                "./dist/types/utils/cache.d.ts"
+            ],
+            "utils/cid": [
+                "./dist/types/utils/cid.d.ts"
+            ],
+            "utils/ens": [
+                "./dist/types/utils/ens.d.ts"
+            ],
+            "utils/formatting": [
+                "./dist/types/utils/formatting.d.ts"
+            ],
+            "utils/invariant": [
+                "./dist/types/utils/invariant.d.ts"
+            ],
+            "utils/services": [
+                "./dist/types/utils/services.d.ts"
+            ],
+            "utils/uri": [
+                "./dist/types/utils/uri.d.ts"
             ],
             "entities/amount": [
                 "./dist/types/entities/amount.d.ts"

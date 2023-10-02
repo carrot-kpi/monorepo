@@ -11,6 +11,7 @@ import { useSelector } from "../../../state/connector";
 import type { HostState } from "../../../state";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
 import VideoPoster from "../../../images/video-poster.png";
+import { STATIC_CDN_URL } from "../../../constants";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -65,11 +66,11 @@ export const Hero = () => {
                                 className="w-full h-full rounded-xl"
                             >
                                 <source
-                                    src="https://static.carrot-kpi.dev/hero-video.webm"
+                                    src={`${STATIC_CDN_URL}/hero-video.webm`}
                                     type="video/webm"
                                 />
                                 <source
-                                    src="https://static.carrot-kpi.dev/hero-video.mp4"
+                                    src={`${STATIC_CDN_URL}/hero-video.mp4`}
                                     type="video/mp4"
                                 />
                                 {t("video.notSupported")}

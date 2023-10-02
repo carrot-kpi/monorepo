@@ -21,6 +21,8 @@ import {
     useStagingMode,
 } from "@carrot-kpi/react";
 import { StagingModeBanner } from "../../components/staging-mode-banner";
+import { useSetIPFSGatewayURL } from "@carrot-kpi/react";
+import { IPFS_GATEWAY_URL } from "../../constants";
 
 const CREATE_ROUTE_PATH = { path: "/create/:templateId", key: "create" };
 const PAGE_ROUTE_PATH = { path: "/campaigns/:address", key: "page" };
@@ -52,6 +54,7 @@ export const App = ({
     const setDevMode = useSetDevMode();
     const stagingMode = useStagingMode();
     const setStagingMode = useSetStagingMode();
+    const setIPFSGatewayURL = useSetIPFSGatewayURL();
     const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
     const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
 
@@ -64,6 +67,7 @@ export const App = ({
     useEffect(() => {
         setDevMode(__LIBRARY_MODE__);
         setStagingMode(__STAGING_MODE__);
+        setIPFSGatewayURL(IPFS_GATEWAY_URL);
         setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
         setOracleTemplateBaseURL(oracleTemplateBaseURL);
         // eslint-disable-next-line react-hooks/exhaustive-deps

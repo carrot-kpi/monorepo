@@ -7,11 +7,23 @@ import esbuild from "rollup-plugin-esbuild";
 export default [
     {
         input: [
+            "src/abis/factory.ts",
+            "src/abis/kpi-token.ts",
+            "src/abis/kpi-tokens-manager.ts",
+            "src/abis/oracle.ts",
+            "src/abis/oracles-manager.ts",
             "src/index.ts",
             "src/commons.ts",
             "src/cacher.ts",
             "src/fetcher/index.ts",
             "src/utils/index.ts",
+            "src/utils/cache.ts",
+            "src/utils/cid.ts",
+            "src/utils/ens.ts",
+            "src/utils/formatting.ts",
+            "src/utils/invariant.ts",
+            "src/utils/services.ts",
+            "src/utils/uri.ts",
             "src/entities/amount.ts",
             "src/entities/currency.ts",
             "src/entities/kpi-token.ts",

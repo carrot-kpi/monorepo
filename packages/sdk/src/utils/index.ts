@@ -3,5 +3,5 @@ export * from "./cid";
 export * from "./ens";
 export * from "./formatting";
 export * from "./invariant";
-export * from "./subgraph";
+export * from "./services";
 export * from "./uri";
