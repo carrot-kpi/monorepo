@@ -1,5 +1,12 @@
 # @carrot-kpi/sdk
 
+## 1.42.0
+
+### Minor Changes
+
+-   e0c38c9: Adapt logic to work with separate staging/prod services depending
+    on the context
+
 ## 1.41.1
 
 ### Patch Changes
