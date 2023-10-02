@@ -1,5 +1,12 @@
 # @carrot-kpi/shared-state
 
+## 0.13.0
+
+### Minor Changes
+
+-   e0c38c9: Adapt logic to work with separate staging/prod services depending
+    on the context
+
 ## 0.12.0
 
 ### Minor Changes

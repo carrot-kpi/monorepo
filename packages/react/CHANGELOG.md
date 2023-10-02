@@ -1,5 +1,17 @@
 # @carrot-kpi/react
 
+## 0.63.0
+
+### Minor Changes
+
+-   e0c38c9: Adapt logic to work with separate staging/prod services depending
+    on the context
+
+### Patch Changes
+
+-   Updated dependencies [e0c38c9]
+    -   @carrot-kpi/sdk@1.42.0
+
 ## 0.62.1
 
 ### Patch Changes

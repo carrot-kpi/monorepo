@@ -1,5 +1,19 @@
 # @carrot-kpi/host-frontend
 
+## 0.24.0
+
+### Minor Changes
+
+-   e0c38c9: Adapt logic to work with separate staging/prod services depending
+    on the context
+
+### Patch Changes
+
+-   Updated dependencies [e0c38c9]
+    -   @carrot-kpi/react@0.63.0
+    -   @carrot-kpi/sdk@1.42.0
+    -   @carrot-kpi/ui@0.63.0
+
 ## 0.23.1
 
 ### Patch Changes
