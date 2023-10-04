@@ -8,6 +8,23 @@ import ScrollLogo from "../icons/chains/scroll";
 import { NavLink } from "react-router-dom";
 import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
 
+type RPCConfig = {
+    http: string;
+    webSocket?: string | undefined;
+} | null;
+
+export const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
+    [ChainId.SEPOLIA]: null, // covered by the infura connector
+    [ChainId.GNOSIS]: {
+        http: "https://rpc.ankr.com/gnosis",
+        webSocket: "wss://rpc.gnosischain.com/wss",
+    },
+    [ChainId.SCROLL_SEPOLIA]: {
+        http: "https://sepolia-rpc.scroll.io",
+        webSocket: "wss://sepolia-rpc.scroll.io",
+    },
+};
+
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
 export const PINNING_PROXY_JWT_ISSUER = "carrot-pinning-proxy";

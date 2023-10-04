@@ -13,16 +13,8 @@ import { Campaigns } from "../campaigns";
 import { CreateWithTemplateId } from "../create-with-template-id";
 import { useFathomTrackPageWatch } from "../../hooks/useFathomTrackPageWatch";
 import { usePreviousDistinct } from "react-use";
-import {
-    useSetKPITokenTemplateBaseURL,
-    useSetOracleTemplateBaseURL,
-    useSetDevMode,
-    useSetStagingMode,
-    useStagingMode,
-} from "@carrot-kpi/react";
+import { useStagingMode } from "@carrot-kpi/react";
 import { StagingModeBanner } from "../../components/staging-mode-banner";
-import { useSetIPFSGatewayURL } from "@carrot-kpi/react";
-import { IPFS_GATEWAY_URL } from "../../constants";
 
 const CREATE_ROUTE_PATH = { path: "/create/:templateId", key: "create" };
 const PAGE_ROUTE_PATH = { path: "/campaigns/:address", key: "page" };
@@ -38,40 +30,20 @@ const DEFAULT_LOCATION = {
 };
 
 interface AppProps {
-    kpiTokenTemplateBaseURL?: string;
-    oracleTemplateBaseURL?: string;
     templateId?: number;
 }
 
-export const App = ({
-    kpiTokenTemplateBaseURL,
-    oracleTemplateBaseURL,
-    templateId,
-}: AppProps) => {
+export const App = ({ templateId }: AppProps) => {
     const location = useLocation();
     const previousLocation = usePreviousDistinct(location);
     const navigate = useNavigate();
-    const setDevMode = useSetDevMode();
     const stagingMode = useStagingMode();
-    const setStagingMode = useSetStagingMode();
-    const setIPFSGatewayURL = useSetIPFSGatewayURL();
-    const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
-    const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
 
     useFathomTrackPageWatch();
 
     const [modalLocation, setModalLocation] = useState<Location | undefined>();
     const [closingModalId, setClosingModalId] = useState("");
     const [mainLocation, setMainLocation] = useState(location);
-
-    useEffect(() => {
-        setDevMode(__LIBRARY_MODE__);
-        setStagingMode(__STAGING_MODE__);
-        setIPFSGatewayURL(IPFS_GATEWAY_URL);
-        setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
-        setOracleTemplateBaseURL(oracleTemplateBaseURL);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     useEffect(() => {
         if (

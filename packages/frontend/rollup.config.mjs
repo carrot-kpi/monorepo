@@ -19,7 +19,7 @@ config();
 
 export default [
     {
-        input: resolve("src/bootstrap.tsx"),
+        input: resolve("src/library-mode-entrypoint.tsx"),
         preserveSymlinks: true,
         plugins: [
             replace({

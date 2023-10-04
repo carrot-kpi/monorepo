@@ -39,4 +39,3 @@ export * from "./types/templates";
 export * from "./types/transactions";
 
 export * from "./i18n";
-export * from "./core-provider";
