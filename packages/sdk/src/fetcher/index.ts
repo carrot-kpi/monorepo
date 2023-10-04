@@ -16,6 +16,7 @@ import { OnChainFetcher } from "./on-chain";
 import { SubgraphFetcher } from "./subgraph";
 import { CoreFetcher } from "./core";
 import { Token } from "../entities/token";
+import { validateChainId } from "../utils";
 
 export * from "./types";
 export * from "./abstraction";
@@ -29,7 +30,7 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
         preferDecentralization?: boolean;
     }) {
         if (preferDecentralization) return false;
-        const chainId = await publicClient.getChainId();
+        const chainId = await validateChainId(publicClient);
         return SubgraphFetcher.supportedInChain({ chainId });
     }
 

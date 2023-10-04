@@ -40,7 +40,7 @@ import {
     CHAIN_ADDRESSES,
     type ChainAddresses,
 } from "../../commons";
-import { enforce } from "../../utils";
+import { enforce, validateChainId } from "../../utils";
 import { type Address, getAddress, type PublicClient } from "viem";
 import { Template } from "../../entities/template";
 import { Oracle } from "../../entities/oracle";
@@ -175,8 +175,7 @@ class Fetcher implements IPartialCarrotFetcher {
         blacklisted,
         addresses,
     }: FetchKPITokensParams): Promise<ChainKPITokensMap> {
-        const chainId = await publicClient.getChainId();
-        const { subgraphURL } = await this.validate({
+        const { subgraphURL, chainId } = await this.validate({
             publicClient,
         });
 
@@ -262,8 +261,7 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         addresses,
     }: FetchOraclesParams): Promise<ChainOraclesMap> {
-        const chainId = await publicClient.getChainId();
-        const { subgraphURL } = await this.validate({
+        const { subgraphURL, chainId } = await this.validate({
             publicClient,
         });
         let oracles: Promise<ChainOraclesMap> | ChainOraclesMap = {};
@@ -474,9 +472,12 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
     }: {
         publicClient: PublicClient;
-    }): Promise<{ subgraphURL: string; chainAddresses: ChainAddresses }> {
-        const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+    }): Promise<{
+        subgraphURL: string;
+        chainAddresses: ChainAddresses;
+        chainId: ChainId;
+    }> {
+        const chainId = await validateChainId(publicClient);
         const subgraphURL = SUBGRAPH_URL[chainId as ChainId];
         enforce(!!subgraphURL, `no subgraph available in chain ${chainId}`);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
@@ -485,6 +486,7 @@ class Fetcher implements IPartialCarrotFetcher {
         return {
             subgraphURL,
             chainAddresses,
+            chainId,
         };
     }
 }
