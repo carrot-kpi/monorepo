@@ -24,7 +24,7 @@ interface RootProps {
     ipfsGatewayURL: string;
     kpiTokenTemplateBaseURL?: string;
     oracleTemplateBaseURL?: string;
-    templateId: number;
+    templateId?: number;
 }
 
 export const Root = ({
