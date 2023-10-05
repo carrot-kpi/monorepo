@@ -1,5 +1,17 @@
 # @carrot-kpi/react
 
+## 0.64.0
+
+### Minor Changes
+
+-   aa54d36: Move core provider from React library to host frontend and split
+    entrypoint in library and standalone mode
+
+### Patch Changes
+
+-   Updated dependencies [aa54d36]
+    -   @carrot-kpi/sdk@1.42.1
+
 ## 0.63.0
 
 ### Minor Changes
