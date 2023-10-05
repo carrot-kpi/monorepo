@@ -343,10 +343,10 @@
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*",
-        "i18next": "^22.0.2",
+        "i18next": "^23.5.1",
         "react": "^18.2.0",
-        "react-i18next": "^13.0.1",
-        "wagmi": "^1.4.1"
+        "react-i18next": "^13.2.1",
+        "wagmi": "^1.4.3"
     },
     "devDependencies": {
         "@carrot-kpi/shared-state": "*",
