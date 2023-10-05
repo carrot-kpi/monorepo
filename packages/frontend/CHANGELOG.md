@@ -1,5 +1,12 @@
 # @carrot-kpi/host-frontend
 
+## 0.26.1
+
+### Patch Changes
+
+-   a3c082e: Make KPI token and oracle templates base URL props not required
+    anymore
+
 ## 0.26.0
 
 ### Minor Changes
