@@ -1,5 +1,11 @@
 # @carrot-kpi/host-frontend
 
+## 0.26.2
+
+### Patch Changes
+
+-   cc06ec3: Make templateId prop optional in library mode entrypoint
+
 ## 0.26.1
 
 ### Patch Changes
