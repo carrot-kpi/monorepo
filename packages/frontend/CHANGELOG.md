@@ -1,5 +1,11 @@
 # @carrot-kpi/host-frontend
 
+## 0.25.1
+
+### Patch Changes
+
+-   dd40303: Fix package.json
+
 ## 0.25.0
 
 ### Minor Changes
