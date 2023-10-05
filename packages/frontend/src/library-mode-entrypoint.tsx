@@ -22,8 +22,8 @@ interface RootProps {
     providers: ChainProviderFn[];
     getConnectors: () => Connector[];
     ipfsGatewayURL: string;
-    kpiTokenTemplateBaseURL: string;
-    oracleTemplateBaseURL: string;
+    kpiTokenTemplateBaseURL?: string;
+    oracleTemplateBaseURL?: string;
     templateId: number;
 }
 

@@ -8,8 +8,8 @@ import {
 
 interface LibraryModeSharedStateUpdaterProps {
     ipfsGatewayURL: string;
-    kpiTokenTemplateBaseURL: string;
-    oracleTemplateBaseURL: string;
+    kpiTokenTemplateBaseURL?: string;
+    oracleTemplateBaseURL?: string;
 }
 
 export const LibraryModeSharedStateUpdater = ({
