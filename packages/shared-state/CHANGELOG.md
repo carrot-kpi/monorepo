@@ -1,5 +1,11 @@
 # @carrot-kpi/shared-state
 
+## 0.13.1
+
+### Patch Changes
+
+-   c199128: Upgrade dependencies
+
 ## 0.13.0
 
 ### Minor Changes

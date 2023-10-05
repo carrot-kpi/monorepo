@@ -1,5 +1,13 @@
 # @carrot-kpi/ui
 
+## 0.63.1
+
+### Patch Changes
+
+-   c199128: Upgrade dependencies
+-   Updated dependencies [c199128]
+    -   @carrot-kpi/sdk@1.42.2
+
 ## 0.63.0
 
 ### Minor Changes

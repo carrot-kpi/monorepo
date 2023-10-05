@@ -1,5 +1,11 @@
 # eslint-config-custom
 
+## 0.8.1
+
+### Patch Changes
+
+-   c199128: Upgrade dependencies
+
 ## 0.8.0
 
 ### Minor Changes
