@@ -14,10 +14,10 @@
         "test": "echo 'Make Matchstick work...'"
     },
     "devDependencies": {
-        "@graphprotocol/graph-cli": "0.57.0",
+        "@graphprotocol/graph-cli": "0.59.0",
         "@graphprotocol/graph-ts": "0.31.0",
         "eslint-config-custom": "*",
         "matchstick-as": "0.5.2",
-        "rimraf": "^5.0.0"
+        "rimraf": "^5.0.5"
     }
 }
