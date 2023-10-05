@@ -3,12 +3,12 @@
     "license": "GPL-3.0-or-later",
     "version": "0.25.0",
     "description": "Frontend for Carrot KPI protocol v1.",
-    "main": "./dist/bootstrap.js",
-    "module": "./dist/bootstrap.js",
-    "types": "./dist/bootstrap.d.ts",
+    "main": "./dist/library-mode-entrypoint.js",
+    "module": "./dist/library-mode-entrypoint.js",
+    "types": "./dist/library-mode-entrypoint.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/bootstrap.js"
+            "import": "./dist/library-mode-entrypoint.js"
         },
         "./styles.css": {
             "import": "./dist/styles.css"
