@@ -11,7 +11,7 @@ import {
 import { KPIToken } from "../entities/kpi-token";
 import { type OnChainTemplate, Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
-import { enforce } from "../utils";
+import { enforce, validateChainId } from "../utils";
 import type {
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
@@ -108,8 +108,9 @@ class Fetcher implements IPartialCarrotFetcher {
         blacklisted,
         addresses,
     }: FetchKPITokensParams): Promise<{ [address: string]: KPIToken }> {
-        const chainId = await publicClient.getChainId();
-        const { chainAddresses } = await this.validate({ publicClient });
+        const { chainAddresses, chainId } = await this.validate({
+            publicClient,
+        });
         let tokenAddresses: Address[];
         let kpiTokenAmounts;
         if (addresses && addresses.length > 0) {
@@ -245,8 +246,9 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         addresses,
     }: FetchOraclesParams): Promise<{ [address: string]: Oracle }> {
-        const chainId = await publicClient.getChainId();
-        const { chainAddresses } = await this.validate({ publicClient });
+        const { chainAddresses, chainId } = await this.validate({
+            publicClient,
+        });
 
         const oracleAmounts = await publicClient.readContract({
             abi: ORACLES_MANAGER_ABI,
@@ -352,11 +354,10 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const chainId = await publicClient.getChainId();
-        await this.validate({ publicClient });
+        const { chainId } = await this.validate({ publicClient });
         return await this.fetchTemplates(
             publicClient,
-            CHAIN_ADDRESSES[chainId as ChainId].kpiTokensManager,
+            CHAIN_ADDRESSES[chainId].kpiTokensManager,
             ids,
         );
     }
@@ -365,11 +366,10 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const chainId = await publicClient.getChainId();
-        await this.validate({ publicClient });
+        const { chainId } = await this.validate({ publicClient });
         return await this.fetchTemplates(
             publicClient,
-            CHAIN_ADDRESSES[chainId as ChainId].oraclesManager,
+            CHAIN_ADDRESSES[chainId].oraclesManager,
             ids,
         );
     }
@@ -378,14 +378,14 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
     }: {
         publicClient: PublicClient;
-    }): Promise<{ chainAddresses: ChainAddresses }> {
-        const chainId = await publicClient.getChainId();
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
+    }): Promise<{ chainAddresses: ChainAddresses; chainId: ChainId }> {
+        const chainId = await validateChainId(publicClient);
         const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
         enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
 
         return {
             chainAddresses,
+            chainId,
         };
     }
 }

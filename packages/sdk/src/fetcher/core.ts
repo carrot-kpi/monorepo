@@ -1,5 +1,10 @@
-import { CHAIN_ADDRESSES, ChainId, ERC20_ABI } from "../commons";
-import { cacheERC20Token, enforce, getCachedERC20Token, warn } from "../utils";
+import { CHAIN_ADDRESSES, ERC20_ABI } from "../commons";
+import {
+    cacheERC20Token,
+    getCachedERC20Token,
+    validateChainId,
+    warn,
+} from "../utils";
 import { type Address } from "viem";
 import { Token } from "../entities/token";
 import BYTES_NAME_ERC20_ABI from "../abis/erc20-name-bytes";
@@ -23,9 +28,8 @@ export class CoreFetcher implements ICoreFetcher {
         publicClient,
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: Address]: Token }> {
-        const chainId = (await publicClient.getChainId()) as ChainId;
-        enforce(chainId in ChainId, `unsupported chain with id ${chainId}`);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
+        const chainId = await validateChainId(publicClient);
+        const chainAddresses = CHAIN_ADDRESSES[chainId];
 
         const { cachedTokens, missingTokens } = addresses.reduce(
             (
