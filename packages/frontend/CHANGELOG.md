@@ -1,5 +1,12 @@
 # @carrot-kpi/host-frontend
 
+## 0.26.0
+
+### Minor Changes
+
+-   2862952: Fix issue with shared state provider not being present while trying
+    to update the shared state
+
 ## 0.25.1
 
 ### Patch Changes
