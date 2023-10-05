@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.42.1
+
+### Patch Changes
+
+-   aa54d36: Drastically reduce number of eth_getChainId calls
+
 ## 1.42.0
 
 ### Minor Changes
