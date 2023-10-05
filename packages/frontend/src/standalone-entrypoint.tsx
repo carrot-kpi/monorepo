@@ -1,19 +1,6 @@
-import "./i18n";
-
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
-import "@fontsource/ibm-plex-mono/700.css";
-import "@carrot-kpi/switzer-font/400.css";
-import "@carrot-kpi/switzer-font/500.css";
-import "@carrot-kpi/switzer-font/700.css";
-import "@carrot-kpi/ui/styles.css";
-
-import "./global.css";
-
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-
 import { createConfig, configureChains, Connector } from "wagmi";
 import { SharedEntrypoint } from "./shared-entrypoint";
 import { ENABLED_CHAINS, IPFS_GATEWAY_URL, RPC_BY_CHAIN } from "./constants";

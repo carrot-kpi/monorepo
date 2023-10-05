@@ -1,17 +1,4 @@
-import "./i18n";
-
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
-import "@fontsource/ibm-plex-mono/700.css";
-import "@carrot-kpi/switzer-font/400.css";
-import "@carrot-kpi/switzer-font/500.css";
-import "@carrot-kpi/switzer-font/700.css";
-import "@carrot-kpi/ui/styles.css";
-
-import "./global.css";
-
 import React from "react";
-
 import {
     type Chain,
     type ChainProviderFn,
@@ -24,13 +11,7 @@ import { SharedEntrypoint } from "./shared-entrypoint";
 import { HashRouter } from "react-router-dom";
 import { HostStateProvider } from "./state/connector";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
-import {
-    useSetDevMode,
-    useSetIPFSGatewayURL,
-    useSetKPITokenTemplateBaseURL,
-    useSetOracleTemplateBaseURL,
-    useSetStagingMode,
-} from "@carrot-kpi/react";
+import { LibraryModeSharedStateUpdater } from "./updaters/library-mode-shared-state";
 
 export * from "./connectors/template-testing";
 
@@ -55,18 +36,6 @@ export const Root = ({
     ipfsGatewayURL,
     templateId,
 }: RootProps) => {
-    const setDevMode = useSetDevMode();
-    const setStagingMode = useSetStagingMode();
-    const setIPFSGatewayURL = useSetIPFSGatewayURL();
-    const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
-    const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
-
-    setDevMode(true);
-    setStagingMode(false);
-    setIPFSGatewayURL(ipfsGatewayURL);
-    setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
-    setOracleTemplateBaseURL(oracleTemplateBaseURL);
-
     const connectors = getConnectors();
     if (
         !connectors.some((connector) => connector instanceof ReadonlyConnector)
@@ -90,6 +59,11 @@ export const Root = ({
         <HashRouter>
             <HostStateProvider>
                 <ReactSharedStateProvider>
+                    <LibraryModeSharedStateUpdater
+                        kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
+                        oracleTemplateBaseURL={oracleTemplateBaseURL}
+                        ipfsGatewayURL={ipfsGatewayURL}
+                    />
                     <SharedEntrypoint
                         config={config}
                         templateId={templateId}
