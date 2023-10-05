@@ -1,1 +1,1 @@
-import("./bootstrap");
+import("./standalone-entrypoint");

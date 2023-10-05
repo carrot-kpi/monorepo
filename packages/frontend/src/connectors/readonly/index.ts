@@ -44,7 +44,7 @@ export class ReadonlyConnector extends Connector<PublicClient> {
 
     public async getChainId() {
         const provider = await this.getProvider();
-        return provider.getChainId();
+        return normalizeChainId(provider.chain.id);
     }
 
     public async getProvider(config?: {

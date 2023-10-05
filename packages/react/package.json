@@ -203,11 +203,6 @@
             "types": "./dist/types/types/transactions.d.ts",
             "import": "./dist/es/types/transactions.mjs",
             "default": "./dist/cjs/types/transactions.cjs"
-        },
-        "./core-provider": {
-            "types": "./dist/types/core-provider.d.ts",
-            "import": "./dist/es/core-provider.mjs",
-            "default": "./dist/cjs/core-provider.cjs"
         }
     },
     "typesVersions": {
@@ -325,9 +320,6 @@
             ],
             "types/transactions": [
                 "./dist/types/types/transactions.d.ts"
-            ],
-            "core-provider": [
-                "./dist/types/core-provider.d.ts"
             ]
         }
     },

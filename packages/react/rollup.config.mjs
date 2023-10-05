@@ -44,7 +44,6 @@ export default [
             "src/hooks/useWatchKPIToken.ts",
             "src/types/templates.ts",
             "src/types/transactions.ts",
-            "src/core-provider.tsx",
             "src/i18n.ts",
             "src/index.ts",
         ],
