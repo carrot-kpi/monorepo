@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.42.3
+
+### Patch Changes
+
+-   f0f88a9: Update subgraph URL for Gnosis and add Sepolia subgraph
+
 ## 1.42.2
 
 ### Patch Changes
