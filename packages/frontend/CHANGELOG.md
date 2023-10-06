@@ -1,5 +1,15 @@
 # @carrot-kpi/host-frontend
 
+## 0.26.3
+
+### Patch Changes
+
+-   c199128: Upgrade dependencies
+-   Updated dependencies [c199128]
+    -   @carrot-kpi/react@0.64.1
+    -   @carrot-kpi/sdk@1.42.2
+    -   @carrot-kpi/ui@0.63.1
+
 ## 0.26.2
 
 ### Patch Changes

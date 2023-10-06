@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.42.2
+
+### Patch Changes
+
+-   c199128: Upgrade dependencies
+
 ## 1.42.1
 
 ### Patch Changes
