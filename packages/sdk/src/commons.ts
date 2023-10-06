@@ -38,8 +38,9 @@ export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
 
 export const SUBGRAPH_URL: Record<ChainId, string | null> = {
     [ChainId.GNOSIS]:
-        "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-kpi-gnosis",
-    [ChainId.SEPOLIA]: null,
+        "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-gnosis",
+    [ChainId.SEPOLIA]:
+        "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-sepolia",
     [ChainId.SCROLL_SEPOLIA]: null,
 };
 

@@ -12,5 +12,33 @@
             "address": "0xc9E426B468d334AF6208ef9b3bA5f599d1417c6e",
             "startBlock": 28680520
         }
+    },
+    "scroll-sepolia": {
+        "Factory": {
+            "address": "0x64a0745EF9d3772d9739D9350873eD3703bE45eC",
+            "startBlock": 416670
+        },
+        "KPITokensManager": {
+            "address": "0xD4AC4AaFb81eC774E49AA755A66EfCe4574D6276",
+            "startBlock": 416672
+        },
+        "OraclesManager": {
+            "address": "0xD3Fe5d463dD1fd943CCC2271F2ea980B898B5DA3",
+            "startBlock": 416675
+        }
+    },
+    "sepolia": {
+        "Factory": {
+            "address": "0x44bBb970E534bCE4B42C5a34b15d5B049704417A",
+            "startBlock": 3784913
+        },
+        "KPITokensManager": {
+            "address": "0xA4537024597F8B9243AbE105D0Cb297Ea2562ef1",
+            "startBlock": 3784915
+        },
+        "OraclesManager": {
+            "address": "0x940d1D2F5c5724a37593D323bFde54F81D6f11C0",
+            "startBlock": 3784917
+        }
     }
 }
