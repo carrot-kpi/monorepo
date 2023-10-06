@@ -1189,6 +1189,11 @@
   resolved "https://registry.yarnpkg.com/@carrot-kpi/contracts/-/contracts-0.3.1.tgz#9d15428a2ea681540facb8f87fc6f3fd7184c258"
   integrity sha512-VGiVW+OXwe/Gqs7IOdz70jEC7xRQ17nItaiSX/U0WB/w0xHfrFhjMH0M++9RmFQYC3tiXl4ajkQxQFIoELj1sQ==
 
+"@carrot-kpi/contracts@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/contracts/-/contracts-0.4.0.tgz#8ff83828bc1b67284142b802d8c00169d683420c"
+  integrity sha512-QFlZZWw9yPGLszI+/jWAljQVnv2FPAmongK5LNbjg7AaKZxXxiU0HqW9LWtuvJxH7fOI2G07cA3QMejIFURzEw==
+
 "@carrot-kpi/switzer-font@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@carrot-kpi/switzer-font/-/switzer-font-0.1.0.tgz#2046a14543d382d06b88ccc36354fff3648c0563"

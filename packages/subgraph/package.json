@@ -7,17 +7,21 @@
         "codegen": "graph codegen",
         "clean": "rimraf generated build",
         "build": "yarn clean && yarn codegen && graph build",
-        "deploy:gnosis": "graph deploy --product hosted-service --network gnosis carrot-kpi/carrot-kpi-gnosis",
+        "gen-networks-file": "ts-node scripts/generate-networks-file.ts",
+        "deploy:sepolia": "yarn gen-networks-file && graph deploy --product hosted-service --network sepolia carrot-kpi/carrot-sepolia",
+        "deploy:gnosis": "yarn gen-networks-file && graph deploy --product hosted-service --network gnosis carrot-kpi/carrot-gnosis",
         "create-local": "graph create --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "remove-local": "graph remove --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 carrot-kpi/carrot-kpi-local",
         "test": "echo 'Make Matchstick work...'"
     },
     "devDependencies": {
+        "@carrot-kpi/contracts": "^0.4.0",
         "@graphprotocol/graph-cli": "0.59.0",
         "@graphprotocol/graph-ts": "0.31.0",
         "eslint-config-custom": "*",
         "matchstick-as": "0.5.2",
-        "rimraf": "^5.0.5"
+        "rimraf": "^5.0.5",
+        "ts-node": "^10.9.1"
     }
 }
