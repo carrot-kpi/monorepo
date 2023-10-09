@@ -15,6 +15,8 @@ import {
 } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
 import { InfoPopover } from "../../../../info-popover";
+import { ChainId, SUBGRAPH_URL } from "@carrot-kpi/sdk";
+import { useChainId } from "wagmi";
 
 interface PreferencesPopoverProps {
     open: boolean;
@@ -27,7 +29,7 @@ export const PreferencesPopover = forwardRef<
     PreferencesPopoverProps
 >(function PreferencesPopover({ open, anchor }, ref) {
     const { t } = useTranslation();
-
+    const chaiId = useChainId();
     const preferDecentralization = usePreferDecentralization();
     const setPreferDecentralization = useSetPreferDecentralization();
 
@@ -108,23 +110,27 @@ export const PreferencesPopover = forwardRef<
                     />
                 </div>
             </div>
-            <div className="flex justify-between gap-4 md:gap-20 items-center">
-                <div className="flex gap-2 items-center">
-                    <Typography>{t("preferences.decentralization")}</Typography>
-                    <InfoPopover>
-                        <Typography
-                            variant="sm"
-                            className={{ root: "max-w-md" }}
-                        >
-                            {t("preferences.decentralization.info")}
+            {!!SUBGRAPH_URL[chaiId as ChainId] && (
+                <div className="flex justify-between gap-4 md:gap-20 items-center">
+                    <div className="flex gap-2 items-center">
+                        <Typography>
+                            {t("preferences.decentralization")}
                         </Typography>
-                    </InfoPopover>
+                        <InfoPopover>
+                            <Typography
+                                variant="sm"
+                                className={{ root: "max-w-md" }}
+                            >
+                                {t("preferences.decentralization.info")}
+                            </Typography>
+                        </InfoPopover>
+                    </div>
+                    <Switch
+                        checked={preferDecentralization}
+                        onChange={setPreferDecentralization}
+                    />
                 </div>
-                <Switch
-                    checked={preferDecentralization}
-                    onChange={setPreferDecentralization}
-                />
-            </div>
+            )}
             {__STAGING_MODE__ && (
                 <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <div className="flex gap-2 items-center">
