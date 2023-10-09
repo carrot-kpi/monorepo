@@ -29,7 +29,7 @@ export const PreferencesPopover = forwardRef<
     PreferencesPopoverProps
 >(function PreferencesPopover({ open, anchor }, ref) {
     const { t } = useTranslation();
-    const chaiId = useChainId();
+    const chainId = useChainId();
     const preferDecentralization = usePreferDecentralization();
     const setPreferDecentralization = useSetPreferDecentralization();
 
@@ -110,7 +110,7 @@ export const PreferencesPopover = forwardRef<
                     />
                 </div>
             </div>
-            {!!SUBGRAPH_URL[chaiId as ChainId] && (
+            {!!SUBGRAPH_URL[chainId as ChainId] && (
                 <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <div className="flex gap-2 items-center">
                         <Typography>
