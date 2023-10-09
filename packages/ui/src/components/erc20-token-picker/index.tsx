@@ -96,6 +96,16 @@ export function ERC20TokenPicker({
         [onSelectedTokenChange],
     );
 
+    const handleSelectedListChange = useCallback(
+        (list: TokenListWithBalance) => {
+            if (onSelectedListChange) {
+                setCurrentView("search");
+                onSelectedListChange(list);
+            }
+        },
+        [onSelectedListChange],
+    );
+
     const handleManageListsClick = useCallback(() => {
         setCurrentView("manage-lists");
     }, []);
@@ -131,7 +141,7 @@ export function ERC20TokenPicker({
                 <ManageLists
                     onDismiss={onDismiss}
                     loading={loading}
-                    onSelectedListChange={onSelectedListChange}
+                    onSelectedListChange={handleSelectedListChange}
                     selectedList={selectedList}
                     lists={lists}
                     chainId={chainId}
