@@ -127,13 +127,10 @@ export const ManageLists = ({
             const index = (event.target as HTMLLIElement).dataset.index;
             if (index !== undefined) {
                 const parsedIndex = parseInt(index);
-                if (parsedIndex >= 0) {
-                    onSelectedListChange(lists[parsedIndex]);
-                    if (!!onDismiss) onDismiss();
-                }
+                if (parsedIndex >= 0) onSelectedListChange(lists[parsedIndex]);
             }
         },
-        [lists, onDismiss, onSelectedListChange],
+        [lists, onSelectedListChange],
     );
 
     return (
