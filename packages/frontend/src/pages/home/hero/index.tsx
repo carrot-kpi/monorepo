@@ -1,17 +1,18 @@
-import { Button, Loader, Typography } from "@carrot-kpi/ui";
-import React, { useEffect, useRef } from "react";
+import { Button, Modal, Typography } from "@carrot-kpi/ui";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { Link } from "react-router-dom";
 import Plus from "../../../icons/plus";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
 import { CreateCampaignButton } from "../../../components/create-campaign-button";
-import { useFeaturedKPITokens } from "../../../hooks/useFeaturedKPITokens";
 import { useSelector } from "../../../state/connector";
 import type { HostState } from "../../../state";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
-import VideoPoster from "../../../images/video-poster.png";
 import { STATIC_CDN_URL } from "../../../constants";
+import PlayVideo from "../../../icons/play-video";
+import VideoPoster from "../../../images/video-poster.png";
+import type { KPIToken } from "@carrot-kpi/sdk";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -27,28 +28,40 @@ const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     },
 });
 
-export const Hero = () => {
+export interface HeroProps {
+    featuredKPITokens: KPIToken[];
+}
+
+export const Hero = ({ featuredKPITokens }: HeroProps) => {
     const { t } = useTranslation();
-    const { loading, kpiTokens } = useFeaturedKPITokens();
     const videoRef = useRef<HTMLVideoElement>(null);
     const modalOpen = useSelector<HostState>((state) => state.modals.open);
 
+    const [showVideo, setShowVideo] = useState(false);
+
+    const handleClick = useCallback(() => {
+        setShowVideo(true);
+        if (!videoRef || !videoRef.current) return;
+        videoRef.current.play();
+    }, []);
+
+    const handleDismiss = useCallback(() => {
+        setShowVideo(false);
+        if (!videoRef || !videoRef.current) return;
+        videoRef.current.pause();
+    }, []);
+
     useEffect(() => {
         if (!videoRef || !videoRef.current) return;
-        const currentRef = videoRef.current;
-        if (modalOpen) currentRef.pause();
+        if (modalOpen) videoRef.current.pause();
     }, [modalOpen]);
 
     return (
-        <div className="relative flex items-center bg-orange bg-grid-light h-[780px]">
-            {loading ? (
-                <div className="flex items-center justify-center w-full h-full">
-                    <Loader />
-                </div>
-            ) : kpiTokens.length === 0 ? (
-                <div className="px-6 space-y-12 md:px-14 lg:px-36 mt-7 md:pt-24 md:pb-32">
-                    <div className="flex flex-col items-center justify-around gap-10 md:flex-row md:gap-0">
-                        <div className="flex flex-col items-center w-full gap-10 md:items-start md:w-2/5">
+        <div className="relative flex items-center bg-orange bg-grid-light min-h-[60vh]">
+            {featuredKPITokens.length === 0 ? (
+                <div className="px-4 md:px-10 lg:px-14 xl:px-40 pb-6 w-full flex justify-center">
+                    <div className="w-full max-w-screen-2xl flex flex-col items-center lg:flex-row lg:justify-center gap-20 md:gap-36 pb-16 py-7 md:py-16">
+                        <div className="flex flex-col gap-10 flex-1 w-full max-w-xl lg:max-w-2xl">
                             <Typography variant="h1">
                                 {t("home.noFeatured.title")}
                             </Typography>
@@ -57,25 +70,47 @@ export const Hero = () => {
                             </Typography>
                             <CreateCampaignButton primary />
                         </div>
-                        <div className="w-full mb-16 md:mb-0 md:w-1/2 aspect-video rounded-xl bg-gray-500">
-                            <video
-                                ref={videoRef}
-                                controls
-                                preload="metadata"
-                                poster={VideoPoster}
-                                className="w-full h-full rounded-xl"
-                            >
-                                <source
-                                    src={`${STATIC_CDN_URL}/hero-video.webm`}
-                                    type="video/webm"
+                        <div className="flex-1 flex justify-center max-w-xl w-full md:w-40 lg:w-60 aspect-9/12 relative">
+                            <>
+                                <img
+                                    className="border border-black rounded-xl"
+                                    src={VideoPoster}
+                                    alt="poster"
                                 />
-                                <source
-                                    src={`${STATIC_CDN_URL}/hero-video.mp4`}
-                                    type="video/mp4"
-                                />
-                                {t("video.notSupported")}
-                            </video>
+                                <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
+                                    <Button
+                                        onClick={handleClick}
+                                        className={{
+                                            contentWrapper:
+                                                "flex gap-3 items-center whitespace-nowrap",
+                                        }}
+                                        size="small"
+                                    >
+                                        <PlayVideo />
+                                        How it works
+                                    </Button>
+                                </div>
+                            </>
                         </div>
+                        <Modal open={showVideo} onDismiss={handleDismiss}>
+                            <div className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500">
+                                <video
+                                    ref={videoRef}
+                                    controls
+                                    className="aspect-video w-full border border-black rounded-xl bg-gray-500 overflow-hidden"
+                                >
+                                    <source
+                                        src={`${STATIC_CDN_URL}/hero-video.webm`}
+                                        type="video/webm"
+                                    />
+                                    <source
+                                        src={`${STATIC_CDN_URL}/hero-video.mp4`}
+                                        type="video/mp4"
+                                    />
+                                    Not supported
+                                </video>
+                            </div>
+                        </Modal>
                     </div>
                 </div>
             ) : (
@@ -91,7 +126,7 @@ export const Hero = () => {
                         </Typography>
                     </div>
                     <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32 dark">
-                        {kpiTokens.map((kpiToken) => (
+                        {featuredKPITokens.map((kpiToken) => (
                             <KPITokenCard
                                 key={kpiToken.address}
                                 kpiToken={kpiToken}
