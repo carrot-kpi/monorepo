@@ -1,5 +1,15 @@
 # @carrot-kpi/ui
 
+## 0.64.0
+
+### Minor Changes
+
+-   fcf6611: Avoid token picker closing when a token list is selected
+
+### Patch Changes
+
+-   fcf6611: Make markdown input text size equal to other inputs
+
 ## 0.63.1
 
 ### Patch Changes
