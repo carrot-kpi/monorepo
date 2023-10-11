@@ -37,7 +37,7 @@ export const markdownInputContentStyles = mergedCva(
         "cui-overflow-y-auto",
         "cui-overflow-x-hidden",
         "cui-p-3",
-        "cui-text-sm",
+        "cui-text-lg",
         "cui-font-normal",
         "cui-cursor-text",
         "focus:cui-outline-none",
@@ -84,12 +84,12 @@ export const MarkdownInput = ({
                 Placeholder.configure({
                     placeholder,
                     emptyEditorClass:
-                        "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 dark:before:cui-opacity-20 cui-text-sm cui-font-normal",
+                        "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 dark:before:cui-opacity-20 cui-text-base cui-font-normal",
                 }),
             ],
             editorProps: {
                 attributes: {
-                    class: "cui-prose cui-prose-sm focus:cui-outline-none cui-font-mono cui-h-full dark:cui-prose-invert prose-pre:dark:cui-bg-gray-700",
+                    class: "cui-prose cui-prose-base focus:cui-outline-none cui-font-mono cui-h-full dark:cui-prose-invert prose-pre:dark:cui-bg-gray-700",
                 },
             },
             onUpdate: ({ editor }) => {
