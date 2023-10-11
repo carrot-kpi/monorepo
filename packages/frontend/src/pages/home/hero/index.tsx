@@ -57,11 +57,11 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
     }, [modalOpen]);
 
     return (
-        <div className="relative flex items-center bg-orange bg-grid-light min-h-[60vh]">
+        <div className="relative flex items-center bg-orange bg-grid-light">
             {featuredKPITokens.length === 0 ? (
                 <div className="px-4 md:px-10 lg:px-14 xl:px-40 pb-6 w-full flex justify-center">
                     <div className="w-full max-w-screen-2xl flex flex-col items-center lg:flex-row lg:justify-center gap-20 md:gap-36 pb-16 py-7 md:py-16">
-                        <div className="flex flex-col gap-10 flex-1 w-full max-w-xl lg:max-w-2xl">
+                        <div className="flex flex-col gap-10 flex-1 w-full">
                             <Typography variant="h1">
                                 {t("home.noFeatured.title")}
                             </Typography>
