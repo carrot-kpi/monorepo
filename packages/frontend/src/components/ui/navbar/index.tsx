@@ -12,7 +12,7 @@ import { useClickAway } from "react-use";
 import { NavbarVerticalLayout } from "./vertical-layout";
 import type { NavbarLink } from "../../../constants";
 
-const navWrapperStyles = cva([], {
+const navWrapperStyles = cva(["flex", "justify-center", "px-6", "xl:px-32"], {
     variants: {
         bgColor: {
             green: ["bg-green"],
@@ -23,7 +23,15 @@ const navWrapperStyles = cva([], {
 
 const navbarStyles = cva(
     [
-        "relative flex flex-row-reverse md:flex-row items-center justify-between py-5 md:py-8 xl:py-11",
+        "w-full",
+        "max-w-screen-2xl",
+        "relative",
+        "flex",
+        "items-center",
+        "justify-between",
+        "py-5",
+        "md:py-8",
+        "xl:py-11",
     ],
     {
         variants: {
@@ -32,7 +40,7 @@ const navbarStyles = cva(
                 orange: ["bg-orange"],
             },
             mode: {
-                standard: ["px-6 xl:px-32"],
+                standard: [],
                 modal: ["px-6 xl:px-10"],
             },
         },
@@ -90,13 +98,31 @@ export const Navbar = ({
             />
             <div className={navWrapperStyles({ bgColor })}>
                 <div className={navbarStyles({ bgColor, mode })}>
-                    {mode === "modal" ? (
-                        <Logo className="w-32 h-auto xl:w-[188px] text-black" />
-                    ) : (
-                        <NavLink to="/" onClick={() => setOpen(false)}>
+                    <div className="flex gap-4 items-center">
+                        <div className="flex items-center">
+                            {mode !== "modal" && (
+                                <MenuIcon
+                                    className="cursor-pointer md:hidden"
+                                    onClick={() => setOpen(!open)}
+                                />
+                            )}
+                            {mode === "modal" && (
+                                <div
+                                    className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
+                                    onClick={onDismiss}
+                                >
+                                    <X className="w-8 h-8" />
+                                </div>
+                            )}
+                        </div>
+                        {mode === "modal" ? (
                             <Logo className="w-32 h-auto xl:w-[188px] text-black" />
-                        </NavLink>
-                    )}
+                        ) : (
+                            <NavLink to="/" onClick={() => setOpen(false)}>
+                                <Logo className="w-32 h-auto xl:w-[188px] text-black" />
+                            </NavLink>
+                        )}
+                    </div>
                     <nav className="hidden md:flex">
                         <ul className="flex items-center space-x-8">
                             {links.map((link) => {
@@ -144,22 +170,6 @@ export const Navbar = ({
                             anchor={preferencesAnchor}
                             ref={preferencesPopoverRef}
                         />
-                        <div className="flex items-center">
-                            {mode !== "modal" && (
-                                <MenuIcon
-                                    className="cursor-pointer md:hidden"
-                                    onClick={() => setOpen(!open)}
-                                />
-                            )}
-                            {mode === "modal" && (
-                                <div
-                                    className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
-                                    onClick={onDismiss}
-                                >
-                                    <X className="w-8 h-8" />
-                                </div>
-                            )}
-                        </div>
                     </div>
                 </div>
             </div>
