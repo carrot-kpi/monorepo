@@ -67,9 +67,8 @@ const Component = (props: ERC20TokenPickerProps) => {
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState<TokenInfoWithBalance | null>(null);
+    const [lists, setLists] = useState<TokenListWithBalance[]>([]);
     const [list, setList] = useState<TokenListWithBalance | null>(null);
-
-    const lists = useMemo(() => (list ? [list] : []), [list]);
 
     const {
         data: rawBalances,
@@ -113,15 +112,29 @@ const Component = (props: ERC20TokenPickerProps) => {
     useEffect(() => {
         let cancelled = false;
         const fetchData = async () => {
-            const response = await fetch(
+            let response = await fetch(
                 `${getServiceURL(Service.STATIC_CDN, false)}/token-list.json`,
             );
             if (!response.ok) {
                 console.warn("could not fetch carrot token list");
                 return;
             }
-            if (!cancelled)
-                setList((await response.json()) as TokenListWithBalance);
+            const carrotList = (await response.json()) as TokenListWithBalance;
+
+            response = await fetch(
+                "https://tokens.coingecko.com/uniswap/all.json",
+            );
+            if (!response.ok) {
+                console.warn("could not fetch coingecko token list");
+                return;
+            }
+            const coingeckoList =
+                (await response.json()) as TokenListWithBalance;
+
+            if (!cancelled) {
+                setLists([carrotList, coingeckoList]);
+                setList(carrotList);
+            }
         };
         void fetchData();
         return () => {
@@ -176,6 +189,7 @@ const Component = (props: ERC20TokenPickerProps) => {
                     onDismiss={handleDismiss}
                     lists={lists}
                     selectedList={selectedListWithBalances}
+                    onSelectedListChange={setList}
                     chainId={CHAIN_ID}
                     messages={{
                         search: {
