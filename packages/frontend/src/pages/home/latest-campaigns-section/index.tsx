@@ -18,14 +18,9 @@ export const LatestCampaignsSection = () => {
     const { loading, kpiTokens } = useLatestKPITokens(LATEST_TOKEN_AMOUNTS);
 
     return (
-        <div className="relative flex flex-col gap-16">
-            <Typography
-                variant="h1"
-                className={{ root: "px-6 md:px-10 lg:px-32" }}
-            >
-                {t("home.latestCampaigns")}
-            </Typography>
-            <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32">
+        <div className="w-full max-w-screen-2xl relative flex flex-col gap-16">
+            <Typography variant="h1">{t("home.latestCampaigns")}</Typography>
+            <CardHorizontal className="h-96">
                 {loading ? (
                     placeholder
                 ) : Object.values(kpiTokens).length > 0 ? (
@@ -39,7 +34,7 @@ export const LatestCampaignsSection = () => {
                     <Empty />
                 )}
             </CardHorizontal>
-            <div className="px-6 md:px-10 lg:px-32 w-fit">
+            <div className="w-fit">
                 <Link to="/campaigns">
                     <Button>{t("home.allCampaigns")}</Button>
                 </Link>

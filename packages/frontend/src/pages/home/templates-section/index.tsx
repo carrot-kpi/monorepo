@@ -18,14 +18,9 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
     const { loading, templates } = useKPITokenTemplates({ ids });
 
     return (
-        <div className="relative space-y-16">
-            <Typography
-                variant="h1"
-                className={{ root: "px-6 md:px-10 lg:px-32" }}
-            >
-                {t("home.templates")}
-            </Typography>
-            <CardHorizontal className="px-6 md:px-10 lg:px-32">
+        <div className="w-full max-w-screen-2xl relative flex flex-col gap-16">
+            <Typography variant="h1">{t("home.templates")}</Typography>
+            <CardHorizontal>
                 {loading ? (
                     <>
                         <KPITokenTemplateCard />
