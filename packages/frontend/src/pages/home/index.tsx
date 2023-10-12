@@ -26,7 +26,9 @@ export const Home = ({ templateId }: HomeProps) => {
     const { isLoading: loadingFeaturedKPITokens, data: featuredKPITokens } =
         useFeaturedKPITokens(featuredBlacklistedKPITokenAddresses);
 
-    const [debouncedLoading, setDebouncedLoading] = useState(true);
+    const [debouncedLoading, setDebouncedLoading] = useState(
+        loadingFeaturedBlacklistedKPITokenAddresses || loadingFeaturedKPITokens,
+    );
 
     const transition = useTransition(debouncedLoading, {
         config: { ...springConfig.default, duration: 100 },
