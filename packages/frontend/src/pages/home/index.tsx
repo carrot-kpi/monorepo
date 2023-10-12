@@ -7,7 +7,7 @@ import { useFeaturedKPITokens } from "../../hooks/useFeaturedKPITokens";
 import { CarrotMarquee } from "../../components/ui/carrot-marquee";
 import { Loader } from "@carrot-kpi/ui";
 import { useDebounce } from "react-use";
-import { useFeaturedBlacklistedKPITokenAddresses } from "../../hooks/useFeaturedKPITokenAddresses";
+import { useFeaturedBlacklistedKPITokenAddresses } from "../../hooks/useFeaturedBlacklistedKPITokenAddresses";
 import {
     useTransition,
     config as springConfig,

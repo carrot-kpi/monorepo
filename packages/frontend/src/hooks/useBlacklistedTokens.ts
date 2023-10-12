@@ -1,6 +1,6 @@
 import { type ChainId } from "@carrot-kpi/sdk";
 import type { Address } from "viem";
-import { useFeaturedBlacklistedKPITokenAddresses } from "./useFeaturedKPITokenAddresses";
+import { useFeaturedBlacklistedKPITokenAddresses } from "./useFeaturedBlacklistedKPITokenAddresses";
 import { useChainId } from "wagmi";
 
 export const useBlacklistedTokens = (): {
