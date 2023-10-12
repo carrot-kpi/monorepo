@@ -15,8 +15,14 @@ export const loadState = () => {
 
 export const storeState = (state: HostState) => {
     try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { modals, ...serializableState }: HostState = state;
+        /* eslint-disable @typescript-eslint/no-unused-vars */
+        const {
+            modals,
+            staticApi,
+            applicationApi,
+            ...serializableState
+        }: HostState = state;
+        /* eslint-enable @typescript-eslint/no-unused-vars */
         localStorage.setItem(CACHE_KEY, JSON.stringify(serializableState));
     } catch (e) {
         console.warn("error while saving serialized shared state", e);

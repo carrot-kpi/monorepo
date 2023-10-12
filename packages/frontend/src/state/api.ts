@@ -29,6 +29,13 @@ export const staticApi = createCarrotApi({
             KPIToken[],
             FetchFeaturedKPITokensParams
         >({
+            serializeQueryArgs: ({ endpointName, queryArgs }) => {
+                return `${endpointName}(${JSON.stringify({
+                    blacklistedAddresses: queryArgs.blacklistedAddresses,
+                    featuredAddresses: queryArgs.featuredAddresses,
+                    preferDecentralization: queryArgs.preferDecentralization,
+                })})`;
+            },
             queryFn: async ({
                 publicClient,
                 preferDecentralization,
@@ -85,6 +92,13 @@ export const applicationApi = createCarrotApi({
             FetchLatestKPITokensParams
         >({
             providesTags: [LATEST_KPI_TOKEN_QUERY_TAG],
+            serializeQueryArgs: ({ endpointName, queryArgs }) => {
+                return `${endpointName}(${JSON.stringify({
+                    blacklistedAddresses: queryArgs.blacklistedAddresses,
+                    limit: queryArgs.limit,
+                    preferDecentralization: queryArgs.preferDecentralization,
+                })})`;
+            },
             queryFn: async ({
                 publicClient,
                 preferDecentralization,
