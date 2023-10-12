@@ -9,7 +9,6 @@ import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { usePrevious } from "react-use";
 import { useBlacklistedTokens } from "../../hooks/useBlacklistedTokens";
-import type { ChainId } from "@carrot-kpi/sdk";
 
 interface PageProps {
     customBaseURL?: string;
@@ -24,7 +23,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const addTransaction = useAddTransaction();
     const { chain } = useNetwork();
     const previousChain = usePrevious(chain);
-    const { blacklistedKPITokens } = useBlacklistedTokens(chain?.id as ChainId);
+    const { blacklistedKPITokens } = useBlacklistedTokens();
 
     const watchedKPITokenWithData = useWatchKPIToken({
         kpiTokenOrAddress: state?.kpiToken || address,

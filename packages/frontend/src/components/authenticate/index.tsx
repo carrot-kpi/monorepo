@@ -75,7 +75,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
     }, [address, signMessage]);
 
     return (
-        <div className="w-full h-full bg-grid-light flex justify-center">
+        <div className="w-full h-full flex justify-center">
             <div className="h-fit flex flex-col gap-4 items-center p-8 max-w-lg rounded-xl border border-black dark:border-white bg-white dark:bg-black mx-4">
                 {address ? (
                     <>

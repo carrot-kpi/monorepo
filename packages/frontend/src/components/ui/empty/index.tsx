@@ -11,7 +11,7 @@ const rootStyles = cva(
         "justify-center",
         "text-center",
         "items-center",
-        "gap-10",
+        "gap-6",
     ],
     {
         variants: {
@@ -56,11 +56,11 @@ export const Empty = ({
             <EmptyIllustration
                 className={cx("h-50 text-gray-500", className?.icon)}
             />
-            <div className="flex flex-col gap-6">
-                <Typography variant={titleVariant || "h4"}>
+            <div className="flex flex-col gap-3">
+                <Typography variant={titleVariant || "h3"}>
                     {t("empty.title")}
                 </Typography>
-                <Typography variant={descriptionVariant || "xl"}>
+                <Typography variant={descriptionVariant || "base"}>
                     {t("empty.description")}
                 </Typography>
             </div>

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../../../icons/logo";
-import { cva } from "class-variance-authority";
 import MenuIcon from "../../../icons/menu";
 import { ConnectWallet } from "../../connect-wallet";
 import X from "../../../icons/x";
@@ -12,42 +11,13 @@ import { useClickAway } from "react-use";
 import { NavbarVerticalLayout } from "./vertical-layout";
 import type { NavbarLink } from "../../../constants";
 
-const navWrapperStyles = cva([], {
-    variants: {
-        bgColor: {
-            green: ["bg-green"],
-            orange: ["bg-orange"],
-        },
-    },
-});
-
-const navbarStyles = cva(
-    [
-        "relative flex flex-row-reverse md:flex-row items-center justify-between py-5 md:py-8 xl:py-11",
-    ],
-    {
-        variants: {
-            bgColor: {
-                green: ["bg-green"],
-                orange: ["bg-orange"],
-            },
-            mode: {
-                standard: ["px-6 xl:px-32"],
-                modal: ["px-6 xl:px-10"],
-            },
-        },
-    },
-);
-
 export interface NavbarProps {
-    bgColor?: "green" | "orange";
     mode?: "standard" | "modal";
     onDismiss?: () => void;
     links?: NavbarLink[];
 }
 
 export const Navbar = ({
-    bgColor,
     mode = "standard",
     onDismiss,
     links = [],
@@ -88,15 +58,25 @@ export const Navbar = ({
                 links={links}
                 onNavbarClose={() => setOpen(false)}
             />
-            <div className={navWrapperStyles({ bgColor })}>
-                <div className={navbarStyles({ bgColor, mode })}>
-                    {mode === "modal" ? (
-                        <Logo className="w-32 h-auto xl:w-[188px] text-black" />
-                    ) : (
-                        <NavLink to="/" onClick={() => setOpen(false)}>
-                            <Logo className="w-32 h-auto xl:w-[188px] text-black" />
-                        </NavLink>
-                    )}
+            <div className="flex justify-center px-4 xl:px-32 bg-transparent">
+                <div className="w-full max-w-screen-2xl relative flex items-center justify-between py-5 md:py-8 xl:py-11">
+                    <div className="flex gap-4 items-center">
+                        <div className="flex items-center">
+                            {mode !== "modal" && (
+                                <MenuIcon
+                                    className="w-8 h-8 cursor-pointer md:hidden mr-4"
+                                    onClick={() => setOpen(!open)}
+                                />
+                            )}
+                            {mode === "modal" ? (
+                                <Logo className="h-10 xl:h-10 w-auto text-black" />
+                            ) : (
+                                <NavLink to="/" onClick={() => setOpen(false)}>
+                                    <Logo className="h-10 xl:h-10 w-auto text-black" />
+                                </NavLink>
+                            )}
+                        </div>
+                    </div>
                     <nav className="hidden md:flex">
                         <ul className="flex items-center space-x-8">
                             {links.map((link) => {
@@ -126,7 +106,7 @@ export const Navbar = ({
                             })}
                         </ul>
                     </nav>
-                    <div className="flex flex-row-reverse md:flex-row items-center gap-4">
+                    <div className="flex md:flex-row items-center gap-4">
                         <div className="hidden md:block">
                             <ConnectWallet />
                         </div>
@@ -144,22 +124,14 @@ export const Navbar = ({
                             anchor={preferencesAnchor}
                             ref={preferencesPopoverRef}
                         />
-                        <div className="flex items-center">
-                            {mode !== "modal" && (
-                                <MenuIcon
-                                    className="cursor-pointer md:hidden"
-                                    onClick={() => setOpen(!open)}
-                                />
-                            )}
-                            {mode === "modal" && (
-                                <div
-                                    className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
-                                    onClick={onDismiss}
-                                >
-                                    <X className="w-8 h-8" />
-                                </div>
-                            )}
-                        </div>
+                        {mode === "modal" && (
+                            <div
+                                className="flex items-center justify-center w-10 h-10 bg-white border border-black rounded-full cursor-pointer xl:w-16 xl:h-16"
+                                onClick={onDismiss}
+                            >
+                                <X className="w-8 h-8" />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
