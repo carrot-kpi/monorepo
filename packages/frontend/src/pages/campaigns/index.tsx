@@ -2,7 +2,7 @@ import { Typography, type SelectOption } from "@carrot-kpi/ui";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
-import { useKPITokens } from "@carrot-kpi/react";
+import { useResolvedKPITokens } from "@carrot-kpi/react";
 import { KPIToken, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { CampaignsTopNav } from "./top-nav";
 import {
@@ -23,7 +23,7 @@ export const Campaigns = () => {
     const { t } = useTranslation();
     const location = useLocation();
     const [, setSearchParams] = useSearchParams();
-    const { loading, kpiTokens: response } = useKPITokens();
+    const { loading, resolvedKPITokens } = useResolvedKPITokens();
 
     const [kpiTokens, setKpiTokens] = useState<(KPIToken | ResolvedKPIToken)[]>(
         [],
@@ -49,9 +49,9 @@ export const Campaigns = () => {
 
     useEffect(() => {
         if (loading || kpiTokens.length > 0) return;
-        setKpiTokens(Object.values(response));
+        setKpiTokens(Object.values(resolvedKPITokens));
         setKpiTokensReady(true);
-    }, [response, kpiTokens, loading]);
+    }, [resolvedKPITokens, kpiTokens, loading]);
 
     useEffect(() => {
         const url = new URLSearchParams(location.search);
@@ -77,35 +77,6 @@ export const Campaigns = () => {
             tokenSpecificationIncludesQuery(kpiToken, debouncedSearchQuery),
         );
     }, [kpiTokens, state.value, sort.value, debouncedSearchQuery]);
-
-    const handleOnResolvedKPIToken = useCallback(
-        (resolved: ResolvedKPIToken) => {
-            if (
-                (
-                    kpiTokens.find(
-                        (kpiToken) => kpiToken.address === resolved.address,
-                    ) as ResolvedKPIToken
-                ).specification
-            )
-                return;
-
-            const updatedKPITokens = kpiTokens.map((kpiToken) => {
-                if (kpiToken.address === resolved.address) {
-                    return {
-                        ...kpiToken,
-                        specification: resolved.specification,
-                        expired: resolved.expired,
-                        oracles: resolved.oracles,
-                        template: resolved.template,
-                    };
-                } else {
-                    return kpiToken;
-                }
-            });
-            setKpiTokens(updatedKPITokens);
-        },
-        [kpiTokens],
-    );
 
     const updateURLParams = useCallback(
         (key: string, value: string) => {
@@ -180,7 +151,6 @@ export const Campaigns = () => {
                                     loading={loading}
                                     kpiTokensReady={kpiTokensReady}
                                     items={sortedAndfilteredKPITokens}
-                                    onResolved={handleOnResolvedKPIToken}
                                 />
                             </div>
                         </div>

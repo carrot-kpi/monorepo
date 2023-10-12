@@ -1,10 +1,10 @@
-import { usePagination } from "@carrot-kpi/react";
 import type { KPIToken, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
 import { Empty } from "../../../components/ui/empty";
 import { Pagination } from "../../../components/pagination";
+import { usePagination } from "@carrot-kpi/react";
 
 const placeholder = new Array(8)
     .fill(null)
@@ -14,15 +14,9 @@ interface GridProps {
     loading?: boolean;
     kpiTokensReady?: boolean;
     items: (KPIToken | ResolvedKPIToken)[];
-    onResolved: (resolved: ResolvedKPIToken) => void;
 }
 
-export const Grid = ({
-    loading,
-    kpiTokensReady,
-    items,
-    onResolved,
-}: GridProps) => {
+export const Grid = ({ loading, kpiTokensReady, items }: GridProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [page, setPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(4);
@@ -45,15 +39,14 @@ export const Grid = ({
 
         resizeObserver.observe(document.body);
         return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
             resizeObserver.unobserve(document.body);
         };
     });
 
     const { data: paginatedItems, totalPages } = usePagination({
         data: items,
-        currentPage: page,
-        totalItems: itemsPerPage,
+        page,
+        size: itemsPerPage,
     });
 
     const handlePageChange = useCallback(
@@ -73,25 +66,24 @@ export const Grid = ({
     return (
         <div className="flex flex-col items-center w-full">
             <div className="space-y-12 md:space-y-16">
-                <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-                    {loading || !kpiTokensReady ? (
-                        placeholder
-                    ) : paginatedItems.length > 0 ? (
-                        paginatedItems.map(
-                            (kpiToken: KPIToken | ResolvedKPIToken) => {
-                                return (
-                                    <KPITokenCard
-                                        key={kpiToken.address}
-                                        kpiToken={kpiToken}
-                                        onResolved={onResolved}
-                                    />
-                                );
-                            },
-                        )
-                    ) : (
-                        <Empty />
-                    )}
-                </div>
+                {!loading && kpiTokensReady && paginatedItems.length === 0 ? (
+                    <Empty />
+                ) : (
+                    <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+                        {loading || !kpiTokensReady
+                            ? placeholder
+                            : paginatedItems.map(
+                                  (kpiToken: KPIToken | ResolvedKPIToken) => {
+                                      return (
+                                          <KPITokenCard
+                                              key={kpiToken.address}
+                                              kpiToken={kpiToken}
+                                          />
+                                      );
+                                  },
+                              )}
+                    </div>
+                )}
                 <Pagination
                     onCurrentPageChange={handlePageChange}
                     currentPage={page}
