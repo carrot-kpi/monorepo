@@ -1,5 +1,5 @@
 import { useNetwork } from "wagmi";
-import { useDispatch } from "../state/connector";
+import { useDispatch } from "../state/hooks";
 import { clearTransactions } from "../state/reducers/transactions";
 
 export const useClearTransactions = () => {

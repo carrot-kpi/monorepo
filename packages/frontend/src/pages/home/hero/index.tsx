@@ -6,7 +6,7 @@ import Plus from "../../../icons/plus";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
 import { CreateCampaignButton } from "../../../components/create-campaign-button";
-import { useSelector } from "../../../state/connector";
+import { useSelector } from "../../../state/hooks";
 import type { HostState } from "../../../state";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
 import { NAVBAR_LINKS, STATIC_CDN_URL } from "../../../constants";

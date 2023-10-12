@@ -1,7 +1,7 @@
 import { type Tx, TxType } from "@carrot-kpi/react";
 import { trackRegisteredGoal } from "use-fathom-client";
 import { useNetwork } from "wagmi";
-import { useDispatch } from "../state/connector";
+import { useDispatch } from "../state/hooks";
 import { addTransaction } from "../state/reducers/transactions";
 import { serializeTransaction } from "../utils/transactions";
 import { TX_FATHOM_EVENTS } from "../analytics/fathom";

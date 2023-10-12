@@ -3,7 +3,7 @@ import { Navbar } from "../ui/navbar";
 import { animated, SpringValue } from "@react-spring/web";
 import { cva } from "class-variance-authority";
 import { setModalOpen } from "../../state/reducers/modals";
-import { useDispatch } from "../../state/connector";
+import { useDispatch } from "../../state/hooks";
 import { StagingModeBanner } from "../staging-mode-banner";
 import { useStagingMode } from "@carrot-kpi/react";
 
