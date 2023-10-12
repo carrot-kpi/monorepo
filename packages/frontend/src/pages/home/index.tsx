@@ -71,7 +71,11 @@ export const Home = ({ templateId }: HomeProps) => {
                 <CarrotMarquee />
                 <div className="relative py-16 md:py-20 lg:py-32 dark:bg-black">
                     <div className="space-y-32 md:space-y-20 lg:space-y-32 flex flex-col items-center mx-6 md:mx-10 lg:mx-32">
-                        <LatestCampaignsSection />
+                        <LatestCampaignsSection
+                            featuredBlacklistedKPITokenAddresses={
+                                featuredBlacklistedKPITokenAddresses
+                            }
+                        />
                         <TemplatesSection templateId={templateId} />
                     </div>
                 </div>

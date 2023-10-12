@@ -8,7 +8,7 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Address, PublicClient } from "viem";
 import { createCarrotApi } from "./hooks";
 
-export interface FeaturedKPITokensParams {
+export interface FetchFeaturedKPITokensParams {
     publicClient?: PublicClient;
     preferDecentralization?: boolean;
     featuredAddresses?: Address[];
@@ -16,7 +16,7 @@ export interface FeaturedKPITokensParams {
 }
 
 export const staticApi = createCarrotApi({
-    reducerPath: "static",
+    reducerPath: "staticApi",
     baseQuery: fetchBaseQuery({ baseUrl: STATIC_CDN_URL }),
     endpoints: (builder) => ({
         fetchFeaturedBlacklistedKPITokenAddresses: builder.query<
@@ -27,7 +27,7 @@ export const staticApi = createCarrotApi({
         }),
         fetchFeaturedKPITokens: builder.query<
             KPIToken[],
-            FeaturedKPITokensParams
+            FetchFeaturedKPITokensParams
         >({
             queryFn: async ({
                 publicClient,
@@ -53,6 +53,61 @@ export const staticApi = createCarrotApi({
                     return {
                         data: Object.values(kpiTokens).reverse(),
                     };
+                } catch (error) {
+                    return {
+                        error: {
+                            status: 500,
+                            data: error,
+                        },
+                    };
+                }
+            },
+        }),
+    }),
+});
+
+export interface FetchLatestKPITokensParams {
+    publicClient?: PublicClient;
+    preferDecentralization?: boolean;
+    limit?: number;
+    blacklistedAddresses?: Address[];
+}
+
+export const LATEST_KPI_TOKEN_QUERY_TAG = "LatestKPITokens" as const;
+
+export const applicationApi = createCarrotApi({
+    reducerPath: "applicationApi",
+    baseQuery: fetchBaseQuery({ baseUrl: "" }),
+    tagTypes: [LATEST_KPI_TOKEN_QUERY_TAG],
+    endpoints: (builder) => ({
+        fetchLatestKPITokens: builder.query<
+            KPIToken[],
+            FetchLatestKPITokensParams
+        >({
+            providesTags: [LATEST_KPI_TOKEN_QUERY_TAG],
+            queryFn: async ({
+                publicClient,
+                preferDecentralization,
+                limit = 5,
+                blacklistedAddresses,
+            }) => {
+                if (!publicClient || !limit) return { data: [] };
+
+                try {
+                    const kpiTokenAddresses =
+                        await Fetcher.fetchLatestKPITokenAddresses({
+                            publicClient,
+                            preferDecentralization,
+                            limit,
+                        });
+                    const kpiTokens = await Fetcher.fetchKPITokens({
+                        publicClient,
+                        preferDecentralization,
+                        blacklisted: blacklistedAddresses,
+                        addresses: kpiTokenAddresses,
+                    });
+
+                    return { data: Object.values(kpiTokens).reverse() };
                 } catch (error) {
                     return {
                         error: {
