@@ -31,7 +31,9 @@ export const LatestCampaignsSection = () => {
                         />
                     ))
                 ) : (
-                    <Empty />
+                    <div className="w-full flex justify-center">
+                        <Empty vertical />
+                    </div>
                 )}
             </CardHorizontal>
             <div className="w-fit">

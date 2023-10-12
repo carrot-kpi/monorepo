@@ -36,7 +36,9 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
                         />
                     ))
                 ) : (
-                    <Empty />
+                    <div className="w-full flex justify-center">
+                        <Empty vertical />
+                    </div>
                 )}
             </CardHorizontal>
             {/* TODO: implement templates page */}
