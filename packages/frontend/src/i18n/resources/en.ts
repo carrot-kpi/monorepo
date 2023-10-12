@@ -87,7 +87,7 @@ export const en = {
             "In order to create campaigns it's necessary to sign a message. This request will not trigger a blockchain transaction or cost you any fees.",
         "authenticate.cancel": "Cancel",
         "authenticate.sign": "Sign message",
-        "wallet.disconnected.title": "Wallet diconnected",
+        "wallet.disconnected.title": "Wallet disconnected",
         "wallet.disconnected.description":
             "A connected wallet is required to continue.",
     },

@@ -1,5 +1,5 @@
 import React, { type ReactNode, useEffect } from "react";
-import { Navbar, type NavbarProps } from "../ui/navbar";
+import { Navbar } from "../ui/navbar";
 import { animated, SpringValue } from "@react-spring/web";
 import { cva } from "class-variance-authority";
 import { setModalOpen } from "../../state/reducers/modals";
@@ -22,20 +22,21 @@ const rootStyles = cva(
             bgColor: {
                 orange: ["bg-orange"],
                 green: ["bg-green"],
+                transparent: ["bg-transparent"],
             },
         },
     },
 );
 
 interface FullscreenModalProps {
-    bgColor?: NavbarProps["bgColor"];
+    bgColor?: "green" | "orange" | "transparent";
     springStyle: { [key: string]: SpringValue };
     onDismiss: () => void;
     children: ReactNode;
 }
 
 export const AnimatedFullscreenModal = ({
-    bgColor = "orange",
+    bgColor = "transparent",
     springStyle,
     onDismiss,
     children,
@@ -53,9 +54,9 @@ export const AnimatedFullscreenModal = ({
 
     return (
         <animated.div style={springStyle} className={rootStyles({ bgColor })}>
-            <div className="flex flex-col w-full h-full">
+            <div className="flex flex-col w-full h-full bg-grid-light">
                 {stagingMode && <StagingModeBanner />}
-                <Navbar mode="modal" bgColor={bgColor} onDismiss={onDismiss} />
+                <Navbar mode="modal" onDismiss={onDismiss} />
                 <div className="flex-grow">{children}</div>
             </div>
         </animated.div>

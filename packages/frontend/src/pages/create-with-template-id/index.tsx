@@ -157,12 +157,12 @@ export const CreateWithTemplateId = ({
                             key={formKey}
                             template={template || undefined}
                             fallback={
-                                <div className="bg-green py-10 text-black flex justify-center">
+                                <div className="py-10 text-black flex justify-center">
                                     <Loader />
                                 </div>
                             }
                             error={
-                                <div className="bg-green bg-grid-light py-10 flex justify-center">
+                                <div className="py-10 flex justify-center">
                                     <ErrorFeedback
                                         messages={{
                                             title: t(
