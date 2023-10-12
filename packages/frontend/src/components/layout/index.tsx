@@ -11,14 +11,20 @@ import { Navbar } from "../ui/navbar";
 
 interface LayoutProps {
     navbarLinks?: NavbarLink[];
+    noNavbar?: boolean;
     footerLinks?: FooterLink[];
     children?: ReactNode;
 }
 
-export const Layout = ({ navbarLinks, footerLinks, children }: LayoutProps) => {
+export const Layout = ({
+    navbarLinks,
+    noNavbar,
+    footerLinks,
+    children,
+}: LayoutProps) => {
     return (
         <div className="w-full flex flex-col bg-grid-light dark:bg-grid-dark bg-left-top">
-            <Navbar links={navbarLinks || NAVBAR_LINKS} />
+            {!noNavbar && <Navbar links={navbarLinks || NAVBAR_LINKS} />}
             {children}
             <CarrotMarquee />
             <Footer footerLinks={footerLinks || FOOTER_LINKS} />

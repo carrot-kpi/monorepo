@@ -22,7 +22,7 @@ export const Home = ({ templateId }: HomeProps) => {
 
     if (loadingFeaturedKPITokens) return null;
     return (
-        <Layout>
+        <Layout noNavbar>
             <Hero featuredKPITokens={featuredKPITokens} />
             <CarrotMarquee />
             <div className="relative py-16 md:py-20 lg:py-32 dark:bg-black">
