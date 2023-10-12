@@ -116,7 +116,7 @@ export const Campaigns = () => {
 
     return (
         <Layout>
-            <div className="relative bg-grid-light dark:bg-grid-dark">
+            <div className="relative">
                 <div className="relative">
                     <div className="px-6 py-16 md:px-10">
                         <Typography variant="h1">
