@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
 import { useResolvedKPITokens } from "@carrot-kpi/react";
-import { KPIToken, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { CampaignsTopNav } from "./top-nav";
 import {
     CampaignOrder,
@@ -25,11 +24,6 @@ export const Campaigns = () => {
     const [, setSearchParams] = useSearchParams();
     const { loading, resolvedKPITokens } = useResolvedKPITokens();
 
-    const [kpiTokens, setKpiTokens] = useState<(KPIToken | ResolvedKPIToken)[]>(
-        [],
-    );
-    const [kpiTokensReady, setKpiTokensReady] = useState(false);
-
     // filters
     const [searchQuery, setSearchQuery] = useState("");
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
@@ -46,12 +40,6 @@ export const Campaigns = () => {
         if (!bodyElement) return;
         bodyElement.scroll({ top: 0, left: 0, behavior: "instant" });
     }, []);
-
-    useEffect(() => {
-        if (loading || kpiTokens.length > 0) return;
-        setKpiTokens(Object.values(resolvedKPITokens));
-        setKpiTokensReady(true);
-    }, [resolvedKPITokens, kpiTokens, loading]);
 
     useEffect(() => {
         const url = new URLSearchParams(location.search);
@@ -71,12 +59,15 @@ export const Campaigns = () => {
 
     const sortedAndfilteredKPITokens = useMemo(() => {
         return sortKPITokens(
-            filterResolvedKPITokens(kpiTokens, state.value as CampaignState),
+            filterResolvedKPITokens(
+                resolvedKPITokens,
+                state.value as CampaignState,
+            ),
             sort.value as CampaignOrder,
         ).filter((kpiToken) =>
             tokenSpecificationIncludesQuery(kpiToken, debouncedSearchQuery),
         );
-    }, [kpiTokens, state.value, sort.value, debouncedSearchQuery]);
+    }, [resolvedKPITokens, state.value, sort.value, debouncedSearchQuery]);
 
     const updateURLParams = useCallback(
         (key: string, value: string) => {
@@ -147,7 +138,6 @@ export const Campaigns = () => {
                     <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
                         <Grid
                             loading={loading}
-                            kpiTokensReady={kpiTokensReady}
                             items={sortedAndfilteredKPITokens}
                         />
                     </div>
