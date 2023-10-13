@@ -67,12 +67,12 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                         kpiToken={watchedKPITokenWithData}
                         i18n={i18n}
                         fallback={
-                            <div className="bg-orange py-10 text-black flex justify-center">
+                            <div className="py-10 text-black flex justify-center">
                                 <Loader />
                             </div>
                         }
                         error={
-                            <div className="bg-orange bg-grid-light py-10 flex justify-center">
+                            <div className="bg-grid-light py-10 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
                                         title: t(
