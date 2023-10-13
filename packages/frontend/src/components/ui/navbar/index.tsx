@@ -58,7 +58,7 @@ export const Navbar = ({
                 links={links}
                 onNavbarClose={() => setOpen(false)}
             />
-            <div className="flex justify-center px-4 xl:px-32 bg-orange">
+            <div className="flex justify-center px-4 xl:px-32 bg-transparent">
                 <div className="w-full max-w-screen-2xl relative flex items-center justify-between py-5 md:py-8 xl:py-11">
                     <div className="flex gap-4 items-center">
                         <div className="flex items-center">
