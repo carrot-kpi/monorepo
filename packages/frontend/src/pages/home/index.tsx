@@ -63,7 +63,7 @@ export const Home = ({ templateId }: HomeProps) => {
                             style={style}
                             className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-grid-dark bg-left-top z-10"
                         >
-                            <Loader className="w-40 h-40 animate-pulse text-orange" />
+                            <Loader className="w-36 h-36 animate-pulse text-orange" />
                         </animated.div>
                     )
                 );
