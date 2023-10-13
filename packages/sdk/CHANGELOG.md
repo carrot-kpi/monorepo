@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.43.0
+
+### Minor Changes
+
+-   f1e320a: Make UI nicer and drop react-query in favor or RTK query
+
 ## 1.42.3
 
 ### Patch Changes

@@ -1,5 +1,29 @@
 # @carrot-kpi/host-frontend
 
+## 0.27.0
+
+### Minor Changes
+
+-   f1e320a: Refactor the all campaigns page to fetch and resolve all the kpi
+    tokens
+-   f1e320a: Fix UI in campaign page and creation form
+-   f1e320a: Make UI nicer and drop react-query in favor or RTK query
+-   f1e320a: Update UI in campaigns page to conform to the new enforced max
+    width aesthetic
+
+### Patch Changes
+
+-   f1e320a: Avoid infinite loop when there are no campaigns in the all
+    campaigns page
+-   Updated dependencies [f1e320a]
+-   Updated dependencies [f1e320a]
+-   Updated dependencies [f1e320a]
+-   Updated dependencies [f1e320a]
+-   Updated dependencies [f1e320a]
+    -   @carrot-kpi/ui@0.65.0
+    -   @carrot-kpi/react@0.65.0
+    -   @carrot-kpi/sdk@1.43.0
+
 ## 0.26.3
 
 ### Patch Changes
