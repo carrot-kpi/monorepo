@@ -13,7 +13,14 @@ import type { NavbarLink } from "../../../constants";
 import { cva } from "class-variance-authority";
 
 const rootStyles = cva(
-    ["flex", "justify-center", "px-4", "xl:px-32", "bg-grid-light"],
+    [
+        "flex",
+        "justify-center",
+        "px-4",
+        "xl:px-32",
+        "bg-grid-light",
+        "bg-left-top",
+    ],
     {
         variants: {
             bgColor: {
@@ -74,7 +81,7 @@ export const Navbar = ({
                 onNavbarClose={() => setOpen(false)}
             />
             <div className={rootStyles({ bgColor })}>
-                <div className="w-full max-w-screen-2xl relative flex items-center justify-between py-5 md:py-8 xl:py-11">
+                <div className="w-full h-24 md:h-32 max-w-screen-2xl relative flex items-center justify-between">
                     <div className="flex gap-4 items-center">
                         <div className="flex items-center">
                             {mode !== "modal" && (

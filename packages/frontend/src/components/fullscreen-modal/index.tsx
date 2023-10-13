@@ -54,10 +54,12 @@ export const AnimatedFullscreenModal = ({
 
     return (
         <animated.div style={springStyle} className={rootStyles({ bgColor })}>
-            <div className="flex flex-col w-full h-full bg-grid-light">
+            <div className="flex flex-col w-full h-full">
                 {stagingMode && <StagingModeBanner />}
                 <Navbar mode="modal" onDismiss={onDismiss} />
-                <div className="flex-grow">{children}</div>
+                <div className="flex-grow bg-grid-light bg-left-top">
+                    {children}
+                </div>
             </div>
         </animated.div>
     );
