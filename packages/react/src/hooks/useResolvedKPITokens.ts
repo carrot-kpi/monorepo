@@ -57,10 +57,10 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
                     }),
                 );
             } catch (error) {
-                console.error("error fetching kpi tokens", error);
+                console.error("error fetching resolved kpi tokens", error);
+            } finally {
+                if (!cancelled) setLoading(false);
             }
-
-            if (!cancelled) setLoading(false);
         }
         void fetchData();
         return () => {
