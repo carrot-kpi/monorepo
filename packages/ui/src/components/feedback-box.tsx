@@ -36,7 +36,7 @@ export interface FeedbackBoxProps {
 }
 
 export const FeedbackBox = ({
-    variant = "success",
+    variant = "info",
     border = "rounded",
     messages,
     icon,
