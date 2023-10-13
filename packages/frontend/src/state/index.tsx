@@ -19,7 +19,14 @@ const rootReducer = combineReducers({
 export const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware()
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredPaths: [
+                    staticApi.reducerPath,
+                    applicationApi.reducerPath,
+                ],
+            },
+        })
             .concat(staticApi.middleware)
             .concat(applicationApi.middleware),
     preloadedState: loadState(),

@@ -5,7 +5,6 @@ import { LatestCampaignsSection } from "./latest-campaigns-section";
 import { TemplatesSection } from "./templates-section";
 import { useFeaturedKPITokens } from "../../hooks/useFeaturedKPITokens";
 import { CarrotMarquee } from "../../components/ui/carrot-marquee";
-import { Loader } from "@carrot-kpi/ui";
 import { useDebounce } from "react-use";
 import { useFeaturedBlacklistedKPITokenAddresses } from "../../hooks/useFeaturedBlacklistedKPITokenAddresses";
 import {
@@ -13,6 +12,7 @@ import {
     config as springConfig,
     animated,
 } from "@react-spring/web";
+import Loader from "../../icons/loader";
 
 interface HomeProps {
     templateId?: number;
@@ -61,9 +61,9 @@ export const Home = ({ templateId }: HomeProps) => {
                     show && (
                         <animated.div
                             style={style}
-                            className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-orange bg-grid-light bg-left-top z-10"
+                            className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-grid-dark bg-left-top z-10"
                         >
-                            <Loader className="w-40 h-40" />
+                            <Loader className="w-36 h-36 animate-pulse text-orange" />
                         </animated.div>
                     )
                 );

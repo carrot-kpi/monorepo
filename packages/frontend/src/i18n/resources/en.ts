@@ -3,7 +3,7 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "../../constants";
 export const en = {
     [CARROT_KPI_FRONTEND_I18N_NAMESPACE]: {
         "stagingMode.warning":
-            "This is the staging version of Carrot; templates will be loaded from staging URLs. Please be careful as they are not controlled by the Carrot team.",
+            "You are using Carrot templates' staging versions. Reach out to the team in Discord for the LIVE released and audited version.",
         "video.notSupported": "The browser doesn't support the video tag.",
         "connect.wallet": "Connect wallet",
         "connect.wallet.unknown": "Unknown",

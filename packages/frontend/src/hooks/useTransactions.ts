@@ -6,11 +6,11 @@ import { deserializeTransaction } from "../utils/transactions";
 
 export const useTransactions = (): Tx<TxType>[] => {
     const { chain } = useNetwork();
+    const emptyArray: Tx<TxType>[] = [];
 
     return useSelector<HostState, Tx<TxType>[]>((state) => {
-        if (!chain) return [];
-        const serializedTransactionsMap = state.transactions[chain.id];
-        if (!serializedTransactionsMap) return [];
+        const serializedTransactionsMap = state.transactions[chain?.id || -1];
+        if (!serializedTransactionsMap) return emptyArray;
         return Object.values(serializedTransactionsMap).map(
             deserializeTransaction,
         );

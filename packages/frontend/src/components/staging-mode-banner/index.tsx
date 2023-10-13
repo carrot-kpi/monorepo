@@ -9,9 +9,9 @@ export const StagingModeBanner = () => {
         <FeedbackBox
             border="none"
             variant="warning"
-            className={{ root: "text-center" }}
+            className={{ root: "text-center px-4 py-2" }}
         >
-            <Typography>{t("stagingMode.warning")}</Typography>
+            <Typography variant="sm">{t("stagingMode.warning")}</Typography>
         </FeedbackBox>
     );
 };
