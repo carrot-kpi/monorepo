@@ -10,15 +10,30 @@ import { PreferencesPopover } from "./popovers/preferences";
 import { useClickAway } from "react-use";
 import { NavbarVerticalLayout } from "./vertical-layout";
 import type { NavbarLink } from "../../../constants";
+import { cva } from "class-variance-authority";
+
+const rootStyles = cva(
+    ["flex", "justify-center", "px-4", "xl:px-32", "bg-grid-light"],
+    {
+        variants: {
+            bgColor: {
+                orange: ["bg-orange"],
+                transparent: ["bg-transparent"],
+            },
+        },
+    },
+);
 
 export interface NavbarProps {
     mode?: "standard" | "modal";
+    bgColor?: "transparent" | "orange";
     onDismiss?: () => void;
     links?: NavbarLink[];
 }
 
 export const Navbar = ({
     mode = "standard",
+    bgColor = "transparent",
     onDismiss,
     links = [],
 }: NavbarProps) => {
@@ -58,7 +73,7 @@ export const Navbar = ({
                 links={links}
                 onNavbarClose={() => setOpen(false)}
             />
-            <div className="flex justify-center px-4 xl:px-32 bg-transparent">
+            <div className={rootStyles({ bgColor })}>
                 <div className="w-full max-w-screen-2xl relative flex items-center justify-between py-5 md:py-8 xl:py-11">
                     <div className="flex gap-4 items-center">
                         <div className="flex items-center">
