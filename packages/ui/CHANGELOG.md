@@ -1,5 +1,18 @@
 # @carrot-kpi/ui
 
+## 0.65.0
+
+### Minor Changes
+
+-   f1e320a: Add error and different infos variants to FeedbackBox component
+-   f1e320a: Avoid token picker closing when a token list is selected
+
+### Patch Changes
+
+-   f1e320a: Make markdown input text size equal to other inputs
+-   Updated dependencies [f1e320a]
+    -   @carrot-kpi/sdk@1.43.0
+
 ## 0.64.0
 
 ### Minor Changes

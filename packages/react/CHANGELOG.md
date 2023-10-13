@@ -1,5 +1,17 @@
 # @carrot-kpi/react
 
+## 0.65.0
+
+### Minor Changes
+
+-   f1e320a: Add new useResolvedKPITokens hook to fetch and resolve the kpi
+    tokens
+
+### Patch Changes
+
+-   Updated dependencies [f1e320a]
+    -   @carrot-kpi/sdk@1.43.0
+
 ## 0.64.1
 
 ### Patch Changes
