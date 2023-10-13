@@ -59,6 +59,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         return (
             show && (
                 <AnimatedFullscreenModal
+                    bgColor="orange"
                     springStyle={style}
                     onDismiss={handleDismiss}
                 >
