@@ -124,6 +124,11 @@
             "import": "./dist/es/hooks/useResolvedKPIToken.mjs",
             "default": "./dist/cjs/hooks/useResolvedKPIToken.cjs"
         },
+        "./useResolvedKPITokens": {
+            "types": "./dist/types/hooks/useResolvedKPITokens.d.ts",
+            "import": "./dist/es/hooks/useResolvedKPITokens.mjs",
+            "default": "./dist/cjs/hooks/useResolvedKPITokens.cjs"
+        },
         "./useResolvedTemplate": {
             "types": "./dist/types/hooks/useResolvedTemplate.d.ts",
             "import": "./dist/es/hooks/useResolvedTemplate.mjs",
@@ -272,6 +277,9 @@
             ],
             "useResolvedKPIToken": [
                 "./dist/types/hooks/useResolvedKPIToken.d.ts"
+            ],
+            "useResolvedKPITokens": [
+                "./dist/types/hooks/useResolvedKPITokens.d.ts"
             ],
             "useResolvedTemplate": [
                 "./dist/types/hooks/useResolvedTemplate.d.ts"
