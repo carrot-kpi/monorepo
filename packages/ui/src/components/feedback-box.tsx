@@ -6,8 +6,10 @@ import Warning from "../icons/warning";
 const rootStyles = mergedCva(["cui-p-4", "cui-border", "cui-border-black"], {
     variants: {
         variant: {
-            info: ["cui-bg-green"],
+            infoGreen: ["cui-bg-green"],
+            infoBlue: ["cui-bg-sky-blue"],
             warning: ["cui-bg-yellow"],
+            error: ["cui-bg-red"],
         },
         border: {
             rounded: ["cui-rounded-lg"],
@@ -22,7 +24,7 @@ const titleContainerStyles = mergedCva(["cui-flex", "cui-items-center"]);
 const titleStyles = mergedCva(["cui-leading-4", "cui-font-medium", "cui-mb-2"]);
 
 export interface FeedbackBoxProps {
-    variant?: "info" | "warning";
+    variant?: "infoGreen" | "infoBlue" | "warning" | "error";
     border?: "none" | "rounded" | "squared";
     roundedBorder?: boolean;
     messages?: {
@@ -34,7 +36,7 @@ export interface FeedbackBoxProps {
 }
 
 export const FeedbackBox = ({
-    variant = "info",
+    variant = "infoGreen",
     border = "rounded",
     messages,
     icon,
