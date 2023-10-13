@@ -12,11 +12,10 @@ const placeholder = new Array(8)
 
 interface GridProps {
     loading?: boolean;
-    kpiTokensReady?: boolean;
     items: (KPIToken | ResolvedKPIToken)[];
 }
 
-export const Grid = ({ loading, kpiTokensReady, items }: GridProps) => {
+export const Grid = ({ loading, items }: GridProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [page, setPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(4);
@@ -66,11 +65,11 @@ export const Grid = ({ loading, kpiTokensReady, items }: GridProps) => {
     return (
         <div className="flex flex-col items-center w-full">
             <div className="space-y-12 md:space-y-16">
-                {!loading && kpiTokensReady && paginatedItems.length === 0 ? (
+                {!loading && paginatedItems.length === 0 ? (
                     <Empty />
                 ) : (
                     <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-                        {loading || !kpiTokensReady
+                        {loading
                             ? placeholder
                             : paginatedItems.map(
                                   (kpiToken: KPIToken | ResolvedKPIToken) => {
