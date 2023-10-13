@@ -64,7 +64,7 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
     return (
         <div className="flex flex-col items-center bg-orange bg-grid-light dark:bg-grid-dark bg-left-top">
             <div className="w-full">
-                <Navbar links={NAVBAR_LINKS} />
+                <Navbar bgColor="orange" links={NAVBAR_LINKS} />
             </div>
             <div className="w-full relative">
                 {featuredKPITokens.length === 0 ? (

@@ -115,45 +115,41 @@ export const Campaigns = () => {
     );
 
     return (
-        <Layout>
-            <div className="relative">
-                <div className="relative">
-                    <div className="px-6 py-16 md:px-10">
-                        <Typography variant="h1">
-                            {t("campaign.all")}
-                        </Typography>
-                    </div>
-                    <div id="__campaigns_page">
-                        <CampaignsTopNav
-                            sortOptions={SORT_OPTIONS}
-                            stateOptions={STATE_OPTIONS}
-                            state={state}
-                            sort={sort}
-                            filtersOpen={filtersOpen}
-                            setSearchQuery={setSearchQuery}
-                            onOrderingChange={handleSortChange}
-                            onStateChange={handleStateChange}
-                            onToggleFilters={toggleFilters}
+        <Layout navbarBgColor="orange">
+            <div className="w-full relative flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
+                <div className="py-16 w-full max-w-screen-2xl">
+                    <Typography variant="h1">{t("campaign.all")}</Typography>
+                </div>
+            </div>
+            <div className="w-full" id="__campaigns_page">
+                <CampaignsTopNav
+                    sortOptions={SORT_OPTIONS}
+                    stateOptions={STATE_OPTIONS}
+                    state={state}
+                    sort={sort}
+                    filtersOpen={filtersOpen}
+                    setSearchQuery={setSearchQuery}
+                    onOrderingChange={handleSortChange}
+                    onStateChange={handleStateChange}
+                    onToggleFilters={toggleFilters}
+                />
+            </div>
+            <div className="w-full flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
+                <SideFilters
+                    open={filtersOpen}
+                    selectedTemplates={templates}
+                    setSelectedTemplates={handleTemplatesUpdate}
+                    selectedOracles={oracles}
+                    setSelectedOracles={handleOraclesTemplatesUpdate}
+                    toggleFilters={toggleFilters}
+                />
+                <div className="flex flex-col items-center w-full py-12 md:py-16">
+                    <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
+                        <Grid
+                            loading={loading}
+                            kpiTokensReady={kpiTokensReady}
+                            items={sortedAndfilteredKPITokens}
                         />
-                    </div>
-                    <div className="flex">
-                        <SideFilters
-                            open={filtersOpen}
-                            selectedTemplates={templates}
-                            setSelectedTemplates={handleTemplatesUpdate}
-                            selectedOracles={oracles}
-                            setSelectedOracles={handleOraclesTemplatesUpdate}
-                            toggleFilters={toggleFilters}
-                        />
-                        <div className="flex flex-col items-center w-full my-16 sm:mx-3 md:mx-4 lg:mx-5 space-y-12 md:space-y-16">
-                            <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
-                                <Grid
-                                    loading={loading}
-                                    kpiTokensReady={kpiTokensReady}
-                                    items={sortedAndfilteredKPITokens}
-                                />
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
