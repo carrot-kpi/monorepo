@@ -31,6 +31,7 @@ export const staticApi = createCarrotApi({
         >({
             serializeQueryArgs: ({ endpointName, queryArgs }) => {
                 return `${endpointName}(${JSON.stringify({
+                    chainId: queryArgs.publicClient?.chain?.id,
                     blacklistedAddresses: queryArgs.blacklistedAddresses,
                     featuredAddresses: queryArgs.featuredAddresses,
                     preferDecentralization: queryArgs.preferDecentralization,
@@ -94,6 +95,7 @@ export const applicationApi = createCarrotApi({
             providesTags: [LATEST_KPI_TOKEN_QUERY_TAG],
             serializeQueryArgs: ({ endpointName, queryArgs }) => {
                 return `${endpointName}(${JSON.stringify({
+                    chainId: queryArgs.publicClient?.chain?.id,
                     blacklistedAddresses: queryArgs.blacklistedAddresses,
                     limit: queryArgs.limit,
                     preferDecentralization: queryArgs.preferDecentralization,
