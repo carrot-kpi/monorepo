@@ -11,11 +11,10 @@ import { useAccount, useNetwork, usePublicClient } from "wagmi";
 import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
-import { useQueryClient } from "@tanstack/react-query";
-import { LATEST_KPI_TOKEN_QUERY_KEY_PREFIX } from "../../hooks/useLatestKPITokens";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { Authenticate } from "../../components/authenticate";
 import { useIsPinningProxyAuthenticated } from "../../hooks/useIsPinningProxyAuthenticated";
+import { useInvalidateLatestKPITokens } from "../../hooks/useInvalidateLatestKPITokens";
 
 interface CreateWithTemplateIdProps {
     closing?: boolean;
@@ -36,7 +35,7 @@ export const CreateWithTemplateId = ({
     const { address } = useAccount();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
-    const queryClient = useQueryClient();
+    const invalidateLatestKPITokens = useInvalidateLatestKPITokens();
 
     const [template, setTemplate] = useState<ResolvedTemplate | null>(
         state && "specification" in state.template ? state.template : null,
@@ -129,14 +128,8 @@ export const CreateWithTemplateId = ({
     ]);
 
     const handleCreate = useCallback(() => {
-        // a token has just been created, invalidate latest tokens query
-        queryClient.invalidateQueries(
-            // FIXME: kinda sus and ugly. The example in the docs say we
-            // can use the query prefix direcy, but it's apparently not
-            // true here
-            LATEST_KPI_TOKEN_QUERY_KEY_PREFIX as unknown as readonly unknown[],
-        );
-    }, [queryClient]);
+        invalidateLatestKPITokens();
+    }, [invalidateLatestKPITokens]);
 
     const handleDismiss = useCallback(() => {
         setShow(false);
@@ -157,12 +150,12 @@ export const CreateWithTemplateId = ({
                             key={formKey}
                             template={template || undefined}
                             fallback={
-                                <div className="bg-green py-10 text-black flex justify-center">
+                                <div className="py-10 text-black flex justify-center">
                                     <Loader />
                                 </div>
                             }
                             error={
-                                <div className="bg-green bg-grid-light py-10 flex justify-center">
+                                <div className="py-10 flex justify-center">
                                     <ErrorFeedback
                                         messages={{
                                             title: t(

@@ -1,17 +1,19 @@
-import { Button, Loader, Typography } from "@carrot-kpi/ui";
-import React, { useEffect, useRef } from "react";
+import { Button, Modal, Typography } from "@carrot-kpi/ui";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CardHorizontal } from "../../../components/ui/cards-horizontal";
 import { Link } from "react-router-dom";
 import Plus from "../../../icons/plus";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
 import { CreateCampaignButton } from "../../../components/create-campaign-button";
-import { useFeaturedKPITokens } from "../../../hooks/useFeaturedKPITokens";
-import { useSelector } from "../../../state/connector";
+import { useSelector } from "../../../state/hooks";
 import type { HostState } from "../../../state";
 import { KPITokenCard } from "../../../components/ui/kpi-token-card";
+import { NAVBAR_LINKS, STATIC_CDN_URL } from "../../../constants";
+import PlayVideo from "../../../icons/play-video";
 import VideoPoster from "../../../images/video-poster.png";
-import { STATIC_CDN_URL } from "../../../constants";
+import type { KPIToken } from "@carrot-kpi/sdk";
+import { Navbar } from "../../../components/ui/navbar";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -27,90 +29,141 @@ const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     },
 });
 
-export const Hero = () => {
+export interface HeroProps {
+    featuredKPITokens: KPIToken[];
+}
+
+export const Hero = ({ featuredKPITokens }: HeroProps) => {
     const { t } = useTranslation();
-    const { loading, kpiTokens } = useFeaturedKPITokens();
     const videoRef = useRef<HTMLVideoElement>(null);
     const modalOpen = useSelector<HostState>((state) => state.modals.open);
 
+    const [showVideo, setShowVideo] = useState(false);
+
+    const handleClick = useCallback(() => {
+        setShowVideo(true);
+        if (!videoRef || !videoRef.current) return;
+        videoRef.current.play();
+    }, []);
+
+    const handleDismiss = useCallback(() => {
+        setShowVideo(false);
+        if (!videoRef || !videoRef.current) return;
+        videoRef.current.pause();
+        setTimeout(() => {
+            if (!videoRef || !videoRef.current) return;
+            videoRef.current.currentTime = 0;
+        }, 300);
+    }, []);
+
     useEffect(() => {
         if (!videoRef || !videoRef.current) return;
-        const currentRef = videoRef.current;
-        if (modalOpen) currentRef.pause();
+        if (modalOpen) videoRef.current.pause();
     }, [modalOpen]);
 
     return (
-        <div className="relative flex items-center bg-orange bg-grid-light h-[780px]">
-            {loading ? (
-                <div className="flex items-center justify-center w-full h-full">
-                    <Loader />
-                </div>
-            ) : kpiTokens.length === 0 ? (
-                <div className="px-6 space-y-12 md:px-14 lg:px-36 mt-7 md:pt-24 md:pb-32">
-                    <div className="flex flex-col items-center justify-around gap-10 md:flex-row md:gap-0">
-                        <div className="flex flex-col items-center w-full gap-10 md:items-start md:w-2/5">
-                            <Typography variant="h1">
-                                {t("home.noFeatured.title")}
-                            </Typography>
-                            <Typography>
-                                {t("home.noFeatured.description")}
-                            </Typography>
-                            <CreateCampaignButton primary />
-                        </div>
-                        <div className="w-full mb-16 md:mb-0 md:w-1/2 aspect-video rounded-xl bg-gray-500">
-                            <video
-                                ref={videoRef}
-                                controls
-                                preload="metadata"
-                                poster={VideoPoster}
-                                className="w-full h-full rounded-xl"
+        <div className="flex flex-col items-center bg-orange bg-grid-light dark:bg-grid-dark bg-left-top">
+            <div className="w-full">
+                <Navbar bgColor="orange" links={NAVBAR_LINKS} />
+            </div>
+            <div className="w-full relative">
+                {featuredKPITokens.length === 0 ? (
+                    <div className="px-4 md:px-10 lg:px-14 xl:px-40 pb-6 w-full flex justify-center">
+                        <div className="w-full max-w-screen-2xl flex flex-col items-center lg:flex-row lg:justify-center gap-20 md:gap-36 pb-16 pt-7 md:pt-24 md:pb-32">
+                            <div className="flex flex-col gap-10 flex-1 w-full max-w-xl lg:max-w-none">
+                                <Typography
+                                    variant="h1"
+                                    className={{
+                                        root: "text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem]",
+                                    }}
+                                >
+                                    {t("home.noFeatured.title")}
+                                </Typography>
+                                <div className="flex flex-col gap-14">
+                                    <Typography variant="lg" data-aos="fade-up">
+                                        {t("home.noFeatured.description")}
+                                    </Typography>
+                                    <CreateCampaignButton primary />
+                                </div>
+                            </div>
+                            <div
+                                className="flex-1 flex justify-center max-w-xl w-full md:max-w-lg lg:w-60 aspect-9/12 relative"
+                                data-aos="fade-up"
                             >
-                                <source
-                                    src={`${STATIC_CDN_URL}/hero-video.webm`}
-                                    type="video/webm"
+                                <img
+                                    className="border border-black rounded-xl"
+                                    src={VideoPoster}
+                                    alt="poster"
                                 />
-                                <source
-                                    src={`${STATIC_CDN_URL}/hero-video.mp4`}
-                                    type="video/mp4"
-                                />
-                                {t("video.notSupported")}
-                            </video>
+                                <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
+                                    <Button
+                                        onClick={handleClick}
+                                        className={{
+                                            contentWrapper:
+                                                "flex gap-3 items-center whitespace-nowrap",
+                                        }}
+                                        size="small"
+                                    >
+                                        <PlayVideo />
+                                        How it works
+                                    </Button>
+                                </div>
+                            </div>
+                            <Modal open={showVideo} onDismiss={handleDismiss}>
+                                <div className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500">
+                                    <video
+                                        ref={videoRef}
+                                        controls
+                                        className="aspect-video w-full border border-black rounded-xl bg-gray-500 overflow-hidden"
+                                    >
+                                        <source
+                                            src={`${STATIC_CDN_URL}/hero-video.webm`}
+                                            type="video/webm"
+                                        />
+                                        <source
+                                            src={`${STATIC_CDN_URL}/hero-video.mp4`}
+                                            type="video/mp4"
+                                        />
+                                        Not supported
+                                    </video>
+                                </div>
+                            </Modal>
                         </div>
                     </div>
-                </div>
-            ) : (
-                <div className="mb-16 space-y-12 mt-7 md:mt-24 md:mb-32">
-                    <div className="w-[100px] md:w-full">
-                        <Typography
-                            variant="h1"
-                            className={{
-                                root: "px-6 md:px-10 lg:px-32 dark:text-black",
-                            }}
-                        >
-                            {t("home.featuredCampaigns")}
-                        </Typography>
+                ) : (
+                    <div className="mb-16 space-y-12 mt-7 md:mt-24 md:mb-32">
+                        <div className="w-[100px] md:w-full">
+                            <Typography
+                                variant="h1"
+                                className={{
+                                    root: "px-6 md:px-10 lg:px-32 dark:text-black",
+                                }}
+                            >
+                                {t("home.featuredCampaigns")}
+                            </Typography>
+                        </div>
+                        <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32 dark">
+                            {featuredKPITokens.map((kpiToken) => (
+                                <KPITokenCard
+                                    key={kpiToken.address}
+                                    kpiToken={kpiToken}
+                                    noBorder
+                                />
+                            ))}
+                        </CardHorizontal>
+                        <div className="flex flex-col px-6 space-x-0 space-y-4 md:px-10 lg:px-32 md:space-x-8 md:space-y-0 md:flex-row">
+                            <Button variant="primary" size="big">
+                                <Link to="/campaigns">{t("campaign.all")}</Link>
+                            </Button>
+                            {!__LIBRARY_MODE__ && <CreateCampaignButton />}
+                        </div>
                     </div>
-                    <CardHorizontal className="h-96 px-6 md:px-10 lg:px-32 dark">
-                        {kpiTokens.map((kpiToken) => (
-                            <KPITokenCard
-                                key={kpiToken.address}
-                                kpiToken={kpiToken}
-                                noBorder
-                            />
-                        ))}
-                    </CardHorizontal>
-                    <div className="flex flex-col px-6 space-x-0 space-y-4 md:px-10 lg:px-32 md:space-x-8 md:space-y-0 md:flex-row">
-                        <Button variant="primary" size="big">
-                            <Link to="/campaigns">{t("campaign.all")}</Link>
-                        </Button>
-                        {!__LIBRARY_MODE__ && <CreateCampaignButton />}
-                    </div>
-                </div>
-            )}
-            <Plus className={plusIconStyles({ y: "top", x: "left" })} />
-            <Plus className={plusIconStyles({ y: "top", x: "right" })} />
-            <Plus className={plusIconStyles({ y: "bottom", x: "left" })} />
-            <Plus className={plusIconStyles({ y: "bottom", x: "right" })} />
+                )}
+                <Plus className={plusIconStyles({ y: "top", x: "left" })} />
+                <Plus className={plusIconStyles({ y: "top", x: "right" })} />
+                <Plus className={plusIconStyles({ y: "bottom", x: "left" })} />
+                <Plus className={plusIconStyles({ y: "bottom", x: "right" })} />
+            </div>
         </div>
     );
 };

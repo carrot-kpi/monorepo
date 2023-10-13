@@ -9,7 +9,7 @@ import {
 import { ReadonlyConnector } from "./connectors";
 import { SharedEntrypoint } from "./shared-entrypoint";
 import { HashRouter } from "react-router-dom";
-import { HostStateProvider } from "./state/connector";
+import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import { LibraryModeSharedStateUpdater } from "./updaters/library-mode-shared-state";
 

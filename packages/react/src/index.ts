@@ -20,6 +20,7 @@ export * from "./hooks/useOracleTemplates";
 export * from "./hooks/usePagination";
 export * from "./hooks/usePreferDecentralization";
 export * from "./hooks/useResolvedKPIToken";
+export * from "./hooks/useResolvedKPITokens";
 export * from "./hooks/useResolvedTemplate";
 export * from "./hooks/useResolvedTemplates";
 export * from "./hooks/useSetDevMode";

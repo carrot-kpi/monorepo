@@ -9,7 +9,6 @@ import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { usePrevious } from "react-use";
 import { useBlacklistedTokens } from "../../hooks/useBlacklistedTokens";
-import type { ChainId } from "@carrot-kpi/sdk";
 
 interface PageProps {
     customBaseURL?: string;
@@ -24,7 +23,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
     const addTransaction = useAddTransaction();
     const { chain } = useNetwork();
     const previousChain = usePrevious(chain);
-    const { blacklistedKPITokens } = useBlacklistedTokens(chain?.id as ChainId);
+    const { blacklistedKPITokens } = useBlacklistedTokens();
 
     const watchedKPITokenWithData = useWatchKPIToken({
         kpiTokenOrAddress: state?.kpiToken || address,
@@ -60,6 +59,7 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
         return (
             show && (
                 <AnimatedFullscreenModal
+                    bgColor="orange"
                     springStyle={style}
                     onDismiss={handleDismiss}
                 >
@@ -67,12 +67,12 @@ export const Page = ({ closing, onOutAnimationEnd }: PageProps) => {
                         kpiToken={watchedKPITokenWithData}
                         i18n={i18n}
                         fallback={
-                            <div className="bg-orange py-10 text-black flex justify-center">
+                            <div className="py-10 text-black flex justify-center">
                                 <Loader />
                             </div>
                         }
                         error={
-                            <div className="bg-orange bg-grid-light py-10 flex justify-center">
+                            <div className="bg-grid-light py-10 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
                                         title: t(

@@ -14,7 +14,7 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { ReadonlyConnector } from "./connectors";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { HashRouter } from "react-router-dom";
-import { HostStateProvider } from "./state/connector";
+import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import {
     useSetDevMode,

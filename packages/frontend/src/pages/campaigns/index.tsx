@@ -2,8 +2,7 @@ import { Typography, type SelectOption } from "@carrot-kpi/ui";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
-import { useKPITokens } from "@carrot-kpi/react";
-import { KPIToken, ResolvedKPIToken } from "@carrot-kpi/sdk";
+import { useResolvedKPITokens } from "@carrot-kpi/react";
 import { CampaignsTopNav } from "./top-nav";
 import {
     CampaignOrder,
@@ -23,12 +22,7 @@ export const Campaigns = () => {
     const { t } = useTranslation();
     const location = useLocation();
     const [, setSearchParams] = useSearchParams();
-    const { loading, kpiTokens: response } = useKPITokens();
-
-    const [kpiTokens, setKpiTokens] = useState<(KPIToken | ResolvedKPIToken)[]>(
-        [],
-    );
-    const [kpiTokensReady, setKpiTokensReady] = useState(false);
+    const { loading, resolvedKPITokens } = useResolvedKPITokens();
 
     // filters
     const [searchQuery, setSearchQuery] = useState("");
@@ -48,12 +42,6 @@ export const Campaigns = () => {
     }, []);
 
     useEffect(() => {
-        if (loading || kpiTokens.length > 0) return;
-        setKpiTokens(Object.values(response));
-        setKpiTokensReady(true);
-    }, [response, kpiTokens, loading]);
-
-    useEffect(() => {
         const url = new URLSearchParams(location.search);
         setSort(
             getOptionByLabel(
@@ -71,41 +59,15 @@ export const Campaigns = () => {
 
     const sortedAndfilteredKPITokens = useMemo(() => {
         return sortKPITokens(
-            filterResolvedKPITokens(kpiTokens, state.value as CampaignState),
+            filterResolvedKPITokens(
+                resolvedKPITokens,
+                state.value as CampaignState,
+            ),
             sort.value as CampaignOrder,
         ).filter((kpiToken) =>
             tokenSpecificationIncludesQuery(kpiToken, debouncedSearchQuery),
         );
-    }, [kpiTokens, state.value, sort.value, debouncedSearchQuery]);
-
-    const handleOnResolvedKPIToken = useCallback(
-        (resolved: ResolvedKPIToken) => {
-            if (
-                (
-                    kpiTokens.find(
-                        (kpiToken) => kpiToken.address === resolved.address,
-                    ) as ResolvedKPIToken
-                ).specification
-            )
-                return;
-
-            const updatedKPITokens = kpiTokens.map((kpiToken) => {
-                if (kpiToken.address === resolved.address) {
-                    return {
-                        ...kpiToken,
-                        specification: resolved.specification,
-                        expired: resolved.expired,
-                        oracles: resolved.oracles,
-                        template: resolved.template,
-                    };
-                } else {
-                    return kpiToken;
-                }
-            });
-            setKpiTokens(updatedKPITokens);
-        },
-        [kpiTokens],
-    );
+    }, [resolvedKPITokens, state.value, sort.value, debouncedSearchQuery]);
 
     const updateURLParams = useCallback(
         (key: string, value: string) => {
@@ -144,46 +106,40 @@ export const Campaigns = () => {
     );
 
     return (
-        <Layout>
-            <div className="relative bg-grid-light dark:bg-grid-dark">
-                <div className="relative">
-                    <div className="px-6 py-16 md:px-10">
-                        <Typography variant="h1">
-                            {t("campaign.all")}
-                        </Typography>
-                    </div>
-                    <div id="__campaigns_page">
-                        <CampaignsTopNav
-                            sortOptions={SORT_OPTIONS}
-                            stateOptions={STATE_OPTIONS}
-                            state={state}
-                            sort={sort}
-                            filtersOpen={filtersOpen}
-                            setSearchQuery={setSearchQuery}
-                            onOrderingChange={handleSortChange}
-                            onStateChange={handleStateChange}
-                            onToggleFilters={toggleFilters}
+        <Layout navbarBgColor="orange">
+            <div className="w-full relative flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
+                <div className="py-16 w-full max-w-screen-2xl">
+                    <Typography variant="h1">{t("campaign.all")}</Typography>
+                </div>
+            </div>
+            <div className="w-full" id="__campaigns_page">
+                <CampaignsTopNav
+                    sortOptions={SORT_OPTIONS}
+                    stateOptions={STATE_OPTIONS}
+                    state={state}
+                    sort={sort}
+                    filtersOpen={filtersOpen}
+                    setSearchQuery={setSearchQuery}
+                    onOrderingChange={handleSortChange}
+                    onStateChange={handleStateChange}
+                    onToggleFilters={toggleFilters}
+                />
+            </div>
+            <div className="w-full flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
+                <SideFilters
+                    open={filtersOpen}
+                    selectedTemplates={templates}
+                    setSelectedTemplates={handleTemplatesUpdate}
+                    selectedOracles={oracles}
+                    setSelectedOracles={handleOraclesTemplatesUpdate}
+                    toggleFilters={toggleFilters}
+                />
+                <div className="flex flex-col items-center w-full py-12 md:py-16">
+                    <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
+                        <Grid
+                            loading={loading}
+                            items={sortedAndfilteredKPITokens}
                         />
-                    </div>
-                    <div className="flex">
-                        <SideFilters
-                            open={filtersOpen}
-                            selectedTemplates={templates}
-                            setSelectedTemplates={handleTemplatesUpdate}
-                            selectedOracles={oracles}
-                            setSelectedOracles={handleOraclesTemplatesUpdate}
-                            toggleFilters={toggleFilters}
-                        />
-                        <div className="flex flex-col items-center w-full my-16 sm:mx-3 md:mx-4 lg:mx-5 space-y-12 md:space-y-16">
-                            <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
-                                <Grid
-                                    loading={loading}
-                                    kpiTokensReady={kpiTokensReady}
-                                    items={sortedAndfilteredKPITokens}
-                                    onResolved={handleOnResolvedKPIToken}
-                                />
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
