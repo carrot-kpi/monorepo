@@ -4,7 +4,7 @@ import { Hero } from "./hero";
 import { LatestCampaignsSection } from "./latest-campaigns-section";
 import { TemplatesSection } from "./templates-section";
 import { useFeaturedKPITokens } from "../../hooks/useFeaturedKPITokens";
-import { CarrotMarquee } from "../../components/ui/carrot-marquee";
+// import { CarrotMarquee } from "../../components/ui/carrot-marquee";
 import { useDebounce } from "react-use";
 import { useFeaturedBlacklistedKPITokenAddresses } from "../../hooks/useFeaturedBlacklistedKPITokenAddresses";
 import {
@@ -70,7 +70,7 @@ export const Home = ({ templateId }: HomeProps) => {
             })}
             <Layout noNavbar>
                 <Hero featuredKPITokens={featuredKPITokens || []} />
-                <CarrotMarquee />
+                {/* <CarrotMarquee /> */}
                 <div className="relative py-16 md:py-20 lg:py-32 dark:bg-black">
                     <div className="space-y-32 md:space-y-20 lg:space-y-32 flex flex-col items-center mx-6 md:mx-10 lg:mx-32">
                         <LatestCampaignsSection

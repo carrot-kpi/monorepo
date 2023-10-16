@@ -5,7 +5,7 @@ import {
     FOOTER_LINKS,
     NAVBAR_LINKS,
 } from "../../constants";
-import { CarrotMarquee } from "../ui/carrot-marquee";
+// import { CarrotMarquee } from "../ui/carrot-marquee";
 import { Footer } from "../ui/footer";
 import { Navbar, type NavbarProps } from "../ui/navbar";
 
@@ -33,7 +33,7 @@ export const Layout = ({
                 />
             )}
             {children}
-            <CarrotMarquee />
+            {/* <CarrotMarquee /> */}
             <Footer footerLinks={footerLinks || FOOTER_LINKS} />
         </div>
     );
