@@ -33,6 +33,7 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
                     blacklisted: params?.blacklisted,
                 });
 
+                const resolvedKPITokens: ResolvedKPIToken[] = [];
                 await Promise.allSettled(
                     Object.values(kpiTokens).map(async (kpiToken) => {
                         try {
@@ -43,11 +44,7 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
                                 })
                             )[kpiToken.address];
                             if (!resolved) return;
-                            if (!cancelled)
-                                setResolvedKPITokens((previousState) => [
-                                    ...previousState,
-                                    resolved,
-                                ]);
+                            resolvedKPITokens.push(resolved);
                         } catch (error) {
                             console.error(
                                 `error resolving kpi token at address ${kpiToken.address}`,
@@ -56,6 +53,8 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
                         }
                     }),
                 );
+
+                if (!cancelled) setResolvedKPITokens(resolvedKPITokens);
             } catch (error) {
                 console.error("error fetching resolved kpi tokens", error);
             } finally {
