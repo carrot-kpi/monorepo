@@ -114,7 +114,7 @@ export const CreateWithTemplateId = () => {
     }, [navigate]);
 
     return (
-        <Layout navbarBgColor="green">
+        <Layout navbarBgColor="green" noMarquee>
             <div className="flex-grow bg-grid-light bg-left-top bg-green">
                 {!pinningProxyAuthenticated ? (
                     <div className="py-20">

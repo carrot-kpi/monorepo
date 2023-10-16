@@ -5,7 +5,7 @@ import {
     FOOTER_LINKS,
     NAVBAR_LINKS,
 } from "../../constants";
-// import { CarrotMarquee } from "../ui/carrot-marquee";
+import { CarrotMarquee } from "../ui/carrot-marquee";
 import { Footer } from "../ui/footer";
 import { Navbar, type NavbarProps } from "../ui/navbar";
 
@@ -13,6 +13,7 @@ interface LayoutProps {
     navbarLinks?: NavbarLink[];
     navbarBgColor?: NavbarProps["bgColor"];
     noNavbar?: boolean;
+    noMarquee?: boolean;
     footerLinks?: FooterLink[];
     children?: ReactNode;
 }
@@ -21,6 +22,7 @@ export const Layout = ({
     navbarLinks,
     navbarBgColor,
     noNavbar,
+    noMarquee,
     footerLinks,
     children,
 }: LayoutProps) => {
@@ -33,7 +35,7 @@ export const Layout = ({
                 />
             )}
             {children}
-            {/* <CarrotMarquee /> */}
+            {!noMarquee && <CarrotMarquee />}
             <Footer footerLinks={footerLinks || FOOTER_LINKS} />
         </div>
     );
