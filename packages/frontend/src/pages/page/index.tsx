@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { useBlacklistedTokens } from "../../hooks/useBlacklistedTokens";
-import { Navbar } from "../../components/ui/navbar";
+import { Layout } from "../../components/layout";
 
 export const Page = () => {
     const { i18n, t } = useTranslation();
@@ -20,9 +20,8 @@ export const Page = () => {
     });
 
     return (
-        <div className="flex flex-col w-screen h-screen overflow-y-auto overflow-x-hidden bg-orange">
-            <Navbar />
-            <div className="flex-grow bg-grid-light bg-left-top">
+        <Layout navbarBgColor="orange">
+            <div className="flex-grow bg-grid-light bg-left-top bg-orange">
                 <KPITokenPage
                     kpiToken={watchedKPITokenWithData}
                     i18n={i18n}
@@ -47,6 +46,6 @@ export const Page = () => {
                     onTx={addTransaction}
                 />
             </div>
-        </div>
+        </Layout>
     );
 };

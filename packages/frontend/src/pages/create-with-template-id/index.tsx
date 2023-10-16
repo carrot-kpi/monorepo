@@ -13,7 +13,7 @@ import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { Authenticate } from "../../components/authenticate";
 import { useIsPinningProxyAuthenticated } from "../../hooks/useIsPinningProxyAuthenticated";
 import { useInvalidateLatestKPITokens } from "../../hooks/useInvalidateLatestKPITokens";
-import { Navbar } from "../../components/ui/navbar";
+import { Layout } from "../../components/layout";
 
 export const CreateWithTemplateId = () => {
     const { i18n, t } = useTranslation();
@@ -114,13 +114,14 @@ export const CreateWithTemplateId = () => {
     }, [navigate]);
 
     return (
-        <div className="flex flex-col w-screen h-screen overflow-y-auto overflow-x-hidden bg-green">
-            <Navbar />
-            <div className="flex-grow bg-grid-light bg-left-top">
+        <Layout navbarBgColor="green">
+            <div className="flex-grow bg-grid-light bg-left-top bg-green">
                 {!pinningProxyAuthenticated ? (
-                    <Authenticate onCancel={handleDismiss} />
+                    <div className="py-20">
+                        <Authenticate onCancel={handleDismiss} />
+                    </div>
                 ) : loading ? (
-                    <div className="py-10 text-black flex justify-center">
+                    <div className="py-20 text-black flex justify-center">
                         <Loader />
                     </div>
                 ) : template ? (
@@ -128,12 +129,12 @@ export const CreateWithTemplateId = () => {
                         key={formKey}
                         template={template || undefined}
                         fallback={
-                            <div className="py-10 text-black flex justify-center">
+                            <div className="py-20 text-black flex justify-center">
                                 <Loader />
                             </div>
                         }
                         error={
-                            <div className="py-10 flex justify-center">
+                            <div className="py-20 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
                                         title: t(
@@ -153,7 +154,7 @@ export const CreateWithTemplateId = () => {
                         onTx={addTransaction}
                     />
                 ) : (
-                    <div className="py-10 flex justify-center">
+                    <div className="py-20 flex justify-center">
                         <ErrorFeedback
                             messages={{
                                 title: t("error.initializing.creation.title"),
@@ -165,6 +166,6 @@ export const CreateWithTemplateId = () => {
                     </div>
                 )}
             </div>
-        </div>
+        </Layout>
     );
 };
