@@ -4,27 +4,18 @@ import {
     useIPFSGatewayURL,
     usePreferDecentralization,
 } from "@carrot-kpi/react";
-import { useTransition, config as springConfig } from "@react-spring/web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAccount, useNetwork, usePublicClient } from "wagmi";
 import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
-import { AnimatedFullscreenModal } from "../../components/fullscreen-modal";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { Authenticate } from "../../components/authenticate";
 import { useIsPinningProxyAuthenticated } from "../../hooks/useIsPinningProxyAuthenticated";
 import { useInvalidateLatestKPITokens } from "../../hooks/useInvalidateLatestKPITokens";
+import { Navbar } from "../../components/ui/navbar";
 
-interface CreateWithTemplateIdProps {
-    closing?: boolean;
-    onOutAnimationEnd?: () => void;
-}
-
-export const CreateWithTemplateId = ({
-    closing,
-    onOutAnimationEnd,
-}: CreateWithTemplateIdProps) => {
+export const CreateWithTemplateId = () => {
     const { i18n, t } = useTranslation();
     const { state } = useLocation();
     const navigate = useNavigate();
@@ -37,28 +28,12 @@ export const CreateWithTemplateId = ({
     const ipfsGatewayURL = useIPFSGatewayURL();
     const invalidateLatestKPITokens = useInvalidateLatestKPITokens();
 
+    const [loading, setLoading] = useState(false);
     const [template, setTemplate] = useState<ResolvedTemplate | null>(
         state && "specification" in state.template ? state.template : null,
     );
-    const [show, setShow] = useState(!closing);
     const [formKey, setFormKey] = useState(0);
     const pinningProxyAuthenticated = useIsPinningProxyAuthenticated();
-
-    const transitions = useTransition(show, {
-        config: { ...springConfig.default, duration: 100 },
-        from: { opacity: 0, translateY: "0.5%", scale: 0.97 },
-        enter: { opacity: 1, translateY: "0%", scale: 1 },
-        leave: {
-            opacity: 0,
-            translateY: "0.5%",
-            scale: 0.97,
-        },
-        onDestroyed: onOutAnimationEnd,
-    });
-
-    useEffect(() => {
-        setShow(!closing);
-    }, [closing]);
 
     // every time the chain or the connected address changes,
     // reset the creation form state
@@ -82,6 +57,7 @@ export const CreateWithTemplateId = ({
         }
         let cancelled = false;
         const fetchData = async () => {
+            if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({
                     publicClient,
@@ -92,7 +68,7 @@ export const CreateWithTemplateId = ({
                     console.warn(
                         `inconsistent array length while fetching template with id ${templateId} on ${chain?.name}`,
                     );
-                    if (!cancelled) setShow(false);
+                    if (!cancelled) setTemplate(null);
                     return;
                 }
                 const resolvedTemplates = await Fetcher.resolveTemplates({
@@ -103,7 +79,7 @@ export const CreateWithTemplateId = ({
                     console.warn(
                         `inconsistent array length while resolving template with id ${templateId} on ${chain?.name}`,
                     );
-                    if (!cancelled) setShow(false);
+                    if (!cancelled) setTemplate(null);
                     return;
                 }
                 if (!cancelled) setTemplate(resolvedTemplates[0]);
@@ -112,6 +88,8 @@ export const CreateWithTemplateId = ({
                     `could not fetch template with id ${templateId}`,
                     error,
                 );
+            } finally {
+                if (!cancelled) setLoading(false);
             }
         };
         void fetchData();
@@ -132,51 +110,61 @@ export const CreateWithTemplateId = ({
     }, [invalidateLatestKPITokens]);
 
     const handleDismiss = useCallback(() => {
-        setShow(false);
-    }, []);
+        navigate(-1);
+    }, [navigate]);
 
-    return transitions((style, show) => {
-        return (
-            show && (
-                <AnimatedFullscreenModal
-                    bgColor="green"
-                    springStyle={style}
-                    onDismiss={handleDismiss}
-                >
-                    {!pinningProxyAuthenticated ? (
-                        <Authenticate onCancel={handleDismiss} />
-                    ) : (
-                        <KPITokenCreationForm
-                            key={formKey}
-                            template={template || undefined}
-                            fallback={
-                                <div className="py-10 text-black flex justify-center">
-                                    <Loader />
-                                </div>
-                            }
-                            error={
-                                <div className="py-10 flex justify-center">
-                                    <ErrorFeedback
-                                        messages={{
-                                            title: t(
-                                                "error.initializing.creation.title",
-                                            ),
-                                            description: t(
-                                                "error.initializing.creation.description",
-                                            ),
-                                        }}
-                                    />
-                                </div>
-                            }
-                            i18n={i18n}
-                            className={{ root: "w-full h-full" }}
-                            onCreate={handleCreate}
-                            navigate={navigate}
-                            onTx={addTransaction}
+    return (
+        <div className="flex flex-col w-screen h-screen overflow-y-auto overflow-x-hidden bg-green">
+            <Navbar />
+            <div className="flex-grow bg-grid-light bg-left-top">
+                {!pinningProxyAuthenticated ? (
+                    <Authenticate onCancel={handleDismiss} />
+                ) : loading ? (
+                    <div className="py-10 text-black flex justify-center">
+                        <Loader />
+                    </div>
+                ) : template ? (
+                    <KPITokenCreationForm
+                        key={formKey}
+                        template={template || undefined}
+                        fallback={
+                            <div className="py-10 text-black flex justify-center">
+                                <Loader />
+                            </div>
+                        }
+                        error={
+                            <div className="py-10 flex justify-center">
+                                <ErrorFeedback
+                                    messages={{
+                                        title: t(
+                                            "error.initializing.creation.title",
+                                        ),
+                                        description: t(
+                                            "error.initializing.creation.description",
+                                        ),
+                                    }}
+                                />
+                            </div>
+                        }
+                        i18n={i18n}
+                        className={{ root: "w-full h-full" }}
+                        onCreate={handleCreate}
+                        navigate={navigate}
+                        onTx={addTransaction}
+                    />
+                ) : (
+                    <div className="py-10 flex justify-center">
+                        <ErrorFeedback
+                            messages={{
+                                title: t("error.initializing.creation.title"),
+                                description: t(
+                                    "error.initializing.creation.description",
+                                ),
+                            }}
                         />
-                    )}
-                </AnimatedFullscreenModal>
-            )
-        );
-    });
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 };
