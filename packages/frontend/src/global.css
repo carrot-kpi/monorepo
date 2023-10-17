@@ -16,7 +16,7 @@
 
 html,
 body {
-    @apply w-screen h-screen overflow-x-hidden;
+    @apply w-screen overflow-x-hidden;
 }
 
 .grid-area-hero {

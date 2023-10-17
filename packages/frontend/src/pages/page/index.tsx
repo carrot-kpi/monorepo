@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { KPITokenPage, useWatchKPIToken } from "@carrot-kpi/react";
 import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -19,6 +19,12 @@ export const Page = () => {
         blacklisted: blacklistedKPITokens,
     });
 
+    useEffect(() => {
+        const bodyElement = window.document.getElementById("__app_body");
+        if (!bodyElement) return;
+        bodyElement.scrollIntoView();
+    }, []);
+
     return (
         <Layout navbarBgColor="orange">
             <div className="flex-grow bg-grid-light bg-left-top bg-orange">
@@ -26,7 +32,7 @@ export const Page = () => {
                     kpiToken={watchedKPITokenWithData}
                     i18n={i18n}
                     fallback={
-                        <div className="py-10 text-black flex justify-center">
+                        <div className="text-black h-screen flex justify-center items-center">
                             <Loader />
                         </div>
                     }
