@@ -37,7 +37,7 @@ export const Page = () => {
                         </div>
                     }
                     error={
-                        <div className="bg-grid-light py-10 flex justify-center">
+                        <div className="bg-grid-light h-screen flex justify-center items-center">
                             <ErrorFeedback
                                 messages={{
                                     title: t("error.initializing.page.title"),

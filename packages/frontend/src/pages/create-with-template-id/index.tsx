@@ -42,6 +42,12 @@ export const CreateWithTemplateId = () => {
     }, [chain, address]);
 
     useEffect(() => {
+        const bodyElement = window.document.getElementById("__app_body");
+        if (!bodyElement) return;
+        bodyElement.scrollIntoView();
+    }, []);
+
+    useEffect(() => {
         if (!!state?.template) {
             setTemplate(state.template);
             return;
