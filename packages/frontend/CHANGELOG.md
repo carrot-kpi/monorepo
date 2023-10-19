@@ -1,5 +1,19 @@
 # @carrot-kpi/host-frontend
 
+## 0.28.0
+
+### Minor Changes
+
+-   54e8862: Remove fullscreen modal in campaign and creation form pages
+
+### Patch Changes
+
+-   Updated dependencies [54e8862]
+-   Updated dependencies [54e8862]
+-   Updated dependencies [54e8862]
+    -   @carrot-kpi/react@0.65.1
+    -   @carrot-kpi/sdk@1.43.1
+
 ## 0.27.0
 
 ### Minor Changes
