@@ -1,5 +1,11 @@
 # @carrot-kpi/subgraph
 
+## 0.9.0
+
+### Minor Changes
+
+-   54e8862: Adapt subgraph to new contracts structure
+
 ## 0.8.1
 
 ### Patch Changes
