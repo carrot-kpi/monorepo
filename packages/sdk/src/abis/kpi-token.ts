@@ -1,5 +1,86 @@
 export default [
     {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "progress",
+                type: "uint256",
+            },
+        ],
+        name: "Finalize",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: "address",
+                name: "creator",
+                type: "address",
+            },
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "creationTimestamp",
+                type: "uint256",
+            },
+            {
+                indexed: true,
+                internalType: "uint256",
+                name: "templateId",
+                type: "uint256",
+            },
+            {
+                indexed: true,
+                internalType: "uint128",
+                name: "templateVersion",
+                type: "uint128",
+            },
+            {
+                indexed: false,
+                internalType: "string",
+                name: "description",
+                type: "string",
+            },
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "expiration",
+                type: "uint256",
+            },
+            {
+                indexed: false,
+                internalType: "address[]",
+                name: "oracles",
+                type: "address[]",
+            },
+        ],
+        name: "Initialize",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: "address",
+                name: "previousOwner",
+                type: "address",
+            },
+            {
+                indexed: true,
+                internalType: "address",
+                name: "newOwner",
+                type: "address",
+            },
+        ],
+        name: "OwnershipTransferred",
+        type: "event",
+    },
+    {
         inputs: [],
         name: "creationTimestamp",
         outputs: [

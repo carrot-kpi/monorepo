@@ -10,8 +10,8 @@ dataSources:
     network: gnosis
     source:
       abi: Factory
-      address: "0xD503Bdcc3Cd38D3cEaBa1efA43EFCc03b7Fb1CbA"
-      startBlock: 28680516
+      address: "0xF451feb55eeA54EeF90AcB301212b80E03d82819"
+      startBlock: 30531786
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -27,21 +27,26 @@ dataSources:
         - name: OraclesManager
           file: ./abis/OraclesManager.json
       eventHandlers:
+        - event: Initialize(address,address,address,address)
+          handler: handleInitialize
         - event: CreateToken(address)
           handler: handleCreateToken
-        - event: SetKpiTokensManager(address)
-          handler: handleSetKPITokensManager
-        - event: SetOraclesManager(address)
-          handler: handleSetOraclesManager
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: SetPermissionless(bool)
+          handler: handleSetPermissionless
+        - event: UpdateCreatorAllowance(address,bool)
+          handler: handleUpdateCreatorAllowance
         - event: SetFeeReceiver(address)
           handler: handleSetFeeReceiver
       file: ./src/factory.ts
-templates:
   - kind: ethereum/contract
-    network: gnosis
     name: KPITokensManager
+    network: gnosis
     source:
       abi: KPITokensManager
+      address: "0xAcAFe7928cDd2E02bd508a4827b62649726f9460"
+      startBlock: 30531788
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -53,6 +58,8 @@ templates:
         - name: KPITokensManager
           file: ./abis/KPITokensManager.json
       eventHandlers:
+        - event: Initialize(address,address)
+          handler: handleInitialize
         - event: AddTemplate(indexed uint256,indexed address,string)
           handler: handleAddTemplate
         - event: OwnershipTransferred(indexed address,indexed address)
@@ -65,10 +72,12 @@ templates:
           handler: handleUpgradeTemplate
       file: ./src/kpi-tokens-manager.ts
   - kind: ethereum/contract
-    network: gnosis
     name: OraclesManager
+    network: gnosis
     source:
       abi: OraclesManager
+      address: "0x35030D4680C339Dd5a043C23f99Ee45ce66198CA"
+      startBlock: 30531789
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -80,6 +89,8 @@ templates:
         - name: OraclesManager
           file: ./abis/OraclesManager.json
       eventHandlers:
+        - event: Initialize(address,address)
+          handler: handleInitialize
         - event: AddTemplate(indexed uint256,indexed address,string)
           handler: handleAddTemplate
         - event: OwnershipTransferred(indexed address,indexed address)
@@ -91,6 +102,7 @@ templates:
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
       file: ./src/oracles-manager.ts
+templates:
   - kind: ethereum/contract
     network: gnosis
     name: KPIToken
@@ -107,9 +119,10 @@ templates:
         - name: KPIToken
           file: ./abis/KPIToken.json
       eventHandlers:
-        - event: Initialize()
+        - event: Initialize(indexed address,uint256,indexed uint256,indexed
+            uint128,string,uint256,address[])
           handler: handleInitialize
-        - event: Finalize(indexed address,uint256)
+        - event: Finalize(uint256)
           handler: handleFinalize
       file: ./src/kpi-token.ts
   - kind: ethereum/contract
@@ -127,7 +140,7 @@ templates:
         - name: Oracle
           file: ./abis/Oracle.json
       eventHandlers:
-        - event: Initialize(indexed address,indexed uint256)
+        - event: Initialize(address,indexed address,indexed uint256,indexed uint128)
           handler: handleInitialize
         - event: Finalize(uint256)
           handler: handleFinalize

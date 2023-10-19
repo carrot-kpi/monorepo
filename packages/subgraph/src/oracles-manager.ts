@@ -1,12 +1,12 @@
 import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
 import {
+    Initialize as InitializeEvent,
     AddTemplate as AddTemplateEvent,
-    OraclesManager as OraclesManagerContract,
     OwnershipTransferred as OwnershipTransferredEvent,
     RemoveTemplate as RemoveTemplateEvent,
     UpdateTemplateSpecification as UpdateTemplateSpecificationEvent,
     UpgradeTemplate as UpgradeTemplateEvent,
-} from "../generated/templates/OraclesManager/OraclesManager";
+} from "../generated/OraclesManager/OraclesManager";
 import {
     OraclesManager,
     OracleTemplate,
@@ -18,6 +18,7 @@ import {
     BI_1,
     bytesToAddress,
     cidToSpecificationURI,
+    getOraclesManagerAddress,
     i32ToBytes,
     templateId,
 } from "./commons";
@@ -34,14 +35,12 @@ function createTemplate(
     id: BigInt,
     version: BigInt,
     address: Address,
-    specificationCid: string
+    specificationCid: string,
 ): OracleTemplate | null {
-    const manager = getOraclesManager(managerAddress);
+    const manager = getOraclesManager();
     manager.save();
 
-    const template = new OracleTemplate(
-        templateId(managerAddress, id, version)
-    );
+    const template = new OracleTemplate(templateId(id, version));
     template.address = address;
     template.managerId = id;
     template.version = version;
@@ -54,10 +53,10 @@ function createTemplate(
 
 function getTemplateSet(
     managerAddress: Address,
-    managerId: BigInt
+    managerId: BigInt,
 ): OracleTemplateSet {
     const id = addressToBytes(managerAddress).concat(
-        i32ToBytes(managerId.toI32())
+        i32ToBytes(managerId.toI32()),
     );
     let templateSet = OracleTemplateSet.load(id);
     if (templateSet == null) {
@@ -71,59 +70,36 @@ function getTemplateSet(
 }
 
 export function getTemplate(
-    managerAddress: Address,
     id: BigInt,
-    version: BigInt
+    version: BigInt,
 ): OracleTemplate | null {
-    return OracleTemplate.load(templateId(managerAddress, id, version));
+    return OracleTemplate.load(templateId(id, version));
 }
 
-export function getOraclesManager(address: Address): OraclesManager {
-    const id = addressToBytes(address);
-    let manager = OraclesManager.load(id);
-    if (manager === null) {
-        manager = new OraclesManager(id);
-        const managerContract = OraclesManagerContract.bind(address);
-        const templatesAmount = managerContract.templatesAmount();
-        manager.templatesAmount = templatesAmount;
-        const templateStructs = managerContract.enumerate(
-            BI_0,
-            templatesAmount
+export function getOraclesManager(): OraclesManager {
+    const address = getOraclesManagerAddress();
+    const manager = OraclesManager.load(address);
+    if (manager === null)
+        throw new Error(
+            "could not find oracles manager with address " + address.toHex(),
         );
-        for (let i = 0; i < templateStructs.length; i++) {
-            const templateStruct = templateStructs[i];
-            for (
-                let j = templateStructs[i].version;
-                j.gt(BI_0);
-                j = j.minus(BI_1)
-            ) {
-                const specificVersionTemplateStruct = managerContract.template1(
-                    templateStruct.id,
-                    j
-                );
-                const specificVersionTemplate = createTemplate(
-                    address,
-                    specificVersionTemplateStruct.id,
-                    specificVersionTemplateStruct.version,
-                    specificVersionTemplateStruct.addrezz,
-                    specificVersionTemplateStruct.specification
-                );
-                if (specificVersionTemplate === null) {
-                    log.error(
-                        "could not create template with id {} and version {}",
-                        [
-                            specificVersionTemplateStruct.id.toString(),
-                            specificVersionTemplateStruct.version.toString(),
-                        ]
-                    );
-                    continue;
-                }
-                specificVersionTemplate.save();
-            }
-        }
-        manager.owner = managerContract.owner();
-    }
     return manager;
+}
+
+export function handleInitialize(event: InitializeEvent): void {
+    const address = getOraclesManagerAddress();
+    if (event.address != address)
+        throw new Error(
+            "oracles manager address mismatch: got " +
+                event.address.toHex() +
+                ", expected " +
+                address.toHex(),
+        );
+
+    const manager = new OraclesManager(address);
+    manager.owner = event.params.owner;
+    manager.templatesAmount = BI_0;
+    manager.save();
 }
 
 export function handleAddTemplate(event: AddTemplateEvent): void {
@@ -132,7 +108,7 @@ export function handleAddTemplate(event: AddTemplateEvent): void {
         event.params.id,
         BI_1,
         event.params.template,
-        event.params.specification
+        event.params.specification,
     );
     if (template === null) {
         log.error("could not create template with id {}", [
@@ -142,15 +118,15 @@ export function handleAddTemplate(event: AddTemplateEvent): void {
     }
     template.save();
 
-    const manager = getOraclesManager(event.address);
+    const manager = getOraclesManager();
     manager.templatesAmount = manager.templatesAmount.plus(BI_1);
     manager.save();
 }
 
 export function handleOwnershipTransferred(
-    event: OwnershipTransferredEvent
+    event: OwnershipTransferredEvent,
 ): void {
-    const manager = getOraclesManager(event.address);
+    const manager = getOraclesManager();
     manager.owner = event.params.newOwner;
     manager.save();
 }
@@ -158,7 +134,7 @@ export function handleOwnershipTransferred(
 export function handleRemoveTemplate(event: RemoveTemplateEvent): void {
     const templateSet = getTemplateSet(
         bytesToAddress(event.address),
-        event.params.id
+        event.params.id,
     );
     if (templateSet === null) {
         log.error("could not find removed template set with id {}", [
@@ -169,21 +145,17 @@ export function handleRemoveTemplate(event: RemoveTemplateEvent): void {
     templateSet.active = false;
     templateSet.save();
 
-    const manager = getOraclesManager(event.address);
+    const manager = getOraclesManager();
     manager.templatesAmount = manager.templatesAmount.minus(BI_1);
     manager.save();
 }
 
 export function handleUpdateTemplateSpecification(
-    event: UpdateTemplateSpecificationEvent
+    event: UpdateTemplateSpecificationEvent,
 ): void {
-    const template = getTemplate(
-        event.address,
-        event.params.id,
-        event.params.version
-    );
+    const template = getTemplate(event.params.id, event.params.version);
     if (template === null) {
-        log.error("could not find updated template with id {} and version", [
+        log.error("could not find updated template with id {} and version {}", [
             event.params.id.toString(),
             event.params.version.toString(),
         ]);
@@ -200,12 +172,12 @@ export function handleUpgradeTemplate(event: UpgradeTemplateEvent): void {
         event.params.id,
         event.params.newVersion,
         event.params.newTemplate,
-        event.params.newSpecification
+        event.params.newSpecification,
     );
     if (newTemplate === null) {
         log.error(
             "could not create upgraded template with id {} and version {}",
-            [event.params.id.toString(), event.params.newVersion.toString()]
+            [event.params.id.toString(), event.params.newVersion.toString()],
         );
         return;
     }

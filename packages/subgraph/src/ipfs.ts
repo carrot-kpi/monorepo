@@ -8,7 +8,7 @@ import {
 export function handleKPITokenTemplateSpecification(content: Bytes): void {
     const cid = dataSource.stringParam();
     const templateSpecification = new KPITokenTemplateSpecification(
-        Bytes.fromUTF8(cid)
+        Bytes.fromUTF8(cid),
     );
     const specificationObject = json.fromBytes(content).toObject();
 
@@ -48,7 +48,7 @@ export function handleKPITokenTemplateSpecification(content: Bytes): void {
 export function handleOracleTemplateSpecification(content: Bytes): void {
     const cid = dataSource.stringParam();
     const templateSpecification = new OracleTemplateSpecification(
-        Bytes.fromUTF8(cid)
+        Bytes.fromUTF8(cid),
     );
     const specificationObject = json.fromBytes(content).toObject();
 
