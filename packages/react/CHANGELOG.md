@@ -1,5 +1,16 @@
 # @carrot-kpi/react
 
+## 0.65.1
+
+### Patch Changes
+
+-   54e8862: Reset result array before filling it again in useResolvedKPITokens
+    hook (it avoids resolved KPI tokens accumulation)
+-   54e8862: New contract deployment addresses
+-   Updated dependencies [54e8862]
+-   Updated dependencies [54e8862]
+    -   @carrot-kpi/sdk@1.43.1
+
 ## 0.65.0
 
 ### Minor Changes
