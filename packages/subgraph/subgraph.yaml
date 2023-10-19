@@ -122,7 +122,7 @@ templates:
         - event: Initialize(indexed address,uint256,indexed uint256,indexed
             uint128,string,uint256,address[])
           handler: handleInitialize
-        - event: Finalize(uint256)
+        - event: Finalize()
           handler: handleFinalize
       file: ./src/kpi-token.ts
   - kind: ethereum/contract

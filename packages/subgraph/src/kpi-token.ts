@@ -53,6 +53,5 @@ export function handleOwnershipTransferred(
 export function handleFinalize(event: FinalizeEvent): void {
     const kpiToken = getKPIToken(event.address);
     kpiToken.finalized = true;
-    kpiToken.progress = event.params.progress;
     kpiToken.save();
 }

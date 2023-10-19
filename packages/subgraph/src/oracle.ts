@@ -28,5 +28,6 @@ export function handleFinalize(event: FinalizeEvent): void {
         return;
     }
     oracle.finalized = true;
+    oracle.result = event.params.result;
     oracle.save();
 }
