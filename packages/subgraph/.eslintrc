@@ -3,5 +3,6 @@
     "extends": ["custom"],
     "rules": {
         "@typescript-eslint/ban-types": "off"
-    }
+    },
+    "ignorePatterns": "src/gen/**"
 }

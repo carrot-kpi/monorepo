@@ -179,3 +179,5 @@ target/
 *.pdb
 
 packages/ipfs-pinner/src/contracts
+
+packages/subgraph/src/gen

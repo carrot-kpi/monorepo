@@ -1184,15 +1184,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@carrot-kpi/contracts@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/contracts/-/contracts-0.3.1.tgz#9d15428a2ea681540facb8f87fc6f3fd7184c258"
-  integrity sha512-VGiVW+OXwe/Gqs7IOdz70jEC7xRQ17nItaiSX/U0WB/w0xHfrFhjMH0M++9RmFQYC3tiXl4ajkQxQFIoELj1sQ==
-
-"@carrot-kpi/contracts@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/contracts/-/contracts-0.4.0.tgz#8ff83828bc1b67284142b802d8c00169d683420c"
-  integrity sha512-QFlZZWw9yPGLszI+/jWAljQVnv2FPAmongK5LNbjg7AaKZxXxiU0HqW9LWtuvJxH7fOI2G07cA3QMejIFURzEw==
+"@carrot-kpi/contracts@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/contracts/-/contracts-0.8.0.tgz#c7cf8151cf20130e34a5893995368976f93792fc"
+  integrity sha512-M5DKjNjofIFr0Rm5DtVLnpW9fi0MKZc4y8eZIKLuNwrMLwqBfnN/KyG8LORiZEb29QzG/UX4BX+2Wr2zRStiVQ==
 
 "@carrot-kpi/switzer-font@^0.1.0":
   version "0.1.0"

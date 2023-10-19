@@ -1,5 +1,49 @@
 export default [
     {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "result",
+                type: "uint256",
+            },
+        ],
+        name: "Finalize",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "address",
+                name: "creator",
+                type: "address",
+            },
+            {
+                indexed: true,
+                internalType: "address",
+                name: "kpiToken",
+                type: "address",
+            },
+            {
+                indexed: true,
+                internalType: "uint256",
+                name: "templateId",
+                type: "uint256",
+            },
+            {
+                indexed: true,
+                internalType: "uint128",
+                name: "templateVersion",
+                type: "uint128",
+            },
+        ],
+        name: "Initialize",
+        type: "event",
+    },
+    {
         inputs: [],
         name: "data",
         outputs: [

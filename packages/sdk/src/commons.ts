@@ -8,7 +8,7 @@ import { Cacher } from "./cacher";
 import { type Address } from "viem";
 import {
     ChainId,
-    type CarrotContractAddresses,
+    type CarrotContracts,
     DEPLOYMENT_ADDRESSES,
 } from "@carrot-kpi/contracts";
 
@@ -17,21 +17,35 @@ export { ChainId } from "@carrot-kpi/contracts";
 
 export const CACHER = new Cacher("carrot-kpi-sdk");
 
-export interface ChainAddresses extends CarrotContractAddresses {
+export interface ChainAddresses extends Record<keyof CarrotContracts, Address> {
     multicall3: Address;
 }
 
+const normalizeChainAddresses = (
+    contracts: CarrotContracts,
+): Record<keyof CarrotContracts, Address> => {
+    return Object.entries(contracts).reduce(
+        (accumulator: Record<string, Address>, [name, info]) => {
+            accumulator[name] = info.address;
+            return accumulator;
+        },
+        {},
+    );
+};
+
 export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
     [ChainId.GNOSIS]: {
-        ...DEPLOYMENT_ADDRESSES[ChainId.GNOSIS],
+        ...normalizeChainAddresses(DEPLOYMENT_ADDRESSES[ChainId.GNOSIS]),
         multicall3: "0xcA11bde05977b3631167028862bE2a173976CA11",
     },
     [ChainId.SEPOLIA]: {
-        ...DEPLOYMENT_ADDRESSES[ChainId.SEPOLIA],
+        ...normalizeChainAddresses(DEPLOYMENT_ADDRESSES[ChainId.SEPOLIA]),
         multicall3: "0xcA11bde05977b3631167028862bE2a173976CA11",
     },
     [ChainId.SCROLL_SEPOLIA]: {
-        ...DEPLOYMENT_ADDRESSES[ChainId.SCROLL_SEPOLIA],
+        ...normalizeChainAddresses(
+            DEPLOYMENT_ADDRESSES[ChainId.SCROLL_SEPOLIA],
+        ),
         multicall3: "0xc325890958D399ee26c26D21bBeFbDA17B03a611",
     },
 };

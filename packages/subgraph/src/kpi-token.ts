@@ -1,58 +1,57 @@
-import { Address, Bytes, dataSource, log } from "@graphprotocol/graph-ts";
+import { Address, Bytes } from "@graphprotocol/graph-ts";
 import {
     Initialize as InitializeEvent,
+    OwnershipTransferred as OwnershipTransferredEvent,
     Finalize as FinalizeEvent,
-    KPIToken as KPITokenContract,
 } from "../generated/templates/KPIToken/KPIToken";
 import { KPIToken } from "../generated/schema";
 import { KPITokenDescription, Oracle } from "../generated/templates";
-import {
-    addressToBytes,
-    CONTEXT_KEY_KPI_TOKENS_MANAGER_BYTES_ADDRESS,
-    templateId,
-} from "./commons";
+import { addressToBytes, templateId } from "./commons";
+
+export function getKPIToken(address: Address): KPIToken {
+    const kpiToken = KPIToken.load(address);
+    if (kpiToken === null)
+        throw new Error(
+            "could not find kpi token with address " + address.toHex(),
+        );
+    return kpiToken;
+}
 
 export function handleInitialize(event: InitializeEvent): void {
     const kpiToken = new KPIToken(addressToBytes(event.address));
-    const kpiTokenContract = KPITokenContract.bind(event.address);
-    const context = dataSource.context();
 
-    kpiToken.owner = kpiTokenContract.owner();
+    kpiToken.owner = event.params.creator;
     kpiToken.finalized = false;
-    kpiToken.expiration = kpiTokenContract.expiration();
-    kpiToken.creationTimestamp = kpiTokenContract.creationTimestamp();
+    kpiToken.expiration = event.params.expiration;
+    kpiToken.creationTimestamp = event.params.creationTimestamp;
 
-    const kpiTokenTemplateStruct = kpiTokenContract.template();
-    const kpiTokensManagerAddress = Address.fromBytes(
-        context.getBytes(CONTEXT_KEY_KPI_TOKENS_MANAGER_BYTES_ADDRESS)
-    );
     kpiToken.template = templateId(
-        kpiTokensManagerAddress,
-        kpiTokenTemplateStruct.id,
-        kpiTokenTemplateStruct.version
+        event.params.templateId,
+        event.params.templateVersion,
     );
 
-    const descriptionCid = kpiTokenContract.description();
+    const descriptionCid = event.params.description;
     KPITokenDescription.create(descriptionCid);
     kpiToken.descriptionCid = descriptionCid;
     kpiToken.description = Bytes.fromUTF8(descriptionCid);
 
-    const oracleAddresses = kpiTokenContract.oracles();
+    const oracleAddresses = event.params.oracles;
     for (let i = 0; i < oracleAddresses.length; i++)
-        // context contains the oracles manager address passed in from the factory
-        Oracle.createWithContext(oracleAddresses[i], context);
+        Oracle.create(oracleAddresses[i]);
 
     kpiToken.save();
 }
 
+export function handleOwnershipTransferred(
+    event: OwnershipTransferredEvent,
+): void {
+    const kpiToken = getKPIToken(event.address);
+    kpiToken.owner = event.params.newOwner;
+    kpiToken.save();
+}
+
 export function handleFinalize(event: FinalizeEvent): void {
-    const kpiToken = KPIToken.load(addressToBytes(event.address));
-    if (kpiToken === null) {
-        log.error("could not find finalized kpi token with address", [
-            event.address.toString(),
-        ]);
-        return;
-    }
+    const kpiToken = getKPIToken(event.address);
     kpiToken.finalized = true;
     kpiToken.save();
 }
