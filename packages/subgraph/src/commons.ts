@@ -1,18 +1,40 @@
-import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, dataSource } from "@graphprotocol/graph-ts";
+import {
+    GNOSIS_FACTORY_ADDRESS,
+    GNOSIS_KPI_TOKENS_MANAGER_ADDRESS,
+    GNOSIS_ORACLES_MANAGER_ADDRESS,
+    SEPOLIA_FACTORY_ADDRESS,
+    SEPOLIA_KPI_TOKENS_MANAGER_ADDRESS,
+    SEPOLIA_ORACLES_MANAGER_ADDRESS,
+} from "./gen/networks";
 
-export const ADDRESS_ZERO = Address.fromHexString(
-    "0x0000000000000000000000000000000000000000"
-);
-export const ADDRESS_ONE = Address.fromHexString(
-    "0x0000000000000000000000000000000000000001"
-);
 export const BI_0 = BigInt.fromI32(0);
 export const BI_1 = BigInt.fromI32(1);
 
-export const CONTEXT_KEY_KPI_TOKENS_MANAGER_BYTES_ADDRESS =
-    "KPI_TOKENS_MANAGER_BYTES_ADDRESS";
-export const CONTEXT_KEY_ORACLES_MANAGER_BYTES_ADDRESS =
-    "ORACLES_MANAGER_BYTES_ADDRESS";
+export function getFactoryAddress(): Bytes {
+    const network = dataSource.network();
+    if (network == "gnosis") return GNOSIS_FACTORY_ADDRESS;
+    if (network == "sepolia") return SEPOLIA_FACTORY_ADDRESS;
+    throw new Error("no factory address for unsupported network " + network);
+}
+
+export function getKPITokensManagerAddress(): Bytes {
+    const network = dataSource.network();
+    if (network == "gnosis") return GNOSIS_KPI_TOKENS_MANAGER_ADDRESS;
+    if (network == "sepolia") return SEPOLIA_KPI_TOKENS_MANAGER_ADDRESS;
+    throw new Error(
+        "no kpi tokens manager address for unsupported network " + network,
+    );
+}
+
+export function getOraclesManagerAddress(): Bytes {
+    const network = dataSource.network();
+    if (network == "gnosis") return GNOSIS_ORACLES_MANAGER_ADDRESS;
+    if (network == "sepolia") return SEPOLIA_ORACLES_MANAGER_ADDRESS;
+    throw new Error(
+        "no oracles manager address for unsupported network " + network,
+    );
+}
 
 export function addressToBytes(address: Address): Bytes {
     return Bytes.fromHexString(address.toHex());
@@ -26,15 +48,9 @@ export function i32ToBytes(i32: i32): Bytes {
     return Bytes.fromI32(i32);
 }
 
-export function templateId(
-    managerAddress: Address,
-    onChainId: BigInt,
-    onChainVersion: BigInt
-): Bytes {
+export function templateId(onChainId: BigInt, onChainVersion: BigInt): Bytes {
     return Bytes.fromHexString(
-        managerAddress
-            .toHex()
-            .concat(onChainId.toString().concat(onChainVersion.toString()))
+        onChainId.toString().concat(onChainVersion.toString()),
     );
 }
 

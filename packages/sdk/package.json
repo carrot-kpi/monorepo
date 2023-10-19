@@ -170,7 +170,7 @@
         "size-limit": "size-limit"
     },
     "dependencies": {
-        "@carrot-kpi/contracts": "^0.3.1",
+        "@carrot-kpi/contracts": "^0.8.0",
         "decimal.js-light": "^2.5.1",
         "multiformats": "^9.9.0",
         "viem": "^1.15.3"

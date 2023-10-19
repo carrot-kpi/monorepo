@@ -3,16 +3,37 @@ export default [
         inputs: [
             {
                 internalType: "address",
-                name: "_factory",
+                name: "target",
                 type: "address",
             },
         ],
-        stateMutability: "nonpayable",
-        type: "constructor",
+        name: "AddressEmptyCode",
+        type: "error",
     },
     {
         inputs: [],
-        name: "AutomationNotSupported",
+        name: "ERC1167FailedCreateClone",
+        type: "error",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "implementation",
+                type: "address",
+            },
+        ],
+        name: "ERC1967InvalidImplementation",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "ERC1967NonPayable",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "FailedInnerCall",
         type: "error",
     },
     {
@@ -22,7 +43,17 @@ export default [
     },
     {
         inputs: [],
+        name: "Immutable",
+        type: "error",
+    },
+    {
+        inputs: [],
         name: "InvalidIndices",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidInitialization",
         type: "error",
     },
     {
@@ -32,17 +63,50 @@ export default [
     },
     {
         inputs: [],
-        name: "InvalidVersionBump",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "NoKeyForTemplate",
-        type: "error",
-    },
-    {
-        inputs: [],
         name: "NonExistentTemplate",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "NotInitializing",
+        type: "error",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+            },
+        ],
+        name: "OwnableInvalidOwner",
+        type: "error",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "account",
+                type: "address",
+            },
+        ],
+        name: "OwnableUnauthorizedAccount",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "UUPSUnauthorizedCallContext",
+        type: "error",
+    },
+    {
+        inputs: [
+            {
+                internalType: "bytes32",
+                name: "slot",
+                type: "bytes32",
+            },
+        ],
+        name: "UUPSUnsupportedProxiableUUID",
         type: "error",
     },
     {
@@ -78,6 +142,44 @@ export default [
             },
         ],
         name: "AddTemplate",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "address",
+                name: "owner",
+                type: "address",
+            },
+            {
+                indexed: false,
+                internalType: "address",
+                name: "factory",
+                type: "address",
+            },
+        ],
+        name: "Initialize",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "uint64",
+                name: "version",
+                type: "uint64",
+            },
+        ],
+        name: "Initialized",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [],
+        name: "MakeImmutable",
         type: "event",
     },
     {
@@ -169,6 +271,32 @@ export default [
         type: "event",
     },
     {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: "address",
+                name: "implementation",
+                type: "address",
+            },
+        ],
+        name: "Upgraded",
+        type: "event",
+    },
+    {
+        inputs: [],
+        name: "UPGRADE_INTERFACE_VERSION",
+        outputs: [
+            {
+                internalType: "string",
+                name: "",
+                type: "string",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
         inputs: [
             {
                 internalType: "address",
@@ -184,6 +312,19 @@ export default [
         name: "addTemplate",
         outputs: [],
         stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "disallowUpgrades",
+        outputs: [
+            {
+                internalType: "bool",
+                name: "",
+                type: "bool",
+            },
+        ],
+        stateMutability: "view",
         type: "function",
     },
     {
@@ -268,6 +409,24 @@ export default [
         inputs: [
             {
                 internalType: "address",
+                name: "_owner",
+                type: "address",
+            },
+            {
+                internalType: "address",
+                name: "_factory",
+                type: "address",
+            },
+        ],
+        name: "initialize",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
                 name: "_creator",
                 type: "address",
             },
@@ -291,6 +450,13 @@ export default [
             },
         ],
         stateMutability: "payable",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "makeImmutable",
+        outputs: [],
+        stateMutability: "nonpayable",
         type: "function",
     },
     {
@@ -343,6 +509,19 @@ export default [
                 internalType: "address",
                 name: "",
                 type: "address",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "proxiableUUID",
+        outputs: [
+            {
+                internalType: "bytes32",
+                name: "",
+                type: "bytes32",
             },
         ],
         stateMutability: "view",
@@ -543,6 +722,24 @@ export default [
         name: "upgradeTemplate",
         outputs: [],
         stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "newImplementation",
+                type: "address",
+            },
+            {
+                internalType: "bytes",
+                name: "data",
+                type: "bytes",
+            },
+        ],
+        name: "upgradeToAndCall",
+        outputs: [],
+        stateMutability: "payable",
         type: "function",
     },
 ] as const;

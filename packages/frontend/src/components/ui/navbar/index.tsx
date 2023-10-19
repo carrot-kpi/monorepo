@@ -25,6 +25,7 @@ const rootStyles = cva(
         variants: {
             bgColor: {
                 orange: ["bg-orange"],
+                green: ["bg-green"],
                 transparent: ["bg-transparent"],
             },
         },
@@ -33,7 +34,7 @@ const rootStyles = cva(
 
 export interface NavbarProps {
     mode?: "standard" | "modal";
-    bgColor?: "transparent" | "orange";
+    bgColor?: "transparent" | "orange" | "green";
     onDismiss?: () => void;
     links?: NavbarLink[];
 }

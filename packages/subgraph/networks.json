@@ -1,44 +1,44 @@
 {
     "gnosis": {
         "Factory": {
-            "address": "0xD503Bdcc3Cd38D3cEaBa1efA43EFCc03b7Fb1CbA",
-            "startBlock": 28680516
+            "address": "0xF451feb55eeA54EeF90AcB301212b80E03d82819",
+            "startBlock": 30531786
         },
         "KPITokensManager": {
-            "address": "0xCd85e0690f85A52D260273E5B51336D1151F2832",
-            "startBlock": 28680518
+            "address": "0xAcAFe7928cDd2E02bd508a4827b62649726f9460",
+            "startBlock": 30531788
         },
         "OraclesManager": {
-            "address": "0xc9E426B468d334AF6208ef9b3bA5f599d1417c6e",
-            "startBlock": 28680520
+            "address": "0x35030D4680C339Dd5a043C23f99Ee45ce66198CA",
+            "startBlock": 30531789
         }
     },
     "scroll-sepolia": {
         "Factory": {
-            "address": "0x64a0745EF9d3772d9739D9350873eD3703bE45eC",
-            "startBlock": 416670
+            "address": "0x4A827f3Bf3c38Baa091DdCAb7B801aCee6819759",
+            "startBlock": 1711759
         },
         "KPITokensManager": {
-            "address": "0xD4AC4AaFb81eC774E49AA755A66EfCe4574D6276",
-            "startBlock": 416672
+            "address": "0x549ECeD431F93dbde0D7e6703F04dF1E074F096a",
+            "startBlock": 1711762
         },
         "OraclesManager": {
-            "address": "0xD3Fe5d463dD1fd943CCC2271F2ea980B898B5DA3",
-            "startBlock": 416675
+            "address": "0xdd6F7A083487d0d86487F7D5E5964110537e5c59",
+            "startBlock": 1711766
         }
     },
     "sepolia": {
         "Factory": {
-            "address": "0x44bBb970E534bCE4B42C5a34b15d5B049704417A",
-            "startBlock": 3784913
+            "address": "0xB725486e93926101E2E629b6790D27A4729920E5",
+            "startBlock": 4518508
         },
         "KPITokensManager": {
-            "address": "0xA4537024597F8B9243AbE105D0Cb297Ea2562ef1",
-            "startBlock": 3784915
+            "address": "0xdA985F91931852A92Efe59D4752E0AB090106a74",
+            "startBlock": 4518509
         },
         "OraclesManager": {
-            "address": "0x940d1D2F5c5724a37593D323bFde54F81D6f11C0",
-            "startBlock": 3784917
+            "address": "0x2CeeDD7B56A36246A8B4C1d5CF4f1B5857c92283",
+            "startBlock": 4518510
         }
     }
 }

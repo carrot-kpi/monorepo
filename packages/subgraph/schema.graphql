@@ -36,10 +36,12 @@ type _Schema_
 type Factory @entity {
     id: Bytes!
     owner: Bytes!
-    kpiTokensManager: KPITokensManager
-    oraclesManager: OraclesManager
+    kpiTokensManager: KPITokensManager!
+    oraclesManager: OraclesManager!
     feeReceiver: Bytes!
     kpiTokensAmount: BigInt!
+    permissionless: Boolean!
+    allowedCreators: [Bytes!]!
 }
 
 type KPITokenTemplateSpecification @entity(immutable: true) {
@@ -73,6 +75,7 @@ type KPITokenTemplate @entity {
 
 type KPITokensManager @entity {
     id: Bytes!
+    factory: Factory! @derivedFrom(field: "kpiTokensManager")
     owner: Bytes!
     templateSets: [KPITokenTemplateSet!]! @derivedFrom(field: "manager")
     templatesAmount: BigInt!
@@ -129,6 +132,7 @@ type OracleTemplate @entity {
 
 type OraclesManager @entity {
     id: Bytes!
+    factory: Factory! @derivedFrom(field: "oraclesManager")
     owner: Bytes!
     templateSets: [OracleTemplateSet!]! @derivedFrom(field: "manager")
     templatesAmount: BigInt!
@@ -139,4 +143,5 @@ type Oracle @entity {
     kpiToken: KPIToken!
     template: OracleTemplate!
     finalized: Boolean!
+    result: BigInt!
 }

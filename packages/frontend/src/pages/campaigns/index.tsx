@@ -38,7 +38,7 @@ export const Campaigns = () => {
     useEffect(() => {
         const bodyElement = window.document.getElementById("__app_body");
         if (!bodyElement) return;
-        bodyElement.scroll({ top: 0, left: 0, behavior: "instant" });
+        bodyElement.scrollIntoView();
     }, []);
 
     useEffect(() => {
