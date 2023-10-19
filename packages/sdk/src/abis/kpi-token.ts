@@ -1,14 +1,7 @@
 export default [
     {
         anonymous: false,
-        inputs: [
-            {
-                indexed: false,
-                internalType: "uint256",
-                name: "progress",
-                type: "uint256",
-            },
-        ],
+        inputs: [],
         name: "Finalize",
         type: "event",
     },
