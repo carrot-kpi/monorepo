@@ -32,11 +32,7 @@ export const Permissioned = ({ onBack }: PermissionedProps) => {
                         >
                             {t("permissioned.mode.description")}
                         </Typography>
-                        <Button
-                            variant="secondary"
-                            size="small"
-                            onClick={onBack}
-                        >
+                        <Button size="small" onClick={onBack}>
                             {t("permissioned.mode.back")}
                         </Button>
                     </>
