@@ -143,7 +143,7 @@ export const CreateWithTemplateId = () => {
 
     return (
         <Layout navbarBgColor="green" noMarquee>
-            <div className="flex-grow bg-grid-light bg-left-top bg-green">
+            <div className="h-screen flex-grow bg-grid-light bg-left-top bg-green">
                 {!creatorAllowed ? (
                     <div className="py-20">
                         <Permissioned onBack={handleDismiss} />
