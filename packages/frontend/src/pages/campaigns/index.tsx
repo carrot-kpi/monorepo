@@ -107,39 +107,43 @@ export const Campaigns = () => {
 
     return (
         <Layout navbarBgColor="orange">
-            <div className="w-full relative flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
-                <div className="py-16 w-full max-w-screen-2xl">
-                    <Typography variant="h1">{t("campaign.all")}</Typography>
+            <div className="h-screen">
+                <div className="w-full relative flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
+                    <div className="py-16 w-full max-w-screen-2xl">
+                        <Typography variant="h1">
+                            {t("campaign.all")}
+                        </Typography>
+                    </div>
                 </div>
-            </div>
-            <div className="w-full" id="__campaigns_page">
-                <CampaignsTopNav
-                    sortOptions={SORT_OPTIONS}
-                    stateOptions={STATE_OPTIONS}
-                    state={state}
-                    sort={sort}
-                    filtersOpen={filtersOpen}
-                    setSearchQuery={setSearchQuery}
-                    onOrderingChange={handleSortChange}
-                    onStateChange={handleStateChange}
-                    onToggleFilters={toggleFilters}
-                />
-            </div>
-            <div className="w-full flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
-                <SideFilters
-                    open={filtersOpen}
-                    selectedTemplates={templates}
-                    setSelectedTemplates={handleTemplatesUpdate}
-                    selectedOracles={oracles}
-                    setSelectedOracles={handleOraclesTemplatesUpdate}
-                    toggleFilters={toggleFilters}
-                />
-                <div className="flex flex-col items-center w-full py-12 md:py-16">
-                    <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
-                        <Grid
-                            loading={loading}
-                            items={sortedAndfilteredKPITokens}
-                        />
+                <div className="w-full" id="__campaigns_page">
+                    <CampaignsTopNav
+                        sortOptions={SORT_OPTIONS}
+                        stateOptions={STATE_OPTIONS}
+                        state={state}
+                        sort={sort}
+                        filtersOpen={filtersOpen}
+                        setSearchQuery={setSearchQuery}
+                        onOrderingChange={handleSortChange}
+                        onStateChange={handleStateChange}
+                        onToggleFilters={toggleFilters}
+                    />
+                </div>
+                <div className="w-full flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
+                    <SideFilters
+                        open={filtersOpen}
+                        selectedTemplates={templates}
+                        setSelectedTemplates={handleTemplatesUpdate}
+                        selectedOracles={oracles}
+                        setSelectedOracles={handleOraclesTemplatesUpdate}
+                        toggleFilters={toggleFilters}
+                    />
+                    <div className="flex flex-col items-center w-full py-12 md:py-16">
+                        <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
+                            <Grid
+                                loading={loading}
+                                items={sortedAndfilteredKPITokens}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

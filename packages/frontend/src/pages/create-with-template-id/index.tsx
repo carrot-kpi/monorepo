@@ -6,14 +6,27 @@ import {
 } from "@carrot-kpi/react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAccount, useNetwork, usePublicClient } from "wagmi";
-import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
+import {
+    useAccount,
+    useNetwork,
+    usePublicClient,
+    type Address,
+    useContractRead,
+} from "wagmi";
+import {
+    CHAIN_ADDRESSES,
+    ChainId,
+    FACTORY_ABI,
+    Fetcher,
+    ResolvedTemplate,
+} from "@carrot-kpi/sdk";
 import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { Authenticate } from "../../components/authenticate";
 import { useIsPinningProxyAuthenticated } from "../../hooks/useIsPinningProxyAuthenticated";
 import { useInvalidateLatestKPITokens } from "../../hooks/useInvalidateLatestKPITokens";
 import { Layout } from "../../components/layout";
+import { Permissioned } from "../../components/permissioned";
 
 export const CreateWithTemplateId = () => {
     const { i18n, t } = useTranslation();
@@ -111,6 +124,15 @@ export const CreateWithTemplateId = () => {
         templateId,
     ]);
 
+    const { data: creatorAllowed, isLoading: loadingCreatorAllowed } =
+        useContractRead({
+            address: CHAIN_ADDRESSES[chain?.id as ChainId].factory,
+            abi: FACTORY_ABI,
+            functionName: "creatorAllowed",
+            args: [address as Address],
+            enabled: !!chain?.id && !!address,
+        });
+
     const handleCreate = useCallback(() => {
         invalidateLatestKPITokens();
     }, [invalidateLatestKPITokens]);
@@ -121,14 +143,18 @@ export const CreateWithTemplateId = () => {
 
     return (
         <Layout navbarBgColor="green" noMarquee>
-            <div className="flex-grow bg-grid-light bg-left-top bg-green">
-                {!pinningProxyAuthenticated ? (
-                    <div className="py-20">
-                        <Authenticate onCancel={handleDismiss} />
-                    </div>
-                ) : loading ? (
+            <div className="h-screen flex-grow bg-grid-light bg-left-top bg-green">
+                {loading || loadingCreatorAllowed ? (
                     <div className="py-20 text-black flex justify-center">
                         <Loader />
+                    </div>
+                ) : !creatorAllowed ? (
+                    <div className="py-20">
+                        <Permissioned onBack={handleDismiss} />
+                    </div>
+                ) : !pinningProxyAuthenticated ? (
+                    <div className="py-20">
+                        <Authenticate onCancel={handleDismiss} />
                     </div>
                 ) : template ? (
                     <KPITokenCreationForm

@@ -16,7 +16,6 @@ const Arrow = (props: SVGIcon) => (
                 cy="140.58"
                 r="74.877"
                 fill="none"
-                stroke="#000"
                 strokeLinejoin="round"
                 strokeWidth="13.229"
             />
@@ -26,10 +25,18 @@ const Arrow = (props: SVGIcon) => (
                         x="92.746"
                         y="92.93"
                         width="15"
+                        fill="#000"
+                        stroke="#000"
                         height="70"
                         ry="7.5"
                     />
-                    <circle cx="100.25" cy="176.83" r="8.5" />
+                    <circle
+                        cx="100.25"
+                        cy="176.83"
+                        r="8.5"
+                        fill="#000"
+                        stroke="#000"
+                    />
                 </g>
             </g>
         </g>
