@@ -131,7 +131,11 @@ export const Navbar = ({
                     </nav>
                     <div className="flex md:flex-row items-center gap-4">
                         <div className="hidden md:block">
-                            <ConnectWallet />
+                            <ConnectWallet
+                                className={{
+                                    connectButton: "h-12 px-3 w-full xl:w-fit",
+                                }}
+                            />
                         </div>
                         <Button
                             ref={setPreferencesAnchor}
