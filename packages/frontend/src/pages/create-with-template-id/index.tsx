@@ -132,11 +132,11 @@ export const CreateWithTemplateId = () => {
                         <Loader />
                     </div>
                 ) : !creatorAllowed ? (
-                    <div className="py-20">
+                    <div className="h-screen py-20">
                         <Permissioned onBack={handleDismiss} />
                     </div>
                 ) : !pinningProxyAuthenticated ? (
-                    <div className="py-20">
+                    <div className="h-screen py-20">
                         <Authenticate onCancel={handleDismiss} />
                     </div>
                 ) : template ? (
