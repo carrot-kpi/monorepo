@@ -11,7 +11,7 @@ import { ErrorBoundary } from "./error-boundary";
 import type { BaseTemplateComponentProps } from "../types/templates";
 import { useNetwork } from "wagmi";
 
-const wrapperStyles = cva(["w-full", "h-full"], {
+const wrapperStyles = cva(["w-full", "h-fit"], {
     variants: {
         dark: {
             true: ["dark"],
@@ -83,7 +83,8 @@ export function TemplateComponent({
         );
     }, [systemDarkTheme, theme]);
 
-    if (loading || !template || !Component) return <>{fallback}</>;
+    if (loading || !template || !Component)
+        return <div className="h-screen py-20">{fallback}</div>;
     return (
         <div
             className={wrapperStyles({
