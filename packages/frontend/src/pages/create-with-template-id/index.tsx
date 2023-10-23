@@ -30,7 +30,7 @@ export const CreateWithTemplateId = () => {
     const ipfsGatewayURL = useIPFSGatewayURL();
     const invalidateLatestKPITokens = useInvalidateLatestKPITokens();
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [template, setTemplate] = useState<ResolvedTemplate | null>(
         state && "specification" in state.template ? state.template : null,
     );
@@ -126,9 +126,9 @@ export const CreateWithTemplateId = () => {
 
     return (
         <Layout navbarBgColor="green" noMarquee>
-            <div className="h-screen flex-grow bg-grid-light bg-left-top bg-green">
+            <div className="h-fit flex-grow bg-grid-light bg-left-top bg-green">
                 {loading || loadingPermission ? (
-                    <div className="py-20 text-black flex justify-center">
+                    <div className="h-screen py-20 text-black flex justify-center">
                         <Loader />
                     </div>
                 ) : !creatorAllowed ? (
@@ -144,7 +144,7 @@ export const CreateWithTemplateId = () => {
                         key={formKey}
                         template={template || undefined}
                         fallback={
-                            <div className="py-20 text-black flex justify-center">
+                            <div className="h-screen py-20 text-black flex justify-center">
                                 <Loader />
                             </div>
                         }
