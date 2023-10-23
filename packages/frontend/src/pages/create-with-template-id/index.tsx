@@ -144,17 +144,17 @@ export const CreateWithTemplateId = () => {
     return (
         <Layout navbarBgColor="green" noMarquee>
             <div className="h-screen flex-grow bg-grid-light bg-left-top bg-green">
-                {!creatorAllowed ? (
+                {loading || loadingCreatorAllowed ? (
+                    <div className="py-20 text-black flex justify-center">
+                        <Loader />
+                    </div>
+                ) : !creatorAllowed ? (
                     <div className="py-20">
                         <Permissioned onBack={handleDismiss} />
                     </div>
                 ) : !pinningProxyAuthenticated ? (
                     <div className="py-20">
                         <Authenticate onCancel={handleDismiss} />
-                    </div>
-                ) : loading || loadingCreatorAllowed ? (
-                    <div className="py-20 text-black flex justify-center">
-                        <Loader />
                     </div>
                 ) : template ? (
                     <KPITokenCreationForm
