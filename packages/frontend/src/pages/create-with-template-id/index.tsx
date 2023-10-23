@@ -149,7 +149,7 @@ export const CreateWithTemplateId = () => {
                             </div>
                         }
                         error={
-                            <div className="py-20 flex justify-center">
+                            <div className="h-screen py-20 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
                                         title: t(
