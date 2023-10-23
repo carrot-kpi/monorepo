@@ -148,46 +148,24 @@ export const CreateWithTemplateId = () => {
                     <div className="py-20">
                         <Permissioned onBack={handleDismiss} />
                     </div>
-                ) : (
-                    <>
-                        {!pinningProxyAuthenticated ? (
-                            <div className="py-20">
-                                <Authenticate onCancel={handleDismiss} />
-                            </div>
-                        ) : loading || loadingCreatorAllowed ? (
+                ) : !pinningProxyAuthenticated ? (
+                    <div className="py-20">
+                        <Authenticate onCancel={handleDismiss} />
+                    </div>
+                ) : loading || loadingCreatorAllowed ? (
+                    <div className="py-20 text-black flex justify-center">
+                        <Loader />
+                    </div>
+                ) : template ? (
+                    <KPITokenCreationForm
+                        key={formKey}
+                        template={template || undefined}
+                        fallback={
                             <div className="py-20 text-black flex justify-center">
                                 <Loader />
                             </div>
-                        ) : template ? (
-                            <KPITokenCreationForm
-                                key={formKey}
-                                template={template || undefined}
-                                fallback={
-                                    <div className="py-20 text-black flex justify-center">
-                                        <Loader />
-                                    </div>
-                                }
-                                error={
-                                    <div className="py-20 flex justify-center">
-                                        <ErrorFeedback
-                                            messages={{
-                                                title: t(
-                                                    "error.initializing.creation.title",
-                                                ),
-                                                description: t(
-                                                    "error.initializing.creation.description",
-                                                ),
-                                            }}
-                                        />
-                                    </div>
-                                }
-                                i18n={i18n}
-                                className={{ root: "w-full h-full" }}
-                                onCreate={handleCreate}
-                                navigate={navigate}
-                                onTx={addTransaction}
-                            />
-                        ) : (
+                        }
+                        error={
                             <div className="py-20 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
@@ -200,8 +178,24 @@ export const CreateWithTemplateId = () => {
                                     }}
                                 />
                             </div>
-                        )}
-                    </>
+                        }
+                        i18n={i18n}
+                        className={{ root: "w-full h-full" }}
+                        onCreate={handleCreate}
+                        navigate={navigate}
+                        onTx={addTransaction}
+                    />
+                ) : (
+                    <div className="py-20 flex justify-center">
+                        <ErrorFeedback
+                            messages={{
+                                title: t("error.initializing.creation.title"),
+                                description: t(
+                                    "error.initializing.creation.description",
+                                ),
+                            }}
+                        />
+                    </div>
                 )}
             </div>
         </Layout>
