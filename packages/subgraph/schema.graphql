@@ -143,5 +143,5 @@ type Oracle @entity {
     kpiToken: KPIToken!
     template: OracleTemplate!
     finalized: Boolean!
-    result: BigInt!
+    result: BigInt
 }
