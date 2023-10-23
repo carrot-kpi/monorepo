@@ -92,7 +92,7 @@ export const en = {
             "A connected wallet is required to continue.",
         "permissioned.mode.title": "Permissioned mode enabled",
         "permissioned.mode.description":
-            "The permissioned mode is currently active, allowing only authorized users to create campaigns. Reach out to our Discord to request access.",
+            "The campaign creation is under an allowlist right now. If you are looking to throw some carrots to your community, please reach out to us in Discord and we will help you in!",
         "permissioned.mode.back": "Back",
     },
 } as const;
