@@ -27,17 +27,17 @@ export const Page = () => {
 
     return (
         <Layout navbarBgColor="orange">
-            <div className="flex-grow bg-grid-light bg-left-top bg-orange">
+            <div className="h-fit flex-grow bg-grid-light bg-left-top bg-orange">
                 <KPITokenPage
                     kpiToken={watchedKPITokenWithData}
                     i18n={i18n}
                     fallback={
-                        <div className="text-black h-screen flex justify-center items-center">
+                        <div className="h-screen py-20 text-black flex justify-center items-center">
                             <Loader />
                         </div>
                     }
                     error={
-                        <div className="bg-grid-light h-screen flex justify-center items-center">
+                        <div className="h-screen py-20 bg-grid-light flex justify-center items-center">
                             <ErrorFeedback
                                 messages={{
                                     title: t("error.initializing.page.title"),
