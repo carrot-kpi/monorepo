@@ -3,8 +3,8 @@ import { t } from "i18next";
 import ErrorIcon from "../../icons/error";
 import { Button, Typography } from "@carrot-kpi/ui";
 import { useAccount } from "wagmi";
-import WalletDisconnected from "../../icons/wallet-disconnected";
 import { DISCORD_LINK } from "../../constants";
+import { WalletDisconnected } from "../wallet-disconnected";
 
 interface PermissionedProps {
     onBack: () => void;
@@ -51,17 +51,7 @@ export const Permissioned = ({ onBack }: PermissionedProps) => {
                         </div>
                     </>
                 ) : (
-                    <>
-                        <WalletDisconnected className="w-52" />
-                        <div className="flex flex-col gap-3 items-center">
-                            <Typography variant="h4">
-                                {t("wallet.disconnected.title")}
-                            </Typography>
-                            <Typography>
-                                {t("wallet.disconnected.description")}
-                            </Typography>
-                        </div>
-                    </>
+                    <WalletDisconnected />
                 )}
             </div>
         </div>

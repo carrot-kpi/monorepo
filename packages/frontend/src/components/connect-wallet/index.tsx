@@ -16,12 +16,17 @@ import { cva } from "class-variance-authority";
 const rootStyles = cva(["flex", "gap-4"]);
 
 interface ConnectWalletProps {
+    chainList?: boolean;
     className?: {
         root?: string;
+        connectButton?: string;
     };
 }
 
-export const ConnectWallet = ({ className }: ConnectWalletProps) => {
+export const ConnectWallet = ({
+    chainList = true,
+    className,
+}: ConnectWalletProps) => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
     const { address, connector: activeConnector } = useAccount();
@@ -127,42 +132,45 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                 />
             )}
             <div className={rootStyles({ className: className?.root })}>
-                <div
-                    className={`h-12 w-fit flex items-center ${
-                        __LIBRARY_MODE__ || !multipleEnabledChains
-                            ? ""
-                            : "cursor-pointer"
-                    } gap-3`}
-                    onClick={
-                        multipleEnabledChains
-                            ? handleNetworksPopoverOpen
-                            : undefined
-                    }
-                    ref={setNetworksPopoverAnchor}
-                >
-                    <ChainIcon
-                        backgroundColor={
-                            supportedChain
-                                ? SUPPORTED_CHAINS[chainId as ChainId]
-                                      .iconBackgroundColor
-                                : "#ff0000"
+                {chainList && (
+                    <div
+                        className={`h-12 w-fit flex items-center ${
+                            __LIBRARY_MODE__ || !multipleEnabledChains
+                                ? ""
+                                : "cursor-pointer"
+                        } gap-3`}
+                        onClick={
+                            multipleEnabledChains
+                                ? handleNetworksPopoverOpen
+                                : undefined
                         }
-                        logo={<Logo width={18} height={18} />}
-                    />
-                    <div className="flex flex-col">
-                        <Typography variant="xs">
-                            {t("connect.wallet.network")}
-                        </Typography>
-                        <Typography variant="sm">
-                            {supportedChain ? chainName : "Unsupported"}
-                        </Typography>
+                        ref={setNetworksPopoverAnchor}
+                    >
+                        <ChainIcon
+                            backgroundColor={
+                                supportedChain
+                                    ? SUPPORTED_CHAINS[chainId as ChainId]
+                                          .iconBackgroundColor
+                                    : "#ff0000"
+                            }
+                            logo={<Logo width={18} height={18} />}
+                        />
+                        <div className="flex flex-col">
+                            <Typography variant="xs">
+                                {t("connect.wallet.network")}
+                            </Typography>
+                            <Typography variant="sm">
+                                {supportedChain ? chainName : "Unsupported"}
+                            </Typography>
+                        </div>
+                        {!__LIBRARY_MODE__ && multipleEnabledChains && (
+                            <CaretDown className="w-3" />
+                        )}
                     </div>
-                    {!__LIBRARY_MODE__ && multipleEnabledChains && (
-                        <CaretDown className="w-3" />
-                    )}
-                </div>
+                )}
                 {address ? (
                     <Button
+                        size="small"
                         ref={setConnectWallet}
                         onClick={handleAccountPopoverOpen}
                         className={{
@@ -173,10 +181,11 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                     </Button>
                 ) : (
                     <Button
+                        size="small"
                         ref={setConnectWallet}
                         onClick={handleConnectPopoverOpen}
                         className={{
-                            root: "h-12 px-3 w-full xl:w-fit",
+                            root: className?.connectButton,
                         }}
                     >
                         {t("connect.wallet")}

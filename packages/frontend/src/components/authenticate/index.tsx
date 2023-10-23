@@ -3,9 +3,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import LogoIcon from "../../icons/logo-icon";
 import { t } from "i18next";
 import { useAccount, useSignMessage } from "wagmi";
-import WalletDisconnected from "../../icons/wallet-disconnected";
 import { useSetPinningProxyJWT } from "../../hooks/useSetPinningProxyJWT";
 import { PINNING_PROXY_URL } from "../../constants";
+import { WalletDisconnected } from "../wallet-disconnected";
 
 interface AuthenticateProps {
     onCancel: () => void;
@@ -112,17 +112,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
                         </div>
                     </>
                 ) : (
-                    <>
-                        <WalletDisconnected className="w-52" />
-                        <div className="flex flex-col gap-3 items-center">
-                            <Typography variant="h4">
-                                {t("wallet.disconnected.title")}
-                            </Typography>
-                            <Typography>
-                                {t("wallet.disconnected.description")}
-                            </Typography>
-                        </div>
-                    </>
+                    <WalletDisconnected />
                 )}
             </div>
         </div>
