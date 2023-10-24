@@ -126,7 +126,7 @@ export const CreateWithTemplateId = () => {
 
     return (
         <Layout navbarBgColor="green" noMarquee>
-            <div className="h-fit flex-grow bg-grid-light bg-left-top bg-green">
+            <div className="flex-grow bg-grid-light bg-left-top bg-green">
                 {loading || loadingPermission ? (
                     <div className="h-screen py-20 text-black flex justify-center">
                         <Loader />
