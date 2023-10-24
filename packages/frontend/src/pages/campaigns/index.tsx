@@ -107,7 +107,7 @@ export const Campaigns = () => {
 
     return (
         <Layout navbarBgColor="orange">
-            <div className="h-screen">
+            <div className="min-h-screen">
                 <div className="w-full relative flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
                     <div className="py-16 w-full max-w-screen-2xl">
                         <Typography variant="h1">
@@ -138,7 +138,7 @@ export const Campaigns = () => {
                         toggleFilters={toggleFilters}
                     />
                     <div className="flex flex-col items-center w-full py-12 md:py-16">
-                        <div className="flex flex-wrap justify-center gap-5 lg:justify-start">
+                        <div className="w-full flex flex-wrap justify-center gap-5 lg:justify-start">
                             <Grid
                                 loading={loading}
                                 items={sortedAndfilteredKPITokens}
