@@ -1,5 +1,17 @@
 # @carrot-kpi/react
 
+## 0.65.2
+
+### Patch Changes
+
+-   30ac5c7: Reset result array before filling it again in useResolvedKPITokens
+    hook (it avoids resolved KPI tokens accumulation)
+-   30ac5c7: Adjust template component style and fallback container styles
+-   30ac5c7: New contract deployment addresses
+-   Updated dependencies [30ac5c7]
+-   Updated dependencies [30ac5c7]
+    -   @carrot-kpi/sdk@1.43.2
+
 ## 0.65.1
 
 ### Patch Changes

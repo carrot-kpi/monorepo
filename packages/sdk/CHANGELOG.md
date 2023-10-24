@@ -1,5 +1,12 @@
 # @carrot-kpi/sdk
 
+## 1.43.2
+
+### Patch Changes
+
+-   30ac5c7: New contract deployment addresses
+-   30ac5c7: Update KPI token ABI
+
 ## 1.43.1
 
 ### Patch Changes

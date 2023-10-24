@@ -1,5 +1,15 @@
 # @carrot-kpi/subgraph
 
+## 0.10.0
+
+### Minor Changes
+
+-   30ac5c7: Adapt subgraph to new contracts structure
+
+### Patch Changes
+
+-   30ac5c7: Make result attribute in oracle entity optional
+
 ## 0.9.0
 
 ### Minor Changes

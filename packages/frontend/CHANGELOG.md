@@ -1,5 +1,28 @@
 # @carrot-kpi/host-frontend
 
+## 0.29.0
+
+### Minor Changes
+
+-   30ac5c7: Remove fullscreen modal in campaign and creation form pages
+-   30ac5c7: Add permissioned mode warning when creating campaigns
+-   30ac5c7: Add connect wallet button to wallet disconnected modal
+
+### Patch Changes
+
+-   30ac5c7: Fix creation allowance check for connected address while creating
+    campaign
+-   30ac5c7: Make the campaigns page responsive with flex instead of grid
+-   30ac5c7: Add new icon to permissioned mode warning modal, add join discord
+    button
+-   30ac5c7: Fix height styles when loading on page and create component
+-   Updated dependencies [30ac5c7]
+-   Updated dependencies [30ac5c7]
+-   Updated dependencies [30ac5c7]
+-   Updated dependencies [30ac5c7]
+    -   @carrot-kpi/react@0.65.2
+    -   @carrot-kpi/sdk@1.43.2
+
 ## 0.28.0
 
 ### Minor Changes
