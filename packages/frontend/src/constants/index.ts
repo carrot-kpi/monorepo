@@ -124,6 +124,9 @@ export interface FooterLink {
     }[];
 }
 
+export const DISCORD_LINK = "https://discord.gg/uRer2D4Pdf";
+export const TWITTER_LINK = "https://twitter.com/CarrotEth";
+
 export const FOOTER_LINKS: FooterLink[] = [
     {
         title: "About",
@@ -154,11 +157,11 @@ export const FOOTER_LINKS: FooterLink[] = [
         links: [
             {
                 title: "Discord",
-                to: "https://discord.gg/uRer2D4Pdf",
+                to: DISCORD_LINK,
             },
             {
                 title: "Twitter",
-                to: "https://twitter.com/CarrotEth",
+                to: TWITTER_LINK,
             },
             // TODO: add link back once we have it
             // {

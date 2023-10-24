@@ -90,5 +90,10 @@ export const en = {
         "wallet.disconnected.title": "Wallet disconnected",
         "wallet.disconnected.description":
             "A connected wallet is required to continue.",
+        "permissioned.mode.title": "Permissioned mode enabled",
+        "permissioned.mode.description":
+            "The campaign creation is under an allowlist right now. If you are looking to throw some carrots to your community, please reach out to us in Discord and we will help you in!",
+        "permissioned.mode.back": "Back",
+        "permissioned.mode.discord": "Join Discord",
     },
 } as const;

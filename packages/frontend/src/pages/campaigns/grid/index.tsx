@@ -64,11 +64,11 @@ export const Grid = ({ loading, items }: GridProps) => {
 
     return (
         <div className="flex flex-col items-center w-full">
-            <div className="space-y-12 md:space-y-16">
+            <div className="w-full space-y-12 md:space-y-16">
                 {!loading && paginatedItems.length === 0 ? (
                     <Empty />
                 ) : (
-                    <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+                    <div className="w-full flex flex-wrap gap-8 justify-center">
                         {loading
                             ? placeholder
                             : paginatedItems.map(

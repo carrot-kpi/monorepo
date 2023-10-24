@@ -14,6 +14,8 @@ import { Authenticate } from "../../components/authenticate";
 import { useIsPinningProxyAuthenticated } from "../../hooks/useIsPinningProxyAuthenticated";
 import { useInvalidateLatestKPITokens } from "../../hooks/useInvalidateLatestKPITokens";
 import { Layout } from "../../components/layout";
+import { Permissioned } from "../../components/permissioned";
+import { useIsCreatorAllowed } from "../../hooks/useIsCreatorAllowed";
 
 export const CreateWithTemplateId = () => {
     const { i18n, t } = useTranslation();
@@ -28,12 +30,15 @@ export const CreateWithTemplateId = () => {
     const ipfsGatewayURL = useIPFSGatewayURL();
     const invalidateLatestKPITokens = useInvalidateLatestKPITokens();
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [template, setTemplate] = useState<ResolvedTemplate | null>(
         state && "specification" in state.template ? state.template : null,
     );
     const [formKey, setFormKey] = useState(0);
     const pinningProxyAuthenticated = useIsPinningProxyAuthenticated();
+
+    const { allowed: creatorAllowed, loading: loadingPermission } =
+        useIsCreatorAllowed(address);
 
     // every time the chain or the connected address changes,
     // reset the creation form state
@@ -122,25 +127,29 @@ export const CreateWithTemplateId = () => {
     return (
         <Layout navbarBgColor="green" noMarquee>
             <div className="flex-grow bg-grid-light bg-left-top bg-green">
-                {!pinningProxyAuthenticated ? (
-                    <div className="py-20">
-                        <Authenticate onCancel={handleDismiss} />
-                    </div>
-                ) : loading ? (
-                    <div className="py-20 text-black flex justify-center">
+                {loading || loadingPermission ? (
+                    <div className="h-screen py-20 text-black flex justify-center">
                         <Loader />
+                    </div>
+                ) : !creatorAllowed ? (
+                    <div className="h-screen py-20">
+                        <Permissioned onBack={handleDismiss} />
+                    </div>
+                ) : !pinningProxyAuthenticated ? (
+                    <div className="h-screen py-20">
+                        <Authenticate onCancel={handleDismiss} />
                     </div>
                 ) : template ? (
                     <KPITokenCreationForm
                         key={formKey}
                         template={template || undefined}
                         fallback={
-                            <div className="py-20 text-black flex justify-center">
+                            <div className="h-screen py-20 text-black flex justify-center">
                                 <Loader />
                             </div>
                         }
                         error={
-                            <div className="py-20 flex justify-center">
+                            <div className="h-screen py-20 flex justify-center">
                                 <ErrorFeedback
                                     messages={{
                                         title: t(
