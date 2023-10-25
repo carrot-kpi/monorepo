@@ -25,6 +25,7 @@ interface RootProps {
     kpiTokenTemplateBaseURL?: string;
     oracleTemplateBaseURL?: string;
     templateId?: number;
+    enableStagingMode?: boolean;
 }
 
 export const Root = ({
@@ -35,6 +36,7 @@ export const Root = ({
     oracleTemplateBaseURL,
     ipfsGatewayURL,
     templateId,
+    enableStagingMode,
 }: RootProps) => {
     const connectors = getConnectors();
     if (
@@ -63,6 +65,7 @@ export const Root = ({
                         kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
                         oracleTemplateBaseURL={oracleTemplateBaseURL}
                         ipfsGatewayURL={ipfsGatewayURL}
+                        enableStagingMode={enableStagingMode}
                     />
                     <SharedEntrypoint
                         config={config}

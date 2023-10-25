@@ -10,12 +10,14 @@ interface LibraryModeSharedStateUpdaterProps {
     ipfsGatewayURL: string;
     kpiTokenTemplateBaseURL?: string;
     oracleTemplateBaseURL?: string;
+    enableStagingMode?: boolean;
 }
 
 export const LibraryModeSharedStateUpdater = ({
     kpiTokenTemplateBaseURL,
     oracleTemplateBaseURL,
     ipfsGatewayURL,
+    enableStagingMode = false,
 }: LibraryModeSharedStateUpdaterProps) => {
     const setDevMode = useSetDevMode();
     const setStagingMode = useSetStagingMode();
@@ -24,7 +26,7 @@ export const LibraryModeSharedStateUpdater = ({
     const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
 
     setDevMode(true);
-    setStagingMode(false);
+    setStagingMode(enableStagingMode);
     setIPFSGatewayURL(ipfsGatewayURL);
     setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);
     setOracleTemplateBaseURL(oracleTemplateBaseURL);
