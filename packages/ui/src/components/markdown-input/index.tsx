@@ -84,7 +84,7 @@ export const MarkdownInput = ({
                 Placeholder.configure({
                     placeholder,
                     emptyEditorClass:
-                        "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 dark:before:cui-opacity-20 cui-text-base cui-font-normal",
+                        "before:cui-content-[attr(data-placeholder)] before:cui-absolute before:cui-opacity-30 cui-font-mono dark:before:cui-opacity-20 cui-text-base cui-font-normal",
                 }),
             ],
             editorProps: {
