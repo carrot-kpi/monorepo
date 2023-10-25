@@ -32,7 +32,7 @@ export const Page = () => {
                     kpiToken={watchedKPITokenWithData}
                     i18n={i18n}
                     fallback={
-                        <div className="text-black flex justify-center items-center">
+                        <div className="h-screen py-20 text-black flex justify-center items-center">
                             <Loader />
                         </div>
                     }
