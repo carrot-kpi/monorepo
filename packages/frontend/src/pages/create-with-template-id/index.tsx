@@ -144,7 +144,7 @@ export const CreateWithTemplateId = () => {
                         key={formKey}
                         template={template || undefined}
                         fallback={
-                            <div className="text-black flex justify-center">
+                            <div className="h-screen py-20 text-black flex justify-center">
                                 <Loader />
                             </div>
                         }
