@@ -1,5 +1,18 @@
 # @carrot-kpi/host-frontend
 
+## 0.30.0
+
+### Minor Changes
+
+-   36e5288: Allow enabling staging mode while in library mode
+
+### Patch Changes
+
+-   36e5288: Fix minor height and padding issues when loading the template
+    components
+-   Updated dependencies [36e5288]
+    -   @carrot-kpi/ui@0.65.1
+
 ## 0.29.0
 
 ### Minor Changes
