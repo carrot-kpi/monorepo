@@ -1,5 +1,11 @@
 # @carrot-kpi/ui
 
+## 0.65.1
+
+### Patch Changes
+
+-   36e5288: Add missing font style for the markdown input component
+
 ## 0.65.0
 
 ### Minor Changes
