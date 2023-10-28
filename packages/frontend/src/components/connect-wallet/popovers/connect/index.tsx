@@ -32,6 +32,7 @@ export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
                     const Logo = getConnectorIcon(connector.id);
                     return (
                         <div
+                            data-testid={`${connector.id}-wallet-button`}
                             key={connector.id}
                             className="flex gap-4 cursor-pointer"
                             onClick={() => {
