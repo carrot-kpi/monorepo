@@ -1,5 +1,10 @@
 import dayjs, { type UnitType } from "dayjs";
-import React, { useCallback, useLayoutEffect } from "react";
+import React, {
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useState,
+} from "react";
 import { Typography } from "../../typography";
 import { DatePicker, type DatePickerProps } from "../../date-input/picker";
 import { enforceDoubleDigits } from "../../../utils/formatting";
@@ -76,9 +81,23 @@ const MINUTES_SECONDS = new Array(60).fill(null).map((_, index) => {
 export const DateTimePicker = ({
     value,
     onChange,
-    min,
-    max,
+    min: minDate,
+    max: maxDate,
 }: DateTimePickerProps) => {
+    const [min, setMin] = useState(minDate);
+    const [max] = useState(maxDate);
+
+    // avoid inconsistent min and max values
+    useEffect(() => {
+        if (dayjs(min).isAfter(dayjs(max))) {
+            setMin(max);
+            console.warn("inconsistent min and max values", {
+                min: min?.toISOString(),
+                max: max?.toISOString(),
+            });
+        }
+    }, [min, max]);
+
     // in case a value change happened, check if we're still
     // alright with validation and rectify if needed
     useLayoutEffect(() => {
