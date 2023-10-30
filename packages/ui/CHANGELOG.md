@@ -1,5 +1,11 @@
 # @carrot-kpi/ui
 
+## 0.65.3
+
+### Patch Changes
+
+-   236267e: Avoid inconsistent min and max values, causing an infinite loop
+
 ## 0.65.2
 
 ### Patch Changes
