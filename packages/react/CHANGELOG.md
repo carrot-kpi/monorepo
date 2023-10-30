@@ -1,5 +1,18 @@
 # @carrot-kpi/react
 
+## 0.66.0
+
+### Minor Changes
+
+-   50a1bbc: Include state and state change handler in KPI token creation form
+    types and introduce Serializable type to represent internal template states
+
+### Patch Changes
+
+-   7808812: Remove height and padding from fallback wrapper
+-   Updated dependencies [50a1bbc]
+    -   @carrot-kpi/sdk@1.44.0
+
 ## 0.65.2
 
 ### Patch Changes

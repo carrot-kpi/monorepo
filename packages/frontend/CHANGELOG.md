@@ -1,5 +1,22 @@
 # @carrot-kpi/host-frontend
 
+## 0.31.0
+
+### Minor Changes
+
+-   50a1bbc: Introduce internal state management for KPI token creation forms.
+
+### Patch Changes
+
+-   7808812: Add padding and height to loader fallback
+-   Updated dependencies [7808812]
+-   Updated dependencies [50a1bbc]
+-   Updated dependencies [50a1bbc]
+-   Updated dependencies [50a1bbc]
+    -   @carrot-kpi/react@0.66.0
+    -   @carrot-kpi/ui@0.65.2
+    -   @carrot-kpi/sdk@1.44.0
+
 ## 0.30.0
 
 ### Minor Changes
