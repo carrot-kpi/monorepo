@@ -1,5 +1,11 @@
 # @carrot-kpi/react
 
+## 0.66.1
+
+### Patch Changes
+
+-   236267e: Remove height and padding from fallback wrapper
+
 ## 0.66.0
 
 ### Minor Changes
