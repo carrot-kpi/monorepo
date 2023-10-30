@@ -7,6 +7,8 @@ import {
     BaseInputWrapper,
 } from "./commons/input";
 
+export { type NumberFormatValues } from "react-number-format";
+
 export type NumberInputProps = Omit<
     NumericFormatProps & BaseInputProps<string>,
     "size" | "id" | "className"
