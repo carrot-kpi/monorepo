@@ -23,11 +23,29 @@ Yarn i -y
 
 ## UI Tests
 
-Run test on STAGE env
+### Local env
 
+First, inside `packages/frontend/.env` file put `INFURA_PROJECT_ID`
+
+Set `baseUrl` inside the `automation-tests>playwright.config.ts` to 'localhost:3000` 
+
+Navigate to root and run 
 ```
-yarn run test
+yarn build:frontend-library
 ```
 
+Open second terminal, navigate to `packages/frontend` and run 
+```
+yarn start:staging
+```
+Run tests 
+```
+yarn test:smoke
+yarn test:connectWallet
+```
 
-
+### Stage env
+Run smoke test on STAGE env
+```
+yarn test:smoke
+```

@@ -83,7 +83,8 @@ export function TemplateComponent({
         );
     }, [systemDarkTheme, theme]);
 
-    if (loading || !template || !Component) return <div>{fallback}</div>;
+    if (loading || !template || !Component)
+        return <div className="h-screen py-20">{fallback}</div>;
     return (
         <div
             className={wrapperStyles({
