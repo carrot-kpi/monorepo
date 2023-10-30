@@ -1,5 +1,13 @@
 # @carrot-kpi/ui
 
+## 0.65.2
+
+### Patch Changes
+
+-   50a1bbc: Export NumberFormatValues type from number input component
+-   Updated dependencies [50a1bbc]
+    -   @carrot-kpi/sdk@1.44.0
+
 ## 0.65.1
 
 ### Patch Changes
