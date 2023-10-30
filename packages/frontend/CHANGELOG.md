@@ -1,5 +1,15 @@
 # @carrot-kpi/host-frontend
 
+## 0.31.1
+
+### Patch Changes
+
+-   236267e: Add padding and height to loader fallback
+-   Updated dependencies [236267e]
+-   Updated dependencies [236267e]
+    -   @carrot-kpi/ui@0.65.3
+    -   @carrot-kpi/react@0.66.1
+
 ## 0.31.0
 
 ### Minor Changes
