@@ -1,16 +1,19 @@
 import React from "react";
 import type { ReactElement } from "react";
-import type { KPITokenCreationFormProps } from "../types/templates";
+import type {
+    KPITokenCreationFormProps,
+    Serializable,
+} from "../types/templates";
 import { TemplateComponent } from "./template-component";
 
-export function KPITokenCreationForm({
+export function KPITokenCreationForm<S extends Serializable = Serializable>({
     template,
     fallback,
     error,
     i18n,
     className,
     ...additionalProps
-}: KPITokenCreationFormProps): ReactElement {
+}: KPITokenCreationFormProps<S>): ReactElement {
     return (
         <TemplateComponent
             entity="kpiToken"
