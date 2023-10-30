@@ -16,6 +16,7 @@ import { useInvalidateLatestKPITokens } from "../../hooks/useInvalidateLatestKPI
 import { Layout } from "../../components/layout";
 import { Permissioned } from "../../components/permissioned";
 import { useIsCreatorAllowed } from "../../hooks/useIsCreatorAllowed";
+import type { Serializable } from "@carrot-kpi/react";
 
 export const CreateWithTemplateId = () => {
     const { i18n, t } = useTranslation();
@@ -29,13 +30,20 @@ export const CreateWithTemplateId = () => {
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const invalidateLatestKPITokens = useInvalidateLatestKPITokens();
+    const pinningProxyAuthenticated = useIsPinningProxyAuthenticated();
 
     const [loading, setLoading] = useState(true);
     const [template, setTemplate] = useState<ResolvedTemplate | null>(
         state && "specification" in state.template ? state.template : null,
     );
     const [formKey, setFormKey] = useState(0);
-    const pinningProxyAuthenticated = useIsPinningProxyAuthenticated();
+    const [draftState, setDraftState] = useState<{
+        templateId?: number;
+        state: Serializable;
+    }>({
+        templateId: undefined,
+        state: {},
+    });
 
     const { allowed: creatorAllowed, loading: loadingPermission } =
         useIsCreatorAllowed(address);
@@ -54,6 +62,10 @@ export const CreateWithTemplateId = () => {
 
     useEffect(() => {
         if (!!state?.template) {
+            setDraftState((previousState) => ({
+                templateId: state.template.id,
+                state: previousState.state,
+            }));
             setTemplate(state.template);
             return;
         }
@@ -93,7 +105,12 @@ export const CreateWithTemplateId = () => {
                     if (!cancelled) setTemplate(null);
                     return;
                 }
-                if (!cancelled) setTemplate(resolvedTemplates[0]);
+                const resolvedTemplate = resolvedTemplates[0];
+                setDraftState((previousState) => ({
+                    templateId: resolvedTemplate.id,
+                    state: previousState.state,
+                }));
+                if (!cancelled) setTemplate(resolvedTemplate);
             } catch (error) {
                 console.error(
                     `could not fetch template with id ${templateId}`,
@@ -115,6 +132,13 @@ export const CreateWithTemplateId = () => {
         state?.template,
         templateId,
     ]);
+
+    const handleChange = useCallback((state: Serializable) => {
+        setDraftState((prevState) => ({
+            templateId: prevState.templateId,
+            state,
+        }));
+    }, []);
 
     const handleCreate = useCallback(() => {
         invalidateLatestKPITokens();
@@ -142,7 +166,7 @@ export const CreateWithTemplateId = () => {
                 ) : template ? (
                     <KPITokenCreationForm
                         key={formKey}
-                        template={template || undefined}
+                        template={template}
                         fallback={
                             <div className="h-screen py-20 text-black flex justify-center">
                                 <Loader />
@@ -164,6 +188,8 @@ export const CreateWithTemplateId = () => {
                         }
                         i18n={i18n}
                         className={{ root: "w-full h-full" }}
+                        state={draftState.state}
+                        onChange={handleChange}
                         onCreate={handleCreate}
                         navigate={navigate}
                         onTx={addTransaction}
