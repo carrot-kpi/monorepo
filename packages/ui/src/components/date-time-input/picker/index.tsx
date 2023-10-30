@@ -85,10 +85,13 @@ export const DateTimePicker = ({
     max: maxDate,
 }: DateTimePickerProps) => {
     const [min, setMin] = useState(minDate);
-    const [max] = useState(maxDate);
+    const [max, setMax] = useState(maxDate);
 
     // avoid inconsistent min and max values
     useEffect(() => {
+        if (!min || !dayjs(min).isValid()) setMin(minDate);
+        if (!max || !dayjs(max).isValid()) setMax(maxDate);
+
         if (dayjs(min).isAfter(dayjs(max))) {
             setMin(max);
             console.warn("inconsistent min and max values", {
@@ -96,7 +99,7 @@ export const DateTimePicker = ({
                 max: max?.toISOString(),
             });
         }
-    }, [min, max]);
+    }, [min, max, minDate, maxDate]);
 
     // in case a value change happened, check if we're still
     // alright with validation and rectify if needed
