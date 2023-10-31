@@ -1,0 +1,24 @@
+{
+    "name": "automation-tests",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "devDependencies": {
+        "@playwright/test": "^1.39.0",
+        "@synthetixio/synpress": "^3.7.2-beta.8",
+        "@types/node": "^20.8.9"
+    },
+    "scripts": {
+        "check-format": "prettier --check .",
+        "format": "prettier --write .",
+        "test:smoke": "playwright test homePage",
+        "test:connectWallet": "playwright test connectWallet"
+    },
+    "dependencies": {
+        "typescript": "^5.2.2"
+    },
+    "author": "Milan Vojnovic",
+    "bugs": {
+        "url": "https://github.com/MilanVojnovic95"
+    }
+}
