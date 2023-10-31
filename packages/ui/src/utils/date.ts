@@ -3,6 +3,23 @@ import durationPlugin, { type Duration } from "dayjs/plugin/duration";
 
 dayjs.extend(durationPlugin);
 
+export const getUpdatedMinMaxValue = (
+    previousValue?: Date | null,
+    newValue?: Date | null,
+) => {
+    if (!newValue) return previousValue;
+    if (!previousValue) return newValue;
+
+    const parsedPreviousValue = dayjs(previousValue);
+    if (
+        !parsedPreviousValue.isValid() ||
+        !parsedPreviousValue.isSame(newValue, "seconds")
+    )
+        return newValue;
+
+    return null;
+};
+
 // our interface for a single cell
 export interface CalendarCell {
     text: string;
@@ -60,8 +77,8 @@ export const rectifyDate = (
     min?: Date | null,
     max?: Date | null,
 ) => {
-    if (!!(min && value.isBefore(min))) return dayjs(min);
-    if (!!(max && value.isAfter(max))) return dayjs(max);
+    if (!!(min && value.isBefore(min, "seconds"))) return dayjs(min);
+    if (!!(max && value.isAfter(max, "seconds"))) return dayjs(max);
     return value;
 };
 
