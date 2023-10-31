@@ -11,13 +11,22 @@ import { ResolvedTemplate } from "@carrot-kpi/sdk";
 import type { ReactElement, ReactNode } from "react";
 import type { Hex } from "viem";
 
-export type Serializable =
-    | null
+export type Serializable<T> = T extends
     | string
     | number
     | boolean
-    | { [key: string | symbol | number]: Serializable }
-    | Serializable[];
+    | null
+    | undefined
+    ? T
+    : T extends object
+    ? { [K in keyof T]: Serializable<T[K]> }
+    : T extends Array<infer U>
+    ? Array<Serializable<U>>
+    : never;
+
+export type SerializableObject<T extends object> = {
+    [K in keyof T]: Serializable<T[K]>;
+};
 
 export type TemplateEntity = "kpiToken" | "oracle";
 
@@ -54,49 +63,47 @@ export interface OracleInitializationBundle {
 export type OracleInitializationBundleGetter =
     () => Promise<OracleInitializationBundle>;
 
-export type OracleChangeCallback<S extends Serializable = Serializable> = (
+export type OracleChangeCallback<S extends SerializableObject<S>> = (
     internalState: S,
     initializationBundleGetter?: OracleInitializationBundleGetter,
 ) => void;
 
-export interface AdditionalRemoteOracleCreationFormProps<
-    S extends Serializable = Serializable,
-> {
+export type AdditionalRemoteOracleCreationFormProps<
+    S extends SerializableObject<S>,
+> = {
     state: S;
     kpiToken?: Partial<KPIToken>;
     onChange: OracleChangeCallback<S>;
     navigate: NavigateFunction;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
-}
+};
 
-export type OracleRemoteCreationFormProps<
-    S extends Serializable = Serializable,
-> = BaseRemoteTemplateComponentProps &
-    AdditionalRemoteOracleCreationFormProps<S>;
+export type OracleRemoteCreationFormProps<S extends SerializableObject<S>> =
+    BaseRemoteTemplateComponentProps &
+        AdditionalRemoteOracleCreationFormProps<S>;
 
-export type KPITokenChangeCallback<S extends Serializable = Serializable> = (
+export type KPITokenChangeCallback<S extends SerializableObject<S>> = (
     state: S,
 ) => void;
 
-export type OracleCreationFormProps<S extends Serializable = Serializable> =
+export type OracleCreationFormProps<S extends SerializableObject<S>> =
     TemplateComponentProps & AdditionalRemoteOracleCreationFormProps<S>;
 
-export interface AdditionalRemoteKPITokenCreationFormProps<
-    S extends Serializable = Serializable,
-> {
+export type AdditionalRemoteKPITokenCreationFormProps<
+    S extends SerializableObject<S>,
+> = {
     state: S;
     onChange: KPITokenChangeCallback<S>;
     onCreate: () => void;
     navigate: NavigateFunction;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
-}
+};
 
-export type KPITokenRemoteCreationFormProps<
-    S extends Serializable = Serializable,
-> = BaseRemoteTemplateComponentProps &
-    AdditionalRemoteKPITokenCreationFormProps<S>;
+export type KPITokenRemoteCreationFormProps<S extends SerializableObject<S>> =
+    BaseRemoteTemplateComponentProps &
+        AdditionalRemoteKPITokenCreationFormProps<S>;
 
-export type KPITokenCreationFormProps<S extends Serializable = Serializable> =
+export type KPITokenCreationFormProps<S extends SerializableObject<S>> =
     TemplateComponentProps & AdditionalRemoteKPITokenCreationFormProps<S>;
 
 export interface AdditionalRemoteOraclePageProps {
@@ -125,7 +132,7 @@ export type KPITokenPageProps = TemplateComponentProps &
 export type RemoteComponentProps<
     E extends TemplateEntity,
     T extends TemplateType,
-    S extends Serializable = Serializable,
+    S extends SerializableObject<S>,
 > = E extends "kpiToken"
     ? T extends "creationForm"
         ? KPITokenRemoteCreationFormProps<S>

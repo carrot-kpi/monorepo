@@ -14,6 +14,7 @@ import { useStagingMode } from "./useStagingMode";
 import { useNetwork } from "wagmi";
 import type {
     RemoteComponentProps,
+    SerializableObject,
     TemplateEntity,
     TemplateType,
 } from "../types/templates";
@@ -21,10 +22,15 @@ import type {
 type ComponentType<
     E extends TemplateEntity,
     T extends TemplateType,
-> = FunctionComponent<RemoteComponentProps<E, T>>;
+    S extends SerializableObject<S>,
+> = FunctionComponent<RemoteComponentProps<E, T, S>>;
 
-interface CachedModule<E extends TemplateEntity, T extends TemplateType> {
-    Component: ComponentType<E, T>;
+interface CachedModule<
+    E extends TemplateEntity,
+    T extends TemplateType,
+    S extends SerializableObject<S>,
+> {
+    Component: ComponentType<E, T, S>;
     bundle: TemplateBundle;
 }
 
@@ -38,15 +44,16 @@ interface TemplateModuleParams<E, T> {
 export const useTemplateModule = <
     E extends TemplateEntity,
     T extends TemplateType,
+    S extends SerializableObject<S>,
 >(
     params: TemplateModuleParams<E, T>,
 ): {
     loading: boolean;
-    Component: ComponentType<E, T> | null;
+    Component: ComponentType<E, T, S> | null;
     bundle: TemplateBundle | null;
 } => {
     const { entity, type, entry, template } = params;
-    const MODULE_CACHE = useRef<Record<string, CachedModule<E, T>>>({});
+    const MODULE_CACHE = useRef<Record<string, CachedModule<E, T, S>>>({});
 
     const customBaseURL = useSelector<
         State,
@@ -75,7 +82,7 @@ export const useTemplateModule = <
 
     const [loadingExport, setLoadingExport] = useState(false);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [Component, setComponent] = useState<ComponentType<E, T> | null>(
+    const [Component, setComponent] = useState<ComponentType<E, T, S> | null>(
         entry && MODULE_CACHE.current[entry]
             ? () => MODULE_CACHE.current[entry].Component
             : null,
