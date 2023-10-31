@@ -1,9 +1,12 @@
 import React from "react";
 import type { ReactElement } from "react";
-import type { OracleCreationFormProps, Serializable } from "../types/templates";
+import type {
+    OracleCreationFormProps,
+    SerializableObject,
+} from "../types/templates";
 import { TemplateComponent } from "./template-component";
 
-export function OracleCreationForm<S extends Serializable = Serializable>({
+export function OracleCreationForm<S extends SerializableObject<S>>({
     template,
     fallback,
     error,

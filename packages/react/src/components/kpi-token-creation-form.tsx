@@ -2,11 +2,11 @@ import React from "react";
 import type { ReactElement } from "react";
 import type {
     KPITokenCreationFormProps,
-    Serializable,
+    SerializableObject,
 } from "../types/templates";
 import { TemplateComponent } from "./template-component";
 
-export function KPITokenCreationForm<S extends Serializable = Serializable>({
+export function KPITokenCreationForm<S extends SerializableObject<S>>({
     template,
     fallback,
     error,
