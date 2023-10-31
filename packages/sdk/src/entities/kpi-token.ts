@@ -4,10 +4,13 @@ import { ChainId } from "../commons";
 import { type Address, type Hex } from "viem";
 
 export interface KPITokenSpecification {
-    ipfsHash: string;
     title: string;
     description: string;
     tags: string[];
+}
+
+export interface FullKPITokenSpecification extends KPITokenSpecification {
+    ipfsHash: string;
 }
 
 export class BaseKPIToken {
@@ -57,7 +60,7 @@ export class ResolvedKPIToken extends BaseKPIToken {
         owner: Address,
         public readonly template: ResolvedTemplate,
         public readonly oracles: ResolvedOracle[],
-        public readonly specification: KPITokenSpecification,
+        public readonly specification: FullKPITokenSpecification,
         expiration: number,
         creationTimestamp: number,
         finalized: boolean,
@@ -76,7 +79,7 @@ export class ResolvedKPIToken extends BaseKPIToken {
         kpiToken: KPIToken,
         template: ResolvedTemplate,
         oracles: ResolvedOracle[],
-        specification: KPITokenSpecification,
+        specification: FullKPITokenSpecification,
     ) {
         return new ResolvedKPIToken(
             kpiToken.chainId,
@@ -99,7 +102,7 @@ export class ResolvedKPITokenWithData extends BaseKPIToken {
         owner: Address,
         public readonly template: ResolvedTemplate,
         public readonly oracles: ResolvedOracleWithData[],
-        public readonly specification: KPITokenSpecification,
+        public readonly specification: FullKPITokenSpecification,
         expiration: number,
         creationTimestamp: number,
         finalized: boolean,

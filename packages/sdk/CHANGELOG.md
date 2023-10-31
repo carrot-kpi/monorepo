@@ -1,5 +1,12 @@
 # @carrot-kpi/sdk
 
+## 1.44.0
+
+### Minor Changes
+
+-   50a1bbc: Split KPITokenSpecification and FullKPITokenSpecification into 2
+    different types, respectively without and with the ipfsHash property
+
 ## 1.43.2
 
 ### Patch Changes
