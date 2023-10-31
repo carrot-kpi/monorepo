@@ -1,5 +1,11 @@
 # @carrot-kpi/ui
 
+## 0.65.4
+
+### Patch Changes
+
+-   ebecad7: Initialize min and max date if missing
+
 ## 0.65.3
 
 ### Patch Changes
