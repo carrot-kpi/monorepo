@@ -9,7 +9,11 @@ import { Typography } from "../../typography";
 import { DatePicker, type DatePickerProps } from "../../date-input/picker";
 import { enforceDoubleDigits } from "../../../utils/formatting";
 import { mergedCva } from "../../../utils/components";
-import { rectifyDate, resolvedValue } from "../../../utils/date";
+import {
+    getUpdatedMinMaxValue,
+    rectifyDate,
+    resolvedValue,
+} from "../../../utils/date";
 
 const cellListStyles = mergedCva(
     [
@@ -89,25 +93,31 @@ export const DateTimePicker = ({
 
     // avoid inconsistent min and max values
     useEffect(() => {
-        if (!min || !dayjs(min).isValid()) setMin(minDate);
-        if (!max || !dayjs(max).isValid()) setMax(maxDate);
+        setMax((prevMax) => {
+            const newMax = getUpdatedMinMaxValue(prevMax, maxDate);
 
-        if (dayjs(min).isAfter(dayjs(max))) {
-            setMin(max);
-            console.warn("inconsistent min and max values", {
-                min: min?.toISOString(),
-                max: max?.toISOString(),
+            setMin((prevMin) => {
+                let newMin = getUpdatedMinMaxValue(prevMin, minDate);
+                if (dayjs(newMin).isAfter(dayjs(newMax), "seconds")) {
+                    newMin = newMax;
+                    console.warn("inconsistent min and max values", {
+                        min: newMin?.toISOString(),
+                        max: newMax?.toISOString(),
+                    });
+                }
+                return newMin;
             });
-        }
-    }, [min, max, minDate, maxDate]);
 
+            return newMax;
+        });
+    }, [maxDate, minDate]);
     // in case a value change happened, check if we're still
     // alright with validation and rectify if needed
     useLayoutEffect(() => {
         if (!value || !onChange) return;
         const originalValue = dayjs(value);
         const rectifiedValue = rectifyDate(dayjs(value), min, max);
-        if (!originalValue.isSame(rectifiedValue))
+        if (!originalValue.isSame(rectifiedValue, "seconds"))
             onChange(rectifiedValue.toDate());
     }, [max, min, onChange, value]);
 

@@ -3,6 +3,7 @@ import {
     KPITokenCreationForm,
     useIPFSGatewayURL,
     usePreferDecentralization,
+    type SerializableObject,
 } from "@carrot-kpi/react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -16,9 +17,8 @@ import { useInvalidateLatestKPITokens } from "../../hooks/useInvalidateLatestKPI
 import { Layout } from "../../components/layout";
 import { Permissioned } from "../../components/permissioned";
 import { useIsCreatorAllowed } from "../../hooks/useIsCreatorAllowed";
-import type { Serializable } from "@carrot-kpi/react";
 
-export const CreateWithTemplateId = () => {
+export function CreateWithTemplateId<S extends SerializableObject<S>>() {
     const { i18n, t } = useTranslation();
     const { state } = useLocation();
     const navigate = useNavigate();
@@ -39,10 +39,10 @@ export const CreateWithTemplateId = () => {
     const [formKey, setFormKey] = useState(0);
     const [draftState, setDraftState] = useState<{
         templateId?: number;
-        state: Serializable;
+        state: S;
     }>({
         templateId: undefined,
-        state: {},
+        state: {} as S,
     });
 
     const { allowed: creatorAllowed, loading: loadingPermission } =
@@ -133,7 +133,7 @@ export const CreateWithTemplateId = () => {
         templateId,
     ]);
 
-    const handleChange = useCallback((state: Serializable) => {
+    const handleChange = useCallback((state: S) => {
         setDraftState((prevState) => ({
             templateId: prevState.templateId,
             state,
@@ -209,4 +209,4 @@ export const CreateWithTemplateId = () => {
             </div>
         </Layout>
     );
-};
+}

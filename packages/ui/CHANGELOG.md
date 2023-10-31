@@ -1,5 +1,18 @@
 # @carrot-kpi/ui
 
+## 0.65.5
+
+### Patch Changes
+
+-   8e3e3ef: Apply date comparisons with seconds granularity and avoid self
+    loops while updating minimum and maximum dates in date picker
+
+## 0.65.4
+
+### Patch Changes
+
+-   ebecad7: Initialize min and max date if missing
+
 ## 0.65.3
 
 ### Patch Changes

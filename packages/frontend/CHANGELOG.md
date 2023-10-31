@@ -1,5 +1,18 @@
 # @carrot-kpi/host-frontend
 
+## 0.32.0
+
+### Minor Changes
+
+-   6fd370d: Integrate new React library KPI token and oracle state typings
+
+### Patch Changes
+
+-   Updated dependencies [ebecad7]
+-   Updated dependencies [6fd370d]
+    -   @carrot-kpi/ui@0.65.4
+    -   @carrot-kpi/react@0.67.0
+
 ## 0.31.1
 
 ### Patch Changes

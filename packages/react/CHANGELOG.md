@@ -1,5 +1,11 @@
 # @carrot-kpi/react
 
+## 0.67.0
+
+### Minor Changes
+
+-   6fd370d: Improve typings for serializable KPI token and oracle states
+
 ## 0.66.1
 
 ### Patch Changes
