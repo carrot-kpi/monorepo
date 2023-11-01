@@ -55,6 +55,14 @@ export interface BaseRemoteTemplateComponentProps {
     t: NamespacedTranslateFunction;
 }
 
+export type TemplateComponentStateUpdater<S extends SerializableObject<S>> = (
+    previousState: S,
+) => S;
+
+export type TemplateComponentStateChangeCallback<
+    S extends SerializableObject<S>,
+> = (stateOrUpdater: S | TemplateComponentStateUpdater<S>) => void;
+
 export interface OracleInitializationBundle {
     data: Hex;
     value: bigint;
@@ -63,8 +71,7 @@ export interface OracleInitializationBundle {
 export type OracleInitializationBundleGetter =
     () => Promise<OracleInitializationBundle>;
 
-export type OracleChangeCallback<S extends SerializableObject<S>> = (
-    internalState: S,
+export type OracleInitializationBundleGetterChangeCallback = (
     initializationBundleGetter?: OracleInitializationBundleGetter,
 ) => void;
 
@@ -73,7 +80,8 @@ export type AdditionalRemoteOracleCreationFormProps<
 > = {
     state: S;
     kpiToken?: Partial<KPIToken>;
-    onChange: OracleChangeCallback<S>;
+    onStateChange: TemplateComponentStateChangeCallback<S>;
+    onInitializationBundleGetterChange: OracleInitializationBundleGetterChangeCallback;
     navigate: NavigateFunction;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 };
@@ -82,10 +90,6 @@ export type OracleRemoteCreationFormProps<S extends SerializableObject<S>> =
     BaseRemoteTemplateComponentProps &
         AdditionalRemoteOracleCreationFormProps<S>;
 
-export type KPITokenChangeCallback<S extends SerializableObject<S>> = (
-    state: S,
-) => void;
-
 export type OracleCreationFormProps<S extends SerializableObject<S>> =
     TemplateComponentProps & AdditionalRemoteOracleCreationFormProps<S>;
 
@@ -93,7 +97,7 @@ export type AdditionalRemoteKPITokenCreationFormProps<
     S extends SerializableObject<S>,
 > = {
     state: S;
-    onChange: KPITokenChangeCallback<S>;
+    onStateChange: TemplateComponentStateChangeCallback<S>;
     onCreate: () => void;
     navigate: NavigateFunction;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
