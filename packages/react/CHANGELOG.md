@@ -1,5 +1,14 @@
 # @carrot-kpi/react
 
+## 0.68.0
+
+### Minor Changes
+
+-   747ef73: Unify oracle and KPI token internal state updater type into one,
+    supporting either a new state or a state updater function. In oracle
+    templates, split the state updating and initialization bundle getting
+    callbacks.
+
 ## 0.67.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @carrot-kpi/host-frontend
 
+## 0.32.1
+
+### Patch Changes
+
+-   d5cf7e6: Update frontend after React library changes
+-   Updated dependencies [747ef73]
+    -   @carrot-kpi/react@0.68.0
+
 ## 0.32.0
 
 ### Minor Changes
