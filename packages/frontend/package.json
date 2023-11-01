@@ -34,7 +34,9 @@
         "prepare-fathom": "prepare-fathom",
         "config-react-env": "./scripts/config-react-env.js",
         "start:staging": "STAGING=true craco start",
-        "start": "craco start"
+        "start": "craco start",
+        "test:smoke": "playwright test --config=automation-tests/playwright.config.ts homePage",
+        "test:connectWallet": "playwright test --config=automation-tests/playwright.config.ts connectWallet"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
@@ -68,6 +70,7 @@
         "@commitlint/config-conventional": "^17.7.0",
         "@craco/craco": "^7.1.0",
         "@fontsource/ibm-plex-mono": "^5.0.3",
+        "@playwright/test": "^1.39.0",
         "@react-spring/web": "^9.7.3",
         "@rollup/plugin-commonjs": "^25.0.5",
         "@rollup/plugin-image": "^3.0.3",
@@ -75,6 +78,8 @@
         "@rollup/plugin-node-resolve": "^15.2.2",
         "@rollup/plugin-replace": "^5.0.3",
         "@size-limit/file": "^9.0.0",
+        "@synthetixio/synpress": "^3.7.2-beta.8",
+        "@types/node": "^20.8.9",
         "@types/react": "^18.2.25",
         "@types/react-dom": "^18.2.10",
         "@types/react-router-dom": "^5.3.3",
@@ -89,6 +94,7 @@
         "eslint-config-custom": "*",
         "eslint-plugin-prettier": "^5.0.0",
         "i18next": "^23.5.1",
+        "playwright": "^1.39.0",
         "postcss": "^8.4.31",
         "prettier": "^3.0.3",
         "react": "^18.2.0",
