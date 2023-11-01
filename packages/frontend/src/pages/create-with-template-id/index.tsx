@@ -17,6 +17,7 @@ import { useInvalidateLatestKPITokens } from "../../hooks/useInvalidateLatestKPI
 import { Layout } from "../../components/layout";
 import { Permissioned } from "../../components/permissioned";
 import { useIsCreatorAllowed } from "../../hooks/useIsCreatorAllowed";
+import type { TemplateComponentStateUpdater } from "@carrot-kpi/react";
 
 export function CreateWithTemplateId<S extends SerializableObject<S>>() {
     const { i18n, t } = useTranslation();
@@ -133,12 +134,22 @@ export function CreateWithTemplateId<S extends SerializableObject<S>>() {
         templateId,
     ]);
 
-    const handleChange = useCallback((state: S) => {
-        setDraftState((prevState) => ({
-            templateId: prevState.templateId,
-            state,
-        }));
-    }, []);
+    const handleStateChange = useCallback(
+        (stateOrUpdater: S | TemplateComponentStateUpdater<S>) => {
+            setDraftState((prevState) => {
+                const newState =
+                    typeof stateOrUpdater === "function"
+                        ? stateOrUpdater(prevState.state)
+                        : (stateOrUpdater as S);
+
+                return {
+                    templateId: prevState.templateId,
+                    state: newState,
+                };
+            });
+        },
+        [],
+    );
 
     const handleCreate = useCallback(() => {
         invalidateLatestKPITokens();
@@ -189,7 +200,7 @@ export function CreateWithTemplateId<S extends SerializableObject<S>>() {
                         i18n={i18n}
                         className={{ root: "w-full h-full" }}
                         state={draftState.state}
-                        onChange={handleChange}
+                        onStateChange={handleStateChange}
                         onCreate={handleCreate}
                         navigate={navigate}
                         onTx={addTransaction}
