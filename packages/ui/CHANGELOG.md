@@ -1,5 +1,12 @@
 # @carrot-kpi/ui
 
+## 0.65.6
+
+### Patch Changes
+
+-   40320dd: Fix validation of minimum and maximum date in date time picker
+    component.
+
 ## 0.65.5
 
 ### Patch Changes
