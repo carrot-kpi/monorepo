@@ -1,5 +1,12 @@
 # @carrot-kpi/react
 
+## 0.69.0
+
+### Minor Changes
+
+-   7a1389d: Add on suggested expiration timestamp change callback in oracle
+    creation form props.
+
 ## 0.68.0
 
 ### Minor Changes
