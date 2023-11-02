@@ -1,5 +1,4 @@
 import {
-    KPIToken,
     ResolvedKPITokenWithData,
     ResolvedOracleWithData,
 } from "@carrot-kpi/sdk";
@@ -83,7 +82,6 @@ export type AdditionalRemoteOracleCreationFormProps<
     S extends SerializableObject<S>,
 > = {
     state: S;
-    kpiToken?: Partial<KPIToken>;
     onStateChange: TemplateComponentStateChangeCallback<S>;
     onInitializationBundleGetterChange: OracleInitializationBundleGetterChangeCallback;
     onSuggestedExpirationTimestampChange: OracleSuggestedExpirationTimestampChangeCallback;
