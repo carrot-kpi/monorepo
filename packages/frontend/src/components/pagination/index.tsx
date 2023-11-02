@@ -1,5 +1,5 @@
 import React from "react";
-import { PaginationBall } from "./pagination-ball";
+import { PaginationBall } from "./ball";
 import ArrowIcon from "../../icons/arrow";
 import { cva } from "class-variance-authority";
 
