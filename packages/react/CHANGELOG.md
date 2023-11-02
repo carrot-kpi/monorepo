@@ -1,5 +1,11 @@
 # @carrot-kpi/react
 
+## 0.70.0
+
+### Minor Changes
+
+-   1f4e7aa: Remove partial KPI token from oracle creation form props.
+
 ## 0.69.0
 
 ### Minor Changes
