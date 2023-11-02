@@ -75,6 +75,10 @@ export type OracleInitializationBundleGetterChangeCallback = (
     initializationBundleGetter?: OracleInitializationBundleGetter,
 ) => void;
 
+export type OracleSuggestedExpirationTimestampChangeCallback = (
+    suggestedExpirationDate?: number,
+) => void;
+
 export type AdditionalRemoteOracleCreationFormProps<
     S extends SerializableObject<S>,
 > = {
@@ -82,6 +86,7 @@ export type AdditionalRemoteOracleCreationFormProps<
     kpiToken?: Partial<KPIToken>;
     onStateChange: TemplateComponentStateChangeCallback<S>;
     onInitializationBundleGetterChange: OracleInitializationBundleGetterChangeCallback;
+    onSuggestedExpirationTimestampChange: OracleSuggestedExpirationTimestampChangeCallback;
     navigate: NavigateFunction;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 };
