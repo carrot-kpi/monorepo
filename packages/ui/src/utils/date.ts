@@ -8,16 +8,10 @@ export const getUpdatedMinMaxValue = (
     newValue?: Date | null,
 ) => {
     if (!newValue) return previousValue;
-    if (!previousValue) return newValue;
-
     const parsedPreviousValue = dayjs(previousValue);
-    if (
-        !parsedPreviousValue.isValid() ||
-        !parsedPreviousValue.isSame(newValue, "seconds")
-    )
-        return newValue;
-
-    return null;
+    if (!parsedPreviousValue.isValid()) return newValue;
+    if (parsedPreviousValue.isSame(newValue, "seconds")) return previousValue;
+    return newValue;
 };
 
 // our interface for a single cell
