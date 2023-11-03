@@ -99,7 +99,11 @@ export const DateTimePicker = ({
         setMin(updatedMin);
         setMax(updatedMax);
 
-        if (dayjs(updatedMin).isAfter(dayjs(updatedMax))) {
+        if (
+            updatedMin &&
+            updatedMax &&
+            dayjs(updatedMin).isAfter(dayjs(updatedMax))
+        ) {
             setMin(updatedMax);
             console.warn("inconsistent min and max values", {
                 min: updatedMin?.toISOString(),
