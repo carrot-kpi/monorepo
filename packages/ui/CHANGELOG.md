@@ -1,5 +1,20 @@
 # @carrot-kpi/ui
 
+## 0.65.7
+
+### Patch Changes
+
+-   f6c3624: Do not fire inconsistent min and max date log if both min and max
+    dates are not specified.
+-   f6c3624: Force popover position update on open.
+
+## 0.65.6
+
+### Patch Changes
+
+-   40320dd: Fix validation of minimum and maximum date in date time picker
+    component.
+
 ## 0.65.5
 
 ### Patch Changes

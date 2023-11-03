@@ -3,6 +3,7 @@ import React, {
     type ReactElement,
     type ReactNode,
     useState,
+    useEffect,
 } from "react";
 import { usePopper } from "react-popper";
 import { type Placement } from "@popperjs/core";
@@ -54,7 +55,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     ): ReactElement {
         const [popper, setPopper] = useState<HTMLDivElement | null>(null);
 
-        const { styles, attributes } = usePopper(anchor, popper, {
+        const { styles, attributes, update } = usePopper(anchor, popper, {
             placement,
             modifiers: [
                 {
@@ -63,6 +64,10 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
                 },
             ],
         });
+
+        useEffect(() => {
+            if (open && update) update();
+        }, [open, update]);
 
         return (
             <div

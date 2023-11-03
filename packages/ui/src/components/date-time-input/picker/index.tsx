@@ -5,15 +5,15 @@ import React, {
     useLayoutEffect,
     useState,
 } from "react";
-import { Typography } from "../../typography";
-import { DatePicker, type DatePickerProps } from "../../date-input/picker";
-import { enforceDoubleDigits } from "../../../utils/formatting";
 import { mergedCva } from "../../../utils/components";
 import {
     getUpdatedMinMaxValue,
     rectifyDate,
     resolvedValue,
 } from "../../../utils/date";
+import { enforceDoubleDigits } from "../../../utils/formatting";
+import { DatePicker, type DatePickerProps } from "../../date-input/picker";
+import { Typography } from "../../typography";
 
 const cellListStyles = mergedCva(
     [
@@ -93,24 +93,25 @@ export const DateTimePicker = ({
 
     // avoid inconsistent min and max values
     useEffect(() => {
-        setMax((prevMax) => {
-            const newMax = getUpdatedMinMaxValue(prevMax, maxDate);
+        const updatedMin = getUpdatedMinMaxValue(min, minDate);
+        const updatedMax = getUpdatedMinMaxValue(max, maxDate);
 
-            setMin((prevMin) => {
-                let newMin = getUpdatedMinMaxValue(prevMin, minDate);
-                if (dayjs(newMin).isAfter(dayjs(newMax), "seconds")) {
-                    newMin = newMax;
-                    console.warn("inconsistent min and max values", {
-                        min: newMin?.toISOString(),
-                        max: newMax?.toISOString(),
-                    });
-                }
-                return newMin;
+        setMin(updatedMin);
+        setMax(updatedMax);
+
+        if (
+            updatedMin &&
+            updatedMax &&
+            dayjs(updatedMin).isAfter(dayjs(updatedMax))
+        ) {
+            setMin(updatedMax);
+            console.warn("inconsistent min and max values", {
+                min: updatedMin?.toISOString(),
+                max: updatedMax?.toISOString(),
             });
+        }
+    }, [min, max, minDate, maxDate]);
 
-            return newMax;
-        });
-    }, [maxDate, minDate]);
     // in case a value change happened, check if we're still
     // alright with validation and rectify if needed
     useLayoutEffect(() => {

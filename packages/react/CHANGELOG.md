@@ -1,5 +1,27 @@
 # @carrot-kpi/react
 
+## 0.70.0
+
+### Minor Changes
+
+-   1f4e7aa: Remove partial KPI token from oracle creation form props.
+
+## 0.69.0
+
+### Minor Changes
+
+-   7a1389d: Add on suggested expiration timestamp change callback in oracle
+    creation form props.
+
+## 0.68.0
+
+### Minor Changes
+
+-   747ef73: Unify oracle and KPI token internal state updater type into one,
+    supporting either a new state or a state updater function. In oracle
+    templates, split the state updating and initialization bundle getting
+    callbacks.
+
 ## 0.67.0
 
 ### Minor Changes
