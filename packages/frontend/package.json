@@ -33,8 +33,8 @@
         "size-limit": "size-limit",
         "prepare-fathom": "prepare-fathom",
         "config-react-env": "./scripts/config-react-env.js",
-        "start:staging": "STAGING=true craco start",
-        "start": "craco start",
+        "start:staging": "yarn prepare-fathom && STAGING=true craco start",
+        "start": "yarn prepare-fathom && craco start",
         "test:e2e": "playwright test"
     },
     "dependencies": {
