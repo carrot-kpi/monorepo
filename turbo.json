@@ -26,10 +26,12 @@
                 "src/**/*.{ts,tsx}",
                 "tests/**/*.{ts,tsx}",
                 "src/**/*.test.{ts,tsx}",
-                "src/**/*.sol",
-                "tests/**/*.sol",
                 "babel.config.json"
             ]
+        },
+        "test:e2e": {
+            "inputs": ["src/**/*.{ts,tsx}", "e2e/**/*.test.{ts,tsx}"],
+            "dependsOn": ["^build"]
         },
         "start": {
             "dependsOn": ["^build"]
@@ -47,6 +49,8 @@
         "FATHOM_SITE_ID",
         "FATHOM_API_KEY",
         "CI",
-        "STAGING"
+        "STAGING",
+        "METAMASK_VERSION",
+        "HEADLESS_MODE"
     ]
 }

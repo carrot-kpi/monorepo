@@ -181,3 +181,13 @@ target/
 packages/ipfs-pinner/src/contracts
 
 packages/subgraph/src/gen
+
+# Test results & reposts
+test-results/
+playwright-report/
+
+# Cache
+playwright/.cache/
+
+# Metamask
+metamask-*

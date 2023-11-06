@@ -35,6 +35,8 @@ jobs:
         run: yarn lint
       - name: Test
         run: yarn test
+      - name: Test e2e
+        run: yarn test:e2e
       - name: Build
         run: yarn build
       - name: Size check
