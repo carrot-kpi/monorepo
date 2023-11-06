@@ -1,16 +1,13 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-    timeout: 60000,
+    timeout: 60_000,
     testDir: "./e2e",
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
     workers: process.env.CI ? 1 : 1,
-    reporter: [
-        ["list", { printSteps: true }],
-        ["html", { open: "always" }],
-    ],
+    reporter: process.env.CI ? "dot" : "list",
     use: {
         headless: false,
         baseURL: "http://localhost:3000/#/?chain=scroll+sepolia",
