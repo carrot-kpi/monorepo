@@ -1,5 +1,11 @@
 # @carrot-kpi/subgraph
 
+## 0.11.0
+
+### Minor Changes
+
+-   d8c2be0: Update dependencies and integrate Polygon Mumbai
+
 ## 0.10.0
 
 ### Minor Changes

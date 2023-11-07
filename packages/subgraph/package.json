@@ -2,7 +2,7 @@
     "type": "module",
     "private": true,
     "name": "@carrot-kpi/subgraph",
-    "version": "0.10.0",
+    "version": "0.11.0",
     "license": "GPL-3.0-or-later",
     "scripts": {
         "gen-networks-files": "ts-node-esm --project tsconfig.scripts.json scripts/generate-networks-files.ts",
