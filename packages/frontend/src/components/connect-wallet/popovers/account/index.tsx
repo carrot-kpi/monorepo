@@ -112,6 +112,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                     </div>
                     <div className="flex gap-1 items-center">
                         <Button
+                            data-testid="account-dropdown-copy-button"
                             size="xsmall"
                             icon={copiedToClipboard ? Tick : Copy}
                             onClick={handleCopyToClipboardClick}
@@ -121,6 +122,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                         />
                         {!__LIBRARY_MODE__ && (
                             <Button
+                                data-testid="account-dropdown-block-explorer-button"
                                 size="xsmall"
                                 icon={External}
                                 disabled={!blockExplorerHref}
@@ -133,6 +135,7 @@ export const AccountPopover = forwardRef<HTMLDivElement, AccountPopoverProps>(
                             />
                         )}
                         <Button
+                            data-testid="account-dropdown-power-button"
                             size="xsmall"
                             icon={Power}
                             onClick={handleDisconnectClick}

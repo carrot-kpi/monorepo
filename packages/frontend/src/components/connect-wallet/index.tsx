@@ -170,6 +170,7 @@ export const ConnectWallet = ({
                 )}
                 {address ? (
                     <Button
+                        data-testid="profile-avatar-button"
                         size="small"
                         ref={setConnectWallet}
                         onClick={handleAccountPopoverOpen}
@@ -181,6 +182,7 @@ export const ConnectWallet = ({
                     </Button>
                 ) : (
                     <Button
+                        data-testid="connect-wallet-button"
                         size="small"
                         ref={setConnectWallet}
                         onClick={handleConnectPopoverOpen}

@@ -20,6 +20,7 @@
         "format": "turbo run format",
         "start": "turbo run start",
         "test": "turbo run test",
+        "test:e2e": "turbo run test:e2e --filter @carrot-kpi/host-frontend",
         "size-limit": "turbo run size-limit",
         "commitlint": "commitlint -e",
         "prepare": "husky install"
