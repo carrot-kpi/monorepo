@@ -3,6 +3,9 @@ import {
     GNOSIS_FACTORY_ADDRESS,
     GNOSIS_KPI_TOKENS_MANAGER_ADDRESS,
     GNOSIS_ORACLES_MANAGER_ADDRESS,
+    MUMBAI_FACTORY_ADDRESS,
+    MUMBAI_KPI_TOKENS_MANAGER_ADDRESS,
+    MUMBAI_ORACLES_MANAGER_ADDRESS,
     SEPOLIA_FACTORY_ADDRESS,
     SEPOLIA_KPI_TOKENS_MANAGER_ADDRESS,
     SEPOLIA_ORACLES_MANAGER_ADDRESS,
@@ -15,6 +18,7 @@ export function getFactoryAddress(): Bytes {
     const network = dataSource.network();
     if (network == "gnosis") return GNOSIS_FACTORY_ADDRESS;
     if (network == "sepolia") return SEPOLIA_FACTORY_ADDRESS;
+    if (network == "mumbai") return MUMBAI_FACTORY_ADDRESS;
     throw new Error("no factory address for unsupported network " + network);
 }
 
@@ -22,6 +26,7 @@ export function getKPITokensManagerAddress(): Bytes {
     const network = dataSource.network();
     if (network == "gnosis") return GNOSIS_KPI_TOKENS_MANAGER_ADDRESS;
     if (network == "sepolia") return SEPOLIA_KPI_TOKENS_MANAGER_ADDRESS;
+    if (network == "mumbai") return MUMBAI_KPI_TOKENS_MANAGER_ADDRESS;
     throw new Error(
         "no kpi tokens manager address for unsupported network " + network,
     );
@@ -31,6 +36,7 @@ export function getOraclesManagerAddress(): Bytes {
     const network = dataSource.network();
     if (network == "gnosis") return GNOSIS_ORACLES_MANAGER_ADDRESS;
     if (network == "sepolia") return SEPOLIA_ORACLES_MANAGER_ADDRESS;
+    if (network == "mumbai") return MUMBAI_ORACLES_MANAGER_ADDRESS;
     throw new Error(
         "no oracles manager address for unsupported network " + network,
     );
