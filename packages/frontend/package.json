@@ -34,7 +34,8 @@
         "prepare-fathom": "prepare-fathom",
         "config-react-env": "./scripts/config-react-env.js",
         "start:staging": "STAGING=true craco start",
-        "start": "craco start"
+        "start": "craco start",
+        "test:e2e": "yarn prepare-fathom && playwright test"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
@@ -68,6 +69,7 @@
         "@commitlint/config-conventional": "^18.1.0",
         "@craco/craco": "^7.1.0",
         "@fontsource/ibm-plex-mono": "^5.0.3",
+        "@playwright/test": "^1.39.0",
         "@react-spring/web": "^9.7.3",
         "@rollup/plugin-commonjs": "^25.0.7",
         "@rollup/plugin-image": "^3.0.3",

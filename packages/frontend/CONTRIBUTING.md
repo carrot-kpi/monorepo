@@ -189,3 +189,16 @@ following:
    augmented `global` namespace.
 4. Update the `turbo.json` file at the root of the monorepo to add the env to
    the `globalEnv` key.
+
+## Running end to end tests
+
+End to end tests are executed using Playwright and Synpress. In order to execute
+them locally, start by setting all the required envs that are needed to build
+and run the frontend as described in the sections above, and after having done
+that simply run the following command from the root of the monorepo (running
+from the root of the monorepo ensures the latest monorepo linked packages are
+used).
+
+```
+yarn test:e2e
+```
