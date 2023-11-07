@@ -12,8 +12,9 @@ if (theme) {
 
 const twMergeWithConfig = extendTailwindMerge({
     prefix: "cui-",
-    theme,
-    classGroups,
+    extend: {
+        classGroups,
+    },
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

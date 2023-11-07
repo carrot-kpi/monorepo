@@ -1,12 +1,12 @@
 import { PINNING_PROXY_JWT_ISSUER } from "../constants";
 import { useSelector, type State } from "@carrot-kpi/shared-state";
-import decodeJWT, { type JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export function useIsPinningProxyAuthenticated() {
     return useSelector<State, boolean>((state) => {
         const jwt = state.auth.pinningProxyJWT;
         if (!jwt) return false;
-        const decoded = decodeJWT<JwtPayload>(jwt, { header: false });
+        const decoded = jwtDecode(jwt, { header: false });
         return (
             !!decoded &&
             decoded.iss === PINNING_PROXY_JWT_ISSUER &&

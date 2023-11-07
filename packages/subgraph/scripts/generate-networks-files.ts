@@ -23,6 +23,7 @@ const NETWORK_NAMES: Record<ChainId, string> = {
     [ChainId.GNOSIS]: "gnosis",
     [ChainId.SCROLL_SEPOLIA]: "scroll-sepolia",
     [ChainId.SEPOLIA]: "sepolia",
+    [ChainId.POLYGON_MUMBAI]: "mumbai",
 };
 
 const networksJSON = Object.entries(DEPLOYMENT_ADDRESSES).reduce(
