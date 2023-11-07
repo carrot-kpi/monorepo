@@ -7,6 +7,9 @@ export const validateChainId = async (
     publicClient: PublicClient,
 ): Promise<ChainId> => {
     const id = publicClient.chain?.id || (await publicClient.getChainId());
-    enforce(id in SUPPORTED_CHAIN_IDS, `unsupported chain with id ${id}`);
+    enforce(
+        SUPPORTED_CHAIN_IDS.includes(id),
+        `unsupported chain with id ${id}`,
+    );
     return id;
 };
