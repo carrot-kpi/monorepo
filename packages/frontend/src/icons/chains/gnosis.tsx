@@ -1,7 +1,7 @@
 import React from "react";
 import type { SVGIcon } from "../types";
 
-const Tick = (props: SVGIcon) => (
+const Gnosis = (props: SVGIcon) => (
     <svg
         width="600"
         height="600"
@@ -29,4 +29,4 @@ const Tick = (props: SVGIcon) => (
     </svg>
 );
 
-export default Tick;
+export default Gnosis;

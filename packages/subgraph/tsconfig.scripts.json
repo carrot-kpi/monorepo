@@ -1,0 +1,4 @@
+{
+    "extends": "tsconfig/subgraph.json",
+    "include": ["scripts"]
+}
