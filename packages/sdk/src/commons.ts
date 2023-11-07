@@ -15,6 +15,8 @@ import {
 // reexport chain id
 export { ChainId } from "@carrot-kpi/contracts";
 
+export const SUPPORTED_CHAIN_IDS = Object.values(ChainId);
+
 export const CACHER = new Cacher("carrot-kpi-sdk");
 
 export interface ChainAddresses extends Record<keyof CarrotContracts, Address> {
