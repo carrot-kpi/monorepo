@@ -7,11 +7,11 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: gnosis
+    network: mumbai
     source:
       abi: Factory
-      address: "0xF451feb55eeA54EeF90AcB301212b80E03d82819"
-      startBlock: 30531786
+      address: "0xD6e88c910329fE3597498772eB94991a0630306d"
+      startBlock: 42107159
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -42,11 +42,11 @@ dataSources:
       file: ./src/factory.ts
   - kind: ethereum/contract
     name: KPITokensManager
-    network: gnosis
+    network: mumbai
     source:
       abi: KPITokensManager
-      address: "0xAcAFe7928cDd2E02bd508a4827b62649726f9460"
-      startBlock: 30531788
+      address: "0xe3dA4E4b76C4ed3e4227db20F20d1F25A4507f9b"
+      startBlock: 42107163
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -73,11 +73,11 @@ dataSources:
       file: ./src/kpi-tokens-manager.ts
   - kind: ethereum/contract
     name: OraclesManager
-    network: gnosis
+    network: mumbai
     source:
       abi: OraclesManager
-      address: "0x35030D4680C339Dd5a043C23f99Ee45ce66198CA"
-      startBlock: 30531789
+      address: "0xe82c4D8b993D613a28600B953e91A3A93Ae69Fd6"
+      startBlock: 42107167
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -104,7 +104,7 @@ dataSources:
       file: ./src/oracles-manager.ts
 templates:
   - kind: ethereum/contract
-    network: gnosis
+    network: mumbai
     name: KPIToken
     source:
       abi: KPIToken
@@ -126,7 +126,7 @@ templates:
           handler: handleFinalize
       file: ./src/kpi-token.ts
   - kind: ethereum/contract
-    network: gnosis
+    network: mumbai
     name: Oracle
     source:
       abi: Oracle
@@ -155,7 +155,7 @@ templates:
       entities:
         - KPITokenTemplateSpecification
       abis: []
-    network: gnosis
+    network: mumbai
   - kind: file/ipfs
     name: KPITokenDescription
     mapping:
@@ -166,7 +166,7 @@ templates:
       entities:
         - KPITokenDescription
       abis: []
-    network: gnosis
+    network: mumbai
   - kind: file/ipfs
     name: OracleTemplateSpecification
     mapping:
@@ -177,4 +177,4 @@ templates:
       entities:
         - OracleTemplateSpecification
       abis: []
-    network: gnosis
+    network: mumbai

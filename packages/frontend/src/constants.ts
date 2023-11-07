@@ -1,10 +1,11 @@
 import { ChainId } from "@carrot-kpi/sdk";
 import type { FunctionComponent, SVGProps } from "react";
-import { gnosis, sepolia, scrollSepolia } from "wagmi/chains";
+import { gnosis, sepolia, scrollSepolia, polygonMumbai } from "wagmi/chains";
 import type { Chain } from "wagmi/chains";
 import EthereumLogo from "./icons/chains/ethereum";
 import GnosisLogo from "./icons/chains/gnosis";
 import ScrollLogo from "./icons/chains/scroll";
+import PolygonLogo from "./icons/chains/polygon";
 import { NavLink } from "react-router-dom";
 import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
 
@@ -22,6 +23,10 @@ export const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
     [ChainId.SCROLL_SEPOLIA]: {
         http: "https://sepolia-rpc.scroll.io",
         webSocket: "wss://sepolia-rpc.scroll.io",
+    },
+    [ChainId.POLYGON_MUMBAI]: {
+        http: "https://rpc-mumbai.matic.today",
+        webSocket: "wss://rpc-mumbai.matic.today",
     },
 };
 
@@ -65,6 +70,13 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         iconBackgroundColor: "#213147",
         enabled: !prod,
         defaultBlockExplorer: "https://blockscout.scroll.io",
+    },
+    [ChainId.POLYGON_MUMBAI]: {
+        ...polygonMumbai,
+        logo: PolygonLogo,
+        iconBackgroundColor: "#8247E5",
+        enabled: !prod,
+        defaultBlockExplorer: "https://mumbai.polygonscan.com/",
     },
 };
 

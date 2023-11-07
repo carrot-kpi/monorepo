@@ -13,6 +13,20 @@
             "startBlock": 30531789
         }
     },
+    "mumbai": {
+        "Factory": {
+            "address": "0xD6e88c910329fE3597498772eB94991a0630306d",
+            "startBlock": 42107159
+        },
+        "KPITokensManager": {
+            "address": "0xe3dA4E4b76C4ed3e4227db20F20d1F25A4507f9b",
+            "startBlock": 42107163
+        },
+        "OraclesManager": {
+            "address": "0xe82c4D8b993D613a28600B953e91A3A93Ae69Fd6",
+            "startBlock": 42107167
+        }
+    },
     "scroll-sepolia": {
         "Factory": {
             "address": "0x4A827f3Bf3c38Baa091DdCAb7B801aCee6819759",

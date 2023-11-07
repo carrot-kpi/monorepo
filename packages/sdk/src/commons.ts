@@ -48,6 +48,12 @@ export const CHAIN_ADDRESSES: Record<ChainId, ChainAddresses> = {
         ),
         multicall3: "0xc325890958D399ee26c26D21bBeFbDA17B03a611",
     },
+    [ChainId.POLYGON_MUMBAI]: {
+        ...normalizeChainAddresses(
+            DEPLOYMENT_ADDRESSES[ChainId.POLYGON_MUMBAI],
+        ),
+        multicall3: "0xca11bde05977b3631167028862be2a173976ca11",
+    },
 };
 
 export const SUBGRAPH_URL: Record<ChainId, string | null> = {
@@ -56,6 +62,8 @@ export const SUBGRAPH_URL: Record<ChainId, string | null> = {
     [ChainId.SEPOLIA]:
         "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-sepolia",
     [ChainId.SCROLL_SEPOLIA]: null,
+    [ChainId.POLYGON_MUMBAI]:
+        "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-mumbai",
 };
 
 export {

@@ -58,6 +58,7 @@ export class CarrotConnector extends Connector<
         if (!this.provider)
             this.provider = createPublicClient({
                 transport: http(this.options.rpcURL),
+                chain: this.chains[0],
             });
         return this.provider;
     }

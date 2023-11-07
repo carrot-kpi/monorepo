@@ -7,6 +7,7 @@ const DEFILLAMA_API_CHAIN_PREFIX: Record<ChainId, string> = {
     [ChainId.GNOSIS]: "xdai",
     [ChainId.SEPOLIA]: "",
     [ChainId.SCROLL_SEPOLIA]: "",
+    [ChainId.POLYGON_MUMBAI]: "",
 };
 
 const FRESHNESS_THRESHOLD = "1h";
