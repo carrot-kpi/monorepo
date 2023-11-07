@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.45.0
+
+### Minor Changes
+
+-   d8c2be0: Update dependencies and integrate Polygon Mumbai
+
 ## 1.44.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # eslint-config-custom
 
+## 0.9.0
+
+### Minor Changes
+
+-   d8c2be0: Update dependencies and integrate Polygon Mumbai
+
 ## 0.8.1
 
 ### Patch Changes
