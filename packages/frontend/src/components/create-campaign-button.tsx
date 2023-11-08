@@ -58,6 +58,7 @@ export const CreateCampaignButton = ({
     return (
         <Link to={href} state={{ template: resolvedTemplate }}>
             <Button
+                data-testid="create-campaign-button"
                 loading={loading || resolvingTemplate}
                 disabled={!href}
                 variant={primary ? "primary" : "secondary"}

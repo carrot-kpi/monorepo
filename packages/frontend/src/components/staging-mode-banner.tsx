@@ -11,7 +11,9 @@ export const StagingModeBanner = () => {
             variant="warning"
             className={{ root: "text-center px-4 py-2" }}
         >
-            <Typography variant="sm">{t("stagingMode.warning")}</Typography>
+            <Typography data-testid="staging-banner-text" variant="sm">
+                {t("stagingMode.warning")}
+            </Typography>
         </FeedbackBox>
     );
 };

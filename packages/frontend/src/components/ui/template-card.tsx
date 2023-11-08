@@ -23,7 +23,11 @@ export const KPITokenTemplateCard = ({
             <div>
                 <div className="w-full h-12 px-4 flex items-center justify-between border-b border-gray-600 dark:border-white">
                     {!loading && !!resolvedTemplate ? (
-                        <Typography weight="medium" uppercase>
+                        <Typography
+                            data-testid={`${resolvedTemplate.specification.name}-template-title`}
+                            weight="medium"
+                            uppercase
+                        >
                             {resolvedTemplate.specification.name}
                         </Typography>
                     ) : (
@@ -106,7 +110,12 @@ export const KPITokenTemplateCard = ({
                     state={{ template: resolvedTemplate }}
                 >
                     {!loading && !!resolvedTemplate ? (
-                        <Typography weight="medium">↳ USE TEMPLATE</Typography>
+                        <Typography
+                            data-testid="use-template-button"
+                            weight="medium"
+                        >
+                            ↳ USE TEMPLATE
+                        </Typography>
                     ) : (
                         <Skeleton width="40%" />
                     )}
