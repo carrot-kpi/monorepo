@@ -6,7 +6,7 @@ import { Typography } from "@carrot-kpi/ui";
 const FooterLinks = ({ title, links }: FooterLink) => (
     <ul className="w-40">
         <Typography
-            data-testid={`${title}-text`}
+            data-testid={`footer-${title}-text`}
             className={{ root: "text-white" }}
             uppercase
         >
@@ -16,7 +16,7 @@ const FooterLinks = ({ title, links }: FooterLink) => (
             {links.map(({ Component, to, title }) => {
                 const content = (
                     <Typography
-                        data-testid={`${title}-button`}
+                        data-testid={`footer-${title}-button`}
                         variant="sm"
                         className={{
                             root: "text-white cursor-pointer hover:underline",

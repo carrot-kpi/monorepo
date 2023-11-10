@@ -20,7 +20,7 @@ export const Permissioned = ({ onBack }: PermissionedProps) => {
                     <>
                         <ErrorIcon className="w-52 h-52" />
                         <Typography
-                            data-testid="permission-mode-enabled-text"
+                            data-testid="permission-mode-enabled-title-text"
                             variant="h4"
                             className={{ root: "text-center" }}
                         >
@@ -36,7 +36,7 @@ export const Permissioned = ({ onBack }: PermissionedProps) => {
                         </Typography>
                         <div className="flex gap-4">
                             <Button
-                                data-testid="back-button"
+                                data-testid="permission-mode-back-button"
                                 size="small"
                                 variant="secondary"
                                 onClick={onBack}
@@ -44,7 +44,7 @@ export const Permissioned = ({ onBack }: PermissionedProps) => {
                                 {t("permissioned.mode.back")}
                             </Button>
                             <Button
-                                data-testid="join-discord-button"
+                                data-testid="permission-mode-join-discord-button"
                                 size="small"
                                 href={DISCORD_LINK}
                                 target="_blank"

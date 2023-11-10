@@ -64,7 +64,7 @@ export const Empty = ({
                     {t("empty.title")}
                 </Typography>
                 <Typography
-                    data-testid="no-data-found-text"
+                    data-testid="empty-no-data-found-text"
                     variant={descriptionVariant || "base"}
                 >
                     {t("empty.description")}
