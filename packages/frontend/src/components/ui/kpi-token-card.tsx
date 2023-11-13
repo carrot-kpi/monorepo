@@ -25,13 +25,21 @@ const TimeLeft = ({ kpiToken }: TimeLeftProps) => {
 
     if (kpiToken.finalized)
         return (
-            <Typography uppercase className={{ root: "text-orange" }}>
+            <Typography
+                data-testid="campaign-template-finalized-text"
+                uppercase
+                className={{ root: "text-orange" }}
+            >
                 {t("stateOptions.finalized")}
             </Typography>
         );
     if (kpiToken.expired)
         return (
-            <Typography uppercase className={{ root: "text-red" }}>
+            <Typography
+                data-testid="campaign-template-expired-text"
+                uppercase
+                className={{ root: "text-red" }}
+            >
                 {t("stateOptions.expired")}
             </Typography>
         );
@@ -86,7 +94,12 @@ export const KPITokenCard = ({
             <CardTitle>
                 <div className="flex items-center justify-between w-full">
                     {!loading && !!resolvedKPIToken ? (
-                        <Typography weight="medium" uppercase truncate>
+                        <Typography
+                            data-testid={`${resolvedKPIToken.specification.title}-campaign-title`}
+                            weight="medium"
+                            uppercase
+                            truncate
+                        >
                             {resolvedKPIToken.specification.title}
                         </Typography>
                     ) : (
@@ -172,7 +185,10 @@ export const KPITokenCard = ({
                             to={`/campaigns/${resolvedKPIToken.address}`}
                             state={{ resolvedKPIToken }}
                         >
-                            <Typography weight="medium">
+                            <Typography
+                                data-testid="view-campaign-button"
+                                weight="medium"
+                            >
                                 ↳ VIEW CAMPAIGN
                             </Typography>
                         </Link>

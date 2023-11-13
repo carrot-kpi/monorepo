@@ -19,7 +19,9 @@ export const TemplatesSection = ({ templateId }: TemplatesSectionProps) => {
 
     return (
         <div className="w-full max-w-screen-2xl relative flex flex-col gap-16">
-            <Typography variant="h1">{t("home.templates")}</Typography>
+            <Typography data-testid="templates-title-text" variant="h1">
+                {t("home.templates")}
+            </Typography>
             <CardHorizontal>
                 {loading ? (
                     <>

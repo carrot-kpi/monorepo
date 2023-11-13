@@ -9,10 +9,12 @@ export const WalletDisconnected = () => {
         <div className="flex flex-col gap-4 items-center">
             <WalletDisconnectedIcon className="w-52" />
             <div className="flex flex-col gap-3 items-center mb-4">
-                <Typography variant="h4">
+                <Typography data-testid="wallet-disconnected-text" variant="h4">
                     {t("wallet.disconnected.title")}
                 </Typography>
-                <Typography>{t("wallet.disconnected.description")}</Typography>
+                <Typography data-testid="connect-wallet-required-text">
+                    {t("wallet.disconnected.description")}
+                </Typography>
             </div>
             <ConnectWallet chainList={false} />
         </div>

@@ -110,7 +110,10 @@ export const Campaigns = () => {
             <div className="min-h-screen">
                 <div className="w-full relative flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
                     <div className="py-16 w-full max-w-screen-2xl">
-                        <Typography variant="h1">
+                        <Typography
+                            data-testid="all-campaigns-title-text"
+                            variant="h1"
+                        >
                             {t("campaign.all")}
                         </Typography>
                     </div>

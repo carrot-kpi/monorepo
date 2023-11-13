@@ -5,13 +5,18 @@ import { Typography } from "@carrot-kpi/ui";
 
 const FooterLinks = ({ title, links }: FooterLink) => (
     <ul className="w-40">
-        <Typography className={{ root: "text-white" }} uppercase>
+        <Typography
+            data-testid={`footer-${title}-text`}
+            className={{ root: "text-white" }}
+            uppercase
+        >
             {title}
         </Typography>
         <div className="mt-6 space-y-3">
             {links.map(({ Component, to, title }) => {
                 const content = (
                     <Typography
+                        data-testid={`footer-${title}-button`}
                         variant="sm"
                         className={{
                             root: "text-white cursor-pointer hover:underline",
@@ -59,6 +64,7 @@ export const Footer = ({ footerLinks }: FooterProps) => (
             </div>
             <div className="flex items-end">
                 <a
+                    data-testid="footer-carrot-info-page-button"
                     href={`https://www.${CARROT_DOMAIN}`}
                     target="_blank"
                     rel="noopener noreferrer"

@@ -74,11 +74,17 @@ export const PreferencesPopover = forwardRef<
             className={{ root: "w-fit p-4 flex flex-col gap-4 text-center" }}
             placement="bottom-end"
         >
-            <Typography uppercase weight="medium">
+            <Typography
+                data-testid="interface-settings-title"
+                uppercase
+                weight="medium"
+            >
                 {t("preferences.title")}
             </Typography>
             <div className="flex justify-between gap-4 md:gap-20 items-center">
-                <Typography>{t("preferences.theme")}</Typography>
+                <Typography data-testid="theme-name-text">
+                    {t("preferences.theme")}
+                </Typography>
                 <Popover
                     className={{ root: "p-2" }}
                     anchor={darkThemeSwitch}
@@ -92,6 +98,7 @@ export const PreferencesPopover = forwardRef<
                     ref={setDarkThemeSwitch}
                 >
                     <Select
+                        data-testid={`theme-dropdown-button`}
                         disabled
                         options={themeOptions}
                         messages={{ noResults: "" }}
@@ -126,6 +133,7 @@ export const PreferencesPopover = forwardRef<
                         </InfoPopover>
                     </div>
                     <Switch
+                        data-testid="decentralization-mode-switch"
                         checked={preferDecentralization}
                         onChange={setPreferDecentralization}
                     />
@@ -134,7 +142,9 @@ export const PreferencesPopover = forwardRef<
             {__STAGING_MODE__ && (
                 <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <div className="flex gap-2 items-center">
-                        <Typography>{t("preferences.stagingMode")}</Typography>
+                        <Typography data-testid="staging-mode-text">
+                            {t("preferences.stagingMode")}
+                        </Typography>
                         <InfoPopover>
                             <Typography
                                 variant="sm"
@@ -144,7 +154,11 @@ export const PreferencesPopover = forwardRef<
                             </Typography>
                         </InfoPopover>
                     </div>
-                    <Switch checked={stagingMode} onChange={setStagingMode} />
+                    <Switch
+                        data-testid="staging-mode-switch"
+                        checked={stagingMode}
+                        onChange={setStagingMode}
+                    />
                 </div>
             )}
         </Popover>
