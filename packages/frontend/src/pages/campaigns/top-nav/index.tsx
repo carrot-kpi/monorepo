@@ -50,6 +50,7 @@ export const CampaignsTopNav = ({
                             toggle={onToggleFilters}
                         /> */}
                         <Select
+                            data-testid="sort-by-dropdown"
                             label=""
                             messages={{ noResults: "" }}
                             onChange={onOrderingChange}
@@ -64,6 +65,7 @@ export const CampaignsTopNav = ({
                         />
                     </div>
                     <Select
+                        data-testid="filter-all-dropdown"
                         label=""
                         messages={{ noResults: "" }}
                         onChange={onStateChange}
@@ -77,6 +79,7 @@ export const CampaignsTopNav = ({
                         }}
                     />
                     <TextInput
+                        data-testid="search-bar-field"
                         icon={MagnifyingLens}
                         iconPlacement="left"
                         type="search"

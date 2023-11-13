@@ -72,6 +72,7 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
                         <div className="w-full max-w-screen-2xl flex flex-col items-center lg:flex-row lg:justify-center gap-20 md:gap-36 pb-16 pt-7 md:pt-24 md:pb-32">
                             <div className="flex flex-col gap-10 flex-1 w-full max-w-xl lg:max-w-none">
                                 <Typography
+                                    data-testid="hero-section-title-text"
                                     variant="h1"
                                     className={{
                                         root: "text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem]",
@@ -80,7 +81,11 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
                                     {t("home.noFeatured.title")}
                                 </Typography>
                                 <div className="flex flex-col gap-14">
-                                    <Typography variant="lg" data-aos="fade-up">
+                                    <Typography
+                                        data-testid="hero-section-description-text"
+                                        variant="lg"
+                                        data-aos="fade-up"
+                                    >
                                         {t("home.noFeatured.description")}
                                     </Typography>
                                     <CreateCampaignButton primary />
@@ -97,6 +102,7 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
                                 />
                                 <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
                                     <Button
+                                        data-testid="how-it-works-button"
                                         onClick={handleClick}
                                         className={{
                                             contentWrapper:
@@ -112,6 +118,7 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
                             <Modal open={showVideo} onDismiss={handleDismiss}>
                                 <div className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500">
                                     <video
+                                        data-testid="video-preview-overlay"
                                         ref={videoRef}
                                         controls
                                         className="aspect-video w-full border border-black rounded-xl bg-gray-500 overflow-hidden"

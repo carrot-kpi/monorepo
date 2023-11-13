@@ -120,7 +120,10 @@ export const Navbar = ({
                                             <span className="font-mono text-2xl xl:text-base">
                                                 ↳
                                             </span>
-                                            <p className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]">
+                                            <p
+                                                data-testid={`header-${link.title}-button`}
+                                                className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]"
+                                            >
                                                 {link.title}
                                             </p>
                                         </NavLink>

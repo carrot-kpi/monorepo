@@ -156,10 +156,16 @@ export const ConnectWallet = ({
                             logo={<Logo width={18} height={18} />}
                         />
                         <div className="flex flex-col">
-                            <Typography variant="xs">
+                            <Typography
+                                data-testid="network-drop-down-button"
+                                variant="xs"
+                            >
                                 {t("connect.wallet.network")}
                             </Typography>
-                            <Typography variant="sm">
+                            <Typography
+                                data-testid={`${chainName}-button`}
+                                variant="sm"
+                            >
                                 {supportedChain ? chainName : "Unsupported"}
                             </Typography>
                         </div>

@@ -57,10 +57,16 @@ export const Empty = ({
                 className={cx("h-50 text-gray-500", className?.icon)}
             />
             <div className="flex flex-col gap-3">
-                <Typography variant={titleVariant || "h3"}>
+                <Typography
+                    data-testid="empty-title-text"
+                    variant={titleVariant || "h3"}
+                >
                     {t("empty.title")}
                 </Typography>
-                <Typography variant={descriptionVariant || "base"}>
+                <Typography
+                    data-testid="empty-no-data-found-text"
+                    variant={descriptionVariant || "base"}
+                >
                     {t("empty.description")}
                 </Typography>
             </div>

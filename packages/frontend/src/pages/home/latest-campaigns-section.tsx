@@ -53,7 +53,9 @@ export const LatestCampaignsSection = ({
 
     return (
         <div className="w-full max-w-screen-2xl relative flex flex-col gap-16">
-            <Typography variant="h1">{t("home.latestCampaigns")}</Typography>
+            <Typography data-testid="latest-campaigns-title-text" variant="h1">
+                {t("home.latestCampaigns")}
+            </Typography>
             <CardHorizontal className="h-96">
                 {loading || !kpiTokens ? (
                     placeholder
@@ -72,7 +74,9 @@ export const LatestCampaignsSection = ({
             </CardHorizontal>
             <div className="w-fit">
                 <Link to="/campaigns">
-                    <Button>{t("home.allCampaigns")}</Button>
+                    <Button data-testid="view-all-campaigns-button">
+                        {t("home.allCampaigns")}
+                    </Button>
                 </Link>
             </div>
         </div>
