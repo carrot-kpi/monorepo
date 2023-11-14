@@ -1,4 +1,4 @@
-import { test, expect } from "../fixtures";
+import { test, expect } from "../utils/fixtures";
 import { acceptAccess } from "@synthetixio/synpress/commands/metamask";
 
 test.beforeEach(async ({ page }) => {
