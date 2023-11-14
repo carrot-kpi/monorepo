@@ -13,8 +13,8 @@ export default defineConfig({
     ],
     use: {
         headless: false,
-        // baseURL: "http://localhost:3000/#/?chain=scroll+sepolia",
-        baseURL: "https://app.staging.carrot.community/#/?chain=polygon+mumbai",
+        baseURL: "http://localhost:3000/#/?chain=scroll+sepolia",
+        // baseURL: "https://app.staging.carrot.community/#/?chain=polygon+mumbai",
         trace: "on-first-retry",
     },
     projects: [

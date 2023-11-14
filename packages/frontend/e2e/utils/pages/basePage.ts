@@ -1,5 +1,7 @@
 import { expect, Page } from "@playwright/test";
-
+/**
+ * @exports default methods used in all tests
+ */
 export class BasePage {
     readonly page: Page;
     constructor(page: Page) {
@@ -29,6 +31,10 @@ export class BasePage {
         await this.page.waitForLoadState();
         await this.page.getByTestId(selector).first().click();
     }
+    async clickSecond(selector: string) {
+        await this.page.waitForLoadState();
+        await this.page.getByTestId(selector).nth(1).click();
+    }
     async hoverElement(selector: string) {
         await this.page.getByTestId(selector).hover();
     }
@@ -41,8 +47,10 @@ export class BasePage {
     async enterText(selector: string, text: string) {
         await this.page.getByTestId(selector).fill(text);
     }
-    async compareText(selector: string, text: string) {
-        await expect(this.page.getByTestId(selector).first()).toHaveText(text);
+    async compareText(selector: string, text: string, index: number) {
+        await expect(this.page.getByTestId(selector).nth(index)).toHaveText(
+            text,
+        );
     }
     async containsText(selector: string, text: string) {
         await expect(this.page.getByTestId(selector)).toContainText(text);
