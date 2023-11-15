@@ -18,10 +18,10 @@ export type Serializable<T> = T extends
     | undefined
     ? T
     : T extends object
-    ? { [K in keyof T]: Serializable<T[K]> }
-    : T extends Array<infer U>
-    ? Array<Serializable<U>>
-    : never;
+      ? { [K in keyof T]: Serializable<T[K]> }
+      : T extends Array<infer U>
+        ? Array<Serializable<U>>
+        : never;
 
 export type SerializableObject<T extends object> = {
     [K in keyof T]: Serializable<T[K]>;
@@ -145,7 +145,7 @@ export type RemoteComponentProps<
         ? KPITokenRemoteCreationFormProps<S>
         : KPITokenRemotePageProps
     : E extends "oracle"
-    ? T extends "creationForm"
-        ? OracleRemoteCreationFormProps<S>
-        : OracleRemotePageProps
-    : never;
+      ? T extends "creationForm"
+          ? OracleRemoteCreationFormProps<S>
+          : OracleRemotePageProps
+      : never;

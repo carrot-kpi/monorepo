@@ -19,7 +19,7 @@
     },
     "devDependencies": {
         "@carrot-kpi/contracts": "^0.9.0",
-        "@graphprotocol/graph-cli": "0.60.0",
+        "@graphprotocol/graph-cli": "0.61.0",
         "@graphprotocol/graph-ts": "0.31.0",
         "eslint-config-custom": "*",
         "matchstick-as": "0.6.0",
