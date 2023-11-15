@@ -27,8 +27,8 @@ const resolveSingleSrc = (
     const resolvedDefaultSrcs = !!!defaultSrc
         ? []
         : typeof defaultSrc === "string"
-        ? [defaultSrc]
-        : defaultSrc;
+          ? [defaultSrc]
+          : defaultSrc;
     const parsedENSName = parseENSName(src);
     if (!!parsedENSName) {
         const { name, path } = parsedENSName;
