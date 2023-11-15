@@ -1,5 +1,11 @@
 # @carrot-kpi/subgraph
 
+## 0.11.1
+
+### Patch Changes
+
+-   b0f0d41: Upgrade dependencies
+
 ## 0.11.0
 
 ### Minor Changes
