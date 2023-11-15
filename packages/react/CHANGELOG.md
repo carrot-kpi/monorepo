@@ -1,5 +1,13 @@
 # @carrot-kpi/react
 
+## 0.71.1
+
+### Patch Changes
+
+-   b0f0d41: Upgrade dependencies
+-   Updated dependencies [b0f0d41]
+    -   @carrot-kpi/sdk@1.45.1
+
 ## 0.71.0
 
 ### Minor Changes

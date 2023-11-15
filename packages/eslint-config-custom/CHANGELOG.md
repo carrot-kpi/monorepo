@@ -1,5 +1,11 @@
 # eslint-config-custom
 
+## 0.9.1
+
+### Patch Changes
+
+-   b0f0d41: Upgrade dependencies
+
 ## 0.9.0
 
 ### Minor Changes
