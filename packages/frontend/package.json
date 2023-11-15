@@ -1,7 +1,7 @@
 {
     "name": "@carrot-kpi/host-frontend",
     "license": "GPL-3.0-or-later",
-    "version": "0.33.0",
+    "version": "0.33.1",
     "description": "Frontend for Carrot KPI protocol v1.",
     "main": "./dist/library-mode-entrypoint.js",
     "module": "./dist/library-mode-entrypoint.js",
