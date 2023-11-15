@@ -26,6 +26,24 @@ export class HomePage extends BasePage {
     decentralizationMode_Switch = "decentralization-mode-switch";
     stagingMode_Text = "staging-mode-text";
     stagingMode_Switch = "staging-mode-switch";
+    heroTitle_Text = "hero-section-title-text";
+    heroDescription_Text = "hero-section-description-text";
+    howItWorks_Button = "how-it-works-button";
+    video_Preview = "video-preview-overlay";
+    createCampaign_Button = "create-campaign-button";
+    latestCampaign_Text = "latest-campaigns-title-text";
+    viewCampaign_Button = "view-campaign-button";
+    viewAllCampaigns_Button = "view-all-campaigns-button";
+    templates_Text = "templates-title-text";
+    templateErc20KPIToken_Text = "ERC20 KPI token-template-title";
+    useTemplate_Button = "use-template-button";
+    footerAbout_Text = "footer-About-text";
+    footerCommunity_Text = "footer-Community-text";
+    footerDocumentation_Link = "footer-Documentation-button";
+    footerAudits_Link = "footer-Audits-button";
+    footerDiscrod_Link = "footer-Discord-button";
+    footerTwitter_Link = "footer-Twitter-button";
+    carrotInfoPage_Button = "footer-carrot-info-page-button";
     // ---Methods
     async goToHomePage() {
         await this.open("/");

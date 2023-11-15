@@ -4,7 +4,10 @@ import { setExpectInstance } from "@synthetixio/synpress/commands/playwright";
 import { resetState } from "@synthetixio/synpress/commands/synpress";
 import { prepareMetamask } from "@synthetixio/synpress/helpers";
 import { HomePage } from "../utils/pages/homePage";
-
+/**
+ * @exports context fixture which sets up Metamask extension before test start
+ * @exports page instances used in tests
+ */
 export const test = base.extend<{
     context: BrowserContext;
     homePage: HomePage;

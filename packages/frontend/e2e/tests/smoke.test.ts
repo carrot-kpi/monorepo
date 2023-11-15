@@ -51,5 +51,23 @@ test.describe("Carrot Smoke test", () => {
         await test.step("Polygon Mumbai network is selected", async () => {
             await homePage.checkSelectedNetwork(networks.polygonMumbai);
         });
+        await test.step("Switch to Scroll Sepolia network", async () => {
+            await homePage.selectNetwork(networks.scrollSepolia);
+        });
+        await test.step("Scroll Sepolia network is selected", async () => {
+            await homePage.checkSelectedNetwork(networks.scrollSepolia);
+        });
+        await test.step("Switch to Sepolia network", async () => {
+            await homePage.selectNetwork(networks.sepolia);
+        });
+        await test.step("Sepolia network is selected", async () => {
+            await homePage.checkSelectedNetwork(networks.sepolia);
+        });
+        await test.step("Switch to Polygon Mumbai network", async () => {
+            await homePage.selectNetwork(networks.polygonMumbai);
+        });
+        await test.step("Polygon Mumbai network is selected", async () => {
+            await homePage.checkSelectedNetwork(networks.polygonMumbai);
+        });
     });
 });
