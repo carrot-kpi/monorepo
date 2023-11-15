@@ -47,9 +47,8 @@ describe("kpi token", () => {
     });
 
     test("instantiates correctly", () => {
-        const kpiTokenAddress = privateKeyToAccount(
-            generatePrivateKey(),
-        ).address;
+        const kpiTokenAddress =
+            privateKeyToAccount(generatePrivateKey()).address;
         const kpiTokenOwner = privateKeyToAccount(generatePrivateKey()).address;
         const kpiToken = new ResolvedKPIToken(
             ChainId.SEPOLIA,
