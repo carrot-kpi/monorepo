@@ -78,8 +78,8 @@ export function TemplateComponent({
             theme === "dark"
                 ? true
                 : theme === "light"
-                ? false
-                : systemDarkTheme,
+                  ? false
+                  : systemDarkTheme,
         );
     }, [systemDarkTheme, theme]);
 

@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.45.1
+
+### Patch Changes
+
+-   b0f0d41: Upgrade dependencies
+
 ## 1.45.0
 
 ### Minor Changes
