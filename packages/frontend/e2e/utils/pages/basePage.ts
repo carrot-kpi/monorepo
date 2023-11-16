@@ -23,6 +23,9 @@ export class BasePage {
         expect(newPage.url()).toContain(url);
         await newPage.close();
     }
+    async clickAnyWhereToClose() {
+        await this.page.mouse.click(1000, 1000);
+    }
     async click(selector: string) {
         await this.page.waitForLoadState();
         await this.page.getByTestId(selector).click();
