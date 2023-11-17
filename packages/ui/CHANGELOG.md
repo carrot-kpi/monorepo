@@ -1,5 +1,12 @@
 # @carrot-kpi/ui
 
+## 0.66.2
+
+### Patch Changes
+
+-   c079847: Use font mono in markdown input component, adapt next step button
+    to new design
+
 ## 0.66.1
 
 ### Patch Changes
