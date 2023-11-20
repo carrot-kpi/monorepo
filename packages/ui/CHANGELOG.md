@@ -1,5 +1,12 @@
 # @carrot-kpi/ui
 
+## 0.66.3
+
+### Patch Changes
+
+-   e4df459: Add missing font styles for Markdown, make NextStepButton
+    customizable
+
 ## 0.66.2
 
 ### Patch Changes
