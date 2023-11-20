@@ -1,5 +1,6 @@
 import { test } from "../utils/fixtures";
-import { networks, footerLinks } from "../utils/data/data";
+import { networks } from "../utils/data";
+
 /**
  *@description Smoke test for Carrot Home page
  */

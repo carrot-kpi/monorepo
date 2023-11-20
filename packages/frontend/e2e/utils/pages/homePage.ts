@@ -6,7 +6,8 @@ import {
     templateData,
     textData,
     wallets,
-} from "../data/data";
+} from "../data";
+
 /**
  * @exports Selectors and Methods for Home page
  */
