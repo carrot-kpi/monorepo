@@ -38,7 +38,7 @@ jobs:
       - name: End to end test
         uses: cypress-io/github-action@v6
         env:
-          DEBUG: "@cypress/github-action"
+          DEBUG: "cypress:*"
         with:
           record: true
           start: yarn start:staging
