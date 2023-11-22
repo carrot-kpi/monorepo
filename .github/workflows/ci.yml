@@ -37,6 +37,8 @@ jobs:
         run: yarn test
       - name: End to end test
         uses: cypress-io/github-action@v6
+        env:
+          DEBUG: "@cypress/github-action"
         with:
           record: true
           build: yarn build
