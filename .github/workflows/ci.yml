@@ -40,9 +40,7 @@ jobs:
         env:
           DEBUG: "@cypress/github-action"
         with:
-          runTests: false
           record: true
-          build: yarn build
           start: yarn start:staging
           command: yarn test:e2e
       - name: Build
