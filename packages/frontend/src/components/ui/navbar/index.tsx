@@ -141,6 +141,7 @@ export const Navbar = ({
                             />
                         </div>
                         <Button
+                            data-testid="settings-button"
                             ref={setPreferencesAnchor}
                             size="small"
                             onClick={handlePreferencesPopoverOpen}

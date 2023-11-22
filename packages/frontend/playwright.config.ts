@@ -1,16 +1,20 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-    timeout: 60_000,
+    timeout: 60000,
     testDir: "./e2e",
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
     workers: process.env.CI ? 1 : 1,
-    reporter: process.env.CI ? "dot" : "list",
+    reporter: [
+        ["list", { printSteps: true }],
+        ["html", { open: "always" }],
+    ],
     use: {
         headless: false,
         baseURL: "http://localhost:3000/#/?chain=scroll+sepolia",
+        // baseURL: "https://app.staging.carrot.community/#/?chain=polygon+mumbai",
         trace: "on-first-retry",
     },
     projects: [
@@ -21,14 +25,14 @@ export default defineConfig({
                 viewport: { width: 1920, height: 1080 },
             },
         },
-        {
-            name: "firefox",
-            use: { ...devices["Desktop Firefox"] },
-        },
-        {
-            name: "webkit",
-            use: { ...devices["Desktop Safari"] },
-        },
+        // {
+        //     name: "firefox",
+        //     use: { ...devices["Desktop Firefox"] },
+        // },
+        // {
+        //     name: "webkit",
+        //     use: { ...devices["Desktop Safari"] },
+        // },
     ],
     webServer: {
         command: "yarn start:staging",

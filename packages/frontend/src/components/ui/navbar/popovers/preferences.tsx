@@ -120,7 +120,7 @@ export const PreferencesPopover = forwardRef<
             {!!SUBGRAPH_URL[chainId as ChainId] && (
                 <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <div className="flex gap-2 items-center">
-                        <Typography>
+                        <Typography data-testid="decentralization-mode-text">
                             {t("preferences.decentralization")}
                         </Typography>
                         <InfoPopover>
