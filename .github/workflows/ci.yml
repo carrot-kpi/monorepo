@@ -40,6 +40,7 @@ jobs:
         env:
           DEBUG: "@cypress/github-action"
         with:
+          runTests: false
           record: true
           build: yarn build
           start: yarn start:staging

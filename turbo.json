@@ -36,6 +36,9 @@
         "start": {
             "dependsOn": ["^build"]
         },
+        "start:staging": {
+            "dependsOn": ["^build"]
+        },
         "size-limit": {
             "dependsOn": ["^build"]
         },
