@@ -35,12 +35,12 @@ jobs:
         run: yarn lint
       - name: Test
         run: yarn test
-      - name: Cypress run
+      - name: End to end test
         uses: cypress-io/github-action@v6
         with:
           record: true
           build: yarn build
-          start: yarn start
+          start: yarn start:staging
           command: yarn test:e2e
       - name: Build
         run: yarn build
