@@ -5,6 +5,6 @@ WORKDIR /app
 
 COPY package.json ./
 
-RUN yarn installA
+RUN yarn install
 RUN npx playwright install --with-deps
 COPY . .
