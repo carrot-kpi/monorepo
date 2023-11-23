@@ -6,6 +6,11 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
+env:
+  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
 jobs:
   playwright-tests:
     timeout-minutes: 10
