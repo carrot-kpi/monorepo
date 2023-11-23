@@ -1,4 +1,4 @@
-name: CI
+name: Playwright Tests
 on:
   push:
     branches:
@@ -6,13 +6,9 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
-env:
-  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
 jobs:
-  ci:
+  playwright-tests:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,11 +27,7 @@ jobs:
           cache: "yarn"
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Lint
-        run: yarn lint
-      - name: Test
-        run: yarn test
-      - name: Build
-        run: yarn build
-      - name: Size check
-        run: yarn size-limit
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: yarn test:e2e
