@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: E2E
 on:
   push:
     branches:
@@ -6,37 +6,32 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
-env:
-  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+concurrency:
+  group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
+    github.head_ref || github.ref }}"
+  cancel-in-progress: true
 jobs:
-  playwright-tests:
-    timeout-minutes: 10
+  e2e:
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.40.0-jammy
-    strategy:
-      matrix:
-        node-version: [18.x]
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
-      TURBO_REMOTE_ONLY: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # pin@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f03ac48505955848960e80bbb68046aa35c7b9e7 # pin@v1
+      - name: Cache Docker layers
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # pin@v2
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "yarn"
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: yarn test:e2e
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Run e2e tests
+        run: |
+          docker-compose -f docker-compose.yml up synpress
         env:
-          HOME: /root
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64

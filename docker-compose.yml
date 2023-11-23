@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  synpress:
+    profiles:
+      - synpress
+    container_name: synpress
+    build: ./packages/frontend
+    environment:
+      - DISPLAY=display:0.0
+      - CYPRESS_DOCKER_RUN=true
+      - CI=true
+    entrypoint: []
+    working_dir: /app
+    command: >
+      yarn test:e2e
+    depends_on:
+      - display
+    networks:
+      - x11
+
+  display:
+    profiles:
+      - synpress
+    container_name: display
+    image: synthetixio/display:016121eafdfff448414894d0ca5a50b1d72b62eb-base
+    environment:
+      - RUN_XTERM=no
+      - DISPLAY_WIDTH=800
+      - DISPLAY_HEIGHT=600
+    ports:
+      - "8080:8080"
+    networks:
+      - x11
+
+networks:
+  x11:
