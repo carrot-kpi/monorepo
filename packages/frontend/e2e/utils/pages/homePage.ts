@@ -1,4 +1,5 @@
 import { BasePage } from "../pages/basePage";
+import { acceptAccess } from "@synthetixio/synpress/commands/metamask";
 import {
     campaignData,
     urls,
@@ -53,6 +54,7 @@ export class HomePage extends BasePage {
     footerDiscrod_Link = "footer-Discord-button";
     footerTwitter_Link = "footer-Twitter-button";
     footerCarrotInfoPage_Button = "footer-carrot-info-page-button";
+    profileAvatar_Button = "profile-avatar-button";
     // selectors on campaign page
     walletDisconnected_Text = "wallet-disconnected-text";
     walletRequiredDescription_Text = "connect-wallet-required-text";
@@ -62,13 +64,6 @@ export class HomePage extends BasePage {
     }
     async goBack() {
         await this.page.goBack();
-    }
-    async checkStagingBanner() {
-        await this.compareText(
-            this.stagingBanner_Text,
-            textData.stagingBannerText,
-            0,
-        );
     }
     //---Clicks
     async clickAbout() {
@@ -83,6 +78,9 @@ export class HomePage extends BasePage {
     async clickConnectWallet() {
         await this.clickSecond(this.connectWallet_Button);
     }
+    async clickMetamask() {
+        await this.click(this.metamask_Button);
+    }
     async clickSettings() {
         await this.click(this.settings_Button);
     }
@@ -96,6 +94,13 @@ export class HomePage extends BasePage {
         await this.click(this.viewAllCampaigns_Button);
     }
     //--- Header assertions
+    async checkStagingBanner() {
+        await this.compareText(
+            this.stagingBanner_Text,
+            textData.stagingBannerText,
+            0,
+        );
+    }
     async checkAboutButtonRedirection() {
         await this.checkRedirectionToNewTab(
             this.about_Button,
@@ -224,7 +229,7 @@ export class HomePage extends BasePage {
     }
     async checkHowItWorksPreview() {
         await this.clickHowItWorks();
-        await this.isVisible(this.howItWorksVideo_Preview);
+        await this.isVisible(this.howItWorksVideo_Preview, 0);
         await this.clickAnyWhereToClose();
     }
     // todo: this method should be on create campaign page
@@ -291,5 +296,14 @@ export class HomePage extends BasePage {
             this.footerCarrotInfoPage_Button,
             urls.carrotInfoPage,
         );
+    }
+    async profileIconVisible() {
+        await this.isVisible(this.profileAvatar_Button, 1);
+    }
+    //---Connect wallet
+    async connectWallet() {
+        await this.clickConnectWallet();
+        await this.clickMetamask();
+        await acceptAccess();
     }
 }

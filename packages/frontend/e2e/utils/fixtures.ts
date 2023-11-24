@@ -3,7 +3,9 @@ import { initialSetup } from "@synthetixio/synpress/commands/metamask";
 import { setExpectInstance } from "@synthetixio/synpress/commands/playwright";
 import { resetState } from "@synthetixio/synpress/commands/synpress";
 import { prepareMetamask } from "@synthetixio/synpress/helpers";
+// Page instances
 import { HomePage } from "../utils/pages/homePage";
+import { CreateCampaign } from "./pages/createCampaignPage";
 
 /**
  * @exports context fixture which sets up Metamask extension before test start
@@ -12,10 +14,8 @@ import { HomePage } from "../utils/pages/homePage";
 export const test = base.extend<{
     context: BrowserContext;
     homePage: HomePage;
+    createCampaign: CreateCampaign;
 }>({
-    homePage: async ({ page }, use) => {
-        await use(new HomePage(page));
-    },
     context: async ({}, use) => {
         // required for synpress as it shares same expect instance as playwright
         await setExpectInstance(expect);
@@ -58,6 +58,12 @@ export const test = base.extend<{
         await context.close();
 
         await resetState();
+    },
+    homePage: async ({ page }, use) => {
+        await use(new HomePage(page));
+    },
+    createCampaign: async ({ page }, use) => {
+        await use(new CreateCampaign(page));
     },
 });
 

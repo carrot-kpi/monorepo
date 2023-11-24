@@ -47,6 +47,10 @@ export const campaignData = {
     description: "",
     tag: "",
     expiryDate: "",
+    tokenName: "",
+    tokenSymbol: "",
+    tokenSupply: "",
+    goalValue: "",
 };
 export const templateData = {
     erc20Title: "ERC20 KPI token",
