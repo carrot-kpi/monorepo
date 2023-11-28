@@ -1,11 +1,11 @@
-import { BasePage } from "../pages/basePage";
+import { BasePage } from "./basePage";
 import {
     confirmSignatureRequest,
     confirmPermissionToApproveAll,
 } from "@synthetixio/synpress/commands/metamask";
 import { campaignData, textData } from "../data";
 /**
- * @exports Selectors and Methods for Home page
+ * @exports Selectors and Methods for create Campaign stepper
  */
 
 export class CreateCampaign extends BasePage {
@@ -18,7 +18,6 @@ export class CreateCampaign extends BasePage {
     campaignDescription_Field = "#:rt:";
     campaignTags_Field = "";
     addTag_Button = "";
-    expirationDate_Field = "generic-data-step-expiration-input";
     generalNext_Button = "generic-data-step-next-button";
     tokenName_Field = "rewards-step-token-name-input";
     tokenSymbol_Field = "rewards-step-token-symbol-input";
@@ -28,16 +27,18 @@ export class CreateCampaign extends BasePage {
     carrotLabsDefault_Button = "";
     aaaToken_Button = "";
     tokenSearch_Field = "#token-search";
+    rewardAmount_Field = "rewards-step-reward-amount-input";
     minimumPayout_Switch = "rewards-step-minimum-payout-switch";
     addToCampaign_Button = "rewards-step-add-reward-button";
     rewardsNext_Button = "rewards-step-next-button";
-    oracleNext_Button = "";
-    metricDropdown_Button = "";
+    metricDropdown_Button = "creation-form-metric-select-input";
     totalValueLocked_Option = "";
-    protocolDropdown_Button = "";
+    expirationDate_Field = "creation-form-measurement-date-input";
+    protocolDropdown_Button = "payload-form-protocol-select-input";
     lido_Option = "";
-    greaterThan_Button = "";
-    goalValue_Field = "";
+    greaterThan_Button = "creation-form-constraint-3";
+    goalValue_Field = "single-value-form-value0-input";
+    oracleNext_Button = "";
     approve_Button = "";
     deployYourCampaign_Button = "";
     goToCampaign_Button = "";
@@ -107,16 +108,13 @@ export class CreateCampaign extends BasePage {
         await this.click(this.addTag_Button);
     }
     async enterExpiryDate() {
-        await this.enterText(
-            this.expirationDate_Field,
-            campaignData.expiryDate,
-        );
+        await this.click(this.expirationDate_Field);
+        // todo: figure out how to enter date
     }
     async enterGeneralData() {
         await this.enterTitle();
         await this.enterDescription();
         await this.enterTag();
-        await this.enterExpiryDate();
     }
     // Rewards step
     async enterTokenName() {
@@ -135,11 +133,18 @@ export class CreateCampaign extends BasePage {
         await this.click(this.carrotLabsDefault_Button);
         await this.click(this.aaaToken_Button);
     }
+    async enterRewardAmount() {
+        await this.enterText(
+            this.rewardAmount_Field,
+            campaignData.rewardAmount,
+        );
+    }
     async enterRewardsData() {
         await this.enterTokenName();
         await this.enterTokenSymbol();
         await this.enterTokenSupply();
         await this.pickRewardToken();
+        await this.enterRewardAmount();
     }
     // Oracle step
     async selectTotalValueLockedMetric() {

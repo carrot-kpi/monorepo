@@ -35,7 +35,8 @@
         "config-react-env": "./scripts/config-react-env.js",
         "start:staging": "STAGING=true craco start",
         "start": "craco start",
-        "test:e2e": "yarn prepare-fathom && yarn playwright test"
+        "test:e2e": "yarn prepare-fathom && yarn playwright test packages/frontend/e2e/tests/connect-wallet.test.ts",
+        "test:create-campaign": "yarn playwright test packages/frontend/e2e/tests/create-campaign.test.ts"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",

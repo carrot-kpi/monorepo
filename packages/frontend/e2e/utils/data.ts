@@ -50,6 +50,7 @@ export const campaignData = {
     tokenName: "",
     tokenSymbol: "",
     tokenSupply: "",
+    rewardAmount: "",
     goalValue: "",
 };
 export const templateData = {

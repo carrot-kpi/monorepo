@@ -1,4 +1,4 @@
-import { BasePage } from "../pages/basePage";
+import { BasePage } from "./basePage";
 import { acceptAccess } from "@synthetixio/synpress/commands/metamask";
 import {
     campaignData,
@@ -79,7 +79,7 @@ export class HomePage extends BasePage {
         await this.clickSecond(this.connectWallet_Button);
     }
     async clickMetamask() {
-        await this.click(this.metamask_Button);
+        await this.clickSecond(this.metamask_Button);
     }
     async clickSettings() {
         await this.click(this.settings_Button);
