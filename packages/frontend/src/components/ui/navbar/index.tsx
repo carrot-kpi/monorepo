@@ -100,7 +100,7 @@ export const Navbar = ({
                             )}
                         </div>
                     </div>
-                    <nav className="absolute w-full hidden md:flex justify-center space-x-8">
+                    <nav className="absolute hidden md:flex left-1/2 transform -translate-x-1/2 justify-center space-x-8">
                         {links.map((link) => {
                             const additionalProps = link.external
                                 ? {
