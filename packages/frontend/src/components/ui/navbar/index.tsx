@@ -100,37 +100,34 @@ export const Navbar = ({
                             )}
                         </div>
                     </div>
-                    <nav className="hidden md:flex">
-                        <ul className="flex items-center space-x-8">
-                            {links.map((link) => {
-                                const additionalProps = link.external
-                                    ? {
-                                          target: "_blank",
-                                          rel: "noopener noreferrer",
-                                      }
-                                    : {};
-                                return (
-                                    <li key={link.to}>
-                                        <NavLink
-                                            className="flex items-start space-x-2 cursor-pointer"
-                                            to={link.to}
-                                            onClick={() => setOpen(false)}
-                                            {...additionalProps}
-                                        >
-                                            <span className="font-mono text-2xl xl:text-base">
-                                                ↳
-                                            </span>
-                                            <p
-                                                data-testid={`header-${link.title}-button`}
-                                                className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]"
-                                            >
-                                                {link.title}
-                                            </p>
-                                        </NavLink>
-                                    </li>
-                                );
-                            })}
-                        </ul>
+                    <nav className="absolute w-full hidden md:flex justify-center space-x-8">
+                        {links.map((link) => {
+                            const additionalProps = link.external
+                                ? {
+                                      target: "_blank",
+                                      rel: "noopener noreferrer",
+                                  }
+                                : {};
+                            return (
+                                <NavLink
+                                    className="flex items-start space-x-2 cursor-pointer"
+                                    to={link.to}
+                                    onClick={() => setOpen(false)}
+                                    key={link.to}
+                                    {...additionalProps}
+                                >
+                                    <span className="font-mono text-2xl xl:text-base">
+                                        ↳
+                                    </span>
+                                    <p
+                                        data-testid={`header-${link.title}-button`}
+                                        className="font-mono text-black text-2xl hover:underline xl:text-base uppercase underline-offset-[12px]"
+                                    >
+                                        {link.title}
+                                    </p>
+                                </NavLink>
+                            );
+                        })}
                     </nav>
                     <div className="flex md:flex-row items-center gap-4">
                         <div className="hidden md:block">
