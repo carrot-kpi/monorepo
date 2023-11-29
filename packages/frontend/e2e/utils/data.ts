@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 /**
  * @exports different data used in tests
  */
@@ -43,15 +44,15 @@ export const textData = {
 };
 export const campaignData = {
     firstCampaign: "TS01 NOV13",
-    title: "",
-    description: "",
-    tag: "",
+    title: "Automatino Test Campaign",
+    description: faker.lorem.words(10),
+    tag: "Automation",
     expiryDate: "",
-    tokenName: "",
-    tokenSymbol: "",
-    tokenSupply: "",
-    rewardAmount: "",
-    goalValue: "",
+    tokenName: "Automation testing",
+    tokenSymbol: "ATST",
+    tokenSupply: "100",
+    rewardAmount: "100",
+    goalValue: "18",
 };
 export const templateData = {
     erc20Title: "ERC20 KPI token",

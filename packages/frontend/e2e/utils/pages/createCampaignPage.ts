@@ -16,8 +16,9 @@ export class CreateCampaign extends BasePage {
     signMessage_Button = "authenticate-sign-button";
     campaingTitle_Field = "generic-data-step-title-input";
     campaignDescription_Field = "#:rt:";
-    campaignTags_Field = "";
-    addTag_Button = "";
+    campaignTags_Field = "generic-data-step-tags-input";
+    addTag_Button =
+        "#carrot-template-26833f329b2f1da18c9ce2a9c000ee9c button > div";
     generalNext_Button = "generic-data-step-next-button";
     tokenName_Field = "rewards-step-token-name-input";
     tokenSymbol_Field = "rewards-step-token-symbol-input";
@@ -38,9 +39,9 @@ export class CreateCampaign extends BasePage {
     lido_Option = "";
     greaterThan_Button = "creation-form-constraint-3";
     goalValue_Field = "single-value-form-value0-input";
-    oracleNext_Button = "";
-    approve_Button = "";
-    deployYourCampaign_Button = "";
+    oracleNext_Button = "oracles-configuration-step-next-button";
+    approve_Button = "approve-reward";
+    deployYourCampaign_Button = "deploy-step-create-button";
     goToCampaign_Button = "";
     //---Methods
     async checkAuthenticateModalText() {
@@ -105,7 +106,7 @@ export class CreateCampaign extends BasePage {
     }
     async enterTag() {
         await this.enterText(this.campaignTags_Field, campaignData.description);
-        await this.click(this.addTag_Button);
+        await this.clickFirst(this.addTag_Button);
     }
     async enterExpiryDate() {
         await this.click(this.expirationDate_Field);
