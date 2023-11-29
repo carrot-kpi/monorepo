@@ -1,7 +1,7 @@
 {
     "name": "@carrot-kpi/host-frontend",
     "license": "GPL-3.0-or-later",
-    "version": "0.33.1",
+    "version": "0.33.2",
     "description": "Frontend for Carrot KPI protocol v1.",
     "main": "./dist/library-mode-entrypoint.js",
     "module": "./dist/library-mode-entrypoint.js",
@@ -35,7 +35,7 @@
         "config-react-env": "./scripts/config-react-env.js",
         "start:staging": "STAGING=true craco start",
         "start": "craco start",
-        "test:e2e": "yarn prepare-fathom && yarn playwright test packages/frontend/e2e/tests/connect-wallet.test.ts",
+        "test:e2e": "yarn prepare-fathom && yarn playwright test",
         "test:create-campaign": "yarn playwright test packages/frontend/e2e/tests/create-campaign.test.ts"
     },
     "dependencies": {

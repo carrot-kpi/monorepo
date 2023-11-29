@@ -1,5 +1,11 @@
 # @carrot-kpi/ui
 
+## 0.66.4
+
+### Patch Changes
+
+-   b573a8b: Show no results message with correct style in select component.
+
 ## 0.66.3
 
 ### Patch Changes

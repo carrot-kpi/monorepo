@@ -1,7 +1,6 @@
 import { test } from "../utils/fixtures";
 /**
  *@description Basic connect wallet on Polygon Mumbai network
- */
 
 test.beforeEach(async ({ homePage }) => {
     await homePage.goToHomePage();
