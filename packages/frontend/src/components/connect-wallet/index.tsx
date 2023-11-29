@@ -67,6 +67,7 @@ export const ConnectWallet = ({
             window.removeEventListener("mousedown", handleMouseDown);
         };
     }, []);
+
     const handleNetworksPopoverOpen = useCallback(() => {
         setNetworksPopoverOpen(true);
     }, []);
