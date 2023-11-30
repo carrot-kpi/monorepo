@@ -25,7 +25,7 @@ export const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
         webSocket: "wss://sepolia-rpc.scroll.io",
     },
     [ChainId.POLYGON_MUMBAI]: {
-        http: "https://rpc-mumbai.matic.today",
+        http: "https://polygon-mumbai-pokt.nodies.app/",
         webSocket: "wss://rpc-mumbai.matic.today",
     },
 };
