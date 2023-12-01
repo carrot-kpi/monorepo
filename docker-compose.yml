@@ -11,6 +11,8 @@ services:
       - DISPLAY=display:0.0
       - CYPRESS_DOCKER_RUN=true
       - CI=true
+      - SYNDEBUG=true
+      - IS_TESTNET=true
       - INFURA_PROJECT_ID=${INFURA_PROJECT_ID}
       - WALLETCONNECT_PROJECT_ID=${WALLETCONNECT_PROJECT_ID}
       - FATHOM_SITE_ID=${FATHOM_SITE_ID}
