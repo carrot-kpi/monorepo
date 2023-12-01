@@ -14,14 +14,6 @@ jobs:
   e2e:
     if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    env:
-      INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-      WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-      FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-      FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
-      COMPOSE_DOCKER_CLI_BUILD: 1
-      DOCKER_BUILDKIT: 1
-      DOCKER_DEFAULT_PLATFORM: linux/amd64
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
@@ -38,4 +30,14 @@ jobs:
             ${{ runner.os }}-buildx-
       - name: Run e2e tests
         run: |
-          docker-compose -f docker-compose.yml --profile synpress --profile foundry up --build --exit-code-from synpress
+          docker-compose -f docker-compose.yml --env-file ${{ matrix.resolution }}-res.env --profile synpress --profile foundry up --build --exit-code-from synpress
+        env:
+          PRIVATE_KEY: ""
+          NETWORK_NAME: sepolia
+          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+          FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+          FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
