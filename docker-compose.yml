@@ -6,6 +6,7 @@ services:
     container_name: synpress
     build: ./packages/frontend
     environment:
+      - SKIP_METAMASK_SETUP=true
       - DISPLAY=display:0.0
       - CYPRESS_DOCKER_RUN=true
       - CI=true

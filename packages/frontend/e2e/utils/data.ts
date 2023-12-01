@@ -2,9 +2,9 @@
  * @exports different data used in tests
  */
 export const networks = {
+    sepolia: "Sepolia",
     polygonMumbai: "Polygon Mumbai",
     scrollSepolia: "Scroll Sepolia",
-    sepolia: "Sepolia",
 };
 export const wallets = {
     injectedMetamask: "Injected (MetaMask)",
@@ -13,8 +13,8 @@ export const wallets = {
 };
 export const urls = {
     carrotCommunity: "https://www.staging.carrot.community/",
-    allCampaigns: "/campaigns?chain=polygon+mumbai",
-    createCampaign: "/create/1?chain=polygon+mumbai",
+    allCampaigns: "/campaigns?chain=sepolia",
+    createCampaign: "/create/1?chain=sepolia",
     documentation: "https://docs.staging.carrot.community/",
     audits: "https://github.com/carrot-kpi/contracts/tree/main/audits",
     discord: "https://discord.com/invite/uRer2D4Pdf",
@@ -39,7 +39,7 @@ export const textData = {
     walletRequiredDescription: "A connected wallet is required to continue.",
 };
 export const campaignData = {
-    firstCampaign: "TS01 NOV13",
+    firstCampaign: "TS08 NOV6",
 };
 export const templateData = {
     erc20Title: "ERC20 KPI token",

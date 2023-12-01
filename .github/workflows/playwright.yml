@@ -38,4 +38,4 @@ jobs:
             ${{ runner.os }}-buildx-
       - name: Run e2e tests
         run: |
-          docker-compose -f docker-compose.yml up synpress
+          --profile synpress --profile foundry up --build --exit-code-from synpress

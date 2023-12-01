@@ -17,16 +17,19 @@ test.describe("Carrot Smoke test", () => {
         await test.step("About button redirects to Carrot community page", async () => {
             await homePage.checkAboutButtonRedirection();
         });
+        await test.step("Switch to Sepolia network", async () => {
+            await homePage.selectNetwork(networks.sepolia);
+        });
+        await test.step("Sepolia network is selected", async () => {
+            await homePage.checkSelectedNetwork(networks.sepolia);
+        });
         await test.step("Campaigns button redirects to All campaigns page", async () => {
             await homePage.clickCampaignsHeader();
             await homePage.checkIfOnAllCampaignsPage();
             await homePage.goBack();
         });
         await test.step("Check default selected network", async () => {
-            await homePage.checkSelectedNetwork(networks.polygonMumbai);
-        });
-        await test.step("Check Network dropdown options", async () => {
-            await homePage.checkNetworkOptions();
+            await homePage.checkSelectedNetwork(networks.sepolia);
         });
         await test.step("Check connect wallet dropdown options", async () => {
             await homePage.checkWalletOptions();
@@ -41,17 +44,17 @@ test.describe("Carrot Smoke test", () => {
         await test.step("Scroll Sepolia network is selected", async () => {
             await homePage.checkSelectedNetwork(networks.scrollSepolia);
         });
-        await test.step("Switch to Sepolia network", async () => {
-            await homePage.selectNetwork(networks.sepolia);
-        });
-        await test.step("Sepolia network is selected", async () => {
-            await homePage.checkSelectedNetwork(networks.sepolia);
-        });
         await test.step("Switch to Polygon Mumbai network", async () => {
             await homePage.selectNetwork(networks.polygonMumbai);
         });
         await test.step("Polygon Mumbai network is selected", async () => {
             await homePage.checkSelectedNetwork(networks.polygonMumbai);
+        });
+        await test.step("Switch to Sepolia network", async () => {
+            await homePage.selectNetwork(networks.sepolia);
+        });
+        await test.step("Sepolia network is selected", async () => {
+            await homePage.checkSelectedNetwork(networks.sepolia);
         });
         await test.step("Hero section text", async () => {
             await homePage.checkTextOnHomePage();
