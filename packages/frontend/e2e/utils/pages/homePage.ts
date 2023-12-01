@@ -42,7 +42,7 @@ export class HomePage extends BasePage {
     latestCampaign_Text = "latest-campaigns-title-text";
     viewCampaign_Button = "view-campaign-button";
     viewAllCampaigns_Button = "view-all-campaigns-button";
-    firstCampaignTitle_Text = "TS02 NOV22-campaign-title";
+    firstCampaignTitle_Text = "TS01 NOV13-campaign-title";
     templates_Text = "templates-title-text";
     templateErc20KPIToken_Text = "ERC20 KPI token-template-title";
     useTemplate_Button = "use-template-button";

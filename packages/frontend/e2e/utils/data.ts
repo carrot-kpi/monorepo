@@ -39,7 +39,7 @@ export const textData = {
     walletRequiredDescription: "A connected wallet is required to continue.",
 };
 export const campaignData = {
-    firstCampaign: "TS02 NOV22",
+    firstCampaign: "TS01 NOV13",
 };
 export const templateData = {
     erc20Title: "ERC20 KPI token",
