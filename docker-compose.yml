@@ -6,7 +6,7 @@ services:
     container_name: synpress
     build: ./packages/frontend
     environment:
-      - PRIVATE_KEY=""
+      - SKIP_METAMASK_SETUP=true
       - NETWORK_NAME=sepolia
       - DISPLAY=display:0.0
       - CYPRESS_DOCKER_RUN=true
