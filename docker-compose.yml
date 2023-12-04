@@ -20,9 +20,10 @@ services:
     entrypoint: []
     working_dir: /app
     command: >
-      yarn test:e2e
+      yarn wait-on http://display:8080 && yarn test:e2e
     depends_on:
       - display
+      - video
     networks:
       - x11
 
@@ -33,10 +34,22 @@ services:
     image: synthetixio/display:016121eafdfff448414894d0ca5a50b1d72b62eb-base
     environment:
       - RUN_XTERM=no
-      - DISPLAY_WIDTH=800
-      - DISPLAY_HEIGHT=600
     ports:
       - "8080:8080"
+    networks:
+      - x11
+
+  video:
+    profiles:
+      - synpress
+    container_name: video
+    image: synthetixio/video:457bb48776c3b14de232d9dda620ba9188dc40ac-base
+    volumes:
+      - ./docker/videos-ci:/videos
+    environment:
+      - FILE_NAME=CI-full-video.mp4
+    depends_on:
+      - display
     networks:
       - x11
 
