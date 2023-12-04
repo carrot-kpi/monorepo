@@ -10,16 +10,47 @@ concurrency:
   group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
     github.head_ref || github.ref }}"
   cancel-in-progress: true
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
 jobs:
-  cypress-test:
-    runs-on: ubuntu-latest
+  install:
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup
-      - run: |
-          yarn cypress install
-          yarn cypress info
-      - uses: cypress-io/github-action@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress install
+        uses: cypress-io/github-action@v6
+        with:
+          # Disable running of tests within install job
+          runTests: false
+          build: npm run build
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
+  cypress-run:
+    runs-on: ubuntu-22.04
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download the build folder
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         with:
           install: false
           record: true
@@ -28,9 +59,3 @@ jobs:
           wait-on: "http://localhost:3000"
           browser: electron
           group: e2e
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-          FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-          FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
