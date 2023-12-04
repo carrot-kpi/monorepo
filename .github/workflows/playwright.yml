@@ -28,14 +28,14 @@ jobs:
         with:
           # Disable running of tests within install job
           runTests: false
-          build: npm run build
+          build: yarn build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: dist
           if-no-files-found: error
-          path: build
+          path: packages/frontend/dist
   cypress-run:
     runs-on: ubuntu-22.04
     needs: install
@@ -46,8 +46,8 @@ jobs:
       - name: Download the build folder
         uses: actions/download-artifact@v3
         with:
-          name: build
-          path: build
+          name: dist
+          path: packages/frontend/dist
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
