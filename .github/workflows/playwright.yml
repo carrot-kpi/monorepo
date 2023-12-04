@@ -1,4 +1,4 @@
-name: E2E
+name: E2E (cypress-action)
 on:
   push:
     branches:
@@ -11,31 +11,42 @@ concurrency:
     github.head_ref || github.ref }}"
   cancel-in-progress: true
 jobs:
-  e2e:
-    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
+  cypress-test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3, 4]
     steps:
-      - name: Checkout
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # pin@v2
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # pin@v1
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@4c0219f9ac95b02789c1075625400b2acbff50b1 # pin@v1
-      - name: Cache Docker layers
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # pin@v2
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - uses: actions/cache@v3
         with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      - name: Run e2e tests
-        run: |
-          docker-compose -f docker-compose.yml --profile synpress --profile foundry up --build --exit-code-from synpress
+          path: /root/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/node_modules/cypress/package.json') }}
+      - run: |
+          yarn cypress install
+          yarn cypress info
+      - uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
+      - uses: actions/cache/restore@v3
+        with:
+          path: cache
+          key: ${{ runner.os }}-hardhat-${{ hashFiles('hardhat.config.js') }}-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-hardhat-${{ hashFiles('hardhat.config.js') }}-
+      - uses: cypress-io/github-action@v4
+        with:
+          install: false
+          record: true
+          parallel: true
+          start: yarn start:staging
+          wait-on: "http://localhost:3000"
+          browser: electron
+          group: e2e
         env:
-          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-          FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-          FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          DOCKER_BUILDKIT: 1
-          DOCKER_DEFAULT_PLATFORM: linux/amd64
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_INFO_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title || github.event.head_commit.message }}
+          COMMIT_INFO_AUTHOR: ${{ github.event.sender.login || github.event.head_commit.author.login }}
