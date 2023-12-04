@@ -23,10 +23,6 @@ jobs:
       - run: |
           yarn cypress install
           yarn cypress info
-      - uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: build
       - uses: actions/cache/restore@v3
         with:
           path: cache
