@@ -20,7 +20,7 @@ services:
     entrypoint: []
     working_dir: /app
     command: >
-      yarn wait-on http://display:8080 && yarn test:e2e
+      yarn test:e2e
     depends_on:
       - display
       - video
