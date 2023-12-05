@@ -73,7 +73,14 @@ const cellStyles = mergedCva(
     },
 );
 
-export type DateTimePickerProps = DatePickerProps;
+export type DateTimePickerProps = Omit<DatePickerProps, "dataTestIds"> &
+    Pick<DatePickerProps, "dataTestIds"> & {
+        dataTestIds?: {
+            hourCell?: string;
+            minuteCell?: string;
+            secondCell?: string;
+        };
+    };
 
 const HOURS = new Array(24).fill(null).map((_, index) => {
     return enforceDoubleDigits(index);
@@ -87,6 +94,7 @@ export const DateTimePicker = ({
     onChange,
     min: minDate,
     max: maxDate,
+    dataTestIds,
 }: DateTimePickerProps) => {
     const [min, setMin] = useState(minDate);
     const [max, setMax] = useState(maxDate);
@@ -165,6 +173,11 @@ export const DateTimePicker = ({
                     onChange={handleDateChange}
                     min={min}
                     max={max}
+                    dataTestIds={{
+                        chrevronLeftIcon: dataTestIds?.chrevronLeftIcon,
+                        chrevronRightIcon: dataTestIds?.chrevronRightIcon,
+                        cell: dataTestIds?.cell,
+                    }}
                 />
             </div>
             <div className="cui-w-[1px] cui-bg-black dark:cui-bg-white" />
@@ -194,6 +207,7 @@ export const DateTimePicker = ({
                             }
                             return (
                                 <Typography
+                                    data-testId={dataTestIds?.hourCell}
                                     variant="sm"
                                     key={hour}
                                     className={{
@@ -229,6 +243,7 @@ export const DateTimePicker = ({
                             }
                             return (
                                 <Typography
+                                    data-testId={dataTestIds?.minuteCell}
                                     variant="sm"
                                     key={minute}
                                     className={{
@@ -264,6 +279,7 @@ export const DateTimePicker = ({
                             }
                             return (
                                 <Typography
+                                    data-testId={dataTestIds?.secondCell}
                                     variant="sm"
                                     key={second}
                                     className={{

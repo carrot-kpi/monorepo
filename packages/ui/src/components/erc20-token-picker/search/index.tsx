@@ -83,6 +83,11 @@ export interface SearchProps {
         noTokens: string;
         manageLists: string;
     };
+    dataTestIds?: {
+        textInput?: string;
+        option?: string;
+        manageListButton?: string;
+    };
 }
 
 export const Search = ({
@@ -100,6 +105,7 @@ export const Search = ({
     onManageLists,
     className,
     messages,
+    dataTestIds,
 }: SearchProps) => {
     const handleSelect = useCallback(
         (index: number) => {
@@ -136,6 +142,7 @@ export const Search = ({
                 })}
             >
                 <TextInput
+                    data-testId={dataTestIds?.textInput}
                     id="token-search"
                     disabled={loading}
                     placeholder={messages.inputPlaceholder}
@@ -179,6 +186,10 @@ export const Search = ({
                                             tokens[index];
                                         return (
                                             <Row
+                                                data-testId={
+                                                    dataTestIds?.option &&
+                                                    `${dataTestIds.option}-${token.symbol}`
+                                                }
                                                 index={index}
                                                 style={style}
                                                 selected={tokenInfoWithBalanceEquals(
@@ -209,6 +220,7 @@ export const Search = ({
                     <Divider className={className?.divider} />
                     <div className="cui-p-3">
                         <Button
+                            data-testId={dataTestIds?.manageListButton}
                             loading={loading}
                             className={{
                                 ...className?.manageListsButton,

@@ -41,7 +41,13 @@ export interface ModalProps {
     className?: { root?: string };
 }
 
-export const Modal = ({ open, onDismiss, children, className }: ModalProps) => {
+export const Modal = ({
+    open,
+    onDismiss,
+    children,
+    className,
+    ...rest
+}: ModalProps) => {
     const overlayRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -69,6 +75,7 @@ export const Modal = ({ open, onDismiss, children, className }: ModalProps) => {
         <div
             className={rootStyles({ open, className: className?.root })}
             ref={overlayRef}
+            {...rest}
         >
             {children}
         </div>
