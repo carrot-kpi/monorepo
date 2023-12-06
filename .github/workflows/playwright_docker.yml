@@ -39,6 +39,10 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           CI: 1
+          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+          FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+          FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
           # cypress dashboard
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
