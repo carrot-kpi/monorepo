@@ -5,7 +5,7 @@ services:
     profiles:
       - synpress
     container_name: synpress
-    build: .
+    build: ./packages/frontend
     environment:
       - DISPLAY=display:0.0
       - SKIP_METAMASK_SETUP=true
