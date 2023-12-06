@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
       - name: Install linux deps
         run: |
           sudo apt-get install --no-install-recommends -y \
