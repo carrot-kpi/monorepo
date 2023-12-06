@@ -37,11 +37,9 @@ jobs:
       - name: Run e2e tests (cypress-action)
         uses: cypress-io/github-action@248bde77443c376edc45906ede03a1aba9da0462 # pin@v5.8.4
         with:
-          start: yarn start:staging
           command: yarn test:e2e
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
-          browser: chrome
         env:
           SKIP_METAMASK_SETUP: true
           SKIP_METAMASK_INSTALL: true
