@@ -6,8 +6,6 @@ WORKDIR /app
 
 RUN apt update && apt install -y nginx
 
-COPY nginx.conf /etc/nginx/sites-available/default
-
 COPY package.json ./
 
 FROM base as test
