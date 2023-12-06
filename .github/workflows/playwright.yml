@@ -6,56 +6,60 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
-concurrency:
-  group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
-    github.head_ref || github.ref }}"
-  cancel-in-progress: true
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
 jobs:
-  install:
-    runs-on: ubuntu-22.04
+  e2e:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Cypress install
-        uses: cypress-io/github-action@v6
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # pin@v2
+      - name: Setup node
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # pin@v3.8.1
         with:
-          # Disable running of tests within install job
-          runTests: false
-          build: yarn build
+          node-version: 18.16
 
-      - name: Save build folder
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          if-no-files-found: error
-          path: packages/frontend/dist
-  cypress-run:
-    runs-on: ubuntu-22.04
-    needs: install
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
 
-      - name: Download the build folder
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: packages/frontend/dist
+      - name: Install linux deps
+        run: |
+          sudo apt-get install --no-install-recommends -y \
+          fluxbox \
+          xvfb
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+      - name: Run xvfb and fluxbox
+        run: |
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          fluxbox &
+        env:
+          DISPLAY: :0.0
+
+      - name: Run e2e tests (cypress-action)
+        uses: cypress-io/github-action@248bde77443c376edc45906ede03a1aba9da0462 # pin@v5.8.4
         with:
-          install: false
-          record: true
-          parallel: true
           start: yarn start:staging
+          command: yarn test:e2e
           wait-on: "http://localhost:3000"
-          browser: electron
-          group: e2e
+          wait-on-timeout: 120
+          browser: chrome
+        env:
+          SKIP_METAMASK_SETUP: true
+          SKIP_METAMASK_INSTALL: true
+          CYPRESS_PRIVATE_KEY_WITH_FUNDS: ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          DISPLAY: :0.0
+          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+          FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+          FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+
+      - name: Archive e2e artifacts
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
+        if: always()
+        with:
+          name: e2e-artifacts
+          path: |
+            tests/e2e/videos
+            tests/e2e/screenshots
+        continue-on-error: true
