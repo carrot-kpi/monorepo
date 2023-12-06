@@ -38,8 +38,9 @@ jobs:
         uses: cypress-io/github-action@248bde77443c376edc45906ede03a1aba9da0462 # pin@v5.8.4
         with:
           command: yarn test:e2e
-          wait-on: "http://localhost:3000"
-          wait-on-timeout: 120
+          # wait-on: "http://localhost:3000"
+          # wait-on-timeout: 120
+          # browser: chrome
         env:
           SKIP_METAMASK_SETUP: true
           SKIP_METAMASK_INSTALL: true
