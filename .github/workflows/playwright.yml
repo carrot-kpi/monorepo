@@ -46,7 +46,6 @@ jobs:
           # browser: chrome
         env:
           SKIP_METAMASK_SETUP: true
-          SKIP_METAMASK_INSTALL: true
           CYPRESS_PRIVATE_KEY_WITH_FUNDS: ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           GH_PAT: ${{ secrets.GH_PAT }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
@@ -56,12 +55,12 @@ jobs:
           FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
           FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
 
-      - name: Archive e2e artifacts
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
-        if: always()
-        with:
-          name: e2e-artifacts
-          path: |
-            tests/e2e/videos
-            tests/e2e/screenshots
-        continue-on-error: true
+      # - name: Archive e2e artifacts
+      #   uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
+      #   if: always()
+      #   with:
+      #     name: e2e-artifacts
+      #     path: |
+      #       tests/e2e/videos
+      #       tests/e2e/screenshots
+      #   continue-on-error: true
