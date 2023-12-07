@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect, Page } from "@playwright/test";
 /**
  * @exports default methods used in all tests
@@ -47,6 +48,9 @@ export class BasePage {
     async isNotVisible(selector: string) {
         await expect(this.page.getByTestId(selector)).not.toBeVisible();
     }
+    async storeText(selector: string) {
+        return await this.page.locator(selector).first().innerText();
+    }
     async enterText(selector: string, text: string) {
         await this.page.getByTestId(selector).fill(text);
     }
@@ -67,5 +71,16 @@ export class BasePage {
     async getAllElements(selector: string) {
         await this.page.waitForSelector(selector);
         return this.page.getByTestId(selector).all();
+    }
+    async getAllElementsByPartialID(partialID: string) {
+        return await this.page.$$('[data-testid*="' + partialID + '"]');
+    }
+    async returnRandomElementOfArray(anyArray: any[]) {
+        if (anyArray.length > 0) {
+            const randomIndex = Math.floor(Math.random() * anyArray.length);
+            return anyArray[randomIndex];
+        } else {
+            return null;
+        }
     }
 }

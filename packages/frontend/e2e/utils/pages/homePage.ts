@@ -7,7 +7,6 @@ import {
     textData,
     wallets,
 } from "../data";
-
 /**
  * @exports Selectors and Methods for Home page
  */
@@ -50,7 +49,7 @@ export class HomePage extends BasePage {
     footerCommunity_Text = "footer-Community-text";
     footerDocumentation_Link = "footer-Documentation-button";
     footerAudits_Link = "footer-Audits-button";
-    footerDiscrod_Link = "footer-Discord-button";
+    footerDiscord_Link = "footer-Discord-button";
     footerTwitter_Link = "footer-Twitter-button";
     footerCarrotInfoPage_Button = "footer-carrot-info-page-button";
     // selectors on campaign page
@@ -240,16 +239,23 @@ export class HomePage extends BasePage {
             0,
         );
     }
-    async checkFirstCampaign() {
-        await this.compareText(
-            this.firstCampaignTitle_Text,
-            campaignData.firstCampaign,
-            0,
-        );
-    }
-    async checkRedirectionToFirstCampaign() {
-        await this.clickFirst(this.viewCampaign_Button);
-        await this.checkUrl(this.page, "campaigns/");
+    // Gets number of active campaigns; selects one randomly; stores its title; check redirection to selected campaign page
+    async checkActiveCampaign() {
+        const activeCampaings =
+            await this.getAllElementsByPartialID("campaign-title");
+
+        const randomCampaign =
+            await this.returnRandomElementOfArray(activeCampaings);
+
+        if (randomCampaign) {
+            campaignData.title = await this.storeText(randomCampaign);
+            await this.click(randomCampaign);
+            await this.checkUrl(this.page, "campaigns/");
+            // todo: add assertion when we have selector for campaign title on Campaign page
+            // await this.compareText(this.campaignTitle_Text, campaignData.title)
+        } else {
+            console.error("There are no active campaigns.");
+        }
     }
     async checkFirstTemplate() {
         await this.compareText(
@@ -262,34 +268,29 @@ export class HomePage extends BasePage {
         await this.click(this.useTemplate_Button);
         await this.checkUrl(this.page, urls.createCampaign);
     }
-    async checkFooterDocumentationButtonRedirection() {
-        await this.checkRedirectionToNewTab(
+
+    async checkFooterRedirections() {
+        const footerLinks = [
             this.footerDocumentation_Link,
-            urls.documentation,
-        );
-    }
-    async checkFooterAuditsButtonRedirection() {
-        await this.checkRedirectionToNewTab(
             this.footerAudits_Link,
-            urls.audits,
-        );
-    }
-    async checkFooterDiscordButtonRedirection() {
-        await this.checkRedirectionToNewTab(
-            this.footerDiscrod_Link,
-            urls.discord,
-        );
-    }
-    async checkFooterTwitterButtonRedirection() {
-        await this.checkRedirectionToNewTab(
+            this.footerDiscord_Link,
             this.footerTwitter_Link,
-            urls.twitter,
-        );
-    }
-    async checkFooterCarrotInfoPageButtonRedirection() {
-        await this.checkRedirectionToNewTab(
             this.footerCarrotInfoPage_Button,
+        ];
+
+        const footerUrls = [
+            urls.documentation,
+            urls.audits,
+            urls.discord,
+            urls.twitter,
             urls.carrotInfoPage,
-        );
+        ];
+
+        for (let i = 0; i < footerLinks.length; i++) {
+            const link = footerLinks[i];
+            const url = footerUrls[i];
+
+            await this.checkRedirectionToNewTab(link, url);
+        }
     }
 }

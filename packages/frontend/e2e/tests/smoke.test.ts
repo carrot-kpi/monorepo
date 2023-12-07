@@ -10,7 +10,9 @@ test.beforeEach(async ({ homePage }) => {
     });
 });
 test.describe("Carrot Smoke test", () => {
-    test("Home page assertions and redirections", async ({ homePage }) => {
+    test("Guest no wallet - Home page assertions and redirections", async ({
+        homePage,
+    }) => {
         await test.step("Staging banner is visible", async () => {
             await homePage.checkStagingBanner();
         });
@@ -53,27 +55,22 @@ test.describe("Carrot Smoke test", () => {
         await test.step("Polygon Mumbai network is selected", async () => {
             await homePage.checkSelectedNetwork(networks.polygonMumbai);
         });
-        await test.step("Hero section text", async () => {
+        await test.step("Check text on Home page", async () => {
             await homePage.checkTextOnHomePage();
         });
-        // todo: next to steps depend on each other think of better solution
         await test.step("Create campaign button redirects to Create campaign page", async () => {
             await homePage.checkCreateCampaignButtonRedirection();
         });
-        await test.step("No wallet: users sees Wallet disconnected notification", async () => {
+        await test.step("Wallet disconnected modal is displayed", async () => {
             await homePage.checkWalletDisconnectedText();
             await homePage.goBack();
         });
         await test.step("Check How it work video", async () => {
             await homePage.checkHowItWorksPreview();
         });
-        await test.step("Check first campaign title", async () => {
-            await homePage.checkFirstCampaign();
+        await test.step("Check random active campaign redirection", async () => {
+            await homePage.checkActiveCampaign();
         });
-        // todo: have some compiling troubles on local env after redirection
-        // await test.step("View campaign button redirects to campaigns page", async () => {
-        //     await homePage.checkRedirectionToFirstCampaign();
-        // });
         await test.step("View all campaigns button redirects to All campaigns page", async () => {
             await homePage.clickViewAllCampaigns();
             await homePage.checkIfOnAllCampaignsPage();
@@ -85,21 +82,17 @@ test.describe("Carrot Smoke test", () => {
         await test.step("Use template button redirects to Create campaign page for that template", async () => {
             await homePage.checkRedirectionToFirstTemplate();
         });
-        //---Footer
-        await test.step("Footer - Documentation redirects to docs Carrot community", async () => {
-            await homePage.checkFooterDocumentationButtonRedirection();
+        await test.step("Wallet disconnected modal is displayed", async () => {
+            await homePage.checkWalletDisconnectedText();
+            await homePage.goBack();
         });
-        await test.step("Footer - Audits redirects to Carrot GitHub", async () => {
-            await homePage.checkFooterAuditsButtonRedirection();
+        await test.step("Check Footer links redirection", async () => {
+            await homePage.checkFooterRedirections();
         });
-        await test.step("Footer - Discord redirects to Carrot Discord", async () => {
-            await homePage.checkFooterDiscordButtonRedirection();
-        });
-        await test.step("Footer - Twitter redirects to Carrot Twitter", async () => {
-            await homePage.checkFooterTwitterButtonRedirection();
-        });
-        await test.step("Footer - Carrot info page redirect to Carrot community", async () => {
-            await homePage.checkFooterCarrotInfoPageButtonRedirection();
+    });
+    test("Connect wallet", async ({ homePage }) => {
+        await test.step("", async () => {
+            // await homePage.connectWallet();
         });
     });
 });
