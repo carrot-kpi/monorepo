@@ -72,15 +72,4 @@ export class BasePage {
         await this.page.waitForSelector(selector);
         return this.page.getByTestId(selector).all();
     }
-    async getAllElementsByPartialID(partialID: string) {
-        return await this.page.$$('[data-testid*="' + partialID + '"]');
-    }
-    async returnRandomElementOfArray(anyArray: any[]) {
-        if (anyArray.length > 0) {
-            const randomIndex = Math.floor(Math.random() * anyArray.length);
-            return anyArray[randomIndex];
-        } else {
-            return null;
-        }
-    }
 }

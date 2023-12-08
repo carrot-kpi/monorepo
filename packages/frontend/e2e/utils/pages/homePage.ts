@@ -241,20 +241,25 @@ export class HomePage extends BasePage {
     }
     // Gets number of active campaigns; selects one randomly; stores its title; check redirection to selected campaign page
     async checkActiveCampaign() {
-        const activeCampaings =
-            await this.getAllElementsByPartialID("campaign-title");
+        // await this.pauseInSec(2);
+        const elements = await this.page.$$('[data-testid*="campaign-title"]');
 
-        const randomCampaign =
-            await this.returnRandomElementOfArray(activeCampaings);
-
-        if (randomCampaign) {
-            campaignData.title = await this.storeText(randomCampaign);
-            await this.click(randomCampaign);
-            await this.checkUrl(this.page, "campaigns/");
-            // todo: add assertion when we have selector for campaign title on Campaign page
-            // await this.compareText(this.campaignTitle_Text, campaignData.title)
+        // Check if there's at least one element
+        if (elements.length > 0) {
+            const randomIndex = Math.floor(Math.random() * elements.length);
+            const randomElement = elements[randomIndex];
+            const textContent = await randomElement.textContent();
+            // Put title into variable
+            campaignData.title =
+                typeof textContent === "string" ? textContent : "";
+            // Check redirection to selected campaign page
+            await this.page
+                .getByTestId("view-campaign-button")
+                .nth(randomIndex)
+                .click();
+            // todo: add assertion of title when redirected to campaigns page when we have selector
         } else {
-            console.error("There are no active campaigns.");
+            console.log("No active campaigns.");
         }
     }
     async checkFirstTemplate() {

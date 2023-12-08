@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { Urls } from "./e2e/utils/url";
 
 export default defineConfig({
     timeout: 60000,
@@ -13,8 +14,7 @@ export default defineConfig({
     ],
     use: {
         headless: false,
-        baseURL: "http://localhost:3000/#/?chain=scroll+sepolia",
-        // baseURL: "https://app.staging.carrot.community/#/?chain=polygon+mumbai",
+        baseURL: Urls.getBaseUrl(),
         trace: "on-first-retry",
     },
     projects: [

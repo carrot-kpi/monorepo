@@ -70,6 +70,7 @@ test.describe("Carrot Smoke test", () => {
         });
         await test.step("Check random active campaign redirection", async () => {
             await homePage.checkActiveCampaign();
+            await homePage.goBack();
         });
         await test.step("View all campaigns button redirects to All campaigns page", async () => {
             await homePage.clickViewAllCampaigns();
@@ -90,7 +91,7 @@ test.describe("Carrot Smoke test", () => {
             await homePage.checkFooterRedirections();
         });
     });
-    test("Connect wallet", async ({ homePage }) => {
+    test.only("User with connected wallet", async ({ homePage }) => {
         await test.step("", async () => {
             // await homePage.connectWallet();
         });

@@ -51,6 +51,7 @@
         "CI",
         "STAGING",
         "METAMASK_VERSION",
-        "HEADLESS_MODE"
+        "HEADLESS_MODE",
+        "ENV"
     ]
 }
