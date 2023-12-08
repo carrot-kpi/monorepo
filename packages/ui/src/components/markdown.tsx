@@ -22,6 +22,9 @@ export const Markdown = ({
                 [
                     "cui-prose",
                     "cui-prose-md",
+                    "prose-p:cui-font-mono",
+                    "prose-li:cui-font-mono",
+                    "prose-a:cui-font-mono",
                     "first:only:prose-p:cui-my-0",
                     "dark:cui-prose-invert",
                     "prose-pre:dark:cui-bg-gray-700",

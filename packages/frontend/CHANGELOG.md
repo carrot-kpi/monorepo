@@ -1,5 +1,15 @@
 # @carrot-kpi/host-frontend
 
+## 0.33.2
+
+### Patch Changes
+
+-   acc813f: Move KPITokenCreationForm to dedicated component to avoid
+    unncessary Layout component re-renders, triggering many http calls
+-   b573a8b: Centered menu items in top navbar.
+-   Updated dependencies [b573a8b]
+    -   @carrot-kpi/ui@0.66.4
+
 ## 0.33.1
 
 ### Patch Changes

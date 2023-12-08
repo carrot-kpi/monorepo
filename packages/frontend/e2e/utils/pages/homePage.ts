@@ -273,7 +273,6 @@ export class HomePage extends BasePage {
         await this.click(this.useTemplate_Button);
         await this.checkUrl(this.page, urls.createCampaign);
     }
-
     async checkFooterRedirections() {
         const footerLinks = [
             this.footerDocumentation_Link,
@@ -297,5 +296,4 @@ export class HomePage extends BasePage {
 
             await this.checkRedirectionToNewTab(link, url);
         }
-    }
 }

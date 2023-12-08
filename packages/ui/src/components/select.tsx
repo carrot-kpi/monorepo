@@ -18,6 +18,7 @@ import { TextInput } from "./text-input";
 import { useClickAway, useDebounce } from "react-use";
 import { mergedCva, mergedCx } from "../utils/components";
 import { FixedSizeList, type ListChildComponentProps } from "react-window";
+import { Typography } from "./typography";
 
 const dropdownRootStyles = mergedCva(
     [
@@ -247,7 +248,7 @@ function Component<T extends SelectOption<ValueType>>(
                             className: className?.emptyList,
                         })}
                     >
-                        {messages.noResults}
+                        <Typography>{messages.noResults}</Typography>
                     </div>
                 ) : (
                     <FixedSizeList<ItemData<T>>

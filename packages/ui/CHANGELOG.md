@@ -1,5 +1,25 @@
 # @carrot-kpi/ui
 
+## 0.66.4
+
+### Patch Changes
+
+-   b573a8b: Show no results message with correct style in select component.
+
+## 0.66.3
+
+### Patch Changes
+
+-   e4df459: Add missing font styles for Markdown, make NextStepButton
+    customizable
+
+## 0.66.2
+
+### Patch Changes
+
+-   c079847: Use font mono in markdown input component, adapt next step button
+    to new design
+
 ## 0.66.1
 
 ### Patch Changes

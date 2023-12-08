@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect, Page } from "@playwright/test";
 /**
  * @exports default methods used in all tests
