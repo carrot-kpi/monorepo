@@ -37,6 +37,9 @@ export const textData = {
     footerCommunity: "Community",
     walletDisconnected: "Wallet disconnected",
     walletRequiredDescription: "A connected wallet is required to continue.",
+    emptySpace: "Empty space",
+    noDataFound: "No data found. Please try again later.",
+    allCampaigns: "All Campaigns",
 };
 export const campaignData = {
     title: "",

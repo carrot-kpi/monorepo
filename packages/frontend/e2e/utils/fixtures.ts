@@ -48,7 +48,7 @@ export const test = base.extend<{
         await initialSetup(chromium, {
             secretWordsOrPrivateKey:
                 "test test test test test test test test test test test junk",
-            network: "sepolia",
+            network: "Polygon Mumbai",
             password: "Tester@1234",
             enableAdvancedSettings: true,
         });

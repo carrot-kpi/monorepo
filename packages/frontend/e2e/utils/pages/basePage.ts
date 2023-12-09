@@ -41,8 +41,8 @@ export class BasePage {
     async hoverElement(selector: string) {
         await this.page.getByTestId(selector).hover();
     }
-    async isVisible(selector: string) {
-        await expect(this.page.getByTestId(selector)).toBeVisible();
+    async isVisible(selector: string, index: number) {
+        await expect(this.page.getByTestId(selector).nth(index)).toBeVisible();
     }
     async isNotVisible(selector: string) {
         await expect(this.page.getByTestId(selector)).not.toBeVisible();

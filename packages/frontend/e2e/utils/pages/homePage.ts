@@ -52,9 +52,14 @@ export class HomePage extends BasePage {
     footerDiscord_Link = "footer-Discord-button";
     footerTwitter_Link = "footer-Twitter-button";
     footerCarrotInfoPage_Button = "footer-carrot-info-page-button";
+    profileAvatar_Button = "profile-avatar-button";
+    emptySpace_Text = "empty-title-text";
+    noDataFound_Text = "empty-no-data-found-text";
     // selectors on campaign page
     walletDisconnected_Text = "wallet-disconnected-text";
     walletRequiredDescription_Text = "connect-wallet-required-text";
+    // selectors on all campaigns page
+    allCampaignsTitle_Text = "all-campaigns-title-text";
     // ---Methods
     async goToHomePage() {
         await this.open("/");
@@ -94,6 +99,9 @@ export class HomePage extends BasePage {
     async clickViewAllCampaigns() {
         await this.click(this.viewAllCampaigns_Button);
     }
+    async clickProfileAvatar() {
+        await this.clickSecond(this.profileAvatar_Button);
+    }
     //--- Header assertions
     async checkAboutButtonRedirection() {
         await this.checkRedirectionToNewTab(
@@ -101,8 +109,14 @@ export class HomePage extends BasePage {
             urls.carrotCommunity,
         );
     }
+    // todo: this should be in separate page regarding all campaigns
     async checkIfOnAllCampaignsPage() {
         await this.checkUrl(this.page, urls.allCampaigns);
+        await this.compareText(
+            this.allCampaignsTitle_Text,
+            textData.allCampaigns,
+            0,
+        );
     }
     async checkNetworkOptions() {
         await this.clickNetwork();
@@ -167,13 +181,13 @@ export class HomePage extends BasePage {
         await this.clickConnectWallet();
         switch (wallet) {
             case wallets.injectedMetamask:
-                await this.click(this.injectedMetamask_Button);
+                await this.clickSecond(this.injectedMetamask_Button);
                 break;
             case wallets.metamask:
-                await this.click(this.metamask_Button);
+                await this.clickSecond(this.metamask_Button);
                 break;
             case wallets.coinBase:
-                await this.click(this.coinBase_Button);
+                await this.clickSecond(this.coinBase_Button);
                 break;
         }
     }
@@ -217,13 +231,14 @@ export class HomePage extends BasePage {
             0,
         );
     }
+    // todo: this method should be on create campaign page
     async checkCreateCampaignButtonRedirection() {
         await this.clickCreateCampaign();
         await this.checkUrl(this.page, urls.createCampaign);
     }
     async checkHowItWorksPreview() {
         await this.clickHowItWorks();
-        await this.isVisible(this.howItWorksVideo_Preview);
+        await this.isVisible(this.howItWorksVideo_Preview, 0);
         await this.clickAnyWhereToClose();
     }
     // todo: this method should be on create campaign page
@@ -296,4 +311,12 @@ export class HomePage extends BasePage {
 
             await this.checkRedirectionToNewTab(link, url);
         }
+    }
+    async profileAvatarVisible() {
+        this.isVisible(this.profileAvatar_Button, 1);
+    }
+    async checkProfileWithoutRecentActivity() {
+        this.compareText(this.emptySpace_Text, textData.emptySpace, 1);
+        this.compareText(this.noDataFound_Text, textData.noDataFound, 1);
+    }
 }

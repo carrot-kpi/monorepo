@@ -1,5 +1,6 @@
 import { test } from "../utils/fixtures";
-import { networks } from "../utils/data";
+import { acceptAccess } from "@synthetixio/synpress/commands/metamask";
+import { networks, wallets } from "../utils/data";
 
 /**
  *@description Smoke test for Carrot Home page
@@ -91,9 +92,36 @@ test.describe("Carrot Smoke test", () => {
             await homePage.checkFooterRedirections();
         });
     });
-    test.only("User with connected wallet", async ({ homePage }) => {
-        await test.step("", async () => {
-            // await homePage.connectWallet();
+    test("User with connected wallet", async ({ homePage }) => {
+        await test.step("Select Metamas wallet option", async () => {
+            await homePage.selectWalletConnection(wallets.metamask);
+        });
+        await test.step("Connect wallet to Metamask", async () => {
+            await acceptAccess();
+        });
+        await test.step("Check profile avatar is visible", async () => {
+            await homePage.profileAvatarVisible();
+        });
+        await test.step("Check no recent activity", async () => {
+            await homePage.checkProfileWithoutRecentActivity();
+        });
+        await test.step("Create campaign button redirects to Create campaign page", async () => {
+            await homePage.checkCreateCampaignButtonRedirection();
+        });
+        await test.step("Welcome to Carrot modal is displayed", async () => {
+            console.log(
+                "TODO: add assertion when we have selectors for this modal",
+            );
+            await homePage.goBack();
+        });
+        await test.step("Use template button redirects to Create campaign page for that template", async () => {
+            await homePage.checkRedirectionToFirstTemplate();
+        });
+        await test.step("Welcome to Carrot modal is displayed", async () => {
+            console.log(
+                "TODO: add assertion when we have selectors for this modal",
+            );
+            await homePage.goBack();
         });
     });
 });
