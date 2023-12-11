@@ -1,5 +1,12 @@
 FROM --platform=linux/amd64 synthetixio/docker-e2e:18.16-ubuntu as base
 
+RUN mkdir /app
+WORKDIR /app
+
+COPY . ./
+
+FROM base as test
+
 ARG INFURA_PROJECT_ID
 ARG WALLETCONNECT_PROJECT_ID
 ARG FATHOM_SITE_ID
@@ -9,13 +16,6 @@ ENV INFURA_PROJECT_ID=$INFURA_PROJECT_ID
 ENV WALLETCONNECT_PROJECT_ID=$WALLETCONNECT_PROJECT_ID
 ENV FATHOM_SITE_ID=$FATHOM_SITE_ID
 ENV FATHOM_API_KEY=$FATHOM_API_KEY
-
-RUN mkdir /app
-WORKDIR /app
-
-COPY . ./
-
-FROM base as test
 
 RUN yarn install && yarn build
 RUN npx playwright install --with-deps
