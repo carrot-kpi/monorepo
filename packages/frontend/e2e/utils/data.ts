@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 /**
  * @exports different data used in tests
  */
@@ -37,9 +38,21 @@ export const textData = {
     footerCommunity: "Community",
     walletDisconnected: "Wallet disconnected",
     walletRequiredDescription: "A connected wallet is required to continue.",
+    welcomeToCarrot: "Welcome to Carrot",
+    authenticateDescription:
+        "In order to create campaigns it's necessary to sign a message. This request will not trigger a blockchain transaction or cost you any fees.",
 };
 export const campaignData = {
     firstCampaign: "TS01 NOV13",
+    title: "Automatino Test Campaign",
+    description: faker.lorem.words(10),
+    tag: "Automation",
+    expiryDate: "",
+    tokenName: "Automation testing",
+    tokenSymbol: "ATST",
+    tokenSupply: "100",
+    rewardAmount: "100",
+    goalValue: "18",
 };
 export const templateData = {
     erc20Title: "ERC20 KPI token",

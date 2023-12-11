@@ -3,7 +3,10 @@ import { initialSetup } from "@synthetixio/synpress/commands/metamask";
 import { setExpectInstance } from "@synthetixio/synpress/commands/playwright";
 import { resetState } from "@synthetixio/synpress/commands/synpress";
 import { prepareMetamask } from "@synthetixio/synpress/helpers";
+// Page instances
 import { HomePage } from "../utils/pages/homePage";
+import { CreateCampaign } from "./pages/createCampaignPage";
+import { CampaignPage } from "./pages/campaignPage";
 
 /**
  * @exports context fixture which sets up Metamask extension before test start
@@ -12,10 +15,9 @@ import { HomePage } from "../utils/pages/homePage";
 export const test = base.extend<{
     context: BrowserContext;
     homePage: HomePage;
+    createCampaign: CreateCampaign;
+    campaignPage: CampaignPage;
 }>({
-    homePage: async ({ page }, use) => {
-        await use(new HomePage(page));
-    },
     context: async ({}, use) => {
         // required for synpress as it shares same expect instance as playwright
         await setExpectInstance(expect);
@@ -39,6 +41,7 @@ export const test = base.extend<{
         const context = await chromium.launchPersistentContext("", {
             headless: false,
             args: browserArgs,
+            viewport: { width: 1920, height: 1080 },
         });
 
         // wait for metamask
@@ -48,7 +51,7 @@ export const test = base.extend<{
         await initialSetup(chromium, {
             secretWordsOrPrivateKey:
                 "test test test test test test test test test test test junk",
-            network: "sepolia",
+            network: "Polygon Mumbai",
             password: "Tester@1234",
             enableAdvancedSettings: true,
         });
@@ -58,6 +61,15 @@ export const test = base.extend<{
         await context.close();
 
         await resetState();
+    },
+    homePage: async ({ page }, use) => {
+        await use(new HomePage(page));
+    },
+    createCampaign: async ({ page }, use) => {
+        await use(new CreateCampaign(page));
+    },
+    campaignPage: async ({ page }, use) => {
+        await use(new CampaignPage(page));
     },
 });
 
