@@ -22,7 +22,7 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chrome
+        run: npx playwright install
 
       - name: Install linux deps
         run: |
