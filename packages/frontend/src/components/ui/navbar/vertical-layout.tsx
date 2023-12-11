@@ -72,8 +72,10 @@ export const NavbarVerticalLayout = ({
             )
                 onNavbarClose();
         };
+        document.documentElement.classList.add("overflow-y-hidden");
         document.addEventListener("mousedown", handleCloseOnClick);
         return () => {
+            document.documentElement.classList.remove("overflow-y-hidden");
             document.removeEventListener("mousedown", handleCloseOnClick);
         };
     }, [onNavbarClose, open]);
