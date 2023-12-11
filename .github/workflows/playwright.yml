@@ -22,7 +22,7 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chrome
 
       - name: Install linux deps
         run: |
@@ -46,6 +46,7 @@ jobs:
           # browser: chrome
         env:
           SKIP_METAMASK_SETUP: true
+          SKIP_METAMASK_INSTALL: true
           CYPRESS_PRIVATE_KEY_WITH_FUNDS: ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           GH_PAT: ${{ secrets.GH_PAT }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
