@@ -108,6 +108,11 @@ export interface ManageListsProps {
         title: string;
         noLists: string;
     };
+    dataTestIds?: {
+        chevronLeftIcon?: string;
+        closeIcon?: string;
+        option?: string;
+    };
 }
 
 export const ManageLists = ({
@@ -120,6 +125,7 @@ export const ManageLists = ({
     onSearch,
     className,
     messages,
+    dataTestIds,
 }: ManageListsProps) => {
     const handleListClick = useCallback(
         (event: MouseEvent) => {
@@ -142,6 +148,7 @@ export const ManageLists = ({
             >
                 <div className="cui-flex cui-items-center cui-gap-3">
                     <ChevronLeft
+                        data-testId={dataTestIds?.chevronLeftIcon}
                         className={iconStyles({
                             className: className?.backIcon,
                         })}
@@ -152,6 +159,7 @@ export const ManageLists = ({
                     </Typography>
                 </div>
                 <X
+                    data-testId={dataTestIds?.closeIcon}
                     className={iconStyles({ className: className?.closeIcon })}
                     onClick={onDismiss}
                 />
@@ -182,6 +190,10 @@ export const ManageLists = ({
                                     version === selectedList.version;
                                 return (
                                     <li
+                                        data-testId={
+                                            dataTestIds?.option &&
+                                            `${dataTestIds.option}-${name}`
+                                        }
                                         key={name + version}
                                         className={listItemStyles({
                                             selected,

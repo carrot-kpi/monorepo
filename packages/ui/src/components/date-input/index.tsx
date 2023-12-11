@@ -20,7 +20,13 @@ export type DateInputProps = Omit<
     BaseInputProps<Date>,
     "onChange" | "min" | "max" | "id"
 > &
-    DatePickerProps & { id?: string };
+    Omit<DatePickerProps, "dataTestIds"> & {
+        dataTestIds?: {
+            textInput?: string;
+            datePickerInput?: DatePickerProps["dataTestIds"];
+        };
+        id?: string;
+    };
 
 export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     function DateInput(
@@ -39,6 +45,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             max,
             loading,
             disabled,
+            dataTestIds,
             ...rest
         },
         ref,
@@ -89,6 +96,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         return (
             <>
                 <TextInput
+                    data-testId={dataTestIds?.textInput}
                     ref={(element) => {
                         if (ref) {
                             if (typeof ref === "function") ref(element);
@@ -124,6 +132,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                                 onChange={handleChange}
                                 min={min}
                                 max={max}
+                                dataTestIds={dataTestIds?.datePickerInput}
                             />
                         </div>
                     </Modal>
@@ -142,6 +151,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
                             value={value}
                             min={min}
                             max={max}
+                            dataTestIds={dataTestIds?.datePickerInput}
                         />
                     </Popover>
                 )}

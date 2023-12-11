@@ -89,9 +89,20 @@ export interface DatePickerProps {
     value?: Date | null;
     min?: Date | null;
     max?: Date | null;
+    dataTestIds?: {
+        chrevronLeftIcon?: string;
+        chrevronRightIcon?: string;
+        cell?: string;
+    };
 }
 
-export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
+export const DatePicker = ({
+    value,
+    onChange,
+    min,
+    max,
+    dataTestIds,
+}: DatePickerProps) => {
     // this date is used to generate cells, and is generally set to the
     // first day of the month we're currently interested in (also changed
     // when the datepicker user wants to change months)
@@ -129,6 +140,7 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
         <div className="cui-h-56 cui-w-52 cui-flex cui-flex-col cui-justify-between">
             <div className="cui-flex cui-items-center">
                 <ChevronLeft
+                    data-testId={dataTestIds?.chrevronLeftIcon}
                     className={iconStyles()}
                     onClick={handlePreviousMonth}
                 />
@@ -136,6 +148,7 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
                     {lookupDate.format("MMMM YYYY")}
                 </Typography>
                 <ChevronRight
+                    data-testId={dataTestIds?.chrevronRightIcon}
                     className={iconStyles()}
                     onClick={handleNextMonth}
                 />
@@ -171,6 +184,7 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
                         value?.getDate() === cell.value.date();
                     return (
                         <Typography
+                            data-testId={dataTestIds?.cell}
                             onClick={disabled ? undefined : handleCellClick}
                             key={index}
                             data-index={index}
