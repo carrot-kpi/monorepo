@@ -5,7 +5,7 @@ services:
     profiles:
       - synpress
     container_name: synpress
-    build: ./packages/frontend
+    build: .
     environment:
       - DISPLAY=display:0.0
       - CYPRESS_DOCKER_RUN=true
