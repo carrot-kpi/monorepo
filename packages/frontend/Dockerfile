@@ -7,6 +7,6 @@ COPY package.json ./
 
 FROM base as test
 
-RUN yarn install
+RUN yarn install && yarn build
 RUN npx playwright install --with-deps
 COPY . .

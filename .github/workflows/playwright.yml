@@ -40,14 +40,13 @@ jobs:
       - name: Run e2e tests (cypress-action)
         uses: cypress-io/github-action@248bde77443c376edc45906ede03a1aba9da0462 # pin@v5.8.4
         with:
-          command: yarn test:e2e
+          command: yarn test:e2e:pw
           # wait-on: "http://localhost:3000"
           # wait-on-timeout: 120
           # browser: chrome
         env:
           SKIP_METAMASK_SETUP: true
           SKIP_METAMASK_INSTALL: true
-          CYPRESS_PRIVATE_KEY_WITH_FUNDS: ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
           GH_PAT: ${{ secrets.GH_PAT }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           DISPLAY: :0.0
