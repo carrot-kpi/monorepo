@@ -1,0 +1,8 @@
+# Files
+.git
+.gitignore
+.dockerignore
+.env
+
+# Directories
+node_modules
