@@ -29,8 +29,8 @@
                 "babel.config.json"
             ]
         },
-        "test:e2e": {
-            "inputs": ["src/**/*.{ts,tsx}", "e2e/**/*.test.{ts,tsx}"],
+        "test:gui": {
+            "inputs": ["src/**/*.{ts,tsx}", "tests/**/*.gui.{ts}"],
             "dependsOn": ["^build"]
         },
         "start": {
