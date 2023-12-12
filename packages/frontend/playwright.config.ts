@@ -9,7 +9,7 @@ export default defineConfig({
     workers: process.env.CI ? 1 : 1,
     reporter: [["list", { printSteps: true }]],
     use: {
-        headless: false,
+        headless: true,
         baseURL: "http://localhost:3000/#/?chain=scroll+sepolia",
         trace: "on-first-retry",
     },
