@@ -7,14 +7,9 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
     workers: process.env.CI ? 1 : 1,
-    reporter: [
-        ["list", { printSteps: true }],
-        ["html", { open: "always" }],
-    ],
+    reporter: [["list", { printSteps: true }]],
     use: {
-        headless: false,
         baseURL: "http://localhost:3000/#/?chain=sepolia",
-        // baseURL: "https://app.staging.carrot.community/#/?chain=polygon+mumbai",
         trace: "on-first-retry",
     },
     projects: [
@@ -34,10 +29,10 @@ export default defineConfig({
         //     use: { ...devices["Desktop Safari"] },
         // },
     ],
-    // webServer: {
-    //     command: "yarn start:staging",
-    //     timeout: 120 * 1_000,
-    //     url: "http://127.0.0.1:3000",
-    //     reuseExistingServer: !process.env.CI,
-    // },
+    webServer: {
+        command: "yarn start:staging",
+        timeout: 120 * 1_000,
+        url: "http://127.0.0.1:3000",
+        reuseExistingServer: !process.env.CI,
+    },
 });

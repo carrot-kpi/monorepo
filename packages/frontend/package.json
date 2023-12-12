@@ -36,7 +36,7 @@
         "start:staging": "STAGING=true craco start",
         "start": "craco start",
         "test:e2e": "yarn prepare-fathom && playwright test",
-        "test:e2e:ci": "yarn prepare-fathom && playwright install-deps && playwright install && yarn test:e2e",
+        "test:e2e:ci": "playwright install --with-deps && yarn test:e2e",
         "test:e2e:pw": "start-server-and-test 'yarn start:staging' http://127.0.0.1:3000 'yarn test:e2e'"
     },
     "dependencies": {
