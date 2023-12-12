@@ -21,7 +21,7 @@
         "start": "turbo run start",
         "test": "turbo run test",
         "start:staging": "turbo run start:staging --filter @carrot-kpi/host-frontend",
-        "test:e2e:pw": "turbo run test:e2e:pw --filter @carrot-kpi/host-frontend",
+        "test:e2e": "turbo run test:e2e --filter @carrot-kpi/host-frontend",
         "size-limit": "turbo run size-limit",
         "commitlint": "commitlint -e",
         "prepare": "husky install"
