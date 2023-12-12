@@ -1,5 +1,5 @@
 {
-    "extends": "tsconfig/react.json",
+    "extends": "tsconfig/frontend.json",
     "include": ["./custom.d.ts", "./src/**/*"],
     "compilerOptions": {
         "lib": ["dom", "esnext", "webworker"],
