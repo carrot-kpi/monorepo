@@ -9,7 +9,7 @@ export default defineConfig({
     workers: process.env.CI ? 1 : 1,
     reporter: [["list", { printSteps: true }]],
     use: {
-        baseURL: "http://localhost:3000/#/?chain=sepolia",
+        baseURL: "http://localhost:3000",
         trace: "on-first-retry",
     },
     projects: [
@@ -17,7 +17,9 @@ export default defineConfig({
             name: "chromium",
             use: {
                 ...devices["Desktop Chrome"],
-                viewport: { width: 1920, height: 1080 },
+                launchOptions: {
+                    args: ["--disable-web-security"],
+                },
             },
         },
         // {
