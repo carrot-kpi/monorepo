@@ -33,6 +33,10 @@
             "inputs": ["src/**/*.{ts,tsx}", "e2e/**/*.test.{ts,tsx}"],
             "dependsOn": ["^build"]
         },
+        "test:e2e:ci": {
+            "inputs": ["src/**/*.{ts,tsx}", "e2e/**/*.test.{ts,tsx}"],
+            "dependsOn": ["^build"]
+        },
         "start": {
             "dependsOn": ["^build"]
         },
