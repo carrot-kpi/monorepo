@@ -35,7 +35,7 @@
         "config-react-env": "./scripts/config-react-env.js",
         "start:staging": "STAGING=true craco start",
         "start": "craco start",
-        "test:gui": "npx playwright test --project=chromium"
+        "test:gui": "yarn prepare-fathom && npx playwright test --project=chromium"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
