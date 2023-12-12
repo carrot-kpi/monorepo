@@ -1,11 +1,15 @@
-import { test } from "playwright/test";
+import { test } from "..//utils/fixtures";
 
-// test.beforeEach(async ({ page }) => {
-//     await page.goto("/");
-// });
+test.beforeEach(async ({ homePage }) => {
+    await test.step("Navigate to Carrot Home page", async () => {
+        await homePage.goToHomePage();
+    });
+});
 
-test("Test", async ({ page }) => {
+test("Test", async ({ homePage }) => {
     await test.step("Staging banner is visible", async () => {
-        console.log("here");
+        await test.step("Staging banner is visible", async () => {
+            await homePage.checkStagingBanner();
+        });
     });
 });
