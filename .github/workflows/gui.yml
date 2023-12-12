@@ -1,4 +1,4 @@
-name: CI
+name: GUI
 on:
   push:
     branches:
@@ -37,4 +37,4 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install
       - name: Test
-        run: yarn test
+        run: yarn test:gui
