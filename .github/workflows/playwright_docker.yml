@@ -9,8 +9,14 @@ on:
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    environment: staging
-
+    env:
+      COMPOSE_DOCKER_CLI_BUILD: 1
+      DOCKER_BUILDKIT: 1
+      DOCKER_DEFAULT_PLATFORM: linux/amd64
+      INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+      WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+      FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+      FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # pin@v2
@@ -29,14 +35,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: Check Docker Compose version
+        run: docker-compose version
+
       - name: Run e2e tests
         run: |
-          docker-compose -f docker-compose_new.yml up synpress
-        env:
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          DOCKER_BUILDKIT: 1
-          DOCKER_DEFAULT_PLATFORM: linux/amd64
-          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-          FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-          FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+          docker compose -f docker-compose_new.yml up synpress
