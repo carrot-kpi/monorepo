@@ -35,6 +35,7 @@
         "config-react-env": "./scripts/config-react-env.js",
         "start:staging": "STAGING=true craco start",
         "start": "craco start",
+        "test:smoke": "ENV=local yarn prepare-fathom && yarn playwright test packages/frontend/e2e/tests/smoke.test.ts",
         "test:e2e": "ENV=local yarn prepare-fathom && yarn playwright test"
     },
     "dependencies": {

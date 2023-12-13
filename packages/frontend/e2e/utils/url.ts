@@ -21,5 +21,5 @@ export class Urls {
     // Environment URLs
     static stage =
         "https://app.staging.carrot.community/#/?chain=polygon+mumbai";
-    static local = "`http://localhost:3000/#/?chain=scroll+sepolia`";
+    static local = "http://localhost:3000";
 }
