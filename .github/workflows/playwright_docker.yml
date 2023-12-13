@@ -17,6 +17,7 @@ env:
 jobs:
   e2e:
     runs-on: ubuntu-latest
+    environment: staging
 
     steps:
       - name: Checkout
