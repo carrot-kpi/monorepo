@@ -3,9 +3,9 @@ import {
     /* chromium */ type BrowserContext,
 } from "@playwright/test";
 // import { initialSetup } from "@synthetixio/synpress/commands/metamask";
-import { setExpectInstance } from "@synthetixio/synpress/commands/playwright";
+// import { setExpectInstance } from "@synthetixio/synpress/commands/playwright";
 // import { resetState } from "@synthetixio/synpress/commands/synpress";
-// import { prepareMetamask } from "@synthetixio/synpress/helpers";
+import { prepareMetamask } from "@synthetixio/synpress/helpers";
 import { HomePage } from "../utils/pages/homePage";
 
 /**
@@ -21,12 +21,12 @@ export const test = base.extend<{
     },
     context: async ({}, use) => {
         // required for synpress as it shares same expect instance as playwright
-        await setExpectInstance(expect);
+        // await setExpectInstance(expect);
 
         // download metamask
-        // const metamaskPath = await prepareMetamask(
-        //     process.env.METAMASK_VERSION || "10.25.0",
-        // );
+        const metamaskPath = await prepareMetamask(
+            process.env.METAMASK_VERSION || "10.25.0",
+        );
         // prepare browser args
         // const browserArgs = [
         //     `--disable-extensions-except=${metamaskPath}`,
