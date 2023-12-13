@@ -8,10 +8,10 @@ services:
       - DISPLAY=display:0.0
       - CYPRESS_DOCKER_RUN=true
       - CI=true
-      - INFURA_PROJECT_ID
-      - WALLETCONNECT_PROJECT_ID
-      - FATHOM_SITE_ID
-      - FATHOM_API_KEY
+      - INFURA_PROJECT_ID=${INFURA_PROJECT_ID}
+      - WALLETCONNECT_PROJECT_ID=${WALLETCONNECT_PROJECT_ID}
+      - FATHOM_SITE_ID=${FATHOM_SITE_ID}
+      - FATHOM_API_KEY=${FATHOM_API_KEY}
     entrypoint: []
     working_dir: /app
     command: >
