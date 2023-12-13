@@ -17,6 +17,7 @@ jobs:
       WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
       FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
       FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+      TO_REMOVE: ${{ secrets.TO_REMOVE }}
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # pin@v2
@@ -40,6 +41,13 @@ jobs:
       - name: Check Docker Compose version
         run: docker-compose version
 
+      - name: Show repo env secret
+        run: |
+          echo ${{ secrets.TO_REMOVE }}
+
+      - name: Show env
+        run: echo $TO_REMOVE
+
       - name: Run e2e tests
         run: |
-          docker compose -f docker-compose_new.yml up synpress
+          FATHOM_API_KEY=mock_value docker compose -f docker-compose_new.yml up synpress
