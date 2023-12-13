@@ -39,4 +39,4 @@ jobs:
 
       - name: Run e2e tests
         run: |
-          FATHOM_API_KEY=mock_value docker compose -f docker-compose_new.yml up synpress
+          INFURA_PROJECT_ID=mock_value docker compose -f docker-compose_new.yml up synpress
