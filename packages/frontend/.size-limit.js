@@ -1,8 +1,8 @@
-const { resolve } = require("node:path");
+const { join } = require("node:path");
 
 module.exports = [
     {
-        path: resolve("./dist"),
+        path: join(__dirname, "build"),
         limit: "4 MB",
     },
 ];
