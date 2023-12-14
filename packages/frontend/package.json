@@ -37,12 +37,6 @@
         "start": "craco start",
         "test:e2e": "yarn prepare-fathom && start-server-and-test start:staging http-get://127.0.0.1:3000 'cypress open'"
     },
-    "size-limit": [
-        {
-            "path": "dist",
-            "limit": "4 MB"
-        }
-    ],
     "dependencies": {
         "@carrot-kpi/react": "*",
         "@carrot-kpi/sdk": "*",
