@@ -29,7 +29,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --prefer-offline
       - name: Lint
         run: yarn lint
       - name: Test
@@ -37,7 +37,7 @@ jobs:
       - name: Test e2e
         uses: cypress-io/github-action@v6
         with:
-          project: ./packages/frontend
+          working-directory: ./packages/frontend
           start: yarn start:staging 
       - name: Build
         run: yarn build
