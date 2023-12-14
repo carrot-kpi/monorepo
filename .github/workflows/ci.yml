@@ -34,12 +34,12 @@ jobs:
         run: yarn lint
       - name: Test
         run: yarn test
+      - name: Build
+        run: yarn build
       - name: Test e2e
         uses: cypress-io/github-action@v6
         with:
-          working-directory: ./packages/frontend
-          start: yarn start:staging 
-      - name: Build
-        run: yarn build
+          build: yarn build:frontend-staging
+          start: yarn start:e2e
       - name: Size check
         run: yarn size-limit

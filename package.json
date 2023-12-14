@@ -23,13 +23,15 @@
         "test:e2e": "turbo run test:e2e --filter @carrot-kpi/host-frontend",
         "size-limit": "turbo run size-limit",
         "commitlint": "commitlint -e",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "start:e2e": "serve ./packages/frontend/build"
     },
     "devDependencies": {
         "@changesets/cli": "^2.27.1",
         "@commitlint/cli": "^18.4.3",
         "@commitlint/config-conventional": "^18.4.3",
         "husky": "^8.0.1",
-        "turbo": "^1.11.2"
+        "serve": "^14.2.1",
+        "turbo": "^1.10.16"
     }
 }
