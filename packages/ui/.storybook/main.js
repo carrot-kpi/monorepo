@@ -1,4 +1,4 @@
-const { dirname, join, resolve } = require("path");
+const { dirname, join, resolve } = require("node:path");
 
 module.exports = {
     stories: ["../stories/*.stories.@(ts|tsx)"],

@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require("node:path");
 module.exports = [
     {
         path: path.join(path.resolve("./"), "./dist/cjs/**/*.cjs"),

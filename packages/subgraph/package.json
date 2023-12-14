@@ -5,7 +5,7 @@
     "version": "0.11.1",
     "license": "GPL-3.0-or-later",
     "scripts": {
-        "gen-networks-files": "ts-node-esm --project tsconfig.scripts.json scripts/generate-networks-files.ts",
+        "gen-networks-files": "tsx scripts/generate-networks-files.ts",
         "codegen": "graph codegen && yarn gen-networks-files",
         "clean": "rimraf generated build && rimraf generated src/gen",
         "build": "yarn clean && yarn codegen && graph build",
@@ -24,7 +24,7 @@
         "eslint-config-custom": "*",
         "matchstick-as": "0.6.0",
         "rimraf": "^5.0.5",
-        "ts-node": "^10.9.2",
-        "tsconfig": "*"
+        "tsconfig": "*",
+        "tsx": "^4.6.2"
     }
 }
