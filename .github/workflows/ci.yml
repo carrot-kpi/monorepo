@@ -5,12 +5,7 @@ on:
       - main
       - develop
   pull_request:
-    types: [opened, synchronize, reopened]
-env:
-  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+    types: [opened, synchronize, reopened]  
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -19,7 +14,11 @@ jobs:
         node-version: [18.x]
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+      INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+      WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+      FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+      FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -27,13 +26,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
+      - name: Get Yarn cache directory
+        id: yarn-cache-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Yarn cache
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.yarn-cache-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --prefer-offline --frozen-lockfile
       - name: Lint
         run: yarn lint
       - name: Test
