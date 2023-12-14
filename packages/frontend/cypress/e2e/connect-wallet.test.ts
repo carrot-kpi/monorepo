@@ -25,7 +25,6 @@ describe("Connect with Metamask", () => {
         .eq(1)
         .click();
   
-      // Assuming you have a custom command or utility to handle accepting access
       cy.acceptMetamaskAccess();
   
       cy.get('[data-testid="profile-avatar-button"]')
