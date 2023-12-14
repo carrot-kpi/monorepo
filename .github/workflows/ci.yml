@@ -6,6 +6,11 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
+env:
+  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -15,11 +20,6 @@ jobs:
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
-      TURBO_REMOTE_ONLY: true
-      INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-      WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-      FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-      FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
