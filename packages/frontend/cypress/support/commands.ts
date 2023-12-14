@@ -28,7 +28,8 @@ Cypress.Commands.overwrite(
                 ...options,
                 url,
                 onBeforeLoad(window) {
-                    options?.onBeforeLoad?.(window);
+                    if (options && options.onBeforeLoad)
+                        options.onBeforeLoad(window);
 
                     // Inject the mock ethereum provider.
                     window.ethereum = provider;
