@@ -14,7 +14,8 @@ module.exports = defineConfig({
         setupNodeEvents(on, config) {
             setupHardhatEvents(on, config);
         },
-        baseUrl: "http://localhost:3000",
+        baseUrl: "https://app.staging.carrot.community/",
+        supportFile: "cypress/support/e2e.ts",
         specPattern: "cypress/e2e/**/*.test.ts",
     },
 });

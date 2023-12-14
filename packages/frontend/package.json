@@ -35,7 +35,9 @@
         "config-react-env": "./scripts/config-react-env.js",
         "start:staging": "STAGING=true craco start",
         "start": "craco start",
-        "test:e2e": "yarn prepare-fathom && start-server-and-test start:staging http-get://127.0.0.1:3000 'cypress open'"
+        "test:e2e": "yarn prepare-fathom && start-server-and-test start:staging http-get://127.0.0.1:3000 'cypress open'",
+        "cypress:open": "cypress open",
+        "cypress:smoke": "cypress run --spec cypress/e2e/connect-wallet.test.ts"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
@@ -88,6 +90,7 @@
         "buffer": "^6.0.3",
         "cross-env": "^7.0.3",
         "cssnano": "^6.0.2",
+        "cypress": "^12.17.4",
         "dotenv": "^16.3.1",
         "esbuild-loader": "^4.0.2",
         "eslint-config-custom": "*",
