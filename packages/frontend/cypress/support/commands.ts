@@ -27,11 +27,11 @@ Cypress.Commands.overwrite(
             original({
                 ...options,
                 url,
-                onBeforeLoad(win) {
-                    options?.onBeforeLoad?.(win);
+                onBeforeLoad(window) {
+                    options?.onBeforeLoad?.(window);
 
                     // Inject the mock ethereum provider.
-                    win.ethereum = provider;
+                    window.ethereum = provider;
                 },
             }),
         );
