@@ -1,9 +1,9 @@
 {
-    "extends": "tsconfig/react.json",
-    "include": ["./custom.d.ts", "./src/**/*"],
+    "extends": "../tsconfig/frontend.json",
+    "include": ["src/**/*.ts", "cypress/**/*.ts"],
     "compilerOptions": {
         "lib": ["dom", "esnext", "webworker"],
-        "declaration": true,
-        "rootDir": "./src"
+        "types": ["cypress", "node"],
+        "declaration": true
     }
 }
