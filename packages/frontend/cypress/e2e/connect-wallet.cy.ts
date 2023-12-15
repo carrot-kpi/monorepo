@@ -1,35 +1,22 @@
 /**
- * Connect wallet test 
+ * Connect wallet test
  */
 
 describe("Connect with Metamask", () => {
     beforeEach(() => {
-      cy.visit("/");
+        cy.visit("/");
     });
-  
-    it("Should connect Carrot with Metamask", () => {
-      cy.get("div")
-        .contains("Network")
-        .eq(2)
-        .click();
-  
-      cy.get('[data-testid="Sepolia-network-button"]')
-        .eq(1)
-        .click();
-  
-      cy.get('[data-testid="connect-wallet-button"]')
-        .eq(1)
-        .click();
-  
-      cy.get('[data-testid="metaMask-wallet-button"]')
-        .eq(1)
-        .click();
-  
-      cy.acceptMetamaskAccess();
-  
-      cy.get('[data-testid="profile-avatar-button"]')
-        .eq(1)
-        .should("be.visible");
+
+    it("Should connect Carrot with Metamask on Mumbai network", () => {
+        cy.get('[data-testid="connect-wallet-button"]').eq(1).click();
+
+        cy.get('[data-testid="metaMask-wallet-button"]').eq(1).click();
+
+        cy.switchToMetamaskNotification();
+        cy.acceptMetamaskAccess();
+
+        cy.get('[data-testid="profile-avatar-button"]')
+            .eq(1)
+            .should("be.visible");
     });
-  });
-  
+});
