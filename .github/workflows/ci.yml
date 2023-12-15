@@ -19,6 +19,13 @@ jobs:
       WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
       FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
       FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+      # synpress envs
+      SECRET_WORDS: 'battle raccoon helmet please deliver keep kiss round orphan frame update message'
+      NETWORK_NAME: 'Mumbai'
+      CHAIN_ID: 80001
+      RPC_URL: 'https://rpc.ankr.com/polygon_mumbai'
+      SYMBOL: "MATIC"
+      IS_TESTNET: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,10 +50,6 @@ jobs:
       - name: Build
         run: yarn build
       - name: Test e2e
-        uses: cypress-io/github-action@v6
-        with:
-          build: yarn build:frontend-staging
-          start: yarn start:e2e
-          project: ./packages/frontend
+        run: yarn test:e2e
       - name: Size check
         run: yarn size-limit
