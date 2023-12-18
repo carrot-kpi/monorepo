@@ -34,7 +34,6 @@ export * from "./hooks/useStagingMode";
 export * from "./hooks/useTemplateModule";
 export * from "./hooks/useTheme";
 export * from "./hooks/useTokenLists";
-export * from "./hooks/useWatchKPIToken";
 
 export * from "./types/templates";
 export * from "./types/transactions";
