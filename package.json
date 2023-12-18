@@ -26,10 +26,10 @@
         "prepare": "husky install"
     },
     "devDependencies": {
-        "@changesets/cli": "^2.26.2",
-        "@commitlint/cli": "^18.4.1",
-        "@commitlint/config-conventional": "^18.4.0",
+        "@changesets/cli": "^2.27.1",
+        "@commitlint/cli": "^18.4.3",
+        "@commitlint/config-conventional": "^18.4.3",
         "husky": "^8.0.1",
-        "turbo": "^1.10.16"
+        "turbo": "^1.11.2"
     }
 }
