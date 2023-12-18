@@ -24,7 +24,7 @@
         "eslint-config-custom": "*",
         "matchstick-as": "0.6.0",
         "rimraf": "^5.0.5",
-        "ts-node": "^10.9.1",
+        "ts-node": "^10.9.2",
         "tsconfig": "*"
     }
 }
