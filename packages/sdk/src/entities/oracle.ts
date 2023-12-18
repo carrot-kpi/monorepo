@@ -1,4 +1,4 @@
-import { type Address, type Hex } from "viem";
+import { type Address } from "viem";
 import { ChainId } from "../commons";
 import { Template, ResolvedTemplate } from "./template";
 
@@ -38,17 +38,5 @@ export class ResolvedOracle extends BaseOracle {
             template,
             oracle.finalized,
         );
-    }
-}
-
-export class ResolvedOracleWithData extends ResolvedOracle {
-    constructor(
-        chainId: ChainId,
-        address: Address,
-        template: ResolvedTemplate,
-        finalized: boolean,
-        public readonly data: Hex,
-    ) {
-        super(chainId, address, template, finalized);
     }
 }

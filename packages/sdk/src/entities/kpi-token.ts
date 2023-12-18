@@ -1,7 +1,7 @@
 import { Template, ResolvedTemplate } from "./template";
-import { Oracle, ResolvedOracle, ResolvedOracleWithData } from "./oracle";
+import { Oracle, ResolvedOracle } from "./oracle";
 import { ChainId } from "../commons";
-import { type Address, type Hex } from "viem";
+import { type Address } from "viem";
 
 export interface KPITokenSpecification {
     title: string;
@@ -91,50 +91,6 @@ export class ResolvedKPIToken extends BaseKPIToken {
             kpiToken.expiration,
             kpiToken.creationTimestamp,
             kpiToken.finalized,
-        );
-    }
-}
-
-export class ResolvedKPITokenWithData extends BaseKPIToken {
-    constructor(
-        chainId: ChainId,
-        address: Address,
-        owner: Address,
-        public readonly template: ResolvedTemplate,
-        public readonly oracles: ResolvedOracleWithData[],
-        public readonly specification: FullKPITokenSpecification,
-        expiration: number,
-        creationTimestamp: number,
-        finalized: boolean,
-        public readonly data: Hex,
-    ) {
-        super(
-            chainId,
-            address,
-            owner,
-            expiration,
-            creationTimestamp,
-            finalized,
-        );
-    }
-
-    public static from(
-        kpiToken: ResolvedKPIToken,
-        oracles: ResolvedOracleWithData[],
-        data: Hex,
-        finalized: boolean,
-    ) {
-        return new ResolvedKPITokenWithData(
-            kpiToken.chainId,
-            kpiToken.address,
-            kpiToken.owner,
-            kpiToken.template,
-            oracles,
-            kpiToken.specification,
-            kpiToken.expiration,
-            kpiToken.creationTimestamp,
-            finalized,
-            data,
         );
     }
 }
