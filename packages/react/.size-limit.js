@@ -1,12 +1,12 @@
-const path = require("path");
+const path = require("node:path");
 
 module.exports = [
     {
-        path: path.join(path.resolve("./"), "./dist/es/**/*.mjs"),
+        path: path.join(__dirname, "dist/es/**/*.mjs"),
         limit: "80 KB",
     },
     {
-        path: path.join(path.resolve("./"), "./dist/cjs/**/*.cjs"),
+        path: path.join(__dirname, "dist/cjs/**/*.cjs"),
         limit: "80 KB",
     },
 ];

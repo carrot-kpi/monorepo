@@ -3,7 +3,7 @@ require("dotenv").config();
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const webpack = require("webpack");
 const { EsbuildPlugin } = require("esbuild-loader");
-const { join } = require("path");
+const { join } = require("node:path");
 const shared = require("./shared-dependencies.json");
 const { getEnv } = require("./utils/env");
 
