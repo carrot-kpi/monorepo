@@ -22,7 +22,12 @@ export function useKPIToken(params?: KPITokenParams): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !params?.kpiTokenAddress || !!kpiToken) return;
+            if (
+                !chain ||
+                !params?.kpiTokenAddress ||
+                (!!kpiToken && kpiToken.address === params.kpiTokenAddress)
+            )
+                return;
             if (!cancelled) setLoading(true);
             try {
                 const kpiTokenFetched = (
