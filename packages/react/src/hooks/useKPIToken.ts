@@ -22,10 +22,10 @@ export function useKPIToken(params?: KPITokenParams): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !params?.kpiTokenAddress) return;
+            if (!chain || !params?.kpiTokenAddress || !!kpiToken) return;
             if (!cancelled) setLoading(true);
             try {
-                const kpiToken = (
+                const kpiTokenFetched = (
                     await Fetcher.fetchKPITokens({
                         publicClient,
                         preferDecentralization,
@@ -33,8 +33,10 @@ export function useKPIToken(params?: KPITokenParams): {
                         addresses: [params.kpiTokenAddress],
                     })
                 )[params.kpiTokenAddress];
-                if (!kpiToken) return;
-                if (!cancelled) setKPIToken(kpiToken);
+
+                if (!kpiTokenFetched) return;
+                if (!cancelled && !!kpiTokenFetched)
+                    setKPIToken(kpiTokenFetched);
             } catch (error) {
                 console.error(
                     `error fetching kpi token at address ${params.kpiTokenAddress}`,
@@ -49,6 +51,7 @@ export function useKPIToken(params?: KPITokenParams): {
             cancelled = true;
         };
     }, [
+        kpiToken,
         chain,
         params?.blacklisted,
         params?.kpiTokenAddress,
