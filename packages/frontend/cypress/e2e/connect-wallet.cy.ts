@@ -12,11 +12,13 @@ describe("Connect with Metamask", () => {
 
         cy.get('[data-testid="metaMask-wallet-button"]').eq(1).click();
 
-        cy.switchToMetamaskNotification();
-        cy.acceptMetamaskAccess();
+        cy.switchToMetamaskNotification().then(() => {
+            cy.acceptMetamaskAccess();
+        });
 
         cy.get('[data-testid="profile-avatar-button"]')
             .eq(1)
             .should("be.visible");
+        cy.pause();
     });
 });
