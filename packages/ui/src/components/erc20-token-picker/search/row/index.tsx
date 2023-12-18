@@ -72,6 +72,7 @@ export const Row = ({
     onSelect,
     ipfsGatewayURL,
     className,
+    ...rest
 }: RowProps) => {
     const handleTokenClick = useCallback(
         (event: MouseEvent) => {
@@ -95,6 +96,7 @@ export const Row = ({
             style={style}
             data-index={index}
             onClick={handleTokenClick}
+            {...rest}
         >
             <div className={wrapperStyles({ className: className?.wrapper })}>
                 <div className="cui-flex cui-items-center cui-gap-2 cui-pointer-events-none">

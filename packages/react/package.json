@@ -346,8 +346,8 @@
         "@carrot-kpi/sdk": "*",
         "@uniswap/token-lists": "1.0.0-beta.33",
         "class-variance-authority": "^0.7.0",
-        "react-use": "^17.4.0",
-        "viem": "^1.19.1"
+        "react-use": "^17.4.2",
+        "viem": "^1.20.0"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*",
@@ -360,24 +360,24 @@
         "@carrot-kpi/shared-state": "*",
         "@rollup/plugin-commonjs": "^25.0.7",
         "@rollup/plugin-node-resolve": "^15.2.3",
-        "@size-limit/file": "^11.0.0",
-        "@types/react": "^18.2.37",
+        "@size-limit/file": "^11.0.1",
+        "@types/react": "^18.2.45",
         "@types/rollup-plugin-peer-deps-external": "^2.2.4",
         "eslint-config-custom": "*",
         "eslint-plugin-prettier": "^5.0.1",
         "eslint-plugin-react": "^7.33.2",
-        "i18next": "^23.7.6",
-        "prettier": "^3.1.0",
+        "i18next": "^23.7.11",
+        "prettier": "^3.1.1",
         "react": "^18.2.0",
-        "react-i18next": "^13.4.1",
-        "react-router-dom": "^6.18.0",
+        "react-i18next": "^13.5.0",
+        "react-router-dom": "^6.21.0",
         "rimraf": "^5.0.5",
-        "rollup": "^4.4.1",
+        "rollup": "^4.9.0",
         "rollup-plugin-esbuild": "^6.1.0",
         "rollup-plugin-peer-deps-external": "^2.2.4",
-        "size-limit": "^11.0.0",
+        "size-limit": "^11.0.1",
         "tsconfig": "*",
-        "typescript": "^5.2.2",
-        "wagmi": "^1.4.6"
+        "typescript": "^5.3.3",
+        "wagmi": "^1.4.12"
     }
 }

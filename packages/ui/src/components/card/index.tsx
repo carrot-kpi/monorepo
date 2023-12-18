@@ -25,7 +25,11 @@ export interface CardProps {
     children: ReactElement | ReactElement[];
 }
 
-export const Card = ({ className, children }: CardProps): ReactElement => {
+export const Card = ({
+    className,
+    children,
+    ...rest
+}: CardProps): ReactElement => {
     const childrenArray = React.Children.toArray(children);
 
     const titleChildren = childrenArray.find((child) =>
@@ -39,7 +43,7 @@ export const Card = ({ className, children }: CardProps): ReactElement => {
     );
 
     return (
-        <div className={rootStyles({ className: className?.root })}>
+        <div className={rootStyles({ className: className?.root })} {...rest}>
             {titleChildren}
             {contentChildren}
             {actionsChildren}

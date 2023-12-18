@@ -1,7 +1,4 @@
-import {
-    ResolvedKPITokenWithData,
-    ResolvedOracleWithData,
-} from "@carrot-kpi/sdk";
+import { ResolvedKPIToken, ResolvedOracle } from "@carrot-kpi/sdk";
 import type { i18n } from "i18next";
 import type { NamespacedTranslateFunction } from "../components/template-component";
 import { type Tx, TxType } from "./transactions";
@@ -114,8 +111,8 @@ export type KPITokenCreationFormProps<S extends SerializableObject<S>> =
     TemplateComponentProps & AdditionalRemoteKPITokenCreationFormProps<S>;
 
 export interface AdditionalRemoteOraclePageProps {
-    oracle?: ResolvedOracleWithData | null;
-    kpiToken: ResolvedKPITokenWithData;
+    oracle?: ResolvedOracle | null;
+    kpiToken: ResolvedKPIToken;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 
@@ -126,7 +123,7 @@ export type OraclePageProps = TemplateComponentProps &
     AdditionalRemoteOraclePageProps;
 
 export interface AdditionalRemoteKPITokenPageProps {
-    kpiToken?: ResolvedKPITokenWithData | null;
+    kpiToken?: ResolvedKPIToken | null;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
 }
 

@@ -117,13 +117,22 @@ export type SelectProps<T extends SelectOption<ValueType>> = {
     messages: {
         noResults: string;
     };
+    dataTestIds?: {
+        textInput?: string;
+        option?: string;
+    };
     className?: ClassName;
 } & Omit<BaseInputProps<unknown>, "onChange" | "value" | "id">;
 
 type ItemData<T extends SelectOption<ValueType>> = Pick<
     SelectProps<T>,
     "options" | "value" | "onChange" | "renderOption"
-> & { className?: Pick<ClassName, "option" | "customOptionWrapper"> };
+> & {
+    dataTestIds?: {
+        option?: string;
+    };
+    className?: Pick<ClassName, "option" | "customOptionWrapper">;
+};
 
 function Component<T extends SelectOption<ValueType>>(
     {
@@ -137,6 +146,7 @@ function Component<T extends SelectOption<ValueType>>(
         disabled,
         loading,
         messages,
+        dataTestIds,
         ...rest
     }: SelectProps<T>,
     ref: ForwardedRef<HTMLInputElement>,
@@ -198,13 +208,24 @@ function Component<T extends SelectOption<ValueType>>(
             value,
             className,
             renderOption,
+            dataTestIds: {
+                option: dataTestIds?.option,
+            },
         };
         return data;
-    }, [className, handleInnerChange, filteredOptions, renderOption, value]);
+    }, [
+        className,
+        handleInnerChange,
+        filteredOptions,
+        renderOption,
+        value,
+        dataTestIds,
+    ]);
 
     return (
         <div className={className?.root}>
             <TextInput
+                data-testid={dataTestIds?.textInput}
                 ref={(element) => {
                     if (ref) {
                         if (typeof ref === "function") ref(element);
@@ -272,7 +293,7 @@ function Component<T extends SelectOption<ValueType>>(
 function OptionRow<T extends SelectOption<ValueType>>({
     index,
     style,
-    data: { onChange, options, className, value, renderOption },
+    data: { onChange, options, className, value, renderOption, dataTestIds },
 }: ListChildComponentProps<ItemData<T>>) {
     const item = options[index];
 
@@ -282,6 +303,9 @@ function OptionRow<T extends SelectOption<ValueType>>({
 
     return (
         <div
+            data-testId={
+                dataTestIds?.option && `${dataTestIds.option}-${item.value}`
+            }
             style={style}
             className={optionStyles({
                 picked: value?.value === item.value,

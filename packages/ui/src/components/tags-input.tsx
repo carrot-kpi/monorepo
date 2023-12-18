@@ -27,9 +27,18 @@ export interface TagProps {
     };
     index: number;
     onRemove: (index: number) => void;
+    dataTestIds?: {
+        removeButton?: string;
+    };
 }
 
-const Tag = ({ className, text, index, onRemove }: TagProps): ReactElement => {
+const Tag = ({
+    className,
+    text,
+    index,
+    onRemove,
+    dataTestIds,
+}: TagProps): ReactElement => {
     const handleRemove = useCallback(() => {
         onRemove(index);
     }, [index, onRemove]);
@@ -40,6 +49,7 @@ const Tag = ({ className, text, index, onRemove }: TagProps): ReactElement => {
                 {text}
             </Typography>
             <Remove
+                data-testId={dataTestIds?.removeButton}
                 className={iconStyles({ className: className?.removeIcon })}
                 onClick={handleRemove}
             />
@@ -69,6 +79,11 @@ export type TagsInputProps = Omit<
         tagsWrapper?: string;
         tag?: TagProps["className"];
     };
+    dataTestIds?: {
+        textInput?: string;
+        addButton?: string;
+        tag?: TagProps["dataTestIds"];
+    };
 };
 
 export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
@@ -82,6 +97,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
             onChange,
             disabled,
             loading,
+            dataTestIds,
             ...rest
         },
         ref,
@@ -127,12 +143,14 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
         return (
             <div className={className?.root}>
                 <TextInput
+                    data-testId={dataTestIds?.textInput}
                     id={resolvedId}
                     ref={ref}
                     variant={variant}
                     {...rest}
                     action={
                         <Button
+                            data-testId={dataTestIds?.addButton}
                             onClick={handleOnClick}
                             size="xsmall"
                             loading={loading}
@@ -170,6 +188,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
                                 index={index}
                                 onRemove={handleTagRemove}
                                 className={className?.tag}
+                                dataTestIds={dataTestIds?.tag}
                             />
                         ))}
                     </div>

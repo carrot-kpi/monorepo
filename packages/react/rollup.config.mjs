@@ -41,7 +41,6 @@ export default [
             "src/hooks/useTemplateModule.ts",
             "src/hooks/useTheme.ts",
             "src/hooks/useTokenLists.ts",
-            "src/hooks/useWatchKPIToken.ts",
             "src/types/templates.ts",
             "src/types/transactions.ts",
             "src/i18n.ts",

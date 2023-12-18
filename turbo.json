@@ -30,7 +30,7 @@
             ]
         },
         "test:e2e": {
-            "inputs": ["src/**/*.{ts,tsx}", "e2e/**/*.test.{ts,tsx}"],
+            "inputs": ["src/**/*.{ts,tsx}", "e2e/**/*.{ts,tsx}"],
             "dependsOn": ["^build"]
         },
         "start": {
@@ -49,8 +49,6 @@
         "FATHOM_SITE_ID",
         "FATHOM_API_KEY",
         "CI",
-        "STAGING",
-        "METAMASK_VERSION",
-        "HEADLESS_MODE"
+        "STAGING"
     ]
 }
