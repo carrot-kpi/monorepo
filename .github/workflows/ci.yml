@@ -9,19 +9,19 @@ on:
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
 jobs:
   ci:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18.x]
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-      INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-      WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-      FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-      FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -30,81 +30,66 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Yarn cache setup
-        id: yarn-cache-path
+        id: yarn-cache-setup
         run: |
           echo "yarn-cache-dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
           echo "yarn-cache-key=${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}" >> $GITHUB_OUTPUT
       - name: Yarn cache restore
         uses: actions/cache/restore@v3
         with:
-          path: ${{ steps.yarn-cache-path.outputs.yarn-cache-dir }}
-          key: ${{ steps.yarn-cache-path.outputs.yarn-cache-key }}
+          path: ${{ steps.yarn-cache-setup.outputs.yarn-cache-dir }}
+          key: ${{ steps.yarn-cache-setup.outputs.yarn-cache-key }}
       - name: Install dependencies
         run: yarn install --prefer-offline --frozen-lockfile
       - name: Yarn cache save
         uses: actions/cache/save@v3
         with:
-          path: ${{ steps.yarn-cache-path.outputs.yarn-cache-dir }}
-          key: ${{ steps.yarn-cache-path.outputs.yarn-cache-key }}
+          path: ${{ steps.yarn-cache-setup.outputs.yarn-cache-dir }}
+          key: ${{ steps.yarn-cache-setup.outputs.yarn-cache-key }}
       - name: Lint
         run: yarn lint
       - name: Test
         run: yarn test
       - name: Build
         run: yarn build
-      # - name: Setup Chrome version
-      #   uses: browser-actions/setup-chrome@latest
-      #   with:
-      #     chrome-version: stable
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v3
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3
-      # - name: Cache Docker layers
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: /tmp/.buildx-cache
-      #     key: ${{ runner.os }}-buildx-${{ github.sha }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-buildx-
+      - name: Size check
+        run: yarn size-limit
   e2e:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         browser: [chrome, edge, electron, firefox]
-    # container:
-    #   image: synthetixio/docker-e2e:20.0-debian
-    #   options: --user 1001
     steps:
       - uses: actions/checkout@v4
-      - uses: cypress-io/github-action@v6
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Docker cache setup
+        id: docker-cache-setup
+        run: |
+          echo "docker-cache-dir=/tmp/.buildx-cache" >> $GITHUB_OUTPUT
+          echo "docker-cache-key=${{ runner.os }}-buildx-${{ github.sha }}" >> $GITHUB_OUTPUT
+      - name: Restore cached Docker layers
+        uses: actions/cache/restore@v3
         with:
-          install-command: yarn --frozen-lockfile --prefer-offline
-          build: yarn build:frontend-staging
-          start: npx serve packages/frontend/build
-          project: ./packages/frontend
-          wait-on: 'http://localhost:3000'
+          path: ${{ steps.docker-cache-setup.outputs.docker-cache-dir }}
+          key: ${{ steps.docker-cache-setup.outputs.docker-cache-key }}
+      - name: Run e2e tests
+        run:
+          docker compose -f ./packages/frontend/docker-compose.e2e.yaml run synpress \
+              -e INFURA_PROJECT_ID \
+              -e WALLETCONNECT_PROJECT_ID \
+              -e FATHOM_SITE_ID \
+              -e FATHOM_API_KEY
         env:
           INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
           WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
           FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
           FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
-
-      # - name: Test e2e
-      #   uses: cypress-io/github-action@v6
-      #   with:
-      #     project: ./packages/frontend
-      #     command: yarn test:e2e
-      #   env:
-      #     CYPRESS_CI: true
-      #     CYPRESS_SLOW_MODE: true
-      #     CYPRESS_DISPLAY: ":99"
-      #     CYPRESS_RESOURCES_WAIT: true
-          # docker compose -f ./packages/frontend/docker-compose.e2e.yaml run synpress \
-          #   -e INFURA_PROJECT_ID \
-          #   -e WALLETCONNECT_PROJECT_ID \
-          #   -e FATHOM_SITE_ID \
-          #   -e FATHOM_API_KEY
-      # - name: Size check
-      #   run: yarn size-limit
+      - name: Cache Docker layers
+        uses: actions/cache/save@v3
+        with:
+          path: ${{ steps.docker-cache-setup.outputs.docker-cache-dir }}
+          key: ${{ steps.docker-cache-setup.outputs.docker-cache-key }}
