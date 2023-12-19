@@ -50,8 +50,6 @@ export default [
         ],
         output: {
             dir: resolve("./dist"),
-            preserveModules: true,
-            preserveModulesRoot: "src",
             format: "es",
         },
     },
