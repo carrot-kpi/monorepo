@@ -115,7 +115,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts
+          node-version: latest
           check-latest: true
           cache: "yarn"
       - name: Install dependencies
@@ -144,7 +144,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts
+          node-version: latest
           check-latest: true
           cache: "yarn"
       - name: Run linter
@@ -163,7 +163,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts
+          node-version: latest
           check-latest: true
           cache: "yarn"
       - name: Run tests
@@ -182,7 +182,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts
+          node-version: latest
           check-latest: true
           cache: "yarn"
       - name: Build app
@@ -200,7 +200,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: lts
+          node-version: latest
           check-latest: true
           cache: "yarn"
       # - uses: actions/setup-java@v3
