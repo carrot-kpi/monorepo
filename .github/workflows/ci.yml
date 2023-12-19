@@ -80,8 +80,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: cypress-io/github-action@v6
         with:
-          working-directory: packages/frontend
-          start: yarn start:staging
+          build: yarn build:frontend-staging
+          start: npx serve packages/frontend/build
+          project: ./packages/frontend
           wait-on: 'http://localhost:3000'
         env:
           INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
