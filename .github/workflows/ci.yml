@@ -35,7 +35,7 @@ jobs:
           echo "yarn-cache-dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
           echo "yarn-cache-key=${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}" >> $GITHUB_OUTPUT
       - name: Yarn cache restore
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: ${{ steps.yarn-cache-path.outputs.yarn-cache-dir }}
           key: ${{ steps.yarn-cache-path.outputs.yarn-cache-key }}
