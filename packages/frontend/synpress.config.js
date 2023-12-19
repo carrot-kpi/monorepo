@@ -10,8 +10,6 @@ module.exports = defineConfig({
         runMode: 0,
         openMode: 0,
     },
-    screenshotsFolder: "public-report/screenshots",
-    videosFolder: "public-report/videos",
     chromeWebSecurity: true,
     viewportWidth: 1920,
     viewportHeight: 1080,
