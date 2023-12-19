@@ -197,12 +197,6 @@ jobs:
           chrome-version: stable
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: latest
-          check-latest: true
-          cache: "yarn"
       # - uses: actions/setup-java@v3
       #   with:
       #     distribution: "temurin"
