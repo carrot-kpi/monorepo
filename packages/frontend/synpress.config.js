@@ -5,11 +5,13 @@ const TIMEOUT = 30000;
 
 module.exports = defineConfig({
     userAgent: "synpress",
+    fixturesFolder: "@synthetixio/synpress/fixtures",
     retries: {
-        runMode: process.env.CI ? 1 : 0,
+        runMode: 0,
         openMode: 0,
     },
-    fixturesFolder: "@synthetixio/synpress/fixtures",
+    screenshotsFolder: "public-report/screenshots",
+    videosFolder: "public-report/videos",
     chromeWebSecurity: true,
     viewportWidth: 1920,
     viewportHeight: 1080,

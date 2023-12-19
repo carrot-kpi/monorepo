@@ -19,13 +19,6 @@ jobs:
       WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
       FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
       FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
-      # synpress envs
-      SECRET_WORDS: "battle raccoon helmet please deliver keep kiss round orphan frame update message"
-      NETWORK_NAME: "Mumbai"
-      CHAIN_ID: 80001
-      RPC_URL: "https://rpc.ankr.com/polygon_mumbai"
-      SYMBOL: "MATIC"
-      IS_TESTNET: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -49,7 +42,22 @@ jobs:
         run: yarn test
       - name: Build
         run: yarn build
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
       - name: Test e2e
-        run: yarn test:e2e
+        run: docker-compose -f ../../packages/frontend/docker-compose.yml up synpress
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
       - name: Size check
         run: yarn size-limit

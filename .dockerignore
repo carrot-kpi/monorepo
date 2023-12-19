@@ -1,0 +1,8 @@
+**/node_modules
+**/.turbo
+**/.compose
+**/build
+**/dist
+**/out
+**/.github
+**/.changeset

@@ -33,10 +33,12 @@
         "size-limit": "size-limit",
         "prepare-fathom": "prepare-fathom",
         "config-react-env": "./scripts/config-react-env.js",
-        "start:staging": "STAGING=true craco start",
+        "start:staging": "yarn prepare-fathom && STAGING=true craco start",
         "start": "craco start",
-        "synpress:run": "env-cmd -f .env.synpress synpress run --browser chrome --configFile synpress.config.js",
-        "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run'"
+        "synpress:run": "env-cmd -f .env.synpress synpress run --configFile synpress.config.js",
+        "synpress:open": "env-cmd -f .env.synpress synpress open --configFile synpress.config.js",
+        "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run'",
+        "test:e2e:open": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:open'"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
