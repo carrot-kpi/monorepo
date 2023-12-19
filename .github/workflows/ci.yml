@@ -110,7 +110,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Run synpress tests
         run: |
-          docker-compose -f docker-compose.e2e.yaml up --build --detach
+          docker-compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
         continue-on-error: true
         env:
           CI: true
