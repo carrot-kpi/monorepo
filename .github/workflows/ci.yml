@@ -29,21 +29,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Get Yarn cache directory
+      - name: Yarn cache setup
         id: yarn-cache-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: |
+          echo "yarn-cache-dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "yarn-cache-key=${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}" >> $GITHUB_OUTPUT
       - name: Yarn cache restore
         uses: actions/cache@v3
         with:
-          path: ${{ steps.yarn-cache-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.yarn-cache-path.outputs.yarn-cache-dir }}
+          key: ${{ steps.yarn-cache-path.outputs.yarn-cache-key }}
       - name: Install dependencies
         run: yarn install --prefer-offline --frozen-lockfile
       - name: Yarn cache save
         uses: actions/cache/save@v3
         with:
-          path: ${{ steps.yarn-cache-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.yarn-cache-path.outputs.yarn-cache-dir }}
+          key: ${{ steps.yarn-cache-path.outputs.yarn-cache-key }}
       - name: Lint
         run: yarn lint
       - name: Test
