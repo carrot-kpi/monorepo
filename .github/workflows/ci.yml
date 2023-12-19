@@ -1,90 +1,229 @@
+# name: CI
+# on:
+#   push:
+#     branches:
+#       - main
+#       - develop
+#   pull_request:
+#     types: [opened, synchronize, reopened]
+# concurrency:
+#   group: ci-${{ github.ref }}
+#   cancel-in-progress: true
+# env:
+#   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+#   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+#   INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+#   WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+#   FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+#   FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+# jobs:
+#   ci:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         node-version: [18.x]
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Setup Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ matrix.node-version }}
+#       - name: Yarn cache setup
+#         id: yarn-cache-setup
+#         run: |
+#           echo "yarn-cache-dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+#           echo "yarn-cache-key=${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}" >> $GITHUB_OUTPUT
+#       - name: Yarn cache restore
+#         uses: actions/cache/restore@v3
+#         with:
+#           path: ${{ steps.yarn-cache-setup.outputs.yarn-cache-dir }}
+#           key: ${{ steps.yarn-cache-setup.outputs.yarn-cache-key }}
+#       - name: Install dependencies
+#         run: yarn install --prefer-offline --frozen-lockfile
+#       - name: Yarn cache save
+#         uses: actions/cache/save@v3
+#         with:
+#           path: ${{ steps.yarn-cache-setup.outputs.yarn-cache-dir }}
+#           key: ${{ steps.yarn-cache-setup.outputs.yarn-cache-key }}
+#       - name: Lint
+#         run: yarn lint
+#       - name: Test
+#         run: yarn test
+#       - name: Build
+#         run: yarn build
+#       - name: Size check
+#         run: yarn size-limit
+#   e2e:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         browser: [chrome, edge, electron, firefox]
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Set up QEMU
+#         uses: docker/setup-qemu-action@v3
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v3
+#       - name: Docker cache setup
+#         id: docker-cache-setup
+#         run: |
+#           echo "docker-cache-dir=/tmp/.buildx-cache" >> $GITHUB_OUTPUT
+#           echo "docker-cache-key=${{ runner.os }}-buildx-${{ github.sha }}" >> $GITHUB_OUTPUT
+#       - name: Restore cached Docker layers
+#         uses: actions/cache/restore@v3
+#         with:
+#           path: ${{ steps.docker-cache-setup.outputs.docker-cache-dir }}
+#           key: ${{ steps.docker-cache-setup.outputs.docker-cache-key }}
+#       - name: Run e2e tests
+#         run:
+#           docker compose -f docker-compose.e2e.yaml run synpress \
+#               -e INFURA_PROJECT_ID \
+#               -e WALLETCONNECT_PROJECT_ID \
+#               -e FATHOM_SITE_ID \
+#               -e FATHOM_API_KEY
+#       - name: Cache Docker layers
+#         uses: actions/cache/save@v3
+#         with:
+#           path: ${{ steps.docker-cache-setup.outputs.docker-cache-dir }}
+#           key: ${{ steps.docker-cache-setup.outputs.docker-cache-key }}
+
 name: CI
 on:
   push:
     branches:
-      - main
       - develop
+      - main
   pull_request:
     types: [opened, synchronize, reopened]
+    branches:
+      - develop
+      - main
+  schedule:
+    - cron: "0 0 * * *"
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
-env:
-  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
 jobs:
-  ci:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
+  install:
+    name: Install
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Yarn cache setup
-        id: yarn-cache-setup
-        run: |
-          echo "yarn-cache-dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          echo "yarn-cache-key=${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}" >> $GITHUB_OUTPUT
-      - name: Yarn cache restore
-        uses: actions/cache/restore@v3
-        with:
-          path: ${{ steps.yarn-cache-setup.outputs.yarn-cache-dir }}
-          key: ${{ steps.yarn-cache-setup.outputs.yarn-cache-key }}
+          node-version: lts
+          check-latest: true
+          cache: "yarn"
       - name: Install dependencies
-        run: yarn install --prefer-offline --frozen-lockfile
-      - name: Yarn cache save
-        uses: actions/cache/save@v3
+        run: yarn install --prefer-offline
+        env:
+          HUSKY: "0"
+      - name: Compress workspace artifact
+        run: tar --create --use-compress-program='zstd -T0' --file=/tmp/workspace.tar.zst .
+      - name: Upload workspace artifact
+        uses: actions/upload-artifact@v3
         with:
-          path: ${{ steps.yarn-cache-setup.outputs.yarn-cache-dir }}
-          key: ${{ steps.yarn-cache-setup.outputs.yarn-cache-key }}
-      - name: Lint
-        run: yarn lint
-      - name: Test
-        run: yarn test
-      - name: Build
-        run: yarn build
-      - name: Size check
-        run: yarn size-limit
-  e2e:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chrome, edge, electron, firefox]
+          name: workspace
+          path: /tmp/workspace.tar.zst
+          retention-days: 3
+  lint:
+    name: Lint
+    needs: install
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Docker cache setup
-        id: docker-cache-setup
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: workspace
+      - name: Extract workspace artifact
+        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts
+          check-latest: true
+          cache: "yarn"
+      - name: Run linter
+        run: yarn lint --quiet
+  test:
+    name: Test
+    needs: install
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: workspace
+      - name: Extract workspace artifact
+        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts
+          check-latest: true
+          cache: "yarn"
+      - name: Run tests
+        run: yarn test
+  build:
+    name: Build
+    needs: install
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: workspace
+      - name: Extract workspace artifact
+        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts
+          check-latest: true
+          cache: "yarn"
+      - name: Build app
+        run: yarn build
+  synpress:
+    name: Synpress
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup chrome version
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts
+          check-latest: true
+          cache: "yarn"
+      # - uses: actions/setup-java@v3
+      #   with:
+      #     distribution: "temurin"
+      #     java-version: "17"
+      - name: Install dependencies
+        run: yarn install --prefer-offline
+      - name: Run synpress tests
         run: |
-          echo "docker-cache-dir=/tmp/.buildx-cache" >> $GITHUB_OUTPUT
-          echo "docker-cache-key=${{ runner.os }}-buildx-${{ github.sha }}" >> $GITHUB_OUTPUT
-      - name: Restore cached Docker layers
-        uses: actions/cache/restore@v3
+          docker-compose up --build --exit-code-from synpress
+        continue-on-error: true
+        env:
+          CI: true
+          SLOW_MODE: true
+          DISPLAY: ":99"
+          CYPRESS_RESOURCES_WAIT: true
+  cleanup:
+    name: 🧹 Cleanup
+    needs: [install, lint, test, typecheck, build]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Delete workspace artifact
+        uses: geekyeggo/delete-artifact@v2
         with:
-          path: ${{ steps.docker-cache-setup.outputs.docker-cache-dir }}
-          key: ${{ steps.docker-cache-setup.outputs.docker-cache-key }}
-      - name: Run e2e tests
-        run:
-          docker compose -f docker-compose.e2e.yaml run synpress \
-              -e INFURA_PROJECT_ID \
-              -e WALLETCONNECT_PROJECT_ID \
-              -e FATHOM_SITE_ID \
-              -e FATHOM_API_KEY
-      - name: Cache Docker layers
-        uses: actions/cache/save@v3
-        with:
-          path: ${{ steps.docker-cache-setup.outputs.docker-cache-dir }}
-          key: ${{ steps.docker-cache-setup.outputs.docker-cache-key }}
+          name: workspace

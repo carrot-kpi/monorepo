@@ -1,15 +1,56 @@
+# version: "3.9"
+# services:
+#   synpress:
+#     container_name: synpress
+#     working_dir: /app
+#     depends_on:
+#       - display
+#       - video
+#     env_file: ./packages/frontend/.env.synpress
+#     volumes:
+#       - ./docker/videos:/app/public-report/screenshots
+#       - ./docker/screenshots:/app/public-report/videos
+#     build:
+#       dockerfile: ./Dockerfile.e2e
+#       context: .
+#       args:
+#         - INFURA_PROJECT_ID=${INFURA_PROJECT_ID}
+#         - WALLETCONNECT_PROJECT_ID=${WALLETCONNECT_PROJECT_ID}
+#         - FATHOM_SITE_ID=${FATHOM_SITE_ID}
+#         - FATHOM_API_KEY=${FATHOM_API_KEY}
+#     environment:
+#       - DISPLAY=display:0.0
+#       - CYPRESS_DOCKER_RUN=true
+#       - CI=true
+#     networks:
+#       - x11
+#   display:
+#     container_name: display
+#     image: synthetixio/display:41158a4bf17aca53222e6b101633ddfa5af7724c-base
+#     environment:
+#       - RUN_XTERM=no
+#     ports:
+#       - "8080:8080"
+#     networks:
+#       - x11
+#   video:
+#     container_name: video
+#     image: synthetixio/video:41158a4bf17aca53222e6b101633ddfa5af7724c-base
+#     volumes:
+#       - ./docker/videos-ci:/videos
+#     environment:
+#       - FILE_NAME=CI-full-video.mp4
+#     depends_on:
+#       - display
+#     networks:
+#       - x11
+# networks:
+#   x11:
+
 version: "3.9"
 services:
   synpress:
     container_name: synpress
-    working_dir: /app
-    depends_on:
-      - display
-      - video
-    env_file: ./packages/frontend/.env.synpress
-    volumes:
-      - ./docker/videos:/app/public-report/screenshots
-      - ./docker/screenshots:/app/public-report/videos
     build:
       dockerfile: ./Dockerfile.e2e
       context: .
@@ -20,22 +61,45 @@ services:
         - FATHOM_API_KEY=${FATHOM_API_KEY}
     environment:
       - DISPLAY=display:0.0
-      - CYPRESS_DOCKER_RUN=true
-      - CI=true
+    depends_on:
+      - display
+      - video
+    entrypoint: []
+    working_dir: /app
+    volumes:
+      - ./docker/videos:/app/public-report/screenshots
+      - ./docker/screenshots:/app/public-report/videos
+    command: >
+      yarn synpress:ct
     networks:
       - x11
+
   display:
     container_name: display
-    image: synthetixio/display:41158a4bf17aca53222e6b101633ddfa5af7724c-base
+    image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
     environment:
       - RUN_XTERM=no
     ports:
       - "8080:8080"
     networks:
       - x11
+
+  ngrok:
+    profiles:
+      - ngrok
+    container_name: ngrok
+    image: synthetixio/ngrok:b2643097e891906524e52e7ee956260b20fa01fb-base
+    ports:
+      - "4040:4040"
+    command: ["ngrok", "http", "display:8080", "--authtoken", "${NGROK_AUTH}"]
+    depends_on:
+      - display
+    networks:
+      - x11
+
   video:
     container_name: video
-    image: synthetixio/video:41158a4bf17aca53222e6b101633ddfa5af7724c-base
+    image: synthetixio/video:b2643097e891906524e52e7ee956260b20fa01fb-base
     volumes:
       - ./docker/videos-ci:/videos
     environment:
@@ -44,5 +108,6 @@ services:
       - display
     networks:
       - x11
+
 networks:
   x11:
