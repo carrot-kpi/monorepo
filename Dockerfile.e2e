@@ -1,16 +1,12 @@
 FROM synthetixio/docker-e2e:20.0-ubuntu AS base
  
 FROM base AS builder
-RUN apk add --no-cache libc6-compat
-RUN apk update
 WORKDIR /app
 RUN yarn global add turbo
 COPY . .
 RUN turbo prune @carrot-kpi/host-frontend --docker
  
 FROM base AS tester
-RUN apk add --no-cache libc6-compat
-RUN apk update
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
