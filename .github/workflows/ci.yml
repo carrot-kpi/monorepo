@@ -29,13 +29,18 @@ jobs:
       - name: Get Yarn cache directory
         id: yarn-cache-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - name: Yarn cache
-        uses: actions/cache@v2
+      - name: Yarn cache restore
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         run: yarn install --prefer-offline --frozen-lockfile
+      - name: Yarn cache save
+        uses: actions/cache/save@v3
+        with:
+          path: ${{ steps.yarn-cache-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
       - name: Lint
         run: yarn lint
       - name: Test
@@ -47,7 +52,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
