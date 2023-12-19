@@ -13,6 +13,3 @@ COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install --immutable --prefer-offline
 COPY --from=builder /app/out/full/ .
-RUN addgroup --system --gid 1001 carrot
-RUN adduser --system --uid 1001 tester
-USER tester
