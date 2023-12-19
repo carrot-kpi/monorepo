@@ -36,7 +36,10 @@ module.exports = {
                     __STAGING_MODE__: JSON.stringify(
                         process.env.STAGING === "true",
                     ),
-                    __INFURA_PROJECT_ID__: getEnv("INFURA_PROJECT_ID", true),
+                    __INFURA_PROJECT_ID__: getEnv(
+                        "INFURA_PROJECT_ID",
+                        production,
+                    ),
                     __WALLETCONNECT_PROJECT_ID__: getEnv(
                         "WALLETCONNECT_PROJECT_ID",
                         production,
