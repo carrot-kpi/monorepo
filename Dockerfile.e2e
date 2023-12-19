@@ -1,4 +1,4 @@
-FROM synthetixio/docker-e2e:16.17-ubuntu as base
+FROM synthetixio/docker-e2e:20.0-ubuntu as base
 
 WORKDIR /app
 
