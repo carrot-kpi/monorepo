@@ -1,7 +1,7 @@
 # this must be executed in the context of the monorepo's root
 FROM --platform=linux/amd64 synthetixio/docker-e2e:20.0-debian as base
 
-RUN groupadd -r testers 
+RUN groupadd -r testers
 RUN useradd -r -g testers -m -d /app tester
 USER tester
 
@@ -12,3 +12,5 @@ COPY yarn.lock ./
 
 RUN yarn install --frozen-lockfile --prefer-offline
 COPY . .
+
+ENTRYPOINT ["yarn", "wait-on", "http://display:8080", "&&", "yarn", "test:e2e"]

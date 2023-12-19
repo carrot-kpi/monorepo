@@ -78,16 +78,11 @@ jobs:
           key: ${{ steps.docker-cache-setup.outputs.docker-cache-key }}
       - name: Run e2e tests
         run:
-          docker compose -f ./docker-compose.e2e.yaml run synpress \
+          docker compose -f docker-compose.e2e.yaml run synpress \
               -e INFURA_PROJECT_ID \
               -e WALLETCONNECT_PROJECT_ID \
               -e FATHOM_SITE_ID \
               -e FATHOM_API_KEY
-        env:
-          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-          FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-          FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
       - name: Cache Docker layers
         uses: actions/cache/save@v3
         with:

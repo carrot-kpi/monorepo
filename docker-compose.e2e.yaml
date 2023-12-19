@@ -22,8 +22,6 @@ services:
       - DISPLAY=display:0.0
       - CYPRESS_DOCKER_RUN=true
       - CI=true
-    entrypoint: []
-    command: bash -c "yarn wait-on http://display:8080 && yarn test:e2e"
     networks:
       - x11
   display:
