@@ -109,7 +109,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Run synpress tests
-        run: sudo -E bash scripts/start-tests.sh
+        run: |
+          docker-compose -f docker-compose.e2e.yaml up --build --detach
         continue-on-error: true
         env:
           CI: true
