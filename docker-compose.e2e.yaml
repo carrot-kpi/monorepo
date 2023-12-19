@@ -59,6 +59,7 @@ services:
         - WALLETCONNECT_PROJECT_ID=${WALLETCONNECT_PROJECT_ID}
         - FATHOM_SITE_ID=${FATHOM_SITE_ID}
         - FATHOM_API_KEY=${FATHOM_API_KEY}
+    env_file: .env.synpress
     environment:
       - DISPLAY=display:0.0
     depends_on:
