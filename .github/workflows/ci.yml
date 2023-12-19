@@ -64,7 +64,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
       - name: Test e2e
-        run: docker compose -f ./packages/frontend/docker-compose.e2e.yaml up --build -e INFURA_PROJECT_ID -e WALLETCONNECT_PROJECT_ID -e FATHOM_SITE_ID -e FATHOM_API_KEY synpress
+        run: docker compose -f ./packages/frontend/docker-compose.e2e.yaml -e INFURA_PROJECT_ID -e WALLETCONNECT_PROJECT_ID -e FATHOM_SITE_ID -e FATHOM_API_KEY up --build synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
