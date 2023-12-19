@@ -185,8 +185,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Run synpress tests
-        run: |
-          sudo -E ./scripts/start-tests.sh
+        run: sudo -E bash scripts/start-tests.sh
         continue-on-error: true
         env:
           CI: true
