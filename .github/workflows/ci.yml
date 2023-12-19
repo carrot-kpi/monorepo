@@ -122,25 +122,20 @@ jobs:
         run: yarn install --prefer-offline
         env:
           HUSKY: "0"
-      - name: Compress workspace artifact
-        run: tar --create --use-compress-program='zstd -T0' --file=/tmp/workspace.tar.zst .
       - name: Upload workspace artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: workspace
-          path: /tmp/workspace.tar.zst
-          retention-days: 3
+          path: .
   lint:
     name: Lint
     needs: install
     runs-on: ubuntu-20.04
     steps:
       - name: Download workspace artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: workspace
-      - name: Extract workspace artifact
-        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -155,11 +150,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Download workspace artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: workspace
-      - name: Extract workspace artifact
-        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -174,11 +167,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Download workspace artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: workspace
-      - name: Extract workspace artifact
-        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -191,28 +182,23 @@ jobs:
     name: Synpress
     runs-on: ubuntu-22.04
     steps:
-      - name: Setup chrome version
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: stable
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Run synpress tests
         run: |
-          docker compose -f docker-compose.e2e.yaml \
-            run --build synpress \
-            -e INFURA_PROJECT_ID \
-            -e WALLETCONNECT_PROJECT_ID \
-            -e FATHOM_SITE_ID \
-            -e FATHOM_API_KEY
+          sudo -E ./scripts/start-tests.sh
         continue-on-error: true
         env:
           CI: true
           SLOW_MODE: true
           DISPLAY: ":99"
           CYPRESS_RESOURCES_WAIT: true
+          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+          FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+          FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
   cleanup:
-    name: 🧹 Cleanup
+    name: Cleanup
     needs: [install, lint, test, build]
     runs-on: ubuntu-20.04
     steps:
