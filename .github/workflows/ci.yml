@@ -73,9 +73,9 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chrome, edge, electron, firefox]
-    container:
-      image: synthetixio/docker-e2e:20.0-debian
-      options: --user 1001
+    # container:
+    #   image: synthetixio/docker-e2e:20.0-debian
+    #   options: --user 1001
     steps:
       - uses: actions/checkout@v4
       - uses: cypress-io/github-action@v6
