@@ -25,23 +25,21 @@ const TimeLeft = ({ kpiToken }: TimeLeftProps) => {
 
     if (kpiToken.finalized)
         return (
-            <Typography
+            <Chip
                 data-testid="campaign-template-finalized-text"
-                uppercase
-                className={{ root: "text-orange" }}
+                className={{ root: "bg-green bg-opacity-80 uppercase" }}
             >
                 {t("stateOptions.finalized")}
-            </Typography>
+            </Chip>
         );
     if (kpiToken.expired)
         return (
-            <Typography
+            <Chip
                 data-testid="campaign-template-expired-text"
-                uppercase
-                className={{ root: "text-red" }}
+                className={{ root: "bg-red bg-opacity-80 uppercase" }}
             >
                 {t("stateOptions.expired")}
-            </Typography>
+            </Chip>
         );
     return <Timer to={kpiToken.expiration} countdown />;
 };
