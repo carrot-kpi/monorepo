@@ -211,7 +211,7 @@ jobs:
         run: yarn install --prefer-offline
       - name: Run synpress tests
         run: |
-          docker-compose up --build --exit-code-from synpress
+          docker compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
         continue-on-error: true
         env:
           CI: true
