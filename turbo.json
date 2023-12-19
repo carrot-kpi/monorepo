@@ -30,7 +30,7 @@
             ]
         },
         "test:e2e": {
-            "inputs": ["src/**/*.{ts,tsx}", "e2e/**/*.{ts,tsx}"],
+            "inputs": ["src/**/*.{ts,tsx}", "cypress/**/*.{ts,tsx}"],
             "dependsOn": ["^build"]
         },
         "start": {
