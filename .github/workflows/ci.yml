@@ -81,7 +81,8 @@ jobs:
       - uses: cypress-io/github-action@v6
         with:
           working-directory: packages/frontend
-          browser: ${{ matrix.browser }}
+          start: yarn start:staging
+          wait-on: 'http://localhost:3000'
 
 
       # - name: Test e2e
