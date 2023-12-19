@@ -69,8 +69,7 @@ services:
     volumes:
       - ./docker/videos:/app/public-report/screenshots
       - ./docker/screenshots:/app/public-report/videos
-    command: >
-      yarn synpress:ct
+    command: yarn test:e2e
     networks:
       - x11
 
