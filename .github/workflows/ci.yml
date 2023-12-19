@@ -52,10 +52,10 @@ jobs:
         run: yarn test
       - name: Build
         run: yarn build
-      - name: Setup Chrome version
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: stable
+      # - name: Setup Chrome version
+      #   uses: browser-actions/setup-chrome@latest
+      #   with:
+      #     chrome-version: stable
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
       # - name: Set up Docker Buildx
@@ -68,11 +68,14 @@ jobs:
       #     restore-keys: |
       #       ${{ runner.os }}-buildx-
       - name: Test e2e
-        run: yarn test:e2e
+        uses: cypress-io/github-action@v6
+        with:
+          project: ./packages/frontend
+          command: yarn test:e2e
         env:
-          CI: true
-          SLOW_MODE: true
-          DISPLAY: ':99'
+          CYPRESS_CI: true
+          CYPRESS_SLOW_MODE: true
+          CYPRESS_DISPLAY: ":99"
           CYPRESS_RESOURCES_WAIT: true
           # docker compose -f ./packages/frontend/docker-compose.e2e.yaml run synpress \
           #   -e INFURA_PROJECT_ID \
