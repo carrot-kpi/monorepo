@@ -22324,7 +22324,7 @@ wagmi@^1.4.12:
     abitype "0.8.7"
     use-sync-external-store "^1.2.0"
 
-wait-on@7.2.0, wait-on@^7.0.1:
+wait-on@7.2.0, wait-on@^7.0.1, wait-on@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/wait-on/-/wait-on-7.2.0.tgz#d76b20ed3fc1e2bebc051fae5c1ff93be7892928"
   integrity sha512-wCQcHkRazgjG5XoAq9jbTMLpNIjoSlZslrJ2+N9MxDsGEv1HnFoVjOCexL0ESva7Y9cu350j+DWADdk54s4AFQ==

@@ -78,7 +78,7 @@ jobs:
           key: ${{ steps.docker-cache-setup.outputs.docker-cache-key }}
       - name: Run e2e tests
         run:
-          docker compose -f ./packages/frontend/docker-compose.e2e.yaml run synpress \
+          docker compose -f ./docker-compose.e2e.yaml run synpress \
               -e INFURA_PROJECT_ID \
               -e WALLETCONNECT_PROJECT_ID \
               -e FATHOM_SITE_ID \

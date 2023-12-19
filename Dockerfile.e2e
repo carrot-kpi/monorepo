@@ -1,0 +1,14 @@
+# this must be executed in the context of the monorepo's root
+FROM --platform=linux/amd64 synthetixio/docker-e2e:20.0-debian as base
+
+RUN groupadd -r testers 
+RUN useradd -r -g testers -m -d /app tester
+USER tester
+
+WORKDIR /app
+
+COPY package.json ./
+COPY yarn.lock ./
+
+RUN yarn install --frozen-lockfile --prefer-offline
+COPY . .

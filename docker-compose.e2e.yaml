@@ -1,4 +1,3 @@
-# this should be executed from the root of the monorepo
 version: "3.9"
 services:
   synpress:
@@ -7,13 +6,13 @@ services:
     depends_on:
       - display
       - video
-    env_file: .env.synpress
+    env_file: ./packages/frontend/.env.synpress
     volumes:
       - ./docker/videos:/app/public-report/screenshots
       - ./docker/screenshots:/app/public-report/videos
     build:
-      dockerfile: ./packages/frontend/Dockerfile.e2e
-      context: ../..
+      dockerfile: ./Dockerfile.e2e
+      context: .
       args:
         - INFURA_PROJECT_ID=${INFURA_PROJECT_ID}
         - WALLETCONNECT_PROJECT_ID=${WALLETCONNECT_PROJECT_ID}
@@ -24,7 +23,7 @@ services:
       - CYPRESS_DOCKER_RUN=true
       - CI=true
     entrypoint: []
-    command: yarn test:e2e
+    command: bash -c "yarn wait-on http://display:8080 && yarn test:e2e"
     networks:
       - x11
   display:
@@ -34,18 +33,6 @@ services:
       - RUN_XTERM=no
     ports:
       - "8080:8080"
-    networks:
-      - x11
-  ngrok:
-    profiles:
-      - ngrok
-    container_name: ngrok
-    image: synthetixio/ngrok:457bb48776c3b14de232d9dda620ba9188dc40ac-base
-    ports:
-      - "4040:4040"
-    command: ["ngrok", "http", "display:8080", "--authtoken", "${NGROK_AUTH}"]
-    depends_on:
-      - display
     networks:
       - x11
   video:
