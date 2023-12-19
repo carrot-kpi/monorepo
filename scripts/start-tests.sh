@@ -1,3 +1,8 @@
 #!/bin/bash
 
-docker compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
+docker compose -f docker-compose.e2e.yaml \
+    run --build --exit-code-from synpress \
+    -e INFURA_PROJECT_ID \
+    -e WALLETCONNECT_PROJECT_ID \
+    -e FATHOM_SITE_ID \
+    -e FATHOM_API_KEY
