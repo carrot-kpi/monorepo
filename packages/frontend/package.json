@@ -35,9 +35,9 @@
         "config-react-env": "./scripts/config-react-env.js",
         "start:staging": "yarn prepare-fathom && STAGING=true craco start",
         "start": "craco start",
-        "synpress:run": "env-cmd -f .env.synpress synpress run --configFile synpress.config.js",
+        "synpress:run": "env-cmd -f .env.synpress synpress run --headless --configFile synpress.config.js",
         "synpress:open": "env-cmd -f .env.synpress synpress open --configFile synpress.config.js",
-        "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run --record --group'",
+        "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run --record'",
         "test:e2e:open": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:open'"
     },
     "dependencies": {
