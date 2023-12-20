@@ -15,8 +15,6 @@ services:
       - ./docker/screenshots:/app/public-report/videos
     environment:
       - DISPLAY=display:0.0
-      - SKIP_METAMASK_INSTALL=true
-      - SKIP_METAMASK_SETUP=true
       - SYNDEBUG=true
     command: >
       bash -c 'yarn wait-on http://display:8080 && yarn test:e2e'
