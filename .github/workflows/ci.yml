@@ -91,18 +91,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: latest
-          cache: "yarn"
-      - name: Install dependencies
-        run: yarn install --immutable --prefer-offline
-      - name: Install Linux deps
-        run: sudo apt-get install --no-install-recommends -y fluxbox xvfb
       - name: Run e2e tests
-        # run: |
-        #   Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac & fluxbox & yarn test:e2e
-        run: yarn test:e2e
-        # env:
-        #   DISPLAY: :0.0
+        run: |
+          docker-compose -f docker-compose.e2e.yml --profile synpress --profile foundry up --build --exit-code-from synpress
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
