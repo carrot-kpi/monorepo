@@ -93,7 +93,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Run e2e tests
         run: |
-          docker-compose -f docker-compose.e2e.yml --profile synpress --profile foundry up --build --exit-code-from synpress
+          docker-compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
