@@ -23,15 +23,15 @@ services:
       bash -c 'yarn wait-on http://display:8080 && yarn test:e2e'
     networks:
       - x11
-  
+
   foundry:
     container_name: foundry
     image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
-    command: [ 'anvil --no-cors --fork-url https://rpc.ankr.com/polygon_mumbai' ]
+    command: ["anvil --no-cors --fork-url https://rpc.ankr.com/polygon_mumbai"]
     environment:
       - ANVIL_IP_ADDR=0.0.0.0
     ports:
-      - '8545:8545'
+      - "8545:8545"
     networks:
       - x11
 
