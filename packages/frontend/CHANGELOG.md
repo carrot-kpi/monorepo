@@ -1,5 +1,11 @@
 # @carrot-kpi/host-frontend
 
+## 0.33.4
+
+### Patch Changes
+
+- a4008cb: Add dedicated tsconfig for frontend build, add chips in kpi token cards
+
 ## 0.33.3
 
 ### Patch Changes
