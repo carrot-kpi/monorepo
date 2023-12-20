@@ -3,13 +3,13 @@ import { config } from "dotenv";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import typescript from "rollup-plugin-typescript2";
 import image from "@rollup/plugin-image";
 import postcss from "rollup-plugin-postcss";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
+import esbuild from "rollup-plugin-esbuild";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
@@ -35,17 +35,17 @@ export default [
                 },
             }),
             peerDepsExternal(),
-            commonjs(),
             nodeResolve({
                 preferBuiltins: false,
                 browser: true,
             }),
+            commonjs(),
+            esbuild({ target: "es2020", tsconfig: "./tsconfig.build.json" }),
             postcss({
                 plugins: [tailwindcss, autoprefixer],
                 extract: resolve("./dist/styles.css"),
             }),
             json(),
-            typescript(),
             image(),
         ],
         output: {
