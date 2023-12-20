@@ -20,7 +20,7 @@ services:
       - ./docker/videos:/app/public-report/screenshots
       - ./docker/screenshots:/app/public-report/videos
     command: >
-      bash -c yarn wait-on http://display:8080 && yarn test:e2e'
+      bash -c 'yarn wait-on http://display:8080 && yarn test:e2e'
     networks:
       - x11
   
