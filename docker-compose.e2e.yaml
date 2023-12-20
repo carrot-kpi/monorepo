@@ -5,11 +5,6 @@ services:
     build:
       dockerfile: ./Dockerfile.e2e
       context: .
-      args:
-        - INFURA_PROJECT_ID=${INFURA_PROJECT_ID}
-        - WALLETCONNECT_PROJECT_ID=${WALLETCONNECT_PROJECT_ID}
-        - FATHOM_SITE_ID=${FATHOM_SITE_ID}
-        - FATHOM_API_KEY=${FATHOM_API_KEY}
     depends_on:
       - display
       - video
