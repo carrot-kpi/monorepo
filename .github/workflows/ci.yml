@@ -36,34 +36,18 @@ jobs:
           cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --prefer-offline
-      - name: Compress workspace artifact
-        run: tar --create --use-compress-program='zstd -T0' --file=/tmp/workspace.tar.zst .
-      - name: Upload workspace artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: workspace
-          path: /tmp/workspace.tar.zst
-          retention-days: 1
-      - name: Cache Cypress cache
-        uses: actions/cache/save@v3
-        with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-cache
   lint:
     name: Lint
     needs: install
     runs-on: ubuntu-20.04
     steps:
-      - name: Download workspace artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: workspace
-      - name: Extract workspace artifact
-        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable --prefer-offline
       - name: Run linter
         run: yarn lint
   unit-test:
@@ -71,16 +55,13 @@ jobs:
     needs: install
     runs-on: ubuntu-20.04
     steps:
-      - name: Download workspace artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: workspace
-      - name: Extract workspace artifact
-        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable --prefer-offline
       - name: Run tests
         run: yarn test
   size-limit:
@@ -88,16 +69,13 @@ jobs:
     needs: install
     runs-on: ubuntu-20.04
     steps:
-      - name: Download workspace artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: workspace
-      - name: Extract workspace artifact
-        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable --prefer-offline
       - name: Check size limit
         run: yarn size-limit
   e2e-test:
@@ -105,17 +83,13 @@ jobs:
     needs: install
     runs-on: ubuntu-22.04
     steps:
-      - name: Download workspace artifact
-        uses: actions/download-artifact@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          name: workspace
-      - name: Extract workspace artifact
-        run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
-      - name: Restore Cypress cache
-        uses: actions/cache/restore@v3
-        with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-cache
+          node-version: latest
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable --prefer-offline
       - name: Install Linux deps
         run: sudo apt-get install --no-install-recommends -y fluxbox xvfb
       - name: Run e2e tests
