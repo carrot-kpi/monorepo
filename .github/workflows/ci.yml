@@ -33,7 +33,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
-          check-latest: true
           cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --prefer-offline
@@ -60,12 +59,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
-          check-latest: true
-          cache: "yarn"
       - name: Run linter
         run: yarn lint
-  test:
-    name: Test
+  unit-test:
+    name: Unit test
     needs: install
     runs-on: ubuntu-20.04
     steps:
@@ -79,12 +76,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
-          check-latest: true
-          cache: "yarn"
       - name: Run tests
         run: yarn test
-  build:
-    name: Build
+  size-limit:
+    name: Size limit
     needs: install
     runs-on: ubuntu-20.04
     steps:
@@ -98,12 +93,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
-          check-latest: true
-          cache: "yarn"
       - name: Build app
         run: yarn build
-  synpress:
-    name: Synpress
+  e2e-test:
+    name: Test e2e
     needs: [install]
     runs-on: ubuntu-22.04
     steps:
