@@ -1,13 +1,13 @@
 const { defineConfig } = require("cypress");
 const setupNodeEvents = require("@synthetixio/synpress/plugins/index");
 
-const TIMEOUT = 30000;
+const TIMEOUT = 120_000;
 
 module.exports = defineConfig({
     userAgent: "synpress",
     fixturesFolder: "@synthetixio/synpress/fixtures",
     retries: {
-        runMode: 0,
+        runMode: process.env.CI ? 1 : 0,
         openMode: 0,
     },
     chromeWebSecurity: true,

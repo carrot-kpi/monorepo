@@ -100,13 +100,8 @@ jobs:
         run: yarn install --immutable --prefer-offline
       - name: Install Linux deps
         run: sudo apt-get install --no-install-recommends -y fluxbox xvfb
-      # - name: Run xvfb and fluxbox
-      #   run: |
-      #     Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-      #     fluxbox &
-        env:
-          DISPLAY: :0.0
-      - name: Run e2e tests
-        run: yarn test:e2e
+      - name: Run xvfb and fluxbox
+        run: |
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac & fluxbox & yarn test:e2e
         env:
           DISPLAY: :0.0
