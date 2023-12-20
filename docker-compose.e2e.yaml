@@ -19,7 +19,7 @@ services:
       - SKIP_METAMASK_SETUP=true
       - SYNDEBUG=true
     command: >
-      bash -c 'yarn wait-on http://display:8080 && yarn test:e2e:run'
+      bash -c 'yarn wait-on http://display:8080 && yarn test:e2e'
     networks:
       - x11
 

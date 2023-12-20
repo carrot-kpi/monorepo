@@ -29,7 +29,7 @@
                 "babel.config.json"
             ]
         },
-        "test:e2e:run": {
+        "test:e2e": {
             "inputs": ["src/**/*.{ts,tsx}", "cypress/**/*.{ts,tsx}"],
             "dependsOn": ["^build"]
         },
