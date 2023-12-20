@@ -10,7 +10,6 @@ services:
         - WALLETCONNECT_PROJECT_ID=${WALLETCONNECT_PROJECT_ID}
         - FATHOM_SITE_ID=${FATHOM_SITE_ID}
         - FATHOM_API_KEY=${FATHOM_API_KEY}
-    env_file: packages/frontend/.env.synpress
     depends_on:
       - display
       - video
@@ -19,19 +18,10 @@ services:
     volumes:
       - ./docker/videos:/app/public-report/screenshots
       - ./docker/screenshots:/app/public-report/videos
-    command: >
-      bash -c 'yarn wait-on http://display:8080 && yarn test:e2e'
-    networks:
-      - x11
-
-  foundry:
-    container_name: foundry
-    image: synthetixio/foundry:457bb48776c3b14de232d9dda620ba9188dc40ac-base
-    command: ["anvil --no-cors --fork-url https://rpc.ankr.com/polygon_mumbai"]
     environment:
-      - ANVIL_IP_ADDR=0.0.0.0
-    ports:
-      - "8545:8545"
+      - DISPLAY=display:0.0
+    command: >
+      bash -c 'yarn wait-on http://display:8080 && yarn test:e2e:ci'
     networks:
       - x11
 
