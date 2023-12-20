@@ -1,7 +1,7 @@
 const { defineConfig } = require("cypress");
 const setupNodeEvents = require("@synthetixio/synpress/plugins/index");
 
-const TIMEOUT = 120_000;
+const TIMEOUT = 30_000;
 
 module.exports = defineConfig({
     userAgent: "synpress",
