@@ -44,6 +44,11 @@ jobs:
           name: workspace
           path: /tmp/workspace.tar.zst
           retention-days: 1
+      - name: Cache Cypress cache
+        uses: actions/cache/save@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-cache
   lint:
     name: Lint
     needs: install
@@ -94,7 +99,7 @@ jobs:
         with:
           node-version: latest
       - name: Check size limit
-        run: yarn size:limit
+        run: yarn size-limit
   e2e-test:
     name: Test e2e
     needs: install
@@ -106,13 +111,11 @@ jobs:
           name: workspace
       - name: Extract workspace artifact
         run: tar --extract --use-compress-program='zstd -d' --file=workspace.tar.zst
-      - name: Setup cache
-        uses: actions/cache@v3
+      - name: Restore Cypress cache
+        uses: actions/cache/restore@v3
         with:
-          path: /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ runner.os }}-cypress
-        continue-on-error: true
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-cache
       - name: Install Linux deps
         run: sudo apt-get install --no-install-recommends -y fluxbox xvfb
       - name: Run e2e tests
