@@ -74,10 +74,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
+        id: setup-buildx
+      - name: Build testable host frontend image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          load: true
+          tags: carrot-kpi/e2e-testable-frontend
+          builder: ${{ steps.setup-buildx.outputs.name }}
+          file: ./Dockerfile.e2e
+          context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Run e2e tests
-        run: docker compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
+        run: docker compose -f docker-compose.e2e.yaml up --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
