@@ -2,54 +2,96 @@ name: CI
 on:
   push:
     branches:
-      - main
       - develop
+      - main
   pull_request:
     types: [opened, synchronize, reopened]
+    branches:
+      - develop
+      - main
+  schedule:
+    - cron: "0 0 * * *"
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+  INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+  WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+  FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+  FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+  HUSKY: "0"
 jobs:
-  ci:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-      INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
-      WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
-      FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
-      FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
-      # synpress envs
-      SECRET_WORDS: "battle raccoon helmet please deliver keep kiss round orphan frame update message"
-      NETWORK_NAME: "Mumbai"
-      CHAIN_ID: 80001
-      RPC_URL: "https://rpc.ankr.com/polygon_mumbai"
-      SYMBOL: "MATIC"
-      IS_TESTNET: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Get Yarn cache directory
-        id: yarn-cache-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - name: Yarn cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+          node-version: latest
+          cache: "yarn"
       - name: Install dependencies
-        run: yarn install --prefer-offline --frozen-lockfile
-      - name: Lint
+        run: yarn install --immutable --prefer-offline
+      - name: Run linter
         run: yarn lint
-      - name: Test
+  unit-test:
+    name: Unit test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable --prefer-offline
+      - name: Run tests
         run: yarn test
-      - name: Build
-        run: yarn build
-      - name: Test e2e
-        run: yarn test:e2e
-      - name: Size check
+  size-limit:
+    name: Size limit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable --prefer-offline
+      - name: Check size limit
         run: yarn size-limit
+  e2e-test:
+    name: Test e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        id: setup-buildx
+      - name: Build testable host frontend image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          load: true
+          tags: carrot-kpi/e2e-testable-frontend
+          builder: ${{ steps.setup-buildx.outputs.name }}
+          file: ./Dockerfile.e2e
+          context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Run e2e tests
+        run: docker compose -f docker-compose.e2e.yaml up --exit-code-from synpress
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
