@@ -158,7 +158,7 @@ broadcast
 *.tgz
 .env*
 !.env.example
-!packages/frontend/.env.e2e
+!.env.e2e
 cache
 
 tests/.latest.json
