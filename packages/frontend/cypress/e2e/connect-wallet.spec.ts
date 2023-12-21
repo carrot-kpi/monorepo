@@ -14,6 +14,5 @@ describe("Connect with Metamask", () => {
         cy.get('[data-testid="profile-avatar-button"]')
             .eq(1)
             .should("be.visible");
-        cy.pause();
     });
 });

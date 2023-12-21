@@ -24,7 +24,7 @@ module.exports = defineConfig({
         testIsolation: false,
         setupNodeEvents,
         baseUrl: "http://127.0.0.1:3000",
-        specPattern: "cypress/e2e/**/*.{ts,tsx}",
+        specPattern: "cypress/e2e/**/*.spec.{ts,tsx}",
         supportFile: "cypress/support.ts",
     },
 });
