@@ -92,9 +92,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Run e2e tests
-        run: |
-          docker compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
-        env:
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          DOCKER_BUILDKIT: 1
-          DOCKER_DEFAULT_PLATFORM: linux/amd64
+        uses: cypress-io/github-action@v6
+        with:
+          working-dir: ./packages/frontend
+          command: yarn test:e2e:ci
+        # run: |
+        #   docker compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
+        # env:
+        #   COMPOSE_DOCKER_CLI_BUILD: 1
+        #   DOCKER_BUILDKIT: 1
+        #   DOCKER_DEFAULT_PLATFORM: linux/amd64
