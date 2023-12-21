@@ -8,9 +8,6 @@ services:
       - display
     entrypoint: []
     working_dir: /app
-    volumes:
-      - ./docker/videos:/app/public-report/screenshots
-      - ./docker/screenshots:/app/public-report/videos
     environment:
       - DISPLAY=display:0.0
       - SYNDEBUG=true
