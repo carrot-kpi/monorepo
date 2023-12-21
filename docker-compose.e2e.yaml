@@ -7,7 +7,6 @@ services:
       context: .
     depends_on:
       - display
-      - video
     entrypoint: []
     working_dir: /app
     volumes:
@@ -23,7 +22,6 @@ services:
       bash -c 'yarn wait-on http://display:8080 && yarn test:e2e'
     networks:
       - x11
-
   display:
     container_name: display
     image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
@@ -35,18 +33,5 @@ services:
       - "8080:8080"
     networks:
       - x11
-
-  video:
-    container_name: video
-    image: synthetixio/video:b2643097e891906524e52e7ee956260b20fa01fb-base
-    volumes:
-      - ./docker/videos-ci:/videos
-    environment:
-      - FILE_NAME=CI-full-video.mp4
-    depends_on:
-      - display
-    networks:
-      - x11
-
 networks:
   x11:
