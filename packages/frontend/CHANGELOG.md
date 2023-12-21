@@ -1,5 +1,13 @@
 # @carrot-kpi/host-frontend
 
+## 0.33.5
+
+### Patch Changes
+
+- e830bfe: Increase wait time for the multicall batch to 100ms
+- Updated dependencies [e830bfe]
+  - @carrot-kpi/react@0.72.0
+
 ## 0.33.4
 
 ### Patch Changes

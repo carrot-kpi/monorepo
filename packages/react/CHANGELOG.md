@@ -1,5 +1,11 @@
 # @carrot-kpi/react
 
+## 0.72.0
+
+### Minor Changes
+
+- e830bfe: Add new useWagmiPassiveHook to use with wagmi hooks in watch mode
+
 ## 0.71.2
 
 ### Patch Changes
