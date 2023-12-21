@@ -40,7 +40,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
             },
         }),
     ],
-    { stallTimeout: 60_000 },
+    { stallTimeout: 60_000, batch: { multicall: { wait: 100 } } },
 );
 
 const connectors: Connector[] = [
