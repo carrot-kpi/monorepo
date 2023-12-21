@@ -200,5 +200,5 @@ from the root of the monorepo ensures the latest monorepo linked packages are
 used).
 
 ```
-yarn test:e2e:ci
+yarn test:e2e
 ```

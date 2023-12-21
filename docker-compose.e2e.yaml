@@ -19,7 +19,7 @@ services:
       - CYPRESS_DOCKER_RUN=true
       - SKIP_METAMASK_SETUP=true
     command: >
-      bash -c 'yarn wait-on http://display:8080 && yarn test:e2e:ci'
+      bash -c 'yarn wait-on http://display:8080 && yarn test:e2e'
     networks:
       - x11
 

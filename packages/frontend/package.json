@@ -36,9 +36,7 @@
         "start:staging": "yarn prepare-fathom && STAGING=true craco start",
         "start": "craco start",
         "synpress:run": "env-cmd -f .env.e2e synpress run --browser chrome --configFile synpress.config.js",
-        "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run'",
-        "synpress:run:ci": "env-cmd -f .env.e2e synpress run --browser chrome --configFile synpress.config.js",
-        "test:e2e:ci": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run:ci'"
+        "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run'"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",
