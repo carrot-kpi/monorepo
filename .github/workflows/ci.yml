@@ -77,8 +77,7 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Run e2e tests
-        run: |
-          docker compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
+        run: docker compose -f docker-compose.e2e.yaml up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
