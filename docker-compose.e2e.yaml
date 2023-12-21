@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  synpress:
+    container_name: synpress
+    # this image is built by the ci workflow
+    image: carrot-kpi/e2e-testable-frontend
+    depends_on:
+      - display
+    entrypoint: []
+    working_dir: /app
+    environment:
+      - DISPLAY=display:0.0
+      - SYNDEBUG=true
+      - CYPRESS_DOCKER_RUN=true
+      - TURBO_TOKEN=${TURBO_TOKEN}
+      - TURBO_TEAM=${TURBO_TEAM}
+    networks:
+      - x11
+  display:
+    container_name: display
+    image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
+    environment:
+      - RUN_XTERM=no
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+    ports:
+      - "8080:8080"
+    networks:
+      - x11
+networks:
+  x11:
