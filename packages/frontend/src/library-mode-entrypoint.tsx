@@ -48,7 +48,7 @@ export const Root = ({
     const { publicClient, webSocketPublicClient } = configureChains(
         supportedChains,
         providers,
-        { stallTimeout: 60_000 },
+        { stallTimeout: 60_000, batch: { multicall: { wait: 100 } } },
     );
     const config = createConfig({
         autoConnect: true,

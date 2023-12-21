@@ -41,6 +41,7 @@ export default [
             "src/hooks/useTemplateModule.ts",
             "src/hooks/useTheme.ts",
             "src/hooks/useTokenLists.ts",
+            "src/hooks/useWagmiPassiveHook.ts",
             "src/types/templates.ts",
             "src/types/transactions.ts",
             "src/i18n.ts",

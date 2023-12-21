@@ -34,6 +34,7 @@ export * from "./hooks/useStagingMode";
 export * from "./hooks/useTemplateModule";
 export * from "./hooks/useTheme";
 export * from "./hooks/useTokenLists";
+export * from "./hooks/useWagmiPassiveHook";
 
 export * from "./types/templates";
 export * from "./types/transactions";
