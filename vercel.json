@@ -1,0 +1,7 @@
+{
+    "git": {
+        "deploymentEnabled": {
+            "feat/e2e-on-ci": false
+        }
+    }
+}
