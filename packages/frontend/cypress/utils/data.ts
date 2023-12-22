@@ -41,10 +41,11 @@ export const textData = {
     welcomeToCarrot: "Welcome to Carrot",
     authenticateDescription:
         "In order to create campaigns it's necessary to sign a message. This request will not trigger a blockchain transaction or cost you any fees.",
+    allCampaignsTitle: "All Campaigns",
 };
 export const campaignData = {
-    firstCampaign: "TS01 NOV13",
-    title: "Automatino Test Campaign",
+    randomCampaignTitle: "",
+    title: "Automation Test Campaign",
     description: faker.lorem.words(10),
     tag: "Automation",
     expiryDate: "",

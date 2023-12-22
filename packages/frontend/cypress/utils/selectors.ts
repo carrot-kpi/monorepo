@@ -9,61 +9,65 @@ export const header = {
 };
 export const networkMenu = {
     networkDropdown_Button: "[data-testid=network-drop-down-button]",
-    selectedPolygonMumbain_Text: "[data-testid=Polygon Mumbai-button]",
-    selectedScrollSepoliaNetwork_Text: "[data-testid=Scroll Sepolia-button]",
+    selectedPolygonMumbain_Text: "[data-testid='Polygon Mumbai-button']",
+    selectedScrollSepoliaNetwork_Text: "[data-testid='Scroll Sepolia-button']",
     selectedSepoliaNetwork_Text: "[data-testid=Sepolia-button]",
-    polygonMumbaiNetwork_Text: "[data-testid=Polygon Mumbai-network-button]",
-    scrollSepoliaNetwork_Text: "[data-testid=Scroll Sepolia-network-button]",
-    sepoliaNetwork_Text: "[data-testid=Sepolia-network-button]",
+    polygonMumbaiNetwork_Option:
+        "[data-testid='Polygon Mumbai-network-button']",
+    scrollSepoliaNetwork_Option:
+        "[data-testid='Scroll Sepolia-network-button']",
+    sepoliaNetwork_Option: "[data-testid=Sepolia-network-button]",
 };
 export const walletMenu = {
-    connectWalletButton: "[data-testid=connect-wallet-button]",
+    connectWallet_Button: "[data-testid=connect-wallet-button]",
     injectedMetamask_Button: "[data-testid=injected-wallet-button]",
     metamask_Button: "[data-testid=metaMask-wallet-button]",
     coinBase_Button: "[data-testid=coinbaseWallet-wallet-button]",
 };
 export const settings = {
-    settings_Button: "settings-button",
-    interfaceSettingsTitle_Text: "interface-settings-title",
-    darkTheme_Text: "theme-name-text",
-    decentralizationMode_Text: "decentralization-mode-text",
-    decentralizationMode_Switch: "decentralization-mode-switch",
-    stagingMode_Text: "staging-mode-text",
-    stagingMode_Switch: "staging-mode-switch",
+    settings_Button: "[data-testid=settings-button]",
+    interfaceSettingsTitle_Text: "[data-testid=interface-settings-title]",
+    darkTheme_Text: "[data-testid=theme-name-text]",
+    decentralizationMode_Text: "[data-testid=decentralization-mode-text]",
+    decentralizationMode_Switch: "[data-testid=decentralization-mode-switch]",
+    stagingMode_Text: "[data-testid=staging-mode-text]",
+    stagingMode_Switch: "[data-testid=staging-mode-switch]",
 };
 export const heroSection = {
-    heroTitle_Text: "hero-section-title-text",
-    heroDescription_Text: "hero-section-description-text",
-    howItWorks_Button: "how-it-works-button",
-    howItWorksVideo_Preview: "video-preview-overlay",
-    createCampaign_Button: "create-campaign-button",
+    heroTitle_Text: "[data-testid=hero-section-title-text]",
+    heroDescription_Text: "[data-testid=hero-section-description-text]",
+    howItWorks_Button: "[data-testid=how-it-works-button]",
+    howItWorksVideo_Preview: "[data-testid=video-preview-overlay]",
+    createCampaign_Button: "[data-testid=create-campaign-button]",
 };
 export const campaignsSection = {
-    latestCampaign_Text: "latest-campaigns-title-text",
-    viewCampaign_Button: "view-campaign-button",
-    viewAllCampaigns_Button: "view-all-campaigns-button",
-    firstCampaignTitle_Text: "TS01 NOV13-campaign-title",
-    emptySpace_Text: "empty-title-text",
-    noDataFound_Text: "empty-no-data-found-text",
+    latestCampaign_Text: "[data-testid=latest-campaigns-title-text]",
+    viewCampaign_Button: "[data-testid=view-campaign-button]",
+    viewAllCampaigns_Button: "[data-testid=view-all-campaigns-button]",
+    firstCampaignTitle_Text: "[data-testid='TS01 NOV13-campaign-title']",
+    emptySpace_Text: "[data-testid=empty-title-text]",
+    noDataFound_Text: "[data-testid=empty-no-data-found-text]",
 };
 export const templatesSection = {
-    templates_Text: "templates-title-text",
-    templateErc20KPIToken_Text: "ERC20 KPI token-template-title",
-    useTemplate_Button: "use-template-button",
+    templates_Text: "[data-testid=templates-title-text]",
+    templateErc20KPIToken_Text:
+        "[data-testid='ERC20 KPI token-template-title']",
+    useTemplate_Button: "[data-testid=use-template-button]",
 };
 export const footer = {
-    footerAbout_Text: "footer-About-text",
-    footerCommunity_Text: "footer-Community-text",
-    footerDocumentation_Link: "footer-Documentation-button",
-    footerAudits_Link: "footer-Audits-button",
-    footerDiscord_Link: "footer-Discord-button",
-    footerTwitter_Link: "footer-Twitter-button",
-    footerCarrotInfoPage_Button: "footer-carrot-info-page-button",
+    footerAbout_Text: "[data-testid=footer-About-text]",
+    footerCommunity_Text: "[data-testid=footer-Community-text]",
+    footerDocumentation_Link: "[data-testid=footer-Documentation-button]",
+    footerAudits_Link: "[data-testid=footer-Audits-button]",
+    footerDiscord_Link: "[data-testid=footer-Discord-button]",
+    footerTwitter_Link: "[data-testid=footer-Twitter-button]",
+    footerCarrotInfoPage_Button: "[data-testid=footer-carrot-info-page-button]",
 };
 export const allCampaigns = {
-    allCampaignsTitle_Text: "all-campaigns-title-text",
+    allCampaignsTitle_Text: "[data-testid=all-campaigns-title-text]",
 };
-export const createCampaign = {
-    walletDisconnected_Text: "wallet-disconnected-text",
-    walletRequiredDescription_Text: "connect-wallet-required-text",
+export const disconnectedWallet = {
+    walletDisconnected_Text: "[data-testid=wallet-disconnected-text]",
+    walletRequiredDescription_Text:
+        "[data-testid=connect-wallet-required-text]",
 };
