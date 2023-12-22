@@ -1,4 +1,4 @@
-import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, log, store } from "@graphprotocol/graph-ts";
 import {
     Initialize as InitializeEvent,
     AddTemplate as AddTemplateEvent,
@@ -6,10 +6,17 @@ import {
     RemoveTemplate as RemoveTemplateEvent,
     UpdateTemplateSpecification as UpdateTemplateSpecificationEvent,
     UpgradeTemplate as UpgradeTemplateEvent,
+    SetFeatureSetOwner as SetFeatureSetOwnerEvent,
+    EnableFeatureFor as EnableFeatureForEvent,
+    DisableFeatureFor as DisableFeatureForEvent,
+    PauseFeature as PauseFeatureEvent,
+    UnpauseFeature as UnpauseFeatureEvent,
 } from "../generated/OraclesManager/OraclesManager";
 import {
     OraclesManager,
     OracleTemplate,
+    OracleTemplateFeature,
+    OracleTemplateFeatureAllowedAccount,
     OracleTemplateSet,
 } from "../generated/schema";
 import {
@@ -18,6 +25,7 @@ import {
     BI_1,
     bytesToAddress,
     cidToSpecificationURI,
+    featureId,
     getOraclesManagerAddress,
     i32ToBytes,
     templateId,
@@ -74,6 +82,33 @@ export function getTemplate(
     version: BigInt,
 ): OracleTemplate | null {
     return OracleTemplate.load(templateId(id, version));
+}
+
+function getTemplateFeature(
+    templateId: BigInt,
+    onChainFeatureId: BigInt,
+): OracleTemplateFeature {
+    const id = featureId(getOraclesManager().id, templateId, onChainFeatureId);
+    let feature = OracleTemplateFeature.load(id);
+    if (feature == null) {
+        feature = new OracleTemplateFeature(id);
+        feature.featureId = onChainFeatureId;
+        feature.paused = false;
+
+        const oracleManager = getOraclesManager();
+        const templateSet = getTemplateSet(
+            bytesToAddress(oracleManager.id),
+            templateId,
+        );
+        if (templateSet === null)
+            throw new Error(
+                "could not find template set for id " + templateId.toHex(),
+            );
+
+        feature.templateSet = templateSet.id;
+        feature.save();
+    }
+    return feature;
 }
 
 export function getOraclesManager(): OraclesManager {
@@ -182,4 +217,91 @@ export function handleUpgradeTemplate(event: UpgradeTemplateEvent): void {
         return;
     }
     newTemplate.save();
+}
+
+export function handleSetFeatureSetOwner(event: SetFeatureSetOwnerEvent): void {
+    const oraclesManager = getOraclesManager();
+    const templateSet = getTemplateSet(
+        bytesToAddress(oraclesManager.id),
+        event.params.templateId,
+    );
+    templateSet.featuresOwner = event.params.owner;
+    templateSet.save();
+}
+
+export function handleEnableFeatureFor(event: EnableFeatureForEvent): void {
+    const feature = getTemplateFeature(
+        event.params.templateId,
+        event.params.featureId,
+    );
+
+    const allowedFeatureAccountId = feature.id.concat(
+        addressToBytes(event.params.account),
+    );
+    let allowed = OracleTemplateFeatureAllowedAccount.load(
+        allowedFeatureAccountId,
+    );
+    if (allowed !== null) {
+        log.warning(
+            "tried to double enable feature with id {} on template with id {} for user {}",
+            [
+                event.params.featureId.toString(),
+                templateId.toString(),
+                event.params.account.toString(),
+            ],
+        );
+        return;
+    }
+
+    allowed = new OracleTemplateFeatureAllowedAccount(allowedFeatureAccountId);
+    allowed.feature = feature.id;
+    allowed.address = addressToBytes(event.params.account);
+    allowed.save();
+}
+
+export function handleDisableFeatureFor(event: DisableFeatureForEvent): void {
+    const feature = getTemplateFeature(
+        event.params.templateId,
+        event.params.featureId,
+    );
+    const allowedFeatureAccountId = feature.id.concat(
+        addressToBytes(event.params.account),
+    );
+    if (
+        OracleTemplateFeatureAllowedAccount.load(allowedFeatureAccountId) ===
+        null
+    ) {
+        log.warning(
+            "tried to disable feature with id {} on template with id {} for user {} that did not have the feature enabled in the first place",
+            [
+                event.params.featureId.toString(),
+                templateId.toString(),
+                event.params.account.toString(),
+            ],
+        );
+        return;
+    }
+
+    store.remove(
+        "OracleTemplateFeatureAllowedAccount",
+        allowedFeatureAccountId.toString(),
+    );
+}
+
+export function handlePauseFeature(event: PauseFeatureEvent): void {
+    const feature = getTemplateFeature(
+        event.params.templateId,
+        event.params.featureId,
+    );
+    feature.paused = true;
+    feature.save();
+}
+
+export function handleUnpauseFeature(event: UnpauseFeatureEvent): void {
+    const feature = getTemplateFeature(
+        event.params.templateId,
+        event.params.featureId,
+    );
+    feature.paused = false;
+    feature.save();
 }

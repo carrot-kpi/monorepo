@@ -70,6 +70,16 @@ dataSources:
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
+        - event: SetFeatureSetOwner(uint256,address)
+          handler: handleSetFeatureSetOwner
+        - event: EnableFeatureFor(uint256,uint256,address)
+          handler: handleEnableFeatureFor
+        - event: DisableFeatureFor(uint256,uint256,address)
+          handler: handleDisableFeatureFor
+        - event: PauseFeature(uint256,uint256)
+          handler: handlePauseFeature
+        - event: UnpauseFeature(uint256,uint256)
+          handler: handleUnpauseFeature
       file: ./src/kpi-tokens-manager.ts
   - kind: ethereum/contract
     name: OraclesManager
@@ -101,6 +111,16 @@ dataSources:
           handler: handleUpdateTemplateSpecification
         - event: UpgradeTemplate(indexed uint256,indexed address,uint256,string)
           handler: handleUpgradeTemplate
+        - event: SetFeatureSetOwner(uint256,address)
+          handler: handleSetFeatureSetOwner
+        - event: EnableFeatureFor(uint256,uint256,address)
+          handler: handleEnableFeatureFor
+        - event: DisableFeatureFor(uint256,uint256,address)
+          handler: handleDisableFeatureFor
+        - event: PauseFeature(uint256,uint256)
+          handler: handlePauseFeature
+        - event: UnpauseFeature(uint256,uint256)
+          handler: handleUnpauseFeature
       file: ./src/oracles-manager.ts
 templates:
   - kind: ethereum/contract
