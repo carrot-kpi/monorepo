@@ -1,5 +1,6 @@
 import { homePage } from "cypress/pages/home_page";
-import { networks } from "cypress/utils/data";
+import { createCampaign } from "cypress/pages/create_campaign_page";
+import { networks, wallets } from "cypress/utils/data";
 /**
  *@description Smoke test for Carrot Home page
  */
@@ -44,8 +45,9 @@ describe("Guest no wallet - Home page assertions", () => {
         homePage.checkTextOnHomePage();
     });
     it("Create campaign button redirects to Create campaign page - Wallet disconnected modal is displayed", () => {
-        homePage.checkCreateCampaignButtonRedirection();
-        homePage.checkWalletDisconnectedText();
+        homePage.clickCreateCampaign();
+        createCampaign.checkCreateCampaignUrl();
+        createCampaign.checkWalletDisconnectedText();
         homePage.goBack();
     });
     it("Check How it works video", () => {
@@ -65,11 +67,44 @@ describe("Guest no wallet - Home page assertions", () => {
     });
     it("Use template button redirects to Create campaign page for that template - Wallet disconnected modal is displayed", () => {
         homePage.checkRedirectionToFirstTemplate();
-        homePage.checkWalletDisconnectedText();
+        createCampaign.checkWalletDisconnectedText();
         homePage.goBack();
     });
     // todo: find out how to handle redirection to new tab in Cypress
     // it("Check Footer links redirection", () => {
     //     homePage.checkFooterRedirections();
     // });
+});
+
+describe("User with connected wallet", () => {
+    beforeEach(() => {
+        cy.visit("/");
+    });
+    it("Connect wallet to Metamask", () => {
+        homePage.selectWalletConnection(wallets.metamask);
+        cy.acceptMetamaskAccess().then((connected) => {
+            expect(connected).to.be.true;
+        });
+        homePage.profileAvatarVisible(true);
+        homePage.connectWalletButtonVisible(false);
+    });
+    it("Check no recent activity on Profile Avatar dropdown", () => {
+        homePage.checkProfileWithoutRecentActivity();
+    });
+    it("Create campaign button redirects to Create campaign page - Welcome to Carrot modal is displayed", () => {
+        homePage.clickCreateCampaign();
+        createCampaign.checkCreateCampaignUrl();
+        // todo: add assertion of Welcome to Carrot modal once we have selectors
+        homePage.goBack();
+    });
+    it("Use template button redirects to Create campaign page for that template - Welcome to Carrot modal is displayed", () => {
+        homePage.checkRedirectionToFirstTemplate();
+        // todo: add assertion of Welcome to Carrot modal once we have selectors
+        homePage.goBack();
+    });
+    it("Logout user", () => {
+        homePage.logout();
+        homePage.profileAvatarVisible(false);
+        homePage.connectWalletButtonVisible(true);
+    });
 });

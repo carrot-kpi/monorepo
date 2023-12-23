@@ -23,14 +23,13 @@ export class BasePage {
             });
         }
     }
-    isVisible(element: string, index?: number) {
+    elementIsVisible(element: string, index?: number) {
         index !== undefined
             ? cy.get(element).eq(index).should("be.visible")
             : cy.get(element).should("be.visible");
     }
-    isNotVisible(element: string, index?: number) {
-        index != undefined
-            ? cy.get(element).eq(index).should("not.be.visible")
-            : cy.get(element).should("not.be.visible");
+    // element not visible in DOM
+    elementNotExist(element: string) {
+        cy.get(element).should("not.exist");
     }
 }

@@ -6,6 +6,7 @@ export const header = {
     about_Button: "[data-testid=header-About-button]",
     campaignsHeader_Button: "[data-testid=header-Campaigns-button]",
     profileAvatar_Button: "[data-testid=profile-avatar-button]",
+    power_Button: "[data-testid=account-dropdown-power-button]",
 };
 export const networkMenu = {
     networkDropdown_Button: "[data-testid=network-drop-down-button]",
@@ -45,6 +46,8 @@ export const campaignsSection = {
     viewCampaign_Button: "[data-testid=view-campaign-button]",
     viewAllCampaigns_Button: "[data-testid=view-all-campaigns-button]",
     firstCampaignTitle_Text: "[data-testid='TS01 NOV13-campaign-title']",
+};
+export const noData = {
     emptySpace_Text: "[data-testid=empty-title-text]",
     noDataFound_Text: "[data-testid=empty-no-data-found-text]",
 };

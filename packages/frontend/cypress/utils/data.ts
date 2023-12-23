@@ -42,6 +42,8 @@ export const textData = {
     authenticateDescription:
         "In order to create campaigns it's necessary to sign a message. This request will not trigger a blockchain transaction or cost you any fees.",
     allCampaignsTitle: "All Campaigns",
+    emptySpace: "Empty space",
+    noDataFound: "No data found. Please try again later.",
 };
 export const campaignData = {
     randomCampaignTitle: "",

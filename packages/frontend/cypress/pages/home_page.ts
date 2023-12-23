@@ -28,16 +28,32 @@ export class HomePage extends BasePage {
     clickSettings() {
         this.click(selectors.settings.settings_Button);
     }
-    clickCreateCampaign() {
-        this.click(selectors.heroSection.createCampaign_Button);
-    }
     clickHowItWorks() {
         this.click(selectors.heroSection.howItWorks_Button);
     }
     clickViewAllCampaigns() {
         this.click(selectors.campaignsSection.viewAllCampaigns_Button);
     }
+    clickCreateCampaign() {
+        this.click(selectors.heroSection.createCampaign_Button);
+    }
+    clickProfileAvatar() {
+        this.click(selectors.header.profileAvatar_Button, 1);
+    }
+    clickPowerButton() {
+        this.click(selectors.header.power_Button, 1);
+    }
     //---Assertions
+    connectWalletButtonVisible(visible: boolean) {
+        visible
+            ? this.elementIsVisible(selectors.walletMenu.connectWallet_Button)
+            : this.elementNotExist(selectors.walletMenu.connectWallet_Button);
+    }
+    profileAvatarVisible(visible: boolean) {
+        visible
+            ? this.elementIsVisible(selectors.header.profileAvatar_Button, 1)
+            : this.elementNotExist(selectors.header.profileAvatar_Button);
+    }
     checkStagingBanner() {
         this.compareText(
             selectors.header.stagingBanner_Text,
@@ -171,35 +187,16 @@ export class HomePage extends BasePage {
             textData.footerCommunity,
         );
     }
-    // todo: this method should be on create campaign page
-    checkCreateCampaignButtonRedirection() {
-        this.clickCreateCampaign();
-        this.checkUrl(urls.createCampaign);
-    }
-    // todo: this method should be on create campaign page
-    checkWalletDisconnectedText() {
-        this.compareText(
-            selectors.disconnectedWallet.walletDisconnected_Text,
-            textData.walletDisconnected,
-        );
-        this.compareText(
-            selectors.disconnectedWallet.walletRequiredDescription_Text,
-            textData.walletRequiredDescription,
-        );
-    }
     checkHowItWorksPreview() {
         this.clickHowItWorks();
-        this.isVisible(selectors.heroSection.howItWorksVideo_Preview);
+        this.elementIsVisible(selectors.heroSection.howItWorksVideo_Preview);
     }
     checkActiveCampaign() {
-        // todo: find out how to return all elements; atm returning 1 selector; there are 5 on front-end with same partial id
+        // todo: find out how to return all elements; ATM returning 1 selector; there are 5 on front-end with same partial id
         cy.get("[data-testid*='campaign-title']").then(($el) => {
             // Check if there's at least one element
             if ($el.length > 0) {
-                cy.log("NUMBER OF SELECTORS: " + $el.length);
-                cy.wait(10000);
                 const randomIndex = Math.floor(Math.random() * $el.length);
-                // const randomElement = $el[randomIndex];
 
                 cy.wrap($el.eq(randomIndex))
                     .invoke("text")
@@ -210,11 +207,6 @@ export class HomePage extends BasePage {
                                 ? textFromElement
                                 : "";
                         // Check redirection to selected campaign page
-                        cy.log("THIS IS INDEX: " + randomIndex);
-                        cy.log(
-                            "THIS IS RANDOM CAMPAIGN TITLE: " +
-                                campaignData.title,
-                        );
                         this.click(
                             selectors.campaignsSection.viewCampaign_Button,
                             randomIndex,
@@ -257,6 +249,37 @@ export class HomePage extends BasePage {
             this.click(footerLinks[i]);
             this.checkUrl(footerUrls[i]);
         }
+    }
+    selectWalletConnection(wallet: string) {
+        this.clickConnectWallet();
+        switch (wallet) {
+            case wallets.injectedMetamask:
+                this.click(selectors.walletMenu.injectedMetamask_Button, 1);
+                break;
+            case wallets.metamask:
+                this.click(selectors.walletMenu.metamask_Button, 1);
+                break;
+            case wallets.coinBase:
+                this.click(selectors.walletMenu.coinBase_Button, 1);
+                break;
+        }
+    }
+    checkProfileWithoutRecentActivity() {
+        this.clickProfileAvatar();
+        this.compareText(
+            selectors.noData.emptySpace_Text,
+            textData.emptySpace,
+            1,
+        );
+        this.compareText(
+            selectors.noData.noDataFound_Text,
+            textData.noDataFound,
+            1,
+        );
+    }
+    logout() {
+        this.clickProfileAvatar();
+        this.clickPowerButton();
     }
 }
 const homePage = new HomePage();
