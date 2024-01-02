@@ -40,7 +40,6 @@ function cidToSpecification(cid: string): Bytes {
 }
 
 function createTemplate(
-    managerAddress: Address,
     id: BigInt,
     version: BigInt,
     address: Address,
@@ -55,15 +54,14 @@ function createTemplate(
     template.version = version;
     template.specificationCid = specificationCid;
     template.specification = cidToSpecification(specificationCid);
-    template.templateSet = getTemplateSet(managerAddress, id).id;
+    template.templateSet = getTemplateSet(id).id;
 
     return template;
 }
 
-function getTemplateSet(
-    managerAddress: Address,
-    managerId: BigInt,
-): OracleTemplateSet {
+function getTemplateSet(managerId: BigInt): OracleTemplateSet {
+    const oraclesManager = getOraclesManager();
+    const managerAddress = bytesToAddress(oraclesManager.id);
     const id = addressToBytes(managerAddress).concat(
         i32ToBytes(managerId.toI32()),
     );
@@ -73,6 +71,7 @@ function getTemplateSet(
         templateSet.manager = addressToBytes(managerAddress);
         templateSet.managerId = managerId;
         templateSet.active = true;
+        templateSet.featuresOwner = oraclesManager.owner;
         templateSet.save();
     }
     return templateSet;
@@ -96,11 +95,7 @@ function getTemplateFeature(
         feature.featureId = onChainFeatureId;
         feature.paused = false;
 
-        const oracleManager = getOraclesManager();
-        const templateSet = getTemplateSet(
-            bytesToAddress(oracleManager.id),
-            templateId,
-        );
+        const templateSet = getTemplateSet(templateId);
         if (templateSet === null)
             throw new Error(
                 "could not find template set for id " + templateId.toHex(),
@@ -140,7 +135,6 @@ export function handleInitialize(event: InitializeEvent): void {
 
 export function handleAddTemplate(event: AddTemplateEvent): void {
     const template = createTemplate(
-        event.address,
         event.params.id,
         BI_1,
         event.params.template,
@@ -168,10 +162,7 @@ export function handleOwnershipTransferred(
 }
 
 export function handleRemoveTemplate(event: RemoveTemplateEvent): void {
-    const templateSet = getTemplateSet(
-        bytesToAddress(event.address),
-        event.params.id,
-    );
+    const templateSet = getTemplateSet(event.params.id);
     if (templateSet === null) {
         log.error("could not find removed template set with id {}", [
             event.params.id.toString(),
@@ -204,7 +195,6 @@ export function handleUpdateTemplateSpecification(
 
 export function handleUpgradeTemplate(event: UpgradeTemplateEvent): void {
     const newTemplate = createTemplate(
-        event.address,
         event.params.id,
         event.params.newVersion,
         event.params.newTemplate,
@@ -221,11 +211,7 @@ export function handleUpgradeTemplate(event: UpgradeTemplateEvent): void {
 }
 
 export function handleSetFeatureSetOwner(event: SetFeatureSetOwnerEvent): void {
-    const oraclesManager = getOraclesManager();
-    const templateSet = getTemplateSet(
-        bytesToAddress(oraclesManager.id),
-        event.params.templateId,
-    );
+    const templateSet = getTemplateSet(event.params.templateId);
     templateSet.featuresOwner = event.params.owner;
     templateSet.save();
 }
