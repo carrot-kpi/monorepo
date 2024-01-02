@@ -1,4 +1,4 @@
-import { BasePage } from "./base_page";
+import { BasePage } from "./base-page";
 import * as selectors from "../utils/selectors";
 import { urls, textData } from "cypress/utils/data";
 /**
