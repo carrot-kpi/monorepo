@@ -148,7 +148,7 @@ export const ManageLists = ({
             >
                 <div className="cui-flex cui-items-center cui-gap-3">
                     <ChevronLeft
-                        data-testId={dataTestIds?.chevronLeftIcon}
+                        data-testid={dataTestIds?.chevronLeftIcon}
                         className={iconStyles({
                             className: className?.backIcon,
                         })}
@@ -159,7 +159,7 @@ export const ManageLists = ({
                     </Typography>
                 </div>
                 <X
-                    data-testId={dataTestIds?.closeIcon}
+                    data-testid={dataTestIds?.closeIcon}
                     className={iconStyles({ className: className?.closeIcon })}
                     onClick={onDismiss}
                 />
@@ -190,7 +190,7 @@ export const ManageLists = ({
                                     version === selectedList.version;
                                 return (
                                     <li
-                                        data-testId={
+                                        data-testid={
                                             dataTestIds?.option &&
                                             `${dataTestIds.option}-${name}`
                                         }

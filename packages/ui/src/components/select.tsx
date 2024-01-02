@@ -303,7 +303,7 @@ function OptionRow<T extends SelectOption<ValueType>>({
 
     return (
         <div
-            data-testId={
+            data-testid={
                 dataTestIds?.option && `${dataTestIds.option}-${item.value}`
             }
             style={style}

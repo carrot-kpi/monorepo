@@ -263,7 +263,7 @@ class Fetcher implements IPartialCarrotFetcher {
                       await publicClient.readContract({
                           abi: ORACLES_MANAGER_ABI,
                           address: chainAddresses.oraclesManager,
-                          functionName: "enumerate",
+                          functionName: "enumerateTemplates",
                           args: [0n, oracleAmounts],
                       })
                   ).map((oracle) => oracle.addrezz);
@@ -335,7 +335,7 @@ class Fetcher implements IPartialCarrotFetcher {
             rawTemplates = await publicClient.readContract({
                 abi: KPI_TOKENS_MANAGER_ABI,
                 address: managerAddress,
-                functionName: "enumerate",
+                functionName: "enumerateTemplates",
                 args: [0n, templatesAmount],
             });
         }
