@@ -140,7 +140,7 @@ export const DatePicker = ({
         <div className="cui-h-56 cui-w-52 cui-flex cui-flex-col cui-justify-between">
             <div className="cui-flex cui-items-center">
                 <ChevronLeft
-                    data-testId={dataTestIds?.chrevronLeftIcon}
+                    data-testid={dataTestIds?.chrevronLeftIcon}
                     className={iconStyles()}
                     onClick={handlePreviousMonth}
                 />
@@ -148,7 +148,7 @@ export const DatePicker = ({
                     {lookupDate.format("MMMM YYYY")}
                 </Typography>
                 <ChevronRight
-                    data-testId={dataTestIds?.chrevronRightIcon}
+                    data-testid={dataTestIds?.chrevronRightIcon}
                     className={iconStyles()}
                     onClick={handleNextMonth}
                 />
@@ -184,7 +184,7 @@ export const DatePicker = ({
                         value?.getDate() === cell.value.date();
                     return (
                         <Typography
-                            data-testId={dataTestIds?.cell}
+                            data-testid={dataTestIds?.cell}
                             onClick={disabled ? undefined : handleCellClick}
                             key={index}
                             data-index={index}

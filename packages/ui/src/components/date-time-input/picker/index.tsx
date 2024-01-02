@@ -207,7 +207,7 @@ export const DateTimePicker = ({
                             }
                             return (
                                 <Typography
-                                    data-testId={dataTestIds?.hourCell}
+                                    data-testid={dataTestIds?.hourCell}
                                     variant="sm"
                                     key={hour}
                                     className={{
@@ -243,7 +243,7 @@ export const DateTimePicker = ({
                             }
                             return (
                                 <Typography
-                                    data-testId={dataTestIds?.minuteCell}
+                                    data-testid={dataTestIds?.minuteCell}
                                     variant="sm"
                                     key={minute}
                                     className={{
@@ -279,7 +279,7 @@ export const DateTimePicker = ({
                             }
                             return (
                                 <Typography
-                                    data-testId={dataTestIds?.secondCell}
+                                    data-testid={dataTestIds?.secondCell}
                                     variant="sm"
                                     key={second}
                                     className={{

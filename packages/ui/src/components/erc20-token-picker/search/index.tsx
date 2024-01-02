@@ -142,7 +142,7 @@ export const Search = ({
                 })}
             >
                 <TextInput
-                    data-testId={dataTestIds?.textInput}
+                    data-testid={dataTestIds?.textInput}
                     id="token-search"
                     disabled={loading}
                     placeholder={messages.inputPlaceholder}
@@ -186,7 +186,7 @@ export const Search = ({
                                             tokens[index];
                                         return (
                                             <Row
-                                                data-testId={
+                                                data-testid={
                                                     dataTestIds?.option &&
                                                     `${dataTestIds.option}-${token.symbol}`
                                                 }
@@ -220,7 +220,7 @@ export const Search = ({
                     <Divider className={className?.divider} />
                     <div className="cui-p-3">
                         <Button
-                            data-testId={dataTestIds?.manageListButton}
+                            data-testid={dataTestIds?.manageListButton}
                             loading={loading}
                             className={{
                                 ...className?.manageListsButton,

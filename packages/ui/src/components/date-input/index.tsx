@@ -96,7 +96,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         return (
             <>
                 <TextInput
-                    data-testId={dataTestIds?.textInput}
+                    data-testid={dataTestIds?.textInput}
                     ref={(element) => {
                         if (ref) {
                             if (typeof ref === "function") ref(element);
