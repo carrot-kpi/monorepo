@@ -49,7 +49,7 @@ const Tag = ({
                 {text}
             </Typography>
             <Remove
-                data-testId={dataTestIds?.removeButton}
+                data-testid={dataTestIds?.removeButton}
                 className={iconStyles({ className: className?.removeIcon })}
                 onClick={handleRemove}
             />
@@ -143,14 +143,14 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(
         return (
             <div className={className?.root}>
                 <TextInput
-                    data-testId={dataTestIds?.textInput}
+                    data-testid={dataTestIds?.textInput}
                     id={resolvedId}
                     ref={ref}
                     variant={variant}
                     {...rest}
                     action={
                         <Button
-                            data-testId={dataTestIds?.addButton}
+                            data-testid={dataTestIds?.addButton}
                             onClick={handleOnClick}
                             size="xsmall"
                             loading={loading}
