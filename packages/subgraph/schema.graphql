@@ -59,6 +59,8 @@ type KPITokenTemplateSet @entity {
     templates: [KPITokenTemplate!]! @derivedFrom(field: "templateSet")
     managerId: BigInt!
     active: Boolean!
+    featuresOwner: Bytes!
+    features: [KPITokenTemplateFeature!]! @derivedFrom(field: "templateSet")
     manager: KPITokensManager!
 }
 
@@ -71,6 +73,20 @@ type KPITokenTemplate @entity {
     specification: KPITokenTemplateSpecification
     templateSet: KPITokenTemplateSet!
     kpiTokens: [KPIToken!]! @derivedFrom(field: "template")
+}
+
+type KPITokenTemplateFeature @entity {
+    id: Bytes!
+    featureId: BigInt!
+    paused: Boolean!
+    templateSet: KPITokenTemplateSet!
+    allowed: [KPITokenTemplateFeatureAllowedAccount!]! @derivedFrom(field: "feature")
+}
+
+type KPITokenTemplateFeatureAllowedAccount @entity {
+    id: Bytes!
+    address: Bytes!
+    feature: KPITokenTemplateFeature!
 }
 
 type KPITokensManager @entity {
@@ -116,6 +132,8 @@ type OracleTemplateSet @entity {
     templates: [OracleTemplate!]! @derivedFrom(field: "templateSet")
     managerId: BigInt!
     active: Boolean!
+    featuresOwner: Bytes!
+    features: [OracleTemplateFeature!]! @derivedFrom(field: "templateSet")
     manager: OraclesManager!
 }
 
@@ -128,6 +146,20 @@ type OracleTemplate @entity {
     specification: OracleTemplateSpecification
     templateSet: OracleTemplateSet!
     oracles: [Oracle!]! @derivedFrom(field: "template")
+}
+
+type OracleTemplateFeature @entity {
+    id: Bytes!
+    featureId: BigInt!
+    paused: Boolean!
+    templateSet: OracleTemplateSet!
+    allowed: [OracleTemplateFeatureAllowedAccount!]! @derivedFrom(field: "feature")
+}
+
+type OracleTemplateFeatureAllowedAccount @entity {
+    id: Bytes!
+    address: Bytes!
+    feature: OracleTemplateFeature!
 }
 
 type OraclesManager @entity {
