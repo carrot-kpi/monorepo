@@ -72,6 +72,13 @@ export function featureId(
     );
 }
 
+export function allowedFeatureAccountId(
+    featureId: Bytes,
+    accountAddress: Address,
+): Bytes {
+    return featureId.concat(addressToBytes(accountAddress));
+}
+
 export function cidToSpecificationURI(cid: string): string {
     return cid.endsWith("/")
         ? cid.concat("base.json")

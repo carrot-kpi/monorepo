@@ -21,6 +21,7 @@ import {
 } from "../generated/schema";
 import {
     addressToBytes,
+    allowedFeatureAccountId,
     BI_0,
     BI_1,
     bytesToAddress,
@@ -239,12 +240,8 @@ export function handleEnableFeatureFor(event: EnableFeatureForEvent): void {
         event.params.featureId,
     );
 
-    const allowedFeatureAccountId = feature.id.concat(
-        addressToBytes(event.params.account),
-    );
-    let allowed = KPITokenTemplateFeatureAllowedAccount.load(
-        allowedFeatureAccountId,
-    );
+    const accountId = allowedFeatureAccountId(feature.id, event.params.account);
+    let allowed = KPITokenTemplateFeatureAllowedAccount.load(accountId);
     if (allowed !== null) {
         log.warning(
             "tried to double enable feature with id {} on template with id {} for user {}",
@@ -257,9 +254,7 @@ export function handleEnableFeatureFor(event: EnableFeatureForEvent): void {
         return;
     }
 
-    allowed = new KPITokenTemplateFeatureAllowedAccount(
-        allowedFeatureAccountId,
-    );
+    allowed = new KPITokenTemplateFeatureAllowedAccount(accountId);
     allowed.feature = feature.id;
     allowed.address = addressToBytes(event.params.account);
     allowed.save();
@@ -270,13 +265,8 @@ export function handleDisableFeatureFor(event: DisableFeatureForEvent): void {
         event.params.templateId,
         event.params.featureId,
     );
-    const allowedFeatureAccountId = feature.id.concat(
-        addressToBytes(event.params.account),
-    );
-    if (
-        KPITokenTemplateFeatureAllowedAccount.load(allowedFeatureAccountId) ===
-        null
-    ) {
+    const accountId = allowedFeatureAccountId(feature.id, event.params.account);
+    if (KPITokenTemplateFeatureAllowedAccount.load(accountId) === null) {
         log.warning(
             "tried to disable feature with id {} on template with id {} for user {} that did not have the feature enabled in the first place",
             [
@@ -288,10 +278,7 @@ export function handleDisableFeatureFor(event: DisableFeatureForEvent): void {
         return;
     }
 
-    store.remove(
-        "KPITokenTemplateFeatureAllowedAccount",
-        allowedFeatureAccountId.toString(),
-    );
+    store.remove("KPITokenTemplateFeatureAllowedAccount", accountId.toString());
 }
 
 export function handlePauseFeature(event: PauseFeatureEvent): void {
