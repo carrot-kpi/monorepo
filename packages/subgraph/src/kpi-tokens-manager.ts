@@ -99,9 +99,9 @@ function getTemplateFeature(
         feature.featureId = onChainFeatureId;
         feature.paused = false;
 
-        const oracleManager = getKPITokensManager();
+        const kpiTokensManager = getKPITokensManager();
         const templateSet = getTemplateSet(
-            bytesToAddress(oracleManager.id),
+            bytesToAddress(kpiTokensManager.id),
             templateId,
         );
         if (templateSet === null)
@@ -224,9 +224,9 @@ export function handleUpgradeTemplate(event: UpgradeTemplateEvent): void {
 }
 
 export function handleSetFeatureSetOwner(event: SetFeatureSetOwnerEvent): void {
-    const oraclesManager = getKPITokensManager();
+    const kpiTokensManager = getKPITokensManager();
     const templateSet = getTemplateSet(
-        bytesToAddress(oraclesManager.id),
+        bytesToAddress(kpiTokensManager.id),
         event.params.templateId,
     );
     templateSet.featuresOwner = event.params.owner;
