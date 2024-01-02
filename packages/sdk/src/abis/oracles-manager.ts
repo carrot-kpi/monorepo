@@ -1,745 +1,677 @@
 export default [
     {
-        inputs: [
-            {
-                internalType: "address",
-                name: "target",
-                type: "address",
-            },
-        ],
-        name: "AddressEmptyCode",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "ERC1167FailedCreateClone",
-        type: "error",
-    },
-    {
-        inputs: [
-            {
-                internalType: "address",
-                name: "implementation",
-                type: "address",
-            },
-        ],
-        name: "ERC1967InvalidImplementation",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "ERC1967NonPayable",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "FailedInnerCall",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "Forbidden",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "Immutable",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "InvalidIndices",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "InvalidInitialization",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "InvalidSpecification",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "NonExistentTemplate",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "NotInitializing",
-        type: "error",
-    },
-    {
-        inputs: [
-            {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-            },
-        ],
-        name: "OwnableInvalidOwner",
-        type: "error",
-    },
-    {
-        inputs: [
-            {
-                internalType: "address",
-                name: "account",
-                type: "address",
-            },
-        ],
-        name: "OwnableUnauthorizedAccount",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "UUPSUnauthorizedCallContext",
-        type: "error",
-    },
-    {
-        inputs: [
-            {
-                internalType: "bytes32",
-                name: "slot",
-                type: "bytes32",
-            },
-        ],
-        name: "UUPSUnsupportedProxiableUUID",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "ZeroAddressFactory",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "ZeroAddressTemplate",
-        type: "error",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: true,
-                internalType: "uint256",
-                name: "id",
-                type: "uint256",
-            },
-            {
-                indexed: true,
-                internalType: "address",
-                name: "template",
-                type: "address",
-            },
-            {
-                indexed: false,
-                internalType: "string",
-                name: "specification",
-                type: "string",
-            },
-        ],
-        name: "AddTemplate",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: false,
-                internalType: "address",
-                name: "owner",
-                type: "address",
-            },
-            {
-                indexed: false,
-                internalType: "address",
-                name: "factory",
-                type: "address",
-            },
-        ],
-        name: "Initialize",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: false,
-                internalType: "uint64",
-                name: "version",
-                type: "uint64",
-            },
-        ],
-        name: "Initialized",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [],
-        name: "MakeImmutable",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: true,
-                internalType: "address",
-                name: "previousOwner",
-                type: "address",
-            },
-            {
-                indexed: true,
-                internalType: "address",
-                name: "newOwner",
-                type: "address",
-            },
-        ],
-        name: "OwnershipTransferred",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: true,
-                internalType: "uint256",
-                name: "id",
-                type: "uint256",
-            },
-        ],
-        name: "RemoveTemplate",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: true,
-                internalType: "uint256",
-                name: "id",
-                type: "uint256",
-            },
-            {
-                indexed: false,
-                internalType: "string",
-                name: "newSpecification",
-                type: "string",
-            },
-            {
-                indexed: false,
-                internalType: "uint256",
-                name: "version",
-                type: "uint256",
-            },
-        ],
-        name: "UpdateTemplateSpecification",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: true,
-                internalType: "uint256",
-                name: "id",
-                type: "uint256",
-            },
-            {
-                indexed: true,
-                internalType: "address",
-                name: "newTemplate",
-                type: "address",
-            },
-            {
-                indexed: false,
-                internalType: "uint256",
-                name: "newVersion",
-                type: "uint256",
-            },
-            {
-                indexed: false,
-                internalType: "string",
-                name: "newSpecification",
-                type: "string",
-            },
-        ],
-        name: "UpgradeTemplate",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: true,
-                internalType: "address",
-                name: "implementation",
-                type: "address",
-            },
-        ],
-        name: "Upgraded",
-        type: "event",
-    },
-    {
-        inputs: [],
-        name: "UPGRADE_INTERFACE_VERSION",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string",
-            },
-        ],
-        stateMutability: "view",
         type: "function",
+        name: "UPGRADE_INTERFACE_VERSION",
+        inputs: [],
+        outputs: [{ name: "", type: "string", internalType: "string" }],
+        stateMutability: "view",
     },
     {
-        inputs: [
-            {
-                internalType: "address",
-                name: "_template",
-                type: "address",
-            },
-            {
-                internalType: "string",
-                name: "_specification",
-                type: "string",
-            },
-        ],
+        type: "function",
         name: "addTemplate",
+        inputs: [
+            { name: "_template", type: "address", internalType: "address" },
+            { name: "_specification", type: "string", internalType: "string" },
+        ],
         outputs: [],
         stateMutability: "nonpayable",
-        type: "function",
     },
     {
-        inputs: [],
-        name: "disallowUpgrades",
-        outputs: [
-            {
-                internalType: "bool",
-                name: "",
-                type: "bool",
-            },
-        ],
-        stateMutability: "view",
         type: "function",
-    },
-    {
+        name: "disableTemplateFeatureFor",
         inputs: [
-            {
-                internalType: "uint256",
-                name: "_fromIndex",
-                type: "uint256",
-            },
-            {
-                internalType: "uint256",
-                name: "_toIndex",
-                type: "uint256",
-            },
+            { name: "_templateId", type: "uint256", internalType: "uint256" },
+            { name: "_featureId", type: "uint256", internalType: "uint256" },
+            { name: "_account", type: "address", internalType: "address" },
         ],
-        name: "enumerate",
+        outputs: [],
+        stateMutability: "nonpayable",
+    },
+    {
+        type: "function",
+        name: "disallowUpgrades",
+        inputs: [],
+        outputs: [{ name: "", type: "bool", internalType: "bool" }],
+        stateMutability: "view",
+    },
+    {
+        type: "function",
+        name: "enableTemplateFeatureFor",
+        inputs: [
+            { name: "_templateId", type: "uint256", internalType: "uint256" },
+            { name: "_featureId", type: "uint256", internalType: "uint256" },
+            { name: "_account", type: "address", internalType: "address" },
+        ],
+        outputs: [],
+        stateMutability: "nonpayable",
+    },
+    {
+        type: "function",
+        name: "enumerateTemplates",
+        inputs: [
+            { name: "_fromIndex", type: "uint256", internalType: "uint256" },
+            { name: "_toIndex", type: "uint256", internalType: "uint256" },
+        ],
         outputs: [
             {
-                components: [
-                    {
-                        internalType: "address",
-                        name: "addrezz",
-                        type: "address",
-                    },
-                    {
-                        internalType: "uint128",
-                        name: "version",
-                        type: "uint128",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "id",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "string",
-                        name: "specification",
-                        type: "string",
-                    },
-                ],
-                internalType: "struct Template[]",
                 name: "",
                 type: "tuple[]",
+                internalType: "struct Template[]",
+                components: [
+                    {
+                        name: "addrezz",
+                        type: "address",
+                        internalType: "address",
+                    },
+                    {
+                        name: "version",
+                        type: "uint128",
+                        internalType: "uint128",
+                    },
+                    { name: "id", type: "uint256", internalType: "uint256" },
+                    {
+                        name: "specification",
+                        type: "string",
+                        internalType: "string",
+                    },
+                ],
             },
         ],
         stateMutability: "view",
-        type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-        ],
-        name: "exists",
-        outputs: [
-            {
-                internalType: "bool",
-                name: "",
-                type: "bool",
-            },
-        ],
-        stateMutability: "view",
         type: "function",
-    },
-    {
-        inputs: [],
         name: "factory",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address",
-            },
-        ],
+        inputs: [],
+        outputs: [{ name: "", type: "address", internalType: "address" }],
         stateMutability: "view",
-        type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "address",
-                name: "_owner",
-                type: "address",
-            },
-            {
-                internalType: "address",
-                name: "_factory",
-                type: "address",
-            },
-        ],
+        type: "function",
         name: "initialize",
+        inputs: [
+            { name: "_owner", type: "address", internalType: "address" },
+            { name: "_factory", type: "address", internalType: "address" },
+        ],
         outputs: [],
         stateMutability: "nonpayable",
-        type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "address",
-                name: "_creator",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-            {
-                internalType: "bytes",
-                name: "_initializationData",
-                type: "bytes",
-            },
-        ],
+        type: "function",
         name: "instantiate",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address",
-            },
-        ],
-        stateMutability: "payable",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "makeImmutable",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "nextTemplateId",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "owner",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
         inputs: [
+            { name: "_creator", type: "address", internalType: "address" },
+            { name: "_id", type: "uint256", internalType: "uint256" },
             {
-                internalType: "address",
-                name: "_creator",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-            {
-                internalType: "bytes",
                 name: "_initializationData",
                 type: "bytes",
+                internalType: "bytes",
             },
         ],
+        outputs: [{ name: "", type: "address", internalType: "address" }],
+        stateMutability: "payable",
+    },
+    {
+        type: "function",
+        name: "isTemplateFeatureEnabledFor",
+        inputs: [
+            { name: "_templateId", type: "uint256", internalType: "uint256" },
+            { name: "_featureId", type: "uint256", internalType: "uint256" },
+            { name: "_account", type: "address", internalType: "address" },
+        ],
+        outputs: [{ name: "", type: "bool", internalType: "bool" }],
+        stateMutability: "view",
+    },
+    {
+        type: "function",
+        name: "makeImmutable",
+        inputs: [],
+        outputs: [],
+        stateMutability: "nonpayable",
+    },
+    {
+        type: "function",
+        name: "nextTemplateId",
+        inputs: [],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+    },
+    {
+        type: "function",
+        name: "owner",
+        inputs: [],
+        outputs: [{ name: "", type: "address", internalType: "address" }],
+        stateMutability: "view",
+    },
+    {
+        type: "function",
+        name: "pauseFeature",
+        inputs: [
+            { name: "_templateId", type: "uint256", internalType: "uint256" },
+            { name: "_featureId", type: "uint256", internalType: "uint256" },
+        ],
+        outputs: [],
+        stateMutability: "nonpayable",
+    },
+    {
+        type: "function",
         name: "predictInstanceAddress",
-        outputs: [
+        inputs: [
+            { name: "_creator", type: "address", internalType: "address" },
+            { name: "_id", type: "uint256", internalType: "uint256" },
             {
-                internalType: "address",
-                name: "",
-                type: "address",
+                name: "_initializationData",
+                type: "bytes",
+                internalType: "bytes",
             },
         ],
+        outputs: [{ name: "", type: "address", internalType: "address" }],
         stateMutability: "view",
-        type: "function",
     },
     {
-        inputs: [],
+        type: "function",
         name: "proxiableUUID",
-        outputs: [
-            {
-                internalType: "bytes32",
-                name: "",
-                type: "bytes32",
-            },
-        ],
+        inputs: [],
+        outputs: [{ name: "", type: "bytes32", internalType: "bytes32" }],
         stateMutability: "view",
-        type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-        ],
+        type: "function",
         name: "removeTemplate",
+        inputs: [{ name: "_id", type: "uint256", internalType: "uint256" }],
         outputs: [],
         stateMutability: "nonpayable",
-        type: "function",
     },
     {
-        inputs: [],
+        type: "function",
         name: "renounceOwnership",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-        ],
-        name: "template",
-        outputs: [
-            {
-                components: [
-                    {
-                        internalType: "address",
-                        name: "addrezz",
-                        type: "address",
-                    },
-                    {
-                        internalType: "uint128",
-                        name: "version",
-                        type: "uint128",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "id",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "string",
-                        name: "specification",
-                        type: "string",
-                    },
-                ],
-                internalType: "struct Template",
-                name: "",
-                type: "tuple",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-            {
-                internalType: "uint128",
-                name: "_version",
-                type: "uint128",
-            },
-        ],
-        name: "template",
-        outputs: [
-            {
-                components: [
-                    {
-                        internalType: "address",
-                        name: "addrezz",
-                        type: "address",
-                    },
-                    {
-                        internalType: "uint128",
-                        name: "version",
-                        type: "uint128",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "id",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "string",
-                        name: "specification",
-                        type: "string",
-                    },
-                ],
-                internalType: "struct Template",
-                name: "",
-                type: "tuple",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
         inputs: [],
-        name: "templatesAmount",
+        outputs: [],
+        stateMutability: "nonpayable",
+    },
+    {
+        type: "function",
+        name: "setTemplateFeaturesOwner",
+        inputs: [
+            { name: "_templateId", type: "uint256", internalType: "uint256" },
+            { name: "_owner", type: "address", internalType: "address" },
+        ],
+        outputs: [],
+        stateMutability: "nonpayable",
+    },
+    {
+        type: "function",
+        name: "template",
+        inputs: [{ name: "_id", type: "uint256", internalType: "uint256" }],
         outputs: [
             {
-                internalType: "uint256",
                 name: "",
-                type: "uint256",
+                type: "tuple",
+                internalType: "struct Template",
+                components: [
+                    {
+                        name: "addrezz",
+                        type: "address",
+                        internalType: "address",
+                    },
+                    {
+                        name: "version",
+                        type: "uint128",
+                        internalType: "uint128",
+                    },
+                    { name: "id", type: "uint256", internalType: "uint256" },
+                    {
+                        name: "specification",
+                        type: "string",
+                        internalType: "string",
+                    },
+                ],
             },
         ],
         stateMutability: "view",
-        type: "function",
     },
     {
+        type: "function",
+        name: "template",
         inputs: [
+            { name: "_id", type: "uint256", internalType: "uint256" },
+            { name: "_version", type: "uint128", internalType: "uint128" },
+        ],
+        outputs: [
             {
-                internalType: "address",
-                name: "newOwner",
-                type: "address",
+                name: "",
+                type: "tuple",
+                internalType: "struct Template",
+                components: [
+                    {
+                        name: "addrezz",
+                        type: "address",
+                        internalType: "address",
+                    },
+                    {
+                        name: "version",
+                        type: "uint128",
+                        internalType: "uint128",
+                    },
+                    { name: "id", type: "uint256", internalType: "uint256" },
+                    {
+                        name: "specification",
+                        type: "string",
+                        internalType: "string",
+                    },
+                ],
             },
         ],
+        stateMutability: "view",
+    },
+    {
+        type: "function",
+        name: "templateExists",
+        inputs: [{ name: "_id", type: "uint256", internalType: "uint256" }],
+        outputs: [{ name: "", type: "bool", internalType: "bool" }],
+        stateMutability: "view",
+    },
+    {
+        type: "function",
+        name: "templatesAmount",
+        inputs: [],
+        outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+        stateMutability: "view",
+    },
+    {
+        type: "function",
         name: "transferOwnership",
+        inputs: [
+            { name: "newOwner", type: "address", internalType: "address" },
+        ],
         outputs: [],
         stateMutability: "nonpayable",
-        type: "function",
     },
     {
+        type: "function",
+        name: "unpauseFeature",
         inputs: [
+            { name: "_templateId", type: "uint256", internalType: "uint256" },
+            { name: "_featureId", type: "uint256", internalType: "uint256" },
+        ],
+        outputs: [],
+        stateMutability: "nonpayable",
+    },
+    {
+        type: "function",
+        name: "updateTemplateSpecification",
+        inputs: [
+            { name: "_id", type: "uint256", internalType: "uint256" },
+            { name: "_version", type: "uint128", internalType: "uint128" },
             {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-            {
-                internalType: "uint128",
-                name: "_version",
-                type: "uint128",
-            },
-            {
-                internalType: "string",
                 name: "_newSpecification",
                 type: "string",
+                internalType: "string",
             },
         ],
-        name: "updateTemplateSpecification",
         outputs: [],
         stateMutability: "nonpayable",
-        type: "function",
     },
     {
+        type: "function",
+        name: "updateTemplateSpecification",
         inputs: [
+            { name: "_id", type: "uint256", internalType: "uint256" },
             {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-            {
-                internalType: "string",
                 name: "_newSpecification",
                 type: "string",
+                internalType: "string",
             },
         ],
-        name: "updateTemplateSpecification",
         outputs: [],
         stateMutability: "nonpayable",
-        type: "function",
     },
     {
+        type: "function",
+        name: "upgradeTemplate",
         inputs: [
+            { name: "_id", type: "uint256", internalType: "uint256" },
             {
-                internalType: "uint256",
-                name: "_id",
-                type: "uint256",
-            },
-            {
-                internalType: "address",
                 name: "_newTemplate",
                 type: "address",
+                internalType: "address",
             },
             {
-                internalType: "string",
                 name: "_newSpecification",
                 type: "string",
+                internalType: "string",
             },
         ],
-        name: "upgradeTemplate",
         outputs: [],
         stateMutability: "nonpayable",
-        type: "function",
     },
     {
+        type: "function",
+        name: "upgradeToAndCall",
         inputs: [
             {
-                internalType: "address",
                 name: "newImplementation",
                 type: "address",
+                internalType: "address",
             },
-            {
-                internalType: "bytes",
-                name: "data",
-                type: "bytes",
-            },
+            { name: "data", type: "bytes", internalType: "bytes" },
         ],
-        name: "upgradeToAndCall",
         outputs: [],
         stateMutability: "payable",
-        type: "function",
     },
+    {
+        type: "event",
+        name: "AddTemplate",
+        inputs: [
+            {
+                name: "id",
+                type: "uint256",
+                indexed: true,
+                internalType: "uint256",
+            },
+            {
+                name: "template",
+                type: "address",
+                indexed: true,
+                internalType: "address",
+            },
+            {
+                name: "specification",
+                type: "string",
+                indexed: false,
+                internalType: "string",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "DisableFeatureFor",
+        inputs: [
+            {
+                name: "templateId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+            {
+                name: "featureId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+            {
+                name: "account",
+                type: "address",
+                indexed: false,
+                internalType: "address",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "EnableFeatureFor",
+        inputs: [
+            {
+                name: "templateId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+            {
+                name: "featureId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+            {
+                name: "account",
+                type: "address",
+                indexed: false,
+                internalType: "address",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "Initialize",
+        inputs: [
+            {
+                name: "owner",
+                type: "address",
+                indexed: false,
+                internalType: "address",
+            },
+            {
+                name: "factory",
+                type: "address",
+                indexed: false,
+                internalType: "address",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "Initialized",
+        inputs: [
+            {
+                name: "version",
+                type: "uint64",
+                indexed: false,
+                internalType: "uint64",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "MakeImmutable",
+        inputs: [],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "OwnershipTransferred",
+        inputs: [
+            {
+                name: "previousOwner",
+                type: "address",
+                indexed: true,
+                internalType: "address",
+            },
+            {
+                name: "newOwner",
+                type: "address",
+                indexed: true,
+                internalType: "address",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "PauseFeature",
+        inputs: [
+            {
+                name: "templateId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+            {
+                name: "featureId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "RemoveTemplate",
+        inputs: [
+            {
+                name: "id",
+                type: "uint256",
+                indexed: true,
+                internalType: "uint256",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "SetFeatureSetOwner",
+        inputs: [
+            {
+                name: "templateId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+            {
+                name: "owner",
+                type: "address",
+                indexed: false,
+                internalType: "address",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "UnpauseFeature",
+        inputs: [
+            {
+                name: "templateId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+            {
+                name: "featureId",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "UpdateTemplateSpecification",
+        inputs: [
+            {
+                name: "id",
+                type: "uint256",
+                indexed: true,
+                internalType: "uint256",
+            },
+            {
+                name: "newSpecification",
+                type: "string",
+                indexed: false,
+                internalType: "string",
+            },
+            {
+                name: "version",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "UpgradeTemplate",
+        inputs: [
+            {
+                name: "id",
+                type: "uint256",
+                indexed: true,
+                internalType: "uint256",
+            },
+            {
+                name: "newTemplate",
+                type: "address",
+                indexed: true,
+                internalType: "address",
+            },
+            {
+                name: "newVersion",
+                type: "uint256",
+                indexed: false,
+                internalType: "uint256",
+            },
+            {
+                name: "newSpecification",
+                type: "string",
+                indexed: false,
+                internalType: "string",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "event",
+        name: "Upgraded",
+        inputs: [
+            {
+                name: "implementation",
+                type: "address",
+                indexed: true,
+                internalType: "address",
+            },
+        ],
+        anonymous: false,
+    },
+    {
+        type: "error",
+        name: "AddressEmptyCode",
+        inputs: [{ name: "target", type: "address", internalType: "address" }],
+    },
+    { type: "error", name: "ERC1167FailedCreateClone", inputs: [] },
+    {
+        type: "error",
+        name: "ERC1967InvalidImplementation",
+        inputs: [
+            {
+                name: "implementation",
+                type: "address",
+                internalType: "address",
+            },
+        ],
+    },
+    { type: "error", name: "ERC1967NonPayable", inputs: [] },
+    { type: "error", name: "FailedInnerCall", inputs: [] },
+    { type: "error", name: "Forbidden", inputs: [] },
+    { type: "error", name: "Immutable", inputs: [] },
+    { type: "error", name: "InvalidIndices", inputs: [] },
+    { type: "error", name: "InvalidInitialization", inputs: [] },
+    { type: "error", name: "InvalidSpecification", inputs: [] },
+    { type: "error", name: "NonExistentTemplate", inputs: [] },
+    { type: "error", name: "NotInitializing", inputs: [] },
+    {
+        type: "error",
+        name: "OwnableInvalidOwner",
+        inputs: [{ name: "owner", type: "address", internalType: "address" }],
+    },
+    {
+        type: "error",
+        name: "OwnableUnauthorizedAccount",
+        inputs: [{ name: "account", type: "address", internalType: "address" }],
+    },
+    { type: "error", name: "UUPSUnauthorizedCallContext", inputs: [] },
+    {
+        type: "error",
+        name: "UUPSUnsupportedProxiableUUID",
+        inputs: [{ name: "slot", type: "bytes32", internalType: "bytes32" }],
+    },
+    { type: "error", name: "ZeroAddressFactory", inputs: [] },
+    { type: "error", name: "ZeroAddressTemplate", inputs: [] },
 ] as const;
