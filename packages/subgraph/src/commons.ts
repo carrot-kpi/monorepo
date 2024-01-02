@@ -60,6 +60,25 @@ export function templateId(onChainId: BigInt, onChainVersion: BigInt): Bytes {
     );
 }
 
+export function featureId(
+    managerAddress: Bytes,
+    templateId: BigInt,
+    featureId: BigInt,
+): Bytes {
+    return managerAddress.concat(
+        Bytes.fromHexString(
+            templateId.toHexString().concat(featureId.toHexString()),
+        ),
+    );
+}
+
+export function allowedFeatureAccountId(
+    featureId: Bytes,
+    accountAddress: Address,
+): Bytes {
+    return featureId.concat(addressToBytes(accountAddress));
+}
+
 export function cidToSpecificationURI(cid: string): string {
     return cid.endsWith("/")
         ? cid.concat("base.json")
