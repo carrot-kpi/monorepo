@@ -6,6 +6,7 @@ import { ChainIcon } from "../../chain-icon";
 import { type AugmentedChain, SUPPORTED_CHAINS } from "../../../constants";
 import { ChainId } from "@carrot-kpi/sdk";
 import Error from "../../../icons/error";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface NetworksPopoverProps {
     open: boolean;
@@ -15,6 +16,8 @@ interface NetworksPopoverProps {
 
 export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
     function NetworksPopover({ open, anchor, onNetworkSwitch }, ref) {
+        const { address: kpiTokenAddress } = useParams();
+        const navigate = useNavigate();
         const { chain, chains } = useNetwork();
 
         const handleChainClick = useCallback(
@@ -23,9 +26,11 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                 if (!id) return;
                 const intId = parseInt(id);
                 if (isNaN(intId)) return;
+
+                if (!!kpiTokenAddress) navigate("/");
                 onNetworkSwitch(intId);
             },
-            [onNetworkSwitch],
+            [onNetworkSwitch, kpiTokenAddress, navigate],
         );
 
         return (
