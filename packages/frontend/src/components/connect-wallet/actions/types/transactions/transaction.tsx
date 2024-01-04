@@ -2,12 +2,12 @@ import React from "react";
 import { type Tx, TxType } from "@carrot-kpi/react";
 import type { ChainId } from "@carrot-kpi/sdk";
 import { Skeleton, Typography } from "@carrot-kpi/ui";
-import { useTransactionSummary } from "../../../../hooks/useTransactionSummary";
-import External from "../../../../icons/external";
-import { getTransactionExplorerLink } from "../../../../utils/explorers";
+import { useTransactionSummary } from "../../../../../hooks/useTransactionSummary";
+import External from "../../../../../icons/external";
+import { getTransactionExplorerLink } from "../../../../../utils/explorers";
 import dayjs from "dayjs";
 import { useNetwork } from "wagmi";
-import { SUPPORTED_CHAINS } from "../../../../constants";
+import { SUPPORTED_CHAINS } from "../../../../../constants";
 
 export const Transaction = <T extends TxType>(tx: Tx<T>) => {
     const { chain } = useNetwork();

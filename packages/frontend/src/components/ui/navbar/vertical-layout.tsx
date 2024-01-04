@@ -49,14 +49,12 @@ const backgroundStyles = cva(
 );
 
 interface NavbarVerticalLayoutProps {
-    mode: NavbarProps["mode"];
     open: boolean;
     links: NavbarProps["links"];
     onNavbarClose: () => void;
 }
 
 export const NavbarVerticalLayout = ({
-    mode,
     open,
     links = [],
     onNavbarClose,
@@ -85,14 +83,12 @@ export const NavbarVerticalLayout = ({
             <div ref={backgroundRef} className={backgroundStyles({ open })} />
             <div className={rootStyles({ open })}>
                 <div className="flex flex-col justify-between">
-                    {mode !== "modal" && (
-                        <div className="px-6 py-6 border-b border-black dark:border-white">
-                            <CloseIcon
-                                className="cursor-pointer"
-                                onClick={onNavbarClose}
-                            />
-                        </div>
-                    )}
+                    <div className="px-6 py-6 border-b border-black dark:border-white">
+                        <CloseIcon
+                            className="cursor-pointer"
+                            onClick={onNavbarClose}
+                        />
+                    </div>
                     <div className="flex flex-col gap-6 px-6">
                         <nav className="mt-8">
                             <ul className="flex flex-col gap-6">

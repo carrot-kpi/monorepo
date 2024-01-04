@@ -56,6 +56,8 @@ export const en = {
         "theme.system": "System",
         "empty.title": "Empty space",
         "empty.description": "No data found. Please try again later.",
+        "actions.transactions.label": "Transactions",
+        "actions.drafts.label": "Drafts",
         "transactions.erc20.approval.data":
             "Approved {{amount}} {{symbol}} to {{spender}}",
         "transactions.erc20.approval": "Approved ERC20 token to {{spender}}",

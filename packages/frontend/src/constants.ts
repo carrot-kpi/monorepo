@@ -6,8 +6,10 @@ import EthereumLogo from "./icons/chains/ethereum";
 import GnosisLogo from "./icons/chains/gnosis";
 import ScrollLogo from "./icons/chains/scroll";
 import PolygonLogo from "./icons/chains/polygon";
-import { NavLink } from "react-router-dom";
 import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
+import Start from "./icons/start";
+import Grid from "./icons/grid";
+import Stars from "./icons/stars";
 
 type RPCConfig = {
     http: string;
@@ -102,25 +104,33 @@ export const CARROT_DOMAIN = prod
     : "staging.carrot.community";
 
 export interface NavbarLink {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Component?: FunctionComponent<any>;
     title: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Icon: FunctionComponent<any>;
     to: string;
     external: boolean;
+    highlighted?: boolean;
 }
 
 export const NAVBAR_LINKS: NavbarLink[] = [
     {
-        Component: NavLink,
-        title: "About",
-        to: `https://www.${CARROT_DOMAIN}`,
-        external: true,
+        title: "Start",
+        Icon: Start,
+        to: "/start",
+        external: false,
     },
     {
-        Component: NavLink,
         title: "Campaigns",
+        Icon: Grid,
         to: "/campaigns",
         external: false,
+    },
+    {
+        title: "New campaign",
+        Icon: Stars,
+        to: "/new",
+        external: false,
+        highlighted: true,
     },
 ];
 
