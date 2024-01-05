@@ -97,6 +97,13 @@ export interface FetchBlackListedKPITokensParams {
     chainId: ChainId;
 }
 
+export interface FetchTemplateFeatureEnabledForParams {
+    publicClient: PublicClient;
+    templateId: number;
+    featureId: number;
+    account: Address;
+}
+
 export interface IPartialCarrotFetcher {
     supportedInChain(params: SupportedInChainParams): boolean;
 
@@ -121,6 +128,14 @@ export interface IPartialCarrotFetcher {
     fetchKPITokenTemplates(params: FetchTemplatesParams): Promise<Template[]>;
 
     fetchOracleTemplates(params: FetchTemplatesParams): Promise<Template[]>;
+
+    fetchKPITokenTemplateFeatureEnabledFor(
+        params: FetchTemplateFeatureEnabledForParams,
+    ): Promise<boolean>;
+
+    fetchOracleTemplateFeatureEnabledFor(
+        params: FetchTemplateFeatureEnabledForParams,
+    ): Promise<boolean>;
 }
 
 export interface DecentralizationParams {
@@ -144,6 +159,9 @@ export type FullFetcherFetchKPITokensParams = FetchKPITokensParams &
 
 export type FullFetcherFetchTemplatesParams = FetchTemplatesParams &
     DecentralizationParams;
+
+export type FullFetcherFetchTemplateFeatureEnabledForParams =
+    FetchTemplateFeatureEnabledForParams & DecentralizationParams;
 
 export interface IFullCarrotFetcher {
     fetchERC20Tokens(
@@ -177,4 +195,12 @@ export interface IFullCarrotFetcher {
     fetchOracleTemplates(
         params: FullFetcherFetchTemplatesParams,
     ): Promise<Template[]>;
+
+    fetchKPITokenTemplateFeatureEnabledFor(
+        params: FetchTemplateFeatureEnabledForParams,
+    ): Promise<boolean>;
+
+    fetchOracleTemplateFeatureEnabledFor(
+        params: FetchTemplateFeatureEnabledForParams,
+    ): Promise<boolean>;
 }

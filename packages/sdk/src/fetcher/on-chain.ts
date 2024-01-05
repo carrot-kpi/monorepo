@@ -18,6 +18,7 @@ import type {
     FetchKPITokensParams,
     FetchLatestKpiTokenAddressesParams,
     FetchOraclesParams,
+    FetchTemplateFeatureEnabledForParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "./abstraction";
@@ -354,10 +355,10 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await this.validate({ publicClient });
+        const { chainAddresses } = await this.validate({ publicClient });
         return await this.fetchTemplates(
             publicClient,
-            CHAIN_ADDRESSES[chainId].kpiTokensManager,
+            chainAddresses.kpiTokensManager,
             ids,
         );
     }
@@ -366,11 +367,60 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainId } = await this.validate({ publicClient });
+        const { chainAddresses } = await this.validate({
+            publicClient,
+        });
         return await this.fetchTemplates(
             publicClient,
-            CHAIN_ADDRESSES[chainId].oraclesManager,
+            chainAddresses.oraclesManager,
             ids,
+        );
+    }
+
+    private async fetchTemplateFeatureEnabledFor(
+        publicClient: PublicClient,
+        managerAddress: Address,
+        templateId: number,
+        featureId: number,
+        account: Address,
+    ): Promise<boolean> {
+        return await publicClient.readContract({
+            address: managerAddress,
+            abi: KPI_TOKENS_MANAGER_ABI,
+            functionName: "isTemplateFeatureEnabledFor",
+            args: [BigInt(templateId), BigInt(featureId), account],
+        });
+    }
+
+    public async fetchKPITokenTemplateFeatureEnabledFor({
+        publicClient,
+        templateId,
+        featureId,
+        account,
+    }: FetchTemplateFeatureEnabledForParams): Promise<boolean> {
+        const { chainAddresses } = await this.validate({ publicClient });
+        return await this.fetchTemplateFeatureEnabledFor(
+            publicClient,
+            chainAddresses.kpiTokensManager,
+            templateId,
+            featureId,
+            account,
+        );
+    }
+
+    public async fetchOracleTemplateFeatureEnabledFor({
+        publicClient,
+        templateId,
+        featureId,
+        account,
+    }: FetchTemplateFeatureEnabledForParams): Promise<boolean> {
+        const { chainAddresses } = await this.validate({ publicClient });
+        return await this.fetchTemplateFeatureEnabledFor(
+            publicClient,
+            chainAddresses.oraclesManager,
+            templateId,
+            featureId,
+            account,
         );
     }
 

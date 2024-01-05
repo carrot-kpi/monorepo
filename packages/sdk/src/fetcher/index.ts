@@ -9,6 +9,7 @@ import type {
     FullFetcherFetchKPITokensParams,
     FullFetcherFetchLatestKPITokenAddressesParams,
     FullFetcherFetchOraclesParams,
+    FullFetcherFetchTemplateFeatureEnabledForParams,
     FullFetcherFetchTemplatesParams,
     IFullCarrotFetcher,
 } from "./abstraction";
@@ -186,6 +187,58 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
             : OnChainFetcher.fetchOracleTemplates({
                   publicClient,
                   ids,
+              });
+    }
+
+    async fetchKPITokenTemplateFeatureEnabledFor({
+        publicClient,
+        preferDecentralization,
+        templateId,
+        featureId,
+        account,
+    }: FullFetcherFetchTemplateFeatureEnabledForParams): Promise<boolean> {
+        const useSubgraph = await this.shouldUseSubgraph({
+            publicClient,
+            preferDecentralization,
+        });
+        return useSubgraph
+            ? SubgraphFetcher.fetchKPITokenTemplateFeatureEnabledFor({
+                  publicClient,
+                  templateId,
+                  featureId,
+                  account,
+              })
+            : OnChainFetcher.fetchKPITokenTemplateFeatureEnabledFor({
+                  publicClient,
+                  templateId,
+                  featureId,
+                  account,
+              });
+    }
+
+    async fetchOracleTemplateFeatureEnabledFor({
+        publicClient,
+        preferDecentralization,
+        templateId,
+        featureId,
+        account,
+    }: FullFetcherFetchTemplateFeatureEnabledForParams): Promise<boolean> {
+        const useSubgraph = await this.shouldUseSubgraph({
+            publicClient,
+            preferDecentralization,
+        });
+        return useSubgraph
+            ? SubgraphFetcher.fetchOracleTemplateFeatureEnabledFor({
+                  publicClient,
+                  templateId,
+                  featureId,
+                  account,
+              })
+            : OnChainFetcher.fetchOracleTemplateFeatureEnabledFor({
+                  publicClient,
+                  templateId,
+                  featureId,
+                  account,
               });
     }
 }

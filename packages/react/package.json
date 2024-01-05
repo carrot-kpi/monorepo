@@ -2,7 +2,7 @@
     "name": "@carrot-kpi/react",
     "license": "GPL-3.0-or-later",
     "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
-    "version": "0.72.0",
+    "version": "0.73.0",
     "main": "./dist/cjs/index.cjs",
     "module": "./dist/es/index.mjs",
     "types": "./dist/types/index.d.ts",
@@ -79,6 +79,11 @@
             "import": "./dist/es/hooks/useKPITokenTemplate.mjs",
             "default": "./dist/cjs/hooks/useKPITokenTemplate.cjs"
         },
+        "./useKPITokenTemplateFeatureEnabledFor": {
+            "types": "./dist/types/hooks/useKPITokenTemplateFeatureEnabledFor.d.ts",
+            "import": "./dist/es/hooks/useKPITokenTemplateFeatureEnabledFor.mjs",
+            "default": "./dist/cjs/hooks/useKPITokenTemplateFeatureEnabledFor.cjs"
+        },
         "./useKPITokenTemplates": {
             "types": "./dist/types/hooks/useKPITokenTemplates.d.ts",
             "import": "./dist/es/hooks/useKPITokenTemplates.mjs",
@@ -103,6 +108,11 @@
             "types": "./dist/types/hooks/useOracleTemplate.d.ts",
             "import": "./dist/es/hooks/useOracleTemplate.mjs",
             "default": "./dist/cjs/hooks/useOracleTemplate.cjs"
+        },
+        "./useOracleTemplateFeatureEnabledFor": {
+            "types": "./dist/types/hooks/useOracleTemplateFeatureEnabledFor.d.ts",
+            "import": "./dist/es/hooks/useOracleTemplateFeatureEnabledFor.mjs",
+            "default": "./dist/cjs/hooks/useOracleTemplateFeatureEnabledFor.cjs"
         },
         "./useOracleTemplates": {
             "types": "./dist/types/hooks/useOracleTemplates.d.ts",
