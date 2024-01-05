@@ -16,7 +16,7 @@ export enum TxType {
     KPI_TOKEN_CREATION,
     ERC20_APPROVAL,
     KPI_TOKEN_REDEMPTION,
-    KPI_TOKEN_COLLATERAL_RECOVER,
+    KPI_TOKEN_REWARDS_RECOVERY,
     ORACLE_FINALIZATION,
 }
 
@@ -56,7 +56,7 @@ export type TxPayload = {
     [TxType.ERC20_APPROVAL]: ERC20ApprovalTxPayload;
     [TxType.KPI_TOKEN_CREATION]: OracleCreationTxPayload;
     [TxType.KPI_TOKEN_REDEMPTION]: KPITokenRedemptionTxPayload;
-    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: KPITokenCollateralRecoverTxPayload;
+    [TxType.KPI_TOKEN_REWARDS_RECOVERY]: KPITokenCollateralRecoverTxPayload;
     [TxType.ORACLE_FINALIZATION]: OracleFinalizationTxPayload;
 };
 
