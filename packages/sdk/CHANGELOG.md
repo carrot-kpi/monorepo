@@ -1,5 +1,15 @@
 # @carrot-kpi/sdk
 
+## 1.46.0
+
+### Minor Changes
+
+- 69e1aef: Add fetchKPITokenTemplateFeatureEnabledFor and fetchOracleTemplateFeatureEnabledFor to both on-chain and subgraph fetchers.
+
+### Patch Changes
+
+- f7d83c5: Rename enumerate to enumerateTemplates for the manager contract abis
+
 ## 1.45.2
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @carrot-kpi/react
 
+## 0.73.0
+
+### Minor Changes
+
+- 69e1aef: Add useKPITokenTemplateFeatureEnabledFor and useOracleTemplateFeatureEnabledFor hooks.
+
+### Patch Changes
+
+- Updated dependencies [f7d83c5]
+- Updated dependencies [69e1aef]
+  - @carrot-kpi/sdk@1.46.0
+
 ## 0.72.0
 
 ### Minor Changes
