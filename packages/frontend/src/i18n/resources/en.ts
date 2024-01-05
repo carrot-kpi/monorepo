@@ -58,12 +58,18 @@ export const en = {
         "empty.description": "No data found. Please try again later.",
         "actions.transactions.label": "Transactions",
         "actions.drafts.label": "Drafts",
+        "transactions.custom.title": "Common",
+        "transactions.erc20.approval.title": "Reward approved",
+        "transactions.kpi.token.creation.title": "Campaign created",
+        "transactions.kpi.token.redeem.title": "Redeemed",
+        "transactions.kpi.token.erc20.recover.title": "Reward recovered",
+        "transactions.oracle.finalized.title": "Oracle finalized",
         "transactions.erc20.approval.data":
             "Approved {{amount}} {{symbol}} to {{spender}}",
         "transactions.erc20.approval": "Approved ERC20 token to {{spender}}",
         "transactions.kpi.token.redeem": "Redeemed on {{address}}",
         "transactions.kpi.token.erc20.recover":
-            "Recovered ERC20 collateral to {{receiver}}",
+            "Recovered ERC20 reward to {{receiver}}",
         "transactions.kpi.token.erc20.recover.data":
             "Recovered {{symbol}} to {{receiver}}",
         "transactions.kpi.token.create": "Created KPI token {{address}}",

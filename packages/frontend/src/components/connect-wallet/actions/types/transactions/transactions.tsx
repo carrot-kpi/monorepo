@@ -11,7 +11,7 @@ export const Transactions = () => {
     const clearTransactions = useClearTransactions();
 
     return (
-        <div className="gap-2 w-full hidden flex-col md:flex">
+        <div className="gap-3 hidden flex-col md:flex">
             {/* TODO: refine */}
             <Button
                 size="xsmall"
@@ -19,7 +19,7 @@ export const Transactions = () => {
                 disabled={transactions.length === 0}
                 onClick={clearTransactions}
                 className={{
-                    root: "w-10 h-10 p-0",
+                    root: "w-10 h-10 p-0 rounded-lg",
                 }}
             />
             {transactions.length === 0 ? (
@@ -30,7 +30,7 @@ export const Transactions = () => {
                     className={{ icon: "h-20" }}
                 />
             ) : (
-                <div className="h-64 overflow-y-auto cui-scrollbar">
+                <div className="flex flex-col gap-9 h-[590px] overflow-y-auto cui-scrollbar">
                     {transactions
                         .sort((a, b) => b.timestamp - a.timestamp)
                         .map((tx) => {
