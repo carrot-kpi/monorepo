@@ -5,6 +5,7 @@ import type {
     FetchKPITokensParams,
     FetchLatestKpiTokenAddressesParams,
     FetchOraclesParams,
+    FetchTemplateFeatureEnabledForParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
     SupportedInChainParams,
@@ -20,6 +21,7 @@ import type {
     GetKPITokensAmountQueryResponse,
     GetKPITokenAddressesQueryResponse,
     GetLatestKPITokenAddressesQueryResponse,
+    GetTemplateFeatureEnabledForQueryResponse,
 } from "./queries";
 import {
     GetKPITokensQuery,
@@ -33,6 +35,7 @@ import {
     GetKPITokensAmountQuery,
     GetKPITokenAddressesQuery,
     GetLatestKPITokenAddressesQuery,
+    GetOracleTemplateFeatureEnabledForQuery,
 } from "./queries";
 import {
     ChainId,
@@ -466,6 +469,66 @@ class Fetcher implements IPartialCarrotFetcher {
             } while (page.length === PAGE_SIZE);
             return templates;
         }
+    }
+
+    private async fetchTemplateFeatureEnabledFor(
+        subgraphURL: string,
+        managerAddress: Address,
+        templateId: number,
+        featureId: number,
+        account: Address,
+    ): Promise<boolean> {
+        const lowerCaseAccount = account.toLowerCase();
+        const response = await query<GetTemplateFeatureEnabledForQueryResponse>(
+            subgraphURL,
+            GetOracleTemplateFeatureEnabledForQuery,
+            {
+                managerAddress: managerAddress.toLowerCase(),
+                templateId,
+                featureId,
+                account: lowerCaseAccount,
+            },
+        );
+        return (
+            response.manager?.templateSets?.[0]?.features?.[0].allowed?.[0]
+                .address === lowerCaseAccount
+        );
+    }
+
+    public async fetchKPITokenTemplateFeatureEnabledFor({
+        publicClient,
+        templateId,
+        featureId,
+        account,
+    }: FetchTemplateFeatureEnabledForParams): Promise<boolean> {
+        const { chainAddresses, subgraphURL } = await this.validate({
+            publicClient,
+        });
+        return await this.fetchTemplateFeatureEnabledFor(
+            subgraphURL,
+            chainAddresses.kpiTokensManager,
+            templateId,
+            featureId,
+            account,
+        );
+    }
+
+    public async fetchOracleTemplateFeatureEnabledFor({
+        publicClient,
+        templateId,
+        featureId,
+        account,
+    }: FetchTemplateFeatureEnabledForParams): Promise<boolean> {
+        const { chainAddresses, subgraphURL } = await this.validate({
+            publicClient,
+        });
+        return await this.fetchTemplateFeatureEnabledFor(
+            subgraphURL,
+            chainAddresses.oraclesManager,
+            templateId,
+            featureId,
+            account,
+        );
     }
 
     private async validate({

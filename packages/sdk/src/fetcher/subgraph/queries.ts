@@ -245,3 +245,34 @@ export const GetOracleTemplatesOfManagerQuery = `
         }
     }
 `;
+
+export interface GetTemplateFeatureEnabledForQueryResponse {
+    manager?: {
+        templateSets: {
+            features: {
+                allowed: {
+                    address: string;
+                }[];
+            }[];
+        }[];
+    };
+}
+
+export const GetOracleTemplateFeatureEnabledForQuery = `
+    query getOracleTemplateFeatureEnabledFor(
+        $managerAddress: ID!
+        $templateId: BigInt!
+        $featureId: BigInt!
+        $account: Bytes!
+    ) {
+        manager: oraclesManager(id: $managerAddress) {
+            templateSets(where: { managerId: $templateId }) {
+                features(where: { featureId: $featureId }) {
+                    allowed(where: { address: $account }) {
+                        address
+                    }
+                }
+            }
+        }
+    }
+`;
