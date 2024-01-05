@@ -1,5 +1,5 @@
 import { type Address } from "wagmi";
-import { useTemplateFeatureEnabledFor } from "./useTemplateFeatureEnabledFor copy";
+import { useTemplateFeatureEnabledFor } from "./useTemplateFeatureEnabledFor";
 
 interface KPITokenTemplateFeatureEnabledForParams {
     templateId?: number;
