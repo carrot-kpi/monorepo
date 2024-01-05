@@ -36,6 +36,7 @@ import {
     GetKPITokenAddressesQuery,
     GetLatestKPITokenAddressesQuery,
     GetOracleTemplateFeatureEnabledForQuery,
+    GetKPITokenTemplateFeatureEnabledForQuery,
 } from "./queries";
 import {
     ChainId,
@@ -471,30 +472,6 @@ class Fetcher implements IPartialCarrotFetcher {
         }
     }
 
-    private async fetchTemplateFeatureEnabledFor(
-        subgraphURL: string,
-        managerAddress: Address,
-        templateId: number,
-        featureId: number,
-        account: Address,
-    ): Promise<boolean> {
-        const lowerCaseAccount = account.toLowerCase();
-        const response = await query<GetTemplateFeatureEnabledForQueryResponse>(
-            subgraphURL,
-            GetOracleTemplateFeatureEnabledForQuery,
-            {
-                managerAddress: managerAddress.toLowerCase(),
-                templateId,
-                featureId,
-                account: lowerCaseAccount,
-            },
-        );
-        return (
-            response.manager?.templateSets?.[0]?.features?.[0].allowed?.[0]
-                .address === lowerCaseAccount
-        );
-    }
-
     public async fetchKPITokenTemplateFeatureEnabledFor({
         publicClient,
         templateId,
@@ -504,12 +481,20 @@ class Fetcher implements IPartialCarrotFetcher {
         const { chainAddresses, subgraphURL } = await this.validate({
             publicClient,
         });
-        return await this.fetchTemplateFeatureEnabledFor(
+        const lowerCaseAccount = account.toLowerCase();
+        const response = await query<GetTemplateFeatureEnabledForQueryResponse>(
             subgraphURL,
-            chainAddresses.kpiTokensManager,
-            templateId,
-            featureId,
-            account,
+            GetKPITokenTemplateFeatureEnabledForQuery,
+            {
+                managerAddress: chainAddresses.kpiTokensManager.toLowerCase(),
+                templateId,
+                featureId,
+                account: lowerCaseAccount,
+            },
+        );
+        return (
+            response.manager?.templateSets?.[0]?.features?.[0].allowed?.[0]
+                .address === lowerCaseAccount
         );
     }
 
@@ -522,12 +507,20 @@ class Fetcher implements IPartialCarrotFetcher {
         const { chainAddresses, subgraphURL } = await this.validate({
             publicClient,
         });
-        return await this.fetchTemplateFeatureEnabledFor(
+        const lowerCaseAccount = account.toLowerCase();
+        const response = await query<GetTemplateFeatureEnabledForQueryResponse>(
             subgraphURL,
-            chainAddresses.oraclesManager,
-            templateId,
-            featureId,
-            account,
+            GetOracleTemplateFeatureEnabledForQuery,
+            {
+                managerAddress: chainAddresses.oraclesManager.toLowerCase(),
+                templateId,
+                featureId,
+                account: lowerCaseAccount,
+            },
+        );
+        return (
+            response.manager?.templateSets?.[0]?.features?.[0].allowed?.[0]
+                .address === lowerCaseAccount
         );
     }
 

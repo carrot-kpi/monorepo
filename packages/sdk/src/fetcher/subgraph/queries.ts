@@ -276,3 +276,22 @@ export const GetOracleTemplateFeatureEnabledForQuery = `
         }
     }
 `;
+
+export const GetKPITokenTemplateFeatureEnabledForQuery = `
+    query getKPITokenTemplateFeatureEnabledFor(
+        $managerAddress: ID!
+        $templateId: BigInt!
+        $featureId: BigInt!
+        $account: Bytes!
+    ) {
+        manager: kpiTokensManager(id: $managerAddress) {
+            templateSets(where: { managerId: $templateId }) {
+                features(where: { featureId: $featureId }) {
+                    allowed(where: { address: $account }) {
+                        address
+                    }
+                }
+            }
+        }
+    }
+`;
