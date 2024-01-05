@@ -5,6 +5,7 @@ import type {
     FetchKPITokensParams,
     FetchLatestKpiTokenAddressesParams,
     FetchOraclesParams,
+    FetchTemplateFeatureEnabledForParams,
     FetchTemplatesParams,
     IPartialCarrotFetcher,
     SupportedInChainParams,
@@ -20,6 +21,7 @@ import type {
     GetKPITokensAmountQueryResponse,
     GetKPITokenAddressesQueryResponse,
     GetLatestKPITokenAddressesQueryResponse,
+    GetTemplateFeatureEnabledForQueryResponse,
 } from "./queries";
 import {
     GetKPITokensQuery,
@@ -33,6 +35,8 @@ import {
     GetKPITokensAmountQuery,
     GetKPITokenAddressesQuery,
     GetLatestKPITokenAddressesQuery,
+    GetOracleTemplateFeatureEnabledForQuery,
+    GetKPITokenTemplateFeatureEnabledForQuery,
 } from "./queries";
 import {
     ChainId,
@@ -466,6 +470,58 @@ class Fetcher implements IPartialCarrotFetcher {
             } while (page.length === PAGE_SIZE);
             return templates;
         }
+    }
+
+    public async fetchKPITokenTemplateFeatureEnabledFor({
+        publicClient,
+        templateId,
+        featureId,
+        account,
+    }: FetchTemplateFeatureEnabledForParams): Promise<boolean> {
+        const { chainAddresses, subgraphURL } = await this.validate({
+            publicClient,
+        });
+        const lowerCaseAccount = account.toLowerCase();
+        const response = await query<GetTemplateFeatureEnabledForQueryResponse>(
+            subgraphURL,
+            GetKPITokenTemplateFeatureEnabledForQuery,
+            {
+                managerAddress: chainAddresses.kpiTokensManager.toLowerCase(),
+                templateId,
+                featureId,
+                account: lowerCaseAccount,
+            },
+        );
+        return (
+            response.manager?.templateSets?.[0]?.features?.[0].allowed?.[0]
+                .address === lowerCaseAccount
+        );
+    }
+
+    public async fetchOracleTemplateFeatureEnabledFor({
+        publicClient,
+        templateId,
+        featureId,
+        account,
+    }: FetchTemplateFeatureEnabledForParams): Promise<boolean> {
+        const { chainAddresses, subgraphURL } = await this.validate({
+            publicClient,
+        });
+        const lowerCaseAccount = account.toLowerCase();
+        const response = await query<GetTemplateFeatureEnabledForQueryResponse>(
+            subgraphURL,
+            GetOracleTemplateFeatureEnabledForQuery,
+            {
+                managerAddress: chainAddresses.oraclesManager.toLowerCase(),
+                templateId,
+                featureId,
+                account: lowerCaseAccount,
+            },
+        );
+        return (
+            response.manager?.templateSets?.[0]?.features?.[0].allowed?.[0]
+                .address === lowerCaseAccount
+        );
     }
 
     private async validate({
