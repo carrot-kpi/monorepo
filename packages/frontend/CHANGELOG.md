@@ -1,5 +1,18 @@
 # @carrot-kpi/host-frontend
 
+## 0.33.6
+
+### Patch Changes
+
+- f7d83c5: Redirect to the home page when switching chain while on the campaign page, to avoid inconsistencies
+- Updated dependencies [f7d83c5]
+- Updated dependencies [f7d83c5]
+- Updated dependencies [69e1aef]
+- Updated dependencies [69e1aef]
+  - @carrot-kpi/ui@0.66.6
+  - @carrot-kpi/sdk@1.46.0
+  - @carrot-kpi/react@0.73.0
+
 ## 0.33.5
 
 ### Patch Changes
