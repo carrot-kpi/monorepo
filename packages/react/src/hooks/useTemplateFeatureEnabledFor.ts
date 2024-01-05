@@ -14,13 +14,13 @@ export function useTemplateFeatureEnabledFor(
     params?: TemplateFeatureEnabledForParams,
 ): {
     loading: boolean;
-    allowed: boolean;
+    enabled: boolean;
 } {
     const preferDecentralization = usePreferDecentralization();
     const { chain } = useNetwork();
     const publicClient = usePublicClient();
 
-    const [allowed, setAllowed] = useState(false);
+    const [enabled, setEnabled] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export function useTemplateFeatureEnabledFor(
                     : Fetcher.fetchKPITokenTemplateFeatureEnabledFor(
                           allowanceParams,
                       ));
-                if (!cancelled) setAllowed(allowance);
+                if (!cancelled) setEnabled(allowance);
             } catch (error) {
                 console.error(
                     `error fetching allowance status for feature with id ${params.featureId} for account ${params.account} on template with id ${params.templateId}`,
@@ -73,5 +73,5 @@ export function useTemplateFeatureEnabledFor(
         publicClient,
     ]);
 
-    return { loading, allowed };
+    return { loading, enabled };
 }

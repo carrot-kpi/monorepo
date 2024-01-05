@@ -11,7 +11,7 @@ export function useKPITokenTemplateFeatureEnabledFor(
     params?: KPITokenTemplateFeatureEnabledForParams,
 ): {
     loading: boolean;
-    allowed: boolean;
+    enabled: boolean;
 } {
     return useTemplateFeatureEnabledFor({
         ...params,

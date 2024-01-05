@@ -11,7 +11,7 @@ export function useOracleTemplateFeatureEnabledFor(
     params?: OracleTemplateFeatureEnabledForParams,
 ): {
     loading: boolean;
-    allowed: boolean;
+    enabled: boolean;
 } {
     return useTemplateFeatureEnabledFor({
         ...params,
