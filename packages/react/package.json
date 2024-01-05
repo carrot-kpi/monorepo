@@ -79,6 +79,11 @@
             "import": "./dist/es/hooks/useKPITokenTemplate.mjs",
             "default": "./dist/cjs/hooks/useKPITokenTemplate.cjs"
         },
+        "./useKPITokenTemplateFeatureEnabledFor": {
+            "types": "./dist/types/hooks/useKPITokenTemplateFeatureEnabledFor.d.ts",
+            "import": "./dist/es/hooks/useKPITokenTemplateFeatureEnabledFor.mjs",
+            "default": "./dist/cjs/hooks/useKPITokenTemplateFeatureEnabledFor.cjs"
+        },
         "./useKPITokenTemplates": {
             "types": "./dist/types/hooks/useKPITokenTemplates.d.ts",
             "import": "./dist/es/hooks/useKPITokenTemplates.mjs",
@@ -103,6 +108,11 @@
             "types": "./dist/types/hooks/useOracleTemplate.d.ts",
             "import": "./dist/es/hooks/useOracleTemplate.mjs",
             "default": "./dist/cjs/hooks/useOracleTemplate.cjs"
+        },
+        "./useOracleTemplateFeatureEnabledFor": {
+            "types": "./dist/types/hooks/useOracleTemplateFeatureEnabledFor.d.ts",
+            "import": "./dist/es/hooks/useOracleTemplateFeatureEnabledFor.mjs",
+            "default": "./dist/cjs/hooks/useOracleTemplateFeatureEnabledFor.cjs"
         },
         "./useOracleTemplates": {
             "types": "./dist/types/hooks/useOracleTemplates.d.ts",
