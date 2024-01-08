@@ -104,7 +104,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
                         </Typography>
                     )}
                     {!__LIBRARY_MODE__ && multipleEnabledChains && (
-                        <CaretDown className="w-3" />
+                        <CaretDown className="w-3 dark:text-white" />
                     )}
                 </div>
             )}

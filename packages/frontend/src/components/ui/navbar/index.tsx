@@ -61,16 +61,7 @@ export const Navbar = ({
     bgColor = "transparent",
     links = [],
 }: NavbarProps) => {
-    // const [preferencesAnchor, setPreferencesAnchor] =
-    //     useState<HTMLButtonElement | null>(null);
-    // const preferencesPopoverRef = useRef<HTMLDivElement>(null);
-
     const [open, setOpen] = useState(false);
-    // const [preferencesPopoverOpen, setPreferencesPopoverOpen] = useState(false);
-
-    // useClickAway(preferencesPopoverRef, () => {
-    //     setPreferencesPopoverOpen(false);
-    // });
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver((entries) => {
@@ -84,10 +75,6 @@ export const Navbar = ({
             resizeObserver.unobserve(document.body);
         };
     });
-
-    // const handlePreferencesPopoverOpen = useCallback(() => {
-    //     setPreferencesPopoverOpen(true);
-    // }, []);
 
     return (
         <>
@@ -156,22 +143,6 @@ export const Navbar = ({
                                 }}
                             />
                         </div>
-                        {/* TODO: remove and move into the drawer */}
-                        {/* <Button
-                            data-testid="settings-button"
-                            ref={setPreferencesAnchor}
-                            size="small"
-                            onClick={handlePreferencesPopoverOpen}
-                            icon={SettingsIcon}
-                            className={{
-                                root: "w-11 h-12 p-0 flex justify-center items-center",
-                            }}
-                        />
-                        <PreferencesPopover
-                            open={preferencesPopoverOpen}
-                            anchor={preferencesAnchor}
-                            ref={preferencesPopoverRef}
-                        /> */}
                     </div>
                 </div>
             </div>

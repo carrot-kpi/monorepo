@@ -6,8 +6,7 @@ import { ConnectPopover } from "./connect-popover";
 import { Avatar } from "./avatar";
 import { cva } from "class-variance-authority";
 import { shortenAddress } from "../../utils/address";
-import Settings from "../../icons/settings";
-import { SettingsDrawer } from "./settings-drawer";
+import { AccountSettingsDrawer } from "./account-settings-drawer";
 import { ChainSelect } from "../chain-select/chain-select";
 
 const rootStyles = cva([
@@ -74,7 +73,7 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
 
     return (
         <>
-            <SettingsDrawer
+            <AccountSettingsDrawer
                 open={settingsDrawerOpen}
                 onClose={handleSettingsDrawerClose}
             />
@@ -88,14 +87,12 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                 {address ? (
                     <>
                         <ChainSelect />
-                        <div className="flex gap-2 items-center border border-black dark:border-white px-[10px] rounded-lg">
+                        <div
+                            className="flex gap-2 cursor-pointer items-center border border-black dark:border-white px-[10px] rounded-lg"
+                            onClick={handleSettingsDrawerOpen}
+                        >
                             <Avatar address={address} />
                             <Typography>{shortenAddress(address)}</Typography>
-                            <Settings
-                                data-testid="settings-button"
-                                className="cursor-pointer"
-                                onClick={handleSettingsDrawerOpen}
-                            />
                         </div>
                     </>
                 ) : (

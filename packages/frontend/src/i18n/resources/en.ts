@@ -40,6 +40,7 @@ export const en = {
         "campaign.loading": "Loading",
         "campaign.all": "All Campaigns",
         "templates.viewAll": "View all",
+        "settings.title": "Settings",
         "preferences.title": "Interface settings",
         "preferences.theme": "Dark theme",
         "preferences.decentralization": "Decentralization mode",
