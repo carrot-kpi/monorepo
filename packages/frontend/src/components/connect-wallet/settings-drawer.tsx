@@ -7,15 +7,15 @@ import { cva } from "class-variance-authority";
 import React, { useCallback, useMemo, useRef } from "react";
 import { Avatar } from "./avatar";
 import { Typography } from "@carrot-kpi/ui";
-import { shortenAddress } from "src/utils/address";
 import { useAccount, useConnect, useNetwork } from "wagmi";
 import { ChainSelect } from "../chain-select/chain-select";
-import X from "src/icons/x";
+import X from "../../icons/x";
 import { useClickAway } from "react-use";
-import Power from "src/icons/power";
-import { ReadonlyConnector } from "src/connectors";
-import External from "src/icons/external";
+import Power from "../../icons/power";
+import External from "../../icons/external";
 import { Actions } from "./actions";
+import { ReadonlyConnector } from "../../connectors";
+import { shortenAddress } from "../../utils/address";
 
 const overlayStyles = cva([
     "fixed",

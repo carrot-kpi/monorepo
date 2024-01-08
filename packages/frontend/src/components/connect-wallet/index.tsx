@@ -5,8 +5,8 @@ import { useAccount } from "wagmi";
 import { ConnectPopover } from "./connect-popover";
 import { Avatar } from "./avatar";
 import { cva } from "class-variance-authority";
-import { shortenAddress } from "src/utils/address";
-import Settings from "src/icons/settings";
+import { shortenAddress } from "../../utils/address";
+import Settings from "../../icons/settings";
 import { SettingsDrawer } from "./settings-drawer";
 import { ChainSelect } from "../chain-select/chain-select";
 

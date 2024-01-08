@@ -7,9 +7,9 @@ import { getTransactionExplorerLink } from "../../../../../utils/explorers";
 import dayjs from "dayjs";
 import { useNetwork } from "wagmi";
 import { ENABLED_CHAINS, SUPPORTED_CHAINS } from "../../../../../constants";
-import { ChainIcon } from "src/components/chain-icon";
-import Error from "src/icons/error";
-import { getShortDate } from "src/utils/date";
+import Error from "../../../../../icons/error";
+import { getShortDate } from "../../../../../utils/date";
+import { ChainIcon } from "../../../../chain-icon";
 
 export const Transaction = <T extends TxType>(tx: Tx<T>) => {
     const { chain } = useNetwork();

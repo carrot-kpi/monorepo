@@ -6,7 +6,7 @@ import { Typography } from "@carrot-kpi/ui";
 import { NavbarVerticalLayout } from "./vertical-layout";
 import type { NavbarLink } from "../../../constants";
 import { cva } from "class-variance-authority";
-import Logo from "src/icons/logo";
+import Logo from "../../../icons/logo";
 
 const rootStyles = cva(
     [

@@ -1,10 +1,10 @@
 import React from "react";
 import { Transaction } from "./transaction";
-import { useTransactions } from "src/hooks/useTransactions";
-import { useClearTransactions } from "src/hooks/useClearTransactions";
-import { Empty } from "src/components/ui/empty";
+import { useTransactions } from "../../../../../hooks/useTransactions";
+import { useClearTransactions } from "../../../../../hooks/useClearTransactions";
 import { Button } from "@carrot-kpi/ui";
 import Bin from "../../../../../icons/bin";
+import { Empty } from "../../../../ui/empty";
 
 export const Transactions = () => {
     const transactions = useTransactions();

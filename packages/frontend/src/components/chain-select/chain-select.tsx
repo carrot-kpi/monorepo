@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ChainIcon } from "../chain-icon";
-import { ENABLED_CHAINS, SUPPORTED_CHAINS } from "src/constants";
+import { ENABLED_CHAINS, SUPPORTED_CHAINS } from "../../constants";
 import type { ChainId } from "@carrot-kpi/sdk";
-import CaretDown from "src/icons/caret-down";
+import CaretDown from "../../icons/caret-down";
 import { useAccount, useNetwork } from "wagmi";
-import Error from "src/icons/error";
+import Error from "../../icons/error";
 import { NetworksPopover } from "./networks-popover";
 import { Typography } from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
