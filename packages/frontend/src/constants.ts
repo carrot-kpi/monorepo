@@ -126,7 +126,7 @@ export const NAVBAR_LINKS: NavbarLink[] = [
         external: false,
     },
     {
-        title: "New campaign",
+        title: "Create",
         Icon: Stars,
         to: "/new",
         external: false,

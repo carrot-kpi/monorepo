@@ -28,11 +28,13 @@ export const ChainIcon = ({
     variant = "md",
     rounded = false,
     className,
+    ...props
 }: ChainIconProps) => {
     return (
         <div
             className={rootStyles({ className, variant, rounded })}
             style={{ backgroundColor }}
+            {...props}
         >
             <div className="flex items-center justify-center">{logo}</div>
         </div>

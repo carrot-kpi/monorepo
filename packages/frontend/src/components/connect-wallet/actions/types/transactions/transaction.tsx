@@ -36,12 +36,12 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
     }, []);
 
     return (
-        <div className="h-16 flex w-full justify-between gap-5">
+        <div className="h-16 flex w-full justify-between items-center md:items-start gap-5">
             {loading ? (
                 <Skeleton width="40%" />
             ) : (
                 <a href={href} target="_blank" rel="noopener noreferrer">
-                    <div className="flex justify-between gap-3 cursor-pointer">
+                    <div className="flex justify-between items-center gap-3 cursor-pointer">
                         {Icon ? (
                             <Icon />
                         ) : (
@@ -63,7 +63,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
                             </Typography>
                             <Typography
                                 className={{
-                                    root: "max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap",
+                                    root: "hidden md:block max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap",
                                 }}
                             >
                                 {summary}

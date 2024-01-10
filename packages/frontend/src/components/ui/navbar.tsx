@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import MenuIcon from "../../../icons/menu";
-import { ConnectWallet } from "../../connect-wallet";
+import { ConnectWallet } from "../connect-wallet";
 import { Typography } from "@carrot-kpi/ui";
-import { NavbarVerticalLayout } from "./vertical-layout";
-import type { NavbarLink } from "../../../constants";
+import type { NavbarLink } from "../../constants";
 import { cva } from "class-variance-authority";
-import Logo from "../../../icons/logo";
+import Logo from "../../icons/logo";
+import LogoIcon from "../../icons/logo-icon";
 
 const rootStyles = cva(
     [
@@ -30,6 +29,7 @@ const rootStyles = cva(
 
 const navLinkStyles = cva(
     [
+        "w-full",
         "flex",
         "items-center",
         "gap-2",
@@ -61,7 +61,7 @@ export const Navbar = ({
     bgColor = "transparent",
     links = [],
 }: NavbarProps) => {
-    const [open, setOpen] = useState(false);
+    const [, setOpen] = useState(false);
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver((entries) => {
@@ -78,25 +78,17 @@ export const Navbar = ({
 
     return (
         <>
-            <NavbarVerticalLayout
-                open={open}
-                links={links}
-                onNavbarClose={() => setOpen(false)}
-            />
             <div className={rootStyles({ bgColor })}>
                 <div className="w-full h-24 md:h-32 max-w-screen-2xl relative flex items-center justify-between">
                     <div className="flex gap-4 items-center">
                         <div className="flex items-center">
-                            <MenuIcon
-                                className="w-8 h-8 cursor-pointer md:hidden mr-4"
-                                onClick={() => setOpen(!open)}
-                            />
                             <NavLink to="/" onClick={() => setOpen(false)}>
-                                <Logo className="h-10 md:h-14 xl:h-16 w-auto text-black" />
+                                <Logo className="hidden md:block h-10 md:h-14 xl:h-16 w-auto text-black" />
+                                <LogoIcon className="md:hidden h-16 w-auto text-black" />
                             </NavLink>
                         </div>
                     </div>
-                    <nav className="hidden md:flex gap-2 bg-white dark:bg-black border border-black dark:border-white py-3 px-[10px] rounded-xl">
+                    <nav className="w-3/4 min-w-fit fixed z-10 bottom-2 left-1/2 -translate-x-1/2 md:bottom-0 md:w-auto md:left-auto md:transform-none md:z-0 md:relative flex gap-2 bg-white dark:bg-black border border-black dark:border-white py-3 px-[10px] rounded-xl">
                         {links.map(
                             ({ Icon, external, title, to, highlighted }) => {
                                 const additionalProps = external
@@ -135,14 +127,12 @@ export const Navbar = ({
                         )}
                     </nav>
                     <div className="flex md:flex-row items-center gap-4">
-                        <div className="hidden md:block">
-                            <ConnectWallet
-                                className={{
-                                    connectButton:
-                                        "h-11 px-3 w-full xl:w-fit rounded-lg",
-                                }}
-                            />
-                        </div>
+                        <ConnectWallet
+                            className={{
+                                connectButton:
+                                    "h-11 px-3 w-full xl:w-fit rounded-lg",
+                            }}
+                        />
                     </div>
                 </div>
             </div>

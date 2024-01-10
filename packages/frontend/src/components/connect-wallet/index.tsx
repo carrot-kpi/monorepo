@@ -8,6 +8,8 @@ import { cva } from "class-variance-authority";
 import { shortenAddress } from "../../utils/address";
 import { AccountSettingsDrawer } from "./account-settings-drawer";
 import { ChainSelect } from "../chain-select/chain-select";
+import { AccountSettingsDrawerMobile } from "./account-settings-drawer-mobile";
+import { useWindowSize } from "react-use";
 
 const rootStyles = cva([
     "flex",
@@ -32,6 +34,7 @@ interface ConnectWalletProps {
 
 export const ConnectWallet = ({ className }: ConnectWalletProps) => {
     const { t } = useTranslation();
+    const { width } = useWindowSize();
     const { address } = useAccount();
     const [connectWallet, setConnectWallet] =
         useState<HTMLButtonElement | null>(null);
@@ -73,10 +76,17 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
 
     return (
         <>
-            <AccountSettingsDrawer
-                open={settingsDrawerOpen}
-                onClose={handleSettingsDrawerClose}
-            />
+            {width >= 768 ? (
+                <AccountSettingsDrawer
+                    open={settingsDrawerOpen}
+                    onClose={handleSettingsDrawerClose}
+                />
+            ) : (
+                <AccountSettingsDrawerMobile
+                    open={settingsDrawerOpen}
+                    onClose={handleSettingsDrawerClose}
+                />
+            )}
             <ConnectPopover
                 open={connectPopoverOpen}
                 anchor={connectWallet}
@@ -92,7 +102,9 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                             onClick={handleSettingsDrawerOpen}
                         >
                             <Avatar address={address} />
-                            <Typography>{shortenAddress(address)}</Typography>
+                            <Typography className={{ root: "hidden md:block" }}>
+                                {shortenAddress(address)}
+                            </Typography>
                         </div>
                     </>
                 ) : (

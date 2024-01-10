@@ -5,7 +5,7 @@ export const en = {
         "stagingMode.warning":
             "You are using Carrot templates' staging versions. Reach out to the team in Discord for the LIVE released and audited version.",
         "video.notSupported": "The browser doesn't support the video tag.",
-        "connect.wallet": "Connect wallet",
+        "connect.wallet": "Connect",
         "connect.wallet.unknown": "Unknown",
         "connect.wallet.network": "Network",
         "network.switch.disabled.title": "Chain changed.",
