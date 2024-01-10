@@ -10,6 +10,19 @@ export class BasePage {
     checkUrl(url: string) {
         cy.url().should("include", url);
     }
+    // removing attribute "target" from element before clicking it; opens the page in the same tab instead of the new one
+    checkRedirectionToNewTab(
+        selector: string,
+        url: string,
+        parentSelector?: boolean,
+    ) {
+        if (parentSelector) {
+            cy.get(selector).parent().invoke("removeAttr", "target").click();
+        } else {
+            cy.get(selector).invoke("removeAttr", "target").click();
+        }
+        this.checkUrl(url);
+    }
     compareText(element: string, text: string, index?: number) {
         if (index !== undefined) {
             cy.get(element)
@@ -23,6 +36,7 @@ export class BasePage {
             });
         }
     }
+    // element not visible on FE; visible in DOM
     elementIsVisible(element: string, index?: number) {
         index !== undefined
             ? cy.get(element).eq(index).should("be.visible")

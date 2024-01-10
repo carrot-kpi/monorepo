@@ -4,7 +4,7 @@
 export const header = {
     stagingBanner_Text: "[data-testid=staging-banner-text]",
     about_Button: "[data-testid=header-About-button]",
-    campaignsHeader_Button: "[data-testid=header-Campaigns-button]",
+    campaigns_Button: "[data-testid=header-Campaigns-button]",
     profileAvatar_Button: "[data-testid=profile-avatar-button]",
     power_Button: "[data-testid=account-dropdown-power-button]",
 };

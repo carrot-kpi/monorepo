@@ -10,7 +10,7 @@ module.exports = defineConfig({
         runMode: process.env.CI ? 1 : 0,
         openMode: 0,
     },
-    chromeWebSecurity: true,
+    chromeWebSecurity: false,
     viewportWidth: 1920,
     viewportHeight: 1080,
     video: false,

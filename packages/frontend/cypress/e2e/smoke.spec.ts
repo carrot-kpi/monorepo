@@ -12,9 +12,9 @@ describe("Guest no wallet - Home page assertions", () => {
     it("Staging banner is visible", () => {
         homePage.checkStagingBanner();
     });
-    // todo: find out how to handle redirection to new tab in Cypress
-    // it("About button redirects to Carrot community page", () => {
-    // });
+    it("About button redirects to Carrot community page", () => {
+        homePage.checkIfOnCarrotCommunityPage();
+    });
     it("Campaigns button redirects to All campaigns page", () => {
         homePage.clickCampaignsHeader();
         homePage.checkIfOnAllCampaignsPage();
@@ -32,7 +32,6 @@ describe("Guest no wallet - Home page assertions", () => {
     it("Check Settings dropdown", () => {
         homePage.checkSettingsDropdown();
     });
-    // todo: check if network switching can be done in a loop
     it("Switch to Scroll sepolia network", () => {
         homePage.selectNetwork(networks.scrollSepolia);
         homePage.checkSelectedNetwork(networks.scrollSepolia);
@@ -53,7 +52,7 @@ describe("Guest no wallet - Home page assertions", () => {
     it("Check How it works video", () => {
         homePage.checkHowItWorksPreview();
     });
-    it("Check random active campaign redirection", () => {
+    it.only("Check random active campaign redirection", () => {
         homePage.checkActiveCampaign();
         homePage.goBack();
     });
@@ -70,10 +69,9 @@ describe("Guest no wallet - Home page assertions", () => {
         createCampaign.checkWalletDisconnectedText();
         homePage.goBack();
     });
-    // todo: find out how to handle redirection to new tab in Cypress
-    // it("Check Footer links redirection", () => {
-    //     homePage.checkFooterRedirections();
-    // });
+    it("Check Footer links redirection", () => {
+        homePage.checkFooterRedirections();
+    });
 });
 
 describe("User with connected wallet", () => {

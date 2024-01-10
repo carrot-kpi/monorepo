@@ -20,7 +20,6 @@ export const urls = {
     audits: "https://github.com/carrot-kpi/contracts/tree/main/audits",
     discord: "https://discord.com/invite/uRer2D4Pdf",
     twitter: "https://twitter.com/CarrotEth",
-    carrotInfoPage: "https://www.staging.carrot.community/",
 };
 export const textData = {
     stagingBannerText:

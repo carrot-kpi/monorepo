@@ -81,6 +81,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
                     <>
                         <LogoIcon className="w-40 h-40" />
                         <Typography
+                            data-testid="welcome-to-carrot-modal-title"
                             variant="xl"
                             weight="bold"
                             className={{ root: "text-center" }}
@@ -88,6 +89,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
                             {t("authenticate.title")}
                         </Typography>
                         <Typography
+                            data-testid="welcome-to-carrot-modal-description"
                             className={{
                                 root: "text-center mb-4",
                             }}
@@ -96,6 +98,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
                         </Typography>
                         <div className="flex gap-4">
                             <Button
+                                data-testid="welcome-to-carrot-modal-cancel-button"
                                 variant="secondary"
                                 size="small"
                                 onClick={onCancel}
@@ -103,6 +106,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
                                 {t("authenticate.cancel")}
                             </Button>
                             <Button
+                                data-testid="welcome-to-carrot-modal-sign-message-button"
                                 size="small"
                                 onClick={handleSign}
                                 loading={loading}
