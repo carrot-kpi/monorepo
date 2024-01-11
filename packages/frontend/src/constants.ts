@@ -7,7 +7,6 @@ import GnosisLogo from "./icons/chains/gnosis";
 import ScrollLogo from "./icons/chains/scroll";
 import PolygonLogo from "./icons/chains/polygon";
 import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
-import Start from "./icons/start";
 import Grid from "./icons/grid";
 import Stars from "./icons/stars";
 
@@ -114,12 +113,6 @@ export interface NavbarLink {
 
 export const NAVBAR_LINKS: NavbarLink[] = [
     {
-        title: "Start",
-        Icon: Start,
-        to: "/start",
-        external: false,
-    },
-    {
         title: "Campaigns",
         Icon: Grid,
         to: "/campaigns",
@@ -128,7 +121,8 @@ export const NAVBAR_LINKS: NavbarLink[] = [
     {
         title: "Create",
         Icon: Stars,
-        to: "/new",
+        // TODO: redirect to proper location
+        to: "/create/1",
         external: false,
         highlighted: true,
     },
