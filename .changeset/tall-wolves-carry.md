@@ -3,3 +3,4 @@
 ---
 
 Redirect to the home page when switching chain while on the campaign page, to avoid inconsistencies
+Add new account and settings drawer
