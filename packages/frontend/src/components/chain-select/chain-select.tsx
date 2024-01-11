@@ -74,6 +74,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
             )}
             {address && (
                 <div
+                    data-testid="network-drop-down-button"
                     className={`h-11 w-fit flex items-center border border-black dark:border-white px-[10px] rounded-lg ${
                         __LIBRARY_MODE__ || !multipleEnabledChains
                             ? ""
@@ -87,6 +88,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
                     ref={setNetworksPopoverAnchor}
                 >
                     <ChainIcon
+                        data-testid={`${chainId}-icon`}
                         backgroundColor={
                             supportedChain
                                 ? SUPPORTED_CHAINS[chainId as ChainId]

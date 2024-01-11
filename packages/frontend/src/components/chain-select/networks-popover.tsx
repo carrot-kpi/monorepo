@@ -49,7 +49,7 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                     const Logo = chainFromSupportedChains?.logo || Error;
                     return (
                         <div
-                            data-testid={`${supportedChain.name}-network-button`}
+                            data-testid={`${supportedChain.id}-network-button`}
                             key={supportedChain.id}
                             className="cursor-pointer"
                             onClick={handleChainClick}
