@@ -8,8 +8,6 @@ import {
     campaignData,
     templateData,
 } from "cypress/utils/data";
-import { el } from "@faker-js/faker";
-import { stringify } from "querystring";
 /**
  * @exports default methods used in all tests
  */
@@ -203,46 +201,27 @@ export class HomePage extends BasePage {
         this.clickHowItWorks();
         this.elementIsVisible(selectors.heroSection.howItWorksVideo_Preview);
     }
-    checkActiveCampaign() {
-        // todo: find out how to return all elements; ATM returning 1 selector; there are 5 on front-end with same partial id
-        cy.get("[data-testid*='campaign-title']")
-            .contains("campaign-title")
-            .then(($el) => {
-                // Check if there's at least one element
-                cy.log("ELEMENT LENGTH" + $el);
-                cy.wait(5000);
-
-                if ($el) {
-                    const randomIndex = Math.floor(Math.random() * $el);
-
-                    cy.log("RANDOM INDEX: " + randomIndex);
-                    cy.wait(5000);
-                    cy.wrap($el)
-                        .invoke("text")
-                        .then((textFromElement) => {
-                            cy.log("TITLE OF CAMPAIGN: " + textFromElement);
-                            cy.wait(5000);
-                            // Put title into variable
-                            campaignData.title =
-                                typeof textFromElement === "string"
-                                    ? textFromElement
-                                    : "";
-                            cy.log(
-                                "STORED TEXT IN VARIABLE: " +
-                                    campaignData.title,
-                            );
-                            // Check redirection to selected campaign page
-                            this.click(
-                                selectors.campaignsSection.viewCampaign_Button,
-                                randomIndex,
-                            );
-                            cy.wait(5000);
-                            // todo: add assertion of title when redirected to campaigns page when we have selector
-                        });
-                } else {
-                    cy.log("No active campaigns.");
-                }
-            });
+    checkFirstActiveCampaign() {
+        cy.get("[data-testid*='campaign-title']").then(($el) => {
+            if ($el) {
+                cy.wrap($el)
+                    .invoke("text")
+                    .then((textFromElement) => {
+                        // Put title into variable
+                        campaignData.title =
+                            typeof textFromElement === "string"
+                                ? textFromElement
+                                : "";
+                        // Check redirection to selected campaign page
+                        this.click(
+                            selectors.campaignsSection.viewCampaign_Button,
+                        );
+                        // todo: add assertion of title when redirected to campaigns page when we have selector
+                    });
+            } else {
+                cy.log("No active campaigns.");
+            }
+        });
     }
     checkFirstTemplate() {
         this.compareText(

@@ -52,8 +52,8 @@ describe("Guest no wallet - Home page assertions", () => {
     it("Check How it works video", () => {
         homePage.checkHowItWorksPreview();
     });
-    it.only("Check random active campaign redirection", () => {
-        homePage.checkActiveCampaign();
+    it("Check random active campaign redirection", () => {
+        homePage.checkFirstActiveCampaign();
         homePage.goBack();
     });
     it("View all campaigns button redirects to All campaigns page", () => {
