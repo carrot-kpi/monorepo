@@ -29,6 +29,8 @@ export const en = {
         "home.templates": "Templates",
         "home.latestCampaigns": "Latest Campaigns",
         "home.allCampaigns": "View all campaigns",
+        "draft.create": "Save as draft",
+        "draft.delete": "Delete",
         "create.campaign": "Create campaign",
         "create.loading": "Loading",
         "create.template.title": "Title",

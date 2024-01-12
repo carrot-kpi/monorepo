@@ -1,6 +1,7 @@
 import React from "react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import debounce from "lodash.debounce";
+import { draftsReducer } from "./reducers/drafts/reducer";
 import { transactionsReducer } from "./reducers/transactions/reducer";
 import { modalsReducer } from "./reducers/modals/reducer";
 import { loadState, storeState } from "../utils/state";
@@ -10,6 +11,7 @@ import type { ReactNode } from "react";
 import { HostStateContext } from "./hooks";
 
 const rootReducer = combineReducers({
+    drafts: draftsReducer,
     transactions: transactionsReducer,
     modals: modalsReducer,
     [staticApi.reducerPath]: staticApi.reducer,

@@ -24,7 +24,7 @@ export const App = ({ templateId }: AppProps) => {
                 <Route path="/" element={<Home templateId={templateId} />} />
                 <Route path="/campaigns" element={<Campaigns />} />
                 <Route
-                    path="/create/:templateId"
+                    path="/create/:templateId/draft/:draftId?"
                     element={<CreateWithTemplateId />}
                 />
                 <Route path="/campaigns/:address" element={<Page />} />

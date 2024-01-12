@@ -9,21 +9,24 @@ import {
 import { useState } from "react";
 import { Fetcher, type ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
+import { Button, ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
 import { useInvalidateLatestKPITokens } from "../hooks/useInvalidateLatestKPITokens";
 import { useAddTransaction } from "../hooks/useAddTransaction";
 import { useAccount, useNetwork, usePublicClient } from "wagmi";
+import { useAddDraft } from "../hooks/useAddDraft";
+import { useDraft } from "../hooks/useDraft";
 
 export function CampaignCreationForm<S extends SerializableObject<S>>() {
     const { i18n, t } = useTranslation();
     const navigate = useNavigate();
-    const { templateId } = useParams();
+    const { templateId, draftId } = useParams();
     const publicClient = usePublicClient();
     const { state } = useLocation();
     const { chain } = useNetwork();
     const { address } = useAccount();
     const addTransaction = useAddTransaction();
+    const addDraft = useAddDraft();
     const invalidateLatestKPITokens = useInvalidateLatestKPITokens();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
@@ -33,6 +36,10 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         state && "specification" in state.template ? state.template : null,
     );
     const [formKey, setFormKey] = useState(0);
+    const [currentDraftId, setCurrentDraftId] = useState("");
+    const [savingDraft, setSavingDraft] = useState(false);
+
+    const existingDraft = useDraft(currentDraftId);
     const [draftState, setDraftState] = useState<{
         templateId?: number;
         state: S;
@@ -46,6 +53,21 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
     useEffect(() => {
         setFormKey((prevState) => prevState + 1);
     }, [chain, address]);
+
+    // initialize the current draft id
+    useEffect(() => {
+        if (currentDraftId) return;
+        setCurrentDraftId(draftId || new Date().getTime().toString());
+    }, [currentDraftId, draftId]);
+
+    useEffect(() => {
+        if (!!existingDraft?.id) {
+            setDraftState((previousState) => ({
+                ...previousState,
+                state: existingDraft.state as S,
+            }));
+        }
+    }, [existingDraft?.id, existingDraft?.state]);
 
     useEffect(() => {
         if (!!state?.template) {
@@ -141,39 +163,60 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         invalidateLatestKPITokens();
     }, [invalidateLatestKPITokens]);
 
+    const handleCreateDraft = useCallback(() => {
+        addDraft(currentDraftId, draftState.state);
+        setSavingDraft(true);
+        setTimeout(() => {
+            setSavingDraft(false);
+        }, 500);
+    }, [currentDraftId, addDraft, draftState]);
+
     return loading ? (
         <div className="h-screen py-20 text-black flex justify-center">
             <Loader />
         </div>
     ) : template ? (
-        <KPITokenCreationForm
-            key={formKey}
-            template={template}
-            fallback={
-                <div className="h-screen py-20 text-black flex justify-center">
-                    <Loader />
-                </div>
-            }
-            error={
-                <div className="h-screen py-20 flex justify-center">
-                    <ErrorFeedback
-                        messages={{
-                            title: t("error.initializing.creation.title"),
-                            description: t(
-                                "error.initializing.creation.description",
-                            ),
-                        }}
-                    />
-                </div>
-            }
-            i18n={i18n}
-            className={{ root: "w-full h-full" }}
-            state={draftState.state}
-            onStateChange={handleStateChange}
-            onCreate={handleCreate}
-            navigate={navigate}
-            onTx={addTransaction}
-        />
+        <>
+            {/* TODO: temporary location */}
+            <Button
+                size="small"
+                className={{
+                    root: "hidden md:block z-10 absolute left-9 mt-12",
+                }}
+                onClick={handleCreateDraft}
+                loading={savingDraft}
+            >
+                {t("draft.create")}
+            </Button>
+            <KPITokenCreationForm
+                key={formKey}
+                template={template}
+                fallback={
+                    <div className="h-screen py-20 text-black flex justify-center">
+                        <Loader />
+                    </div>
+                }
+                error={
+                    <div className="h-screen py-20 flex justify-center">
+                        <ErrorFeedback
+                            messages={{
+                                title: t("error.initializing.creation.title"),
+                                description: t(
+                                    "error.initializing.creation.description",
+                                ),
+                            }}
+                        />
+                    </div>
+                }
+                i18n={i18n}
+                className={{ root: "w-full h-full" }}
+                state={draftState.state}
+                onStateChange={handleStateChange}
+                onCreate={handleCreate}
+                navigate={navigate}
+                onTx={addTransaction}
+            />
+        </>
     ) : (
         <div className="py-20 flex justify-center">
             <ErrorFeedback
