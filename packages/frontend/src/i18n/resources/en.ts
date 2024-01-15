@@ -42,7 +42,6 @@ export const en = {
         "campaign.all": "All Campaigns",
         "templates.viewAll": "View all",
         "settings.title": "Settings",
-        "preferences.title": "Interface settings",
         "preferences.theme": "Dark theme",
         "preferences.decentralization": "Decentralization mode",
         "preferences.decentralization.info":
