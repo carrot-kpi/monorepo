@@ -9,13 +9,14 @@ import {
 import { useState } from "react";
 import { Fetcher, type ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button, ErrorFeedback, Loader } from "@carrot-kpi/ui";
+import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
 import { useInvalidateLatestKPITokens } from "../hooks/useInvalidateLatestKPITokens";
 import { useAddTransaction } from "../hooks/useAddTransaction";
 import { useAccount, useNetwork, usePublicClient } from "wagmi";
 import { useAddDraft } from "../hooks/useAddDraft";
 import { useDraft } from "../hooks/useDraft";
+import dayjs from "dayjs";
 
 export function CampaignCreationForm<S extends SerializableObject<S>>() {
     const { i18n, t } = useTranslation();
@@ -36,8 +37,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         state && "specification" in state.template ? state.template : null,
     );
     const [formKey, setFormKey] = useState(0);
-    const [currentDraftId, setCurrentDraftId] = useState("");
-    const [savingDraft, setSavingDraft] = useState(false);
+    const [currentDraftId, setCurrentDraftId] = useState<number>(0);
 
     const existingDraft = useDraft(currentDraftId);
     const [draftState, setDraftState] = useState<{
@@ -48,26 +48,26 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         state: {} as S,
     });
 
-    // every time the chain or the connected address changes,
+    // every time the chain, the connected address or the draft id changes,
     // reset the creation form state
     useEffect(() => {
         setFormKey((prevState) => prevState + 1);
-    }, [chain, address]);
+    }, [chain, address, currentDraftId]);
 
     // initialize the current draft id
     useEffect(() => {
-        if (currentDraftId) return;
-        setCurrentDraftId(draftId || new Date().getTime().toString());
+        // if (currentDraftId) return;
+        setCurrentDraftId(draftId ? parseInt(draftId) : dayjs().unix());
     }, [currentDraftId, draftId]);
 
     useEffect(() => {
         if (!!existingDraft?.id) {
-            setDraftState((previousState) => ({
-                ...previousState,
-                state: existingDraft.state as S,
-            }));
+            setDraftState({
+                templateId: existingDraft.templateId,
+                state: existingDraft.body as S,
+            });
         }
-    }, [existingDraft?.id, existingDraft?.state]);
+    }, [existingDraft]);
 
     useEffect(() => {
         if (!!state?.template) {
@@ -164,12 +164,12 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
     }, [invalidateLatestKPITokens]);
 
     const handleCreateDraft = useCallback(() => {
-        addDraft(currentDraftId, draftState.state);
-        setSavingDraft(true);
-        setTimeout(() => {
-            setSavingDraft(false);
-        }, 500);
-    }, [currentDraftId, addDraft, draftState]);
+        if (!template) {
+            console.log("couldn't create draft, missing template id");
+            return;
+        }
+        addDraft(currentDraftId, template?.id, draftState.state);
+    }, [currentDraftId, addDraft, draftState, template]);
 
     return loading ? (
         <div className="h-screen py-20 text-black flex justify-center">
@@ -177,17 +177,6 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         </div>
     ) : template ? (
         <>
-            {/* TODO: temporary location */}
-            <Button
-                size="small"
-                className={{
-                    root: "hidden md:block z-10 absolute left-9 mt-12",
-                }}
-                onClick={handleCreateDraft}
-                loading={savingDraft}
-            >
-                {t("draft.create")}
-            </Button>
             <KPITokenCreationForm
                 key={formKey}
                 template={template}
@@ -215,6 +204,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
                 onCreate={handleCreate}
                 navigate={navigate}
                 onTx={addTransaction}
+                onCreateDraft={handleCreateDraft}
             />
         </>
     ) : (
