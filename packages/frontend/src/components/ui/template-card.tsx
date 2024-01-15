@@ -104,7 +104,7 @@ export const KPITokenTemplateCard = ({
                     className="h-14 flex items-center justify-center space-y-4 border-t border-gray-600 dark:border-white"
                     to={
                         !loading && !!resolvedTemplate
-                            ? `/create/${resolvedTemplate.id}`
+                            ? `/create/${resolvedTemplate.id}/draft`
                             : ""
                     }
                     state={{ template: resolvedTemplate }}
