@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { ConnectWallet } from "../connect-wallet";
 import { Typography } from "@carrot-kpi/ui";
@@ -61,28 +61,13 @@ export const Navbar = ({
     bgColor = "transparent",
     links = [],
 }: NavbarProps) => {
-    const [, setOpen] = useState(false);
-
-    useEffect(() => {
-        const resizeObserver = new ResizeObserver((entries) => {
-            const { width } = entries[0].contentRect;
-            if (width > 640) setOpen(false);
-        });
-
-        resizeObserver.observe(document.body);
-        return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            resizeObserver.unobserve(document.body);
-        };
-    });
-
     return (
         <>
             <div className={rootStyles({ bgColor })}>
                 <div className="w-full h-24 md:h-32 max-w-screen-2xl relative flex items-center justify-between">
                     <div className="flex gap-4 items-center">
                         <div className="flex items-center">
-                            <NavLink to="/" onClick={() => setOpen(false)}>
+                            <NavLink to="/">
                                 <Logo className="hidden md:block h-10 md:h-14 xl:h-16 w-auto text-black" />
                                 <LogoIcon className="md:hidden h-16 w-auto text-black" />
                             </NavLink>
@@ -103,7 +88,6 @@ export const Navbar = ({
                                             highlighted,
                                         })}
                                         to={to}
-                                        onClick={() => setOpen(false)}
                                         key={to}
                                         {...additionalProps}
                                     >

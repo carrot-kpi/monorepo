@@ -8,7 +8,6 @@ import ScrollLogo from "./icons/chains/scroll";
 import PolygonLogo from "./icons/chains/polygon";
 import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
 import Grid from "./icons/grid";
-import Stars from "./icons/stars";
 
 type RPCConfig = {
     http: string;
@@ -118,14 +117,14 @@ export const NAVBAR_LINKS: NavbarLink[] = [
         to: "/campaigns",
         external: false,
     },
-    {
-        title: "Create",
-        Icon: Stars,
-        // TODO: redirect to proper location
-        to: "/create/1",
-        external: false,
-        highlighted: true,
-    },
+    // TODO: enable once the designs for the create are ready
+    // {
+    //     title: "Create",
+    //     Icon: Stars,
+    //     to: "/create/1",
+    //     external: false,
+    //     highlighted: true,
+    // },
 ];
 
 export interface FooterLink {
