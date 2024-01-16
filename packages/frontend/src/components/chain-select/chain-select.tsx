@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { ChainIcon } from "../chain-icon";
 import { ENABLED_CHAINS, SUPPORTED_CHAINS } from "../../constants";
 import type { ChainId } from "@carrot-kpi/sdk";
@@ -8,6 +8,7 @@ import Error from "../../icons/error";
 import { NetworksPopover } from "./networks-popover";
 import { Typography } from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
+import { useClickAway } from "react-use";
 
 export interface ChainSelectProps {
     compact?: boolean;
@@ -24,19 +25,9 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
 
     const networksPopoverRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const handleMouseDown = (event: MouseEvent) => {
-            if (
-                networksPopoverRef.current &&
-                !networksPopoverRef.current.contains(event.target as Node)
-            )
-                setNetworksPopoverOpen(false);
-        };
-        document.addEventListener("mousedown", handleMouseDown);
-        return () => {
-            window.removeEventListener("mousedown", handleMouseDown);
-        };
-    }, []);
+    useClickAway(networksPopoverRef, () => {
+        setNetworksPopoverOpen(false);
+    });
 
     const handleNetworksPopoverOpen = useCallback(() => {
         setNetworksPopoverOpen(true);
