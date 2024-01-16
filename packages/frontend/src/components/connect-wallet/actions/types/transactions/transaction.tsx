@@ -5,11 +5,13 @@ import { Popover, Skeleton, Typography } from "@carrot-kpi/ui";
 import { useTransactionDetails } from "../../../../../hooks/useTransactionSummary";
 import { getTransactionExplorerLink } from "../../../../../utils/explorers";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useNetwork } from "wagmi";
 import { ENABLED_CHAINS, SUPPORTED_CHAINS } from "../../../../../constants";
 import Error from "../../../../../icons/error";
-import { getShortDate } from "../../../../../utils/date";
 import { ChainIcon } from "../../../../chain-icon";
+
+dayjs.extend(relativeTime);
 
 export const Transaction = <T extends TxType>(tx: Tx<T>) => {
     const { chain } = useNetwork();
@@ -88,7 +90,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
                 onMouseEnter={handlePopoverOpen}
                 onMouseLeave={handlePopoverClose}
             >
-                {getShortDate(dayjs.unix(tx.timestamp))}
+                {dayjs.unix(tx.timestamp).fromNow(true)}
             </Typography>
         </div>
     );
