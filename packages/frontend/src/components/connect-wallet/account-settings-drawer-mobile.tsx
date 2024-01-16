@@ -117,6 +117,7 @@ export const AccountSettingsDrawerMobile = ({
     const handleSettingsOpenClick = useCallback(() => {
         setSettingsOpen(true);
     }, []);
+
     const handleSettingsCloseClick = useCallback(() => {
         setSettingsOpen(false);
     }, []);

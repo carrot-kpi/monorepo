@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Typography } from "@carrot-kpi/ui";
 import { useAccount } from "wagmi";
@@ -9,7 +9,7 @@ import { shortenAddress } from "../../utils/address";
 import { AccountSettingsDrawer } from "./account-settings-drawer";
 import { ChainSelect } from "../chain-select/chain-select";
 import { AccountSettingsDrawerMobile } from "./account-settings-drawer-mobile";
-import { useWindowSize } from "react-use";
+import { useClickAway, useWindowSize } from "react-use";
 
 const rootStyles = cva([
     "flex",
@@ -44,19 +44,9 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
     const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
 
-    useEffect(() => {
-        const handleMouseDown = (event: MouseEvent) => {
-            if (
-                connectPopoverRef.current &&
-                !connectPopoverRef.current.contains(event.target as Node)
-            )
-                setConnectPopoverOpen(false);
-        };
-        document.addEventListener("mousedown", handleMouseDown);
-        return () => {
-            window.removeEventListener("mousedown", handleMouseDown);
-        };
-    }, []);
+    useClickAway(connectPopoverRef, () => {
+        setConnectPopoverOpen(false);
+    });
 
     const handleConnectPopoverOpen = useCallback(() => {
         setConnectPopoverOpen(true);
