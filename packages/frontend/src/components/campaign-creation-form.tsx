@@ -176,37 +176,35 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
             <Loader />
         </div>
     ) : template ? (
-        <>
-            <KPITokenCreationForm
-                key={formKey}
-                template={template}
-                fallback={
-                    <div className="h-screen py-20 text-black flex justify-center">
-                        <Loader />
-                    </div>
-                }
-                error={
-                    <div className="h-screen py-20 flex justify-center">
-                        <ErrorFeedback
-                            messages={{
-                                title: t("error.initializing.creation.title"),
-                                description: t(
-                                    "error.initializing.creation.description",
-                                ),
-                            }}
-                        />
-                    </div>
-                }
-                i18n={i18n}
-                className={{ root: "w-full h-full" }}
-                state={draftState.state}
-                onStateChange={handleStateChange}
-                onCreate={handleCreate}
-                navigate={navigate}
-                onTx={addTransaction}
-                onCreateDraft={handleCreateDraft}
-            />
-        </>
+        <KPITokenCreationForm
+            key={formKey}
+            template={template}
+            fallback={
+                <div className="h-screen py-20 text-black flex justify-center">
+                    <Loader />
+                </div>
+            }
+            error={
+                <div className="h-screen py-20 flex justify-center">
+                    <ErrorFeedback
+                        messages={{
+                            title: t("error.initializing.creation.title"),
+                            description: t(
+                                "error.initializing.creation.description",
+                            ),
+                        }}
+                    />
+                </div>
+            }
+            i18n={i18n}
+            className={{ root: "w-full h-full" }}
+            state={draftState.state}
+            onStateChange={handleStateChange}
+            onCreate={handleCreate}
+            navigate={navigate}
+            onTx={addTransaction}
+            onCreateDraft={handleCreateDraft}
+        />
     ) : (
         <div className="py-20 flex justify-center">
             <ErrorFeedback
