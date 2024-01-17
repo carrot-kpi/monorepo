@@ -1,11 +1,5 @@
-import React, { useCallback, useMemo, useState } from "react";
-import {
-    Popover,
-    Select,
-    type SelectOption,
-    Switch,
-    Typography,
-} from "@carrot-kpi/ui";
+import React from "react";
+import { Switch, Typography } from "@carrot-kpi/ui";
 import {
     usePreferDecentralization,
     useSetPreferDecentralization,
@@ -15,7 +9,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { ChainId, SUBGRAPH_URL } from "@carrot-kpi/sdk";
 import { useChainId } from "wagmi";
-import { InfoPopover } from "../info-popover";
 
 // TODO: move this in the UI lib with additional functionality (like variants for info, warning and error feedback)
 export const Preferences = () => {
@@ -27,43 +20,40 @@ export const Preferences = () => {
     const stagingMode = useStagingMode();
     const setStagingMode = useSetStagingMode();
 
-    const [darkThemeSwitch, setDarkThemeSwitch] =
-        useState<HTMLDivElement | null>(null);
-    const themeOptions = useMemo(() => {
-        const options: SelectOption<string>[] = [
-            {
-                value: "light",
-                label: t("theme.light"),
-            },
-            {
-                value: "dark",
-                label: t("theme.dark"),
-            },
-            {
-                value: "system",
-                label: t("theme.system"),
-            },
-        ];
-        return options;
-    }, [t]);
+    // const [darkThemeSwitch, setDarkThemeSwitch] =
+    //     useState<HTMLDivElement | null>(null);
+    // const themeOptions = useMemo(() => {
+    //     const options: SelectOption<string>[] = [
+    //         {
+    //             value: "light",
+    //             label: t("theme.light"),
+    //         },
+    //         {
+    //             value: "dark",
+    //             label: t("theme.dark"),
+    //         },
+    //         {
+    //             value: "system",
+    //             label: t("theme.system"),
+    //         },
+    //     ];
+    //     return options;
+    // }, [t]);
 
-    const [darkThemePopoverOpen, setDarkThemePopoverOpen] = useState(false);
+    // const [darkThemePopoverOpen, setDarkThemePopoverOpen] = useState(false);
 
-    const handleDarkThemeSwitchMouseEnter = useCallback(() => {
-        setDarkThemePopoverOpen(true);
-    }, []);
+    // const handleDarkThemeSwitchMouseEnter = useCallback(() => {
+    //     setDarkThemePopoverOpen(true);
+    // }, []);
 
-    const handleDarkThemeSwitchMouseLeave = useCallback(() => {
-        setDarkThemePopoverOpen(false);
-    }, []);
+    // const handleDarkThemeSwitchMouseLeave = useCallback(() => {
+    //     setDarkThemePopoverOpen(false);
+    // }, []);
 
     return (
-        <div>
-            <Typography data-testid="interface-settings-title" weight="medium">
-                {t("preferences.title")}
-            </Typography>
-            <div className="flex flex-col gap-6 mt-10">
-                <div className="flex justify-between gap-4 md:gap-20 items-center">
+        <div className="flex flex-col gap-6 h-full overflow-y-auto cui-scrollbar">
+            {/* TODO: enable toggle once dark theme is available */}
+            {/* <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <Typography data-testid="theme-name-text">
                         {t("preferences.theme")}
                     </Typography>
@@ -98,52 +88,49 @@ export const Preferences = () => {
                             }}
                         />
                     </div>
-                </div>
-                {!!SUBGRAPH_URL[chainId as ChainId] && (
-                    <div className="flex justify-between gap-4 md:gap-20 items-center">
-                        <div className="flex gap-2 items-center">
-                            <Typography data-testid="decentralization-mode-text">
-                                {t("preferences.decentralization")}
-                            </Typography>
-                            <InfoPopover>
-                                <Typography
-                                    variant="sm"
-                                    className={{ root: "max-w-md" }}
-                                >
-                                    {t("preferences.decentralization.info")}
-                                </Typography>
-                            </InfoPopover>
-                        </div>
+                </div> */}
+            {!!SUBGRAPH_URL[chainId as ChainId] && (
+                <div className="flex flex-col border border-black dark:border-white rounded-lg">
+                    <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
+                        <Typography
+                            data-testid="decentralization-mode-text"
+                            variant="base"
+                            weight="bold"
+                        >
+                            {t("preferences.decentralization")}
+                        </Typography>
                         <Switch
                             data-testid="decentralization-mode-switch"
                             checked={preferDecentralization}
                             onChange={setPreferDecentralization}
                         />
                     </div>
-                )}
-                {__STAGING_MODE__ && (
-                    <div className="flex justify-between gap-4 md:gap-20 items-center">
-                        <div className="flex gap-2 items-center">
-                            <Typography data-testid="staging-mode-text">
-                                {t("preferences.stagingMode")}
-                            </Typography>
-                            <InfoPopover>
-                                <Typography
-                                    variant="sm"
-                                    className={{ root: "max-w-md" }}
-                                >
-                                    {t("preferences.stagingMode.info")}
-                                </Typography>
-                            </InfoPopover>
-                        </div>
+                    <Typography variant="sm" className={{ root: "p-4" }}>
+                        {t("preferences.decentralization.info")}
+                    </Typography>
+                </div>
+            )}
+            {__STAGING_MODE__ && (
+                <div className="flex flex-col border border-black dark:border-white rounded-lg">
+                    <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
+                        <Typography
+                            data-testid="staging-mode-text"
+                            variant="base"
+                            weight="bold"
+                        >
+                            {t("preferences.stagingMode")}
+                        </Typography>
                         <Switch
                             data-testid="staging-mode-switch"
                             checked={stagingMode}
                             onChange={setStagingMode}
                         />
                     </div>
-                )}
-            </div>
+                    <Typography variant="sm" className={{ root: "p-4" }}>
+                        {t("preferences.stagingMode.info")}
+                    </Typography>
+                </div>
+            )}
         </div>
     );
 };

@@ -101,6 +101,7 @@ export type AdditionalRemoteKPITokenCreationFormProps<
     onCreate: () => void;
     navigate: NavigateFunction;
     onTx: <T extends TxType>(tx: Tx<T>) => void;
+    onCreateDraft: () => void;
 };
 
 export type KPITokenRemoteCreationFormProps<S extends SerializableObject<S>> =

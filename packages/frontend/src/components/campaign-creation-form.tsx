@@ -14,16 +14,20 @@ import { useTranslation } from "react-i18next";
 import { useInvalidateLatestKPITokens } from "../hooks/useInvalidateLatestKPITokens";
 import { useAddTransaction } from "../hooks/useAddTransaction";
 import { useAccount, useNetwork, usePublicClient } from "wagmi";
+import { useAddDraft } from "../hooks/useAddDraft";
+import { useDraft } from "../hooks/useDraft";
+import dayjs from "dayjs";
 
 export function CampaignCreationForm<S extends SerializableObject<S>>() {
     const { i18n, t } = useTranslation();
     const navigate = useNavigate();
-    const { templateId } = useParams();
+    const { templateId, draftId } = useParams();
     const publicClient = usePublicClient();
     const { state } = useLocation();
     const { chain } = useNetwork();
     const { address } = useAccount();
     const addTransaction = useAddTransaction();
+    const addDraft = useAddDraft();
     const invalidateLatestKPITokens = useInvalidateLatestKPITokens();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
@@ -33,6 +37,9 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         state && "specification" in state.template ? state.template : null,
     );
     const [formKey, setFormKey] = useState(0);
+    const [currentDraftId, setCurrentDraftId] = useState<number>(0);
+
+    const existingDraft = useDraft(currentDraftId);
     const [draftState, setDraftState] = useState<{
         templateId?: number;
         state: S;
@@ -41,11 +48,26 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         state: {} as S,
     });
 
-    // every time the chain or the connected address changes,
+    // every time the chain, the connected address or the draft id changes,
     // reset the creation form state
     useEffect(() => {
         setFormKey((prevState) => prevState + 1);
-    }, [chain, address]);
+    }, [chain, address, currentDraftId]);
+
+    // initialize the current draft id
+    useEffect(() => {
+        // if (currentDraftId) return;
+        setCurrentDraftId(draftId ? parseInt(draftId) : dayjs().unix());
+    }, [currentDraftId, draftId]);
+
+    useEffect(() => {
+        if (!!existingDraft?.id) {
+            setDraftState({
+                templateId: existingDraft.templateId,
+                state: existingDraft.body as S,
+            });
+        }
+    }, [existingDraft]);
 
     useEffect(() => {
         if (!!state?.template) {
@@ -141,6 +163,14 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         invalidateLatestKPITokens();
     }, [invalidateLatestKPITokens]);
 
+    const handleCreateDraft = useCallback(() => {
+        if (!template) {
+            console.log("couldn't create draft, missing template id");
+            return;
+        }
+        addDraft(currentDraftId, template?.id, draftState.state);
+    }, [currentDraftId, addDraft, draftState, template]);
+
     return loading ? (
         <div className="h-screen py-20 text-black flex justify-center">
             <Loader />
@@ -173,6 +203,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
             onCreate={handleCreate}
             navigate={navigate}
             onTx={addTransaction}
+            onCreateDraft={handleCreateDraft}
         />
     ) : (
         <div className="py-20 flex justify-center">
