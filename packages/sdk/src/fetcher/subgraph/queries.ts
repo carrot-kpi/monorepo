@@ -284,7 +284,7 @@ export const GetKPITokenTemplateFeatureEnabledForQuery = `
         $featureId: BigInt!
         $account: Bytes!
     ) {
-        manager: kpiTokensManager(id: $managerAddress) {
+        manager: kpitokensManager(id: $managerAddress) {
             templateSets(where: { managerId: $templateId }) {
                 features(where: { featureId: $featureId }) {
                     allowed(where: { address: $account }) {
