@@ -147,12 +147,17 @@ export const AccountSettingsDrawerMobile = ({
                                                 }
                                             />
                                             <div className="flex justify-center items-center w-full">
-                                                <Typography uppercase>
+                                                <Typography
+                                                    uppercase
+                                                    weight="bold"
+                                                >
                                                     {t("settings.title")}
                                                 </Typography>
                                             </div>
                                         </div>
-                                        <Preferences />
+                                        <div className="h-[500px]">
+                                            <Preferences />
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="flex flex-col gap-6">

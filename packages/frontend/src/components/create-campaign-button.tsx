@@ -38,7 +38,7 @@ export const CreateCampaignButton = ({
                     if (resolved.length !== 1)
                         throw new Error("inconsistent resolved array length");
                     if (!cancelled) setResolvedTemplate(resolved[0]);
-                    if (!cancelled) setHref(`/create/${template.id}`);
+                    if (!cancelled) setHref(`/create/${template.id}/draft`);
                 } catch (error) {
                     console.warn(
                         `error while resolving template with id ${template.id}`,

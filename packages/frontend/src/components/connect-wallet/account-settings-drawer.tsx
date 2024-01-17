@@ -137,7 +137,10 @@ export const AccountSettingsDrawer = ({
                                                 }
                                             />
                                             <div className="flex justify-center items-center w-full">
-                                                <Typography uppercase>
+                                                <Typography
+                                                    uppercase
+                                                    weight="bold"
+                                                >
                                                     {t("settings.title")}
                                                 </Typography>
                                             </div>
