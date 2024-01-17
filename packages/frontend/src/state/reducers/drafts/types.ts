@@ -7,5 +7,5 @@ export interface Draft {
 }
 
 export interface DraftsState {
-    [draftId: number]: Draft;
+    [id: number]: Draft;
 }

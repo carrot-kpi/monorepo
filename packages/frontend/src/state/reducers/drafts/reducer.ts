@@ -7,16 +7,16 @@ const initialState: DraftsState = {};
 export const draftsReducer = createReducer(initialState, (builder) =>
     builder
         .addCase(addDraft, (state, action) => {
-            const { draftId, templateId, draft } = action.payload;
+            const { id: draftId, templateId, draft } = action.payload;
             state[draftId] = { id: draftId, templateId, body: draft };
         })
         .addCase(deleteDraft, (state, action) => {
-            if (!state[action.payload.draftId]) {
+            if (!state[action.payload.id]) {
                 console.warn(
-                    `tried to delete draft with id ${action.payload.draftId}`,
+                    `tried to delete draft with id ${action.payload.id}`,
                 );
                 return;
             }
-            delete state[action.payload.draftId];
+            delete state[action.payload.id];
         }),
 );

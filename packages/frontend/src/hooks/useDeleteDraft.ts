@@ -4,10 +4,10 @@ import { deleteDraft } from "../state/reducers/drafts";
 export function useDeleteDraft() {
     const dispatch = useDispatch();
 
-    return (draftId: number) => {
+    return (id: number) => {
         dispatch(
             deleteDraft({
-                draftId,
+                id,
             }),
         );
     };
