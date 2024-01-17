@@ -4,6 +4,7 @@ import { shortenAddress } from "./address";
 import { Fetcher, Token } from "@carrot-kpi/sdk";
 import type { PublicClient } from "wagmi";
 import { formatUnits } from "viem";
+import type { FC } from "react";
 
 type PayloadSerializer<T extends TxType> = (
     serializable: Tx<T>["payload"],
@@ -26,7 +27,7 @@ const SERIALIZABLE_PAYLOAD_GETTER: {
     },
     [TxType.KPI_TOKEN_CREATION]: defaultSerializablePayloadGetter,
     [TxType.KPI_TOKEN_REDEMPTION]: defaultSerializablePayloadGetter,
-    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: (payload) => {
+    [TxType.KPI_TOKEN_REWARDS_RECOVERY]: (payload) => {
         return {
             receiver: payload.receiver,
             token: payload.token,
@@ -73,7 +74,7 @@ const PAYLOAD_DESERIALIZER: {
     },
     [TxType.KPI_TOKEN_CREATION]: JSON.parse,
     [TxType.KPI_TOKEN_REDEMPTION]: JSON.parse,
-    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: JSON.parse,
+    [TxType.KPI_TOKEN_REWARDS_RECOVERY]: JSON.parse,
     [TxType.ORACLE_FINALIZATION]: JSON.parse,
 };
 
@@ -89,19 +90,28 @@ export const deserializeTransaction = <T extends TxType>(
     };
 };
 
-type SummaryGetter<T extends TxType> = (
+export type TxDetails = {
+    icon?: FC;
+    title: string;
+    summary: string;
+};
+
+type TxDetailsGetter<T extends TxType> = (
     t: TFunction,
     publicClient: PublicClient,
     tx: Tx<T>,
-) => string | Promise<string>;
+) => TxDetails | Promise<TxDetails>;
 
 // used to force implementation for all tx type variants
 // through record
-const SUMMARY_GETTER: {
-    [T in TxType]: SummaryGetter<T>;
+const TX_DETAILS_GETTER: {
+    [T in TxType]: TxDetailsGetter<T>;
 } = {
     [TxType.CUSTOM]: (t, _publicClient, tx) => {
-        return tx.payload.summary;
+        return {
+            title: t("transactions.custom.title"),
+            summary: tx.payload.summary,
+        };
     },
     [TxType.ERC20_APPROVAL]: async (t, publicClient, tx) => {
         let token: Token;
@@ -117,22 +127,31 @@ const SUMMARY_GETTER: {
             console.warn(
                 `could not get erc20 token at address ${tx.payload.token}`,
             );
-            return t("transactions.erc20.approval", {
-                spender: shortenAddress(tx.payload.spender),
-            });
+            return {
+                title: t("transactions.erc20.approval.title"),
+                summary: t("transactions.erc20.approval", {
+                    spender: shortenAddress(tx.payload.spender),
+                }),
+            };
         }
-        return t("transactions.erc20.approval.data", {
-            amount: formatUnits(tx.payload.amount, token.decimals),
-            symbol: token.symbol,
-            spender: shortenAddress(tx.payload.spender),
-        });
+        return {
+            title: t("transactions.erc20.approval.title"),
+            summary: t("transactions.erc20.approval.data", {
+                amount: formatUnits(tx.payload.amount, token.decimals),
+                symbol: token.symbol,
+                spender: shortenAddress(tx.payload.spender),
+            }),
+        };
     },
     [TxType.KPI_TOKEN_REDEMPTION]: (t, _publicClient, tx) => {
-        return t("transactions.kpi.token.redeem", {
-            address: shortenAddress(tx.payload.address),
-        });
+        return {
+            title: t("transactions.kpi.token.redeem.title"),
+            summary: t("transactions.kpi.token.redeem", {
+                address: shortenAddress(tx.payload.address),
+            }),
+        };
     },
-    [TxType.KPI_TOKEN_COLLATERAL_RECOVER]: async (t, publicClient, tx) => {
+    [TxType.KPI_TOKEN_REWARDS_RECOVERY]: async (t, publicClient, tx) => {
         let token: Token;
         try {
             const tokens = await Fetcher.fetchERC20Tokens({
@@ -146,31 +165,43 @@ const SUMMARY_GETTER: {
             console.warn(
                 `could not get erc20 token at address ${tx.payload.token}`,
             );
-            return t("transactions.kpi.token.erc20.recover", {
-                receiver: shortenAddress(tx.payload.receiver),
-            });
+            return {
+                title: t("transactions.kpi.token.erc20.recover.title"),
+                summary: t("transactions.kpi.token.erc20.recover", {
+                    receiver: shortenAddress(tx.payload.receiver),
+                }),
+            };
         }
-        return t("transactions.kpi.token.erc20.recover.data", {
-            symbol: token.symbol,
-            receiver: shortenAddress(tx.payload.receiver),
-        });
+        return {
+            title: t("transactions.kpi.token.erc20.recover.title"),
+            summary: t("transactions.kpi.token.erc20.recover.data", {
+                symbol: token.symbol,
+                receiver: shortenAddress(tx.payload.receiver),
+            }),
+        };
     },
     [TxType.KPI_TOKEN_CREATION]: (t, _publicClient, tx) => {
-        return t("transactions.kpi.token.create", {
-            address: shortenAddress(tx.payload.address),
-        });
+        return {
+            title: t("transactions.kpi.token.creation.title"),
+            summary: t("transactions.kpi.token.create", {
+                address: shortenAddress(tx.payload.address),
+            }),
+        };
     },
     [TxType.ORACLE_FINALIZATION]: (t, _publicClient, tx) => {
-        return t("transactions.oracle.finalize", {
-            address: shortenAddress(tx.payload.address),
-        });
+        return {
+            title: t("transactions.oracle.finalized.title"),
+            summary: t("transactions.oracle.finalize", {
+                address: shortenAddress(tx.payload.address),
+            }),
+        };
     },
 };
 
-export const getTransactionSummary = <T extends TxType>(
+export const getTransactionDetails = <T extends TxType>(
     t: TFunction,
     publicClient: PublicClient,
     tx: Tx<T>,
 ) => {
-    return SUMMARY_GETTER[tx.type](t, publicClient, tx);
+    return TX_DETAILS_GETTER[tx.type](t, publicClient, tx);
 };

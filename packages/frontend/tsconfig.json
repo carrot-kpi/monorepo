@@ -1,10 +1,9 @@
 {
     "extends": "../tsconfig/frontend.json",
-    "include": ["./src/**/*", "./cypress/**/*"],
+    "include": ["./src/**/*"],
     "compilerOptions": {
-        "baseUrl": "./",
         "lib": ["dom", "esnext", "webworker"],
-        "types": ["cypress", "node"],
+        "types": ["node"],
         "outDir": "./dist"
     }
 }

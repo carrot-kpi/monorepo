@@ -1,6 +1,6 @@
-import { homePage } from "cypress/pages/home-page";
-import { createCampaign } from "cypress/pages/create-campaign-page";
-import { networks, wallets } from "cypress/utils/data";
+import { homePage } from "pages/home-page";
+import { createCampaign } from "pages/create-campaign-page";
+import { networks, wallets } from "utils/data";
 /**
  *@description Smoke test for Carrot Home page
  */

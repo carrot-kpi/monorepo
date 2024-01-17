@@ -1,19 +1,28 @@
-import { ChainId } from "@carrot-kpi/sdk";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { ENABLED_CHAINS, SUPPORTED_CHAINS } from "../../constants";
-import Error from "../../icons/error";
-import CaretDown from "../../icons/caret-down";
+import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Typography } from "@carrot-kpi/ui";
-import { useNetwork, useAccount } from "wagmi";
-import { ChainIcon } from "../chain-icon";
-import { NetworksPopover } from "./popovers/networks";
-import { ConnectPopover } from "./popovers/connect";
-import { AccountPopover } from "./popovers/account";
+import { useAccount } from "wagmi";
+import { ConnectPopover } from "./connect-popover";
 import { Avatar } from "./avatar";
 import { cva } from "class-variance-authority";
+import { shortenAddress } from "../../utils/address";
+import { AccountSettingsDrawer } from "./account-settings-drawer";
+import { ChainSelect } from "../chain-select/chain-select";
+import { AccountSettingsDrawerMobile } from "./account-settings-drawer-mobile";
+import { useClickAway, useWindowSize } from "react-use";
 
-const rootStyles = cva(["flex", "gap-4"]);
+const rootStyles = cva([
+    "flex",
+    "gap-2",
+    "bg-white",
+    "dark:bg-black",
+    "border",
+    "border-black",
+    "dark:border-white",
+    "py-3",
+    "px-[10px]",
+    "rounded-xl",
+]);
 
 interface ConnectWalletProps {
     chainList?: boolean;
@@ -23,54 +32,21 @@ interface ConnectWalletProps {
     };
 }
 
-export const ConnectWallet = ({
-    chainList = true,
-    className,
-}: ConnectWalletProps) => {
+export const ConnectWallet = ({ className }: ConnectWalletProps) => {
     const { t } = useTranslation();
-    const { chain } = useNetwork();
-    const { address, connector: activeConnector } = useAccount();
-
-    const [networksPopoverAnchor, setNetworksPopoverAnchor] =
-        useState<HTMLDivElement | null>(null);
+    const { width } = useWindowSize();
+    const { address } = useAccount();
     const [connectWallet, setConnectWallet] =
         useState<HTMLButtonElement | null>(null);
 
-    const networksPopoverRef = useRef<HTMLDivElement>(null);
     const connectPopoverRef = useRef<HTMLDivElement>(null);
-    const accountPopoverRef = useRef<HTMLDivElement>(null);
 
-    const [networksPopoverOpen, setNetworksPopoverOpen] = useState(false);
     const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
-    const [accountPopoverOpen, setAccountPopoverOpen] = useState(false);
+    const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
 
-    useEffect(() => {
-        const handleMouseDown = (event: MouseEvent) => {
-            if (
-                networksPopoverRef.current &&
-                !networksPopoverRef.current.contains(event.target as Node)
-            )
-                setNetworksPopoverOpen(false);
-            if (
-                connectPopoverRef.current &&
-                !connectPopoverRef.current.contains(event.target as Node)
-            )
-                setConnectPopoverOpen(false);
-            if (
-                accountPopoverRef.current &&
-                !accountPopoverRef.current.contains(event.target as Node)
-            )
-                setAccountPopoverOpen(false);
-        };
-        document.addEventListener("mousedown", handleMouseDown);
-        return () => {
-            window.removeEventListener("mousedown", handleMouseDown);
-        };
-    }, []);
-
-    const handleNetworksPopoverOpen = useCallback(() => {
-        setNetworksPopoverOpen(true);
-    }, []);
+    useClickAway(connectPopoverRef, () => {
+        setConnectPopoverOpen(false);
+    });
 
     const handleConnectPopoverOpen = useCallback(() => {
         setConnectPopoverOpen(true);
@@ -80,41 +56,26 @@ export const ConnectWallet = ({
         setConnectPopoverOpen(false);
     }, []);
 
-    const handleAccountPopoverOpen = useCallback(() => {
-        setAccountPopoverOpen(true);
+    const handleSettingsDrawerOpen = useCallback(() => {
+        setSettingsDrawerOpen(true);
     }, []);
 
-    const handleAccountPopoverClose = useCallback(() => {
-        setAccountPopoverOpen(false);
+    const handleSettingsDrawerClose = useCallback(() => {
+        setSettingsDrawerOpen(false);
     }, []);
 
-    const handleNetworkSwitchClick = useCallback(
-        async (chainId: number) => {
-            try {
-                await activeConnector?.switchChain?.(chainId);
-            } catch (error) {
-                console.warn("could not switch network", error);
-            }
-            setNetworksPopoverOpen(false);
-        },
-        [activeConnector],
-    );
-
-    const multipleEnabledChains = Object.keys(ENABLED_CHAINS).length > 1;
-    const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
-    const chainName = chain?.name || t("connect.wallet.unknown");
-    const supportedChain = !!chainId && !!ENABLED_CHAINS[chainId];
-    const Logo = supportedChain
-        ? ENABLED_CHAINS[chainId as ChainId].logo
-        : Error;
     return (
         <>
-            {!__LIBRARY_MODE__ && (
-                <NetworksPopover
-                    open={networksPopoverOpen}
-                    anchor={networksPopoverAnchor}
-                    onNetworkSwitch={handleNetworkSwitchClick}
-                    ref={networksPopoverRef}
+            {/* TODO: add dedicated refs and callbacks to the different AccountSettingsDrawer components */}
+            {width >= 768 ? (
+                <AccountSettingsDrawer
+                    open={settingsDrawerOpen}
+                    onClose={handleSettingsDrawerClose}
+                />
+            ) : (
+                <AccountSettingsDrawerMobile
+                    open={settingsDrawerOpen}
+                    onClose={handleSettingsDrawerClose}
                 />
             )}
             <ConnectPopover
@@ -123,70 +84,20 @@ export const ConnectWallet = ({
                 onClose={handleConnectPopoverClose}
                 ref={connectPopoverRef}
             />
-            {address && (
-                <AccountPopover
-                    address={address}
-                    open={accountPopoverOpen}
-                    anchor={connectWallet}
-                    onClose={handleAccountPopoverClose}
-                    ref={accountPopoverRef}
-                />
-            )}
             <div className={rootStyles({ className: className?.root })}>
-                {chainList && (
-                    <div
-                        className={`h-12 w-fit flex items-center ${
-                            __LIBRARY_MODE__ || !multipleEnabledChains
-                                ? ""
-                                : "cursor-pointer"
-                        } gap-3`}
-                        onClick={
-                            multipleEnabledChains
-                                ? handleNetworksPopoverOpen
-                                : undefined
-                        }
-                        ref={setNetworksPopoverAnchor}
-                    >
-                        <ChainIcon
-                            backgroundColor={
-                                supportedChain
-                                    ? SUPPORTED_CHAINS[chainId as ChainId]
-                                          .iconBackgroundColor
-                                    : "#ff0000"
-                            }
-                            logo={<Logo width={18} height={18} />}
-                        />
-                        <div className="flex flex-col">
-                            <Typography
-                                data-testid="network-drop-down-button"
-                                variant="xs"
-                            >
-                                {t("connect.wallet.network")}
-                            </Typography>
-                            <Typography
-                                data-testid={`${chainName}-button`}
-                                variant="sm"
-                            >
-                                {supportedChain ? chainName : "Unsupported"}
+                {address ? (
+                    <>
+                        <ChainSelect />
+                        <div
+                            className="flex gap-2 cursor-pointer items-center border border-black dark:border-white px-[10px] rounded-lg"
+                            onClick={handleSettingsDrawerOpen}
+                        >
+                            <Avatar address={address} />
+                            <Typography className={{ root: "hidden md:block" }}>
+                                {shortenAddress(address)}
                             </Typography>
                         </div>
-                        {!__LIBRARY_MODE__ && multipleEnabledChains && (
-                            <CaretDown className="w-3" />
-                        )}
-                    </div>
-                )}
-                {address ? (
-                    <Button
-                        data-testid="profile-avatar-button"
-                        size="small"
-                        ref={setConnectWallet}
-                        onClick={handleAccountPopoverOpen}
-                        className={{
-                            root: "w-12 h-12 p-0",
-                        }}
-                    >
-                        <Avatar address={address} />
-                    </Button>
+                    </>
                 ) : (
                     <Button
                         data-testid="connect-wallet-button"

@@ -10,10 +10,14 @@ const Arrow = (props: SVGIcon) => (
         xmlns="http://www.w3.org/2000/svg"
         {...props}
     >
-        <path d="M3 12.002L21 12.002" stroke="black" strokeLinecap="round" />
+        <path
+            d="M3 12.002L21 12.002"
+            stroke="currentColor"
+            strokeLinecap="round"
+        />
         <path
             d="M15 18.002L21 12.002L15 6.00195"
-            stroke="black"
+            stroke="currentColor"
             strokeLinecap="round"
         />
     </svg>

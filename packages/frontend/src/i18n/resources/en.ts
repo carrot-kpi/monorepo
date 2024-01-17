@@ -5,7 +5,7 @@ export const en = {
         "stagingMode.warning":
             "You are using Carrot templates' staging versions. Reach out to the team in Discord for the LIVE released and audited version.",
         "video.notSupported": "The browser doesn't support the video tag.",
-        "connect.wallet": "Connect wallet",
+        "connect.wallet": "Connect",
         "connect.wallet.unknown": "Unknown",
         "connect.wallet.network": "Network",
         "network.switch.disabled.title": "Chain changed.",
@@ -40,6 +40,7 @@ export const en = {
         "campaign.loading": "Loading",
         "campaign.all": "All Campaigns",
         "templates.viewAll": "View all",
+        "settings.title": "Settings",
         "preferences.title": "Interface settings",
         "preferences.theme": "Dark theme",
         "preferences.decentralization": "Decentralization mode",
@@ -56,12 +57,20 @@ export const en = {
         "theme.system": "System",
         "empty.title": "Empty space",
         "empty.description": "No data found. Please try again later.",
+        "actions.transactions.label": "Transactions",
+        "actions.drafts.label": "Drafts",
+        "transactions.custom.title": "Common",
+        "transactions.erc20.approval.title": "Reward approved",
+        "transactions.kpi.token.creation.title": "Campaign created",
+        "transactions.kpi.token.redeem.title": "Redeemed",
+        "transactions.kpi.token.erc20.recover.title": "Reward recovered",
+        "transactions.oracle.finalized.title": "Oracle finalized",
         "transactions.erc20.approval.data":
             "Approved {{amount}} {{symbol}} to {{spender}}",
         "transactions.erc20.approval": "Approved ERC20 token to {{spender}}",
         "transactions.kpi.token.redeem": "Redeemed on {{address}}",
         "transactions.kpi.token.erc20.recover":
-            "Recovered ERC20 collateral to {{receiver}}",
+            "Recovered ERC20 reward to {{receiver}}",
         "transactions.kpi.token.erc20.recover.data":
             "Recovered {{symbol}} to {{receiver}}",
         "transactions.kpi.token.create": "Created KPI token {{address}}",

@@ -6,8 +6,8 @@ import EthereumLogo from "./icons/chains/ethereum";
 import GnosisLogo from "./icons/chains/gnosis";
 import ScrollLogo from "./icons/chains/scroll";
 import PolygonLogo from "./icons/chains/polygon";
-import { NavLink } from "react-router-dom";
 import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
+import Grid from "./icons/grid";
 
 type RPCConfig = {
     http: string;
@@ -102,26 +102,29 @@ export const CARROT_DOMAIN = prod
     : "staging.carrot.community";
 
 export interface NavbarLink {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Component?: FunctionComponent<any>;
     title: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Icon: FunctionComponent<any>;
     to: string;
     external: boolean;
+    highlighted?: boolean;
 }
 
 export const NAVBAR_LINKS: NavbarLink[] = [
     {
-        Component: NavLink,
-        title: "About",
-        to: `https://www.${CARROT_DOMAIN}`,
-        external: true,
-    },
-    {
-        Component: NavLink,
         title: "Campaigns",
+        Icon: Grid,
         to: "/campaigns",
         external: false,
     },
+    // TODO: enable once the designs for the create are ready
+    // {
+    //     title: "Create",
+    //     Icon: Stars,
+    //     to: "/create/1",
+    //     external: false,
+    //     highlighted: true,
+    // },
 ];
 
 export interface FooterLink {
