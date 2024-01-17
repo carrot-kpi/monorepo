@@ -12,12 +12,12 @@ const X = (props: SVGIcon) => (
     >
         <path
             d="M8.4541 8.43823L27.546 27.5301"
-            stroke="black"
+            stroke="currentColor"
             strokeWidth="1.6875"
         />
         <path
             d="M8.4541 27.562L27.546 8.47013"
-            stroke="black"
+            stroke="currentColor"
             strokeWidth="1.6875"
         />
     </svg>

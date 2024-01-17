@@ -1,11 +1,48 @@
 import React, { useCallback } from "react";
 import { useDrafts } from "../../../../hooks/useDrafts";
-import { Button, Typography } from "@carrot-kpi/ui";
+import { Typography } from "@carrot-kpi/ui";
 import dayjs from "dayjs";
 import { useDeleteDraft } from "../../../../hooks/useDeleteDraft";
-import Bin from "../../../../icons/bin";
-import Open from "../../../../icons/open";
 import { Link } from "react-router-dom";
+import X from "../../../../icons/x";
+import { cva } from "class-variance-authority";
+
+const draftStyles = cva([
+    "group",
+    "w-full",
+    "p-5",
+    "flex",
+    "justify-between",
+    "items-center",
+    "rounded-xl",
+    "hover:cursor-pointer",
+    "hover:bg-black",
+    "dark:hover:bg-white",
+    "transition-all",
+    "duration-200",
+]);
+
+const deleteDraftButtonStyles = cva([
+    "flex",
+    "items-center",
+    "h-8",
+    "w-8",
+    "text-black",
+    "dark:text-white",
+    "bg-white",
+    "dark:bg-black",
+    "rounded-full",
+    "opacity-0",
+    "group-hover:opacity-100",
+    "transition-all",
+    "duration-200",
+]);
+
+const textStyles = cva([
+    "group-hover:text-white",
+    "dark:group-hover:text-black",
+    "transition-all duration-200",
+]);
 
 export const Drafts = () => {
     const drafts = useDrafts();
@@ -19,41 +56,37 @@ export const Drafts = () => {
     );
 
     return (
-        <div className="gap-3 flex-col flex">
+        <div className="gap-3 flex-col flex -translate-x-5">
             {drafts.map((draft) => (
-                <div
-                    key={draft.id}
-                    className="w-full h-16 flex justify-between items-center"
-                >
-                    <div className="flex flex-col gap-1">
-                        <Typography uppercase weight="bold">
-                            {(draft.body as { title: string }).title}
-                        </Typography>
-                        <Typography>
-                            {dayjs.unix(draft.id).format("L HH:mm:ss")}
-                        </Typography>
-                    </div>
-                    <div className="flex gap-1">
-                        <Button
-                            id={draft.id.toString()}
-                            size="xsmall"
-                            icon={Bin}
-                            onClick={handleDeleteClick}
-                            className={{
-                                root: "w-10 h-10 p-0 rounded-lg",
-                            }}
-                        />
-                        <Link
-                            to={`/create/${draft.templateId}/draft/${draft.id}`}
-                        >
-                            <Button
-                                size="xsmall"
-                                icon={Open}
+                <div key={draft.id} className={draftStyles()}>
+                    <Link
+                        to={`/create/${draft.templateId}/draft/${draft.id}`}
+                        className="flex-grow"
+                    >
+                        <div className="flex flex-col gap-1">
+                            <Typography
+                                weight="bold"
                                 className={{
-                                    root: "w-10 h-10 p-0 rounded-lg",
+                                    root: textStyles(),
                                 }}
-                            />
-                        </Link>
+                            >
+                                {(draft.body as { title: string }).title}
+                            </Typography>
+                            <Typography
+                                className={{
+                                    root: textStyles(),
+                                }}
+                            >
+                                {dayjs.unix(draft.id).format("L HH:mm:ss")}
+                            </Typography>
+                        </div>
+                    </Link>
+                    <div className={deleteDraftButtonStyles()}>
+                        <X
+                            id={draft.id.toString()}
+                            className="h-5"
+                            onClick={handleDeleteClick}
+                        />
                     </div>
                 </div>
             ))}
