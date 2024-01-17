@@ -66,6 +66,7 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
 
     return (
         <>
+            {/* TODO: add dedicated refs and callbacks to the different AccountSettingsDrawer components */}
             {width >= 768 ? (
                 <AccountSettingsDrawer
                     open={settingsDrawerOpen}
