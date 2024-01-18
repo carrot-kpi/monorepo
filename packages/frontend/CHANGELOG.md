@@ -1,5 +1,23 @@
 # @carrot-kpi/host-frontend
 
+## 0.34.0
+
+### Minor Changes
+
+- 85e23eb: Implement drafts for campaigns
+
+### Patch Changes
+
+- 771a9d3: Redirect to the home page when switching chain while on the campaign page, to avoid inconsistencies
+  Add new account and settings drawer
+- Updated dependencies [771a9d3]
+- Updated dependencies [771a9d3]
+- Updated dependencies [85e23eb]
+- Updated dependencies [0aaae6b]
+  - @carrot-kpi/ui@0.66.7
+  - @carrot-kpi/sdk@1.46.1
+  - @carrot-kpi/react@0.73.1
+
 ## 0.33.6
 
 ### Patch Changes

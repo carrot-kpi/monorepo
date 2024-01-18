@@ -1,5 +1,12 @@
 # @carrot-kpi/sdk
 
+## 1.46.1
+
+### Patch Changes
+
+- 771a9d3: Rename enumerate to enumerateTemplates for the manager contract abis
+- 0aaae6b: Fix an issue with the getKPITokenTemplateFeatureEnabledFor subgraph query, caused by a typo in the entity name
+
 ## 1.46.0
 
 ### Minor Changes

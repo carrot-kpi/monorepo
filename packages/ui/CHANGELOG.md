@@ -1,5 +1,14 @@
 # @carrot-kpi/ui
 
+## 0.66.7
+
+### Patch Changes
+
+- 771a9d3: Rename data test ids
+- Updated dependencies [771a9d3]
+- Updated dependencies [0aaae6b]
+  - @carrot-kpi/sdk@1.46.1
+
 ## 0.66.6
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @carrot-kpi/react
 
+## 0.73.1
+
+### Patch Changes
+
+- 85e23eb: Add onCreateDraft to creation form props
+- Updated dependencies [771a9d3]
+- Updated dependencies [0aaae6b]
+  - @carrot-kpi/sdk@1.46.1
+
 ## 0.73.0
 
 ### Minor Changes
