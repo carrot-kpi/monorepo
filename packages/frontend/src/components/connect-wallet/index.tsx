@@ -85,19 +85,17 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                 ref={connectPopoverRef}
             />
             <div className={rootStyles({ className: className?.root })}>
+                <ChainSelect />
                 {address ? (
-                    <>
-                        <ChainSelect />
-                        <div
-                            className="flex gap-2 cursor-pointer items-center border border-black dark:border-white px-[10px] rounded-lg"
-                            onClick={handleSettingsDrawerOpen}
-                        >
-                            <Avatar address={address} />
-                            <Typography className={{ root: "hidden md:block" }}>
-                                {shortenAddress(address)}
-                            </Typography>
-                        </div>
-                    </>
+                    <div
+                        className="flex gap-2 cursor-pointer items-center border border-black dark:border-white px-[10px] rounded-lg"
+                        onClick={handleSettingsDrawerOpen}
+                    >
+                        <Avatar address={address} />
+                        <Typography className={{ root: "hidden md:block" }}>
+                            {shortenAddress(address)}
+                        </Typography>
+                    </div>
                 ) : (
                     <Button
                         data-testid="connect-wallet-button"

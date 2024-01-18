@@ -17,7 +17,7 @@ export interface ChainSelectProps {
 export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
     const { t } = useTranslation();
     const { chain } = useNetwork();
-    const { address, connector: activeConnector } = useAccount();
+    const { connector: activeConnector } = useAccount();
 
     const [networksPopoverAnchor, setNetworksPopoverAnchor] =
         useState<HTMLDivElement | null>(null);
@@ -63,44 +63,42 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
                     ref={networksPopoverRef}
                 />
             )}
-            {address && (
-                <div
-                    data-testid="network-drop-down-button"
-                    className={`h-11 w-fit flex items-center border border-black dark:border-white px-[10px] rounded-lg ${
-                        __LIBRARY_MODE__ || !multipleEnabledChains
-                            ? ""
-                            : "cursor-pointer"
-                    } gap-3`}
-                    onClick={
-                        multipleEnabledChains
-                            ? handleNetworksPopoverOpen
-                            : undefined
+            <div
+                data-testid="network-drop-down-button"
+                className={`h-11 w-fit flex items-center border border-black dark:border-white px-[10px] rounded-lg ${
+                    __LIBRARY_MODE__ || !multipleEnabledChains
+                        ? ""
+                        : "cursor-pointer"
+                } gap-3`}
+                onClick={
+                    multipleEnabledChains
+                        ? handleNetworksPopoverOpen
+                        : undefined
+                }
+                ref={setNetworksPopoverAnchor}
+            >
+                <ChainIcon
+                    data-testid={`${chainId}-icon`}
+                    backgroundColor={
+                        supportedChain
+                            ? SUPPORTED_CHAINS[chainId as ChainId]
+                                  .iconBackgroundColor
+                            : "#ff0000"
                     }
-                    ref={setNetworksPopoverAnchor}
-                >
-                    <ChainIcon
-                        data-testid={`${chainId}-icon`}
-                        backgroundColor={
-                            supportedChain
-                                ? SUPPORTED_CHAINS[chainId as ChainId]
-                                      .iconBackgroundColor
-                                : "#ff0000"
-                        }
-                        logo={<Logo width={18} height={18} />}
-                    />
-                    {!compact && (
-                        <Typography
-                            data-testid={`${chainName}-button`}
-                            variant="sm"
-                        >
-                            {supportedChain ? chainName : "Unsupported"}
-                        </Typography>
-                    )}
-                    {!__LIBRARY_MODE__ && multipleEnabledChains && (
-                        <CaretDown className="w-3 dark:text-white" />
-                    )}
-                </div>
-            )}
+                    logo={<Logo width={18} height={18} />}
+                />
+                {!compact && (
+                    <Typography
+                        data-testid={`${chainName}-button`}
+                        variant="sm"
+                    >
+                        {supportedChain ? chainName : "Unsupported"}
+                    </Typography>
+                )}
+                {!__LIBRARY_MODE__ && multipleEnabledChains && (
+                    <CaretDown className="w-3 dark:text-white" />
+                )}
+            </div>
         </div>
     );
 };
