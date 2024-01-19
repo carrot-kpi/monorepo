@@ -114,6 +114,7 @@ export const CampaignsTopNav = ({
                         className={{
                             root: "w-full md:w-fit",
                             input: "py-4 w-full",
+                            inputWrapper: "w-full",
                         }}
                     />
                 </div>
