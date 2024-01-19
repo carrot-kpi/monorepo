@@ -1,11 +1,12 @@
 {
     "outDir": "./src/out/fathom",
     "events": [
-        "TX_KPI_TOKEN_REWARDS_RECOVERY",
         "TX_CUSTOM",
         "TX_KPI_TOKEN_REDEMPTION",
         "TX_ERC20_APPROVAL",
         "TX_ORACLE_FINALIZATION",
-        "TX_KPI_TOKEN_CREATION"
+        "TX_KPI_TOKEN_CREATION",
+        "TX_KPI_TOKEN_REWARDS_RECOVERY",
+        "TX_KPI_TOKEN_COLLATERAL_RECOVER"
     ]
 }

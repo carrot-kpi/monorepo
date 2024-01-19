@@ -32,12 +32,12 @@ export const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
-export const PINNING_PROXY_JWT_ISSUER = "carrot-pinning-proxy";
+export const DATA_UPLOADER_JWT_ISSUER = "carrot-data-uploader";
 
 const prod = __PROD__ && !__LIBRARY_MODE__ && !__STAGING_MODE__;
 
 export const IPFS_GATEWAY_URL = getServiceURL(Service.IPFS_GATEWAY, prod);
-export const PINNING_PROXY_URL = getServiceURL(Service.PINNING_PROXY, prod);
+export const DATA_UPLOADER_URL = getServiceURL(Service.DATA_UPLOADER, prod);
 export const STATIC_CDN_URL = getServiceURL(Service.STATIC_CDN, prod);
 
 export interface AugmentedChain extends Chain {
