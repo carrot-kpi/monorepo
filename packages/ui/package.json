@@ -54,6 +54,11 @@
             "import": "./dist/es/components/button.mjs",
             "default": "./dist/cjs/components/button.cjs"
         },
+        "./button-group": {
+            "types": "./dist/types/components/button-group.d.ts",
+            "import": "./dist/es/components/button-group.mjs",
+            "default": "./dist/cjs/components/button-group.cjs"
+        },
         "./checkbox": {
             "types": "./dist/types/components/checkbox.d.ts",
             "import": "./dist/es/components/checkbox.mjs",
@@ -199,6 +204,9 @@
             ],
             "button": [
                 "./dist/types/components/button.d.ts"
+            ],
+            "button-group": [
+                "./dist/types/components/button-group.d.ts"
             ],
             "checkbox": [
                 "./dist/types/components/checkbox.d.ts"

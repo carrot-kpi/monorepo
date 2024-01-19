@@ -40,6 +40,8 @@ export const en = {
         "create.noKPIToken": "No KPI token",
         "campaign.loading": "Loading",
         "campaign.all": "All Campaigns",
+        "campaigns.filters.time": "Time",
+        "campaigns.filters.status": "Status",
         "templates.viewAll": "View all",
         "settings.title": "Settings",
         "preferences.theme": "Dark theme",
