@@ -9,11 +9,13 @@ export default {
 
 const Component = () => {
     return (
-        <ButtonGroupComponent label="Button group" disabled>
-            <Button>first button</Button>
-            <Button>second button</Button>
-            <Button>third button</Button>
-        </ButtonGroupComponent>
+        <>
+            <ButtonGroupComponent label="Button group">
+                <Button variant="secondary">first button</Button>
+                <Button>second button</Button>
+                <Button variant="secondary">third button</Button>
+            </ButtonGroupComponent>
+        </>
     );
 };
 

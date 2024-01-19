@@ -8,8 +8,11 @@ const rootStyles = cva([
     "cui-w-full",
     "cui-flex",
     "[&>button:last-of-type]:cui-rounded-r-xxl",
+    "[&>button:last-of-type]:cui-border-l-0",
     "[&>button:first-of-type]:cui-rounded-l-xxl",
+    "[&>button:first-of-type]:cui-border-l",
     "[&>button]:cui-rounded-none",
+    "[&>button]:cui-border-l-0",
 ]);
 
 export interface ButtonGroupProps {
@@ -30,7 +33,7 @@ export const ButtonGroup = forwardRef<
         <BaseInputWrapper id={useId()} label={label} className={className}>
             <div className={rootStyles({ className })}>
                 {buttons.map((button, index) =>
-                    React.cloneElement(button, {
+                    React.cloneElement<ButtonProps>(button, {
                         key: index,
                         ...rest,
                     }),
