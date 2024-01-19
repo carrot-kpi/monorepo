@@ -6,6 +6,7 @@ export * from "./erc20-token-picker";
 export * from "./markdown-input";
 export * from "./multi-step-cards";
 export * from "./button";
+export * from "./button-group";
 export * from "./checkbox";
 export * from "./chip";
 export * from "./erc20-token-logo";

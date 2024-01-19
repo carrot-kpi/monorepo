@@ -1,5 +1,10 @@
 import React, { type ChangeEvent, useCallback, useState } from "react";
-import { TextInput, Select, type SelectOption } from "@carrot-kpi/ui";
+import {
+    TextInput,
+    type SelectOption,
+    ButtonGroup,
+    Button,
+} from "@carrot-kpi/ui";
 // import { ToggleFiltersButton } from "./toggle-filters-button";
 import MagnifyingLens from "../../../icons/magnifying-lens";
 import { t } from "i18next";
@@ -40,44 +45,64 @@ export const CampaignsTopNav = ({
         [setSearchQuery],
     );
 
+    const handleOrderingChange = useCallback(
+        (value: SelectOption<number>) => {
+            onOrderingChange(value);
+        },
+        [onOrderingChange],
+    );
+
+    const handleStateChange = useCallback(
+        (value: SelectOption<number>) => {
+            onStateChange(value);
+        },
+        [onStateChange],
+    );
+
     return (
         <div className="flex justify-center px-6 py-6 bg-white border-t border-b border-black md:px-12 dark:bg-black">
             <div className="w-full max-w-screen-2xl flex flex-col items-center justify-between md:flex-row">
-                <div className="flex flex-col w-full gap-5 md:flex-row">
-                    <div className="flex gap-5">
-                        {/* <ToggleFiltersButton
+                <div className="flex flex-col w-full justify-between md:items-end md:flex-row gap-5">
+                    {/* <ToggleFiltersButton
                             active={filtersOpen}
                             toggle={onToggleFilters}
                         /> */}
-                        <Select
-                            data-testid="sort-by-dropdown"
-                            label=""
-                            messages={{ noResults: "" }}
-                            onChange={onOrderingChange}
-                            options={sortOptions}
-                            placeholder="Latest"
-                            value={sort}
-                            className={{
-                                root: "w-full",
-                                wrapper: "w-full",
-                                input: "w-full",
-                            }}
-                        />
+                    <div className="flex flex-col md:flex-row gap-5">
+                        <ButtonGroup
+                            size="small"
+                            label={t("campaigns.filters.time")}
+                        >
+                            {sortOptions.map((sortOption) => (
+                                <Button
+                                    key={sortOption.value}
+                                    variant="secondary"
+                                    onClick={() =>
+                                        handleOrderingChange(sortOption)
+                                    }
+                                    active={sortOption.value === sort.value}
+                                >
+                                    {sortOption.label}
+                                </Button>
+                            ))}
+                        </ButtonGroup>
+                        <ButtonGroup
+                            size="small"
+                            label={t("campaigns.filters.status")}
+                        >
+                            {stateOptions.map((stateOption) => (
+                                <Button
+                                    key={stateOption.value}
+                                    variant="secondary"
+                                    onClick={() =>
+                                        handleStateChange(stateOption)
+                                    }
+                                    active={stateOption.value === state.value}
+                                >
+                                    {stateOption.label}
+                                </Button>
+                            ))}
+                        </ButtonGroup>
                     </div>
-                    <Select
-                        data-testid="filter-all-dropdown"
-                        label=""
-                        messages={{ noResults: "" }}
-                        onChange={onStateChange}
-                        options={stateOptions}
-                        placeholder="Latest"
-                        value={state}
-                        className={{
-                            root: "w-full",
-                            wrapper: "w-full",
-                            input: "w-full",
-                        }}
-                    />
                     <TextInput
                         data-testid="search-bar-field"
                         icon={MagnifyingLens}
@@ -86,6 +111,11 @@ export const CampaignsTopNav = ({
                         placeholder={t("search")}
                         onChange={handleSearchChange}
                         value={searchInputValue}
+                        className={{
+                            root: "w-full md:w-fit",
+                            input: "py-4 w-full",
+                            inputWrapper: "w-full",
+                        }}
                     />
                 </div>
             </div>
