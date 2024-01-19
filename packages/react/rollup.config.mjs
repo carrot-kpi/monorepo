@@ -13,7 +13,7 @@ export default [
             "src/components/oracle-creation-form.tsx",
             "src/components/oracle-page.tsx",
             "src/components/template-component.tsx",
-            "src/hooks/useDecentralizedStorageUploader.ts",
+            "src/hooks/useJsonUploader.ts",
             "src/hooks/useDevMode.ts",
             "src/hooks/useERC20TokenPrice.ts",
             "src/hooks/useIPFSGatewayURL.ts",

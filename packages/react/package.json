@@ -44,10 +44,10 @@
             "import": "./dist/es/components/template-component.mjs",
             "default": "./dist/cjs/components/template-component.cjs"
         },
-        "./useDecentralizedStorageUploader": {
-            "types": "./dist/types/hooks/useDecentralizedStorageUploader.d.ts",
-            "import": "./dist/es/hooks/useDecentralizedStorageUploader.mjs",
-            "default": "./dist/cjs/hooks/useDecentralizedStorageUploader.cjs"
+        "./useJsonUploader": {
+            "types": "./dist/types/hooks/useJsonUploader.d.ts",
+            "import": "./dist/es/hooks/useJsonUploader.mjs",
+            "default": "./dist/cjs/hooks/useJsonUploader.cjs"
         },
         "./useDevMode": {
             "types": "./dist/types/hooks/useDevMode.d.ts",
@@ -240,8 +240,8 @@
             "template-component": [
                 "./dist/types/components/template-component.d.ts"
             ],
-            "useDecentralizedStorageUploader": [
-                "./dist/types/hooks/useDecentralizedStorageUploader.d.ts"
+            "useJsonUploader": [
+                "./dist/types/hooks/useJsonUploader.d.ts"
             ],
             "useDevMode": [
                 "./dist/types/hooks/useDevMode.d.ts"

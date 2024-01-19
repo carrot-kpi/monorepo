@@ -1,13 +1,13 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { setPinningProxyJWT } from "../actions";
+import { setDataUploaderJWT } from "../actions";
 import type { AuthState } from "../types";
 
 const initialState: AuthState = {
-    pinningProxyJWT: "",
+    dataUploaderJWT: "",
 };
 
 export const authReducer = createReducer(initialState, (builder) =>
-    builder.addCase(setPinningProxyJWT, (state, action) => {
-        state.pinningProxyJWT = action.payload;
+    builder.addCase(setDataUploaderJWT, (state, action) => {
+        state.dataUploaderJWT = action.payload;
     }),
 );

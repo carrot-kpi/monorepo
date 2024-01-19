@@ -5,7 +5,7 @@ export * from "./components/oracle-creation-form";
 export * from "./components/oracle-page";
 export * from "./components/template-component";
 
-export * from "./hooks/useDecentralizedStorageUploader";
+export * from "./hooks/useJsonUploader";
 export * from "./hooks/useDevMode";
 export * from "./hooks/useERC20TokenPrice";
 export * from "./hooks/useIPFSGatewayURL";
