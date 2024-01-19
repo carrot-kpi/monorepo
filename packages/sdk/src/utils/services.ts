@@ -1,7 +1,7 @@
 export enum Service {
     STATIC_CDN,
     IPFS_GATEWAY,
-    PINNING_PROXY,
+    DATA_UPLOADER,
 }
 
 export interface ServiceURLs {
@@ -18,9 +18,9 @@ const SERVICE_URLS: Record<Service, ServiceURLs> = {
         staging: "https://gateway.api.staging.carrot.community",
         prod: "https://gateway.api.carrot.community",
     },
-    [Service.PINNING_PROXY]: {
-        staging: "https://pinning-proxy.api.staging.carrot.community",
-        prod: "https://pinning-proxy.api.carrot.community",
+    [Service.DATA_UPLOADER]: {
+        staging: "https://data-uploader.api.staging.carrot.community",
+        prod: "https://data-uploader.api.carrot.community",
     },
 };
 

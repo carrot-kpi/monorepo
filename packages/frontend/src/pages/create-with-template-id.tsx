@@ -3,7 +3,7 @@ import { type SerializableObject } from "@carrot-kpi/react";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
 import { Authenticate } from "../components/authenticate";
-import { useIsPinningProxyAuthenticated } from "../hooks/useIsPinningProxyAuthenticated";
+import { useIsDataUploaderAuthenticated } from "../hooks/useIsDataUploaderAuthenticated";
 import { Layout } from "../components/layout";
 import { Permissioned } from "../components/permissioned";
 import { useIsCreatorAllowed } from "../hooks/useIsCreatorAllowed";
@@ -14,7 +14,7 @@ export function CreateWithTemplateId<S extends SerializableObject<S>>() {
     const navigate = useNavigate();
     const { address } = useAccount();
 
-    const pinningProxyAuthenticated = useIsPinningProxyAuthenticated();
+    const dataUploaderAuthenticated = useIsDataUploaderAuthenticated();
 
     const { allowed: creatorAllowed, loading: loadingPermission } =
         useIsCreatorAllowed(address);
@@ -40,7 +40,7 @@ export function CreateWithTemplateId<S extends SerializableObject<S>>() {
                     <div className="h-screen py-20">
                         <Permissioned onBack={handleDismiss} />
                     </div>
-                ) : !pinningProxyAuthenticated ? (
+                ) : !dataUploaderAuthenticated ? (
                     <div className="h-screen py-20">
                         <Authenticate onCancel={handleDismiss} />
                     </div>
