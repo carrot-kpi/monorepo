@@ -49,7 +49,7 @@ export const ButtonGroup = forwardRef<
             label={label}
             className={{ inputWrapper: "cui-w-full md:cui-w-fit" }}
         >
-            <div className={rootStyles({ className })}>
+            <div className={rootStyles({ className: className?.root })}>
                 {buttons.map((button, index) =>
                     React.cloneElement<ButtonProps>(button, {
                         key: index,
