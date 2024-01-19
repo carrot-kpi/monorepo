@@ -1,5 +1,20 @@
 # @carrot-kpi/host-frontend
 
+## 0.35.0
+
+### Minor Changes
+
+- 9d3df90: Switch to generic data uploader service instead of using the pinning proxy.
+- f706785: Adapt campaigns page to the new designs
+
+### Patch Changes
+
+- Updated dependencies [f706785]
+- Updated dependencies [9d3df90]
+  - @carrot-kpi/ui@0.67.0
+  - @carrot-kpi/react@0.74.0
+  - @carrot-kpi/sdk@1.47.0
+
 ## 0.34.0
 
 ### Minor Changes

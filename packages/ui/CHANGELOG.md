@@ -1,5 +1,16 @@
 # @carrot-kpi/ui
 
+## 0.67.0
+
+### Minor Changes
+
+- f706785: Add new ButtonGroup component
+
+### Patch Changes
+
+- Updated dependencies [9d3df90]
+  - @carrot-kpi/sdk@1.47.0
+
 ## 0.66.7
 
 ### Patch Changes

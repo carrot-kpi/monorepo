@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.47.0
+
+### Minor Changes
+
+- 9d3df90: Switch to generic data uploader service instead of using the pinning proxy.
+
 ## 1.46.1
 
 ### Patch Changes
