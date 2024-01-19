@@ -1,6 +1,5 @@
-import { Typography, type SelectOption } from "@carrot-kpi/ui";
+import { type SelectOption } from "@carrot-kpi/ui";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Layout } from "../../components/layout";
 import { useResolvedKPITokens } from "@carrot-kpi/react";
 import { CampaignsTopNav } from "./top-nav";
@@ -19,7 +18,6 @@ import { tokenSpecificationIncludesQuery } from "../../utils/search";
 import { Grid } from "./grid";
 
 export const Campaigns = () => {
-    const { t } = useTranslation();
     const location = useLocation();
     const [, setSearchParams] = useSearchParams();
     const { loading, resolvedKPITokens } = useResolvedKPITokens();
@@ -108,16 +106,6 @@ export const Campaigns = () => {
     return (
         <Layout navbarBgColor="orange">
             <div className="min-h-screen">
-                <div className="w-full relative flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
-                    <div className="py-16 w-full max-w-screen-2xl">
-                        <Typography
-                            data-testid="all-campaigns-title-text"
-                            variant="h1"
-                        >
-                            {t("campaign.all")}
-                        </Typography>
-                    </div>
-                </div>
                 <div className="w-full" id="__campaigns_page">
                     <CampaignsTopNav
                         sortOptions={SORT_OPTIONS}
@@ -131,17 +119,17 @@ export const Campaigns = () => {
                         onToggleFilters={toggleFilters}
                     />
                 </div>
-                <div className="w-full flex flex-col items-center px-4 md:px-10 lg:px-14 xl:px-40">
-                    <SideFilters
-                        open={filtersOpen}
-                        selectedTemplates={templates}
-                        setSelectedTemplates={handleTemplatesUpdate}
-                        selectedOracles={oracles}
-                        setSelectedOracles={handleOraclesTemplatesUpdate}
-                        toggleFilters={toggleFilters}
-                    />
-                    <div className="flex flex-col items-center w-full py-12 md:py-16">
-                        <div className="w-full flex flex-wrap justify-center gap-5 lg:justify-start">
+                <div className="w-full flex justify-center">
+                    <div className="w-full max-w-screen-2xl flex flex-col items-center px-4 md:px-10 lg:px-14">
+                        <SideFilters
+                            open={filtersOpen}
+                            selectedTemplates={templates}
+                            setSelectedTemplates={handleTemplatesUpdate}
+                            selectedOracles={oracles}
+                            setSelectedOracles={handleOraclesTemplatesUpdate}
+                            toggleFilters={toggleFilters}
+                        />
+                        <div className="w-full py-12 md:py-16 mx-6 md:mx-10 lg:mx-32">
                             <Grid
                                 loading={loading}
                                 items={sortedAndfilteredKPITokens}
