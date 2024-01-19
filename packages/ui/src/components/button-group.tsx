@@ -7,12 +7,23 @@ import { BaseInputWrapper } from "./commons/input";
 const rootStyles = cva([
     "cui-w-full",
     "cui-flex",
-    "[&>button:last-of-type]:cui-rounded-r-xxl",
-    "[&>button:last-of-type]:cui-border-l-0",
-    "[&>button:first-of-type]:cui-rounded-l-xxl",
-    "[&>button:first-of-type]:cui-border-l",
+    "cui-flex-col",
+    "[&>button]:cui-w-full",
     "[&>button]:cui-rounded-none",
-    "[&>button]:cui-border-l-0",
+    "[&>button:last-of-type]:cui-rounded-b-xxl",
+    "[&>button:last-of-type]:cui-border-t-0",
+    "[&>button:first-of-type]:cui-rounded-t-xxl",
+    "[&>button:first-of-type]:cui-border-t",
+    "[&>button]:cui-border-t-0",
+    "md:cui-flex-row",
+    "md:cui-w-fit",
+    "md:[&>button:last-of-type]:cui-rounded-r-xxl",
+    "md:[&>button:last-of-type]:cui-border-l-0",
+    "md:[&>button:first-of-type]:cui-rounded-l-xxl",
+    "md:[&>button:first-of-type]:cui-border-l",
+    "md:[&>button]:cui-rounded-none",
+    "md:[&>button]:cui-border-l-0",
+    "md:[&>button]:cui-w-fit",
 ]);
 
 export interface ButtonGroupProps {
@@ -30,7 +41,11 @@ export const ButtonGroup = forwardRef<
     const buttons = children.filter((child) => matchChildByType(child, Button));
 
     return (
-        <BaseInputWrapper id={useId()} label={label} className={className}>
+        <BaseInputWrapper
+            id={useId()}
+            label={label}
+            className={{ inputWrapper: "cui-w-full md:cui-w-fit" }}
+        >
             <div className={rootStyles({ className })}>
                 {buttons.map((button, index) =>
                     React.cloneElement<ButtonProps>(button, {
