@@ -5,7 +5,7 @@ export * from "./components/oracle-creation-form";
 export * from "./components/oracle-page";
 export * from "./components/template-component";
 
-export * from "./hooks/useJsonUploader";
+export * from "./hooks/useJSONUploader";
 export * from "./hooks/useDevMode";
 export * from "./hooks/useERC20TokenPrice";
 export * from "./hooks/useIPFSGatewayURL";
@@ -21,6 +21,7 @@ export * from "./hooks/useOracleTemplateFeatureEnabledFor";
 export * from "./hooks/useOracleTemplates";
 export * from "./hooks/usePagination";
 export * from "./hooks/usePreferDecentralization";
+export * from "./hooks/useProdMode";
 export * from "./hooks/useResolvedKPIToken";
 export * from "./hooks/useResolvedKPITokens";
 export * from "./hooks/useResolvedTemplate";

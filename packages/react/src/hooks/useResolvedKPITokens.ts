@@ -1,8 +1,14 @@
-import { Fetcher, ResolvedKPIToken } from "@carrot-kpi/sdk";
+import {
+    Fetcher,
+    ResolvedKPIToken,
+    Service,
+    getServiceURL,
+} from "@carrot-kpi/sdk";
 import { type Address, usePublicClient } from "wagmi";
 import { useEffect, useState } from "react";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
+import { useProdMode } from "./useProdMode";
 
 interface ResolvedKPITokensParams {
     blacklisted?: Address[];
@@ -15,6 +21,7 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
     const publicClient = usePublicClient();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
+    const prodMode = useProdMode();
     const [resolvedKPITokens, setResolvedKPITokens] = useState<
         ResolvedKPIToken[]
     >([]);
@@ -40,6 +47,11 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
                             const resolved = (
                                 await Fetcher.resolveKPITokens({
                                     ipfsGatewayURL,
+                                    dataCDNURL: getServiceURL(
+                                        Service.DATA_CDN,
+                                        prodMode,
+                                    ),
+                                    preferDecentralization,
                                     kpiTokens: [kpiToken],
                                 })
                             )[kpiToken.address];
@@ -67,6 +79,7 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
         };
     }, [
         ipfsGatewayURL,
+        prodMode,
         publicClient,
         preferDecentralization,
         params?.blacklisted,
