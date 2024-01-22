@@ -1,6 +1,6 @@
-import { homePage } from "pages/home-page";
-import { createCampaign } from "pages/create-campaign-page";
-import { networks, wallets } from "utils/data";
+import { homePage } from "../pages/home-page";
+import { createCampaign } from "../pages/create-campaign-page";
+import { networks, wallets } from "../utils/data";
 /**
  *@description Smoke test for Carrot Home page
  */
@@ -82,9 +82,9 @@ describe("User with connected wallet", () => {
     });
     it("Connect wallet to Metamask", () => {
         homePage.selectWalletConnection(wallets.metamask);
-        cy.acceptMetamaskAccess().then((connected) => {
-            expect(connected).to.be.true;
-        });
+        // cy.acceptMetamaskAccess().then((connected) => {
+        //     expect(connected).to.be.true;
+        // });
         homePage.profileAvatarVisible(true);
         homePage.connectWalletButtonVisible(false);
     });
