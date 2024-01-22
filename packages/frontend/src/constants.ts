@@ -6,8 +6,8 @@ import EthereumLogo from "./icons/chains/ethereum";
 import GnosisLogo from "./icons/chains/gnosis";
 import ScrollLogo from "./icons/chains/scroll";
 import PolygonLogo from "./icons/chains/polygon";
-import { NavLink } from "react-router-dom";
 import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
+import Grid from "./icons/grid";
 
 type RPCConfig = {
     http: string;
@@ -32,13 +32,14 @@ export const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
-export const PINNING_PROXY_JWT_ISSUER = "carrot-pinning-proxy";
+export const DATA_UPLOADER_JWT_ISSUER = "carrot-data-uploader";
 
 const prod = __PROD__ && !__LIBRARY_MODE__ && !__STAGING_MODE__;
 
-export const IPFS_GATEWAY_URL = getServiceURL(Service.IPFS_GATEWAY, prod);
-export const PINNING_PROXY_URL = getServiceURL(Service.PINNING_PROXY, prod);
+export const IPFS_GATEWAY_URL = "https://w3s.link";
+export const DATA_UPLOADER_URL = getServiceURL(Service.DATA_UPLOADER, prod);
 export const STATIC_CDN_URL = getServiceURL(Service.STATIC_CDN, prod);
+export const DATA_CDN_URL = getServiceURL(Service.DATA_CDN, prod);
 
 export interface AugmentedChain extends Chain {
     logo: FunctionComponent<
@@ -102,26 +103,29 @@ export const CARROT_DOMAIN = prod
     : "staging.carrot.community";
 
 export interface NavbarLink {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Component?: FunctionComponent<any>;
     title: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Icon: FunctionComponent<any>;
     to: string;
     external: boolean;
+    highlighted?: boolean;
 }
 
 export const NAVBAR_LINKS: NavbarLink[] = [
     {
-        Component: NavLink,
-        title: "About",
-        to: `https://www.${CARROT_DOMAIN}`,
-        external: true,
-    },
-    {
-        Component: NavLink,
         title: "Campaigns",
+        Icon: Grid,
         to: "/campaigns",
         external: false,
     },
+    // TODO: enable once the designs for the create are ready
+    // {
+    //     title: "Create",
+    //     Icon: Stars,
+    //     to: "/create/1",
+    //     external: false,
+    //     highlighted: true,
+    // },
 ];
 
 export interface FooterLink {

@@ -2,24 +2,29 @@ import { type Tx, TxType } from "@carrot-kpi/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { usePublicClient } from "wagmi";
-import { getTransactionSummary } from "../utils/transactions";
+import { getTransactionDetails, type TxDetails } from "../utils/transactions";
 
-export const useTransactionSummary = (
+export const useTransactionDetails = (
     tx: Tx<TxType>,
-): { loading: boolean; summary: string } => {
+): { loading: boolean } & TxDetails => {
     const { t } = useTranslation();
     const client = usePublicClient();
 
     const [loading, setLoading] = useState(false);
-    const [summary, setSummary] = useState("");
+    const [txDetails, setTxDetails] = useState<TxDetails>({
+        title: "",
+        summary: "",
+    });
 
     useEffect(() => {
         let cancelled = false;
         const getSummary = async () => {
             if (!cancelled) setLoading(true);
             try {
-                const summary = await getTransactionSummary(t, client, tx);
-                if (!cancelled) setSummary(summary);
+                const details = await getTransactionDetails(t, client, tx);
+                if (!cancelled) {
+                    setTxDetails(details);
+                }
             } catch (error) {
                 console.warn(
                     `could not get summary for transaction ${tx.hash}`,
@@ -35,5 +40,5 @@ export const useTransactionSummary = (
         };
     }, [client, t, tx]);
 
-    return { loading, summary };
+    return { loading, ...txDetails };
 };

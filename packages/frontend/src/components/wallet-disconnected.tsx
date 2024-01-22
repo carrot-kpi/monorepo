@@ -16,7 +16,12 @@ export const WalletDisconnected = () => {
                     {t("wallet.disconnected.description")}
                 </Typography>
             </div>
-            <ConnectWallet chainList={false} />
+            <ConnectWallet
+                className={{
+                    connectButton: "h-11 px-3 w-full xl:w-fit rounded-lg",
+                }}
+                chainList={false}
+            />
         </div>
     );
 };

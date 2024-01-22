@@ -1,5 +1,24 @@
 # @carrot-kpi/sdk
 
+## 1.48.0
+
+### Minor Changes
+
+- d00fa77: Implement data fetching from S3 with fallback on direct IPFS fetching. The S3 fetching is subject to the preferDecentralization flag being set to false.
+
+## 1.47.0
+
+### Minor Changes
+
+- 9d3df90: Switch to generic data uploader service instead of using the pinning proxy.
+
+## 1.46.1
+
+### Patch Changes
+
+- 771a9d3: Rename enumerate to enumerateTemplates for the manager contract abis
+- 0aaae6b: Fix an issue with the getKPITokenTemplateFeatureEnabledFor subgraph query, caused by a typo in the entity name
+
 ## 1.46.0
 
 ### Minor Changes

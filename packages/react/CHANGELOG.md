@@ -1,5 +1,36 @@
 # @carrot-kpi/react
 
+## 0.75.0
+
+### Minor Changes
+
+- d00fa77: Implement data fetching from S3 with fallback on direct IPFS fetching. The S3 fetching is subject to the preferDecentralization flag being set to false.
+
+### Patch Changes
+
+- Updated dependencies [d00fa77]
+  - @carrot-kpi/sdk@1.48.0
+
+## 0.74.0
+
+### Minor Changes
+
+- 9d3df90: Switch to generic data uploader service instead of using the pinning proxy.
+
+### Patch Changes
+
+- Updated dependencies [9d3df90]
+  - @carrot-kpi/sdk@1.47.0
+
+## 0.73.1
+
+### Patch Changes
+
+- 85e23eb: Add onCreateDraft to creation form props
+- Updated dependencies [771a9d3]
+- Updated dependencies [0aaae6b]
+  - @carrot-kpi/sdk@1.46.1
+
 ## 0.73.0
 
 ### Minor Changes

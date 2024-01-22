@@ -2,10 +2,10 @@ import React, { useCallback } from "react";
 import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
 import { useNetwork } from "wagmi";
-import { ChainIcon } from "../../chain-icon";
-import { type AugmentedChain, SUPPORTED_CHAINS } from "../../../constants";
+import { ChainIcon } from "../chain-icon";
+import { type AugmentedChain, SUPPORTED_CHAINS } from "../../constants";
 import { ChainId } from "@carrot-kpi/sdk";
-import Error from "../../../icons/error";
+import Error from "../../icons/error";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface NetworksPopoverProps {
@@ -49,7 +49,7 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                     const Logo = chainFromSupportedChains?.logo || Error;
                     return (
                         <div
-                            data-testid={`${supportedChain.name}-network-button`}
+                            data-testid={`${supportedChain.id}-network-button`}
                             key={supportedChain.id}
                             className="cursor-pointer"
                             onClick={handleChainClick}

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
-import { useKPITokenTemplates } from "@carrot-kpi/react";
+import {
+    useKPITokenTemplates,
+    usePreferDecentralization,
+} from "@carrot-kpi/react";
 import { Link } from "react-router-dom";
 import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useIPFSGatewayURL } from "@carrot-kpi/react";
+import { DATA_CDN_URL } from "../constants";
 
 interface CreateCampaignButtonProps {
     primary?: boolean;
@@ -16,6 +20,7 @@ export const CreateCampaignButton = ({
     const { t } = useTranslation();
     const { loading, templates } = useKPITokenTemplates();
     const ipfsGatewayURL = useIPFSGatewayURL();
+    const preferDecentralization = usePreferDecentralization();
 
     const [href, setHref] = useState("");
     const [resolvingTemplate, setResolvingTemplate] = useState(false);
@@ -33,12 +38,14 @@ export const CreateCampaignButton = ({
                 try {
                     const resolved = await Fetcher.resolveTemplates({
                         ipfsGatewayURL,
+                        dataCDNURL: DATA_CDN_URL,
+                        preferDecentralization,
                         templates: [template],
                     });
                     if (resolved.length !== 1)
                         throw new Error("inconsistent resolved array length");
                     if (!cancelled) setResolvedTemplate(resolved[0]);
-                    if (!cancelled) setHref(`/create/${template.id}`);
+                    if (!cancelled) setHref(`/create/${template.id}/draft`);
                 } catch (error) {
                     console.warn(
                         `error while resolving template with id ${template.id}`,
@@ -53,7 +60,7 @@ export const CreateCampaignButton = ({
         return () => {
             cancelled = true;
         };
-    }, [loading, templates, ipfsGatewayURL]);
+    }, [loading, templates, ipfsGatewayURL, preferDecentralization]);
 
     return (
         <Link to={href} state={{ template: resolvedTemplate }}>

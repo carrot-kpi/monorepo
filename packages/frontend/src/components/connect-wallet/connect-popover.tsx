@@ -2,7 +2,7 @@ import React from "react";
 import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
 import { useConnect, useNetwork } from "wagmi";
-import { getConnectorIcon, ReadonlyConnector } from "../../../connectors";
+import { getConnectorIcon, ReadonlyConnector } from "../../connectors";
 
 interface ConnectPopoverProps {
     open: boolean;

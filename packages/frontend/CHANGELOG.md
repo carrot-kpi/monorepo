@@ -1,5 +1,50 @@
 # @carrot-kpi/host-frontend
 
+## 0.36.0
+
+### Minor Changes
+
+- d00fa77: Implement data fetching from S3 with fallback on direct IPFS fetching. The S3 fetching is subject to the preferDecentralization flag being set to false.
+
+### Patch Changes
+
+- Updated dependencies [d00fa77]
+  - @carrot-kpi/react@0.75.0
+  - @carrot-kpi/sdk@1.48.0
+
+## 0.35.0
+
+### Minor Changes
+
+- 9d3df90: Switch to generic data uploader service instead of using the pinning proxy.
+- f706785: Adapt campaigns page to the new designs
+
+### Patch Changes
+
+- Updated dependencies [f706785]
+- Updated dependencies [9d3df90]
+  - @carrot-kpi/ui@0.67.0
+  - @carrot-kpi/react@0.74.0
+  - @carrot-kpi/sdk@1.47.0
+
+## 0.34.0
+
+### Minor Changes
+
+- 85e23eb: Implement drafts for campaigns
+
+### Patch Changes
+
+- 771a9d3: Redirect to the home page when switching chain while on the campaign page, to avoid inconsistencies
+  Add new account and settings drawer
+- Updated dependencies [771a9d3]
+- Updated dependencies [771a9d3]
+- Updated dependencies [85e23eb]
+- Updated dependencies [0aaae6b]
+  - @carrot-kpi/ui@0.66.7
+  - @carrot-kpi/sdk@1.46.1
+  - @carrot-kpi/react@0.73.1
+
 ## 0.33.6
 
 ### Patch Changes

@@ -7,7 +7,7 @@ import {
     wallets,
     campaignData,
     templateData,
-} from "cypress/utils/data";
+} from "utils/data";
 /**
  * @exports default methods used in all tests
  */
