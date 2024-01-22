@@ -36,7 +36,7 @@ export const DATA_UPLOADER_JWT_ISSUER = "carrot-data-uploader";
 
 const prod = __PROD__ && !__LIBRARY_MODE__ && !__STAGING_MODE__;
 
-export const IPFS_GATEWAY_URL = getServiceURL(Service.IPFS_GATEWAY, prod);
+export const IPFS_GATEWAY_URL = "https://w3s.link";
 export const DATA_UPLOADER_URL = getServiceURL(Service.DATA_UPLOADER, prod);
 export const STATIC_CDN_URL = getServiceURL(Service.STATIC_CDN, prod);
 export const DATA_CDN_URL = getServiceURL(Service.DATA_CDN, prod);

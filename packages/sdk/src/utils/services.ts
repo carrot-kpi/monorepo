@@ -1,7 +1,6 @@
 export enum Service {
     STATIC_CDN,
     DATA_CDN,
-    IPFS_GATEWAY,
     DATA_UPLOADER,
 }
 
@@ -18,10 +17,6 @@ const SERVICE_URLS: Record<Service, ServiceURLs> = {
     [Service.DATA_CDN]: {
         staging: "https://data.staging.carrot.community",
         prod: "https://data.carrot.community",
-    },
-    [Service.IPFS_GATEWAY]: {
-        staging: "https://gateway.api.staging.carrot.community",
-        prod: "https://gateway.api.carrot.community",
     },
     [Service.DATA_UPLOADER]: {
         staging: "https://data-uploader.api.staging.carrot.community",
