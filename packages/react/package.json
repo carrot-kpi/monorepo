@@ -44,11 +44,6 @@
             "import": "./dist/es/components/template-component.mjs",
             "default": "./dist/cjs/components/template-component.cjs"
         },
-        "./useJsonUploader": {
-            "types": "./dist/types/hooks/useJsonUploader.d.ts",
-            "import": "./dist/es/hooks/useJsonUploader.mjs",
-            "default": "./dist/cjs/hooks/useJsonUploader.cjs"
-        },
         "./useDevMode": {
             "types": "./dist/types/hooks/useDevMode.d.ts",
             "import": "./dist/es/hooks/useDevMode.mjs",
@@ -68,6 +63,11 @@
             "types": "./dist/types/hooks/useIPFSGatewayURL.d.ts",
             "import": "./dist/es/hooks/useIPFSGatewayURL.mjs",
             "default": "./dist/cjs/hooks/useIPFSGatewayURL.cjs"
+        },
+        "./useJSONUploader": {
+            "types": "./dist/types/hooks/useJsonUploader.d.ts",
+            "import": "./dist/es/hooks/useJsonUploader.mjs",
+            "default": "./dist/cjs/hooks/useJsonUploader.cjs"
         },
         "./useKPIToken": {
             "types": "./dist/types/hooks/useKPIToken.d.ts",
@@ -128,6 +128,11 @@
             "types": "./dist/types/hooks/usePreferDecentralization.d.ts",
             "import": "./dist/es/hooks/usePreferDecentralization.mjs",
             "default": "./dist/cjs/hooks/usePreferDecentralization.cjs"
+        },
+        "./useProdMode": {
+            "types": "./dist/types/hooks/useProdMode.d.ts",
+            "import": "./dist/es/hooks/useProdMode.mjs",
+            "default": "./dist/cjs/hooks/useProdMode.cjs"
         },
         "./useResolvedKPIToken": {
             "types": "./dist/types/hooks/useResolvedKPIToken.d.ts",
@@ -240,9 +245,6 @@
             "template-component": [
                 "./dist/types/components/template-component.d.ts"
             ],
-            "useJsonUploader": [
-                "./dist/types/hooks/useJsonUploader.d.ts"
-            ],
             "useDevMode": [
                 "./dist/types/hooks/useDevMode.d.ts"
             ],
@@ -254,6 +256,9 @@
             ],
             "useIPFSGatewayURL": [
                 "./dist/types/hooks/useIPFSGatewayURL.d.ts"
+            ],
+            "useJSONUploader": [
+                "./dist/types/hooks/useJSONUploader.d.ts"
             ],
             "useKPIToken": [
                 "./dist/types/hooks/useKPIToken.d.ts"
@@ -284,6 +289,9 @@
             ],
             "usePreferDecentralization": [
                 "./dist/types/hooks/usePreferDecentralization.d.ts"
+            ],
+            "useProdMode": [
+                "./dist/types/hooks/useProdMode.d.ts"
             ],
             "useResolvedKPIToken": [
                 "./dist/types/hooks/useResolvedKPIToken.d.ts"

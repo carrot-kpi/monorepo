@@ -1,13 +1,19 @@
-import { useIPFSGatewayURL, useKPITokens } from "@carrot-kpi/react";
+import {
+    useIPFSGatewayURL,
+    useKPITokens,
+    usePreferDecentralization,
+} from "@carrot-kpi/react";
 import { Fetcher, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
 import { tokenSpecificationIncludesQuery } from "../utils/search";
+import { DATA_CDN_URL } from "../constants";
 
 export function useSearchResolvedKPITokens(searchQuery: string) {
     const { chain } = useNetwork();
     const { kpiTokens } = useKPITokens();
     const ipfsGatewayURL = useIPFSGatewayURL();
+    const preferDecentralization = usePreferDecentralization();
 
     const [loading, setLoading] = useState(true);
     const [initialTokens, setInitialTokens] = useState<ResolvedKPIToken[]>([]);
@@ -21,6 +27,8 @@ export function useSearchResolvedKPITokens(searchQuery: string) {
                 return (
                     await Fetcher.resolveKPITokens({
                         ipfsGatewayURL,
+                        dataCDNURL: DATA_CDN_URL,
+                        preferDecentralization,
                         kpiTokens: [kpiToken],
                     })
                 )[kpiToken.address];
@@ -45,7 +53,7 @@ export function useSearchResolvedKPITokens(searchQuery: string) {
             });
         };
         void fetchData();
-    }, [ipfsGatewayURL, kpiTokens]);
+    }, [ipfsGatewayURL, kpiTokens, preferDecentralization]);
 
     useEffect(() => {
         setInitialTokens([]);

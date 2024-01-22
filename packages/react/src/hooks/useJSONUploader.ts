@@ -9,7 +9,7 @@ export type JsonUploader<S extends SerializableObject<S>> = (
     content: S,
 ) => Promise<string>;
 
-export const useJsonUploader = <
+export const useJSONUploader = <
     S extends SerializableObject<S>,
 >(): JsonUploader<S> => {
     const devMode = useDevMode();

@@ -6,28 +6,33 @@ import { ResolvedTemplate, Template } from "../entities/template";
 import { Token } from "../entities/token";
 import type { ResolvedKPITokensMap, ResolvedOraclesMap } from "./types";
 
+export interface DecentralizationParams {
+    preferDecentralization?: boolean;
+}
+
+export interface CIDDataFetchingParams extends DecentralizationParams {
+    ipfsGatewayURL: string;
+    dataCDNURL: string;
+}
+
 export interface FetchERC20TokensParams {
     publicClient: PublicClient;
     addresses: Address[];
 }
 
-export interface FetchContentFromIPFSParams {
-    ipfsGatewayURL: string;
+export interface FetchCIDDataParams extends CIDDataFetchingParams {
     cids: string[];
 }
 
-export interface ResolveKPITokensParams {
-    ipfsGatewayURL: string;
+export interface ResolveKPITokensParams extends CIDDataFetchingParams {
     kpiTokens: KPIToken[];
 }
 
-export interface ResolveOraclesParams {
-    ipfsGatewayURL: string;
+export interface ResolveOraclesParams extends CIDDataFetchingParams {
     oracles: Oracle[];
 }
 
-export interface ResolveTemplatesParams {
-    ipfsGatewayURL: string;
+export interface ResolveTemplatesParams extends CIDDataFetchingParams {
     templates: Template[];
 }
 
@@ -36,8 +41,8 @@ export interface ICoreFetcher {
         params: FetchERC20TokensParams,
     ): Promise<{ [address: Address]: Token }>;
 
-    fetchContentFromIPFS(
-        params: FetchContentFromIPFSParams,
+    fetchCIDData(
+        params: FetchCIDDataParams,
     ): Promise<{ [cid: string]: string }>;
 
     resolveKPITokens(
@@ -136,10 +141,6 @@ export interface IPartialCarrotFetcher {
     fetchOracleTemplateFeatureEnabledFor(
         params: FetchTemplateFeatureEnabledForParams,
     ): Promise<boolean>;
-}
-
-export interface DecentralizationParams {
-    preferDecentralization?: boolean;
 }
 
 export type FullFetcherFetchKPITokensAmountParams = FetchKPITokensAmountParams &
