@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.48.0
+
+### Minor Changes
+
+- d00fa77: Implement data fetching from S3 with fallback on direct IPFS fetching. The S3 fetching is subject to the preferDecentralization flag being set to false.
+
 ## 1.47.0
 
 ### Minor Changes
