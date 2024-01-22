@@ -1,5 +1,16 @@
 # @carrot-kpi/react
 
+## 0.75.0
+
+### Minor Changes
+
+- d00fa77: Implement data fetching from S3 with fallback on direct IPFS fetching. The S3 fetching is subject to the preferDecentralization flag being set to false.
+
+### Patch Changes
+
+- Updated dependencies [d00fa77]
+  - @carrot-kpi/sdk@1.48.0
+
 ## 0.74.0
 
 ### Minor Changes
