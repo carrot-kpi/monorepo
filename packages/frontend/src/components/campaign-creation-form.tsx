@@ -17,6 +17,7 @@ import { useAccount, useNetwork, usePublicClient } from "wagmi";
 import { useAddDraft } from "../hooks/useAddDraft";
 import { useDraft } from "../hooks/useDraft";
 import dayjs from "dayjs";
+import { DATA_CDN_URL } from "../constants";
 
 export function CampaignCreationForm<S extends SerializableObject<S>>() {
     const { i18n, t } = useTranslation();
@@ -105,6 +106,8 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
                 }
                 const resolvedTemplates = await Fetcher.resolveTemplates({
                     ipfsGatewayURL,
+                    dataCDNURL: DATA_CDN_URL,
+                    preferDecentralization,
                     templates: templates,
                 });
                 if (resolvedTemplates.length !== 1) {

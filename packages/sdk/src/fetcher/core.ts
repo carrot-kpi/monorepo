@@ -3,14 +3,13 @@ import {
     cacheERC20Token,
     getCachedERC20Token,
     validateChainId,
-    warn,
 } from "../utils";
 import { type Address } from "viem";
 import { Token } from "../entities/token";
 import BYTES_NAME_ERC20_ABI from "../abis/erc20-name-bytes";
 import BYTES_SYMBOL_ERC20_ABI from "../abis/erc20-symbol-bytes";
 import type {
-    FetchContentFromIPFSParams,
+    FetchCIDDataParams,
     FetchERC20TokensParams,
     ICoreFetcher,
     ResolveKPITokensParams,
@@ -164,19 +163,41 @@ export class CoreFetcher implements ICoreFetcher {
         return { ...cachedTokens, ...fetchedTokens };
     }
 
-    public async fetchContentFromIPFS({
+    public async fetchCIDData({
         ipfsGatewayURL,
+        dataCDNURL,
+        preferDecentralization,
         cids,
-    }: FetchContentFromIPFSParams): Promise<{ [cid: string]: string }> {
+    }: FetchCIDDataParams): Promise<{ [cid: string]: string }> {
         const allContents = await Promise.allSettled(
             cids.map(async (cid) => {
-                const response = await fetch(`${ipfsGatewayURL}/ipfs/${cid}`);
-                const responseOk = response.ok;
-                warn(responseOk, `could not fetch content with cid ${cid}`);
-                return {
-                    cid,
-                    content: responseOk ? await response.text() : null,
-                };
+                if (!preferDecentralization) {
+                    try {
+                        const response = await fetch(`${dataCDNURL}/${cid}`);
+                        const responseText = await response.text();
+                        if (!response.ok)
+                            throw new Error(`response not ok: ${responseText}`);
+                        return { cid, content: responseText };
+                    } catch (error) {
+                        console.warn(
+                            `error fetching cid ${cid} from data cdn, falling back to ipfs fetching`,
+                            error,
+                        );
+                    }
+                }
+
+                try {
+                    const response = await fetch(
+                        `${ipfsGatewayURL}/ipfs/${cid}`,
+                    );
+                    const responseText = await response.text();
+                    if (!response.ok)
+                        throw new Error(`response not ok: ${responseText}`);
+                    return { cid, content: responseText };
+                } catch (error) {
+                    console.warn(`error fetching cid ${cid} from ipfs`, error);
+                    return { cid, content: null };
+                }
             }),
         );
         const contents: { [cid: string]: string } = {};
@@ -191,6 +212,8 @@ export class CoreFetcher implements ICoreFetcher {
 
     public async resolveTemplates({
         ipfsGatewayURL,
+        dataCDNURL,
+        preferDecentralization,
         templates,
     }: ResolveTemplatesParams): Promise<ResolvedTemplate[]> {
         return Promise.all(
@@ -198,8 +221,10 @@ export class CoreFetcher implements ICoreFetcher {
                 const templateSpecificationCID = template.specificationCID;
                 const resolvedTemplateSpecificationCID = `${templateSpecificationCID}/base.json`;
                 const rawTemplateSpecification = (
-                    await this.fetchContentFromIPFS({
+                    await this.fetchCIDData({
                         ipfsGatewayURL,
+                        dataCDNURL,
+                        preferDecentralization,
                         cids: [resolvedTemplateSpecificationCID],
                     })
                 )[resolvedTemplateSpecificationCID];
@@ -226,14 +251,20 @@ export class CoreFetcher implements ICoreFetcher {
 
     protected async resolveEntity<T extends KPIToken | Oracle = KPIToken>({
         ipfsGatewayURL,
+        dataCDNURL,
+        preferDecentralization,
         entity,
     }: {
-        entity: T;
         ipfsGatewayURL: string;
+        dataCDNURL: string;
+        preferDecentralization?: boolean;
+        entity: T;
     }): Promise<T extends KPIToken ? ResolvedKPIToken : ResolvedOracle> {
         const template = (
             await this.resolveTemplates({
                 ipfsGatewayURL,
+                dataCDNURL,
+                preferDecentralization,
                 templates: [entity.template],
             })
         )[0];
@@ -251,6 +282,8 @@ export class CoreFetcher implements ICoreFetcher {
                     (
                         await this.resolveTemplates({
                             ipfsGatewayURL,
+                            dataCDNURL,
+                            preferDecentralization,
                             templates: [oracle.template],
                         })
                     )[0],
@@ -259,8 +292,10 @@ export class CoreFetcher implements ICoreFetcher {
         );
 
         const resolvedKPITokenSpecification = (
-            await this.fetchContentFromIPFS({
+            await this.fetchCIDData({
                 ipfsGatewayURL,
+                dataCDNURL,
+                preferDecentralization,
                 cids: [entity.specificationCID],
             })
         )[entity.specificationCID];
@@ -279,12 +314,16 @@ export class CoreFetcher implements ICoreFetcher {
 
     public async resolveKPITokens({
         ipfsGatewayURL,
+        dataCDNURL,
+        preferDecentralization,
         kpiTokens,
     }: ResolveKPITokensParams): Promise<ResolvedKPITokensMap> {
         const resolvedKPITokens = await Promise.allSettled(
             kpiTokens.map(async (kpiToken) =>
                 this.resolveEntity({
                     ipfsGatewayURL,
+                    dataCDNURL,
+                    preferDecentralization,
                     entity: kpiToken,
                 }),
             ),
@@ -301,12 +340,16 @@ export class CoreFetcher implements ICoreFetcher {
 
     public async resolveOracles({
         ipfsGatewayURL,
+        dataCDNURL,
+        preferDecentralization,
         oracles,
     }: ResolveOraclesParams): Promise<ResolvedOraclesMap> {
         const resolvedOracles = await Promise.allSettled(
             oracles.map(async (oracle) =>
                 this.resolveEntity({
                     ipfsGatewayURL,
+                    dataCDNURL,
+                    preferDecentralization,
                     entity: oracle,
                 }),
             ),
