@@ -68,7 +68,11 @@ export const LatestCampaignsSection = ({
                     ))
                 ) : (
                     <div className="w-full flex justify-center">
-                        <Empty vertical />
+                        <Empty
+                            title={t("empty.title")}
+                            description={t("empty.description")}
+                            vertical
+                        />
                     </div>
                 )}
             </CardHorizontal>

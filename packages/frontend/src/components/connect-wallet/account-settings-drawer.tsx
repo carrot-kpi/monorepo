@@ -128,7 +128,7 @@ export const AccountSettingsDrawer = ({
                             </div>
                             <div className={containerStyles()}>
                                 {settingsOpen ? (
-                                    <div className="flex flex-col gap-6">
+                                    <div className="flex flex-col gap-4">
                                         <div className="flex w-full">
                                             <Arrow
                                                 className="w-7 h-7 -rotate-180 cursor-pointer dark:text-white"
@@ -148,49 +148,51 @@ export const AccountSettingsDrawer = ({
                                         <Preferences />
                                     </div>
                                 ) : (
-                                    <div className="flex flex-col gap-6">
-                                        {address && (
-                                            <div className="flex justify-between items-center">
-                                                <div className="flex items-center gap-4">
-                                                    <Avatar
-                                                        address={address}
-                                                        variant="lg"
-                                                    />
-                                                    <Typography>
-                                                        {shortenAddress(
-                                                            address,
-                                                        )}
-                                                    </Typography>
-                                                    <a
-                                                        href={
-                                                            blockExplorerHref ||
-                                                            ""
-                                                        }
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        <Link className="w-7 h-7 -ml-1.5" />
-                                                    </a>
+                                    <div className="flex flex-col gap-16">
+                                        <div className="flex flex-col gap-4">
+                                            {address && (
+                                                <div className="flex justify-between items-center">
+                                                    <div className="flex items-center gap-4">
+                                                        <Avatar
+                                                            address={address}
+                                                            variant="lg"
+                                                        />
+                                                        <Typography>
+                                                            {shortenAddress(
+                                                                address,
+                                                            )}
+                                                        </Typography>
+                                                        <a
+                                                            href={
+                                                                blockExplorerHref ||
+                                                                ""
+                                                            }
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            <Link className="w-7 h-7 -ml-1.5" />
+                                                        </a>
+                                                    </div>
+                                                    <div className="flex items-center gap-4">
+                                                        <Settings
+                                                            data-testid="settings-button"
+                                                            className="stroke-0 cursor-pointer dark:text-white"
+                                                            onClick={
+                                                                handleSettingsOpenClick
+                                                            }
+                                                        />
+                                                        <Power
+                                                            data-testid="disconnect-button"
+                                                            className="h-[25px] cursor-pointer dark:text-white"
+                                                            onClick={
+                                                                handleDisconnectClick
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
-                                                <div className="flex gap-4">
-                                                    <Settings
-                                                        data-testid="settings-button"
-                                                        className="w-7 h-7 stroke-0 cursor-pointer dark:text-white"
-                                                        onClick={
-                                                            handleSettingsOpenClick
-                                                        }
-                                                    />
-                                                    <Power
-                                                        data-testid="disconnect-button"
-                                                        className="w-7 h-7 cursor-pointer dark:text-white"
-                                                        onClick={
-                                                            handleDisconnectClick
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        )}
-                                        <ChainSelect compact={false} />
+                                            )}
+                                            <ChainSelect compact={false} />
+                                        </div>
                                         <Actions />
                                     </div>
                                 )}
