@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 /**
  * @exports default methods used in all tests
  */

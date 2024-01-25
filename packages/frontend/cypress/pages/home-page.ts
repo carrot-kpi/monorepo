@@ -7,7 +7,7 @@ import {
     wallets,
     campaignData,
     templateData,
-} from "utils/data";
+} from "../utils/data";
 /**
  * @exports default methods used in all tests
  */

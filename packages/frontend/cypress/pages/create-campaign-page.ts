@@ -1,6 +1,6 @@
 import { BasePage } from "./base-page";
 import * as selectors from "../utils/selectors";
-import { urls, textData } from "utils/data";
+import { urls, textData } from "../utils/data";
 /**
  * @exports default methods used in all tests
  */
