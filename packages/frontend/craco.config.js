@@ -54,7 +54,7 @@ module.exports = {
                         "WALLETCONNECT_PROJECT_ID",
                         production,
                     ),
-                    // __FATHOM_SITE_ID__: getEnv("FATHOM_SITE_ID", production),
+                    __FATHOM_SITE_ID__: getEnv("FATHOM_SITE_ID", production),
                 }),
                 new webpack.ProvidePlugin({
                     Buffer: ["buffer", "Buffer"],
