@@ -46,7 +46,7 @@ export const useJSONUploader = <
         async (data: S): Promise<string> => {
             const response = await fetch(
                 `${getServiceURL(
-                    Service.DATA_UPLOADER,
+                    Service.DATA_MANAGER,
                     !devMode && !stagingMode,
                 )}/data/json/s3`,
                 {
