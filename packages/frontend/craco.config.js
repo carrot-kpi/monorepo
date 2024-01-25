@@ -23,15 +23,18 @@ module.exports = {
                     }
                 }
             }
-            const customHtmlWebpackPlugin = new HtmlWebpackPlugin({
-                template: paths.appHtml,
-                templateParameters: {
-                    PUBLIC_URL: config.output.publicPath,
-                },
+
+            config.plugins.forEach((plugin) => {
+                if (plugin.constructor.name === "HtmlWebpackPlugin") {
+                    plugin.options.templateParameters = (options) => {
+                        return {
+                            PUBLIC_URL: options.publicPath,
+                        };
+                    };
+                }
             });
 
             config.optimization.minimizer = [new EsbuildPlugin({})];
-            config.plugins.push(customHtmlWebpackPlugin);
             config.plugins.push(
                 new webpack.container.ModuleFederationPlugin({
                     name: "host",
@@ -51,7 +54,7 @@ module.exports = {
                         "WALLETCONNECT_PROJECT_ID",
                         production,
                     ),
-                    __FATHOM_SITE_ID__: getEnv("FATHOM_SITE_ID", production),
+                    // __FATHOM_SITE_ID__: getEnv("FATHOM_SITE_ID", production),
                 }),
                 new webpack.ProvidePlugin({
                     Buffer: ["buffer", "Buffer"],
