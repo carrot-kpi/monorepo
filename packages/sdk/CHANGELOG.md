@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.49.0
+
+### Minor Changes
+
+- 1840919: Rename data uploader service references to data manager
+
 ## 1.48.0
 
 ### Minor Changes

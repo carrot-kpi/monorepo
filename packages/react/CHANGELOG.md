@@ -1,5 +1,16 @@
 # @carrot-kpi/react
 
+## 0.76.0
+
+### Minor Changes
+
+- 1840919: Rename data uploader service references to data manager
+
+### Patch Changes
+
+- Updated dependencies [1840919]
+  - @carrot-kpi/sdk@1.49.0
+
 ## 0.75.0
 
 ### Minor Changes

@@ -1,5 +1,18 @@
 # @carrot-kpi/host-frontend
 
+## 0.37.0
+
+### Minor Changes
+
+- 1840919: Rename data uploader service references to data manager
+
+### Patch Changes
+
+- 2831384: UI improvements for the accounts and settings drawer
+- Updated dependencies [1840919]
+  - @carrot-kpi/react@0.76.0
+  - @carrot-kpi/sdk@1.49.0
+
 ## 0.36.0
 
 ### Minor Changes
