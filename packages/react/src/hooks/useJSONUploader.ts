@@ -47,7 +47,7 @@ export const useJSONUploader = <
                 `${getServiceURL(
                     Service.DATA_MANAGER,
                     !devMode && !stagingMode,
-                )}/data/json/s3`,
+                )}/data/s3/json`,
                 {
                     method: "POST",
                     headers: {
