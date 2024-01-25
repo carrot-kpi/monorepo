@@ -23,8 +23,15 @@ module.exports = {
                     }
                 }
             }
+            const customHtmlWebpackPlugin = new HtmlWebpackPlugin({
+                template: paths.appHtml,
+                templateParameters: {
+                    PUBLIC_URL: config.output.publicPath,
+                },
+            });
 
             config.optimization.minimizer = [new EsbuildPlugin({})];
+            config.plugins.push(customHtmlWebpackPlugin);
             config.plugins.push(
                 new webpack.container.ModuleFederationPlugin({
                     name: "host",
