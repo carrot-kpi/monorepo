@@ -55,9 +55,7 @@ export const useJSONUploader = <
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${dataManagerJWT}`,
                     },
-                    body: JSON.stringify({
-                        data: JSON.stringify(data),
-                    }),
+                    body: JSON.stringify({ data }),
                 },
             );
             if (!response.ok)
