@@ -4,7 +4,7 @@ import LogoIcon from "../icons/logo-icon";
 import { t } from "i18next";
 import { useAccount, useSignMessage } from "wagmi";
 import { useSetDataUploaderJWT } from "../hooks/useSetDataUploaderJWT";
-import { DATA_UPLOADER_URL } from "../constants";
+import { DATA_MANAGER_URL } from "../constants";
 import { WalletDisconnected } from "./wallet-disconnected";
 
 interface AuthenticateProps {
@@ -24,7 +24,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             if (!address || !signedLoginMessage) return;
             setLoading(true);
             try {
-                const response = await fetch(`${DATA_UPLOADER_URL}/token`, {
+                const response = await fetch(`${DATA_MANAGER_URL}/token`, {
                     method: "POST",
                     headers: {
                         Accept: "application/json",
@@ -56,7 +56,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             setLoading(true);
             try {
                 const response = await fetch(
-                    `${DATA_UPLOADER_URL}/login-message/${address}`,
+                    `${DATA_MANAGER_URL}/login-message/${address}`,
                 );
                 if (!response.ok) throw new Error(await response.text());
                 const { message } = (await response.json()) as {

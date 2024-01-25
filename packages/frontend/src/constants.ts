@@ -32,12 +32,12 @@ export const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
-export const DATA_UPLOADER_JWT_ISSUER = "carrot-data-uploader";
+export const DATA_MANAGER_JWT_ISSUER = "carrot-data-manager";
 
 const prod = __PROD__ && !__LIBRARY_MODE__ && !__STAGING_MODE__;
 
 export const IPFS_GATEWAY_URL = "https://w3s.link";
-export const DATA_UPLOADER_URL = getServiceURL(Service.DATA_UPLOADER, prod);
+export const DATA_MANAGER_URL = getServiceURL(Service.DATA_MANAGER, prod);
 export const STATIC_CDN_URL = getServiceURL(Service.STATIC_CDN, prod);
 export const DATA_CDN_URL = getServiceURL(Service.DATA_CDN, prod);
 
