@@ -1,3 +1,3 @@
 export interface AuthState {
-    dataUploaderJWT?: string;
+    dataManagerJWT?: string;
 }
