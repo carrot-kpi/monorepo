@@ -21,6 +21,7 @@ env:
   WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
   FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
   FATHOM_API_KEY: ${{ secrets.FATHOM_API_KEY }}
+  PUBLIC_URL: ${{ vars.PUBLIC_URL }}
   HUSKY: "0"
 jobs:
   lint:

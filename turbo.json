@@ -48,6 +48,7 @@
         "WALLETCONNECT_PROJECT_ID",
         "FATHOM_SITE_ID",
         "FATHOM_API_KEY",
+        "PUBLIC_URL",
         "CI",
         "STAGING"
     ]

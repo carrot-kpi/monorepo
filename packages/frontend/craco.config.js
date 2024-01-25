@@ -26,9 +26,9 @@ module.exports = {
 
             config.plugins.forEach((plugin) => {
                 if (plugin.constructor.name === "HtmlWebpackPlugin") {
-                    plugin.options.templateParameters = (options) => {
+                    plugin.options.templateParameters = () => {
                         return {
-                            PUBLIC_URL: options.publicPath,
+                            PUBLIC_URL: process.env.PUBLIC_URL,
                         };
                     };
                 }
