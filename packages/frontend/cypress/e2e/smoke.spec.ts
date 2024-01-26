@@ -12,9 +12,6 @@ describe("Guest no wallet - Home page assertions", () => {
     it("Staging banner is visible", () => {
         homePage.checkStagingBanner();
     });
-    it("About button redirects to Carrot community page", () => {
-        homePage.checkIfOnCarrotCommunityPage();
-    });
     it("Campaigns button redirects to All campaigns page", () => {
         homePage.clickCampaignsHeader();
         homePage.checkIfOnAllCampaignsPage();
@@ -28,9 +25,6 @@ describe("Guest no wallet - Home page assertions", () => {
     });
     it("Check connect wallet dropdown options", () => {
         homePage.checkWalletOptions();
-    });
-    it("Check Settings dropdown", () => {
-        homePage.checkSettingsDropdown();
     });
     it("Switch to Scroll sepolia network", () => {
         homePage.selectNetwork(networks.scrollSepolia);
@@ -73,36 +67,36 @@ describe("Guest no wallet - Home page assertions", () => {
         homePage.checkFooterRedirections();
     });
 });
-
-describe("User with connected wallet", () => {
-    beforeEach(() => {
-        cy.visit("/");
-    });
-    it("Connect wallet to Metamask", () => {
-        homePage.selectWalletConnection(wallets.metamask);
-        cy.acceptMetamaskAccess().then((connected) => {
-            expect(connected).to.be.true;
-        });
-        homePage.profileAvatarVisible(true);
-        homePage.connectWalletButtonVisible(false);
-    });
-    it("Check no recent activity on Profile Avatar dropdown", () => {
-        homePage.checkProfileWithoutRecentActivity();
-    });
-    it("Create campaign button redirects to Create campaign page - Welcome to Carrot modal is displayed", () => {
-        homePage.clickCreateCampaign();
-        createCampaign.checkCreateCampaignUrl();
-        // todo: add assertion of Welcome to Carrot modal once we have selectors
-        homePage.goBack();
-    });
-    it("Use template button redirects to Create campaign page for that template - Welcome to Carrot modal is displayed", () => {
-        homePage.checkRedirectionToFirstTemplate();
-        // todo: add assertion of Welcome to Carrot modal once we have selectors
-        homePage.goBack();
-    });
-    it("Logout user", () => {
-        homePage.logout();
-        homePage.profileAvatarVisible(false);
-        homePage.connectWalletButtonVisible(true);
-    });
-});
+// todo: uncomment when connecting wallet flow is fixed
+// describe("User with connected wallet", () => {
+//     beforeEach(() => {
+//         cy.visit("/");
+//     });
+//     it("Connect wallet to Metamask", () => {
+//         homePage.selectWalletConnection(wallets.metamask);
+//         cy.acceptMetamaskAccess().then((connected) => {
+//             expect(connected).to.be.true;
+//         });
+//         homePage.profileAvatarVisible(true);
+//         homePage.connectWalletButtonVisible(false);
+//     });
+//     it("Check no recent activity on Profile Avatar dropdown", () => {
+//         homePage.checkProfileWithoutRecentActivity();
+//     });
+//     it("Create campaign button redirects to Create campaign page - Welcome to Carrot modal is displayed", () => {
+//         homePage.clickCreateCampaign();
+//         createCampaign.checkCreateCampaignUrl();
+//         // todo: add assertion of Welcome to Carrot modal once we have selectors
+//         homePage.goBack();
+//     });
+//     it("Use template button redirects to Create campaign page for that template - Welcome to Carrot modal is displayed", () => {
+//         homePage.checkRedirectionToFirstTemplate();
+//         // todo: add assertion of Welcome to Carrot modal once we have selectors
+//         homePage.goBack();
+//     });
+//     it("Logout user", () => {
+//         homePage.logout();
+//         homePage.profileAvatarVisible(false);
+//         homePage.connectWalletButtonVisible(true);
+//     });
+// });

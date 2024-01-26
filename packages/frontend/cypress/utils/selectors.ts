@@ -3,21 +3,18 @@
  */
 export const header = {
     stagingBanner_Text: "[data-testid=staging-banner-text]",
-    about_Button: "[data-testid=header-About-button]",
     campaigns_Button: "[data-testid=header-Campaigns-button]",
     profileAvatar_Button: "[data-testid=profile-avatar-button]",
     power_Button: "[data-testid=account-dropdown-power-button]",
 };
 export const networkMenu = {
     networkDropdown_Button: "[data-testid=network-drop-down-button]",
-    selectedPolygonMumbain_Text: "[data-testid='Polygon Mumbai-button']",
-    selectedScrollSepoliaNetwork_Text: "[data-testid='Scroll Sepolia-button']",
-    selectedSepoliaNetwork_Text: "[data-testid=Sepolia-button]",
-    polygonMumbaiNetwork_Option:
-        "[data-testid='Polygon Mumbai-network-button']",
-    scrollSepoliaNetwork_Option:
-        "[data-testid='Scroll Sepolia-network-button']",
-    sepoliaNetwork_Option: "[data-testid=Sepolia-network-button]",
+    selectedPolygonMumbain_Icon: "[data-testid='80001-icon']",
+    selectedScrollSepoliaNetwork_Icon: "[data-testid='534351-icon']",
+    selectedSepoliaNetwork_Icon: "[data-testid=11155111-icon]",
+    polygonMumbaiNetwork_Option: "[data-testid='80001-network-button']",
+    scrollSepoliaNetwork_Option: "[data-testid='534351-network-button']",
+    sepoliaNetwork_Option: "[data-testid=11155111-network-button]",
 };
 export const walletMenu = {
     connectWallet_Button: "[data-testid=connect-wallet-button]",

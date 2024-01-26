@@ -16,17 +16,14 @@ export class HomePage extends BasePage {
         cy.go("back");
     }
     //---Clicks
-    clickAboutHeader() {
-        this.click(selectors.header.about_Button);
-    }
     clickCampaignsHeader() {
         this.click(selectors.header.campaigns_Button);
     }
     clickNetwork() {
-        this.click(selectors.networkMenu.networkDropdown_Button, 1);
+        this.click(selectors.networkMenu.networkDropdown_Button);
     }
     clickConnectWallet() {
-        this.click(selectors.walletMenu.connectWallet_Button, 1);
+        this.click(selectors.walletMenu.connectWallet_Button);
     }
     clickSettings() {
         this.click(selectors.settings.settings_Button);
@@ -63,55 +60,41 @@ export class HomePage extends BasePage {
             textData.stagingBannerText,
         );
     }
-    checkIfOnCarrotCommunityPage() {
-        this.checkRedirectionToNewTab(
-            selectors.header.about_Button,
-            urls.carrotCommunity,
-            true,
-        );
-    }
     // todo: this should be in separate page regarding all campaigns
     checkIfOnAllCampaignsPage() {
         this.checkUrl(urls.allCampaigns);
-        this.compareText(
-            selectors.allCampaigns.allCampaignsTitle_Text,
-            textData.allCampaignsTitle,
-        );
+        // todo: title has been removed from FE
+        // this.compareText(
+        //     selectors.allCampaigns.allCampaignsTitle_Text,
+        //     textData.allCampaignsTitle,
+        // );
     }
     checkNetworkOptions() {
         this.clickNetwork();
         this.compareText(
             selectors.networkMenu.scrollSepoliaNetwork_Option,
             networks.scrollSepolia,
-            1,
         );
         this.compareText(
             selectors.networkMenu.sepoliaNetwork_Option,
             networks.sepolia,
-            1,
         );
     }
     checkSelectedNetwork(network: string) {
         switch (network) {
             case networks.polygonMumbai:
-                this.compareText(
-                    selectors.networkMenu.selectedPolygonMumbain_Text,
-                    networks.polygonMumbai,
-                    1,
+                this.elementIsVisible(
+                    selectors.networkMenu.selectedPolygonMumbain_Icon,
                 );
                 break;
             case networks.scrollSepolia:
-                this.compareText(
-                    selectors.networkMenu.selectedScrollSepoliaNetwork_Text,
-                    networks.scrollSepolia,
-                    1,
+                this.elementIsVisible(
+                    selectors.networkMenu.selectedScrollSepoliaNetwork_Icon,
                 );
                 break;
             case networks.sepolia:
-                this.compareText(
-                    selectors.networkMenu.selectedSepoliaNetwork_Text,
-                    networks.sepolia,
-                    1,
+                this.elementIsVisible(
+                    selectors.networkMenu.selectedSepoliaNetwork_Icon,
                 );
                 break;
         }
@@ -121,19 +104,17 @@ export class HomePage extends BasePage {
         this.compareText(
             selectors.walletMenu.injectedMetamask_Button,
             wallets.injectedMetamask,
-            1,
         );
         this.compareText(
             selectors.walletMenu.metamask_Button,
             wallets.metamask,
-            1,
         );
         this.compareText(
             selectors.walletMenu.coinBase_Button,
             wallets.coinBase,
-            1,
         );
     }
+    // todo: removed from FE
     checkSettingsDropdown() {
         this.clickSettings();
         this.compareText(
@@ -155,19 +136,13 @@ export class HomePage extends BasePage {
         this.clickNetwork();
         switch (network) {
             case networks.polygonMumbai:
-                this.click(
-                    selectors.networkMenu.polygonMumbaiNetwork_Option,
-                    1,
-                );
+                this.click(selectors.networkMenu.polygonMumbaiNetwork_Option);
                 break;
             case networks.scrollSepolia:
-                this.click(
-                    selectors.networkMenu.scrollSepoliaNetwork_Option,
-                    1,
-                );
+                this.click(selectors.networkMenu.scrollSepoliaNetwork_Option);
                 break;
             case networks.sepolia:
-                this.click(selectors.networkMenu.sepoliaNetwork_Option, 1);
+                this.click(selectors.networkMenu.sepoliaNetwork_Option);
                 break;
         }
     }
@@ -273,13 +248,13 @@ export class HomePage extends BasePage {
         this.clickConnectWallet();
         switch (wallet) {
             case wallets.injectedMetamask:
-                this.click(selectors.walletMenu.injectedMetamask_Button, 1);
+                this.click(selectors.walletMenu.injectedMetamask_Button);
                 break;
             case wallets.metamask:
-                this.click(selectors.walletMenu.metamask_Button, 1);
+                this.click(selectors.walletMenu.metamask_Button);
                 break;
             case wallets.coinBase:
-                this.click(selectors.walletMenu.coinBase_Button, 1);
+                this.click(selectors.walletMenu.coinBase_Button);
                 break;
         }
     }
