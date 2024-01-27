@@ -1,5 +1,11 @@
 # @carrot-kpi/react
 
+## 0.76.1
+
+### Patch Changes
+
+- bfc99bd: Fix JSON uploader API calls
+
 ## 0.76.0
 
 ### Minor Changes
