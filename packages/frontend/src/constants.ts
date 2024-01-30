@@ -15,7 +15,10 @@ type RPCConfig = {
 } | null;
 
 export const RPC_BY_CHAIN: Record<ChainId, RPCConfig> = {
-    [ChainId.SEPOLIA]: null, // covered by the infura connector
+    [ChainId.SEPOLIA]: {
+        http: "https://rpc.sepolia.org",
+        webSocket: "wss://sepolia.gateway.tenderly.co",
+    },
     [ChainId.GNOSIS]: {
         http: "https://rpc.ankr.com/gnosis",
         webSocket: "wss://rpc.gnosischain.com/wss",
@@ -34,12 +37,19 @@ export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
 export const DATA_MANAGER_JWT_ISSUER = "carrot-data-manager";
 
-const prod = __PROD__ && !__LIBRARY_MODE__ && !__STAGING_MODE__;
-
 export const IPFS_GATEWAY_URL = "https://w3s.link";
-export const DATA_MANAGER_URL = getServiceURL(Service.DATA_MANAGER, prod);
-export const STATIC_CDN_URL = getServiceURL(Service.STATIC_CDN, prod);
-export const DATA_CDN_URL = getServiceURL(Service.DATA_CDN, prod);
+export const DATA_MANAGER_URL = getServiceURL(
+    Service.DATA_MANAGER,
+    __BUILDING_MODE__ === "production",
+);
+export const STATIC_CDN_URL = getServiceURL(
+    Service.STATIC_CDN,
+    __BUILDING_MODE__ === "production",
+);
+export const DATA_CDN_URL = getServiceURL(
+    Service.DATA_CDN,
+    __BUILDING_MODE__ === "production",
+);
 
 export interface AugmentedChain extends Chain {
     logo: FunctionComponent<
@@ -55,28 +65,28 @@ export const SUPPORTED_CHAINS: Record<ChainId, AugmentedChain> = {
         ...gnosis,
         logo: GnosisLogo,
         iconBackgroundColor: "#04795b",
-        enabled: prod,
+        enabled: __BUILDING_MODE__ === "production",
         defaultBlockExplorer: "https://gnosisscan.io",
     },
     [ChainId.SEPOLIA]: {
         ...sepolia,
         logo: EthereumLogo,
         iconBackgroundColor: "#8637ea",
-        enabled: !prod,
+        enabled: __BUILDING_MODE__ !== "production",
         defaultBlockExplorer: "https://sepolia.etherscan.io",
     },
     [ChainId.SCROLL_SEPOLIA]: {
         ...scrollSepolia,
         logo: ScrollLogo,
         iconBackgroundColor: "#213147",
-        enabled: !prod,
+        enabled: __BUILDING_MODE__ !== "production",
         defaultBlockExplorer: "https://blockscout.scroll.io",
     },
     [ChainId.POLYGON_MUMBAI]: {
         ...polygonMumbai,
         logo: PolygonLogo,
         iconBackgroundColor: "#8247E5",
-        enabled: !prod,
+        enabled: __BUILDING_MODE__ !== "production",
         defaultBlockExplorer: "https://mumbai.polygonscan.com/",
     },
 };
@@ -98,9 +108,10 @@ export const DEFAULT_CHAIN: Chain = Object.values(ENABLED_CHAINS).filter(
     (chain) => chain.enabled,
 )[0];
 
-export const CARROT_DOMAIN = prod
-    ? "carrot.community"
-    : "staging.carrot.community";
+export const CARROT_DOMAIN =
+    __BUILDING_MODE__ === "production"
+        ? "carrot.community"
+        : "staging.carrot.community";
 
 export interface NavbarLink {
     title: string;

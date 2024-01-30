@@ -55,7 +55,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
 
     return (
         <div>
-            {!__LIBRARY_MODE__ && (
+            {__BUILDING_MODE__ !== "library" && (
                 <NetworksPopover
                     open={networksPopoverOpen}
                     anchor={networksPopoverAnchor}
@@ -66,7 +66,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
             <div
                 data-testid="network-drop-down-button"
                 className={`h-11 w-fit flex items-center border border-black dark:border-white px-[10px] rounded-lg ${
-                    __LIBRARY_MODE__ || !multipleEnabledChains
+                    __BUILDING_MODE__ === "library" || !multipleEnabledChains
                         ? ""
                         : "cursor-pointer"
                 } gap-3`}
@@ -95,7 +95,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
                         {supportedChain ? chainName : "Unsupported"}
                     </Typography>
                 )}
-                {!__LIBRARY_MODE__ && multipleEnabledChains && (
+                {__BUILDING_MODE__ !== "library" && multipleEnabledChains && (
                     <CaretDown className="w-3 dark:text-white" />
                 )}
             </div>

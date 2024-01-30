@@ -22,11 +22,7 @@ import {
     useSetStagingMode,
 } from "@carrot-kpi/react";
 
-console.log(
-    `Carrot host frontend running in ${
-        __STAGING_MODE__ ? "staging" : "standard"
-    } mode`,
-);
+console.log(`Carrot host frontend running in ${__BUILDING_MODE__} mode`);
 
 const supportedChains = Object.values(ENABLED_CHAINS);
 
@@ -100,13 +96,13 @@ export const Root = () => {
     const setIPFSGatewayURL = useSetIPFSGatewayURL();
 
     setDevMode(false);
-    setStagingMode(__STAGING_MODE__);
+    setStagingMode(__BUILDING_MODE__ === "staging");
     setIPFSGatewayURL(IPFS_GATEWAY_URL);
 
     return (
         <SharedEntrypoint
             config={config}
-            enableFathom={__PROD__ && !__STAGING_MODE__}
+            enableFathom={__BUILDING_MODE__ === "production"}
         />
     );
 };
@@ -126,7 +122,7 @@ root.render(
     </StrictMode>,
 );
 
-if (__PROD__ && "serviceWorker" in navigator) {
+if (__BUILDING_MODE__ === "production" && "serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("./sw.js")
         .then(() => {
