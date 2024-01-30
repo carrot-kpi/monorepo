@@ -396,6 +396,6 @@
         "size-limit": "^11.0.2",
         "tsconfig": "*",
         "typescript": "^5.3.3",
-        "wagmi": "^1.4.12"
+        "wagmi": "^2.5.4"
     }
 }
