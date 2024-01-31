@@ -1,4 +1,4 @@
-import { BasePage } from "./base-page";
+import { BasePage } from "../pages/base-page";
 import {
     campaignData,
     urls,
@@ -7,29 +7,25 @@ import {
     textData,
     wallets,
 } from "../data";
-
 /**
  * @exports Selectors and Methods for Home page
  */
 export class HomePage extends BasePage {
     // ---Selectors
     stagingBanner_Text = "staging-banner-text";
-    about_Button = "header-About-button";
     campaignsHeader_Button = "header-Campaigns-button";
     networkDropdown_Button = "network-drop-down-button";
-    selectedPolygonMumbain_Text = "Polygon Mumbai-button";
-    selectedScrollSepoliaNetwork_Text = "Scroll Sepolia-button";
-    selectedSepoliaNetwork_Text = "Sepolia-button";
-    polygonMumbaiNetwork_Text = "Polygon Mumbai-network-button";
-    scrollSepoliaNetwork_Text = "Scroll Sepolia-network-button";
-    sepoliaNetwork_Text = "Sepolia-network-button";
+    selectedPolygonMumbain_Icon = "80001-icon";
+    selectedScrollSepoliaNetwork_Icon = "534351-icon";
+    selectedSepoliaNetwork_Icon = "11155111-icon";
+    polygonMumbaiNetwork_Option = "80001-network-button";
+    scrollSepoliaNetwork_Option = "534351-network-button";
+    sepoliaNetwork_Option = "11155111-network-button";
     connectWallet_Button = "connect-wallet-button";
     injectedMetamask_Button = "injected-wallet-button";
     metamask_Button = "metaMask-wallet-button";
     coinBase_Button = "coinbaseWallet-wallet-button";
     settings_Button = "settings-button";
-    interfaceSettingsTitle_Text = "interface-settings-title";
-    darkTheme_Text = "theme-name-text";
     decentralizationMode_Text = "decentralization-mode-text";
     decentralizationMode_Switch = "decentralization-mode-switch";
     stagingMode_Text = "staging-mode-text";
@@ -50,35 +46,36 @@ export class HomePage extends BasePage {
     footerCommunity_Text = "footer-Community-text";
     footerDocumentation_Link = "footer-Documentation-button";
     footerAudits_Link = "footer-Audits-button";
-    footerDiscrod_Link = "footer-Discord-button";
+    footerDiscord_Link = "footer-Discord-button";
     footerTwitter_Link = "footer-Twitter-button";
     footerCarrotInfoPage_Button = "footer-carrot-info-page-button";
+    power_Button = "disconnect-button";
+    // todo: add ID instead, when we have it on FE
+    profileAvatar_Button = ".rounded-full";
+    emptySpace_Text = "empty-title-text";
+    noDataFound_Text = "empty-no-data-found-text";
     // selectors on campaign page
     walletDisconnected_Text = "wallet-disconnected-text";
     walletRequiredDescription_Text = "connect-wallet-required-text";
     // ---Methods
     async goToHomePage() {
-        await this.open("/");
+        await this.page.goto("/");
     }
     async checkStagingBanner() {
         await this.compareText(
             this.stagingBanner_Text,
             textData.stagingBannerText,
-            0,
         );
     }
     //---Clicks
-    async clickAbout() {
-        await this.click(this.about_Button);
-    }
     async clickCampaignsHeader() {
         await this.click(this.campaignsHeader_Button);
     }
     async clickNetwork() {
-        this.clickSecond(this.networkDropdown_Button);
+        this.click(this.networkDropdown_Button);
     }
     async clickConnectWallet() {
-        await this.clickSecond(this.connectWallet_Button);
+        await this.click(this.connectWallet_Button);
     }
     async clickSettings() {
         await this.click(this.settings_Button);
@@ -92,62 +89,50 @@ export class HomePage extends BasePage {
     async clickViewAllCampaigns() {
         await this.click(this.viewAllCampaigns_Button);
     }
-    //--- Header assertions
-    async checkAboutButtonRedirection() {
-        await this.checkRedirectionToNewTab(
-            this.about_Button,
-            urls.carrotCommunity,
-        );
+    async clickProfileAvatar() {
+        await this.click(this.profileAvatar_Button);
     }
+    async clickPowerButton() {
+        await this.click(this.power_Button);
+    }
+    //--- Header assertions
+    // todo: this should be in separate page regarding all campaigns
     async checkIfOnAllCampaignsPage() {
         await this.checkUrl(urls.allCampaigns);
     }
     async checkNetworkOptions() {
         await this.clickNetwork();
         await this.compareText(
-            this.scrollSepoliaNetwork_Text,
+            this.scrollSepoliaNetwork_Option,
             networks.scrollSepolia,
-            1,
         );
-        await this.compareText(this.sepoliaNetwork_Text, networks.sepolia, 1);
+        await this.compareText(this.sepoliaNetwork_Option, networks.sepolia);
     }
     // selects networks from network dropdown and checks if it's been selected
     async selectNetwork(network: string) {
         await this.clickNetwork();
         switch (network) {
             case networks.polygonMumbai:
-                await this.clickSecond(this.polygonMumbaiNetwork_Text);
+                await this.click(this.polygonMumbaiNetwork_Option);
                 break;
             case networks.scrollSepolia:
-                await this.clickSecond(this.scrollSepoliaNetwork_Text);
+                await this.click(this.scrollSepoliaNetwork_Option);
                 break;
             case networks.sepolia:
-                await this.clickSecond(this.sepoliaNetwork_Text);
+                await this.click(this.sepoliaNetwork_Option);
                 break;
         }
     }
     async checkSelectedNetwork(network: string) {
         switch (network) {
             case networks.polygonMumbai:
-                await this.compareText(
-                    this.selectedPolygonMumbain_Text,
-                    networks.polygonMumbai,
-                    1,
-                );
+                await this.isVisible(this.selectedPolygonMumbain_Icon);
                 break;
             case networks.scrollSepolia:
-                await this.compareText(
-                    this.selectedScrollSepoliaNetwork_Text,
-                    networks.scrollSepolia,
-                    1,
-                );
+                await this.isVisible(this.selectedScrollSepoliaNetwork_Icon);
                 break;
             case networks.sepolia:
-                await this.compareText(
-                    this.selectedSepoliaNetwork_Text,
-                    networks.sepolia,
-                    1,
-                );
+                await this.isVisible(this.selectedSepoliaNetwork_Icon);
                 break;
         }
     }
@@ -156,10 +141,9 @@ export class HomePage extends BasePage {
         await this.compareText(
             this.injectedMetamask_Button,
             wallets.injectedMetamask,
-            1,
         );
-        await this.compareText(this.metamask_Button, wallets.metamask, 1);
-        await this.compareText(this.coinBase_Button, wallets.coinBase, 1);
+        await this.compareText(this.metamask_Button, wallets.metamask);
+        await this.compareText(this.coinBase_Button, wallets.coinBase);
     }
     async selectWalletConnection(wallet: string) {
         await this.clickConnectWallet();
@@ -175,46 +159,33 @@ export class HomePage extends BasePage {
                 break;
         }
     }
-    async checkSettingsDropdown() {
+    async checkSettings() {
         await this.clickSettings();
-        await this.compareText(
-            this.interfaceSettingsTitle_Text,
-            textData.interfaceSettings,
-            0,
-        );
-        await this.compareText(this.darkTheme_Text, textData.darkTheme, 0);
         await this.compareText(
             this.decentralizationMode_Text,
             textData.decentralizationMode,
-            0,
         );
-        await this.compareText(this.stagingMode_Text, textData.stagingMode, 0);
+        await this.compareText(this.stagingMode_Text, textData.stagingMode);
     }
     //---Page assertions
     async checkTextOnHomePage() {
-        await this.compareText(
-            this.heroTitle_Text,
-            textData.heroSectionTitle,
-            0,
-        );
+        await this.compareText(this.heroTitle_Text, textData.heroSectionTitle);
         await this.compareText(
             this.heroDescription_Text,
             textData.heroSectionDescription,
-            0,
         );
         await this.compareText(
             this.latestCampaign_Text,
             textData.latestCampaigns,
-            0,
         );
-        await this.compareText(this.templates_Text, textData.templatest, 0);
-        await this.compareText(this.footerAbout_Text, textData.footerAbout, 0);
+        await this.compareText(this.templates_Text, textData.templatest);
+        await this.compareText(this.footerAbout_Text, textData.footerAbout);
         await this.compareText(
             this.footerCommunity_Text,
             textData.footerCommunity,
-            0,
         );
     }
+    // todo: this method should be on create campaign page
     async checkCreateCampaignButtonRedirection() {
         await this.clickCreateCampaign();
         await this.checkUrl(urls.createCampaign);
@@ -229,64 +200,83 @@ export class HomePage extends BasePage {
         await this.compareText(
             this.walletDisconnected_Text,
             textData.walletDisconnected,
-            0,
         );
         await this.compareText(
             this.walletRequiredDescription_Text,
             textData.walletRequiredDescription,
-            0,
         );
     }
-    async checkFirstCampaign() {
-        await this.compareText(
-            this.firstCampaignTitle_Text,
-            campaignData.firstCampaign,
-            0,
-        );
-    }
-    async checkRedirectionToFirstCampaign() {
-        await this.clickFirst(this.viewCampaign_Button);
-        await this.checkUrl("campaigns/");
+    // Gets number of active campaigns; selects one randomly; stores its title; check redirection to selected campaign page
+    async checkActiveCampaign() {
+        const elements = await this.page.$$('[data-testid*="campaign-title"]');
+        // Check if there's at least one element
+        if (elements.length > 0) {
+            const randomIndex = Math.floor(Math.random() * elements.length);
+            const randomElement = elements[randomIndex];
+            const textContent = await randomElement.textContent();
+            console.log(`Selected active campaign: ${textContent}`);
+
+            // Put title into variable
+            campaignData.title =
+                typeof textContent === "string" ? textContent : "";
+            // Check redirection to selected campaign page
+            await this.page
+                .getByTestId("view-campaign-button")
+                .nth(randomIndex)
+                .click();
+            // todo: add assertion of title when redirected to campaigns page when we have selector
+        } else {
+            console.log("No active campaigns.");
+        }
     }
     async checkFirstTemplate() {
         await this.compareText(
             this.templateErc20KPIToken_Text,
             templateData.erc20Title,
-            0,
         );
     }
     async checkRedirectionToFirstTemplate() {
         await this.click(this.useTemplate_Button);
         await this.checkUrl(urls.createCampaign);
     }
-    async checkFooterDocumentationButtonRedirection() {
-        await this.checkRedirectionToNewTab(
+    async checkFooterRedirections() {
+        const footerLinks = [
             this.footerDocumentation_Link,
-            urls.documentation,
-        );
-    }
-    async checkFooterAuditsButtonRedirection() {
-        await this.checkRedirectionToNewTab(
             this.footerAudits_Link,
-            urls.audits,
-        );
-    }
-    async checkFooterDiscordButtonRedirection() {
-        await this.checkRedirectionToNewTab(
-            this.footerDiscrod_Link,
-            urls.discord,
-        );
-    }
-    async checkFooterTwitterButtonRedirection() {
-        await this.checkRedirectionToNewTab(
+            this.footerDiscord_Link,
             this.footerTwitter_Link,
-            urls.twitter,
-        );
-    }
-    async checkFooterCarrotInfoPageButtonRedirection() {
-        await this.checkRedirectionToNewTab(
             this.footerCarrotInfoPage_Button,
+        ];
+
+        const footerUrls = [
+            urls.documentation,
+            urls.audits,
+            urls.discord,
+            urls.twitter,
             urls.carrotInfoPage,
-        );
+        ];
+
+        for (let i = 0; i < footerLinks.length; i++) {
+            const link = footerLinks[i];
+            const url = footerUrls[i];
+
+            await this.checkRedirectionToNewTab(link, url);
+        }
+    }
+    async profileAvatarVisible() {
+        this.elementVisible(this.profileAvatar_Button);
+    }
+    async checkProfileWithoutRecentActivity() {
+        this.compareText(this.emptySpace_Text, textData.noTransactions);
+        // todo: change this once we have IDs on FE
+        await this.page.locator(this.profileAvatar_Button).click();
+        await this.page.getByText("DRAFT").click();
+        this.compareText(this.emptySpace_Text, textData.noDraftSaved);
+        this.compareText(this.noDataFound_Text, textData.trySavingNewDraft);
+    }
+    async logout() {
+        // todo: change method when we have ID on FE
+        await this.page.locator(this.profileAvatar_Button).click();
+        await this.clickPowerButton();
     }
 }

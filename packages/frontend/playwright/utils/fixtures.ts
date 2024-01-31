@@ -24,13 +24,14 @@ export const test = base.extend<{
     context: BrowserContext;
     homePage: HomePage;
 }>({
-    homePage: async ({}, use) => {
-        await use(new HomePage());
+    homePage: async ({ page }, use) => {
+        await use(new HomePage(page));
     },
     context: async ({}, use) => {
         await metamask.unzipMetamask(pathToExtension);
         // Launch new browser instance
         context = await chromium.launchPersistentContext("", {
+            headless: true,
             args: [
                 `--disable-extensions-except=${pathToExtension}`,
                 `--load-extension=${pathToExtension}`,
@@ -53,9 +54,6 @@ export const test = base.extend<{
         );
         // Select network
         await metamask.chooseMetamaskNetwork(metamaskData.coston2Network);
-        // Navigate to App
-        await page.goto("/");
-
         await use(context);
 
         await context.close();

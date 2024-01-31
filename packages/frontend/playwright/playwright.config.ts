@@ -1,7 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
 
-// require('dotenv').config();
-
 export default defineConfig({
     testDir: "./e2e",
     timeout: 80000,
@@ -21,7 +19,6 @@ export default defineConfig({
         ["html", { open: "always" }],
     ],
     use: {
-        // baseURL: "http://127.0.0.1:3000",
         baseURL: "https://app.staging.carrot.community/#/?chain=polygon+mumbai",
         trace: "on-first-retry",
         screenshot: "only-on-failure",

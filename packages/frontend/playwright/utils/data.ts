@@ -34,12 +34,13 @@ export const wallets = {
 export const urls = {
     carrotCommunity: "https://www.staging.carrot.community/",
     allCampaigns: "/campaigns?chain=polygon+mumbai",
-    createCampaign: "/create/1?chain=polygon+mumbai",
+    createCampaign: "/create/1/draft?chain=polygon+mumbai",
     documentation: "https://docs.staging.carrot.community/",
     audits: "https://github.com/carrot-kpi/contracts/tree/main/audits",
     discord: "https://discord.com/invite/uRer2D4Pdf",
     twitter: "https://twitter.com/CarrotEth",
     carrotInfoPage: "https://www.staging.carrot.community/",
+    polygonScan: "https://mumbai.polygonscan.com/address/",
 };
 export const textData = {
     stagingBannerText:
@@ -57,9 +58,15 @@ export const textData = {
     footerCommunity: "Community",
     walletDisconnected: "Wallet disconnected",
     walletRequiredDescription: "A connected wallet is required to continue.",
+    emptySpace: "Empty space",
+    noDataFound: "No data found. Please try again later.",
+    noTransactions: "No transactions",
+    noDraftSaved: "No drafts saved",
+    trySavingNewDraft: "Try saving a new draft when creating a new campaign.",
 };
 export const campaignData = {
     firstCampaign: "TS01 NOV13",
+    title: "",
 };
 export const templateData = {
     erc20Title: "ERC20 KPI token",

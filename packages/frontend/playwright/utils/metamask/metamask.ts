@@ -3,6 +3,10 @@ import fs from "fs";
 import { page, context } from "../fixtures";
 import { metamaskData } from "../data";
 
+/**
+ * @exports Methods for interacting Metamask
+ */
+
 export async function unzipMetamask(pathToExtension: string): Promise<void> {
     return new Promise((resolve, reject) => {
         fs.createReadStream(`${pathToExtension}.zip`)
@@ -59,7 +63,7 @@ export async function chooseMetamaskNetwork(network: any) {
     await page.locator('//h6[contains(text(),"Switch to ")]').click();
 }
 
-export async function signMetamaskTransaction() {
+export async function connectWithMetamask() {
     // Open Metamask extension in new tab
     const pageTwo = await context.newPage();
     await pageTwo.goto(
