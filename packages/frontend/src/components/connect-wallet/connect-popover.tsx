@@ -1,8 +1,8 @@
 import React from "react";
 import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
-import { useConnect, useNetwork } from "wagmi";
-import { getConnectorIcon, ReadonlyConnector } from "../../connectors";
+import { useConnect, useAccount } from "wagmi";
+import { getConnectorIcon, READONLY_CONNNECTOR_ID } from "../../connectors";
 
 interface ConnectPopoverProps {
     open: boolean;
@@ -12,7 +12,7 @@ interface ConnectPopoverProps {
 
 export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
     function ConnectPopover({ open, anchor, onClose }, ref) {
-        const { chain } = useNetwork();
+        const { chain } = useAccount();
         const { connectors, connect } = useConnect();
 
         return (
@@ -24,12 +24,8 @@ export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
                 className={{ root: "px-6 py-7 flex flex-col gap-4" }}
             >
                 {connectors.map((connector) => {
-                    if (
-                        connector instanceof ReadonlyConnector ||
-                        !connector.ready
-                    )
-                        return null;
-                    const Logo = getConnectorIcon(connector.id);
+                    if (connector.id === READONLY_CONNNECTOR_ID) return null;
+                    const Logo = getConnectorIcon(connector);
                     return (
                         <div
                             data-testid={`${connector.id}-wallet-button`}

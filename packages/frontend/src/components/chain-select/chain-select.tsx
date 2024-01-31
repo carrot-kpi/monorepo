@@ -1,9 +1,8 @@
 import React, { useCallback, useRef, useState } from "react";
 import { ChainIcon } from "../chain-icon";
-import { ENABLED_CHAINS, SUPPORTED_CHAINS } from "../../constants";
-import type { ChainId } from "@carrot-kpi/sdk";
+import { SUPPORTED_CHAINS } from "../../constants";
 import CaretDown from "../../icons/caret-down";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import Error from "../../icons/error";
 import { NetworksPopover } from "./networks-popover";
 import { Typography } from "@carrot-kpi/ui";
@@ -16,8 +15,7 @@ export interface ChainSelectProps {
 
 export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
     const { t } = useTranslation();
-    const { chain } = useNetwork();
-    const { connector: activeConnector } = useAccount();
+    const { connector: activeConnector, chain } = useAccount();
 
     const [networksPopoverAnchor, setNetworksPopoverAnchor] =
         useState<HTMLDivElement | null>(null);
@@ -36,7 +34,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
     const handleNetworkSwitchClick = useCallback(
         async (chainId: number) => {
             try {
-                await activeConnector?.switchChain?.(chainId);
+                await activeConnector?.switchChain?.({ chainId });
             } catch (error) {
                 console.warn("could not switch network", error);
             }
@@ -45,13 +43,10 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
         [activeConnector],
     );
 
-    const multipleEnabledChains = Object.keys(ENABLED_CHAINS).length > 1;
+    const multipleEnabledChains = SUPPORTED_CHAINS.length > 1;
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
     const chainName = chain?.name || t("connect.wallet.unknown");
-    const supportedChain = !!chainId && !!ENABLED_CHAINS[chainId];
-    const Logo = supportedChain
-        ? ENABLED_CHAINS[chainId as ChainId].logo
-        : Error;
+    const Logo = chain?.logo || Error;
 
     return (
         <div>
@@ -79,12 +74,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
             >
                 <ChainIcon
                     data-testid={`${chainId}-icon`}
-                    backgroundColor={
-                        supportedChain
-                            ? SUPPORTED_CHAINS[chainId as ChainId]
-                                  .iconBackgroundColor
-                            : "#ff0000"
-                    }
+                    backgroundColor={chain?.iconBackgroundColor || "#ff0000"}
                     logo={<Logo width={18} height={18} />}
                 />
                 {!compact && (
@@ -92,7 +82,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
                         data-testid={`${chainName}-button`}
                         variant="sm"
                     >
-                        {supportedChain ? chainName : "Unsupported"}
+                        {chain?.name || "Unsupported"}
                     </Typography>
                 )}
                 {__BUILDING_MODE__ !== "library" && multipleEnabledChains && (

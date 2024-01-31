@@ -2,7 +2,12 @@ import "react-scripts";
 import "react-i18next";
 
 import { resources } from "./i18n/resources";
-import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "./constants";
+import {
+    CARROT_KPI_FRONTEND_I18N_NAMESPACE,
+    type AugmentedChain,
+} from "./constants";
+import type { Config } from "wagmi";
+import type { Transport } from "viem";
 
 declare global {
     const __BUILDING_MODE__:
@@ -16,6 +21,17 @@ declare global {
 
     interface Window {
         fathom?: Fathom;
+    }
+}
+
+export type WagmiConfig = Config<
+    readonly [AugmentedChain, ...AugmentedChain[]],
+    Record<AugmentedChain["id"], Transport>
+>;
+
+declare module "wagmi" {
+    interface Register {
+        config: WagmiConfig;
     }
 }
 

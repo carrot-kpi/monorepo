@@ -11,7 +11,7 @@ import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
 import { type State, useSelector } from "@carrot-kpi/shared-state";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { useStagingMode } from "./useStagingMode";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import type {
     RemoteComponentProps,
     SerializableObject,
@@ -64,7 +64,7 @@ export const useTemplateModule = <
             ? state.preferences.kpiTokenTemplateBaseURL
             : state.preferences.oracleTemplateBaseURL,
     );
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const stagingMode = useStagingMode();
     const ipfsGatewayURL = useIPFSGatewayURL();
 

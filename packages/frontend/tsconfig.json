@@ -4,6 +4,6 @@
     "compilerOptions": {
         "lib": ["dom", "esnext", "webworker"],
         "types": ["node"],
-        "outDir": "./dist"
-    }
+        "outDir": "./dist",
+    },
 }

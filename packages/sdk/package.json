@@ -165,7 +165,7 @@
         "@carrot-kpi/contracts": "^0.9.0",
         "decimal.js-light": "^2.5.1",
         "multiformats": "^13.0.1",
-        "viem": "^2.6.1"
+        "viem": "^2.7.1"
     },
     "peerDependencies": {
         "@carrot-kpi/shared-state": "*"

@@ -1,10 +1,10 @@
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { useDispatch } from "../state/hooks";
 import { clearTransactions } from "../state/reducers/transactions";
 
 export const useClearTransactions = () => {
     const dispatch = useDispatch();
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
 
     return () => {
         if (!chain) return;

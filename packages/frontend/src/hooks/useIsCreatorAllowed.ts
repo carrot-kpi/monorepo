@@ -20,7 +20,9 @@ export const useIsCreatorAllowed = (creator?: Address) => {
                 args: [creator as Address],
             },
         ],
-        enabled: !!creator && chainId in ChainId,
+        query: {
+            enabled: !!creator && chainId in ChainId,
+        },
     });
 
     return {

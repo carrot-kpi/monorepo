@@ -5,12 +5,12 @@ import {
 } from "@carrot-kpi/react";
 import { Fetcher, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { useEffect, useState } from "react";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { tokenSpecificationIncludesQuery } from "../utils/search";
 import { DATA_CDN_URL } from "../constants";
 
 export function useSearchResolvedKPITokens(searchQuery: string) {
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const { kpiTokens } = useKPITokens();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
