@@ -1,5 +1,18 @@
 # @carrot-kpi/host-frontend
 
+## 0.38.0
+
+### Minor Changes
+
+- d404277: Upgraded dependencies and migrate to wagmi v2
+
+### Patch Changes
+
+- Updated dependencies [d404277]
+  - @carrot-kpi/react@0.77.0
+  - @carrot-kpi/sdk@1.50.0
+  - @carrot-kpi/ui@0.68.0
+
 ## 0.37.0
 
 ### Minor Changes
