@@ -12,40 +12,39 @@ import type {
 } from "../src/components/erc20-token-picker/types";
 import {
     createConfig,
-    configureChains,
-    WagmiConfig,
+    WagmiProvider,
     useAccount,
     useConnect,
-    useContractReads,
-    type Address,
+    useReadContracts,
 } from "wagmi";
+import { injected } from "wagmi/connectors";
+import {} from "wagmi/chains";
+import { http, type Address } from "viem";
 import { gnosis } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import { Typography } from "../src/components/typography";
 import { ERC20_ABI, Service, getServiceURL } from "@carrot-kpi/sdk";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const CHAIN_ID = gnosis.id;
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-    [gnosis],
-    [publicProvider()],
-);
-
-const INJECTED_CONNECTOR = new InjectedConnector({ chains });
+const CHAIN = gnosis;
+const injectedConnector = injected();
 
 const config = createConfig({
-    autoConnect: true,
-    connectors: [INJECTED_CONNECTOR],
-    publicClient,
-    webSocketPublicClient,
+    connectors: [injectedConnector],
+    chains: [CHAIN],
+    transports: {
+        [CHAIN.id]: http(),
+    },
 });
+
+const queryClient = new QueryClient();
 
 const WagmiDecorator: Decorator = (Story) => {
     return (
-        <WagmiConfig config={config}>
-            <Story />
-        </WagmiConfig>
+        <WagmiProvider config={config}>
+            <QueryClientProvider client={queryClient}>
+                <Story />
+            </QueryClientProvider>
+        </WagmiProvider>
     );
 };
 
@@ -58,11 +57,9 @@ export default {
 const Component = (props: ERC20TokenPickerProps) => {
     const {
         connect,
-        isLoading: connecting,
+        isPending: connecting,
         error: connectionError,
-    } = useConnect({
-        connector: INJECTED_CONNECTOR,
-    });
+    } = useConnect();
     const { address, isConnected } = useAccount();
 
     const [open, setOpen] = useState(false);
@@ -74,20 +71,22 @@ const Component = (props: ERC20TokenPickerProps) => {
         data: rawBalances,
         isLoading: loadingBalances,
         isFetching: fetchingBalances,
-    } = useContractReads({
+    } = useReadContracts({
         contracts:
             address &&
             list?.tokens.map((token) => {
                 return {
                     abi: ERC20_ABI,
                     address: token.address as Address,
-                    chainId: CHAIN_ID,
+                    chainId: CHAIN.id,
                     functionName: "balanceOf",
                     args: [address],
                 };
             }),
         allowFailure: true,
-        enabled: !!(list && address),
+        query: {
+            enabled: !!(list && address),
+        },
     });
 
     const selectedListWithBalances: TokenListWithBalance | null =
@@ -143,7 +142,7 @@ const Component = (props: ERC20TokenPickerProps) => {
     }, []);
 
     const handleConnect = useCallback(() => {
-        connect();
+        connect({ connector: injectedConnector });
     }, [connect]);
 
     const handleClick = useCallback(() => {
@@ -190,7 +189,7 @@ const Component = (props: ERC20TokenPickerProps) => {
                     lists={lists}
                     selectedList={selectedListWithBalances}
                     onSelectedListChange={setList}
-                    chainId={CHAIN_ID}
+                    chainId={CHAIN.id}
                     messages={{
                         search: {
                             title: "Title tokens",
