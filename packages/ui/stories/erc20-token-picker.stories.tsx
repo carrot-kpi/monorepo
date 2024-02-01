@@ -18,7 +18,6 @@ import {
     useReadContracts,
 } from "wagmi";
 import { injected } from "wagmi/connectors";
-import {} from "wagmi/chains";
 import { http, type Address } from "viem";
 import { gnosis } from "wagmi/chains";
 import { Typography } from "../src/components/typography";
