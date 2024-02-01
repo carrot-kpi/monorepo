@@ -2,18 +2,36 @@ import "react-scripts";
 import "react-i18next";
 
 import { resources } from "./i18n/resources";
-import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "./constants";
+import {
+    CARROT_KPI_FRONTEND_I18N_NAMESPACE,
+    type AugmentedChain,
+} from "./constants";
+import type { Config } from "wagmi";
+import type { Transport } from "viem";
 
 declare global {
-    const __PROD__: boolean;
-    const __LIBRARY_MODE__: boolean;
-    const __STAGING_MODE__: boolean;
+    const __BUILDING_MODE__:
+        | "production"
+        | "staging"
+        | "library"
+        | "development";
     const __INFURA_PROJECT_ID__: string;
     const __WALLETCONNECT_PROJECT_ID__: string | undefined;
     const __FATHOM_SITE_ID__: string | undefined;
 
     interface Window {
         fathom?: Fathom;
+    }
+}
+
+export type WagmiConfig = Config<
+    readonly [AugmentedChain, ...AugmentedChain[]],
+    Record<AugmentedChain["id"], Transport>
+>;
+
+declare module "wagmi" {
+    interface Register {
+        config: WagmiConfig;
     }
 }
 

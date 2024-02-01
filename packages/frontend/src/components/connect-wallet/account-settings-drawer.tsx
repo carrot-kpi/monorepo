@@ -7,19 +7,19 @@ import { cva } from "class-variance-authority";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Avatar } from "./avatar";
 import { Typography } from "@carrot-kpi/ui";
-import { useAccount, useConnect, useNetwork } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { ChainSelect } from "../chain-select/chain-select";
 import X from "../../icons/x";
 import { useClickAway } from "react-use";
 import Power from "../../icons/power";
 import { Actions } from "./actions";
-import { ReadonlyConnector } from "../../connectors";
 import { shortenAddress } from "../../utils/address";
 import Settings from "../../icons/settings";
 import Arrow from "../../icons/arrow";
 import { useTranslation } from "react-i18next";
 import Link from "../../icons/link";
 import { Preferences } from "./preferences";
+import { READONLY_CONNNECTOR_ID } from "../../connectors";
 
 const overlayStyles = cva([
     "fixed",
@@ -65,8 +65,7 @@ export const AccountSettingsDrawer = ({
     onClose,
 }: AccountSettingsDrawerProps) => {
     const { t } = useTranslation();
-    const { address } = useAccount();
-    const { chain } = useNetwork();
+    const { address, chain } = useAccount();
     const { connectors, connect } = useConnect();
 
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -75,7 +74,7 @@ export const AccountSettingsDrawer = ({
 
     const readonlyConnector = useMemo(() => {
         return connectors.find(
-            (connector) => connector instanceof ReadonlyConnector,
+            (connector) => connector.id === READONLY_CONNNECTOR_ID,
         );
     }, [connectors]);
     const blockExplorerHref = useMemo(() => {

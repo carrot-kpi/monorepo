@@ -1,4 +1,4 @@
 {
     "extends": "tsconfig/ui.json",
-    "include": ["./src/**/*", "./custom.d.ts", "stories/**/*"]
+    "include": ["./src/**/*", "./custom.d.ts", "stories/**/*"],
 }

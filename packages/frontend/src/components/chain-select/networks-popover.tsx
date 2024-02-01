@@ -1,10 +1,8 @@
 import React, { useCallback } from "react";
 import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
-import { useNetwork } from "wagmi";
+import { useAccount, useConfig } from "wagmi";
 import { ChainIcon } from "../chain-icon";
-import { type AugmentedChain, SUPPORTED_CHAINS } from "../../constants";
-import { ChainId } from "@carrot-kpi/sdk";
 import Error from "../../icons/error";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -18,7 +16,8 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
     function NetworksPopover({ open, anchor, onNetworkSwitch }, ref) {
         const { address: kpiTokenAddress } = useParams();
         const navigate = useNavigate();
-        const { chain, chains } = useNetwork();
+        const { chain } = useAccount();
+        const { chains } = useConfig();
 
         const handleChainClick = useCallback(
             (event: React.MouseEvent<HTMLDivElement>) => {
@@ -41,12 +40,9 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                 ref={ref}
                 className={{ root: "p-4 flex flex-col gap-4" }}
             >
-                {Object.values(chains).map((supportedChain) => {
+                {chains.map((supportedChain) => {
                     if (supportedChain.id === chain?.id) return null;
-                    const chainFromSupportedChains = SUPPORTED_CHAINS[
-                        supportedChain.id as ChainId
-                    ] as AugmentedChain | undefined;
-                    const Logo = chainFromSupportedChains?.logo || Error;
+                    const Logo = supportedChain?.logo || Error;
                     return (
                         <div
                             data-testid={`${supportedChain.id}-network-button`}
@@ -58,7 +54,7 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                             <div className="flex items-center gap-4 pointer-events-none">
                                 <ChainIcon
                                     backgroundColor={
-                                        chainFromSupportedChains?.iconBackgroundColor ||
+                                        supportedChain?.iconBackgroundColor ||
                                         "#ff0000"
                                     }
                                     logo={<Logo width={18} height={18} />}

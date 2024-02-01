@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Fetcher } from "@carrot-kpi/sdk";
-import { useNetwork, type Address, usePublicClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
+import { type Address } from "viem";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 interface TemplateFeatureEnabledForParams {
@@ -17,7 +18,7 @@ export function useTemplateFeatureEnabledFor(
     enabled: boolean;
 } {
     const preferDecentralization = usePreferDecentralization();
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const publicClient = usePublicClient();
 
     const [enabled, setEnabled] = useState(false);
@@ -28,6 +29,7 @@ export function useTemplateFeatureEnabledFor(
         async function fetchData(): Promise<void> {
             if (
                 !chain ||
+                !publicClient ||
                 !params?.templateId ||
                 !params?.featureId ||
                 !params?.account

@@ -162,7 +162,9 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
                             <Button variant="primary" size="big">
                                 <Link to="/campaigns">{t("campaign.all")}</Link>
                             </Button>
-                            {!__LIBRARY_MODE__ && <CreateCampaignButton />}
+                            {__BUILDING_MODE__ !== "library" && (
+                                <CreateCampaignButton />
+                            )}
                         </div>
                     </div>
                 )}

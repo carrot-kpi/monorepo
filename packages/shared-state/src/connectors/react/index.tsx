@@ -5,15 +5,11 @@ import {
     createSelectorHook,
     createStoreHook,
     Provider,
-    type ReactReduxContextValue,
 } from "react-redux";
 import { store } from "../..";
 
-export const SharedStateContext = createContext<ReactReduxContextValue>(
-    // I know... super ugly... but: https://redux-toolkit.js.org/rtk-query/usage/customizing-create-api#customizing-the-react-redux-hooks
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    null as any,
-);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const SharedStateContext = createContext<any>(null);
 
 export const useStore = createStoreHook(SharedStateContext);
 export const useDispatch = createDispatchHook(SharedStateContext);

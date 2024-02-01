@@ -110,7 +110,7 @@ export const Preferences = () => {
                     </Typography>
                 </div>
             )}
-            {__STAGING_MODE__ && (
+            {__BUILDING_MODE__ === "staging" && (
                 <div className="flex flex-col border border-black dark:border-white rounded-lg">
                     <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
                         <Typography

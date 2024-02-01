@@ -1,6 +1,8 @@
 import React from "react";
 import makeBlockie from "ethereum-blockies-base64";
-import { type Address, useNetwork, useEnsName, useEnsAvatar } from "wagmi";
+import { useEnsName, useEnsAvatar } from "wagmi";
+import { mainnet } from "wagmi/chains";
+import { type Address } from "viem";
 import { cva } from "class-variance-authority";
 
 const rootStyles = cva(["rounded-full"], {
@@ -21,15 +23,14 @@ interface AvatarProps {
 }
 
 export const Avatar = ({ address, variant = "md", className }: AvatarProps) => {
-    const { chain } = useNetwork();
-
     const { data: ensName } = useEnsName({
         address,
-        enabled: chain && chain.id === 1,
+        chainId: mainnet.id,
     });
+
     const { data: ensAvatar } = useEnsAvatar({
-        name: ensName,
-        enabled: chain && chain.id === 1,
+        name: ensName || undefined,
+        chainId: mainnet.id,
     });
 
     return (

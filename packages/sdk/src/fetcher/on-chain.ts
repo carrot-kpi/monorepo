@@ -325,7 +325,7 @@ class Fetcher implements IPartialCarrotFetcher {
                         args: [BigInt(id)],
                     };
                 }),
-            })) as OnChainTemplate[];
+            })) as unknown as OnChainTemplate[];
         } else {
             const templatesAmount = await publicClient.readContract({
                 abi: KPI_TOKENS_MANAGER_ABI,

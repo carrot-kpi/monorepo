@@ -13,12 +13,11 @@ import React, {
 } from "react";
 import { Avatar } from "./avatar";
 import { Typography } from "@carrot-kpi/ui";
-import { useAccount, useConnect, useNetwork } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { ChainSelect } from "../chain-select/chain-select";
 import { useClickAway } from "react-use";
 import Power from "../../icons/power";
 import { Actions } from "./actions";
-import { ReadonlyConnector } from "../../connectors";
 import Settings from "../../icons/settings";
 import Arrow from "../../icons/arrow";
 import { useTranslation } from "react-i18next";
@@ -69,7 +68,7 @@ export const AccountSettingsDrawerMobile = ({
 }: AccountSettingsDrawerMobileProps) => {
     const { t } = useTranslation();
     const { address } = useAccount();
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const { connectors, connect } = useConnect();
 
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -77,9 +76,7 @@ export const AccountSettingsDrawerMobile = ({
     const drawerRef = useRef<HTMLDivElement>(null);
 
     const readonlyConnector = useMemo(() => {
-        return connectors.find(
-            (connector) => connector instanceof ReadonlyConnector,
-        );
+        return connectors.find((connector) => connector.id === "readonly");
     }, [connectors]);
     const blockExplorerHref = useMemo(() => {
         if (!address || !chain || !chain.blockExplorers) return "";

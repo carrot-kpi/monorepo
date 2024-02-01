@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { KPIToken, Fetcher, ResolvedKPIToken, Service } from "@carrot-kpi/sdk";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { isResolvedKPIToken } from "@carrot-kpi/sdk";
 import { useProdMode } from "./useProdMode";
@@ -15,7 +15,7 @@ export function useResolvedKPIToken(params?: ResolvedKPITokenParams): {
     loading: boolean;
     resolvedKPIToken: ResolvedKPIToken | null;
 } {
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
     const prodMode = useProdMode();

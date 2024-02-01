@@ -9,7 +9,7 @@ import { useTheme } from "../hooks/useTheme";
 import { useMedia } from "react-use";
 import { ErrorBoundary } from "./error-boundary";
 import type { BaseTemplateComponentProps } from "../types/templates";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 
 const wrapperStyles = cva(["w-full", "h-fit"], {
     variants: {
@@ -34,7 +34,7 @@ export function TemplateComponent({
     className,
     additionalProps = {},
 }: BaseTemplateComponentProps) {
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const stagingMode = useStagingMode();
 
     const entry =
