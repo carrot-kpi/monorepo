@@ -13,7 +13,7 @@ import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
 import { useInvalidateLatestKPITokens } from "../hooks/useInvalidateLatestKPITokens";
 import { useAddTransaction } from "../hooks/useAddTransaction";
-import { useAccount, useNetwork, usePublicClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
 import { useAddDraft } from "../hooks/useAddDraft";
 import { useDraft } from "../hooks/useDraft";
 import dayjs from "dayjs";
@@ -25,8 +25,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
     const { templateId, draftId } = useParams();
     const publicClient = usePublicClient();
     const { state } = useLocation();
-    const { chain } = useNetwork();
-    const { address } = useAccount();
+    const { address, chain } = useAccount();
     const addTransaction = useAddTransaction();
     const addDraft = useAddDraft();
     const invalidateLatestKPITokens = useInvalidateLatestKPITokens();
@@ -81,6 +80,10 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         }
         if (!templateId) {
             console.warn("no template in state and no template id");
+            return;
+        }
+        if (!publicClient) {
+            console.warn("no public client");
             return;
         }
         const parsedTemplateId = parseInt(templateId);

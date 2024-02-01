@@ -18,7 +18,6 @@ export default [
             "src/fetcher/index.ts",
             "src/utils/index.ts",
             "src/utils/cache.ts",
-            "src/utils/cid.ts",
             "src/utils/ens.ts",
             "src/utils/formatting.ts",
             "src/utils/invariant.ts",

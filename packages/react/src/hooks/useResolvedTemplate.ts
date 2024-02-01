@@ -6,7 +6,7 @@ import {
     getServiceURL,
     Service,
 } from "@carrot-kpi/sdk";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { useProdMode } from "./useProdMode";
 import { usePreferDecentralization } from "./usePreferDecentralization";
@@ -19,7 +19,7 @@ export function useResolvedTemplate(params?: ResolvedTemplateParams): {
     loading: boolean;
     resolvedTemplate: ResolvedTemplate | null;
 } {
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
     const prodMode = useProdMode();

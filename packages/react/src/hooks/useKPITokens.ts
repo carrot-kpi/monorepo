@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
-import { usePublicClient, type Address } from "wagmi";
+import { usePublicClient } from "wagmi";
+import { type Address } from "viem";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 interface KPITokensParams {
