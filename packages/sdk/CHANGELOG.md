@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.50.0
+
+### Minor Changes
+
+- d404277: Upgraded dependencies and migrate to wagmi v2
+
 ## 1.49.0
 
 ### Minor Changes
