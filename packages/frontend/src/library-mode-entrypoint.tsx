@@ -1,7 +1,5 @@
 import React from "react";
 import { createConfig } from "wagmi";
-import {} from "wagmi/connectors";
-import {} from "@wagmi/connectors";
 import { SharedEntrypoint } from "./shared-entrypoint";
 import { HashRouter } from "react-router-dom";
 import { HostStateProvider } from "./state";
@@ -19,7 +17,6 @@ interface RootProps {
     supportedChain: AugmentedChain;
     rpcURL: string;
     privateKey: Hex;
-    // getConnectors: () => Connector[];
     ipfsGatewayURL: string;
     kpiTokenTemplateBaseURL?: string;
     oracleTemplateBaseURL?: string;
