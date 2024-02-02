@@ -1,19 +1,12 @@
-import type { FunctionComponent, SVGProps } from "react";
-import {
-    gnosis,
-    sepolia,
-    scrollSepolia,
-    polygonMumbai,
-    type Chain,
-} from "wagmi/chains";
+import type { FunctionComponent } from "react";
+import { gnosis, sepolia, scrollSepolia, polygonMumbai } from "wagmi/chains";
 import EthereumLogo from "./icons/chains/ethereum";
 import GnosisLogo from "./icons/chains/gnosis";
 import ScrollLogo from "./icons/chains/scroll";
 import PolygonLogo from "./icons/chains/polygon";
-import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
 import Grid from "./icons/grid";
-import type { Transport } from "viem";
-import { http } from "wagmi";
+import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
+import type { Chain } from "viem";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
@@ -33,50 +26,62 @@ export const DATA_CDN_URL = getServiceURL(
     __BUILDING_MODE__ === "production",
 );
 
-export interface AugmentedChain extends Chain {
-    logo: FunctionComponent<
-        SVGProps<SVGSVGElement> & { title?: string | undefined }
-    >;
-    iconBackgroundColor: string;
-    transport: Transport;
-}
-
-export const SUPPORTED_CHAINS =
+export const SUPPORTED_CHAINS: [Chain, ...Chain[]] =
     __BUILDING_MODE__ === "production"
-        ? ([
+        ? [
               {
                   ...gnosis,
-                  logo: GnosisLogo,
-                  iconBackgroundColor: "#04795b",
-                  transport: http(),
-              },
-          ] as const)
-        : ([
+                  rpcUrls: {
+                      default: {
+                          http: ["https://rpc.ankr.com/gnosis"],
+                      },
+                  },
+              } as const satisfies Chain,
+          ]
+        : [
               {
-                  ...sepolia,
-                  logo: EthereumLogo,
-                  iconBackgroundColor: "#8637ea",
-                  transport: http(),
-              },
+                  ...polygonMumbai,
+                  rpcUrls: {
+                      default: {
+                          http: ["https://polygon-mumbai-pokt.nodies.app/"],
+                      },
+                  },
+              } as const satisfies Chain,
+              sepolia,
               {
                   ...scrollSepolia,
-                  logo: ScrollLogo,
-                  iconBackgroundColor: "#213147",
                   blockExplorers: {
                       default: {
                           name: "Scrollscan",
                           url: "https://sepolia.scrollscan.com",
                       },
                   },
-                  transport: http(),
-              },
-              {
-                  ...polygonMumbai,
-                  logo: PolygonLogo,
-                  iconBackgroundColor: "#8247E5",
-                  transport: http(),
-              },
-          ] as const);
+                  rpcUrls: {
+                      default: {
+                          http: ["https://sepolia-rpc.scroll.io"],
+                      },
+                  },
+              } as const satisfies Chain,
+          ];
+
+export const SUPPORTED_CHAIN_ICONS = {
+    [gnosis.id as number]: {
+        logo: GnosisLogo,
+        iconBackgroundColor: "#04795b",
+    },
+    [sepolia.id as number]: {
+        logo: EthereumLogo,
+        iconBackgroundColor: "#8637ea",
+    },
+    [scrollSepolia.id as number]: {
+        logo: ScrollLogo,
+        iconBackgroundColor: "#213147",
+    },
+    [polygonMumbai.id as number]: {
+        logo: PolygonLogo,
+        iconBackgroundColor: "#8247E5",
+    },
+};
 
 export const CARROT_DOMAIN =
     __BUILDING_MODE__ === "production"

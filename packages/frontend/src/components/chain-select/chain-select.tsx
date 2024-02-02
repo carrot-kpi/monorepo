@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import { ChainIcon } from "../chain-icon";
-import { SUPPORTED_CHAINS } from "../../constants";
+import { SUPPORTED_CHAINS, SUPPORTED_CHAIN_ICONS } from "../../constants";
 import CaretDown from "../../icons/caret-down";
 import { useAccount } from "wagmi";
 import Error from "../../icons/error";
@@ -46,7 +46,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
     const multipleEnabledChains = SUPPORTED_CHAINS.length > 1;
     const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
     const chainName = chain?.name || t("connect.wallet.unknown");
-    const Logo = chain?.logo || Error;
+    const Logo = !!chain ? SUPPORTED_CHAIN_ICONS[chain.id].logo : Error;
 
     return (
         <div>
@@ -74,7 +74,12 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
             >
                 <ChainIcon
                     data-testid={`${chainId}-icon`}
-                    backgroundColor={chain?.iconBackgroundColor || "#ff0000"}
+                    backgroundColor={
+                        !!chain
+                            ? SUPPORTED_CHAIN_ICONS[chain.id]
+                                  .iconBackgroundColor
+                            : "#ff0000"
+                    }
                     logo={<Logo width={18} height={18} />}
                 />
                 {!compact && (

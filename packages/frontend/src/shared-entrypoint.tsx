@@ -19,13 +19,12 @@ import { ThemeUpdater } from "./updaters/theme";
 import { MultiChainLinksUpdater } from "./updaters/multi-chain-links";
 import { Fathom } from "./components/fathom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import type { WagmiConfig } from "./react-app-env";
 
 dayjs.extend(localizedFormat);
 
 interface SharedEntrypointProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: WagmiConfig;
+    config: any;
     templateId?: number;
     enableFathom: boolean;
 }
