@@ -311,6 +311,7 @@
         "viem": "^2.7.1"
     },
     "peerDependencies": {
+        "@tanstack/react-query": "^5.18.1",
         "@carrot-kpi/switzer-font": "^0.1.0",
         "@fontsource/ibm-plex-mono": "^4.5.12",
         "react": "^18.2.0"
@@ -337,7 +338,7 @@
         "@storybook/testing-library": "^0.2.2",
         "@storybook/theming": "^7.6.12",
         "@tailwindcss/typography": "^0.5.10",
-        "@tanstack/react-query": "^5.18.0",
+        "@tanstack/react-query": "^5.18.1",
         "@types/react": "^18.2.48",
         "@types/react-window": "^1.8.8",
         "@types/rollup-plugin-peer-deps-external": "^2.2.4",

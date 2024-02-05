@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useBlockNumber } from "wagmi";
+import type { UseQueryReturnType } from "wagmi/dist/types/utils/query";
 
 interface HookParams {
-    enabled?: boolean;
+    query?: { enabled?: boolean };
     [key: string]: unknown;
 }
 
@@ -16,6 +18,23 @@ export function useWagmiPassiveHook<T>({
 }: UsePassiveHookParams<T>): T {
     const [browserFocused, setBrowserFocused] = useState(true);
 
+    const { data: blockNumber } = useBlockNumber({
+        watch: true,
+        query: { enabled: params.query?.enabled && browserFocused },
+    });
+
+    const result = hook({
+        ...params,
+        query: {
+            enabled: params.query?.enabled && browserFocused,
+        },
+    });
+
+    useEffect(() => {
+        if (!params.query?.enabled || !browserFocused) return;
+        (result as UseQueryReturnType).refetch();
+    }, [browserFocused, blockNumber, result, params.query?.enabled]);
+
     useEffect(() => {
         const handleVisibilityChange = () => {
             setBrowserFocused(document.visibilityState === "visible");
@@ -29,8 +48,5 @@ export function useWagmiPassiveHook<T>({
         };
     }, []);
 
-    return hook({
-        ...params,
-        enabled: params.enabled && browserFocused,
-    });
+    return result;
 }
