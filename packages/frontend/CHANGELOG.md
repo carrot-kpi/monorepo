@@ -1,5 +1,11 @@
 # @carrot-kpi/host-frontend
 
+## 0.38.2
+
+### Patch Changes
+
+- f9bbd18: Add wagmi back to the shared dependencies as a singleton
+
 ## 0.38.1
 
 ### Patch Changes
