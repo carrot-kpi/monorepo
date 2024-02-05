@@ -1,5 +1,11 @@
 # @carrot-kpi/ui
 
+## 0.68.1
+
+### Patch Changes
+
+- 9699588: Add react-query to the peer dependencies
+
 ## 0.68.0
 
 ### Minor Changes

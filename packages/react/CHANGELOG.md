@@ -1,5 +1,11 @@
 # @carrot-kpi/react
 
+## 0.77.1
+
+### Patch Changes
+
+- 9699588: Adapt useWagmiPassiveHook to the new wagmi version
+
 ## 0.77.0
 
 ### Minor Changes
