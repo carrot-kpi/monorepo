@@ -23,7 +23,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 dayjs.extend(localizedFormat);
 
 interface SharedEntrypointProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     config: WagmiConfig;
     templateId?: number;
     enableFathom: boolean;
