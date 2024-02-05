@@ -1,5 +1,15 @@
 # @carrot-kpi/host-frontend
 
+## 0.38.1
+
+### Patch Changes
+
+- 9699588: Remove the augmented chains mapping and use the basic ones provided by wagmi
+- Updated dependencies [9699588]
+- Updated dependencies [9699588]
+  - @carrot-kpi/ui@0.68.1
+  - @carrot-kpi/react@0.77.1
+
 ## 0.38.0
 
 ### Minor Changes
