@@ -4,7 +4,11 @@ import { StrictMode } from "react";
 import { createConfig, type CreateConnectorFn } from "wagmi";
 import { coinbaseWallet, injected, walletConnect } from "wagmi/connectors";
 import { SharedEntrypoint } from "./shared-entrypoint";
-import { IPFS_GATEWAY_URL, SUPPORTED_CHAINS } from "./constants";
+import {
+    IPFS_GATEWAY_URL,
+    SUPPORTED_CHAIN_TRANSPORT,
+    SUPPORTED_CHAINS,
+} from "./constants";
 import { HashRouter } from "react-router-dom";
 import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
@@ -13,7 +17,6 @@ import {
     useSetIPFSGatewayURL,
     useSetStagingMode,
 } from "@carrot-kpi/react";
-import { type Transport, http } from "viem";
 import { readonly } from "./connectors";
 
 console.log(`Carrot host frontend running in ${__BUILDING_MODE__} mode`);
@@ -46,13 +49,7 @@ if (!!__WALLETCONNECT_PROJECT_ID__) {
 
 const config = createConfig({
     chains: SUPPORTED_CHAINS,
-    transports: SUPPORTED_CHAINS.reduce(
-        (transports, chain) => {
-            transports[chain.id] = http(chain.rpcUrls.default.http[0]);
-            return transports;
-        },
-        {} as Record<number, Transport>,
-    ),
+    transports: SUPPORTED_CHAIN_TRANSPORT,
     connectors,
     batch: {
         multicall: {

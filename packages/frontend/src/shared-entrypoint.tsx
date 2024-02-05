@@ -11,7 +11,7 @@ import "@carrot-kpi/ui/styles.css";
 import "./global.css";
 
 import React from "react";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, type Config as WagmiConfig } from "wagmi";
 import { App } from "./pages/app";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
@@ -24,7 +24,7 @@ dayjs.extend(localizedFormat);
 
 interface SharedEntrypointProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: any;
+    config: WagmiConfig;
     templateId?: number;
     enableFathom: boolean;
 }

@@ -5,7 +5,7 @@ import { useAccount, useConfig } from "wagmi";
 import { ChainIcon } from "../chain-icon";
 import Error from "../../icons/error";
 import { useNavigate, useParams } from "react-router-dom";
-import { SUPPORTED_CHAIN_ICONS } from "../../constants";
+import { SUPPORTED_CHAIN_ICON_DATA } from "../../constants";
 
 interface NetworksPopoverProps {
     open: boolean;
@@ -43,8 +43,20 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
             >
                 {chains.map((supportedChain) => {
                     if (supportedChain.id === chain?.id) return null;
-                    const Logo =
-                        SUPPORTED_CHAIN_ICONS[supportedChain.id].logo || Error;
+
+                    const { Logo, iconBackgroundColor } =
+                        SUPPORTED_CHAIN_ICON_DATA[supportedChain.id]
+                            ? {
+                                  Logo: SUPPORTED_CHAIN_ICON_DATA[
+                                      supportedChain.id
+                                  ].logo,
+                                  iconBackgroundColor:
+                                      SUPPORTED_CHAIN_ICON_DATA[
+                                          supportedChain.id
+                                      ].backgroundColor,
+                              }
+                            : { Logo: Error, iconBackgroundColor: "#ff0000" };
+
                     return (
                         <div
                             data-testid={`${supportedChain.id}-network-button`}
@@ -55,10 +67,7 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                         >
                             <div className="flex items-center gap-4 pointer-events-none">
                                 <ChainIcon
-                                    backgroundColor={
-                                        SUPPORTED_CHAIN_ICONS[supportedChain.id]
-                                            .iconBackgroundColor || "#ff0000"
-                                    }
+                                    backgroundColor={iconBackgroundColor}
                                     logo={<Logo width={18} height={18} />}
                                 />
                                 <Typography>{supportedChain.name}</Typography>

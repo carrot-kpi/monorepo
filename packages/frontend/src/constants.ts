@@ -6,7 +6,8 @@ import ScrollLogo from "./icons/chains/scroll";
 import PolygonLogo from "./icons/chains/polygon";
 import Grid from "./icons/grid";
 import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
-import type { Chain } from "viem";
+import { http, type Chain, type Transport } from "viem";
+import type { SVGIcon } from "./icons/types";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
@@ -28,7 +29,7 @@ export const DATA_CDN_URL = getServiceURL(
 
 export const SUPPORTED_CHAINS: [Chain, ...Chain[]] =
     __BUILDING_MODE__ === "production"
-        ? [
+        ? ([
               {
                   ...gnosis,
                   rpcUrls: {
@@ -37,8 +38,8 @@ export const SUPPORTED_CHAINS: [Chain, ...Chain[]] =
                       },
                   },
               } as const satisfies Chain,
-          ]
-        : [
+          ] as const)
+        : ([
               {
                   ...polygonMumbai,
                   rpcUrls: {
@@ -62,25 +63,43 @@ export const SUPPORTED_CHAINS: [Chain, ...Chain[]] =
                       },
                   },
               } as const satisfies Chain,
-          ];
+          ] as const);
 
-export const SUPPORTED_CHAIN_ICONS = {
+interface ChainIconData {
+    logo: FunctionComponent<SVGIcon>;
+    backgroundColor: string;
+}
+
+export const SUPPORTED_CHAIN_ICON_DATA: Record<
+    (typeof SUPPORTED_CHAINS)[number]["id"],
+    ChainIconData
+> = {
     [gnosis.id as number]: {
         logo: GnosisLogo,
-        iconBackgroundColor: "#04795b",
+        backgroundColor: "#04795b",
     },
     [sepolia.id as number]: {
         logo: EthereumLogo,
-        iconBackgroundColor: "#8637ea",
+        backgroundColor: "#8637ea",
     },
     [scrollSepolia.id as number]: {
         logo: ScrollLogo,
-        iconBackgroundColor: "#213147",
+        backgroundColor: "#213147",
     },
     [polygonMumbai.id as number]: {
         logo: PolygonLogo,
-        iconBackgroundColor: "#8247E5",
+        backgroundColor: "#8247E5",
     },
+};
+
+export const SUPPORTED_CHAIN_TRANSPORT: Record<
+    (typeof SUPPORTED_CHAINS)[number]["id"],
+    Transport
+> = {
+    [gnosis.id as number]: http(),
+    [sepolia.id as number]: http(),
+    [scrollSepolia.id as number]: http(),
+    [polygonMumbai.id as number]: http(),
 };
 
 export const CARROT_DOMAIN =

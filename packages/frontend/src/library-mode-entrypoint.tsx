@@ -36,7 +36,7 @@ export const Root = ({
     const config = createConfig({
         chains: [supportedChain] as const,
         transports: {
-            [supportedChain.id]: http(supportedChain.rpcUrls.default.http[0]),
+            [supportedChain.id]: http(rpcURL),
         },
         connectors: [
             templatesTesting({
