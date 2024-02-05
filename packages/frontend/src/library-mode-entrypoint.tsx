@@ -1,20 +1,19 @@
 import React from "react";
-import { createConfig } from "wagmi";
+import { createConfig, http } from "wagmi";
 import { SharedEntrypoint } from "./shared-entrypoint";
 import { HashRouter } from "react-router-dom";
 import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import { LibraryModeSharedStateUpdater } from "./updaters/library-mode-shared-state";
-import type { AugmentedChain } from "./constants";
 import { templatesTesting } from "./library-mode-entrypoint";
-import type { Hex } from "viem";
+import type { Chain, Hex } from "viem";
 
 export * from "./connectors/templates-testing";
 
 console.log("Carrot host frontend running in library mode");
 
 interface RootProps {
-    supportedChain: AugmentedChain;
+    supportedChain: Chain;
     rpcURL: string;
     privateKey: Hex;
     ipfsGatewayURL: string;
@@ -36,7 +35,9 @@ export const Root = ({
 }: RootProps) => {
     const config = createConfig({
         chains: [supportedChain] as const,
-        transports: { [supportedChain.id]: supportedChain.transport },
+        transports: {
+            [supportedChain.id]: http(rpcURL),
+        },
         connectors: [
             templatesTesting({
                 rpcURL,

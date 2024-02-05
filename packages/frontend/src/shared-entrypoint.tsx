@@ -11,7 +11,7 @@ import "@carrot-kpi/ui/styles.css";
 import "./global.css";
 
 import React from "react";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, type Config as WagmiConfig } from "wagmi";
 import { App } from "./pages/app";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
@@ -19,7 +19,6 @@ import { ThemeUpdater } from "./updaters/theme";
 import { MultiChainLinksUpdater } from "./updaters/multi-chain-links";
 import { Fathom } from "./components/fathom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import type { WagmiConfig } from "./react-app-env";
 
 dayjs.extend(localizedFormat);
 
