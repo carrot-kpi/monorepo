@@ -35,25 +35,8 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
     const { t } = useTranslation();
     const { width } = useWindowSize();
     const { address } = useAccount();
-    // const [connectWallet, setConnectWallet] =
-    //     useState<HTMLButtonElement | null>(null);
 
-    // const connectPopoverRef = useRef<HTMLDivElement>(null);
-
-    // const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
-
-    // useClickAway(connectPopoverRef, () => {
-    //     setConnectPopoverOpen(false);
-    // });
-
-    // const handleConnectPopoverOpen = useCallback(() => {
-    //     setConnectPopoverOpen(true);
-    // }, []);
-
-    // const handleConnectPopoverClose = useCallback(() => {
-    //     setConnectPopoverOpen(false);
-    // }, []);
 
     const handleSettingsDrawerOpen = useCallback(() => {
         setSettingsDrawerOpen(true);
@@ -77,12 +60,6 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                     onClose={handleSettingsDrawerClose}
                 />
             )}
-            {/* <ConnectPopover
-                open={connectPopoverOpen}
-                anchor={connectWallet}
-                onClose={handleConnectPopoverClose}
-                ref={connectPopoverRef}
-            /> */}
             <div className={rootStyles({ className: className?.root })}>
                 <ChainSelect />
                 {address ? (
@@ -99,7 +76,6 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                     <Button
                         data-testid="connect-wallet-button"
                         size="small"
-                        // ref={setConnectWallet}
                         onClick={handleSettingsDrawerOpen}
                         className={{
                             root: className?.connectButton,
