@@ -45,6 +45,7 @@ export const en = {
         "campaigns.filters.status": "Status",
         "templates.viewAll": "View all",
         "settings.title": "Settings",
+        "connect.wallet.title": "Connect wallet",
         "preferences.theme": "Dark theme",
         "preferences.decentralization": "Decentralization mode",
         "preferences.decentralization.info":
