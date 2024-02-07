@@ -88,8 +88,6 @@ jobs:
           builder: ${{ steps.setup-buildx.outputs.name }}
           file: ./Dockerfile.e2e
           context: .
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
       - name: Run e2e tests
         run: docker compose -f docker-compose.e2e.yaml up --exit-code-from synpress
         env:
