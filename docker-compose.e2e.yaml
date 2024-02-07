@@ -2,8 +2,9 @@ version: "3.9"
 services:
   synpress:
     container_name: synpress
-    # this image is built by the ci workflow
-    image: carrot-kpi/e2e-testable-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
     depends_on:
       - display
     entrypoint: []
