@@ -26,7 +26,7 @@ export const WalletConnectors = () => {
         <div className={rootStyles()}>
             {connectors.map((connector) => {
                 if (connector.id === READONLY_CONNNECTOR_ID) return null;
-                const Logo = connector.icon || getConnectorIcon(connector);
+                const Logo = getConnectorIcon(connector);
                 return (
                     <div
                         data-testid={`${connector.name}-wallet-button`}
