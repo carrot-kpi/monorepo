@@ -43,9 +43,11 @@ if (window.ethereum?.isFrame) {
     );
 }
 
-if (!!__WALLETCONNECT_PROJECT_ID__) {
+if (window.ethereum?.isMetaMask)
+    connectors.push(injected({ target: "metaMask" }));
+
+if (!!__WALLETCONNECT_PROJECT_ID__)
     connectors.push(walletConnect({ projectId: __WALLETCONNECT_PROJECT_ID__ }));
-}
 
 const config = createConfig({
     chains: SUPPORTED_CHAINS,

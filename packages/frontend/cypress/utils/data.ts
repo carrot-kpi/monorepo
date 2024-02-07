@@ -15,7 +15,7 @@ export const wallets = {
 export const urls = {
     carrotCommunity: "https://www.staging.carrot.community/",
     allCampaigns: "/campaigns?chain=polygon+mumbai",
-    createCampaign: "/create/1?chain=polygon+mumbai",
+    createCampaign: "/create/1/draft?chain=polygon+mumbai",
     documentation: "https://docs.staging.carrot.community/",
     audits: "https://github.com/carrot-kpi/contracts/tree/main/audits",
     discord: "https://discord.com/invite/uRer2D4Pdf",
