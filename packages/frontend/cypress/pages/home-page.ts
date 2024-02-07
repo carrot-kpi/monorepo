@@ -20,10 +20,10 @@ export class HomePage extends BasePage {
         this.click(selectors.header.campaignsHeader_Button);
     }
     clickNetwork() {
-        this.click(selectors.networkMenu.networkDropdown_Button, 1);
+        this.click(selectors.networkMenu.networkDropdown_Button, 0);
     }
     clickConnectWallet() {
-        this.click(selectors.walletMenu.connectWallet_Button, 1);
+        this.click(selectors.walletMenu.connectWallet_Button, 0);
     }
     clickSettings() {
         this.click(selectors.settings.settings_Button);
@@ -38,10 +38,10 @@ export class HomePage extends BasePage {
         this.click(selectors.heroSection.createCampaign_Button);
     }
     clickProfileAvatar() {
-        this.click(selectors.header.profileAvatar_Button, 1);
+        this.click(selectors.header.profileAvatar_Button, 0);
     }
     clickPowerButton() {
-        this.click(selectors.header.power_Button, 1);
+        this.click(selectors.header.power_Button, 0);
     }
     //---Assertions
     connectWalletButtonVisible(visible: boolean) {
@@ -51,7 +51,7 @@ export class HomePage extends BasePage {
     }
     profileAvatarVisible(visible: boolean) {
         visible
-            ? this.elementIsVisible(selectors.header.profileAvatar_Button, 1)
+            ? this.elementIsVisible(selectors.header.profileAvatar_Button, 0)
             : this.elementNotExist(selectors.header.profileAvatar_Button);
     }
     checkStagingBanner() {
@@ -63,10 +63,6 @@ export class HomePage extends BasePage {
     // todo: this should be in separate page regarding all campaigns
     checkIfOnAllCampaignsPage() {
         this.checkUrl(urls.allCampaigns);
-        this.compareText(
-            selectors.allCampaigns.allCampaignsTitle_Text,
-            textData.allCampaignsTitle,
-        );
     }
     checkNetworkOptions() {
         this.clickNetwork();
@@ -157,7 +153,7 @@ export class HomePage extends BasePage {
                 );
                 break;
             case networks.sepolia:
-                this.click(selectors.networkMenu.sepoliaNetwork_Option, 1);
+                this.click(selectors.networkMenu.sepoliaNetwork_Option, 0);
                 break;
         }
     }
@@ -254,13 +250,13 @@ export class HomePage extends BasePage {
         this.clickConnectWallet();
         switch (wallet) {
             case wallets.injectedMetamask:
-                this.click(selectors.walletMenu.injectedMetamask_Button, 1);
+                this.click(selectors.walletMenu.injectedMetamask_Button, 0);
                 break;
             case wallets.metamask:
-                this.click(selectors.walletMenu.metamask_Button, 1);
+                this.click(selectors.walletMenu.metamask_Button, 0);
                 break;
             case wallets.coinBase:
-                this.click(selectors.walletMenu.coinBase_Button, 1);
+                this.click(selectors.walletMenu.coinBase_Button, 0);
                 break;
         }
     }

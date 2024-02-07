@@ -25,10 +25,10 @@ export const ConnectPopover = forwardRef<HTMLDivElement, ConnectPopoverProps>(
             >
                 {connectors.map((connector) => {
                     if (connector.id === READONLY_CONNNECTOR_ID) return null;
-                    const Logo = getConnectorIcon(connector);
+                    const Logo = connector.icon || getConnectorIcon(connector);
                     return (
                         <div
-                            data-testid={`${connector.id}-wallet-button`}
+                            data-testid={`${connector.name}-wallet-button`}
                             key={connector.id}
                             className="flex gap-4 cursor-pointer"
                             onClick={() => {
