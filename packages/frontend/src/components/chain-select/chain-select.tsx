@@ -85,11 +85,8 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
                     logo={<Logo width={18} height={18} />}
                 />
                 {!compact && (
-                    <Typography
-                        data-testid={`${chainName}-button`}
-                        variant="sm"
-                    >
-                        {chain?.name || "Unsupported"}
+                    <Typography data-testid={`${chainId}-button`} variant="sm">
+                        {chainName}
                     </Typography>
                 )}
                 {__BUILDING_MODE__ !== "library" && multipleEnabledChains && (

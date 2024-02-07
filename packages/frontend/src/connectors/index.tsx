@@ -37,7 +37,7 @@ export const getConnectorIcon = (
         case "walletConnect": {
             return WalletConnectIcon;
         }
-        case "coinbaseWallet": {
+        case "coinbaseWalletSDK": {
             return CoinbaseWalletIcon;
         }
         default: {
