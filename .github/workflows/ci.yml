@@ -80,7 +80,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
         id: setup-buildx
       - name: Build testable host frontend image
-        run: docker-compose -f docker-compose.e2e.yml --env-file .env.e2e up --build --exit-code-from synpress
+        run: docker-compose -f docker-compose.e2e.yaml --env-file .env.e2e up --build --exit-code-from synpress
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
