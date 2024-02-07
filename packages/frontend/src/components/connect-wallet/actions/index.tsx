@@ -37,7 +37,7 @@ export const Actions = () => {
     const ActionComponent = ACTION_COMPONENT_BY_TYPE[selectedAction];
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mt-12">
             <div className="flex gap-4">
                 {ACTIONS.map(({ type, label }) => (
                     <Chip

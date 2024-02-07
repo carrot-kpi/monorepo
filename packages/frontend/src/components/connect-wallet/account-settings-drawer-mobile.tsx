@@ -22,6 +22,7 @@ import Settings from "../../icons/settings";
 import Arrow from "../../icons/arrow";
 import { useTranslation } from "react-i18next";
 import { Preferences } from "./preferences";
+import { WalletConnectors } from "./wallet-connectors";
 
 const overlayStyles = cva([
     "fixed",
@@ -157,10 +158,10 @@ export const AccountSettingsDrawerMobile = ({
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="flex flex-col gap-16">
+                                    <div className="flex flex-col gap-6">
                                         <div className="flex flex-col gap-4">
-                                            {address && (
-                                                <div className="flex justify-between items-center">
+                                            <div className="flex justify-between items-center">
+                                                {address ? (
                                                     <div className="flex items-center gap-4">
                                                         <a
                                                             href={
@@ -178,27 +179,46 @@ export const AccountSettingsDrawerMobile = ({
                                                             />
                                                         </a>
                                                     </div>
-                                                    <div className="flex gap-4">
-                                                        <Settings
-                                                            data-testid="settings-button"
-                                                            className="stroke-0 cursor-pointer dark:text-white"
-                                                            onClick={
-                                                                handleSettingsOpenClick
-                                                            }
-                                                        />
+                                                ) : (
+                                                    <div className="flex justify-center items-center w-full">
+                                                        <Typography
+                                                            uppercase
+                                                            weight="bold"
+                                                        >
+                                                            {t(
+                                                                "connect.wallet.title",
+                                                            )}
+                                                        </Typography>
+                                                    </div>
+                                                )}
+                                                <div className="flex ml-auto items-center gap-4">
+                                                    <Settings
+                                                        data-testid="settings-button"
+                                                        className="h-7 w-7 stroke-0 cursor-pointer dark:text-white"
+                                                        onClick={
+                                                            handleSettingsOpenClick
+                                                        }
+                                                    />
+                                                    {address && (
                                                         <Power
                                                             data-testid="disconnect-button"
-                                                            className="cursor-pointer dark:text-white"
+                                                            className="h-7 w-7 cursor-pointer dark:text-white"
                                                             onClick={
                                                                 handleDisconnectClick
                                                             }
                                                         />
-                                                    </div>
+                                                    )}
                                                 </div>
+                                            </div>
+                                            {address && (
+                                                <ChainSelect compact={false} />
                                             )}
-                                            <ChainSelect compact={false} />
                                         </div>
-                                        <Actions />
+                                        {address ? (
+                                            <Actions />
+                                        ) : (
+                                            <WalletConnectors />
+                                        )}
                                     </div>
                                 )}
                             </div>
