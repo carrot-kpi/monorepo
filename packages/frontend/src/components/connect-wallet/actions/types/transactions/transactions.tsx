@@ -38,7 +38,7 @@ export const Transactions = () => {
                     className={{ icon: "h-20" }}
                 />
             ) : (
-                <div className="flex flex-col gap-9 h-72 md:h-[620px] overflow-y-auto cui-scrollbar">
+                <div className="flex flex-col gap-3 h-72 md:h-[620px] overflow-y-auto cui-scrollbar">
                     {transactions
                         .sort((a, b) => b.timestamp - a.timestamp)
                         .map((tx) => {

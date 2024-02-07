@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import Link from "../../icons/link";
 import { Preferences } from "./preferences";
 import { READONLY_CONNNECTOR_ID } from "../../connectors";
+import { WalletConnectors } from "./wallet-connectors";
 
 const overlayStyles = cva([
     "fixed",
@@ -127,7 +128,7 @@ export const AccountSettingsDrawer = ({
                             </div>
                             <div className={containerStyles()}>
                                 {settingsOpen ? (
-                                    <div className="flex flex-col gap-4">
+                                    <div className="flex flex-col gap-6">
                                         <div className="flex w-full">
                                             <Arrow
                                                 className="w-7 h-7 -rotate-180 cursor-pointer dark:text-white"
@@ -147,11 +148,11 @@ export const AccountSettingsDrawer = ({
                                         <Preferences />
                                     </div>
                                 ) : (
-                                    <div className="flex flex-col gap-16">
+                                    <div className="flex flex-col gap-6">
                                         <div className="flex flex-col gap-4">
-                                            {address && (
-                                                <div className="flex justify-between items-center">
-                                                    <div className="flex items-center gap-4">
+                                            <div className="flex justify-between items-center">
+                                                {address ? (
+                                                    <div className="flex items-center gap-6">
                                                         <Avatar
                                                             address={address}
                                                             variant="lg"
@@ -172,27 +173,46 @@ export const AccountSettingsDrawer = ({
                                                             <Link className="w-7 h-7 -ml-1.5" />
                                                         </a>
                                                     </div>
-                                                    <div className="flex items-center gap-4">
-                                                        <Settings
-                                                            data-testid="settings-button"
-                                                            className="stroke-0 cursor-pointer dark:text-white"
-                                                            onClick={
-                                                                handleSettingsOpenClick
-                                                            }
-                                                        />
+                                                ) : (
+                                                    <div className="flex justify-center items-center w-full">
+                                                        <Typography
+                                                            uppercase
+                                                            weight="bold"
+                                                        >
+                                                            {t(
+                                                                "connect.wallet.title",
+                                                            )}
+                                                        </Typography>
+                                                    </div>
+                                                )}
+                                                <div className="flex ml-auto items-center gap-4">
+                                                    <Settings
+                                                        data-testid="settings-button"
+                                                        className="h-7 w-7 stroke-0 cursor-pointer dark:text-white"
+                                                        onClick={
+                                                            handleSettingsOpenClick
+                                                        }
+                                                    />
+                                                    {address && (
                                                         <Power
                                                             data-testid="disconnect-button"
-                                                            className="h-[25px] cursor-pointer dark:text-white"
+                                                            className="h-7 w-7 cursor-pointer dark:text-white"
                                                             onClick={
                                                                 handleDisconnectClick
                                                             }
                                                         />
-                                                    </div>
+                                                    )}
                                                 </div>
+                                            </div>
+                                            {address && (
+                                                <ChainSelect compact={false} />
                                             )}
-                                            <ChainSelect compact={false} />
                                         </div>
-                                        <Actions />
+                                        {address ? (
+                                            <Actions />
+                                        ) : (
+                                            <WalletConnectors />
+                                        )}
                                     </div>
                                 )}
                             </div>

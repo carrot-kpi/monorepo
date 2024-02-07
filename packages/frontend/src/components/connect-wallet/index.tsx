@@ -1,15 +1,14 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Typography } from "@carrot-kpi/ui";
 import { useAccount } from "wagmi";
-import { ConnectPopover } from "./connect-popover";
 import { Avatar } from "./avatar";
 import { cva } from "class-variance-authority";
 import { shortenAddress } from "../../utils/address";
 import { AccountSettingsDrawer } from "./account-settings-drawer";
-import { ChainSelect } from "../chain-select/chain-select";
 import { AccountSettingsDrawerMobile } from "./account-settings-drawer-mobile";
-import { useClickAway, useWindowSize } from "react-use";
+import { useWindowSize } from "react-use";
+import { ChainSelect } from "../chain-select/chain-select";
 
 const rootStyles = cva([
     "flex",
@@ -36,25 +35,8 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
     const { t } = useTranslation();
     const { width } = useWindowSize();
     const { address } = useAccount();
-    const [connectWallet, setConnectWallet] =
-        useState<HTMLButtonElement | null>(null);
 
-    const connectPopoverRef = useRef<HTMLDivElement>(null);
-
-    const [connectPopoverOpen, setConnectPopoverOpen] = useState(false);
     const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
-
-    useClickAway(connectPopoverRef, () => {
-        setConnectPopoverOpen(false);
-    });
-
-    const handleConnectPopoverOpen = useCallback(() => {
-        setConnectPopoverOpen(true);
-    }, []);
-
-    const handleConnectPopoverClose = useCallback(() => {
-        setConnectPopoverOpen(false);
-    }, []);
 
     const handleSettingsDrawerOpen = useCallback(() => {
         setSettingsDrawerOpen(true);
@@ -78,12 +60,6 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                     onClose={handleSettingsDrawerClose}
                 />
             )}
-            <ConnectPopover
-                open={connectPopoverOpen}
-                anchor={connectWallet}
-                onClose={handleConnectPopoverClose}
-                ref={connectPopoverRef}
-            />
             <div className={rootStyles({ className: className?.root })}>
                 <ChainSelect />
                 {address ? (
@@ -100,8 +76,7 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
                     <Button
                         data-testid="connect-wallet-button"
                         size="small"
-                        ref={setConnectWallet}
-                        onClick={handleConnectPopoverOpen}
+                        onClick={handleSettingsDrawerOpen}
                         className={{
                             root: className?.connectButton,
                         }}

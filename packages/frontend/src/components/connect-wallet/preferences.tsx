@@ -51,7 +51,7 @@ export const Preferences = () => {
     // }, []);
 
     return (
-        <div className="flex flex-col gap-6 h-full overflow-y-auto cui-scrollbar">
+        <div className="flex flex-col gap-4 h-full overflow-y-auto cui-scrollbar">
             {/* TODO: enable toggle once dark theme is available */}
             {/* <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <Typography data-testid="theme-name-text">

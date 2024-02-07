@@ -62,6 +62,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
                                 className={{
                                     root: "hidden md:block max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap",
                                 }}
+                                truncate
                             >
                                 {summary}
                             </Typography>
@@ -80,6 +81,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
                 </Typography>
             </Popover>
             <Typography
+                className={{ root: "text-right" }}
                 weight="bold"
                 ref={setDate}
                 onMouseEnter={handlePopoverOpen}
