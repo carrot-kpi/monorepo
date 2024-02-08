@@ -17,7 +17,7 @@ const draftStyles = cva([
     "flex",
     "justify-between",
     "items-center",
-    "rounded-xl",
+    "rounded-lg",
     "border",
     "border-transparent",
     "hover:cursor-pointer",

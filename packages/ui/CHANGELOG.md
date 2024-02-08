@@ -1,5 +1,22 @@
 # @carrot-kpi/ui
 
+## 0.68.1
+
+### Patch Changes
+
+- 9699588: Add react-query to the peer dependencies
+
+## 0.68.0
+
+### Minor Changes
+
+- d404277: Upgraded dependencies and migrate to wagmi v2
+
+### Patch Changes
+
+- Updated dependencies [d404277]
+  - @carrot-kpi/sdk@1.50.0
+
 ## 0.67.0
 
 ### Minor Changes

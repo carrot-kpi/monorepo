@@ -7,10 +7,21 @@ const { join } = require("node:path");
 const shared = require("./shared-dependencies.json");
 const { getEnv } = require("./utils/env");
 
+const ALLOWED_BUILDING_MODES = ["staging", "production", "development"];
+
+const buildingMode = process.env.BUILDING_MODE || "development";
+if (ALLOWED_BUILDING_MODES.indexOf(buildingMode) < 0) {
+    console.error(
+        `Invalid building mode "${buildingMode}" specified. Allowed values are: ${ALLOWED_BUILDING_MODES.join(
+            ", ",
+        )}`,
+    );
+    process.exit(1);
+}
+
 module.exports = {
     webpack: {
-        configure: (config, { env }) => {
-            const production = env === "production";
+        configure: (config) => {
             for (const rule of config.module.rules) {
                 if (!rule.oneOf) continue;
                 for (oneOf of rule.oneOf) {
@@ -31,20 +42,19 @@ module.exports = {
                     shared,
                 }),
                 new webpack.DefinePlugin({
-                    __PROD__: production,
-                    __LIBRARY_MODE__: JSON.stringify(false),
-                    __STAGING_MODE__: JSON.stringify(
-                        process.env.STAGING === "true",
-                    ),
+                    __BUILDING_MODE__: JSON.stringify(buildingMode),
                     __INFURA_PROJECT_ID__: getEnv(
                         "INFURA_PROJECT_ID",
-                        production,
+                        buildingMode === "production",
                     ),
                     __WALLETCONNECT_PROJECT_ID__: getEnv(
                         "WALLETCONNECT_PROJECT_ID",
-                        production,
+                        buildingMode === "production",
                     ),
-                    __FATHOM_SITE_ID__: getEnv("FATHOM_SITE_ID", production),
+                    __FATHOM_SITE_ID__: getEnv(
+                        "FATHOM_SITE_ID",
+                        buildingMode === "production",
+                    ),
                 }),
                 new webpack.ProvidePlugin({
                     Buffer: ["buffer", "Buffer"],
@@ -67,7 +77,7 @@ module.exports = {
                         : defaultFilename;
                 },
             };
-            if (env !== "production") return config;
+            if (buildingMode !== "production") return config;
             // TODO: make Workbox and precaching work (all
             // cacheable files are now excluded)
             config.plugins.push(

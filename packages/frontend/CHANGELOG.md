@@ -1,5 +1,34 @@
 # @carrot-kpi/host-frontend
 
+## 0.38.2
+
+### Patch Changes
+
+- f9bbd18: Add wagmi back to the shared dependencies as a singleton
+
+## 0.38.1
+
+### Patch Changes
+
+- 9699588: Remove the augmented chains mapping and use the basic ones provided by wagmi
+- Updated dependencies [9699588]
+- Updated dependencies [9699588]
+  - @carrot-kpi/ui@0.68.1
+  - @carrot-kpi/react@0.77.1
+
+## 0.38.0
+
+### Minor Changes
+
+- d404277: Upgraded dependencies and migrate to wagmi v2
+
+### Patch Changes
+
+- Updated dependencies [d404277]
+  - @carrot-kpi/react@0.77.0
+  - @carrot-kpi/sdk@1.50.0
+  - @carrot-kpi/ui@0.68.0
+
 ## 0.37.0
 
 ### Minor Changes

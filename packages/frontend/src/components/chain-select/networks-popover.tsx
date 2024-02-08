@@ -1,12 +1,11 @@
 import React, { useCallback } from "react";
 import { Popover, Typography } from "@carrot-kpi/ui";
 import { forwardRef } from "react";
-import { useNetwork } from "wagmi";
+import { useAccount, useConfig } from "wagmi";
 import { ChainIcon } from "../chain-icon";
-import { type AugmentedChain, SUPPORTED_CHAINS } from "../../constants";
-import { ChainId } from "@carrot-kpi/sdk";
 import Error from "../../icons/error";
 import { useNavigate, useParams } from "react-router-dom";
+import { SUPPORTED_CHAIN_ICON_DATA } from "../../constants";
 
 interface NetworksPopoverProps {
     open: boolean;
@@ -18,7 +17,8 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
     function NetworksPopover({ open, anchor, onNetworkSwitch }, ref) {
         const { address: kpiTokenAddress } = useParams();
         const navigate = useNavigate();
-        const { chain, chains } = useNetwork();
+        const { chain } = useAccount();
+        const { chains } = useConfig();
 
         const handleChainClick = useCallback(
             (event: React.MouseEvent<HTMLDivElement>) => {
@@ -41,12 +41,22 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                 ref={ref}
                 className={{ root: "p-4 flex flex-col gap-4" }}
             >
-                {Object.values(chains).map((supportedChain) => {
+                {chains.map((supportedChain) => {
                     if (supportedChain.id === chain?.id) return null;
-                    const chainFromSupportedChains = SUPPORTED_CHAINS[
-                        supportedChain.id as ChainId
-                    ] as AugmentedChain | undefined;
-                    const Logo = chainFromSupportedChains?.logo || Error;
+
+                    const { Logo, iconBackgroundColor } =
+                        SUPPORTED_CHAIN_ICON_DATA[supportedChain.id]
+                            ? {
+                                  Logo: SUPPORTED_CHAIN_ICON_DATA[
+                                      supportedChain.id
+                                  ].logo,
+                                  iconBackgroundColor:
+                                      SUPPORTED_CHAIN_ICON_DATA[
+                                          supportedChain.id
+                                      ].backgroundColor,
+                              }
+                            : { Logo: Error, iconBackgroundColor: "#ff0000" };
+
                     return (
                         <div
                             data-testid={`${supportedChain.id}-network-button`}
@@ -57,10 +67,7 @@ export const NetworksPopover = forwardRef<HTMLDivElement, NetworksPopoverProps>(
                         >
                             <div className="flex items-center gap-4 pointer-events-none">
                                 <ChainIcon
-                                    backgroundColor={
-                                        chainFromSupportedChains?.iconBackgroundColor ||
-                                        "#ff0000"
-                                    }
+                                    backgroundColor={iconBackgroundColor}
                                     logo={<Logo width={18} height={18} />}
                                 />
                                 <Typography>{supportedChain.name}</Typography>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Fetcher, Oracle } from "@carrot-kpi/sdk";
-import { usePublicClient, useNetwork, type Address } from "wagmi";
+import { usePublicClient, useAccount } from "wagmi";
+import { type Address } from "viem";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 interface OracleParams {
@@ -12,7 +13,7 @@ export function useOracle(params?: OracleParams): {
     oracle: Oracle | null;
 } {
     const preferDecentralization = usePreferDecentralization();
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const publicClient = usePublicClient();
 
     const [oracle, setOracle] = useState<Oracle | null>(null);
@@ -21,7 +22,7 @@ export function useOracle(params?: OracleParams): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !params?.oracleAddress) return;
+            if (!chain || !publicClient || !params?.oracleAddress) return;
             if (!cancelled) setLoading(true);
             try {
                 const fetchedOracle = (

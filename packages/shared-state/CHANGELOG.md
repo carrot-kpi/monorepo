@@ -1,5 +1,11 @@
 # @carrot-kpi/shared-state
 
+## 0.17.0
+
+### Minor Changes
+
+- d404277: Upgraded dependencies and migrate to wagmi v2
+
 ## 0.16.0
 
 ### Minor Changes
