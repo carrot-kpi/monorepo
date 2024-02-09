@@ -4,7 +4,8 @@ import {
     Service,
     getServiceURL,
 } from "@carrot-kpi/sdk";
-import { type Address, usePublicClient } from "wagmi";
+import { usePublicClient } from "wagmi";
+import { type Address } from "viem";
 import { useEffect, useState } from "react";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
@@ -31,6 +32,7 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
+            if (!publicClient) return;
             if (!cancelled) setLoading(true);
 
             try {

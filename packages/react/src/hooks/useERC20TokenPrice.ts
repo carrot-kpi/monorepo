@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { isAddress, getAddress } from "viem";
 import { ChainId } from "@carrot-kpi/sdk";
 
@@ -20,7 +20,7 @@ interface ERC20TokenPriceParams {
 export const useERC20TokenPrice = (
     params?: ERC20TokenPriceParams,
 ): { loading: boolean; price: number } => {
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
 
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState(0);

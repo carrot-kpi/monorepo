@@ -2,7 +2,7 @@
     "type": "module",
     "private": true,
     "name": "@carrot-kpi/subgraph",
-    "version": "0.11.1",
+    "version": "0.12.0",
     "license": "GPL-3.0-or-later",
     "scripts": {
         "gen-networks-files": "tsx scripts/generate-networks-files.ts",
@@ -19,12 +19,12 @@
     },
     "devDependencies": {
         "@carrot-kpi/contracts": "^0.9.0",
-        "@graphprotocol/graph-cli": "0.61.0",
-        "@graphprotocol/graph-ts": "0.31.0",
+        "@graphprotocol/graph-cli": "0.67.2",
+        "@graphprotocol/graph-ts": "0.32.0",
         "eslint-config-custom": "*",
         "matchstick-as": "0.6.0",
         "rimraf": "^5.0.5",
         "tsconfig": "*",
-        "tsx": "^4.6.2"
+        "tsx": "^4.7.0"
     }
 }

@@ -1,7 +1,6 @@
 import { Typography, type TypographyProps } from "@carrot-kpi/ui";
 import { cva, cx } from "class-variance-authority";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import EmptyIllustration from "../../icons/empty";
 
 const rootStyles = cva(
@@ -29,6 +28,8 @@ const rootStyles = cva(
 );
 
 interface EmptyProps {
+    title: string;
+    description?: string;
     vertical?: boolean;
     titleVariant?: TypographyProps["variant"];
     descriptionVariant?: TypographyProps["variant"];
@@ -39,13 +40,13 @@ interface EmptyProps {
 }
 
 export const Empty = ({
+    title,
+    description,
     vertical,
     titleVariant,
     descriptionVariant,
     className,
 }: EmptyProps) => {
-    const { t } = useTranslation();
-
     return (
         <div
             className={rootStyles({
@@ -54,21 +55,23 @@ export const Empty = ({
             })}
         >
             <EmptyIllustration
-                className={cx("h-50 text-gray-500", className?.icon)}
+                className={cx("h-40 w-40 text-gray-500", className?.icon)}
             />
             <div className="flex flex-col gap-3">
                 <Typography
                     data-testid="empty-title-text"
                     variant={titleVariant || "h3"}
                 >
-                    {t("empty.title")}
+                    {title}
                 </Typography>
-                <Typography
-                    data-testid="empty-no-data-found-text"
-                    variant={descriptionVariant || "base"}
-                >
-                    {t("empty.description")}
-                </Typography>
+                {description && (
+                    <Typography
+                        data-testid="empty-no-data-found-text"
+                        variant={descriptionVariant || "base"}
+                    >
+                        {description}
+                    </Typography>
+                )}
             </div>
         </div>
     );

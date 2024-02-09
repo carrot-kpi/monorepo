@@ -18,8 +18,8 @@ export const networkMenu = {
 };
 export const walletMenu = {
     connectWallet_Button: "[data-testid=connect-wallet-button]",
-    injectedMetamask_Button: "[data-testid=injected-wallet-button]",
-    metamask_Button: "[data-testid=metaMask-wallet-button]",
+    injectedMetamask_Button: "[data-testid=MetaMask-wallet-button]",
+    metamask_Button: "[data-testid=MetaMask-wallet-button]",
     coinBase_Button: "[data-testid=coinbaseWallet-wallet-button]",
 };
 export const settings = {
@@ -63,9 +63,7 @@ export const footer = {
     footerTwitter_Link: "[data-testid=footer-Twitter-button]",
     footerCarrotInfoPage_Button: "[data-testid=footer-carrot-info-page-button]",
 };
-export const allCampaigns = {
-    allCampaignsTitle_Text: "[data-testid=all-campaigns-title-text]",
-};
+export const allCampaigns = {};
 export const disconnectedWallet = {
     walletDisconnected_Text: "[data-testid=wallet-disconnected-text]",
     walletRequiredDescription_Text:

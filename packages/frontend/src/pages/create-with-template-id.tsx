@@ -3,7 +3,7 @@ import { type SerializableObject } from "@carrot-kpi/react";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
 import { Authenticate } from "../components/authenticate";
-import { useIsDataUploaderAuthenticated } from "../hooks/useIsDataUploaderAuthenticated";
+import { useIsDataManagerAuthenticated } from "../hooks/useIsDataManagerAuthenticated";
 import { Layout } from "../components/layout";
 import { Permissioned } from "../components/permissioned";
 import { useIsCreatorAllowed } from "../hooks/useIsCreatorAllowed";
@@ -14,7 +14,7 @@ export function CreateWithTemplateId<S extends SerializableObject<S>>() {
     const navigate = useNavigate();
     const { address } = useAccount();
 
-    const dataUploaderAuthenticated = useIsDataUploaderAuthenticated();
+    const dataManagerAuthenticated = useIsDataManagerAuthenticated();
 
     const { allowed: creatorAllowed, loading: loadingPermission } =
         useIsCreatorAllowed(address);
@@ -40,7 +40,7 @@ export function CreateWithTemplateId<S extends SerializableObject<S>>() {
                     <div className="h-screen py-20">
                         <Permissioned onBack={handleDismiss} />
                     </div>
-                ) : !dataUploaderAuthenticated ? (
+                ) : !dataManagerAuthenticated ? (
                     <div className="h-screen py-20">
                         <Authenticate onCancel={handleDismiss} />
                     </div>

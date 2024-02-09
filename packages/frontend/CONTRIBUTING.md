@@ -119,9 +119,9 @@ Staging mode will pretty much result in the same build, but with `stagingURL`
 template loading enabled (see the "running modes" section above for more
 details).
 
-Some features of the app are cut off in staging mode thanks to a
-`__STAGING_MODE__` global set to true if a `STAGING=true` env is set at build
-time.
+Some features of the app are cut off depending on the chosen mode thanks to a
+`__BUILDING_MODE__` global set to whatever the `BUILDING_MODE` env is at build
+time (but validated so that only values that make sense can be set).
 
 The library mode on the other hand builds the frontend to a library that can
 then be used to test out templates locally. The utility is for template
@@ -134,11 +134,12 @@ Needless to say, this improves developer experience.
 The production and staging builds are handled by Webpack through Create React
 App, while library builds are handled by Rollup.
 
-Various pieces of the app would not be functional in library mode, so we use a
-`__LIBRARY_MODE__` global in order to remove some parts of the app from the end
-bundle at build time. When building in library mode through Rollup, the
-`__LIBRARY_MODE__` is set to `true`, while when building in production and
-staging mode through Webpack it's set to `false`.
+Various pieces of the app would not be functional in library mode, so we use the
+`__BUILDING_MODE__` global in order to remove those pieces from the end bundle
+at build time. When building in library mode through Rollup, the
+`__BUILDING_MODE__` is set to `library` by default, while when building in
+production and staging mode through Webpack it's set based on the
+`BUILDING_MODE` env.
 
 ## Building
 

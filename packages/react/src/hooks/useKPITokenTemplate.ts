@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Template, Fetcher } from "@carrot-kpi/sdk";
-import { usePublicClient, useNetwork } from "wagmi";
+import { usePublicClient, useAccount } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 interface KPITokenTemplateParams {
@@ -12,7 +12,7 @@ export function useKPITokenTemplate(params?: KPITokenTemplateParams): {
     template: Template | null;
 } {
     const preferDecentralization = usePreferDecentralization();
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const publicClient = usePublicClient();
 
     const [template, setTemplate] = useState<Template | null>(null);
@@ -21,7 +21,7 @@ export function useKPITokenTemplate(params?: KPITokenTemplateParams): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!chain || !params?.id) return;
+            if (!chain || !publicClient || !params?.id) return;
             if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchKPITokenTemplates({

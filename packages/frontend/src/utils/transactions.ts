@@ -2,8 +2,7 @@ import { type Tx, TxType } from "@carrot-kpi/react";
 import type { TFunction } from "i18next";
 import { shortenAddress } from "./address";
 import { Fetcher, Token } from "@carrot-kpi/sdk";
-import type { PublicClient } from "wagmi";
-import { formatUnits } from "viem";
+import { formatUnits, type PublicClient } from "viem";
 import type { FC } from "react";
 
 type PayloadSerializer<T extends TxType> = (

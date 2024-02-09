@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Template, Fetcher } from "@carrot-kpi/sdk";
-import { usePublicClient, useNetwork } from "wagmi";
+import { usePublicClient, useAccount } from "wagmi";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 interface OracleTemplatesParams {
@@ -12,7 +12,7 @@ export function useOracleTemplates(params?: OracleTemplatesParams): {
     templates: Template[];
 } {
     const preferDecentralization = usePreferDecentralization();
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const publicClient = usePublicClient();
 
     const [templates, setTemplates] = useState<Template[]>([]);
@@ -21,7 +21,7 @@ export function useOracleTemplates(params?: OracleTemplatesParams): {
     useEffect(() => {
         let cancelled = false;
         const fetchData = async (): Promise<void> => {
-            if (!chain) return;
+            if (!chain || !publicClient) return;
             if (!cancelled) setLoading(true);
             try {
                 const templates = await Fetcher.fetchOracleTemplates({

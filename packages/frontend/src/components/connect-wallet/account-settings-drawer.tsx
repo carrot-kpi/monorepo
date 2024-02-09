@@ -7,19 +7,20 @@ import { cva } from "class-variance-authority";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Avatar } from "./avatar";
 import { Typography } from "@carrot-kpi/ui";
-import { useAccount, useConnect, useNetwork } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { ChainSelect } from "../chain-select/chain-select";
 import X from "../../icons/x";
 import { useClickAway } from "react-use";
 import Power from "../../icons/power";
 import { Actions } from "./actions";
-import { ReadonlyConnector } from "../../connectors";
 import { shortenAddress } from "../../utils/address";
 import Settings from "../../icons/settings";
 import Arrow from "../../icons/arrow";
 import { useTranslation } from "react-i18next";
 import Link from "../../icons/link";
 import { Preferences } from "./preferences";
+import { READONLY_CONNNECTOR_ID } from "../../connectors";
+import { WalletConnectors } from "./wallet-connectors";
 
 const overlayStyles = cva([
     "fixed",
@@ -65,8 +66,7 @@ export const AccountSettingsDrawer = ({
     onClose,
 }: AccountSettingsDrawerProps) => {
     const { t } = useTranslation();
-    const { address } = useAccount();
-    const { chain } = useNetwork();
+    const { address, chain } = useAccount();
     const { connectors, connect } = useConnect();
 
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -75,7 +75,7 @@ export const AccountSettingsDrawer = ({
 
     const readonlyConnector = useMemo(() => {
         return connectors.find(
-            (connector) => connector instanceof ReadonlyConnector,
+            (connector) => connector.id === READONLY_CONNNECTOR_ID,
         );
     }, [connectors]);
     const blockExplorerHref = useMemo(() => {
@@ -149,49 +149,70 @@ export const AccountSettingsDrawer = ({
                                     </div>
                                 ) : (
                                     <div className="flex flex-col gap-6">
-                                        {address && (
+                                        <div className="flex flex-col gap-4">
                                             <div className="flex justify-between items-center">
-                                                <div className="flex items-center gap-4">
-                                                    <Avatar
-                                                        address={address}
-                                                        variant="lg"
-                                                    />
-                                                    <Typography>
-                                                        {shortenAddress(
-                                                            address,
-                                                        )}
-                                                    </Typography>
-                                                    <a
-                                                        href={
-                                                            blockExplorerHref ||
-                                                            ""
-                                                        }
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        <Link className="w-7 h-7 -ml-1.5" />
-                                                    </a>
-                                                </div>
-                                                <div className="flex gap-4">
+                                                {address ? (
+                                                    <div className="flex items-center gap-6">
+                                                        <Avatar
+                                                            address={address}
+                                                            variant="lg"
+                                                        />
+                                                        <Typography>
+                                                            {shortenAddress(
+                                                                address,
+                                                            )}
+                                                        </Typography>
+                                                        <a
+                                                            href={
+                                                                blockExplorerHref ||
+                                                                ""
+                                                            }
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            <Link className="w-7 h-7 -ml-1.5" />
+                                                        </a>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex justify-center items-center w-full">
+                                                        <Typography
+                                                            uppercase
+                                                            weight="bold"
+                                                        >
+                                                            {t(
+                                                                "connect.wallet.title",
+                                                            )}
+                                                        </Typography>
+                                                    </div>
+                                                )}
+                                                <div className="flex ml-auto items-center gap-4">
                                                     <Settings
                                                         data-testid="settings-button"
-                                                        className="w-7 h-7 stroke-0 cursor-pointer dark:text-white"
+                                                        className="h-7 w-7 stroke-0 cursor-pointer dark:text-white"
                                                         onClick={
                                                             handleSettingsOpenClick
                                                         }
                                                     />
-                                                    <Power
-                                                        data-testid="disconnect-button"
-                                                        className="w-7 h-7 cursor-pointer dark:text-white"
-                                                        onClick={
-                                                            handleDisconnectClick
-                                                        }
-                                                    />
+                                                    {address && (
+                                                        <Power
+                                                            data-testid="disconnect-button"
+                                                            className="h-7 w-7 cursor-pointer dark:text-white"
+                                                            onClick={
+                                                                handleDisconnectClick
+                                                            }
+                                                        />
+                                                    )}
                                                 </div>
                                             </div>
+                                            {address && (
+                                                <ChainSelect compact={false} />
+                                            )}
+                                        </div>
+                                        {address ? (
+                                            <Actions />
+                                        ) : (
+                                            <WalletConnectors />
                                         )}
-                                        <ChainSelect compact={false} />
-                                        <Actions />
                                     </div>
                                 )}
                             </div>

@@ -5,6 +5,7 @@ import { KPITokenCard } from "../../components/ui/kpi-token-card";
 import { Empty } from "../../components/ui/empty";
 import { Pagination } from "../../components/pagination";
 import { usePagination } from "@carrot-kpi/react";
+import { useTranslation } from "react-i18next";
 
 const placeholder = new Array(8)
     .fill(null)
@@ -16,6 +17,7 @@ interface GridProps {
 }
 
 export const Grid = ({ loading, items }: GridProps) => {
+    const { t } = useTranslation();
     const [searchParams, setSearchParams] = useSearchParams();
     const [page, setPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(4);
@@ -66,7 +68,10 @@ export const Grid = ({ loading, items }: GridProps) => {
         <div className="flex flex-col items-center w-full">
             <div className="w-full space-y-12 md:space-y-16">
                 {!loading && paginatedItems.length === 0 ? (
-                    <Empty />
+                    <Empty
+                        title={t("empty.title")}
+                        description={t("empty.description")}
+                    />
                 ) : (
                     <div className="w-full flex flex-wrap gap-8 justify-center">
                         {loading

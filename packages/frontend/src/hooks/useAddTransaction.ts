@@ -1,6 +1,6 @@
 import { type Tx, TxType } from "@carrot-kpi/react";
 import { trackRegisteredGoal } from "use-fathom-client";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { useDispatch } from "../state/hooks";
 import { addTransaction } from "../state/reducers/transactions";
 import { serializeTransaction } from "../utils/transactions";
@@ -9,7 +9,7 @@ import { type FathomRegisteredEventName } from "../out/fathom/types";
 
 export const useAddTransaction = () => {
     const dispatch = useDispatch();
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
 
     return <T extends TxType>(tx: Tx<T>) => {
         if (!chain) {

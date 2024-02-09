@@ -38,10 +38,10 @@ export class HomePage extends BasePage {
         this.click(selectors.heroSection.createCampaign_Button);
     }
     clickProfileAvatar() {
-        this.click(selectors.header.profileAvatar_Button, 1);
+        this.click(selectors.header.profileAvatar_Button, 0);
     }
     clickPowerButton() {
-        this.click(selectors.header.power_Button, 1);
+        this.click(selectors.header.power_Button, 0);
     }
     //---Assertions
     connectWalletButtonVisible(visible: boolean) {
@@ -51,7 +51,7 @@ export class HomePage extends BasePage {
     }
     profileAvatarVisible(visible: boolean) {
         visible
-            ? this.elementIsVisible(selectors.header.profileAvatar_Button, 1)
+            ? this.elementIsVisible(selectors.header.profileAvatar_Button, 0)
             : this.elementNotExist(selectors.header.profileAvatar_Button);
     }
     checkStagingBanner() {

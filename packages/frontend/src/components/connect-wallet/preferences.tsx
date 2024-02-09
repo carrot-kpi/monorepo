@@ -51,7 +51,7 @@ export const Preferences = () => {
     // }, []);
 
     return (
-        <div className="flex flex-col gap-6 h-full overflow-y-auto cui-scrollbar">
+        <div className="flex flex-col gap-4 h-full overflow-y-auto cui-scrollbar">
             {/* TODO: enable toggle once dark theme is available */}
             {/* <div className="flex justify-between gap-4 md:gap-20 items-center">
                     <Typography data-testid="theme-name-text">
@@ -110,7 +110,7 @@ export const Preferences = () => {
                     </Typography>
                 </div>
             )}
-            {__STAGING_MODE__ && (
+            {__BUILDING_MODE__ === "staging" && (
                 <div className="flex flex-col border border-black dark:border-white rounded-lg">
                     <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
                         <Typography

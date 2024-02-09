@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { KPIToken, Fetcher } from "@carrot-kpi/sdk";
-import { usePublicClient, useNetwork, type Address } from "wagmi";
+import { usePublicClient, useAccount } from "wagmi";
+import { type Address } from "viem";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 interface KPITokenParams {
@@ -13,7 +14,7 @@ export function useKPIToken(params?: KPITokenParams): {
     kpiToken: KPIToken | null;
 } {
     const preferDecentralization = usePreferDecentralization();
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const publicClient = usePublicClient();
 
     const [kpiToken, setKPIToken] = useState<KPIToken | null>(null);
@@ -24,6 +25,7 @@ export function useKPIToken(params?: KPITokenParams): {
         async function fetchData(): Promise<void> {
             if (
                 !chain ||
+                !publicClient ||
                 !params?.kpiTokenAddress ||
                 (!!kpiToken && kpiToken.address === params.kpiTokenAddress)
             )

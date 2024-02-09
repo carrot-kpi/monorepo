@@ -1,5 +1,17 @@
 # @carrot-kpi/shared-state
 
+## 0.17.0
+
+### Minor Changes
+
+- d404277: Upgraded dependencies and migrate to wagmi v2
+
+## 0.16.0
+
+### Minor Changes
+
+- 1840919: Rename data uploader service references to data manager
+
 ## 0.15.0
 
 ### Minor Changes

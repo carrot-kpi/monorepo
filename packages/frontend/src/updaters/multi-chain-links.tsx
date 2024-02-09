@@ -1,16 +1,17 @@
 import { Modal, Typography } from "@carrot-kpi/ui";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { type Chain, useAccount, useNetwork } from "wagmi";
-import { DEFAULT_CHAIN } from "../constants";
+import { useAccount, useConfig, useConnect } from "wagmi";
+import { type Chain } from "wagmi/chains";
 import WrongNetwork from "../icons/wrong-network";
 import { useTranslation } from "react-i18next";
-import { ReadonlyConnector } from "../connectors";
+import { READONLY_CONNNECTOR_ID } from "../connectors";
 
 export const MultiChainLinksUpdater = () => {
     const { t } = useTranslation();
-    const { chain, chains } = useNetwork();
-    const { connector: activeConnector } = useAccount();
+    const { connector: activeConnector, chain } = useAccount();
+    const { connectors, connect } = useConnect();
+    const { chains } = useConfig();
     const [searchParams, setSearchParams] = useSearchParams();
     const supportedChainNames = useMemo(() => {
         return Object.values(chains).map((c) => c.name.toLowerCase());
@@ -21,6 +22,16 @@ export const MultiChainLinksUpdater = () => {
     const [triedSwitchingAutomatically, setTriedSwitchingAutomatically] =
         useState(false);
     const [freeSwitchingEnabled, setFreeSwitchingEnabled] = useState(false);
+
+    useEffect(() => {
+        if (chain) return;
+        const defaultConnector = connectors[0];
+        if (!defaultConnector) {
+            console.warn("no default connector available");
+            return;
+        }
+        connect({ connector: defaultConnector });
+    }, [chain, connect, connectors]);
 
     // this effect, executed only once, does a couple things:
     // - if a chain is set in the URL and it is supported it's set as the target chain.
@@ -38,7 +49,7 @@ export const MultiChainLinksUpdater = () => {
                 chains.some((supportedChain) => {
                     return supportedChain.id === chain.id;
                 });
-            targetChain = currentlyActiveChainSupported ? chain : DEFAULT_CHAIN;
+            targetChain = currentlyActiveChainSupported ? chain : chains[0];
             setSearchParams(
                 (prevValue) => {
                     prevValue.set("chain", targetChain.name.toLowerCase());
@@ -78,7 +89,9 @@ export const MultiChainLinksUpdater = () => {
                     !triedSwitchingAutomatically &&
                     chain?.id !== targetLandingChain.id
                 )
-                    await activeConnector.switchChain(targetLandingChain.id);
+                    await activeConnector.switchChain({
+                        chainId: targetLandingChain.id,
+                    });
             } catch (error) {
                 console.warn("could not automatically switch chain", error);
             } finally {
@@ -134,7 +147,7 @@ export const MultiChainLinksUpdater = () => {
                     targetLandingChain &&
                     !freeSwitchingEnabled &&
                     triedSwitchingAutomatically &&
-                    !(activeConnector instanceof ReadonlyConnector) &&
+                    activeConnector?.id !== READONLY_CONNNECTOR_ID &&
                     chain?.id !== targetLandingChain?.id
                 )
             }

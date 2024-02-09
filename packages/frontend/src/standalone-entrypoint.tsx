@@ -1,18 +1,14 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import { createConfig, configureChains, Connector } from "wagmi";
+import { createConfig, type CreateConnectorFn } from "wagmi";
+import { coinbaseWallet, injected, walletConnect } from "wagmi/connectors";
 import { SharedEntrypoint } from "./shared-entrypoint";
-import { ENABLED_CHAINS, IPFS_GATEWAY_URL, RPC_BY_CHAIN } from "./constants";
-import { infuraProvider } from "wagmi/providers/infura";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import type { ChainId } from "@carrot-kpi/sdk";
-import { InjectedConnector } from "wagmi/connectors/injected";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { FrameConnector } from "./connectors/frame";
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-import { ReadonlyConnector } from "./connectors";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import {
+    IPFS_GATEWAY_URL,
+    SUPPORTED_CHAIN_TRANSPORT,
+    SUPPORTED_CHAINS,
+} from "./constants";
 import { HashRouter } from "react-router-dom";
 import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
@@ -21,77 +17,47 @@ import {
     useSetIPFSGatewayURL,
     useSetStagingMode,
 } from "@carrot-kpi/react";
+import { readonly } from "./connectors";
 
-console.log(
-    `Carrot host frontend running in ${
-        __STAGING_MODE__ ? "staging" : "standard"
-    } mode`,
-);
+console.log(`Carrot host frontend running in ${__BUILDING_MODE__} mode`);
 
-const supportedChains = Object.values(ENABLED_CHAINS);
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-    supportedChains,
-    [
-        infuraProvider({ apiKey: __INFURA_PROJECT_ID__ }),
-        jsonRpcProvider({
-            rpc: (chain) => {
-                return RPC_BY_CHAIN[chain.id as ChainId] || null;
-            },
-        }),
-    ],
-    { stallTimeout: 60_000, batch: { multicall: { wait: 100 } } },
-);
-
-const connectors: Connector[] = [
-    new InjectedConnector({
-        chains,
-        options: {
-            shimDisconnect: true,
-            name(detectedName) {
-                return detectedName
-                    ? typeof detectedName === "string"
-                        ? `Injected (${detectedName})`
-                        : `Injected (${detectedName.join(", ")})`
-                    : "Injected";
-            },
-        },
-    }),
-    new MetaMaskConnector({
-        chains,
-        options: {
-            shimDisconnect: true,
-        },
-    }),
-    new FrameConnector({
-        chains,
-    }),
-    new CoinbaseWalletConnector({
-        chains,
-        options: {
-            appName: "Carrot KPI",
-            darkMode: true,
-        },
-    }),
-    new ReadonlyConnector({
-        chains,
+const connectors: CreateConnectorFn[] = [
+    readonly(),
+    coinbaseWallet({
+        appName: "Carrot",
+        darkMode: true,
     }),
 ];
 
-if (!!__WALLETCONNECT_PROJECT_ID__) {
+if (window.ethereum?.isFrame) {
     connectors.push(
-        new WalletConnectConnector({
-            chains,
-            options: { projectId: __WALLETCONNECT_PROJECT_ID__ },
+        injected({
+            target: {
+                id: "frame",
+                name: "Frame",
+                provider() {
+                    return window.ethereum;
+                },
+            },
         }),
     );
 }
 
+if (window.ethereum?.isMetaMask)
+    connectors.push(injected({ target: "metaMask" }));
+
+if (!!__WALLETCONNECT_PROJECT_ID__)
+    connectors.push(walletConnect({ projectId: __WALLETCONNECT_PROJECT_ID__ }));
+
 const config = createConfig({
-    autoConnect: true,
+    chains: SUPPORTED_CHAINS,
+    transports: SUPPORTED_CHAIN_TRANSPORT,
     connectors,
-    publicClient,
-    webSocketPublicClient,
+    batch: {
+        multicall: {
+            wait: 100,
+        },
+    },
 });
 
 export const Root = () => {
@@ -100,13 +66,13 @@ export const Root = () => {
     const setIPFSGatewayURL = useSetIPFSGatewayURL();
 
     setDevMode(false);
-    setStagingMode(__STAGING_MODE__);
+    setStagingMode(__BUILDING_MODE__ === "staging");
     setIPFSGatewayURL(IPFS_GATEWAY_URL);
 
     return (
         <SharedEntrypoint
             config={config}
-            enableFathom={__PROD__ && !__STAGING_MODE__}
+            enableFathom={__BUILDING_MODE__ === "production"}
         />
     );
 };
@@ -126,7 +92,7 @@ root.render(
     </StrictMode>,
 );
 
-if (__PROD__ && "serviceWorker" in navigator) {
+if (__BUILDING_MODE__ === "production" && "serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("./sw.js")
         .then(() => {

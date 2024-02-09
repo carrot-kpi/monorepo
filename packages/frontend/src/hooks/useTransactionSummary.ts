@@ -19,6 +19,7 @@ export const useTransactionDetails = (
     useEffect(() => {
         let cancelled = false;
         const getSummary = async () => {
+            if (!client) return;
             if (!cancelled) setLoading(true);
             try {
                 const details = await getTransactionDetails(t, client, tx);

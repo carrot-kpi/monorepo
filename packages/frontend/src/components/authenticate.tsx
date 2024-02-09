@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import LogoIcon from "../icons/logo-icon";
 import { t } from "i18next";
 import { useAccount, useSignMessage } from "wagmi";
-import { useSetDataUploaderJWT } from "../hooks/useSetDataUploaderJWT";
-import { DATA_UPLOADER_URL } from "../constants";
+import { useSetDataManagerJWT } from "../hooks/useSetDataManagerJWT";
+import { DATA_MANAGER_URL } from "../constants";
 import { WalletDisconnected } from "./wallet-disconnected";
 
 interface AuthenticateProps {
@@ -13,7 +13,7 @@ interface AuthenticateProps {
 
 export const Authenticate = ({ onCancel }: AuthenticateProps) => {
     const { address } = useAccount();
-    const setDataUploaderJWT = useSetDataUploaderJWT();
+    const setDataManagerJWT = useSetDataManagerJWT();
 
     const [loading, setLoading] = useState(false);
 
@@ -24,7 +24,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             if (!address || !signedLoginMessage) return;
             setLoading(true);
             try {
-                const response = await fetch(`${DATA_UPLOADER_URL}/token`, {
+                const response = await fetch(`${DATA_MANAGER_URL}/token`, {
                     method: "POST",
                     headers: {
                         Accept: "application/json",
@@ -37,7 +37,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
                 });
                 if (!response.ok) throw new Error(await response.text());
                 const { token } = (await response.json()) as { token: string };
-                setDataUploaderJWT(token);
+                setDataManagerJWT(token);
                 setLoading(false);
             } catch (error) {
                 console.error(
@@ -48,7 +48,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             }
         };
         fetchData();
-    }, [address, setDataUploaderJWT, signedLoginMessage]);
+    }, [address, setDataManagerJWT, signedLoginMessage]);
 
     const handleSign = useCallback(() => {
         const fetchSignableMessage = async () => {
@@ -56,7 +56,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             setLoading(true);
             try {
                 const response = await fetch(
-                    `${DATA_UPLOADER_URL}/login-message/${address}`,
+                    `${DATA_MANAGER_URL}/login-message/${address}`,
                 );
                 if (!response.ok) throw new Error(await response.text());
                 const { message } = (await response.json()) as {

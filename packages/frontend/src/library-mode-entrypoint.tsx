@@ -1,26 +1,21 @@
 import React from "react";
-import {
-    type Chain,
-    type ChainProviderFn,
-    Connector,
-    configureChains,
-    createConfig,
-} from "wagmi";
-import { ReadonlyConnector } from "./connectors";
+import { createConfig, http } from "wagmi";
 import { SharedEntrypoint } from "./shared-entrypoint";
 import { HashRouter } from "react-router-dom";
 import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import { LibraryModeSharedStateUpdater } from "./updaters/library-mode-shared-state";
+import { templatesTesting } from "./library-mode-entrypoint";
+import type { Chain, Hex } from "viem";
 
-export * from "./connectors/template-testing";
+export * from "./connectors/templates-testing";
 
 console.log("Carrot host frontend running in library mode");
 
 interface RootProps {
-    supportedChains: Chain[];
-    providers: ChainProviderFn[];
-    getConnectors: () => Connector[];
+    supportedChain: Chain;
+    rpcURL: string;
+    privateKey: Hex;
     ipfsGatewayURL: string;
     kpiTokenTemplateBaseURL?: string;
     oracleTemplateBaseURL?: string;
@@ -29,32 +24,26 @@ interface RootProps {
 }
 
 export const Root = ({
-    supportedChains,
-    providers,
-    getConnectors,
+    supportedChain,
+    rpcURL,
+    privateKey,
     kpiTokenTemplateBaseURL,
     oracleTemplateBaseURL,
     ipfsGatewayURL,
     templateId,
     enableStagingMode,
 }: RootProps) => {
-    const connectors = getConnectors();
-    if (
-        !connectors.some((connector) => connector instanceof ReadonlyConnector)
-    ) {
-        connectors.push(new ReadonlyConnector({ chains: supportedChains }));
-    }
-
-    const { publicClient, webSocketPublicClient } = configureChains(
-        supportedChains,
-        providers,
-        { stallTimeout: 60_000, batch: { multicall: { wait: 100 } } },
-    );
     const config = createConfig({
-        autoConnect: true,
-        connectors,
-        publicClient,
-        webSocketPublicClient,
+        chains: [supportedChain] as const,
+        transports: {
+            [supportedChain.id]: http(rpcURL),
+        },
+        connectors: [
+            templatesTesting({
+                rpcURL,
+                privateKey,
+            }),
+        ],
     });
 
     return (

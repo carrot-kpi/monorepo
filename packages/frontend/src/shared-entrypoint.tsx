@@ -11,22 +11,24 @@ import "@carrot-kpi/ui/styles.css";
 import "./global.css";
 
 import React from "react";
-import { WagmiConfig, type Config } from "wagmi";
+import { WagmiProvider, type Config as WagmiConfig } from "wagmi";
 import { App } from "./pages/app";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
 import { ThemeUpdater } from "./updaters/theme";
 import { MultiChainLinksUpdater } from "./updaters/multi-chain-links";
 import { Fathom } from "./components/fathom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 dayjs.extend(localizedFormat);
 
 interface SharedEntrypointProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: Config<any, any>;
+    config: WagmiConfig;
     templateId?: number;
     enableFathom: boolean;
 }
+
+const queryClient = new QueryClient();
 
 export const SharedEntrypoint = ({
     config,
@@ -34,11 +36,13 @@ export const SharedEntrypoint = ({
     enableFathom,
 }: SharedEntrypointProps) => {
     return (
-        <WagmiConfig config={config}>
-            <ThemeUpdater />
-            <MultiChainLinksUpdater />
-            {enableFathom && <Fathom />}
-            <App templateId={templateId} />
-        </WagmiConfig>
+        <WagmiProvider config={config}>
+            <QueryClientProvider client={queryClient}>
+                <ThemeUpdater />
+                <MultiChainLinksUpdater />
+                {enableFathom && <Fathom />}
+                <App templateId={templateId} />
+            </QueryClientProvider>
+        </WagmiProvider>
     );
 };

@@ -14,10 +14,9 @@ export const useJSONUploader = <
 >(): JsonUploader<S> => {
     const devMode = useDevMode();
     const stagingMode = useStagingMode();
-    const dataUploaderJWT = useSelector<
-        State,
-        State["auth"]["dataUploaderJWT"]
-    >((state) => state.auth.dataUploaderJWT);
+    const dataManagerJWT = useSelector<State, State["auth"]["dataManagerJWT"]>(
+        (state) => state.auth.dataManagerJWT,
+    );
 
     const localUploader = useCallback(async (content: S): Promise<string> => {
         const formData = new FormData();
@@ -46,19 +45,17 @@ export const useJSONUploader = <
         async (data: S): Promise<string> => {
             const response = await fetch(
                 `${getServiceURL(
-                    Service.DATA_UPLOADER,
+                    Service.DATA_MANAGER,
                     !devMode && !stagingMode,
-                )}/data/json/s3`,
+                )}/data/s3/json`,
                 {
                     method: "POST",
                     headers: {
                         Accept: "application/json",
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${dataUploaderJWT}`,
+                        Authorization: `Bearer ${dataManagerJWT}`,
                     },
-                    body: JSON.stringify({
-                        data: JSON.stringify(data),
-                    }),
+                    body: JSON.stringify({ data }),
                 },
             );
             if (!response.ok)
@@ -68,7 +65,7 @@ export const useJSONUploader = <
             const { cid } = (await response.json()) as { cid: string };
             return cid;
         },
-        [dataUploaderJWT, devMode, stagingMode],
+        [dataManagerJWT, devMode, stagingMode],
     );
 
     return devMode ? localUploader : remoteUploader;

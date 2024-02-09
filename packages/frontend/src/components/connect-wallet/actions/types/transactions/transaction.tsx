@@ -1,34 +1,34 @@
 import React, { useCallback, useState } from "react";
 import { type Tx, TxType } from "@carrot-kpi/react";
-import type { ChainId } from "@carrot-kpi/sdk";
 import { Popover, Skeleton, Typography } from "@carrot-kpi/ui";
 import { useTransactionDetails } from "../../../../../hooks/useTransactionSummary";
-import { getTransactionExplorerLink } from "../../../../../utils/explorers";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useNetwork } from "wagmi";
-import { ENABLED_CHAINS, SUPPORTED_CHAINS } from "../../../../../constants";
+import { useAccount } from "wagmi";
 import Error from "../../../../../icons/error";
 import { ChainIcon } from "../../../../chain-icon";
+import { SUPPORTED_CHAIN_ICON_DATA } from "../../../../../constants";
 
 dayjs.extend(relativeTime);
 
 export const Transaction = <T extends TxType>(tx: Tx<T>) => {
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     const { loading, icon: Icon, title, summary } = useTransactionDetails(tx);
 
     const [date, setDate] = useState<HTMLHeadingElement | null>(null);
     const [datePopoverOpen, setDatePopoverOpen] = useState(false);
 
-    const href = `${getTransactionExplorerLink(
-        SUPPORTED_CHAINS[(chain?.id || Number.MAX_SAFE_INTEGER) as ChainId]
-            .defaultBlockExplorer,
-    )}/tx/${tx.hash}`;
-    const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
-    const supportedChain = !!chainId && !!ENABLED_CHAINS[chainId];
-    const Logo = supportedChain
-        ? ENABLED_CHAINS[chainId as ChainId].logo
-        : Error;
+    const href = chain?.blockExplorers
+        ? `${chain.blockExplorers.default.url}/tx/${tx.hash}`
+        : "";
+    const { Logo, iconBackgroundColor } =
+        !!chain && SUPPORTED_CHAIN_ICON_DATA[chain.id]
+            ? {
+                  Logo: SUPPORTED_CHAIN_ICON_DATA[chain.id].logo,
+                  iconBackgroundColor:
+                      SUPPORTED_CHAIN_ICON_DATA[chain.id].backgroundColor,
+              }
+            : { Logo: Error, iconBackgroundColor: "#ff0000" };
 
     const handlePopoverOpen = useCallback(() => {
         setDatePopoverOpen(true);
@@ -48,12 +48,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
                             <Icon />
                         ) : (
                             <ChainIcon
-                                backgroundColor={
-                                    supportedChain
-                                        ? SUPPORTED_CHAINS[chainId as ChainId]
-                                              .iconBackgroundColor
-                                        : "#ff0000"
-                                }
+                                backgroundColor={iconBackgroundColor}
                                 variant="lg"
                                 rounded
                                 logo={<Logo width={18} height={18} />}
@@ -67,6 +62,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
                                 className={{
                                     root: "hidden md:block max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap",
                                 }}
+                                truncate
                             >
                                 {summary}
                             </Typography>
@@ -85,6 +81,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
                 </Typography>
             </Popover>
             <Typography
+                className={{ root: "text-right" }}
                 weight="bold"
                 ref={setDate}
                 onMouseEnter={handlePopoverOpen}

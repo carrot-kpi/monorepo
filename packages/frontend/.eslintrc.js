@@ -4,7 +4,12 @@ module.exports = {
         browser: true,
         es6: true,
     },
-    ignorePatterns: ["craco.config.js", "tailwind.config.js", "src/out"],
+    ignorePatterns: [
+        "craco.config.js",
+        "tailwind.config.js",
+        "synpress.config.js",
+        "src/out",
+    ],
     extends: [
         "custom",
         "plugin:react/recommended",
