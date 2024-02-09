@@ -11,7 +11,7 @@ test.beforeEach(async ({ homePage }) => {
     });
 });
 test.describe("Carrot Smoke test", () => {
-    test.only("Guest no wallet - Home page assertions and redirections", async ({
+    test("Guest no wallet - Home page assertions and redirections", async ({
         homePage,
     }) => {
         await test.step("Staging banner is visible", async () => {

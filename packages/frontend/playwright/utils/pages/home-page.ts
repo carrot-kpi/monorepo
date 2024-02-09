@@ -154,7 +154,7 @@ export class HomePage extends BasePage {
                 await this.click(this.coinBase_Button);
                 break;
             case wallets.metamask:
-                await this.click(this.metamask_Button);
+                await this.click(this.metamask_Button, 1);
                 break;
             case wallets.walletConnect:
                 await this.click(this.walletConnect_Button);
