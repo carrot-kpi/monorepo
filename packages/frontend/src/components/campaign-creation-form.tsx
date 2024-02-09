@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect } from "react";
+import React, {
+    useCallback,
+    useEffect,
+    type Dispatch,
+    type SetStateAction,
+} from "react";
 import {
     KPITokenCreationForm,
     usePreferDecentralization,
@@ -8,8 +13,19 @@ import {
 } from "@carrot-kpi/react";
 import { useState } from "react";
 import { Fetcher, type ResolvedTemplate } from "@carrot-kpi/sdk";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { ErrorFeedback, Loader } from "@carrot-kpi/ui";
+import {
+    useBlocker,
+    useLocation,
+    useNavigate,
+    useParams,
+} from "react-router-dom";
+import {
+    Button,
+    ErrorFeedback,
+    Loader,
+    Modal,
+    Typography,
+} from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
 import { useInvalidateLatestKPITokens } from "../hooks/useInvalidateLatestKPITokens";
 import { useAddTransaction } from "../hooks/useAddTransaction";
@@ -18,6 +34,8 @@ import { useAddDraft } from "../hooks/useAddDraft";
 import { useDraft } from "../hooks/useDraft";
 import dayjs from "dayjs";
 import { DATA_CDN_URL } from "../constants";
+import { cleanDraftState, sha256 } from "../utils/draft";
+import { useDebounce } from "react-use";
 
 export function CampaignCreationForm<S extends SerializableObject<S>>() {
     const { i18n, t } = useTranslation();
@@ -32,7 +50,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [template, setTemplate] = useState<ResolvedTemplate | null>(
         state && "specification" in state.template ? state.template : null,
     );
@@ -47,6 +65,75 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         templateId: undefined,
         state: {} as S,
     });
+
+    const [snapshotDraftHash, setSnapshotDraftHash] = useState<
+        string | undefined
+    >(undefined);
+    const [currentDraftHash, setCurrentDraftHash] = useState<
+        string | undefined
+    >(undefined);
+
+    const handleCreateDraft = useCallback(() => {
+        if (!template) {
+            console.log("couldn't create draft, missing template id");
+            return;
+        }
+        addDraft(currentDraftId, template?.id, draftState.state);
+    }, [currentDraftId, addDraft, draftState, template]);
+
+    const snapshotDraft = useCallback(
+        async (
+            data: S,
+            updater: Dispatch<SetStateAction<string | undefined>>,
+        ) => {
+            const hash = await sha256(JSON.stringify(cleanDraftState(data)));
+            updater(hash);
+        },
+        [],
+    );
+
+    const blocker = useBlocker(
+        ({ currentLocation, nextLocation }) =>
+            snapshotDraftHash !== currentDraftHash &&
+            currentLocation.pathname !== nextLocation.pathname,
+    );
+
+    // set the initial snapshot hash
+    useEffect(() => {
+        if (!!snapshotDraftHash || Object.keys(draftState.state).length === 0)
+            return;
+        snapshotDraft(draftState.state, setSnapshotDraftHash);
+    }, [draftState, snapshotDraftHash, snapshotDraft]);
+
+    // updates the snapshot hash on draft update
+    useEffect(() => {
+        if (!existingDraft) return;
+        snapshotDraft(existingDraft.body as S, setSnapshotDraftHash);
+    }, [existingDraft, snapshotDraft]);
+
+    // updates the current draf hash on every change
+    useDebounce(
+        () => {
+            snapshotDraft(draftState.state, setCurrentDraftHash);
+        },
+        100,
+        [draftState.state, snapshotDraft],
+    );
+
+    useEffect(() => {
+        const beforeUnload = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+            // the returnValue value doesn't matter, it gets overrided by the browser
+            return (event.returnValue = "unsaved");
+        };
+
+        if (snapshotDraftHash !== currentDraftHash)
+            window.addEventListener("beforeunload", beforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", beforeUnload);
+        };
+    }, [snapshotDraftHash, currentDraftHash]);
 
     // every time the chain, the connected address or the draft id changes,
     // reset the creation form state
@@ -149,7 +236,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
     ]);
 
     const handleStateChange = useCallback(
-        (stateOrUpdater: S | TemplateComponentStateUpdater<S>) => {
+        async (stateOrUpdater: S | TemplateComponentStateUpdater<S>) => {
             setDraftState((prevState) => {
                 const newState =
                     typeof stateOrUpdater === "function"
@@ -169,48 +256,64 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
         invalidateLatestKPITokens();
     }, [invalidateLatestKPITokens]);
 
-    const handleCreateDraft = useCallback(() => {
-        if (!template) {
-            console.log("couldn't create draft, missing template id");
-            return;
-        }
-        addDraft(currentDraftId, template?.id, draftState.state);
-    }, [currentDraftId, addDraft, draftState, template]);
-
     return loading ? (
         <div className="h-screen py-20 text-black flex justify-center">
             <Loader />
         </div>
     ) : template ? (
-        <KPITokenCreationForm
-            key={formKey}
-            template={template}
-            fallback={
-                <div className="h-screen py-20 text-black flex justify-center">
-                    <Loader />
+        <>
+            <Modal open={blocker.state === "blocked"} onDismiss={blocker.reset}>
+                <div className="bg-white border border-black rounded-xl p-8 flex flex-col items-center gap-4 z-[1] max-w-md">
+                    <Typography variant="h4">
+                        {t("drafts.unsaved.changes.title")}
+                    </Typography>
+                    <Typography>
+                        {t("drafts.unsaved.changes.description")}
+                    </Typography>
+                    <div className="flex gap-4">
+                        <Button
+                            size="small"
+                            variant="secondary"
+                            onClick={blocker.proceed}
+                        >
+                            {t("drafts.unsaved.changes.leave")}
+                        </Button>
+                        <Button size="small" onClick={blocker.reset}>
+                            {t("drafts.unsaved.changes.save")}
+                        </Button>
+                    </div>
                 </div>
-            }
-            error={
-                <div className="h-screen py-20 flex justify-center">
-                    <ErrorFeedback
-                        messages={{
-                            title: t("error.initializing.creation.title"),
-                            description: t(
-                                "error.initializing.creation.description",
-                            ),
-                        }}
-                    />
-                </div>
-            }
-            i18n={i18n}
-            className={{ root: "w-full h-full" }}
-            state={draftState.state}
-            onStateChange={handleStateChange}
-            onCreate={handleCreate}
-            navigate={navigate}
-            onTx={addTransaction}
-            onCreateDraft={handleCreateDraft}
-        />
+            </Modal>
+            <KPITokenCreationForm
+                key={formKey}
+                template={template}
+                fallback={
+                    <div className="h-screen py-20 text-black flex justify-center">
+                        <Loader />
+                    </div>
+                }
+                error={
+                    <div className="h-screen py-20 flex justify-center">
+                        <ErrorFeedback
+                            messages={{
+                                title: t("error.initializing.creation.title"),
+                                description: t(
+                                    "error.initializing.creation.description",
+                                ),
+                            }}
+                        />
+                    </div>
+                }
+                i18n={i18n}
+                className={{ root: "w-full h-full" }}
+                state={draftState.state}
+                onStateChange={handleStateChange}
+                onCreate={handleCreate}
+                navigate={navigate}
+                onTx={addTransaction}
+                onCreateDraft={handleCreateDraft}
+            />
+        </>
     ) : (
         <div className="py-20 flex justify-center">
             <ErrorFeedback
