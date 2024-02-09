@@ -30,13 +30,10 @@ export class BasePage {
     async clickAnyWhereToClose() {
         await this.page.mouse.click(1000, 1000);
     }
-    async click(selector: string) {
-        await this.page.waitForLoadState();
-        await this.page.getByTestId(selector).click();
-    }
-    async clickFirst(selector: string) {
-        await this.page.waitForLoadState();
-        await this.page.getByTestId(selector).first().click();
+    async click(selector: string, index?: number) {
+        await (index !== undefined
+            ? this.page.getByTestId(selector).nth(index).click()
+            : this.page.getByTestId(selector).click());
     }
     async hoverElement(selector: string) {
         await this.page.getByTestId(selector).hover();
@@ -44,8 +41,10 @@ export class BasePage {
     async isVisible(selector: string) {
         await expect(this.page.getByTestId(selector)).toBeVisible();
     }
-    async elementVisible(selector: string) {
-        await expect(this.page.locator(selector)).toBeVisible();
+    async elementVisible(selector: string, index?: number) {
+        await (index !== undefined
+            ? expect(this.page.locator(selector).nth(index)).toBeVisible()
+            : expect(this.page.locator(selector).first()).toBeVisible());
     }
     async isNotVisible(selector: string) {
         await expect(this.page.getByTestId(selector)).not.toBeVisible();
@@ -53,8 +52,12 @@ export class BasePage {
     async enterText(selector: string, text: string) {
         await this.page.getByTestId(selector).fill(text);
     }
-    async compareText(selector: string, text: string) {
-        await expect(this.page.getByTestId(selector)).toHaveText(text);
+    async compareText(selector: string, text: string, index?: number) {
+        await (index !== undefined
+            ? expect(this.page.getByTestId(selector).nth(index)).toHaveText(
+                  text,
+              )
+            : expect(this.page.getByTestId(selector).first()).toHaveText(text));
     }
     async containsText(selector: string, text: string) {
         await expect(this.page.getByTestId(selector)).toContainText(text);

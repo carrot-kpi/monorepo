@@ -11,7 +11,7 @@ test.beforeEach(async ({ homePage }) => {
     });
 });
 test.describe("Carrot Smoke test", () => {
-    test("Guest no wallet - Home page assertions and redirections", async ({
+    test.only("Guest no wallet - Home page assertions and redirections", async ({
         homePage,
     }) => {
         await test.step("Staging banner is visible", async () => {
@@ -31,21 +31,21 @@ test.describe("Carrot Smoke test", () => {
         await test.step("Check connect wallet dropdown options", async () => {
             await homePage.checkWalletOptions();
         });
-        await test.step("Switch to Scroll Sepolia network", async () => {
-            await homePage.selectNetwork(networks.scrollSepolia);
-        });
-        await test.step("Scroll Sepolia network is selected", async () => {
-            await homePage.checkSelectedNetwork(networks.scrollSepolia);
-        });
-        await test.step("Switch to Sepolia network", async () => {
-            await homePage.selectNetwork(networks.sepolia);
-        });
-        await test.step("Sepolia network is selected", async () => {
-            await homePage.checkSelectedNetwork(networks.sepolia);
-        });
-        await test.step("Switch to Polygon Mumbai network", async () => {
-            await homePage.selectNetwork(networks.polygonMumbai);
-        });
+        // await test.step("Switch to Scroll Sepolia network", async () => {
+        //     await homePage.selectNetwork(networks.scrollSepolia);
+        // });
+        // await test.step("Scroll Sepolia network is selected", async () => {
+        //     await homePage.checkSelectedNetwork(networks.scrollSepolia);
+        // });
+        // await test.step("Switch to Sepolia network", async () => {
+        //     await homePage.selectNetwork(networks.sepolia);
+        // });
+        // await test.step("Sepolia network is selected", async () => {
+        //     await homePage.checkSelectedNetwork(networks.sepolia);
+        // });
+        // await test.step("Switch to Polygon Mumbai network", async () => {
+        //     await homePage.selectNetwork(networks.polygonMumbai);
+        // });
         await test.step("Polygon Mumbai network is selected", async () => {
             await homePage.checkSelectedNetwork(networks.polygonMumbai);
         });

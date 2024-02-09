@@ -27,9 +27,10 @@ export const networks = {
     sepolia: "Sepolia",
 };
 export const wallets = {
-    injectedMetamask: "Injected (MetaMask)",
-    metamask: "MetaMask",
     coinBase: "Coinbase Wallet",
+    metamask: "MetaMask",
+    walletConnect: "Created with Sketch.WalletConnect",
+    brave: "Brave Wallet",
 };
 export const urls = {
     carrotCommunity: "https://www.staging.carrot.community/",

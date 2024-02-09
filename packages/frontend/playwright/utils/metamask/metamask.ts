@@ -58,8 +58,9 @@ export async function chooseMetamaskNetwork(network: any) {
             .locator(`(//input[@class="form-field__input"])[${i + 1}]`)
             .fill(network[i]);
     }
+    // Confirm switching to Polygon network
     await page.locator('//button[text()="Save"]').click();
-    // Switch to new network
+    await page.getByTestId("popover-close").nth(1).click();
     await page.locator('//h6[contains(text(),"Switch to ")]').click();
 }
 

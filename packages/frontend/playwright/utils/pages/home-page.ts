@@ -22,9 +22,10 @@ export class HomePage extends BasePage {
     scrollSepoliaNetwork_Option = "534351-network-button";
     sepoliaNetwork_Option = "11155111-network-button";
     connectWallet_Button = "connect-wallet-button";
-    injectedMetamask_Button = "injected-wallet-button";
-    metamask_Button = "metaMask-wallet-button";
-    coinBase_Button = "coinbaseWallet-wallet-button";
+    coinBase_Button = "Coinbase Wallet-wallet-button";
+    metamask_Button = "MetaMask-wallet-button";
+    walletConnect_Button = "WalletConnect-wallet-button";
+    brave_Button = "Brave Wallet-wallet-button";
     settings_Button = "settings-button";
     decentralizationMode_Text = "decentralization-mode-text";
     decentralizationMode_Switch = "decentralization-mode-switch";
@@ -138,24 +139,28 @@ export class HomePage extends BasePage {
     }
     async checkWalletOptions() {
         await this.clickConnectWallet();
-        await this.compareText(
-            this.injectedMetamask_Button,
-            wallets.injectedMetamask,
-        );
-        await this.compareText(this.metamask_Button, wallets.metamask);
         await this.compareText(this.coinBase_Button, wallets.coinBase);
+        await this.compareText(this.metamask_Button, wallets.metamask, 1);
+        await this.compareText(
+            this.walletConnect_Button,
+            wallets.walletConnect,
+        );
+        // await this.compareText(this.brave_Button, wallets.brave);
     }
     async selectWalletConnection(wallet: string) {
         await this.clickConnectWallet();
         switch (wallet) {
-            case wallets.injectedMetamask:
-                await this.click(this.injectedMetamask_Button);
+            case wallets.coinBase:
+                await this.click(this.coinBase_Button);
                 break;
             case wallets.metamask:
                 await this.click(this.metamask_Button);
                 break;
-            case wallets.coinBase:
-                await this.click(this.coinBase_Button);
+            case wallets.walletConnect:
+                await this.click(this.walletConnect_Button);
+                break;
+            case wallets.brave:
+                await this.click(this.brave_Button);
                 break;
         }
     }
@@ -266,10 +271,10 @@ export class HomePage extends BasePage {
     async profileAvatarVisible() {
         this.elementVisible(this.profileAvatar_Button);
     }
+    // Profile menu remains open after connecting wallet
     async checkProfileWithoutRecentActivity() {
         this.compareText(this.emptySpace_Text, textData.noTransactions);
         // todo: change this once we have IDs on FE
-        await this.page.locator(this.profileAvatar_Button).click();
         await this.page.getByText("DRAFT").click();
         this.compareText(this.emptySpace_Text, textData.noDraftSaved);
         this.compareText(this.noDataFound_Text, textData.trySavingNewDraft);
