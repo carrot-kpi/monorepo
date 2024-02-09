@@ -34,7 +34,7 @@ import { useAddDraft } from "../hooks/useAddDraft";
 import { useDraft } from "../hooks/useDraft";
 import dayjs from "dayjs";
 import { DATA_CDN_URL } from "../constants";
-import { cleanDraftState, sha256 } from "../utils/draft";
+import { clearDraftState, sha256 } from "../utils/draft";
 import { useDebounce } from "react-use";
 
 export function CampaignCreationForm<S extends SerializableObject<S>>() {
@@ -86,7 +86,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
             data: S,
             updater: Dispatch<SetStateAction<string | undefined>>,
         ) => {
-            const hash = await sha256(JSON.stringify(cleanDraftState(data)));
+            const hash = await sha256(JSON.stringify(clearDraftState(data)));
             updater(hash);
         },
         [],

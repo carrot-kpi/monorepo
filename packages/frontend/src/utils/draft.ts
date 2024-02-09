@@ -16,12 +16,12 @@ interface StateObject {
     [key: string]: any;
 }
 
-export const cleanDraftState = (state: StateObject) => {
+export const clearDraftState = (state: StateObject) => {
     const cleanedState: StateObject = {};
 
     for (const key in state) {
         if (typeof state[key] === "object") {
-            cleanedState[key] = cleanDraftState(state[key]);
+            cleanedState[key] = clearDraftState(state[key]);
         } else if (!!state[key] && state[key] !== "<p></p>") {
             cleanedState[key] = state[key];
         }
