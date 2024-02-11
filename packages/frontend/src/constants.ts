@@ -44,7 +44,7 @@ export const SUPPORTED_CHAINS: [Chain, ...Chain[]] =
                   ...polygonMumbai,
                   rpcUrls: {
                       default: {
-                          http: ["https://polygon-mumbai-pokt.nodies.app/"],
+                          http: ["https://rpc.ankr.com/polygon_mumbai"],
                       },
                   },
               } as const satisfies Chain,
