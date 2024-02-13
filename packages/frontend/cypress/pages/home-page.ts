@@ -102,10 +102,6 @@ export class HomePage extends BasePage {
     checkWalletOptions() {
         this.clickConnectWallet();
         this.compareText(
-            selectors.walletMenu.injectedMetamask_Button,
-            wallets.injectedMetamask,
-        );
-        this.compareText(
             selectors.walletMenu.metamask_Button,
             wallets.metamask,
         );
@@ -247,9 +243,6 @@ export class HomePage extends BasePage {
     selectWalletConnection(wallet: string) {
         this.clickConnectWallet();
         switch (wallet) {
-            case wallets.injectedMetamask:
-                this.click(selectors.walletMenu.injectedMetamask_Button);
-                break;
             case wallets.metamask:
                 this.click(selectors.walletMenu.metamask_Button);
                 break;
@@ -258,18 +251,19 @@ export class HomePage extends BasePage {
                 break;
         }
     }
+    // todo: add assertions for DRAFT tab once we have IDs on FE
     checkProfileWithoutRecentActivity() {
         this.clickProfileAvatar();
         this.compareText(
             selectors.noData.emptySpace_Text,
             textData.emptySpace,
-            1,
+            0,
         );
-        this.compareText(
-            selectors.noData.noDataFound_Text,
-            textData.noDataFound,
-            1,
-        );
+        // this.compareText(
+        //     selectors.noData.noDataFound_Text,
+        //     textData.noDataFound,
+        //     0,
+        // );
     }
     logout() {
         this.clickProfileAvatar();

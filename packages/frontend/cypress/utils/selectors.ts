@@ -4,8 +4,8 @@
 export const header = {
     stagingBanner_Text: "[data-testid=staging-banner-text]",
     campaigns_Button: "[data-testid=header-Campaigns-button]",
-    profileAvatar_Button: "[data-testid=profile-avatar-button]",
-    power_Button: "[data-testid=account-dropdown-power-button]",
+    profileAvatar_Button: ".rounded-full",
+    power_Button: "[data-testid=disconnect-button]",
 };
 export const networkMenu = {
     networkDropdown_Button: "[data-testid=network-drop-down-button]",
@@ -18,9 +18,8 @@ export const networkMenu = {
 };
 export const walletMenu = {
     connectWallet_Button: "[data-testid=connect-wallet-button]",
-    injectedMetamask_Button: "[data-testid=MetaMask-wallet-button]",
-    metamask_Button: "[data-testid=MetaMask-wallet-button]",
-    coinBase_Button: "[data-testid=coinbaseWallet-wallet-button]",
+    metamask_Button: "[data-testid='MetaMask-wallet-button']",
+    coinBase_Button: "[data-testid='Coinbase Wallet-wallet-button']",
 };
 export const settings = {
     settings_Button: "[data-testid=settings-button]",
@@ -68,4 +67,8 @@ export const disconnectedWallet = {
     walletDisconnected_Text: "[data-testid=wallet-disconnected-text]",
     walletRequiredDescription_Text:
         "[data-testid=connect-wallet-required-text]",
+};
+export const welcomeToCarrotModal = {
+    title_Text: "//p[contains(text(),'Welcome to Carrot')]",
+    description_Text: "//p[contains(text(),'In order to create campaigns')]",
 };

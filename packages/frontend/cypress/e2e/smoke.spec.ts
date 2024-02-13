@@ -68,35 +68,38 @@ describe("Guest no wallet - Home page assertions", () => {
     });
 });
 // todo: uncomment when connecting wallet flow is fixed
-// describe("User with connected wallet", () => {
-//     beforeEach(() => {
-//         cy.visit("/");
-//     });
-//     it("Connect wallet to Metamask", () => {
-//         homePage.selectWalletConnection(wallets.metamask);
-//         cy.acceptMetamaskAccess().then((connected) => {
-//             expect(connected).to.be.true;
-//         });
-//         homePage.profileAvatarVisible(true);
-//         homePage.connectWalletButtonVisible(false);
-//     });
-//     it("Check no recent activity on Profile Avatar dropdown", () => {
-//         homePage.checkProfileWithoutRecentActivity();
-//     });
-//     it("Create campaign button redirects to Create campaign page - Welcome to Carrot modal is displayed", () => {
-//         homePage.clickCreateCampaign();
-//         createCampaign.checkCreateCampaignUrl();
-//         // todo: add assertion of Welcome to Carrot modal once we have selectors
-//         homePage.goBack();
-//     });
-//     it("Use template button redirects to Create campaign page for that template - Welcome to Carrot modal is displayed", () => {
-//         homePage.checkRedirectionToFirstTemplate();
-//         // todo: add assertion of Welcome to Carrot modal once we have selectors
-//         homePage.goBack();
-//     });
-//     it("Logout user", () => {
-//         homePage.logout();
-//         homePage.profileAvatarVisible(false);
-//         homePage.connectWalletButtonVisible(true);
-//     });
-// });
+describe("User with connected wallet", () => {
+    beforeEach(() => {
+        cy.visit("/");
+    });
+    it("Connect wallet to Metamask", () => {
+        homePage.selectWalletConnection(wallets.metamask);
+        cy.acceptMetamaskAccess().then((connected) => {
+            expect(connected).to.be.true;
+        });
+        cy.reload();
+        homePage.profileAvatarVisible(true);
+        homePage.connectWalletButtonVisible(false);
+    });
+    // it("Check no recent activity on Profile Avatar dropdown", () => {
+    //     homePage.checkProfileWithoutRecentActivity();
+    // });
+    it("Create campaign button redirects to Create campaign page - Welcome to Carrot modal is displayed", () => {
+        homePage.clickCreateCampaign();
+        createCampaign.checkCreateCampaignUrl();
+        createCampaign.checkWelcomeToCarrotModal();
+        // todo: add assertion of Welcome to Carrot modal once we have selectors
+        homePage.goBack();
+    });
+    it("Use template button redirects to Create campaign page for that template - Welcome to Carrot modal is displayed", () => {
+        homePage.checkRedirectionToFirstTemplate();
+        // todo: add assertion of Welcome to Carrot modal once we have selectors
+        createCampaign.checkWelcomeToCarrotModal();
+        homePage.goBack();
+    });
+    // it("Logout user", () => {
+    //     homePage.logout();
+    //     homePage.profileAvatarVisible(false);
+    //     homePage.connectWalletButtonVisible(true);
+    // });
+});
