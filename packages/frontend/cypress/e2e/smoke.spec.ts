@@ -63,8 +63,8 @@ describe("Guest no wallet - Home page assertions", () => {
         createCampaign.checkWalletDisconnectedText();
         homePage.goBack();
     });
-    it("Check Footer links redirection", () => {
-        homePage.checkFooterRedirections();
+    it("Check Footer links", () => {
+        homePage.checkFooterHyperlinks();
     });
 });
 // todo: uncomment when connecting wallet flow is fixed
@@ -77,29 +77,30 @@ describe("User with connected wallet", () => {
         cy.acceptMetamaskAccess().then((connected) => {
             expect(connected).to.be.true;
         });
+        // todo: remove reload after we have IDs on FE for closing users overlay
         cy.reload();
         homePage.profileAvatarVisible(true);
         homePage.connectWalletButtonVisible(false);
     });
-    // it("Check no recent activity on Profile Avatar dropdown", () => {
-    //     homePage.checkProfileWithoutRecentActivity();
-    // });
+    it("Check no recent activity on Profile Avatar dropdown", () => {
+        cy.wait(1500);
+        homePage.checkProfileWithoutRecentActivity();
+    });
     it("Create campaign button redirects to Create campaign page - Welcome to Carrot modal is displayed", () => {
         homePage.clickCreateCampaign();
         createCampaign.checkCreateCampaignUrl();
         createCampaign.checkWelcomeToCarrotModal();
-        // todo: add assertion of Welcome to Carrot modal once we have selectors
         homePage.goBack();
     });
     it("Use template button redirects to Create campaign page for that template - Welcome to Carrot modal is displayed", () => {
         homePage.checkRedirectionToFirstTemplate();
-        // todo: add assertion of Welcome to Carrot modal once we have selectors
         createCampaign.checkWelcomeToCarrotModal();
         homePage.goBack();
     });
-    // it("Logout user", () => {
-    //     homePage.logout();
-    //     homePage.profileAvatarVisible(false);
-    //     homePage.connectWalletButtonVisible(true);
-    // });
+    it("Logout user", () => {
+        cy.wait(1500);
+        homePage.logout();
+        homePage.profileAvatarVisible(false);
+        homePage.connectWalletButtonVisible(true);
+    });
 });

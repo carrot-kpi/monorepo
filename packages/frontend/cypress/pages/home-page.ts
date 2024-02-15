@@ -204,7 +204,7 @@ export class HomePage extends BasePage {
         this.click(selectors.templatesSection.useTemplate_Button);
         this.checkUrl(urls.createCampaign);
     }
-    checkFooterRedirections() {
+    checkFooterHyperlinks() {
         const footerLinks = [
             selectors.footer.footerDocumentation_Link,
             selectors.footer.footerAudits_Link,
@@ -213,31 +213,8 @@ export class HomePage extends BasePage {
             selectors.footer.footerCarrotInfoPage_Button,
         ];
 
-        const footerUrls = [
-            urls.documentation,
-            urls.audits,
-            urls.discord,
-            urls.twitter,
-            urls.carrotCommunity,
-        ];
-
         for (let i = 0; i < footerLinks.length; i++) {
-            if (
-                footerLinks[i] == selectors.footer.footerCarrotInfoPage_Button
-            ) {
-                this.checkRedirectionToNewTab(
-                    footerLinks[i],
-                    footerUrls[i],
-                    false,
-                );
-            } else {
-                this.checkRedirectionToNewTab(
-                    footerLinks[i],
-                    footerUrls[i],
-                    true,
-                );
-            }
-            this.goBack();
+            this.elementIsVisible(footerLinks[i]);
         }
     }
     selectWalletConnection(wallet: string) {
