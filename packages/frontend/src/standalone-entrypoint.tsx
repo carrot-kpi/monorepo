@@ -9,7 +9,6 @@ import {
     SUPPORTED_CHAIN_TRANSPORT,
     SUPPORTED_CHAINS,
 } from "./constants";
-import { HashRouter } from "react-router-dom";
 import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import {
@@ -82,13 +81,11 @@ const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
     <StrictMode>
-        <HashRouter>
-            <HostStateProvider>
-                <ReactSharedStateProvider>
-                    <Root />
-                </ReactSharedStateProvider>
-            </HostStateProvider>
-        </HashRouter>
+        <HostStateProvider>
+            <ReactSharedStateProvider>
+                <Root />
+            </ReactSharedStateProvider>
+        </HostStateProvider>
     </StrictMode>,
 );
 

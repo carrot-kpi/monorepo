@@ -94,6 +94,11 @@ export const en = {
         "sideFilters.oracles": "Oracles",
         "sideFilters.templates": "Templates",
         "sideFilters.close": "Close filters",
+        "drafts.unsaved.changes.title": "Unsaved changes",
+        "drafts.unsaved.changes.description":
+            "There are unsaved changes in the active draft, do you want to save them before leaving?",
+        "drafts.unsaved.changes.save": "Sure",
+        "drafts.unsaved.changes.leave": "Leave",
         "error.initializing.creation.title": "Something went wrong",
         "error.initializing.creation.description":
             "Error while bootstrapping the KPI token creation form, please try again later.",
