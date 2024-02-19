@@ -13,6 +13,8 @@ import {
     animated,
 } from "@react-spring/web";
 import Loader from "../../icons/loader";
+import { useFathomTrackPageWatch } from "../../hooks/useFathomTrackPageWatch";
+import { MultiChainLinksUpdater } from "../../updaters/multi-chain-links";
 
 interface HomeProps {
     templateId?: number;
@@ -25,6 +27,7 @@ export const Home = ({ templateId }: HomeProps) => {
     } = useFeaturedBlacklistedKPITokenAddresses();
     const { isLoading: loadingFeaturedKPITokens, data: featuredKPITokens } =
         useFeaturedKPITokens(featuredBlacklistedKPITokenAddresses);
+    useFathomTrackPageWatch();
 
     const [debouncedLoading, setDebouncedLoading] = useState(
         loadingFeaturedBlacklistedKPITokenAddresses || loadingFeaturedKPITokens,
@@ -56,6 +59,7 @@ export const Home = ({ templateId }: HomeProps) => {
 
     return (
         <>
+            <MultiChainLinksUpdater />
             {transition((style, show) => {
                 return (
                     show && (

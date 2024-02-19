@@ -1,7 +1,6 @@
 import React from "react";
 import { createConfig, http } from "wagmi";
 import { SharedEntrypoint } from "./shared-entrypoint";
-import { HashRouter } from "react-router-dom";
 import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import { LibraryModeSharedStateUpdater } from "./updaters/library-mode-shared-state";
@@ -47,22 +46,20 @@ export const Root = ({
     });
 
     return (
-        <HashRouter>
-            <HostStateProvider>
-                <ReactSharedStateProvider>
-                    <LibraryModeSharedStateUpdater
-                        kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
-                        oracleTemplateBaseURL={oracleTemplateBaseURL}
-                        ipfsGatewayURL={ipfsGatewayURL}
-                        enableStagingMode={enableStagingMode}
-                    />
-                    <SharedEntrypoint
-                        config={config}
-                        templateId={templateId}
-                        enableFathom={false}
-                    />
-                </ReactSharedStateProvider>
-            </HostStateProvider>
-        </HashRouter>
+        <HostStateProvider>
+            <ReactSharedStateProvider>
+                <LibraryModeSharedStateUpdater
+                    kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
+                    oracleTemplateBaseURL={oracleTemplateBaseURL}
+                    ipfsGatewayURL={ipfsGatewayURL}
+                    enableStagingMode={enableStagingMode}
+                />
+                <SharedEntrypoint
+                    config={config}
+                    templateId={templateId}
+                    enableFathom={false}
+                />
+            </ReactSharedStateProvider>
+        </HostStateProvider>
     );
 };
