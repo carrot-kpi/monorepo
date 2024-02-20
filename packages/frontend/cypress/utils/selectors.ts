@@ -3,25 +3,23 @@
  */
 export const header = {
     stagingBanner_Text: "[data-testid=staging-banner-text]",
-    about_Button: "[data-testid=header-About-button]",
-    campaignsHeader_Button: "[data-testid=header-Campaigns-button]",
-    profileAvatar_Button: "[data-testid=profile-avatar-button]",
-    power_Button: "[data-testid=account-dropdown-power-button]",
+    campaigns_Button: "[data-testid=header-Campaigns-button]",
+    profileAvatar_Button: ".rounded-full",
+    power_Button: "[data-testid=disconnect-button]",
 };
 export const networkMenu = {
     networkDropdown_Button: "[data-testid=network-drop-down-button]",
-    selectedPolygonMumbain_Text: "[data-testid='80001-button']",
-    selectedScrollSepoliaNetwork_Text: "[data-testid='534351-button']",
-    selectedSepoliaNetwork_Text: "[data-testid=11155111-button]",
+    selectedPolygonMumbain_Icon: "[data-testid='80001-icon']",
+    selectedScrollSepoliaNetwork_Icon: "[data-testid='534351-icon']",
+    selectedSepoliaNetwork_Icon: "[data-testid=11155111-icon]",
     polygonMumbaiNetwork_Option: "[data-testid='80001-network-button']",
     scrollSepoliaNetwork_Option: "[data-testid='534351-network-button']",
     sepoliaNetwork_Option: "[data-testid=11155111-network-button]",
 };
 export const walletMenu = {
     connectWallet_Button: "[data-testid=connect-wallet-button]",
-    injectedMetamask_Button: "[data-testid=MetaMask-wallet-button]",
-    metamask_Button: "[data-testid=MetaMask-wallet-button]",
-    coinBase_Button: "[data-testid=coinbaseWallet-wallet-button]",
+    metamask_Button: "[data-testid='MetaMask-wallet-button']",
+    coinBase_Button: "[data-testid='Coinbase Wallet-wallet-button']",
 };
 export const settings = {
     settings_Button: "[data-testid=settings-button]",
@@ -69,4 +67,8 @@ export const disconnectedWallet = {
     walletDisconnected_Text: "[data-testid=wallet-disconnected-text]",
     walletRequiredDescription_Text:
         "[data-testid=connect-wallet-required-text]",
+};
+export const welcomeToCarrotModal = {
+    title_Text: "//p[contains(text(),'Welcome to Carrot')]",
+    description_Text: "//p[contains(text(),'In order to create campaigns')]",
 };

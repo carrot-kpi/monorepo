@@ -1,6 +1,6 @@
-import { homePage } from "pages/home-page";
-import { createCampaign } from "pages/create-campaign-page";
-import { networks, wallets } from "utils/data";
+import { homePage } from "../pages/home-page";
+import { createCampaign } from "../pages/create-campaign-page";
+import { networks, wallets } from "../utils/data";
 /**
  *@description Smoke test for Carrot Home page
  */
@@ -12,9 +12,6 @@ describe("Guest no wallet - Home page assertions", () => {
     it("Staging banner is visible", () => {
         homePage.checkStagingBanner();
     });
-    // todo: find out how to handle redirection to new tab in Cypress
-    // it("About button redirects to Carrot community page", () => {
-    // });
     it("Campaigns button redirects to All campaigns page", () => {
         homePage.clickCampaignsHeader();
         homePage.checkIfOnAllCampaignsPage();
@@ -29,10 +26,6 @@ describe("Guest no wallet - Home page assertions", () => {
     it("Check connect wallet dropdown options", () => {
         homePage.checkWalletOptions();
     });
-    it("Check Settings dropdown", () => {
-        homePage.checkSettingsDropdown();
-    });
-    // todo: check if network switching can be done in a loop
     it("Switch to Scroll sepolia network", () => {
         homePage.selectNetwork(networks.scrollSepolia);
         homePage.checkSelectedNetwork(networks.scrollSepolia);
@@ -54,7 +47,7 @@ describe("Guest no wallet - Home page assertions", () => {
         homePage.checkHowItWorksPreview();
     });
     it("Check random active campaign redirection", () => {
-        homePage.checkActiveCampaign();
+        homePage.checkFirstActiveCampaign();
         homePage.goBack();
     });
     it("View all campaigns button redirects to All campaigns page", () => {
@@ -70,12 +63,11 @@ describe("Guest no wallet - Home page assertions", () => {
         createCampaign.checkWalletDisconnectedText();
         homePage.goBack();
     });
-    // todo: find out how to handle redirection to new tab in Cypress
-    // it("Check Footer links redirection", () => {
-    //     homePage.checkFooterRedirections();
-    // });
+    it("Check Footer links", () => {
+        homePage.checkFooterHyperlinks();
+    });
 });
-
+// todo: uncomment when connecting wallet flow is fixed
 describe("User with connected wallet", () => {
     beforeEach(() => {
         cy.visit("/");
@@ -85,24 +77,28 @@ describe("User with connected wallet", () => {
         cy.acceptMetamaskAccess().then((connected) => {
             expect(connected).to.be.true;
         });
+        // todo: remove reload after we have IDs on FE for closing users overlay
+        cy.reload();
         homePage.profileAvatarVisible(true);
         homePage.connectWalletButtonVisible(false);
     });
     it("Check no recent activity on Profile Avatar dropdown", () => {
+        cy.wait(1500);
         homePage.checkProfileWithoutRecentActivity();
     });
     it("Create campaign button redirects to Create campaign page - Welcome to Carrot modal is displayed", () => {
         homePage.clickCreateCampaign();
         createCampaign.checkCreateCampaignUrl();
-        // todo: add assertion of Welcome to Carrot modal once we have selectors
+        createCampaign.checkWelcomeToCarrotModal();
         homePage.goBack();
     });
     it("Use template button redirects to Create campaign page for that template - Welcome to Carrot modal is displayed", () => {
         homePage.checkRedirectionToFirstTemplate();
-        // todo: add assertion of Welcome to Carrot modal once we have selectors
+        createCampaign.checkWelcomeToCarrotModal();
         homePage.goBack();
     });
     it("Logout user", () => {
+        cy.wait(1500);
         homePage.logout();
         homePage.profileAvatarVisible(false);
         homePage.connectWalletButtonVisible(true);

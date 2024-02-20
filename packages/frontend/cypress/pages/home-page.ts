@@ -7,7 +7,7 @@ import {
     wallets,
     campaignData,
     templateData,
-} from "utils/data";
+} from "../utils/data";
 /**
  * @exports default methods used in all tests
  */
@@ -17,13 +17,13 @@ export class HomePage extends BasePage {
     }
     //---Clicks
     clickCampaignsHeader() {
-        this.click(selectors.header.campaignsHeader_Button);
+        this.click(selectors.header.campaigns_Button);
     }
     clickNetwork() {
-        this.click(selectors.networkMenu.networkDropdown_Button, 0);
+        this.click(selectors.networkMenu.networkDropdown_Button);
     }
     clickConnectWallet() {
-        this.click(selectors.walletMenu.connectWallet_Button, 0);
+        this.click(selectors.walletMenu.connectWallet_Button);
     }
     clickSettings() {
         this.click(selectors.settings.settings_Button);
@@ -63,41 +63,38 @@ export class HomePage extends BasePage {
     // todo: this should be in separate page regarding all campaigns
     checkIfOnAllCampaignsPage() {
         this.checkUrl(urls.allCampaigns);
+        // todo: title has been removed from FE
+        // this.compareText(
+        //     selectors.allCampaigns.allCampaignsTitle_Text,
+        //     textData.allCampaignsTitle,
+        // );
     }
     checkNetworkOptions() {
         this.clickNetwork();
         this.compareText(
             selectors.networkMenu.scrollSepoliaNetwork_Option,
             networks.scrollSepolia,
-            1,
         );
         this.compareText(
             selectors.networkMenu.sepoliaNetwork_Option,
             networks.sepolia,
-            1,
         );
     }
     checkSelectedNetwork(network: string) {
         switch (network) {
             case networks.polygonMumbai:
-                this.compareText(
-                    selectors.networkMenu.selectedPolygonMumbain_Text,
-                    networks.polygonMumbai,
-                    1,
+                this.elementIsVisible(
+                    selectors.networkMenu.selectedPolygonMumbain_Icon,
                 );
                 break;
             case networks.scrollSepolia:
-                this.compareText(
-                    selectors.networkMenu.selectedScrollSepoliaNetwork_Text,
-                    networks.scrollSepolia,
-                    1,
+                this.elementIsVisible(
+                    selectors.networkMenu.selectedScrollSepoliaNetwork_Icon,
                 );
                 break;
             case networks.sepolia:
-                this.compareText(
-                    selectors.networkMenu.selectedSepoliaNetwork_Text,
-                    networks.sepolia,
-                    1,
+                this.elementIsVisible(
+                    selectors.networkMenu.selectedSepoliaNetwork_Icon,
                 );
                 break;
         }
@@ -105,21 +102,15 @@ export class HomePage extends BasePage {
     checkWalletOptions() {
         this.clickConnectWallet();
         this.compareText(
-            selectors.walletMenu.injectedMetamask_Button,
-            wallets.injectedMetamask,
-            1,
-        );
-        this.compareText(
             selectors.walletMenu.metamask_Button,
             wallets.metamask,
-            1,
         );
         this.compareText(
             selectors.walletMenu.coinBase_Button,
             wallets.coinBase,
-            1,
         );
     }
+    // todo: removed from FE
     checkSettingsDropdown() {
         this.clickSettings();
         this.compareText(
@@ -141,19 +132,13 @@ export class HomePage extends BasePage {
         this.clickNetwork();
         switch (network) {
             case networks.polygonMumbai:
-                this.click(
-                    selectors.networkMenu.polygonMumbaiNetwork_Option,
-                    1,
-                );
+                this.click(selectors.networkMenu.polygonMumbaiNetwork_Option);
                 break;
             case networks.scrollSepolia:
-                this.click(
-                    selectors.networkMenu.scrollSepoliaNetwork_Option,
-                    1,
-                );
+                this.click(selectors.networkMenu.scrollSepoliaNetwork_Option);
                 break;
             case networks.sepolia:
-                this.click(selectors.networkMenu.sepoliaNetwork_Option, 0);
+                this.click(selectors.networkMenu.sepoliaNetwork_Option);
                 break;
         }
     }
@@ -187,14 +172,10 @@ export class HomePage extends BasePage {
         this.clickHowItWorks();
         this.elementIsVisible(selectors.heroSection.howItWorksVideo_Preview);
     }
-    checkActiveCampaign() {
-        // todo: find out how to return all elements; ATM returning 1 selector; there are 5 on front-end with same partial id
+    checkFirstActiveCampaign() {
         cy.get("[data-testid*='campaign-title']").then(($el) => {
-            // Check if there's at least one element
-            if ($el.length > 0) {
-                const randomIndex = Math.floor(Math.random() * $el.length);
-
-                cy.wrap($el.eq(randomIndex))
+            if ($el) {
+                cy.wrap($el)
                     .invoke("text")
                     .then((textFromElement) => {
                         // Put title into variable
@@ -205,7 +186,6 @@ export class HomePage extends BasePage {
                         // Check redirection to selected campaign page
                         this.click(
                             selectors.campaignsSection.viewCampaign_Button,
-                            randomIndex,
                         );
                         // todo: add assertion of title when redirected to campaigns page when we have selector
                     });
@@ -224,7 +204,7 @@ export class HomePage extends BasePage {
         this.click(selectors.templatesSection.useTemplate_Button);
         this.checkUrl(urls.createCampaign);
     }
-    checkFooterRedirections() {
+    checkFooterHyperlinks() {
         const footerLinks = [
             selectors.footer.footerDocumentation_Link,
             selectors.footer.footerAudits_Link,
@@ -233,45 +213,34 @@ export class HomePage extends BasePage {
             selectors.footer.footerCarrotInfoPage_Button,
         ];
 
-        const footerUrls = [
-            urls.documentation,
-            urls.audits,
-            urls.discord,
-            urls.twitter,
-            urls.carrotInfoPage,
-        ];
-
         for (let i = 0; i < footerLinks.length; i++) {
-            this.click(footerLinks[i]);
-            this.checkUrl(footerUrls[i]);
+            this.elementIsVisible(footerLinks[i]);
         }
     }
     selectWalletConnection(wallet: string) {
         this.clickConnectWallet();
         switch (wallet) {
-            case wallets.injectedMetamask:
-                this.click(selectors.walletMenu.injectedMetamask_Button, 0);
-                break;
             case wallets.metamask:
-                this.click(selectors.walletMenu.metamask_Button, 0);
+                this.click(selectors.walletMenu.metamask_Button);
                 break;
             case wallets.coinBase:
-                this.click(selectors.walletMenu.coinBase_Button, 0);
+                this.click(selectors.walletMenu.coinBase_Button);
                 break;
         }
     }
+    // todo: add assertions for DRAFT tab once we have IDs on FE
     checkProfileWithoutRecentActivity() {
         this.clickProfileAvatar();
         this.compareText(
             selectors.noData.emptySpace_Text,
             textData.emptySpace,
-            1,
+            0,
         );
-        this.compareText(
-            selectors.noData.noDataFound_Text,
-            textData.noDataFound,
-            1,
-        );
+        // this.compareText(
+        //     selectors.noData.noDataFound_Text,
+        //     textData.noDataFound,
+        //     0,
+        // );
     }
     logout() {
         this.clickProfileAvatar();
