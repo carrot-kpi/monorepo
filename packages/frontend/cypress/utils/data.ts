@@ -14,13 +14,12 @@ export const wallets = {
 };
 export const urls = {
     carrotCommunity: "https://www.staging.carrot.community/",
-    allCampaigns: "/campaigns?chain=polygon+mumbai",
-    createCampaign: "/create/1/draft?chain=polygon+mumbai",
+    allCampaigns: "/campaigns",
+    createCampaign: "/create/1/draft",
     documentation: "https://docs.staging.carrot.community/",
     audits: "https://github.com/carrot-kpi/contracts/tree/main/audits",
     discord: "https://discord.com/invite/uRer2D4Pdf",
     twitter: "https://twitter.com/CarrotEth",
-    carrotInfoPage: "https://www.staging.carrot.community/",
 };
 export const textData = {
     stagingBannerText:
@@ -42,7 +41,7 @@ export const textData = {
     authenticateDescription:
         "In order to create campaigns it's necessary to sign a message. This request will not trigger a blockchain transaction or cost you any fees.",
     allCampaignsTitle: "All Campaigns",
-    emptySpace: "Empty space",
+    emptySpace: "No transactions",
     noDataFound: "No data found. Please try again later.",
 };
 export const campaignData = {
