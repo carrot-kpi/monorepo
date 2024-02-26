@@ -1,6 +1,6 @@
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 import {
-    type KPITokenSpecification,
+    type FullKPITokenSpecification,
     ResolvedKPIToken,
 } from "../../src/entities/kpi-token";
 import { ChainId } from "../../src/commons";
@@ -14,7 +14,7 @@ describe("kpi token", () => {
     let templateSpecification: TemplateSpecification;
     let template: ResolvedTemplate;
     let oracle: ResolvedOracle;
-    let kpiTokenSpecification: KPITokenSpecification;
+    let kpiTokenSpecification: FullKPITokenSpecification;
 
     beforeAll(() => {
         templateSpecification = new TemplateSpecification(
@@ -33,7 +33,7 @@ describe("kpi token", () => {
             templateSpecification,
         );
         oracle = new ResolvedOracle(
-            ChainId.SEPOLIA,
+            ChainId.Sepolia,
             privateKeyToAccount(generatePrivateKey()).address,
             template,
             false,
@@ -51,7 +51,7 @@ describe("kpi token", () => {
             privateKeyToAccount(generatePrivateKey()).address;
         const kpiTokenOwner = privateKeyToAccount(generatePrivateKey()).address;
         const kpiToken = new ResolvedKPIToken(
-            ChainId.SEPOLIA,
+            ChainId.Sepolia,
             kpiTokenAddress,
             kpiTokenOwner,
             template,
@@ -61,7 +61,7 @@ describe("kpi token", () => {
             123456788,
             false,
         );
-        expect(kpiToken.chainId).toBe(ChainId.SEPOLIA);
+        expect(kpiToken.chainId).toBe(ChainId.Sepolia);
         expect(kpiToken.address).toBe(kpiTokenAddress);
         expect(kpiToken.owner).toBe(kpiTokenOwner);
         expect(kpiToken.template).toBe(template);
@@ -77,7 +77,7 @@ describe("kpi token", () => {
             pastDate.setDate(-2);
 
             const kpiToken = new ResolvedKPIToken(
-                ChainId.SEPOLIA,
+                ChainId.Sepolia,
                 privateKeyToAccount(generatePrivateKey()).address,
                 privateKeyToAccount(generatePrivateKey()).address,
                 template,
@@ -95,7 +95,7 @@ describe("kpi token", () => {
             futureDate.setDate(futureDate.getDate() + 1);
 
             const kpiToken = new ResolvedKPIToken(
-                ChainId.SEPOLIA,
+                ChainId.Sepolia,
                 privateKeyToAccount(generatePrivateKey()).address,
                 privateKeyToAccount(generatePrivateKey()).address,
                 template,

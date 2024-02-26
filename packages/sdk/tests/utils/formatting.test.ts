@@ -11,7 +11,7 @@ describe("formatting utilities", () => {
 
     beforeAll(() => {
         token = new Token(
-            ChainId.SEPOLIA,
+            ChainId.Sepolia,
             privateKeyToAccount(generatePrivateKey()).address,
             18,
             "TST1",

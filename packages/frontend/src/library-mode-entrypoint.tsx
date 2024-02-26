@@ -5,14 +5,15 @@ import { HostStateProvider } from "./state";
 import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import { LibraryModeSharedStateUpdater } from "./updaters/library-mode-shared-state";
 import { templatesTesting } from "./library-mode-entrypoint";
-import type { Chain, Hex } from "viem";
+import type { Hex } from "viem";
+import type { CarrotChain } from "./constants";
 
 export * from "./connectors/templates-testing";
 
 console.log("Carrot host frontend running in library mode");
 
 interface RootProps {
-    supportedChain: Chain;
+    supportedChain: CarrotChain;
     rpcURL: string;
     privateKey: Hex;
     ipfsGatewayURL: string;

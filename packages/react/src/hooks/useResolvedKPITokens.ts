@@ -1,15 +1,9 @@
-import {
-    Fetcher,
-    ResolvedKPIToken,
-    Service,
-    getServiceURL,
-} from "@carrot-kpi/sdk";
+import { Fetcher, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { usePublicClient } from "wagmi";
 import { type Address } from "viem";
 import { useEffect, useState } from "react";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { usePreferDecentralization } from "./usePreferDecentralization";
-import { useProdMode } from "./useProdMode";
 
 interface ResolvedKPITokensParams {
     blacklisted?: Address[];
@@ -22,7 +16,6 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
     const publicClient = usePublicClient();
     const preferDecentralization = usePreferDecentralization();
     const ipfsGatewayURL = useIPFSGatewayURL();
-    const prodMode = useProdMode();
     const [resolvedKPITokens, setResolvedKPITokens] = useState<
         ResolvedKPIToken[]
     >([]);
@@ -32,7 +25,7 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
     useEffect(() => {
         let cancelled = false;
         async function fetchData(): Promise<void> {
-            if (!publicClient) return;
+            if (!publicClient || !publicClient.chain) return;
             if (!cancelled) setLoading(true);
 
             try {
@@ -49,10 +42,8 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
                             const resolved = (
                                 await Fetcher.resolveKPITokens({
                                     ipfsGatewayURL,
-                                    dataCDNURL: getServiceURL(
-                                        Service.DATA_CDN,
-                                        prodMode,
-                                    ),
+                                    dataCDNURL:
+                                        publicClient.chain.serviceUrls.dataCdn,
                                     preferDecentralization,
                                     kpiTokens: [kpiToken],
                                 })
@@ -81,7 +72,6 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
         };
     }, [
         ipfsGatewayURL,
-        prodMode,
         publicClient,
         preferDecentralization,
         params?.blacklisted,

@@ -1,9 +1,8 @@
 import { useSelector, type State } from "@carrot-kpi/shared-state";
-import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
-import { useDevMode } from "./useDevMode";
-import { useStagingMode } from "./useStagingMode";
 import type { SerializableObject } from "../types/templates";
 import { useCallback } from "react";
+import { useDevMode } from "./useDevMode";
+import { useAccount } from "wagmi";
 
 export type JsonUploader<S extends SerializableObject<S>> = (
     content: S,
@@ -13,10 +12,10 @@ export const useJSONUploader = <
     S extends SerializableObject<S>,
 >(): JsonUploader<S> => {
     const devMode = useDevMode();
-    const stagingMode = useStagingMode();
     const dataManagerJWT = useSelector<State, State["auth"]["dataManagerJWT"]>(
         (state) => state.auth.dataManagerJWT,
     );
+    const { chain } = useAccount();
 
     const localUploader = useCallback(async (content: S): Promise<string> => {
         const formData = new FormData();
@@ -43,11 +42,9 @@ export const useJSONUploader = <
 
     const remoteUploader = useCallback(
         async (data: S): Promise<string> => {
+            if (!chain) throw new Error("undefined chain");
             const response = await fetch(
-                `${getServiceURL(
-                    Service.DATA_MANAGER,
-                    !devMode && !stagingMode,
-                )}/data/s3/json`,
+                `${chain.serviceUrls.dataManager}/data/s3/json`,
                 {
                     method: "POST",
                     headers: {
@@ -65,7 +62,7 @@ export const useJSONUploader = <
             const { cid } = (await response.json()) as { cid: string };
             return cid;
         },
-        [dataManagerJWT, devMode, stagingMode],
+        [dataManagerJWT, chain],
     );
 
     return devMode ? localUploader : remoteUploader;

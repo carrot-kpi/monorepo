@@ -10,15 +10,14 @@
         "clean": "rimraf generated build && rimraf generated src/gen",
         "build": "yarn clean && yarn codegen && graph build",
         "deploy:sepolia": "yarn gen-networks-files && graph deploy --product hosted-service --network sepolia carrot-kpi/carrot-sepolia",
-        "deploy:gnosis": "yarn gen-networks-files && graph deploy --product hosted-service --network gnosis carrot-kpi/carrot-gnosis",
-        "deploy:mumbai": "yarn gen-networks-files && graph deploy --product hosted-service --network mumbai carrot-kpi/carrot-mumbai",
+        "deploy:arbitrum-sepolia": "yarn gen-networks-files && graph deploy --product hosted-service --network arbitrum-sepolia carrot-kpi/carrot-arbitrum-sepolia",
         "create-local": "graph create --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "remove-local": "graph remove --node http://localhost:8020/ carrot-kpi/carrot-kpi-local",
         "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 carrot-kpi/carrot-kpi-local",
         "test": "echo 'Make Matchstick work...'"
     },
     "devDependencies": {
-        "@carrot-kpi/contracts": "^0.9.0",
+        "@carrot-kpi/contracts": "^0.10.1",
         "@graphprotocol/graph-cli": "0.67.2",
         "@graphprotocol/graph-ts": "0.32.0",
         "eslint-config-custom": "*",

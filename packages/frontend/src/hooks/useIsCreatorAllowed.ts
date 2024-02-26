@@ -1,11 +1,11 @@
 import type { Address } from "viem";
-import { useChainId, useReadContracts } from "wagmi";
-import { CHAIN_ADDRESSES, FACTORY_ABI, ChainId } from "@carrot-kpi/sdk";
+import { useAccount, useReadContracts } from "wagmi";
+import { FACTORY_ABI } from "@carrot-kpi/sdk";
 
 export const useIsCreatorAllowed = (creator?: Address) => {
-    const chainId = useChainId();
+    const { chain } = useAccount();
 
-    const factoryAddress = CHAIN_ADDRESSES[chainId as ChainId].factory;
+    const factoryAddress = chain?.contracts.factory.address;
     const { data, isLoading } = useReadContracts({
         contracts: [
             {
@@ -21,7 +21,7 @@ export const useIsCreatorAllowed = (creator?: Address) => {
             },
         ],
         query: {
-            enabled: !!creator && chainId in ChainId,
+            enabled: !!creator && !!factoryAddress,
         },
     });
 

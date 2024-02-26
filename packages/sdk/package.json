@@ -56,11 +56,6 @@
             "import": "./dist/es/utils/invariant.mjs",
             "default": "./dist/cjs/utils/invariant.cjs"
         },
-        "./utils/services": {
-            "types": "./dist/types/utils/services.d.ts",
-            "import": "./dist/es/utils/services.mjs",
-            "default": "./dist/cjs/utils/services.cjs"
-        },
         "./utils/uri": {
             "types": "./dist/types/utils/uri.d.ts",
             "import": "./dist/es/utils/uri.mjs",
@@ -123,9 +118,6 @@
             "utils/invariant": [
                 "./dist/types/utils/invariant.d.ts"
             ],
-            "utils/services": [
-                "./dist/types/utils/services.d.ts"
-            ],
             "utils/uri": [
                 "./dist/types/utils/uri.d.ts"
             ],
@@ -162,7 +154,7 @@
         "size-limit": "size-limit"
     },
     "dependencies": {
-        "@carrot-kpi/contracts": "^0.9.0",
+        "@carrot-kpi/contracts": "^0.10.1",
         "decimal.js-light": "^2.5.1",
         "multiformats": "^13.0.1",
         "viem": "^2.7.1"

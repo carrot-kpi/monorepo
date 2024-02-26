@@ -1,8 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { ChainIcon } from "../chain-icon";
-import { SUPPORTED_CHAINS, SUPPORTED_CHAIN_ICON_DATA } from "../../constants";
 import CaretDown from "../../icons/caret-down";
-import { useAccount } from "wagmi";
+import { useAccount, useConfig } from "wagmi";
 import Error from "../../icons/error";
 import { NetworksPopover } from "./networks-popover";
 import { Typography } from "@carrot-kpi/ui";
@@ -15,6 +14,7 @@ export interface ChainSelectProps {
 
 export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
     const { t } = useTranslation();
+    const { chains } = useConfig();
     const { connector: activeConnector, chain } = useAccount();
 
     const [networksPopoverAnchor, setNetworksPopoverAnchor] =
@@ -43,21 +43,11 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
         [activeConnector],
     );
 
-    const multipleEnabledChains = SUPPORTED_CHAINS.length > 1;
-    const chainId = chain?.id || Number.MAX_SAFE_INTEGER;
-    const chainName = chain?.name || t("connect.wallet.unknown");
-    const { Logo, iconBackgroundColor } =
-        !!chain && SUPPORTED_CHAIN_ICON_DATA[chain.id]
-            ? {
-                  Logo: SUPPORTED_CHAIN_ICON_DATA[chain.id].logo,
-                  iconBackgroundColor:
-                      SUPPORTED_CHAIN_ICON_DATA[chain.id].backgroundColor,
-              }
-            : { Logo: Error, iconBackgroundColor: "#ff0000" };
+    const Logo = chain?.icon.logo || Error;
 
     return (
         <div>
-            {__BUILDING_MODE__ !== "library" && (
+            {__ENVIRONMENT__ !== "library" && (
                 <NetworksPopover
                     open={networksPopoverOpen}
                     anchor={networksPopoverAnchor}
@@ -68,28 +58,29 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
             <div
                 data-testid="network-drop-down-button"
                 className={`h-11 w-fit flex items-center border border-black dark:border-white px-[10px] rounded-lg ${
-                    __BUILDING_MODE__ === "library" || !multipleEnabledChains
+                    __ENVIRONMENT__ === "library" || chains.length === 1
                         ? ""
                         : "cursor-pointer"
                 } gap-3`}
                 onClick={
-                    multipleEnabledChains
-                        ? handleNetworksPopoverOpen
-                        : undefined
+                    chains.length > 1 ? handleNetworksPopoverOpen : undefined
                 }
                 ref={setNetworksPopoverAnchor}
             >
                 <ChainIcon
-                    data-testid={`${chainId}-icon`}
-                    backgroundColor={iconBackgroundColor}
+                    data-testid={`${chain?.id}-icon`}
+                    backgroundColor={chain?.icon.backgroundColor || "#ff0000"}
                     logo={<Logo width={18} height={18} />}
                 />
                 {!compact && (
-                    <Typography data-testid={`${chainId}-button`} variant="sm">
-                        {chainName}
+                    <Typography
+                        data-testid={`${chain?.id}-button`}
+                        variant="sm"
+                    >
+                        {chain?.name || t("connect.wallet.unknown")}
                     </Typography>
                 )}
-                {__BUILDING_MODE__ !== "library" && multipleEnabledChains && (
+                {__ENVIRONMENT__ !== "library" && chains.length > 1 && (
                     <CaretDown className="w-3 dark:text-white" />
                 )}
             </div>

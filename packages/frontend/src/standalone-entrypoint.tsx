@@ -18,7 +18,7 @@ import {
 } from "@carrot-kpi/react";
 import { readonly } from "./connectors";
 
-console.log(`Carrot host frontend running in ${__BUILDING_MODE__} mode`);
+console.log(`Carrot host frontend running in ${__ENVIRONMENT__} environment`);
 
 const connectors: CreateConnectorFn[] = [
     readonly(),
@@ -48,7 +48,7 @@ if (window.ethereum?.isMetaMask)
 if (!!__WALLETCONNECT_PROJECT_ID__)
     connectors.push(walletConnect({ projectId: __WALLETCONNECT_PROJECT_ID__ }));
 
-const config = createConfig({
+export const config = createConfig({
     chains: SUPPORTED_CHAINS,
     transports: SUPPORTED_CHAIN_TRANSPORT,
     connectors,
@@ -65,13 +65,13 @@ export const Root = () => {
     const setIPFSGatewayURL = useSetIPFSGatewayURL();
 
     setDevMode(false);
-    setStagingMode(__BUILDING_MODE__ === "staging");
+    setStagingMode(__ENVIRONMENT__ !== "prod");
     setIPFSGatewayURL(IPFS_GATEWAY_URL);
 
     return (
         <SharedEntrypoint
             config={config}
-            enableFathom={__BUILDING_MODE__ === "production"}
+            enableFathom={__ENVIRONMENT__ === "prod"}
         />
     );
 };
@@ -89,7 +89,7 @@ root.render(
     </StrictMode>,
 );
 
-if (__BUILDING_MODE__ === "production" && "serviceWorker" in navigator) {
+if (__ENVIRONMENT__ === "prod" && "serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("./sw.js")
         .then(() => {

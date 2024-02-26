@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import { Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useIPFSGatewayURL } from "@carrot-kpi/react";
-import { DATA_CDN_URL } from "../constants";
+import { useAccount } from "wagmi";
 
 interface CreateCampaignButtonProps {
     primary?: boolean;
@@ -19,6 +19,7 @@ export const CreateCampaignButton = ({
 }: CreateCampaignButtonProps) => {
     const { t } = useTranslation();
     const { loading, templates } = useKPITokenTemplates();
+    const { chain } = useAccount();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
 
@@ -29,7 +30,7 @@ export const CreateCampaignButton = ({
 
     useEffect(() => {
         let cancelled = false;
-        if (loading) return;
+        if (!chain || loading) return;
         if (templates.length === 0) setHref("");
         else if (templates.length === 1) {
             const resolveTemplates = async () => {
@@ -38,7 +39,7 @@ export const CreateCampaignButton = ({
                 try {
                     const resolved = await Fetcher.resolveTemplates({
                         ipfsGatewayURL,
-                        dataCDNURL: DATA_CDN_URL,
+                        dataCDNURL: chain.serviceUrls.dataCdn,
                         preferDecentralization,
                         templates: [template],
                     });
@@ -60,7 +61,7 @@ export const CreateCampaignButton = ({
         return () => {
             cancelled = true;
         };
-    }, [loading, templates, ipfsGatewayURL, preferDecentralization]);
+    }, [chain, loading, templates, ipfsGatewayURL, preferDecentralization]);
 
     return (
         <Link to={href} state={{ template: resolvedTemplate }}>

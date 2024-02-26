@@ -1,4 +1,4 @@
-import type { Address, PublicClient } from "viem";
+import type { Address, PublicClient, Transport } from "viem";
 import { KPIToken } from "../entities/kpi-token";
 import { Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
@@ -18,6 +18,7 @@ import { SubgraphFetcher } from "./subgraph";
 import { CoreFetcher } from "./core";
 import { Token } from "../entities/token";
 import { validateChainId } from "../utils";
+import type { SupportedChain } from "../commons";
 
 export * from "./types";
 export * from "./abstraction";
@@ -27,12 +28,12 @@ class FullFetcher extends CoreFetcher implements IFullCarrotFetcher {
         publicClient,
         preferDecentralization,
     }: {
-        publicClient: PublicClient;
+        publicClient: PublicClient<Transport, SupportedChain | undefined>;
         preferDecentralization?: boolean;
     }) {
         if (preferDecentralization) return false;
-        const chainId = await validateChainId(publicClient);
-        return SubgraphFetcher.supportedInChain({ chainId });
+        const chain = await validateChainId(publicClient);
+        return SubgraphFetcher.supportedInChain({ chain });
     }
 
     public async fetchERC20Tokens({

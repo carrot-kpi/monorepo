@@ -1,111 +1,56 @@
 import type { FunctionComponent } from "react";
-import { gnosis, sepolia, scrollSepolia, polygonMumbai } from "wagmi/chains";
+import { sepolia, arbitrumSepolia } from "wagmi/chains";
 import EthereumLogo from "./icons/chains/ethereum";
-import GnosisLogo from "./icons/chains/gnosis";
-import ScrollLogo from "./icons/chains/scroll";
-import PolygonLogo from "./icons/chains/polygon";
+import ArbitrumLogo from "./icons/chains/arbitrum";
 import Grid from "./icons/grid";
-import { Service, getServiceURL } from "@carrot-kpi/sdk/utils/services";
-import { http, type Chain, type Transport } from "viem";
+import { http, type Transport } from "viem";
+import { SUPPORTED_CHAIN, type SupportedChain } from "@carrot-kpi/sdk";
 import type { SVGIcon } from "./icons/types";
+import { ChainId } from "@carrot-kpi/sdk";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
 export const DATA_MANAGER_JWT_ISSUER = "carrot-data-manager";
 
 export const IPFS_GATEWAY_URL = "https://w3s.link";
-export const DATA_MANAGER_URL = getServiceURL(
-    Service.DATA_MANAGER,
-    __BUILDING_MODE__ === "production",
-);
-export const STATIC_CDN_URL = getServiceURL(
-    Service.STATIC_CDN,
-    __BUILDING_MODE__ === "production",
-);
-export const DATA_CDN_URL = getServiceURL(
-    Service.DATA_CDN,
-    __BUILDING_MODE__ === "production",
-);
 
-export const SUPPORTED_CHAINS: [Chain, ...Chain[]] =
-    __BUILDING_MODE__ === "production"
-        ? ([
-              {
-                  ...gnosis,
-                  rpcUrls: {
-                      default: {
-                          http: ["https://rpc.ankr.com/gnosis"],
-                      },
-                  },
-              } as const satisfies Chain,
-          ] as const)
-        : ([
-              {
-                  ...polygonMumbai,
-                  rpcUrls: {
-                      default: {
-                          http: ["https://rpc.ankr.com/polygon_mumbai"],
-                      },
-                  },
-              } as const satisfies Chain,
-              sepolia,
-              {
-                  ...scrollSepolia,
-                  blockExplorers: {
-                      default: {
-                          name: "Scrollscan",
-                          url: "https://sepolia.scrollscan.com",
-                      },
-                  },
-                  rpcUrls: {
-                      default: {
-                          http: ["https://sepolia-rpc.scroll.io"],
-                      },
-                  },
-              } as const satisfies Chain,
-          ] as const);
-
-interface ChainIconData {
+export interface ChainIconData {
     logo: FunctionComponent<SVGIcon>;
     backgroundColor: string;
 }
 
-export const SUPPORTED_CHAIN_ICON_DATA: Record<
-    (typeof SUPPORTED_CHAINS)[number]["id"],
-    ChainIconData
-> = {
-    [gnosis.id as number]: {
-        logo: GnosisLogo,
-        backgroundColor: "#04795b",
-    },
-    [sepolia.id as number]: {
-        logo: EthereumLogo,
-        backgroundColor: "#8637ea",
-    },
-    [scrollSepolia.id as number]: {
-        logo: ScrollLogo,
-        backgroundColor: "#213147",
-    },
-    [polygonMumbai.id as number]: {
-        logo: PolygonLogo,
-        backgroundColor: "#8247E5",
-    },
-};
+export interface CarrotChain extends SupportedChain {
+    icon: ChainIconData;
+}
 
-export const SUPPORTED_CHAIN_TRANSPORT: Record<
-    (typeof SUPPORTED_CHAINS)[number]["id"],
-    Transport
-> = {
-    [gnosis.id as number]: http(),
+export const SUPPORTED_CHAINS: [CarrotChain, ...CarrotChain[]] = [
+    {
+        ...SUPPORTED_CHAIN[ChainId.Sepolia],
+        icon: {
+            logo: EthereumLogo,
+            backgroundColor: "#8637ea",
+        },
+    },
+    {
+        ...SUPPORTED_CHAIN[ChainId.ArbitrumSepolia],
+        icon: {
+            logo: ArbitrumLogo,
+            backgroundColor: "#213147",
+        },
+    },
+] as const;
+
+export const SUPPORTED_CHAIN_TRANSPORT: Record<ChainId, Transport> = {
     [sepolia.id as number]: http(),
-    [scrollSepolia.id as number]: http(),
-    [polygonMumbai.id as number]: http(),
+    [arbitrumSepolia.id as number]: http(),
 };
 
 export const CARROT_DOMAIN =
-    __BUILDING_MODE__ === "production"
+    __ENVIRONMENT__ === "prod"
         ? "carrot.community"
-        : "staging.carrot.community";
+        : __ENVIRONMENT__ === "staging"
+          ? "staging.carrot.community"
+          : "dev.carrot.community";
 
 export interface NavbarLink {
     title: string;

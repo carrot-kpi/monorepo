@@ -1,5 +1,6 @@
+import type { Transport } from "viem";
 import type { Address, PublicClient } from "viem";
-import { ChainId } from "../commons";
+import { ChainId, type SupportedChain } from "../commons";
 import { KPIToken } from "../entities/kpi-token";
 import { Oracle } from "../entities/oracle";
 import { ResolvedTemplate, Template } from "../entities/template";
@@ -16,7 +17,7 @@ export interface CIDDataFetchingParams extends DecentralizationParams {
 }
 
 export interface FetchERC20TokensParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
     addresses: Address[];
 }
 
@@ -57,44 +58,44 @@ export interface ICoreFetcher {
 }
 
 export interface SupportedInChainParams {
-    chainId: ChainId;
+    chain: SupportedChain;
 }
 
 export interface FetchKPITokensAmountParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
 }
 
 export interface FetchKPITokenAddressesParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
     blacklisted?: Address[];
     fromIndex?: number;
     toIndex?: number;
 }
 
 export interface FetchLatestKpiTokenAddressesParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
     blacklisted?: Address[];
     limit?: number;
 }
 
 export interface FetchOraclesParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
     addresses?: Address[];
 }
 
 export interface FetchKPITokensParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
     blacklisted?: Address[];
     addresses?: Address[];
 }
 
 export interface FetchTemplatesParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
     ids?: number[];
 }
 
 export interface FetchTemplateParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
     id?: number;
 }
 
@@ -103,7 +104,7 @@ export interface FetchBlackListedKPITokensParams {
 }
 
 export interface FetchTemplateFeatureEnabledForParams {
-    publicClient: PublicClient;
+    publicClient: PublicClient<Transport, SupportedChain | undefined>;
     templateId: number;
     featureId: number;
     account: Address;

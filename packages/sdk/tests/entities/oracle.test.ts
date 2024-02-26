@@ -31,12 +31,12 @@ describe("oracle", () => {
     test("instantiates correctly", () => {
         const address = privateKeyToAccount(generatePrivateKey()).address;
         const oracle = new ResolvedOracle(
-            ChainId.SEPOLIA,
+            ChainId.Sepolia,
             address,
             template,
             false,
         );
-        expect(oracle.chainId).toBe(ChainId.SEPOLIA);
+        expect(oracle.chainId).toBe(ChainId.Sepolia);
         expect(oracle.address).toEqual(address);
         expect(oracle.template).toBe(template);
         expect(oracle.finalized).toBeFalsy();

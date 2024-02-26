@@ -10,14 +10,14 @@ describe("token amount", () => {
 
     beforeAll(() => {
         token1 = new Token(
-            ChainId.SEPOLIA,
+            ChainId.Sepolia,
             privateKeyToAccount(generatePrivateKey()).address,
             18,
             "TST1",
             "Test token 1",
         );
         token2 = new Token(
-            ChainId.SEPOLIA,
+            ChainId.Sepolia,
             privateKeyToAccount(generatePrivateKey()).address,
             6,
             "TST2",
