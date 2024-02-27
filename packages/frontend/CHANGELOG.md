@@ -1,5 +1,15 @@
 # @carrot-kpi/host-frontend
 
+## 0.39.0
+
+### Minor Changes
+
+- 5bc3861: Add check for unsaved changes on the creation form
+
+### Patch Changes
+
+- f11fc69: Make settings accessible event if the wallet is not connected, new connect wallet component, style changes in the settings drawer
+
 ## 0.38.2
 
 ### Patch Changes
