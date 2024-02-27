@@ -34,12 +34,12 @@ export const SERVICE_URLS: Record<Environment, ServiceUrls> = {
     [Environment.Development]: {
         staticCdn: "https://static.dev.carrot.community",
         dataCdn: "https://data.dev.carrot.community",
-        dataManager: "https://data.dev.carrot.community",
+        dataManager: "https://data-manager.dev.carrot.community",
     },
     [Environment.Staging]: {
         staticCdn: "https://static.staging.carrot.community",
         dataCdn: "https://data.staging.carrot.community",
-        dataManager: "https://data.staging.carrot.community",
+        dataManager: "https://data-manager.staging.carrot.community",
     },
 };
 

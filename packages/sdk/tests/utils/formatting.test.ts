@@ -1,4 +1,4 @@
-import { describe, test } from "@jest/globals";
+import { describe, test, beforeAll, expect } from "vitest";
 import { parseUnits } from "viem";
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 import { ChainId } from "../../src/commons";
