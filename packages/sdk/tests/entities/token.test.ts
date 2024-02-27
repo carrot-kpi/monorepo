@@ -1,3 +1,4 @@
+import { describe, test, expect } from "vitest";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { currencyEquals, Token } from "../../src/entities/token";
 import { ChainId } from "../../src/commons";
@@ -7,13 +8,13 @@ describe("token", () => {
     test("instantiates correctly", () => {
         const address = privateKeyToAccount(generatePrivateKey()).address;
         const token = new Token(
-            ChainId.SEPOLIA,
+            ChainId.Sepolia,
             address,
             18,
             "TST",
             "Test token",
         );
-        expect(token.chainId).toBe(ChainId.SEPOLIA);
+        expect(token.chainId).toBe(ChainId.Sepolia);
         expect(token.address).toBe(address);
         expect(token.decimals).toBe(18);
         expect(token.symbol).toBe("TST");
@@ -23,7 +24,7 @@ describe("token", () => {
     describe("equals", () => {
         test("returns true if tokens are the same instance", () => {
             const token = new Token(
-                ChainId.SEPOLIA,
+                ChainId.Sepolia,
                 privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
@@ -35,14 +36,14 @@ describe("token", () => {
         test("returns true if tokens have the same chain id and address", () => {
             const address = privateKeyToAccount(generatePrivateKey()).address;
             const token1 = new Token(
-                ChainId.SEPOLIA,
+                ChainId.Sepolia,
                 address,
                 18,
                 "TST1",
                 "Test token 1",
             );
             const token2 = new Token(
-                ChainId.SEPOLIA,
+                ChainId.Sepolia,
                 address,
                 18,
                 "TST2",
@@ -55,7 +56,7 @@ describe("token", () => {
     describe("currencyEquals", () => {
         test("returns true if currencies are both tokens and equal", () => {
             const token = new Token(
-                ChainId.SEPOLIA,
+                ChainId.Sepolia,
                 privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
@@ -67,7 +68,7 @@ describe("token", () => {
         test("returns false if only currency A is a Token", () => {
             const currency = new Currency("TCUR", "Test currency", 18);
             const token = new Token(
-                ChainId.SEPOLIA,
+                ChainId.Sepolia,
                 privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",
@@ -79,7 +80,7 @@ describe("token", () => {
         test("returns false if currency B is a Token", () => {
             const currency = new Currency("TCUR", "Test currency", 18);
             const token = new Token(
-                ChainId.SEPOLIA,
+                ChainId.Sepolia,
                 privateKeyToAccount(generatePrivateKey()).address,
                 18,
                 "TST",

@@ -1,8 +1,8 @@
 import { type Tx, TxType } from "@carrot-kpi/react";
 import type { TFunction } from "i18next";
 import { shortenAddress } from "./address";
-import { Fetcher, Token } from "@carrot-kpi/sdk";
-import { formatUnits, type PublicClient } from "viem";
+import { Fetcher, Token, type SupportedChain } from "@carrot-kpi/sdk";
+import { formatUnits, type PublicClient, type Transport } from "viem";
 import type { FC } from "react";
 
 type PayloadSerializer<T extends TxType> = (
@@ -97,7 +97,7 @@ export type TxDetails = {
 
 type TxDetailsGetter<T extends TxType> = (
     t: TFunction,
-    publicClient: PublicClient,
+    publicClient: PublicClient<Transport, SupportedChain | undefined>,
     tx: Tx<T>,
 ) => TxDetails | Promise<TxDetails>;
 
@@ -199,7 +199,7 @@ const TX_DETAILS_GETTER: {
 
 export const getTransactionDetails = <T extends TxType>(
     t: TFunction,
-    publicClient: PublicClient,
+    publicClient: PublicClient<Transport, SupportedChain | undefined>,
     tx: Tx<T>,
 ) => {
     return TX_DETAILS_GETTER[tx.type](t, publicClient, tx);

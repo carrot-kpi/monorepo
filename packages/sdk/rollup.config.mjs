@@ -21,7 +21,6 @@ export default [
             "src/utils/ens.ts",
             "src/utils/formatting.ts",
             "src/utils/invariant.ts",
-            "src/utils/services.ts",
             "src/utils/uri.ts",
             "src/entities/amount.ts",
             "src/entities/currency.ts",

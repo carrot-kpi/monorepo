@@ -1,44 +1,16 @@
 {
-    "gnosis": {
-        "Factory": {
-            "address": "0xF451feb55eeA54EeF90AcB301212b80E03d82819",
-            "startBlock": 30531786
-        },
-        "KPITokensManager": {
-            "address": "0xAcAFe7928cDd2E02bd508a4827b62649726f9460",
-            "startBlock": 30531788
-        },
-        "OraclesManager": {
-            "address": "0x35030D4680C339Dd5a043C23f99Ee45ce66198CA",
-            "startBlock": 30531789
-        }
-    },
-    "mumbai": {
+    "arbitrum-sepolia": {
         "Factory": {
             "address": "0xD6e88c910329fE3597498772eB94991a0630306d",
-            "startBlock": 42107159
+            "startBlock": 17609984
         },
         "KPITokensManager": {
             "address": "0xe3dA4E4b76C4ed3e4227db20F20d1F25A4507f9b",
-            "startBlock": 42107163
+            "startBlock": 17610015
         },
         "OraclesManager": {
             "address": "0xe82c4D8b993D613a28600B953e91A3A93Ae69Fd6",
-            "startBlock": 42107167
-        }
-    },
-    "scroll-sepolia": {
-        "Factory": {
-            "address": "0x4A827f3Bf3c38Baa091DdCAb7B801aCee6819759",
-            "startBlock": 1711759
-        },
-        "KPITokensManager": {
-            "address": "0x549ECeD431F93dbde0D7e6703F04dF1E074F096a",
-            "startBlock": 1711762
-        },
-        "OraclesManager": {
-            "address": "0xdd6F7A083487d0d86487F7D5E5964110537e5c59",
-            "startBlock": 1711766
+            "startBlock": 17610046
         }
     },
     "sepolia": {

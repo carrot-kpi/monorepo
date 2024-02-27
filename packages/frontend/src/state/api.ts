@@ -2,14 +2,16 @@ import {
     Fetcher,
     type FeaturedBlacklistedKPITokens,
     type KPIToken,
+    type SupportedChain,
 } from "@carrot-kpi/sdk";
-import { STATIC_CDN_URL } from "../constants";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Address, PublicClient } from "viem";
+import { getAccount } from "@wagmi/core";
+import type { Address, PublicClient, Transport } from "viem";
 import { createCarrotApi } from "./hooks";
+import { config } from "../standalone-entrypoint";
 
 export interface FetchFeaturedKPITokensParams {
-    publicClient?: PublicClient;
+    publicClient?: PublicClient<Transport, SupportedChain | undefined>;
     preferDecentralization?: boolean;
     featuredAddresses?: Address[];
     blacklistedAddresses?: Address[];
@@ -17,13 +19,35 @@ export interface FetchFeaturedKPITokensParams {
 
 export const staticApi = createCarrotApi({
     reducerPath: "staticApi",
-    baseQuery: fetchBaseQuery({ baseUrl: STATIC_CDN_URL }),
+    baseQuery: fetchBaseQuery({ baseUrl: "" }),
     endpoints: (builder) => ({
         fetchFeaturedBlacklistedKPITokenAddresses: builder.query<
             FeaturedBlacklistedKPITokens,
             void
         >({
-            query: () => "featured-blacklisted-kpi-tokens.json",
+            queryFn: async () => {
+                const { chain } = await getAccount(config);
+                if (!chain)
+                    return {
+                        error: {
+                            status: 500,
+                            data: "no chain available",
+                        },
+                    };
+                const response = await fetch(
+                    `${chain.serviceUrls.staticCdn}/featured-blacklisted-kpi-tokens.json`,
+                );
+                if (!response.ok)
+                    return {
+                        error: {
+                            status: response.status,
+                            data: await response.text(),
+                        },
+                    };
+                return {
+                    data: (await response.json()) as FeaturedBlacklistedKPITokens,
+                };
+            },
         }),
         fetchFeaturedKPITokens: builder.query<
             KPIToken[],
@@ -75,7 +99,7 @@ export const staticApi = createCarrotApi({
 });
 
 export interface FetchLatestKPITokensParams {
-    publicClient?: PublicClient;
+    publicClient?: PublicClient<Transport, SupportedChain | undefined>;
     preferDecentralization?: boolean;
     limit?: number;
     blacklistedAddresses?: Address[];

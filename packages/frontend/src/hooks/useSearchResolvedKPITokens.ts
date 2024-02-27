@@ -7,7 +7,6 @@ import { Fetcher, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { tokenSpecificationIncludesQuery } from "../utils/search";
-import { DATA_CDN_URL } from "../constants";
 
 export function useSearchResolvedKPITokens(searchQuery: string) {
     const { chain } = useAccount();
@@ -21,13 +20,13 @@ export function useSearchResolvedKPITokens(searchQuery: string) {
 
     useEffect(() => {
         const kpiTokensArray = Object.values(kpiTokens);
-        if (!kpiTokens || kpiTokensArray.length === 0) return;
+        if (!chain || !kpiTokens || kpiTokensArray.length === 0) return;
         const fetchData = async () => {
             const promises = kpiTokensArray.map(async (kpiToken) => {
                 return (
                     await Fetcher.resolveKPITokens({
                         ipfsGatewayURL,
-                        dataCDNURL: DATA_CDN_URL,
+                        dataCDNURL: chain.serviceUrls.dataCdn,
                         preferDecentralization,
                         kpiTokens: [kpiToken],
                     })
@@ -53,7 +52,7 @@ export function useSearchResolvedKPITokens(searchQuery: string) {
             });
         };
         void fetchData();
-    }, [ipfsGatewayURL, kpiTokens, preferDecentralization]);
+    }, [chain, ipfsGatewayURL, kpiTokens, preferDecentralization]);
 
     useEffect(() => {
         setInitialTokens([]);

@@ -1,3 +1,4 @@
+import { describe, test, expect } from "vitest";
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts";
 import {
     ResolvedTemplate,

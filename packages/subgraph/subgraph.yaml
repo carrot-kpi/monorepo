@@ -7,11 +7,11 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: mumbai
+    network: arbitrum-sepolia
     source:
       abi: Factory
       address: "0xD6e88c910329fE3597498772eB94991a0630306d"
-      startBlock: 42107159
+      startBlock: 17609984
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -42,11 +42,11 @@ dataSources:
       file: ./src/factory.ts
   - kind: ethereum/contract
     name: KPITokensManager
-    network: mumbai
+    network: arbitrum-sepolia
     source:
       abi: KPITokensManager
       address: "0xe3dA4E4b76C4ed3e4227db20F20d1F25A4507f9b"
-      startBlock: 42107163
+      startBlock: 17610015
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -83,11 +83,11 @@ dataSources:
       file: ./src/kpi-tokens-manager.ts
   - kind: ethereum/contract
     name: OraclesManager
-    network: mumbai
+    network: arbitrum-sepolia
     source:
       abi: OraclesManager
       address: "0xe82c4D8b993D613a28600B953e91A3A93Ae69Fd6"
-      startBlock: 42107167
+      startBlock: 17610046
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -124,7 +124,7 @@ dataSources:
       file: ./src/oracles-manager.ts
 templates:
   - kind: ethereum/contract
-    network: mumbai
+    network: arbitrum-sepolia
     name: KPIToken
     source:
       abi: KPIToken
@@ -146,7 +146,7 @@ templates:
           handler: handleFinalize
       file: ./src/kpi-token.ts
   - kind: ethereum/contract
-    network: mumbai
+    network: arbitrum-sepolia
     name: Oracle
     source:
       abi: Oracle
@@ -175,7 +175,7 @@ templates:
       entities:
         - KPITokenTemplateSpecification
       abis: []
-    network: mumbai
+    network: arbitrum-sepolia
   - kind: file/ipfs
     name: KPITokenDescription
     mapping:
@@ -186,7 +186,7 @@ templates:
       entities:
         - KPITokenDescription
       abis: []
-    network: mumbai
+    network: arbitrum-sepolia
   - kind: file/ipfs
     name: OracleTemplateSpecification
     mapping:
@@ -197,4 +197,4 @@ templates:
       entities:
         - OracleTemplateSpecification
       abis: []
-    network: mumbai
+    network: arbitrum-sepolia

@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { KPIToken, Fetcher, ResolvedKPIToken, Service } from "@carrot-kpi/sdk";
+import { KPIToken, Fetcher, ResolvedKPIToken } from "@carrot-kpi/sdk";
 import { useAccount } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
 import { isResolvedKPIToken } from "@carrot-kpi/sdk";
-import { useProdMode } from "./useProdMode";
-import { getServiceURL } from "@carrot-kpi/sdk";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 interface ResolvedKPITokenParams {
@@ -18,7 +16,6 @@ export function useResolvedKPIToken(params?: ResolvedKPITokenParams): {
     const { chain } = useAccount();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
-    const prodMode = useProdMode();
 
     const [resolvedKPIToken, setResolvedKPIToken] =
         useState<ResolvedKPIToken | null>(
@@ -43,7 +40,7 @@ export function useResolvedKPIToken(params?: ResolvedKPITokenParams): {
                 const resolved = (
                     await Fetcher.resolveKPITokens({
                         ipfsGatewayURL,
-                        dataCDNURL: getServiceURL(Service.DATA_CDN, prodMode),
+                        dataCDNURL: chain.serviceUrls.dataCdn,
                         preferDecentralization,
                         kpiTokens: [params.kpiToken],
                     })
@@ -67,7 +64,6 @@ export function useResolvedKPIToken(params?: ResolvedKPITokenParams): {
         chain,
         ipfsGatewayURL,
         params?.kpiToken,
-        prodMode,
         preferDecentralization,
         resolvedKPIToken,
     ]);

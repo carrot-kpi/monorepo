@@ -18,11 +18,14 @@ import dayjs from "dayjs";
 import { ThemeUpdater } from "./updaters/theme";
 import { Fathom } from "./components/fathom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { CarrotChain } from "./constants";
 
 dayjs.extend(localizedFormat);
 
 interface SharedEntrypointProps {
-    config: WagmiConfig;
+    config:
+        | WagmiConfig<readonly [CarrotChain, ...CarrotChain[]]>
+        | WagmiConfig<readonly [CarrotChain]>;
     templateId?: number;
     enableFathom: boolean;
 }

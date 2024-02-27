@@ -7,13 +7,12 @@ import {
     useStagingMode,
 } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
-import { ChainId, SUBGRAPH_URL } from "@carrot-kpi/sdk";
-import { useChainId } from "wagmi";
+import { useAccount } from "wagmi";
 
 // TODO: move this in the UI lib with additional functionality (like variants for info, warning and error feedback)
 export const Preferences = () => {
     const { t } = useTranslation();
-    const chainId = useChainId();
+    const { chain } = useAccount();
     const preferDecentralization = usePreferDecentralization();
     const setPreferDecentralization = useSetPreferDecentralization();
 
@@ -89,7 +88,7 @@ export const Preferences = () => {
                         />
                     </div>
                 </div> */}
-            {!!SUBGRAPH_URL[chainId as ChainId] && (
+            {!!chain?.serviceUrls.subgraph && (
                 <div className="flex flex-col border border-black dark:border-white rounded-lg">
                     <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
                         <Typography
@@ -110,7 +109,10 @@ export const Preferences = () => {
                     </Typography>
                 </div>
             )}
-            {__BUILDING_MODE__ === "staging" && (
+            {/* TODO: this setting is applied to both dev and staging environments but it's simply called "staging" mode.
+            We need to find a name that is compatible with the fact that this setting should be available in both the dev
+            and staging environments. Maybe preview mode? */}
+            {__ENVIRONMENT__ !== "prod" && (
                 <div className="flex flex-col border border-black dark:border-white rounded-lg">
                     <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
                         <Typography

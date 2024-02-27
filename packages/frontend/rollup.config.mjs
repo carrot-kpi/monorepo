@@ -25,7 +25,7 @@ export default [
             replace({
                 preventAssignment: true,
                 values: {
-                    __BUILDING_MODE__: JSON.stringify("library"),
+                    __ENVIRONMENT__: JSON.stringify("library"),
                     __INFURA_PROJECT_ID__: getEnv("INFURA_PROJECT_ID", true),
                     __WALLETCONNECT_PROJECT_ID__: JSON.stringify(""),
                     __FATHOM_SITE_ID__: JSON.stringify(""),
