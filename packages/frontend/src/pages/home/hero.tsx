@@ -14,7 +14,6 @@ import { NAVBAR_LINKS } from "../../constants";
 import VideoPoster from "../../images/video-poster.png";
 import type { KPIToken } from "@carrot-kpi/sdk";
 import { Navbar } from "../../components/ui/navbar";
-import { useAccount } from "wagmi";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
