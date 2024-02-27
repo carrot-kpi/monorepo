@@ -1,5 +1,16 @@
 # @carrot-kpi/react
 
+## 0.78.0
+
+### Minor Changes
+
+- 9ba581b: New development environment. Each supported chain config now exposes its specific environment and its own related service URLs.
+
+### Patch Changes
+
+- Updated dependencies [9ba581b]
+  - @carrot-kpi/sdk@1.51.0
+
 ## 0.77.1
 
 ### Patch Changes
