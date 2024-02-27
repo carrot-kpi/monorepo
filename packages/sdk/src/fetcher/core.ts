@@ -1,4 +1,4 @@
-import { CHAIN_ADDRESSES, ERC20_ABI } from "../commons";
+import { ERC20_ABI } from "../commons";
 import {
     cacheERC20Token,
     getCachedERC20Token,
@@ -21,14 +21,12 @@ import { Oracle, ResolvedOracle } from "../entities/oracle";
 import { ResolvedTemplate, TemplateSpecification } from "../entities/template";
 import type { ResolvedKPITokensMap, ResolvedOraclesMap } from "./types";
 
-// TODO: check if validation can be extracted in its own function
 export class CoreFetcher implements ICoreFetcher {
     public async fetchERC20Tokens({
         publicClient,
         addresses,
     }: FetchERC20TokensParams): Promise<{ [address: Address]: Token }> {
-        const chainId = await validateChainId(publicClient);
-        const chainAddresses = CHAIN_ADDRESSES[chainId];
+        const chain = await validateChainId(publicClient);
 
         const { cachedTokens, missingTokens } = addresses.reduce(
             (
@@ -38,7 +36,7 @@ export class CoreFetcher implements ICoreFetcher {
                 },
                 address,
             ) => {
-                const cachedToken = getCachedERC20Token(chainId, address);
+                const cachedToken = getCachedERC20Token(chain.id, address);
                 if (!!cachedToken)
                     accumulator.cachedTokens[address] = cachedToken;
                 else accumulator.missingTokens.push(address);
@@ -49,7 +47,7 @@ export class CoreFetcher implements ICoreFetcher {
         if (missingTokens.length === 0) return cachedTokens;
 
         const result = await publicClient.multicall({
-            multicallAddress: chainAddresses.multicall3,
+            multicallAddress: chain.contracts.multicall3.address,
             contracts: addresses.flatMap((address) => [
                 { address, abi: ERC20_ABI, functionName: "name" },
                 {
@@ -141,7 +139,7 @@ export class CoreFetcher implements ICoreFetcher {
                     if (!rawDecimals.result)
                         throw new Error("wrapped decimals result is undefined");
                     const token = new Token(
-                        chainId,
+                        chain.id,
                         missingToken,
                         rawDecimals.result as number,
                         symbol,

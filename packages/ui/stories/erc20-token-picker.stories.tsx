@@ -19,19 +19,17 @@ import {
 } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { http, type Address } from "viem";
-import { gnosis } from "wagmi/chains";
 import { Typography } from "../src/components/typography";
-import { ERC20_ABI, Service, getServiceURL } from "@carrot-kpi/sdk";
+import { ChainId, ERC20_ABI, SUPPORTED_CHAIN } from "@carrot-kpi/sdk";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const CHAIN = gnosis;
 const injectedConnector = injected();
 
 const config = createConfig({
     connectors: [injectedConnector],
-    chains: [CHAIN],
+    chains: [SUPPORTED_CHAIN[ChainId.Sepolia]],
     transports: {
-        [CHAIN.id]: http(),
+        [ChainId.Sepolia]: http(),
     },
 });
 
@@ -77,7 +75,7 @@ const Component = (props: ERC20TokenPickerProps) => {
                 return {
                     abi: ERC20_ABI,
                     address: token.address as Address,
-                    chainId: CHAIN.id,
+                    chainId: ChainId.Sepolia,
                     functionName: "balanceOf",
                     args: [address],
                 };
@@ -111,7 +109,7 @@ const Component = (props: ERC20TokenPickerProps) => {
         let cancelled = false;
         const fetchData = async () => {
             let response = await fetch(
-                `${getServiceURL(Service.STATIC_CDN, false)}/token-list.json`,
+                `${SUPPORTED_CHAIN[ChainId.Sepolia].serviceUrls.staticCdn}/token-list.json`,
             );
             if (!response.ok) {
                 console.warn("could not fetch carrot token list");
@@ -188,7 +186,7 @@ const Component = (props: ERC20TokenPickerProps) => {
                     lists={lists}
                     selectedList={selectedListWithBalances}
                     onSelectedListChange={setList}
-                    chainId={CHAIN.id}
+                    chainId={ChainId.Sepolia}
                     messages={{
                         search: {
                             title: "Title tokens",

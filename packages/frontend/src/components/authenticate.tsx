@@ -4,7 +4,6 @@ import LogoIcon from "../icons/logo-icon";
 import { t } from "i18next";
 import { useAccount, useSignMessage } from "wagmi";
 import { useSetDataManagerJWT } from "../hooks/useSetDataManagerJWT";
-import { DATA_MANAGER_URL } from "../constants";
 import { WalletDisconnected } from "./wallet-disconnected";
 
 interface AuthenticateProps {
@@ -12,7 +11,7 @@ interface AuthenticateProps {
 }
 
 export const Authenticate = ({ onCancel }: AuthenticateProps) => {
-    const { address } = useAccount();
+    const { chain, address } = useAccount();
     const setDataManagerJWT = useSetDataManagerJWT();
 
     const [loading, setLoading] = useState(false);
@@ -21,20 +20,23 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!address || !signedLoginMessage) return;
+            if (!chain || !address || !signedLoginMessage) return;
             setLoading(true);
             try {
-                const response = await fetch(`${DATA_MANAGER_URL}/token`, {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
+                const response = await fetch(
+                    `${chain.serviceUrls.dataManager}/token`,
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            address,
+                            signature: signedLoginMessage,
+                        }),
                     },
-                    body: JSON.stringify({
-                        address,
-                        signature: signedLoginMessage,
-                    }),
-                });
+                );
                 if (!response.ok) throw new Error(await response.text());
                 const { token } = (await response.json()) as { token: string };
                 setDataManagerJWT(token);
@@ -48,15 +50,15 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             }
         };
         fetchData();
-    }, [address, setDataManagerJWT, signedLoginMessage]);
+    }, [chain, address, setDataManagerJWT, signedLoginMessage]);
 
     const handleSign = useCallback(() => {
         const fetchSignableMessage = async () => {
-            if (!address) return;
+            if (!chain || !address) return;
             setLoading(true);
             try {
                 const response = await fetch(
-                    `${DATA_MANAGER_URL}/login-message/${address}`,
+                    `${chain.serviceUrls.dataManager}/login-message/${address}`,
                 );
                 if (!response.ok) throw new Error(await response.text());
                 const { message } = (await response.json()) as {
@@ -72,7 +74,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             }
         };
         fetchSignableMessage();
-    }, [address, signMessage]);
+    }, [chain, address, signMessage]);
 
     return (
         <div className="w-full h-full flex justify-center">

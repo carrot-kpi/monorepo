@@ -20,10 +20,8 @@ interface ChainConfig {
 }
 
 const NETWORK_NAMES: Record<ChainId, string> = {
-    [ChainId.GNOSIS]: "gnosis",
-    [ChainId.SCROLL_SEPOLIA]: "scroll-sepolia",
-    [ChainId.SEPOLIA]: "sepolia",
-    [ChainId.POLYGON_MUMBAI]: "mumbai",
+    [ChainId.Sepolia]: "sepolia",
+    [ChainId.ArbitrumSepolia]: "arbitrum-sepolia",
 };
 
 const networksJSON = Object.entries(DEPLOYMENT_ADDRESSES).reduce(
@@ -31,15 +29,18 @@ const networksJSON = Object.entries(DEPLOYMENT_ADDRESSES).reduce(
         accumulator[NETWORK_NAMES[Number(chain) as ChainId]] = {
             Factory: {
                 address: contracts.factory.address,
-                startBlock: contracts.factory.deploymentBlock,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                startBlock: contracts.factory.blockCreated!,
             },
             KPITokensManager: {
                 address: contracts.kpiTokensManager.address,
-                startBlock: contracts.kpiTokensManager.deploymentBlock,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                startBlock: contracts.kpiTokensManager.blockCreated!,
             },
             OraclesManager: {
                 address: contracts.oraclesManager.address,
-                startBlock: contracts.oraclesManager.deploymentBlock,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                startBlock: contracts.oraclesManager.blockCreated!,
             },
         };
         return accumulator;

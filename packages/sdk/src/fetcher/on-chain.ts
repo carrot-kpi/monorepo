@@ -1,17 +1,15 @@
 import {
     KPI_TOKENS_MANAGER_ABI,
-    CHAIN_ADDRESSES,
     KPI_TOKEN_ABI,
     ORACLE_ABI,
     FACTORY_ABI,
-    ChainId,
     ORACLES_MANAGER_ABI,
-    type ChainAddresses,
+    type SupportedChain,
 } from "../commons";
 import { KPIToken } from "../entities/kpi-token";
 import { type OnChainTemplate, Template } from "../entities/template";
 import { Oracle } from "../entities/oracle";
-import { enforce, validateChainId } from "../utils";
+import { validateChainId } from "../utils";
 import type {
     FetchKPITokenAddressesParams,
     FetchKPITokensAmountParams,
@@ -22,7 +20,7 @@ import type {
     FetchTemplatesParams,
     IPartialCarrotFetcher,
 } from "./abstraction";
-import type { Address, PublicClient } from "viem";
+import type { Address, PublicClient, Transport } from "viem";
 
 class Fetcher implements IPartialCarrotFetcher {
     public supportedInChain(): boolean {
@@ -32,10 +30,10 @@ class Fetcher implements IPartialCarrotFetcher {
     public async fetchKPITokensAmount({
         publicClient,
     }: FetchKPITokensAmountParams): Promise<number> {
-        const { chainAddresses } = await this.validate({ publicClient });
+        const chain = await validateChainId(publicClient);
         const amount = await publicClient.readContract({
             abi: FACTORY_ABI,
-            address: chainAddresses.factory,
+            address: chain.contracts.factory.address,
             functionName: "kpiTokensAmount",
         });
         return Number(amount);
@@ -47,14 +45,14 @@ class Fetcher implements IPartialCarrotFetcher {
         fromIndex,
         toIndex,
     }: FetchKPITokenAddressesParams): Promise<Address[]> {
-        const { chainAddresses } = await this.validate({ publicClient });
+        const chain = await validateChainId(publicClient);
         const finalFromIndex = !fromIndex || fromIndex < 0 ? 0 : fromIndex;
         const finalToIndex = !toIndex
             ? await this.fetchKPITokensAmount({ publicClient })
             : toIndex;
         const fetchedKPITokens = (await publicClient.readContract({
             abi: FACTORY_ABI,
-            address: chainAddresses.factory,
+            address: chain.contracts.factory.address,
             functionName: "enumerate",
             args: [BigInt(finalFromIndex), BigInt(finalToIndex)],
         })) as Address[];
@@ -70,7 +68,7 @@ class Fetcher implements IPartialCarrotFetcher {
         blacklisted,
         limit,
     }: FetchLatestKpiTokenAddressesParams): Promise<Address[]> {
-        const { chainAddresses } = await this.validate({ publicClient });
+        const chain = await validateChainId(publicClient);
         const finalLimit = limit || 5;
         const toIndex = await this.fetchKPITokensAmount({ publicClient });
 
@@ -81,7 +79,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
             const fetchedKPITokens = (await publicClient.readContract({
                 abi: FACTORY_ABI,
-                address: chainAddresses.factory,
+                address: chain.contracts.factory.address,
                 functionName: "enumerate",
                 args: [BigInt(fromIndex), BigInt(toIndex)],
             })) as Address[];
@@ -109,9 +107,7 @@ class Fetcher implements IPartialCarrotFetcher {
         blacklisted,
         addresses,
     }: FetchKPITokensParams): Promise<{ [address: string]: KPIToken }> {
-        const { chainAddresses, chainId } = await this.validate({
-            publicClient,
-        });
+        const chain = await validateChainId(publicClient);
         let tokenAddresses: Address[];
         let kpiTokenAmounts;
         if (addresses && addresses.length > 0) {
@@ -124,7 +120,7 @@ class Fetcher implements IPartialCarrotFetcher {
             if (kpiTokenAmounts === 0) return {};
             tokenAddresses = (await publicClient.readContract({
                 abi: FACTORY_ABI,
-                address: chainAddresses.factory,
+                address: chain.contracts.factory.address,
                 functionName: "enumerate",
                 args: [0n, BigInt(kpiTokenAmounts)],
             })) as Address[];
@@ -137,7 +133,7 @@ class Fetcher implements IPartialCarrotFetcher {
                   )
                 : tokenAddresses;
         const kpiTokenResult = await publicClient.multicall({
-            multicallAddress: chainAddresses.multicall3,
+            multicallAddress: chain.contracts.multicall3.address,
             allowFailure: false,
             contracts: tokenAddresses.flatMap((address) => {
                 return [
@@ -229,7 +225,7 @@ class Fetcher implements IPartialCarrotFetcher {
 
             const kpiTokenAddress = tokenAddresses[i];
             allKPITokens[kpiTokenAddress] = new KPIToken(
-                chainId,
+                chain.id,
                 kpiTokenAddress,
                 kpiTokenOwner,
                 template,
@@ -247,13 +243,11 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         addresses,
     }: FetchOraclesParams): Promise<{ [address: string]: Oracle }> {
-        const { chainAddresses, chainId } = await this.validate({
-            publicClient,
-        });
+        const chain = await validateChainId(publicClient);
 
         const oracleAmounts = await publicClient.readContract({
             abi: ORACLES_MANAGER_ABI,
-            address: chainAddresses.oraclesManager,
+            address: chain.contracts.oraclesManager.address,
             functionName: "templatesAmount",
         });
         if (oracleAmounts == 0n) return {};
@@ -263,14 +257,14 @@ class Fetcher implements IPartialCarrotFetcher {
                 : (
                       await publicClient.readContract({
                           abi: ORACLES_MANAGER_ABI,
-                          address: chainAddresses.oraclesManager,
+                          address: chain.contracts.oraclesManager.address,
                           functionName: "enumerateTemplates",
                           args: [0n, oracleAmounts],
                       })
                   ).map((oracle) => oracle.addrezz);
 
         const oraclesResult = await publicClient.multicall({
-            multicallAddress: chainAddresses.multicall3,
+            multicallAddress: chain.contracts.multicall3.address,
             allowFailure: false,
             contracts: oracleAddresses.flatMap((address) => {
                 return [
@@ -296,7 +290,7 @@ class Fetcher implements IPartialCarrotFetcher {
                 specification,
             );
             oracles[oracleAddress] = new Oracle(
-                chainId,
+                chain.id,
                 oracleAddress,
                 template,
                 oraclesResult[i * 2 + 1] as boolean,
@@ -306,16 +300,16 @@ class Fetcher implements IPartialCarrotFetcher {
     }
 
     private async fetchTemplates(
-        publicClient: PublicClient,
+        publicClient: PublicClient<Transport, SupportedChain | undefined>,
         managerAddress: Address,
         ids?: number[],
     ): Promise<Template[]> {
-        const { chainAddresses } = await this.validate({ publicClient });
+        const chain = await validateChainId(publicClient);
 
         let rawTemplates;
         if (ids && ids.length > 0) {
             rawTemplates = (await publicClient.multicall({
-                multicallAddress: chainAddresses.multicall3,
+                multicallAddress: chain.contracts.multicall3.address,
                 allowFailure: false,
                 contracts: ids.map((id) => {
                     return {
@@ -355,10 +349,10 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainAddresses } = await this.validate({ publicClient });
+        const chain = await validateChainId(publicClient);
         return await this.fetchTemplates(
             publicClient,
-            chainAddresses.kpiTokensManager,
+            chain.contracts.kpiTokensManager.address,
             ids,
         );
     }
@@ -367,12 +361,10 @@ class Fetcher implements IPartialCarrotFetcher {
         publicClient,
         ids,
     }: FetchTemplatesParams): Promise<Template[]> {
-        const { chainAddresses } = await this.validate({
-            publicClient,
-        });
+        const chain = await validateChainId(publicClient);
         return await this.fetchTemplates(
             publicClient,
-            chainAddresses.oraclesManager,
+            chain.contracts.oraclesManager.address,
             ids,
         );
     }
@@ -398,10 +390,10 @@ class Fetcher implements IPartialCarrotFetcher {
         featureId,
         account,
     }: FetchTemplateFeatureEnabledForParams): Promise<boolean> {
-        const { chainAddresses } = await this.validate({ publicClient });
+        const chain = await validateChainId(publicClient);
         return await this.fetchTemplateFeatureEnabledFor(
             publicClient,
-            chainAddresses.kpiTokensManager,
+            chain.contracts.kpiTokensManager.address,
             templateId,
             featureId,
             account,
@@ -414,29 +406,14 @@ class Fetcher implements IPartialCarrotFetcher {
         featureId,
         account,
     }: FetchTemplateFeatureEnabledForParams): Promise<boolean> {
-        const { chainAddresses } = await this.validate({ publicClient });
+        const chain = await validateChainId(publicClient);
         return await this.fetchTemplateFeatureEnabledFor(
             publicClient,
-            chainAddresses.oraclesManager,
+            chain.contracts.oraclesManager.address,
             templateId,
             featureId,
             account,
         );
-    }
-
-    private async validate({
-        publicClient,
-    }: {
-        publicClient: PublicClient;
-    }): Promise<{ chainAddresses: ChainAddresses; chainId: ChainId }> {
-        const chainId = await validateChainId(publicClient);
-        const chainAddresses = CHAIN_ADDRESSES[chainId as ChainId];
-        enforce(!!chainAddresses, `no addresses available in chain ${chainId}`);
-
-        return {
-            chainAddresses,
-            chainId,
-        };
     }
 }
 

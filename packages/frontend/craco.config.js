@@ -7,12 +7,12 @@ const { join } = require("node:path");
 const shared = require("./shared-dependencies.json");
 const { getEnv } = require("./utils/env");
 
-const ALLOWED_BUILDING_MODES = ["staging", "production", "development"];
+const ALLOWED_BUILDING_MODES = ["prod", "staging", "dev"];
 
-const buildingMode = process.env.BUILDING_MODE || "development";
-if (ALLOWED_BUILDING_MODES.indexOf(buildingMode) < 0) {
+const environment = process.env.BUILDING_MODE || "dev";
+if (ALLOWED_BUILDING_MODES.indexOf(environment) < 0) {
     console.error(
-        `Invalid building mode "${buildingMode}" specified. Allowed values are: ${ALLOWED_BUILDING_MODES.join(
+        `Invalid building mode "${environment}" specified. Allowed values are: ${ALLOWED_BUILDING_MODES.join(
             ", ",
         )}`,
     );
@@ -42,18 +42,18 @@ module.exports = {
                     shared,
                 }),
                 new webpack.DefinePlugin({
-                    __BUILDING_MODE__: JSON.stringify(buildingMode),
+                    __ENVIRONMENT__: JSON.stringify(environment),
                     __INFURA_PROJECT_ID__: getEnv(
                         "INFURA_PROJECT_ID",
-                        buildingMode === "production",
+                        environment === "prod",
                     ),
                     __WALLETCONNECT_PROJECT_ID__: getEnv(
                         "WALLETCONNECT_PROJECT_ID",
-                        buildingMode === "production",
+                        environment === "prod",
                     ),
                     __FATHOM_SITE_ID__: getEnv(
                         "FATHOM_SITE_ID",
-                        buildingMode === "production",
+                        environment === "prod",
                     ),
                 }),
                 new webpack.ProvidePlugin({
@@ -77,7 +77,7 @@ module.exports = {
                         : defaultFilename;
                 },
             };
-            if (buildingMode !== "production") return config;
+            if (environment !== "prod") return config;
             // TODO: make Workbox and precaching work (all
             // cacheable files are now excluded)
             config.plugins.push(

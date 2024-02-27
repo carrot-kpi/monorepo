@@ -7,7 +7,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useAccount } from "wagmi";
 import Error from "../../../../../icons/error";
 import { ChainIcon } from "../../../../chain-icon";
-import { SUPPORTED_CHAIN_ICON_DATA } from "../../../../../constants";
 
 dayjs.extend(relativeTime);
 
@@ -21,14 +20,7 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
     const href = chain?.blockExplorers
         ? `${chain.blockExplorers.default.url}/tx/${tx.hash}`
         : "";
-    const { Logo, iconBackgroundColor } =
-        !!chain && SUPPORTED_CHAIN_ICON_DATA[chain.id]
-            ? {
-                  Logo: SUPPORTED_CHAIN_ICON_DATA[chain.id].logo,
-                  iconBackgroundColor:
-                      SUPPORTED_CHAIN_ICON_DATA[chain.id].backgroundColor,
-              }
-            : { Logo: Error, iconBackgroundColor: "#ff0000" };
+    const Logo = chain?.icon.logo || Error;
 
     const handlePopoverOpen = useCallback(() => {
         setDatePopoverOpen(true);
@@ -48,7 +40,9 @@ export const Transaction = <T extends TxType>(tx: Tx<T>) => {
                             <Icon />
                         ) : (
                             <ChainIcon
-                                backgroundColor={iconBackgroundColor}
+                                backgroundColor={
+                                    chain?.icon.backgroundColor || "#ff0000"
+                                }
                                 variant="lg"
                                 rounded
                                 logo={<Logo width={18} height={18} />}

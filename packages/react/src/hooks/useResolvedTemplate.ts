@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-    Template,
-    Fetcher,
-    ResolvedTemplate,
-    getServiceURL,
-    Service,
-} from "@carrot-kpi/sdk";
+import { Template, Fetcher, ResolvedTemplate } from "@carrot-kpi/sdk";
 import { useAccount } from "wagmi";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
-import { useProdMode } from "./useProdMode";
 import { usePreferDecentralization } from "./usePreferDecentralization";
 
 interface ResolvedTemplateParams {
@@ -22,7 +15,6 @@ export function useResolvedTemplate(params?: ResolvedTemplateParams): {
     const { chain } = useAccount();
     const ipfsGatewayURL = useIPFSGatewayURL();
     const preferDecentralization = usePreferDecentralization();
-    const prodMode = useProdMode();
 
     const [resolvedTemplate, setResolvedTemplate] =
         useState<ResolvedTemplate | null>(null);
@@ -36,7 +28,7 @@ export function useResolvedTemplate(params?: ResolvedTemplateParams): {
             try {
                 const resolved = await Fetcher.resolveTemplates({
                     ipfsGatewayURL,
-                    dataCDNURL: getServiceURL(Service.DATA_CDN, prodMode),
+                    dataCDNURL: chain.serviceUrls.dataCdn,
                     preferDecentralization,
                     templates: [params.template],
                 });
@@ -55,13 +47,7 @@ export function useResolvedTemplate(params?: ResolvedTemplateParams): {
         return () => {
             cancelled = true;
         };
-    }, [
-        chain,
-        ipfsGatewayURL,
-        prodMode,
-        preferDecentralization,
-        params?.template,
-    ]);
+    }, [chain, ipfsGatewayURL, preferDecentralization, params?.template]);
 
     return { loading, resolvedTemplate };
 }

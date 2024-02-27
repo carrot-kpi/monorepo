@@ -33,7 +33,6 @@ import { useAccount, usePublicClient } from "wagmi";
 import { useAddDraft } from "../hooks/useAddDraft";
 import { useDraft } from "../hooks/useDraft";
 import dayjs from "dayjs";
-import { DATA_CDN_URL } from "../constants";
 import { clearDraftState, sha256 } from "../utils/draft";
 import { useDebounce } from "react-use";
 
@@ -173,6 +172,10 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
             console.warn("no public client");
             return;
         }
+        if (!chain) {
+            console.warn("no chain");
+            return;
+        }
         const parsedTemplateId = parseInt(templateId);
         if (isNaN(parsedTemplateId)) {
             console.warn(`non numeric template id ${templateId}`);
@@ -196,7 +199,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
                 }
                 const resolvedTemplates = await Fetcher.resolveTemplates({
                     ipfsGatewayURL,
-                    dataCDNURL: DATA_CDN_URL,
+                    dataCDNURL: chain.serviceUrls.dataCdn,
                     preferDecentralization,
                     templates: templates,
                 });
@@ -227,7 +230,7 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
             cancelled = true;
         };
     }, [
-        chain?.name,
+        chain,
         ipfsGatewayURL,
         preferDecentralization,
         publicClient,
