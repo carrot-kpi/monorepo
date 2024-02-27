@@ -1,16 +1,16 @@
-import { Button, Modal, Typography } from "@carrot-kpi/ui";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Button, Typography } from "@carrot-kpi/ui";
+import React /* , { useCallback, useEffect, useRef, useState } */ from "react";
 import { CardHorizontal } from "../../components/ui/cards-horizontal";
 import { Link } from "react-router-dom";
 import Plus from "../../icons/plus";
 import { useTranslation } from "react-i18next";
 import { cva } from "class-variance-authority";
 import { CreateCampaignButton } from "../../components/create-campaign-button";
-import { useSelector } from "../../state/hooks";
-import type { HostState } from "../../state";
+// import { useSelector } from "../../state/hooks";
+// import type { HostState } from "../../state";
 import { KPITokenCard } from "../../components/ui/kpi-token-card";
-import { NAVBAR_LINKS, STATIC_CDN_URL } from "../../constants";
-import PlayVideo from "../../icons/play-video";
+import { NAVBAR_LINKS } from "../../constants";
+// import PlayVideo from "../../icons/play-video";
 import VideoPoster from "../../images/video-poster.png";
 import type { KPIToken } from "@carrot-kpi/sdk";
 import { Navbar } from "../../components/ui/navbar";
@@ -35,31 +35,31 @@ export interface HeroProps {
 
 export const Hero = ({ featuredKPITokens }: HeroProps) => {
     const { t } = useTranslation();
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const modalOpen = useSelector<HostState>((state) => state.modals.open);
+    // const videoRef = useRef<HTMLVideoElement>(null);
+    // const modalOpen = useSelector<HostState>((state) => state.modals.open);
 
-    const [showVideo, setShowVideo] = useState(false);
+    // const [showVideo, setShowVideo] = useState(false);
 
-    const handleClick = useCallback(() => {
-        setShowVideo(true);
-        if (!videoRef || !videoRef.current) return;
-        videoRef.current.play();
-    }, []);
+    // const handleClick = useCallback(() => {
+    //     setShowVideo(true);
+    //     if (!videoRef || !videoRef.current) return;
+    //     videoRef.current.play();
+    // }, []);
 
-    const handleDismiss = useCallback(() => {
-        setShowVideo(false);
-        if (!videoRef || !videoRef.current) return;
-        videoRef.current.pause();
-        setTimeout(() => {
-            if (!videoRef || !videoRef.current) return;
-            videoRef.current.currentTime = 0;
-        }, 300);
-    }, []);
+    // const handleDismiss = useCallback(() => {
+    //     setShowVideo(false);
+    //     if (!videoRef || !videoRef.current) return;
+    //     videoRef.current.pause();
+    //     setTimeout(() => {
+    //         if (!videoRef || !videoRef.current) return;
+    //         videoRef.current.currentTime = 0;
+    //     }, 300);
+    // }, []);
 
-    useEffect(() => {
-        if (!videoRef || !videoRef.current) return;
-        if (modalOpen) videoRef.current.pause();
-    }, [modalOpen]);
+    // useEffect(() => {
+    //     if (!videoRef || !videoRef.current) return;
+    //     if (modalOpen) videoRef.current.pause();
+    // }, [modalOpen]);
 
     return (
         <div className="flex flex-col items-center bg-orange bg-grid-light dark:bg-grid-dark bg-left-top">
@@ -100,7 +100,7 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
                                     src={VideoPoster}
                                     alt="poster"
                                 />
-                                <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
+                                {/* <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
                                     <Button
                                         data-testid="how-it-works-button"
                                         onClick={handleClick}
@@ -113,28 +113,8 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
                                         <PlayVideo />
                                         How it works
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
-                            <Modal open={showVideo} onDismiss={handleDismiss}>
-                                <div className="w-full md:w-1/2 aspect-video rounded-xl bg-gray-500">
-                                    <video
-                                        data-testid="video-preview-overlay"
-                                        ref={videoRef}
-                                        controls
-                                        className="aspect-video w-full border border-black rounded-xl bg-gray-500 overflow-hidden"
-                                    >
-                                        <source
-                                            src={`${STATIC_CDN_URL}/hero-video.webm`}
-                                            type="video/webm"
-                                        />
-                                        <source
-                                            src={`${STATIC_CDN_URL}/hero-video.mp4`}
-                                            type="video/mp4"
-                                        />
-                                        Not supported
-                                    </video>
-                                </div>
-                            </Modal>
                         </div>
                     </div>
                 ) : (
