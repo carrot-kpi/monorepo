@@ -30,6 +30,7 @@
         "build:staging": "yarn clean && yarn prepare-fathom && ENVIRONMENT=staging craco build",
         "build:dev": "yarn clean && yarn prepare-fathom && ENVIRONMENT=dev craco build",
         "build:library": "yarn clean && yarn prepare-fathom && rollup -c rollup.config.mjs && tsc --project tsconfig.build.json",
+        "build:standalone": "yarn clean && yarn prepare-fathom && craco build",
         "test": "react-scripts test --env=jsdom --watchAll=false --passWithNoTests",
         "size-limit": "size-limit",
         "prepare-fathom": "prepare-fathom",
