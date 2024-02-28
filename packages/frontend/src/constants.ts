@@ -23,22 +23,37 @@ export interface CarrotChain extends SupportedChain {
     icon: ChainIconData;
 }
 
-export const SUPPORTED_CHAINS: [CarrotChain, ...CarrotChain[]] = [
-    {
-        ...SUPPORTED_CHAIN[ChainId.Sepolia],
-        icon: {
-            logo: EthereumLogo,
-            backgroundColor: "#8637ea",
-        },
-    },
-    {
-        ...SUPPORTED_CHAIN[ChainId.ArbitrumSepolia],
-        icon: {
-            logo: ArbitrumLogo,
-            backgroundColor: "#213147",
-        },
-    },
-] as const;
+export const SUPPORTED_CHAINS: [CarrotChain, ...CarrotChain[]] =
+    __ENVIRONMENT__ === "dev"
+        ? ([
+              {
+                  ...SUPPORTED_CHAIN[ChainId.ArbitrumSepolia],
+                  icon: {
+                      logo: ArbitrumLogo,
+                      backgroundColor: "#213147",
+                  },
+              },
+          ] as const)
+        : __ENVIRONMENT__ === "staging"
+          ? ([
+                {
+                    ...SUPPORTED_CHAIN[ChainId.Sepolia],
+                    icon: {
+                        logo: EthereumLogo,
+                        backgroundColor: "#8637ea",
+                    },
+                },
+            ] as const)
+          : // FIXME: this is not a prod chain but it's here until we have an actual production deployment
+            ([
+                {
+                    ...SUPPORTED_CHAIN[ChainId.ArbitrumSepolia],
+                    icon: {
+                        logo: ArbitrumLogo,
+                        backgroundColor: "#213147",
+                    },
+                },
+            ] as const);
 
 export const SUPPORTED_CHAIN_TRANSPORT: Record<ChainId, Transport> = {
     [sepolia.id as number]: http(),

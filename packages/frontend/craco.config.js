@@ -7,12 +7,12 @@ const { join } = require("node:path");
 const shared = require("./shared-dependencies.json");
 const { getEnv } = require("./utils/env");
 
-const ALLOWED_BUILDING_MODES = ["prod", "staging", "dev"];
+const ALLOWED_ENVIRONMENTS = ["prod", "staging", "dev", "library"];
 
-const environment = process.env.BUILDING_MODE || "dev";
-if (ALLOWED_BUILDING_MODES.indexOf(environment) < 0) {
+const environment = process.env.ENVIRONMENT;
+if (ALLOWED_ENVIRONMENTS.indexOf(environment) < 0) {
     console.error(
-        `Invalid building mode "${environment}" specified. Allowed values are: ${ALLOWED_BUILDING_MODES.join(
+        `Invalid environment "${environment}" specified. Allowed values are: ${ALLOWED_ENVIRONMENTS.join(
             ", ",
         )}`,
     );
