@@ -13,6 +13,9 @@ export const wallets = {
     coinBase: "Coinbase Wallet",
 };
 export const urls = {
+    local: "http://127.0.0.1:3000",
+    dev: "https://app.dev.carrot.community/#/?chain=arbitrum+sepolia",
+    stage: "https://app.staging.carrot.community/#/?chain=sepolia",
     carrotCommunity: "https://www.staging.carrot.community/",
     allCampaigns: "/campaigns",
     createCampaign: "/create/1/draft",

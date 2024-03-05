@@ -39,8 +39,10 @@
         "start:staging": "yarn prepare-fathom && ENVIRONMENT=staging craco start",
         "start:dev": "yarn prepare-fathom && ENVIRONMENT=dev craco start",
         "start": "craco start",
-        "synpress:run": "env-cmd -f ../../.env.e2e synpress run --browser chrome --configFile synpress.config.js",
-        "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run'"
+        "synpress:run": "synpress run --env ENV=local --browser chrome --configFile synpress.config.js",
+        "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run'",
+        "test:smoke:dev": "synpress run --env ENV=dev --browser chrome --configFile synpress.config.js",
+        "test:smoke:stage": "synpress run --env ENV=stage --browser chrome --configFile synpress.config.js"
     },
     "dependencies": {
         "@carrot-kpi/react": "*",

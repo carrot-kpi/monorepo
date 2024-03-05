@@ -1,12 +1,15 @@
 import { homePage } from "../pages/home-page";
 import { createCampaign } from "../pages/create-campaign-page";
 import { networks, wallets } from "../utils/data";
+import { utility } from "utils/choose_env";
 /**
  *@description Smoke test for Carrot Home page
  */
+const url = utility.getBaseUrl();
+
 describe("Guest no wallet - Home page assertions", () => {
     beforeEach(() => {
-        cy.visit("/");
+        cy.visit(url);
     });
 
     it("Staging banner is visible", () => {
