@@ -1,5 +1,11 @@
 # @carrot-kpi/host-frontend
 
+## 0.40.1
+
+### Patch Changes
+
+- ca68aea: Remove wagmi config import in api configuration file that was causing build issues
+
 ## 0.40.0
 
 ### Minor Changes
