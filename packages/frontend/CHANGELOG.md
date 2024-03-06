@@ -1,5 +1,11 @@
 # @carrot-kpi/host-frontend
 
+## 0.40.2
+
+### Patch Changes
+
+- bdb2824: Trigger release
+
 ## 0.40.1
 
 ### Patch Changes
