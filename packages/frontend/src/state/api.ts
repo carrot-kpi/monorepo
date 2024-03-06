@@ -5,10 +5,9 @@ import {
     type SupportedChain,
 } from "@carrot-kpi/sdk";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getAccount } from "@wagmi/core";
 import type { Address, PublicClient, Transport } from "viem";
 import { createCarrotApi } from "./hooks";
-import { config } from "../standalone-entrypoint";
+import { SUPPORTED_CHAINS } from "../constants";
 
 export interface FetchFeaturedKPITokensParams {
     publicClient?: PublicClient<Transport, SupportedChain | undefined>;
@@ -23,10 +22,17 @@ export const staticApi = createCarrotApi({
     endpoints: (builder) => ({
         fetchFeaturedBlacklistedKPITokenAddresses: builder.query<
             FeaturedBlacklistedKPITokens,
-            void
+            {
+                publicClient?: PublicClient<
+                    Transport,
+                    SupportedChain | undefined
+                >;
+            }
         >({
-            queryFn: async () => {
-                const { chain } = await getAccount(config);
+            queryFn: async ({ publicClient }) => {
+                const chain = SUPPORTED_CHAINS.find(
+                    (chain) => chain.id === publicClient?.chain?.id,
+                );
                 if (!chain)
                     return {
                         error: {

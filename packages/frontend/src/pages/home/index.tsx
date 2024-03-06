@@ -1,3 +1,4 @@
+import { usePublicClient } from "wagmi";
 import React, { useEffect, useState } from "react";
 import { Layout } from "../../components/layout";
 import { Hero } from "./hero";
@@ -21,10 +22,11 @@ interface HomeProps {
 }
 
 export const Home = ({ templateId }: HomeProps) => {
+    const publicClient = usePublicClient();
     const {
         isLoading: loadingFeaturedBlacklistedKPITokenAddresses,
         data: featuredBlacklistedKPITokenAddresses,
-    } = useFeaturedBlacklistedKPITokenAddresses();
+    } = useFeaturedBlacklistedKPITokenAddresses({ publicClient });
     const { isLoading: loadingFeaturedKPITokens, data: featuredKPITokens } =
         useFeaturedKPITokens(featuredBlacklistedKPITokenAddresses);
     useFathomTrackPageWatch();
