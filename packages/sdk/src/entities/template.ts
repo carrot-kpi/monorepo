@@ -1,4 +1,5 @@
 import { type Address } from "viem";
+import type { Environment } from "../commons";
 
 export interface OnChainTemplate {
     addrezz: Address;
@@ -24,7 +25,10 @@ export class TemplateSpecification {
         public readonly tags: string[],
         public readonly repository: string,
         public readonly commitHash: string,
-        public readonly stagingURL?: string,
+        public readonly previewUrl?: {
+            [Environment.Development]?: string;
+            [Environment.Staging]?: string;
+        },
     ) {}
 }
 export class ResolvedTemplate {

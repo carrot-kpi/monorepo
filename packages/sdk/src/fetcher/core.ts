@@ -240,7 +240,7 @@ export class CoreFetcher implements ICoreFetcher {
                     parsedTemplateSpecification.tags,
                     parsedTemplateSpecification.repository,
                     parsedTemplateSpecification.commitHash,
-                    parsedTemplateSpecification.stagingURL,
+                    parsedTemplateSpecification.previewUrl,
                 );
                 return ResolvedTemplate.from(template, specification);
             }),
