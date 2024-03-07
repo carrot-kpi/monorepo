@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.52.0
+
+### Minor Changes
+
+- 446ccdb: Env-specific template previews
+
 ## 1.51.0
 
 ### Minor Changes

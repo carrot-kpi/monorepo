@@ -1,5 +1,16 @@
 # @carrot-kpi/react
 
+## 0.79.0
+
+### Minor Changes
+
+- 446ccdb: Env-specific template previews
+
+### Patch Changes
+
+- Updated dependencies [446ccdb]
+  - @carrot-kpi/sdk@1.52.0
+
 ## 0.78.0
 
 ### Minor Changes
