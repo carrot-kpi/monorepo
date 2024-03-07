@@ -10,7 +10,6 @@ import {
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
 import { type State, useSelector } from "@carrot-kpi/shared-state";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
-import { useStagingMode } from "./useStagingMode";
 import { useAccount } from "wagmi";
 import type {
     RemoteComponentProps,
@@ -65,18 +64,18 @@ export const useTemplateModule = <
             : state.preferences.oracleTemplateBaseURL,
     );
     const { chain } = useAccount();
-    const stagingMode = useStagingMode();
     const ipfsGatewayURL = useIPFSGatewayURL();
 
     const baseURL = useMemo(() => {
         if (!template || !chain) return undefined;
-        let root;
+        let root: string;
         if (customBaseURL) root = customBaseURL;
-        else if (stagingMode && template.specification.stagingURL)
-            root = template.specification.stagingURL;
+        else if (template.specification.previewUrl?.[chain.environment])
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            root = template.specification.previewUrl[chain.environment]!;
         else root = `${ipfsGatewayURL}/ipfs/${template.specification.cid}`;
         return root.endsWith("/") ? `${root}${type}` : `${root}/${type}`;
-    }, [chain, customBaseURL, ipfsGatewayURL, stagingMode, template, type]);
+    }, [chain, customBaseURL, ipfsGatewayURL, template, type]);
     const { loading: loadingFederatedModule, container } =
         useFederatedModuleContainer({ type, baseUrl: baseURL, entry });
 
