@@ -12,7 +12,7 @@ export const StagingModeBanner = () => {
             className={{ root: "text-center px-4 py-2" }}
         >
             <Typography data-testid="staging-banner-text" variant="sm">
-                {t("stagingMode.warning")}
+                {t("templatePreviewMode.warning")}
             </Typography>
         </FeedbackBox>
     );

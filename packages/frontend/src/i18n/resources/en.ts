@@ -2,8 +2,8 @@ import { CARROT_KPI_FRONTEND_I18N_NAMESPACE } from "../../constants";
 
 export const en = {
     [CARROT_KPI_FRONTEND_I18N_NAMESPACE]: {
-        "stagingMode.warning":
-            "You are using Carrot templates' staging versions. Reach out to the team in Discord for the LIVE released and audited version.",
+        "templatePreviewMode.warning":
+            "You are using Carrot templates' preview versions. Reach out to the team in Discord for the LIVE released and audited version.",
         "video.notSupported": "The browser doesn't support the video tag.",
         "connect.wallet": "Connect",
         "connect.wallet.unknown": "Unknown",
@@ -50,9 +50,9 @@ export const en = {
         "preferences.decentralization": "Decentralization mode",
         "preferences.decentralization.info":
             "Decentralization mode tries to route all calls to decentralized options. Onchain calls will be made directly to the targeted blockchain and IPFS data will always be sourced from IPFS directly.\n\nTo get the maximum out of the option, specify your custom RPC and IPFS node URLs below to make Carrot unstoppable.",
-        "preferences.stagingMode": "Staging mode",
-        "preferences.stagingMode.info":
-            "Staging mode loads template frontends from a developer-specified URL instead of loading the official on-chain registered frontend from IPFS.\n\nDisable the option if you want to test the (stabler) on-chain templates as opposed to the bleeding edge version of each template.",
+        "preferences.templatePreviewMode": "Template preview mode",
+        "preferences.templatePreviewMode.info":
+            "Template preview mode loads template frontends from a developer-specified URL instead of loading the official on-chain registered frontend from IPFS.\n\nDisable the option if you want to test the (stabler) on-chain templates as opposed to the bleeding edge version of each template.",
         loading: "Loading",
         search: "Search...",
         "coming.soon.dark.theme": "Dark theme coming soon",

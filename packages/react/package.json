@@ -179,20 +179,20 @@
             "import": "./dist/es/hooks/useSetPreferDecentralization.mjs",
             "default": "./dist/cjs/hooks/useSetPreferDecentralization.cjs"
         },
-        "./useSetStagingMode": {
-            "types": "./dist/types/hooks/useSetStagingMode.d.ts",
-            "import": "./dist/es/hooks/useSetStagingMode.mjs",
-            "default": "./dist/cjs/hooks/useSetStagingMode.cjs"
+        "./useSetTemplatePreviewMode": {
+            "types": "./dist/types/hooks/useSetTemplatePreviewMode.d.ts",
+            "import": "./dist/es/hooks/useSetTemplatePreviewMode.mjs",
+            "default": "./dist/cjs/hooks/useSetTemplatePreviewMode.cjs"
         },
         "./useSetTheme": {
             "types": "./dist/types/hooks/useSetTheme.d.ts",
             "import": "./dist/es/hooks/useSetTheme.mjs",
             "default": "./dist/cjs/hooks/useSetTheme.cjs"
         },
-        "./useStagingMode": {
-            "types": "./dist/types/hooks/useStagingMode.d.ts",
-            "import": "./dist/es/hooks/useStagingMode.mjs",
-            "default": "./dist/cjs/hooks/useStagingMode.cjs"
+        "./useTemplatePreviewMode": {
+            "types": "./dist/types/hooks/useTemplatePreviewMode.d.ts",
+            "import": "./dist/es/hooks/useTemplatePreviewMode.mjs",
+            "default": "./dist/cjs/hooks/useTemplatePreviewMode.cjs"
         },
         "./useTemplateModule": {
             "types": "./dist/types/hooks/useTemplateModule.d.ts",
@@ -320,14 +320,14 @@
             "useSetPreferDecentralization": [
                 "./dist/types/hooks/useSetPreferDecentralization.d.ts"
             ],
-            "useSetStagingMode": [
-                "./dist/types/hooks/useSetStagingMode.d.ts"
+            "useSetTemplatePreviewMode": [
+                "./dist/types/hooks/useSetTemplatePreviewMode.d.ts"
             ],
             "useSetTheme": [
                 "./dist/types/hooks/useSetTheme.d.ts"
             ],
-            "useStagingMode": [
-                "./dist/types/hooks/useStagingMode.d.ts"
+            "useTemplatePreviewMode": [
+                "./dist/types/hooks/useTemplatePreviewMode.d.ts"
             ],
             "useTemplateModule": [
                 "./dist/types/hooks/useTemplateModule.d.ts"

@@ -14,7 +14,7 @@ import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import {
     useSetDevMode,
     useSetIPFSGatewayURL,
-    useSetStagingMode,
+    useSetTemplatePreviewMode,
 } from "@carrot-kpi/react";
 import { readonly } from "./connectors";
 
@@ -61,11 +61,11 @@ export const config = createConfig({
 
 export const Root = () => {
     const setDevMode = useSetDevMode();
-    const setStagingMode = useSetStagingMode();
+    const setTemplatePreviewMode = useSetTemplatePreviewMode();
     const setIPFSGatewayURL = useSetIPFSGatewayURL();
 
     setDevMode(false);
-    setStagingMode(__ENVIRONMENT__ !== "prod");
+    setTemplatePreviewMode(__ENVIRONMENT__ !== "prod");
     setIPFSGatewayURL(IPFS_GATEWAY_URL);
 
     return (

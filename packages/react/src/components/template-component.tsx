@@ -4,7 +4,7 @@ import { useTemplateModule } from "../hooks/useTemplateModule";
 import { addBundleForTemplate } from "../i18n";
 import { useState } from "react";
 import { cva } from "class-variance-authority";
-import { useStagingMode } from "../hooks/useStagingMode";
+import { useTemplatePreviewMode } from "../hooks/useTemplatePreviewMode";
 import { useTheme } from "../hooks/useTheme";
 import { useMedia } from "react-use";
 import { ErrorBoundary } from "./error-boundary";
@@ -35,11 +35,11 @@ export function TemplateComponent({
     additionalProps = {},
 }: BaseTemplateComponentProps) {
     const { chain } = useAccount();
-    const stagingMode = useStagingMode();
+    const templatePreviewMode = useTemplatePreviewMode();
 
     const entry =
         chain && template
-            ? `${chain.id}-${template.id}-${template.version}-${template.address}-${type}-staging-${stagingMode}`
+            ? `${chain.id}-${template.id}-${template.version}-${template.address}-${type}-staging-${templatePreviewMode}`
             : undefined;
 
     const { loading, bundle, Component } = useTemplateModule({

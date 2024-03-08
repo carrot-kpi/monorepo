@@ -1,9 +1,9 @@
-import { useStagingMode } from "./useStagingMode";
+import { useTemplatePreviewMode } from "./useTemplatePreviewMode";
 import { useDevMode } from "./useDevMode";
 
 export const useProdMode = () => {
     const devMode = useDevMode();
-    const stagingMode = useStagingMode();
+    const templatePreviewMode = useTemplatePreviewMode();
 
-    return !devMode && !stagingMode;
+    return !devMode && !templatePreviewMode;
 };

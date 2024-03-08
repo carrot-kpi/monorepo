@@ -55,40 +55,41 @@ paste the values there.
 ## Running modes
 
 The frontend supports 3 different running modes: **dev**, **staging** and
-**standard**.
+**production**.
 
-In standard mode the frontend will behave exactly as it would in production, and
-fetch templates data directly from the blockchain (or the subgraph if not in
-decentralization mode) and in the case of templates from decentralized storage
-option, directly using the CIDs specified on-chain in the manager contracts.
-This should in general result in a stabler experience, as only stable templates
-should be allowed to reach the on-chain state.
+In production mode the frontend will fetch templates data directly from the
+blockchain (or the subgraph if not in decentralization mode) and in the case of
+templates from decentralized storage option, directly using the CIDs specified
+on-chain in the manager contracts. This should in general result in a stabler
+experience, as only stable templates should be allowed to reach the on-chain
+state.
 
-Optionally, templates can also specify a `stagingURL` key in their `base.json`
-specification file. When the frontend is running in staging mode the template's
-federated modules (both **page** and **creation form**) will be loaded from that
-URL instead of the on-chain specified decentralized storage CIDs.
+Optionally, templates can also specify a `previewUrl` key in their `base.json`
+specification file, that expects `development` and `staging` as sub-keys. When
+the frontend is running in staging or dev mode the template's federated modules
+(both **page** and **creation form**) will be loaded from that URL instead of
+the on-chain specified decentralized storage CIDs.
 
 This helps while testing out new features as it means that each template
 developer can potentially set up a CI flow to build the template's frontend at
 each commit and serve it through a static server (using services such as
 [**Vercel**](https://vercel.com/carrot-kpi) or
 [**Netlify**](https://www.netlify.com/) for example). It's then possible to add
-the hosting URL in the `base.json` file under the `stagingURL` key, and any host
-frontend instance running in staging mode will try to load the template's
+the hosting URL in the `base.json` file under the `previewUrl` key, and any host
+frontend instance running in staging or dev mode will try to load the template's
 frontend from there instead of the IPFS CID specified on-chain (which, again,
 contains the latest **stable** and **Carrot Labs checked** version of the
 template at hand).
 
-It's clear then that staging mode can be used to test out bleeding-edge features
-of Carrot that have reached a certain maturity stage but that are **not yet
-ready for production**.
+It's clear then that staging and dev modes can be used to test out bleeding-edge
+features of Carrot that have reached a certain maturity stage but that are **not
+yet ready for production**.
 
 > **Warning**: we recognize the risk that template developers could potentially
-> push malicious code in staging mode template builds, and as such the mode
-> itself is limited to only interact with testnets. Additionally, a warning will
-> be visible while the frontend is running in staging mode encouraging the user
-> to excercise maximum caution.
+> push malicious code in staging or dev mode template builds, and as such the
+> mode itself is limited to only interact with testnets. Additionally, a warning
+> will be visible while the frontend is running in staging mode encouraging the
+> user to excercise maximum caution.
 
 Dev mode is simply a flag that is set to true in the shared state. Its role is
 either to be read by templates or other libraries to tell them they can use dev
@@ -115,9 +116,9 @@ The frontend supports 3 different build modes: **library**, **staging** and
 In production mode the frontend will be built to an optimized app ready to be
 released in production, and all the available features will be enabled.
 
-Staging mode will pretty much result in the same build, but with `stagingURL`
-template loading enabled (see the "running modes" section above for more
-details).
+Staging or dev mode will pretty much result in the same build, but with
+`previewUrl` template loading enabled (see the "running modes" section above for
+more details).
 
 Some features of the app are cut off depending on the chosen mode thanks to a
 `__BUILDING_MODE__` global set to whatever the `BUILDING_MODE` env is at build
@@ -138,7 +139,7 @@ Various pieces of the app would not be functional in library mode, so we use the
 `__BUILDING_MODE__` global in order to remove those pieces from the end bundle
 at build time. When building in library mode through Rollup, the
 `__BUILDING_MODE__` is set to `library` by default, while when building in
-production and staging mode through Webpack it's set based on the
+production, staging and dev mode through Webpack it's set based on the
 `BUILDING_MODE` env.
 
 ## Building
@@ -156,6 +157,11 @@ Three different commands are available to build the host frontend:
   `WALLETCONNECT_PROJECT_ID` and `FATHOM_SITE_ID` envs are optional and will
   activate either WalletConnect or Fathom privacy preserving tracking features
   only if specified.
+- `build:dev`: this will build the host frontend in dev mode. The build's output
+  will be placed under the `build` folder, which will contain a frontend app
+  ready to be published. In this build the `WALLETCONNECT_PROJECT_ID` and
+  `FATHOM_SITE_ID` envs are optional and will activate either WalletConnect or
+  Fathom privacy preserving tracking features only if specified.
 - `build:library`: this will bundle the app in library format, ready to be
   consumed by template developers that want functional playground modes for
   their template frontends. The end bundle is put under `dist` and the

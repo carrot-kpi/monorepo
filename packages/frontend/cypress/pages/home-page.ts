@@ -124,7 +124,7 @@ export class HomePage extends BasePage {
         );
         this.compareText(
             selectors.settings.stagingMode_Text,
-            textData.stagingMode,
+            textData.templatePreviewMode,
         );
     }
     // selects networks from network dropdown and checks if it's been selected
