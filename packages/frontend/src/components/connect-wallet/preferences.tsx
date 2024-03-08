@@ -100,6 +100,7 @@ export const Preferences = () => {
                         </Typography>
                         <Switch
                             data-testid="decentralization-mode-switch"
+                            disabled={__ENVIRONMENT__ === "dev"}
                             checked={preferDecentralization}
                             onChange={setPreferDecentralization}
                         />
