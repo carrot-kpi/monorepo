@@ -9,7 +9,7 @@ import { Home } from "./home";
 import { Page } from "./page";
 import { Campaigns } from "./campaigns";
 import { CreateWithTemplateId } from "./create-with-template-id";
-import { useStagingMode } from "@carrot-kpi/react";
+import { useTemplatePreviewMode } from "@carrot-kpi/react";
 import { StagingModeBanner } from "../components/staging-mode-banner";
 
 interface AppProps {
@@ -17,7 +17,7 @@ interface AppProps {
 }
 
 export const App = ({ templateId }: AppProps) => {
-    const stagingMode = useStagingMode();
+    const templatePreviewMode = useTemplatePreviewMode();
 
     const router = createHashRouter(
         createRoutesFromElements(
@@ -35,7 +35,7 @@ export const App = ({ templateId }: AppProps) => {
 
     return (
         <>
-            {stagingMode && <StagingModeBanner />}
+            {templatePreviewMode && <StagingModeBanner />}
             <RouterProvider router={router} />
         </>
     );

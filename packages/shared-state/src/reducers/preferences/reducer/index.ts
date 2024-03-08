@@ -5,7 +5,7 @@ import {
     setKPITokenTemplateBaseURL,
     setOracleTemplateBaseURL,
     setPreferDecentralization,
-    setStagingMode,
+    setTemplatePreviewMode,
     setTheme,
 } from "../actions";
 import type { PreferencesState } from "../types";
@@ -16,7 +16,7 @@ const initialState: PreferencesState = {
     preferDecentralization: false,
     ipfsGatewayURL: "https://gateway.api.carrot.community",
     devMode: false,
-    stagingMode: false,
+    templatePreviewMode: false,
     kpiTokenTemplateBaseURL: undefined,
     oracleTemplateBaseURL: undefined,
 };
@@ -35,8 +35,8 @@ export const preferencesReducer = createReducer(initialState, (builder) =>
         .addCase(setDevMode, (state, action) => {
             state.devMode = action.payload;
         })
-        .addCase(setStagingMode, (state, action) => {
-            state.stagingMode = action.payload;
+        .addCase(setTemplatePreviewMode, (state, action) => {
+            state.templatePreviewMode = action.payload;
         })
         .addCase(setKPITokenTemplateBaseURL, (state, action) => {
             state.kpiTokenTemplateBaseURL = action.payload;

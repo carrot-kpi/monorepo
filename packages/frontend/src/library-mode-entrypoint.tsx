@@ -20,7 +20,7 @@ interface RootProps {
     kpiTokenTemplateBaseURL?: string;
     oracleTemplateBaseURL?: string;
     templateId?: number;
-    enableStagingMode?: boolean;
+    enableTemplatePreviewMode?: boolean;
 }
 
 export const Root = ({
@@ -31,7 +31,7 @@ export const Root = ({
     oracleTemplateBaseURL,
     ipfsGatewayURL,
     templateId,
-    enableStagingMode,
+    enableTemplatePreviewMode,
 }: RootProps) => {
     const config = createConfig({
         chains: [supportedChain] as const,
@@ -53,7 +53,7 @@ export const Root = ({
                     kpiTokenTemplateBaseURL={kpiTokenTemplateBaseURL}
                     oracleTemplateBaseURL={oracleTemplateBaseURL}
                     ipfsGatewayURL={ipfsGatewayURL}
-                    enableStagingMode={enableStagingMode}
+                    enableTemplatePreviewMode={enableTemplatePreviewMode}
                 />
                 <SharedEntrypoint
                     config={config}
