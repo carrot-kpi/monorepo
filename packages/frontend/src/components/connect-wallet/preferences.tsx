@@ -88,7 +88,7 @@ export const Preferences = () => {
                         />
                     </div>
                 </div> */}
-            {!!chain?.serviceUrls.subgraph && (
+            {!!chain?.serviceUrls.subgraph && __ENVIRONMENT__ !== "dev" && (
                 <div className="flex flex-col border border-black dark:border-white rounded-lg">
                     <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
                         <Typography
@@ -100,7 +100,6 @@ export const Preferences = () => {
                         </Typography>
                         <Switch
                             data-testid="decentralization-mode-switch"
-                            disabled={__ENVIRONMENT__ === "dev"}
                             checked={preferDecentralization}
                             onChange={setPreferDecentralization}
                         />
