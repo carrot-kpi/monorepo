@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.53.1
+
+### Patch Changes
+
+- 3a10552: Rename staging mode to template preview mode
+
 ## 1.53.0
 
 ### Minor Changes

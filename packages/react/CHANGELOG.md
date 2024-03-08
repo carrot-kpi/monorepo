@@ -1,5 +1,13 @@
 # @carrot-kpi/react
 
+## 0.80.1
+
+### Patch Changes
+
+- 3a10552: Rename staging mode to template preview mode, minor fix when loading templates
+- Updated dependencies [3a10552]
+  - @carrot-kpi/sdk@1.53.1
+
 ## 0.80.0
 
 ### Minor Changes
