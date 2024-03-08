@@ -12,7 +12,7 @@ export interface PreferencesState {
     // templates/libs will know when the platform is being run in staging
     // mode and will be able to load templates from their staging deployments
     // location (specified in the base.json file for each template)
-    stagingMode: boolean;
+    templatePreviewMode: boolean;
 
     // the base URL from which to load federated KPI token templates.
     // It should be undefined in production and default to IPFS,

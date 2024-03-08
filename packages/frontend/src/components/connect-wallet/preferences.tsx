@@ -3,8 +3,8 @@ import { Switch, Typography } from "@carrot-kpi/ui";
 import {
     usePreferDecentralization,
     useSetPreferDecentralization,
-    useSetStagingMode,
-    useStagingMode,
+    useSetTemplatePreviewMode,
+    useTemplatePreviewMode,
 } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
 import { useAccount } from "wagmi";
@@ -16,8 +16,8 @@ export const Preferences = () => {
     const preferDecentralization = usePreferDecentralization();
     const setPreferDecentralization = useSetPreferDecentralization();
 
-    const stagingMode = useStagingMode();
-    const setStagingMode = useSetStagingMode();
+    const templatePreviewMode = useTemplatePreviewMode();
+    const setTemplatePreviewMode = useSetTemplatePreviewMode();
 
     // const [darkThemeSwitch, setDarkThemeSwitch] =
     //     useState<HTMLDivElement | null>(null);
@@ -120,16 +120,16 @@ export const Preferences = () => {
                             variant="base"
                             weight="bold"
                         >
-                            {t("preferences.stagingMode")}
+                            {t("preferences.templatePreviewMode")}
                         </Typography>
                         <Switch
                             data-testid="staging-mode-switch"
-                            checked={stagingMode}
-                            onChange={setStagingMode}
+                            checked={templatePreviewMode}
+                            onChange={setTemplatePreviewMode}
                         />
                     </div>
                     <Typography variant="sm" className={{ root: "p-4" }}>
-                        {t("preferences.stagingMode.info")}
+                        {t("preferences.templatePreviewMode.info")}
                     </Typography>
                 </div>
             )}

@@ -27,7 +27,7 @@ export const textData = {
     interfaceSettings: "Interface settings",
     darkTheme: "Dark theme",
     decentralizationMode: "Decentralization mode",
-    stagingMode: "Staging mode",
+    templatePreviewMode: "Template preview mode",
     heroSectionTitle: "Reach your goals with a Carrot",
     heroSectionDescription:
         "Easy and powerful tool to create conditional tokens allowing an effective method to achieve any goal desirable using permissionless, decentralized technologies.",
