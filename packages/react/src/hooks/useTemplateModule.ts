@@ -17,6 +17,7 @@ import type {
     TemplateEntity,
     TemplateType,
 } from "../types/templates";
+import { useTemplatePreviewMode } from "./useTemplatePreviewMode";
 
 type ComponentType<
     E extends TemplateEntity,
@@ -64,18 +65,29 @@ export const useTemplateModule = <
             : state.preferences.oracleTemplateBaseURL,
     );
     const { chain } = useAccount();
+    const templatePreviewMode = useTemplatePreviewMode();
     const ipfsGatewayURL = useIPFSGatewayURL();
 
     const baseURL = useMemo(() => {
         if (!template || !chain) return undefined;
         let root: string;
         if (customBaseURL) root = customBaseURL;
-        else if (template.specification.previewUrl?.[chain.environment])
+        else if (
+            templatePreviewMode &&
+            template.specification.previewUrl?.[chain.environment]
+        )
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             root = template.specification.previewUrl[chain.environment]!;
         else root = `${ipfsGatewayURL}/ipfs/${template.specification.cid}`;
         return root.endsWith("/") ? `${root}${type}` : `${root}/${type}`;
-    }, [chain, customBaseURL, ipfsGatewayURL, template, type]);
+    }, [
+        chain,
+        customBaseURL,
+        templatePreviewMode,
+        ipfsGatewayURL,
+        template,
+        type,
+    ]);
     const { loading: loadingFederatedModule, container } =
         useFederatedModuleContainer({ type, baseUrl: baseURL, entry });
 
