@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.52.1
+
+### Patch Changes
+
+- 00cf8c4: Handle cases in which a feature is not present on the manager smart contract.
+
 ## 1.52.0
 
 ### Minor Changes
