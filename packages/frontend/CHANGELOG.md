@@ -1,5 +1,14 @@
 # @carrot-kpi/host-frontend
 
+## 0.41.1
+
+### Patch Changes
+
+- 3a10552: Rename staging mode to template preview mode
+- Updated dependencies [3a10552]
+  - @carrot-kpi/react@0.80.1
+  - @carrot-kpi/sdk@1.53.1
+
 ## 0.41.0
 
 ### Minor Changes

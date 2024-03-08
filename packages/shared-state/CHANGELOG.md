@@ -1,5 +1,11 @@
 # @carrot-kpi/shared-state
 
+## 0.17.1
+
+### Patch Changes
+
+- 3a10552: Rename staging mode to template preview mode
+
 ## 0.17.0
 
 ### Minor Changes
