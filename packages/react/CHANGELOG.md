@@ -1,5 +1,16 @@
 # @carrot-kpi/react
 
+## 0.80.0
+
+### Minor Changes
+
+- Trigger update.
+
+### Patch Changes
+
+- Updated dependencies
+  - @carrot-kpi/sdk@1.53.0
+
 ## 0.79.0
 
 ### Minor Changes

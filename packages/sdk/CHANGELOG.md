@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.53.0
+
+### Minor Changes
+
+- Trigger update.
+
 ## 1.52.1
 
 ### Patch Changes
