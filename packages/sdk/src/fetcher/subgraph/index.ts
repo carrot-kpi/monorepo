@@ -480,8 +480,8 @@ class Fetcher implements IPartialCarrotFetcher {
             },
         );
         return (
-            response.manager?.templateSets?.[0]?.features?.[0].allowed?.[0]
-                .address === lowerCaseAccount
+            response.manager?.templateSets?.[0]?.features?.[0]?.allowed?.[0]
+                ?.address === lowerCaseAccount
         );
     }
 
@@ -505,8 +505,8 @@ class Fetcher implements IPartialCarrotFetcher {
             },
         );
         return (
-            response.manager?.templateSets?.[0]?.features?.[0].allowed?.[0]
-                .address === lowerCaseAccount
+            response.manager?.templateSets?.[0]?.features?.[0]?.allowed?.[0]
+                ?.address === lowerCaseAccount
         );
     }
 
