@@ -1,5 +1,17 @@
 # @carrot-kpi/host-frontend
 
+## 0.41.0
+
+### Minor Changes
+
+- Trigger update.
+
+### Patch Changes
+
+- Updated dependencies
+  - @carrot-kpi/react@0.80.0
+  - @carrot-kpi/sdk@1.53.0
+
 ## 0.40.2
 
 ### Patch Changes
