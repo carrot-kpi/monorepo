@@ -11,6 +11,8 @@ import {
 /**
  * @exports default methods used in all tests
  */
+const env = Cypress.env("ENV");
+
 export class HomePage extends BasePage {
     goBack() {
         cy.go("back");
@@ -54,61 +56,62 @@ export class HomePage extends BasePage {
             ? this.elementIsVisible(selectors.header.profileAvatar_Button, 0)
             : this.elementNotExist(selectors.header.profileAvatar_Button);
     }
-    checkStagingBanner() {
-        this.compareText(
-            selectors.header.stagingBanner_Text,
-            textData.stagingBannerText,
-        );
+    checkBanner() {
+        if (env == "dev") {
+            this.compareText(
+                selectors.header.banner_Text,
+                textData.devBannerText,
+            );
+        } else {
+            this.compareText(
+                selectors.header.banner_Text,
+                textData.stagingBannerText,
+            );
+        }
     }
     // todo: this should be in separate page regarding all campaigns
     checkIfOnAllCampaignsPage() {
         this.checkUrl(urls.allCampaigns);
-        // todo: title has been removed from FE
-        // this.compareText(
-        //     selectors.allCampaigns.allCampaignsTitle_Text,
-        //     textData.allCampaignsTitle,
-        // );
     }
+    // todo: network drop-down options have been removed
     checkNetworkOptions() {
         this.clickNetwork();
-        this.compareText(
-            selectors.networkMenu.scrollSepoliaNetwork_Option,
-            networks.scrollSepolia,
-        );
-        this.compareText(
-            selectors.networkMenu.sepoliaNetwork_Option,
-            networks.sepolia,
-        );
+        if (env == "dev") {
+            this.compareText(
+                selectors.networkMenu.arbitrumNetwork_Option,
+                networks.arbitrum,
+            );
+        } else {
+            this.compareText(
+                selectors.networkMenu.sepoliaNetwork_Option,
+                networks.sepolia,
+            );
+        }
     }
-    checkSelectedNetwork(network: string) {
-        switch (network) {
-            case networks.polygonMumbai:
-                this.elementIsVisible(
-                    selectors.networkMenu.selectedPolygonMumbain_Icon,
-                );
-                break;
-            case networks.scrollSepolia:
-                this.elementIsVisible(
-                    selectors.networkMenu.selectedScrollSepoliaNetwork_Icon,
-                );
-                break;
-            case networks.sepolia:
-                this.elementIsVisible(
-                    selectors.networkMenu.selectedSepoliaNetwork_Icon,
-                );
-                break;
+    checkSelectedNetwork() {
+        if (env == "dev") {
+            this.elementIsVisible(selectors.networkMenu.selectedArbitrum_Icon);
+        } else {
+            this.elementIsVisible(
+                selectors.networkMenu.selectedSepoliaNetwork_Icon,
+            );
         }
     }
     checkWalletOptions() {
         this.clickConnectWallet();
         this.compareText(
+            selectors.walletMenu.coinBase_Button,
+            wallets.coinBase,
+        );
+        this.compareText(
             selectors.walletMenu.metamask_Button,
             wallets.metamask,
         );
         this.compareText(
-            selectors.walletMenu.coinBase_Button,
-            wallets.coinBase,
+            selectors.walletMenu.walletConnect_Button,
+            wallets.walletConnect,
         );
+        this.clickAnyWhereToClose();
     }
     // todo: removed from FE
     checkSettingsDropdown() {
@@ -127,21 +130,21 @@ export class HomePage extends BasePage {
             textData.stagingMode,
         );
     }
-    // selects networks from network dropdown and checks if it's been selected
-    selectNetwork(network: string) {
-        this.clickNetwork();
-        switch (network) {
-            case networks.polygonMumbai:
-                this.click(selectors.networkMenu.polygonMumbaiNetwork_Option);
-                break;
-            case networks.scrollSepolia:
-                this.click(selectors.networkMenu.scrollSepoliaNetwork_Option);
-                break;
-            case networks.sepolia:
-                this.click(selectors.networkMenu.sepoliaNetwork_Option);
-                break;
-        }
-    }
+    // todo: selecting networks has been removed from test envs
+    // selectNetwork(network: string) {
+    //     this.clickNetwork();
+    //     switch (network) {
+    //         case networks.polygonMumbai:
+    //             this.click(selectors.networkMenu.polygonMumbaiNetwork_Option);
+    //             break;
+    //         case networks.scrollSepolia:
+    //             this.click(selectors.networkMenu.scrollSepoliaNetwork_Option);
+    //             break;
+    //         case networks.sepolia:
+    //             this.click(selectors.networkMenu.sepoliaNetwork_Option);
+    //             break;
+    //     }
+    // }
     checkTextOnHomePage() {
         this.compareText(
             selectors.heroSection.heroTitle_Text,

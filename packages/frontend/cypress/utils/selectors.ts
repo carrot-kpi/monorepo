@@ -2,24 +2,24 @@
  * @exports selectors
  */
 export const header = {
-    stagingBanner_Text: "[data-testid=staging-banner-text]",
+    banner_Text: "[data-testid=staging-banner-text]",
     campaigns_Button: "[data-testid=header-Campaigns-button]",
     profileAvatar_Button: ".rounded-full",
     power_Button: "[data-testid=disconnect-button]",
 };
 export const networkMenu = {
     networkDropdown_Button: "[data-testid=network-drop-down-button]",
-    selectedPolygonMumbain_Icon: "[data-testid='80001-icon']",
-    selectedScrollSepoliaNetwork_Icon: "[data-testid='534351-icon']",
+    selectedArbitrum_Icon: "[data-testid=421614-icon]",
+    arbitrumNetwork_Option: "[data-testid=421614-button]",
     selectedSepoliaNetwork_Icon: "[data-testid=11155111-icon]",
-    polygonMumbaiNetwork_Option: "[data-testid='80001-network-button']",
-    scrollSepoliaNetwork_Option: "[data-testid='534351-network-button']",
     sepoliaNetwork_Option: "[data-testid=11155111-network-button]",
 };
 export const walletMenu = {
     connectWallet_Button: "[data-testid=connect-wallet-button]",
-    metamask_Button: "[data-testid='MetaMask-wallet-button']",
     coinBase_Button: "[data-testid='Coinbase Wallet-wallet-button']",
+    metamask_Button: "[data-testid=MetaMask-wallet-button]",
+    walletConnect_Button: "[data-testid=WalletConnect-wallet-button]",
+    // todo: need id for close icon
 };
 export const settings = {
     settings_Button: "[data-testid=settings-button]",
