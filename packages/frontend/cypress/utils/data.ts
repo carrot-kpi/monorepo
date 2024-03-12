@@ -3,16 +3,18 @@ import { faker } from "@faker-js/faker";
  * @exports different data used in tests
  */
 export const networks = {
-    polygonMumbai: "Polygon Mumbai",
-    scrollSepolia: "Scroll Sepolia",
+    arbitrum: "Arbitrum Sepolia",
     sepolia: "Sepolia",
 };
 export const wallets = {
-    injectedMetamask: "Injected (MetaMask)",
     metamask: "MetaMask",
     coinBase: "Coinbase Wallet",
+    walletConnect: "WalletConnect",
 };
 export const urls = {
+    local: "http://127.0.0.1:3000",
+    dev: "https://app.dev.carrot.community/#/?chain=arbitrum+sepolia",
+    stage: "https://app.staging.carrot.community/#/?chain=sepolia",
     carrotCommunity: "https://www.staging.carrot.community/",
     allCampaigns: "/campaigns",
     createCampaign: "/create/1/draft",
@@ -22,6 +24,8 @@ export const urls = {
     twitter: "https://twitter.com/CarrotEth",
 };
 export const textData = {
+    devBannerText:
+        "You are using Carrot templates' preview versions. Reach out to the team in Discord for the LIVE released and audited version.",
     stagingBannerText:
         "You are using Carrot templates' staging versions. Reach out to the team in Discord for the LIVE released and audited version.",
     interfaceSettings: "Interface settings",

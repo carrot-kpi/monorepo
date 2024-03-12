@@ -23,7 +23,7 @@ module.exports = defineConfig({
     e2e: {
         testIsolation: false,
         setupNodeEvents,
-        baseUrl: "http://127.0.0.1:3000",
+        baseUrl: process.env.ENV,
         specPattern: "cypress/e2e/**/*.spec.{ts,tsx}",
         supportFile: "cypress/support.ts",
     },

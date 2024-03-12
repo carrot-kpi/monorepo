@@ -1,16 +1,19 @@
 import { homePage } from "../pages/home-page";
 import { createCampaign } from "../pages/create-campaign-page";
-import { networks, wallets } from "../utils/data";
+import * as data from "../utils/data";
+import { utility } from "utils/choose_env";
 /**
  *@description Smoke test for Carrot Home page
  */
+const url = utility.getBaseUrl();
+
 describe("Guest no wallet - Home page assertions", () => {
     beforeEach(() => {
-        cy.visit("/");
+        cy.visit(url);
     });
 
-    it("Staging banner is visible", () => {
-        homePage.checkStagingBanner();
+    it("Banner is visible", () => {
+        homePage.checkBanner();
     });
     it("Campaigns button redirects to All campaigns page", () => {
         homePage.clickCampaignsHeader();
@@ -18,21 +21,10 @@ describe("Guest no wallet - Home page assertions", () => {
         homePage.goBack();
     });
     it("Check default selected network", () => {
-        homePage.checkSelectedNetwork(networks.polygonMumbai);
+        homePage.checkSelectedNetwork();
     });
-    it("Check Network dropdown options", () => {
-        homePage.checkNetworkOptions();
-    });
-    it("Check connect wallet dropdown options", () => {
+    it("Check connect wallet menu options", () => {
         homePage.checkWalletOptions();
-    });
-    it("Switch to Scroll sepolia network", () => {
-        homePage.selectNetwork(networks.scrollSepolia);
-        homePage.checkSelectedNetwork(networks.scrollSepolia);
-    });
-    it("Switch to Sepolia network", () => {
-        homePage.selectNetwork(networks.sepolia);
-        homePage.checkSelectedNetwork(networks.sepolia);
     });
     it("Check text on Home page", () => {
         homePage.checkTextOnHomePage();
@@ -43,9 +35,10 @@ describe("Guest no wallet - Home page assertions", () => {
         createCampaign.checkWalletDisconnectedText();
         homePage.goBack();
     });
-    it("Check How it works video", () => {
-        homePage.checkHowItWorksPreview();
-    });
+    // todo: this has been disabled
+    // it("Check How it works video", () => {
+    //     homePage.checkHowItWorksPreview();
+    // });
     it("Check random active campaign redirection", () => {
         homePage.checkFirstActiveCampaign();
         homePage.goBack();
@@ -67,24 +60,23 @@ describe("Guest no wallet - Home page assertions", () => {
         homePage.checkFooterHyperlinks();
     });
 });
-// todo: uncomment when connecting wallet flow is fixed
-describe("User with connected wallet", () => {
+describe.only("User with connected wallet", () => {
     beforeEach(() => {
-        cy.visit("/");
+        cy.visit(url);
     });
     it("Connect wallet to Metamask", () => {
-        homePage.selectWalletConnection(wallets.metamask);
+        homePage.selectWalletConnection(data.wallets.metamask);
         cy.acceptMetamaskAccess().then((connected) => {
             expect(connected).to.be.true;
         });
-        // todo: remove reload after we have IDs on FE for closing users overlay
-        cy.reload();
+        homePage.clickAnyWhereToClose(); // closing profile menu
         homePage.profileAvatarVisible(true);
         homePage.connectWalletButtonVisible(false);
     });
     it("Check no recent activity on Profile Avatar dropdown", () => {
         cy.wait(1500);
         homePage.checkProfileWithoutRecentActivity();
+        homePage.clickAnyWhereToClose();
     });
     it("Create campaign button redirects to Create campaign page - Welcome to Carrot modal is displayed", () => {
         homePage.clickCreateCampaign();

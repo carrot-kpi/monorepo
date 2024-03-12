@@ -47,4 +47,10 @@ export class BasePage {
     elementNotExist(element: string) {
         cy.get(element).should("not.exist");
     }
+    waitInSec(time: number) {
+        cy.wait(time * 1000);
+    }
+    clickAnyWhereToClose() {
+        cy.get("[data-testid=hero-section-title-text]").click({ force: true });
+    }
 }
