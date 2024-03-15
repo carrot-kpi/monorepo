@@ -44,10 +44,10 @@
             "import": "./dist/es/components/template-component.mjs",
             "default": "./dist/cjs/components/template-component.cjs"
         },
-        "./useDevMode": {
-            "types": "./dist/types/hooks/useDevMode.d.ts",
-            "import": "./dist/es/hooks/useDevMode.mjs",
-            "default": "./dist/cjs/hooks/useDevMode.cjs"
+        "./useEnvironment": {
+            "types": "./dist/types/hooks/useEnvironment.d.ts",
+            "import": "./dist/es/hooks/useEnvironment.mjs",
+            "default": "./dist/cjs/hooks/useEnvironment.cjs"
         },
         "./useERC20TokenPrice": {
             "types": "./dist/types/hooks/useERC20TokenPrice.d.ts",
@@ -129,11 +129,6 @@
             "import": "./dist/es/hooks/usePreferDecentralization.mjs",
             "default": "./dist/cjs/hooks/usePreferDecentralization.cjs"
         },
-        "./useProdMode": {
-            "types": "./dist/types/hooks/useProdMode.d.ts",
-            "import": "./dist/es/hooks/useProdMode.mjs",
-            "default": "./dist/cjs/hooks/useProdMode.cjs"
-        },
         "./useResolvedKPIToken": {
             "types": "./dist/types/hooks/useResolvedKPIToken.d.ts",
             "import": "./dist/es/hooks/useResolvedKPIToken.mjs",
@@ -154,10 +149,10 @@
             "import": "./dist/es/hooks/useResolvedTemplates.mjs",
             "default": "./dist/cjs/hooks/useResolvedTemplates.cjs"
         },
-        "./useSetDevMode": {
-            "types": "./dist/types/hooks/useSetDevMode.d.ts",
-            "import": "./dist/es/hooks/useSetDevMode.mjs",
-            "default": "./dist/cjs/hooks/useSetDevMode.cjs"
+        "./useSetEnvironment": {
+            "types": "./dist/types/hooks/useSetEnvironment.d.ts",
+            "import": "./dist/es/hooks/useSetEnvironment.mjs",
+            "default": "./dist/cjs/hooks/useSetEnvironment.cjs"
         },
         "./useSetIPFSGatewayURL": {
             "types": "./dist/types/hooks/useSetIPFSGatewayURL.d.ts",
@@ -245,8 +240,8 @@
             "template-component": [
                 "./dist/types/components/template-component.d.ts"
             ],
-            "useDevMode": [
-                "./dist/types/hooks/useDevMode.d.ts"
+            "useEnvironment": [
+                "./dist/types/hooks/useEnvironment.d.ts"
             ],
             "useERC20TokenPrice": [
                 "./dist/types/hooks/useERC20TokenPrice.d.ts"
@@ -290,9 +285,6 @@
             "usePreferDecentralization": [
                 "./dist/types/hooks/usePreferDecentralization.d.ts"
             ],
-            "useProdMode": [
-                "./dist/types/hooks/useProdMode.d.ts"
-            ],
             "useResolvedKPIToken": [
                 "./dist/types/hooks/useResolvedKPIToken.d.ts"
             ],
@@ -305,8 +297,8 @@
             "useResolvedTemplates": [
                 "./dist/types/hooks/useResolvedTemplates.d.ts"
             ],
-            "useSetDevMode": [
-                "./dist/types/hooks/useSetDevMode.d.ts"
+            "useSetEnvironment": [
+                "./dist/types/hooks/useSetEnvironment.d.ts"
             ],
             "useSetIPFSGatewayURL": [
                 "./dist/types/hooks/useSetIPFSGatewayURL.d.ts"

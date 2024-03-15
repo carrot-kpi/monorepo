@@ -1,4 +1,4 @@
-import { ERC20_ABI } from "../commons";
+import { DATA_CDN_URL, ERC20_ABI } from "../commons";
 import {
     cacheERC20Token,
     getCachedERC20Token,
@@ -163,7 +163,6 @@ export class CoreFetcher implements ICoreFetcher {
 
     public async fetchCIDData({
         ipfsGatewayURL,
-        dataCDNURL,
         preferDecentralization,
         cids,
     }: FetchCIDDataParams): Promise<{ [cid: string]: string }> {
@@ -171,7 +170,7 @@ export class CoreFetcher implements ICoreFetcher {
             cids.map(async (cid) => {
                 if (!preferDecentralization) {
                     try {
-                        const response = await fetch(`${dataCDNURL}/${cid}`);
+                        const response = await fetch(`${DATA_CDN_URL}/${cid}`);
                         const responseText = await response.text();
                         if (!response.ok)
                             throw new Error(`response not ok: ${responseText}`);
@@ -210,7 +209,6 @@ export class CoreFetcher implements ICoreFetcher {
 
     public async resolveTemplates({
         ipfsGatewayURL,
-        dataCDNURL,
         preferDecentralization,
         templates,
     }: ResolveTemplatesParams): Promise<ResolvedTemplate[]> {
@@ -221,7 +219,6 @@ export class CoreFetcher implements ICoreFetcher {
                 const rawTemplateSpecification = (
                     await this.fetchCIDData({
                         ipfsGatewayURL,
-                        dataCDNURL,
                         preferDecentralization,
                         cids: [resolvedTemplateSpecificationCID],
                     })
@@ -249,19 +246,16 @@ export class CoreFetcher implements ICoreFetcher {
 
     protected async resolveEntity<T extends KPIToken | Oracle = KPIToken>({
         ipfsGatewayURL,
-        dataCDNURL,
         preferDecentralization,
         entity,
     }: {
         ipfsGatewayURL: string;
-        dataCDNURL: string;
         preferDecentralization?: boolean;
         entity: T;
     }): Promise<T extends KPIToken ? ResolvedKPIToken : ResolvedOracle> {
         const template = (
             await this.resolveTemplates({
                 ipfsGatewayURL,
-                dataCDNURL,
                 preferDecentralization,
                 templates: [entity.template],
             })
@@ -280,7 +274,6 @@ export class CoreFetcher implements ICoreFetcher {
                     (
                         await this.resolveTemplates({
                             ipfsGatewayURL,
-                            dataCDNURL,
                             preferDecentralization,
                             templates: [oracle.template],
                         })
@@ -292,7 +285,6 @@ export class CoreFetcher implements ICoreFetcher {
         const resolvedKPITokenSpecification = (
             await this.fetchCIDData({
                 ipfsGatewayURL,
-                dataCDNURL,
                 preferDecentralization,
                 cids: [entity.specificationCID],
             })
@@ -312,7 +304,6 @@ export class CoreFetcher implements ICoreFetcher {
 
     public async resolveKPITokens({
         ipfsGatewayURL,
-        dataCDNURL,
         preferDecentralization,
         kpiTokens,
     }: ResolveKPITokensParams): Promise<ResolvedKPITokensMap> {
@@ -320,7 +311,6 @@ export class CoreFetcher implements ICoreFetcher {
             kpiTokens.map(async (kpiToken) =>
                 this.resolveEntity({
                     ipfsGatewayURL,
-                    dataCDNURL,
                     preferDecentralization,
                     entity: kpiToken,
                 }),
@@ -338,7 +328,6 @@ export class CoreFetcher implements ICoreFetcher {
 
     public async resolveOracles({
         ipfsGatewayURL,
-        dataCDNURL,
         preferDecentralization,
         oracles,
     }: ResolveOraclesParams): Promise<ResolvedOraclesMap> {
@@ -346,7 +335,6 @@ export class CoreFetcher implements ICoreFetcher {
             oracles.map(async (oracle) =>
                 this.resolveEntity({
                     ipfsGatewayURL,
-                    dataCDNURL,
                     preferDecentralization,
                     entity: oracle,
                 }),

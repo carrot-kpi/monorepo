@@ -1,11 +1,10 @@
 import { precacheAndRoute } from "workbox-precaching";
 import { CID } from "multiformats/cid";
-import { SERVICE_URLS } from "@carrot-kpi/sdk";
+import { DATA_CDN_URL } from "@carrot-kpi/sdk";
 
 declare const self: ServiceWorkerGlobalScope;
 
 const IPFS_CACHE_NAME = "ipfs-cache";
-const CDN_URLS = Object.values(SERVICE_URLS).map((urls) => urls.dataCdn);
 
 // TODO: make Workbox and precaching work (as of now all precachable entries are
 // excluded in the workbox config using craco)
@@ -29,7 +28,7 @@ self.addEventListener("activate", () => {
 
 const cidFromUrl = (url: URL): CID | null => {
     // handle requests in the format $DATA_CDN_URL/cid/optional-path?whatever
-    if (CDN_URLS.includes(url.hostname)) {
+    if (DATA_CDN_URL.includes(url.hostname)) {
         const potentialCid = url.pathname.split("/")[1];
         return CID.asCID(potentialCid);
     }

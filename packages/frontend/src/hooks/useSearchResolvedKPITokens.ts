@@ -26,7 +26,6 @@ export function useSearchResolvedKPITokens(searchQuery: string) {
                 return (
                     await Fetcher.resolveKPITokens({
                         ipfsGatewayURL,
-                        dataCDNURL: chain.serviceUrls.dataCdn,
                         preferDecentralization,
                         kpiTokens: [kpiToken],
                     })

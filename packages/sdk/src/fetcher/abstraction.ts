@@ -13,7 +13,6 @@ export interface DecentralizationParams {
 
 export interface CIDDataFetchingParams extends DecentralizationParams {
     ipfsGatewayURL: string;
-    dataCDNURL: string;
 }
 
 export interface FetchERC20TokensParams {

@@ -11,6 +11,7 @@ import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import esbuild from "rollup-plugin-esbuild";
 import { createRequire } from "module";
+import { Environment } from "@carrot-kpi/shared-state";
 
 const require = createRequire(import.meta.url);
 const { getEnv } = require("./utils/env");
@@ -25,7 +26,7 @@ export default [
             replace({
                 preventAssignment: true,
                 values: {
-                    __ENVIRONMENT__: JSON.stringify("library"),
+                    __ENVIRONMENT__: JSON.stringify(Environment.Local),
                     __INFURA_PROJECT_ID__: getEnv("INFURA_PROJECT_ID", true),
                     __WALLETCONNECT_PROJECT_ID__: JSON.stringify(""),
                     __FATHOM_SITE_ID__: JSON.stringify(""),

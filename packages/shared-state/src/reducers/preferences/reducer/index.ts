@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
-    setDevMode,
+    setEnvironment,
     setIPFSGatewayURL,
     setKPITokenTemplateBaseURL,
     setOracleTemplateBaseURL,
@@ -8,14 +8,14 @@ import {
     setTemplatePreviewMode,
     setTheme,
 } from "../actions";
-import type { PreferencesState } from "../types";
+import { Environment, type PreferencesState } from "../types";
 
 const initialState: PreferencesState = {
     // TODO: use system as a default once the dark theme is available
     theme: "light",
     preferDecentralization: false,
     ipfsGatewayURL: "https://gateway.api.carrot.community",
-    devMode: false,
+    environment: Environment.Development,
     templatePreviewMode: false,
     kpiTokenTemplateBaseURL: undefined,
     oracleTemplateBaseURL: undefined,
@@ -32,8 +32,8 @@ export const preferencesReducer = createReducer(initialState, (builder) =>
         .addCase(setIPFSGatewayURL, (state, action) => {
             state.ipfsGatewayURL = action.payload;
         })
-        .addCase(setDevMode, (state, action) => {
-            state.devMode = action.payload;
+        .addCase(setEnvironment, (state, action) => {
+            state.environment = action.payload;
         })
         .addCase(setTemplatePreviewMode, (state, action) => {
             state.templatePreviewMode = action.payload;

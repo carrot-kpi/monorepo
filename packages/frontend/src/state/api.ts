@@ -3,6 +3,7 @@ import {
     type FeaturedBlacklistedKPITokens,
     type KPIToken,
     type SupportedChain,
+    DATA_CDN_URL,
 } from "@carrot-kpi/sdk";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Address, PublicClient, Transport } from "viem";
@@ -41,7 +42,7 @@ export const staticApi = createCarrotApi({
                         },
                     };
                 const response = await fetch(
-                    `${chain.serviceUrls.staticCdn}/featured-blacklisted-kpi-tokens.json`,
+                    `${DATA_CDN_URL}/static/featured-blacklisted-kpi-tokens.json`,
                 );
                 if (!response.ok)
                     return {

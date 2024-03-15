@@ -5,13 +5,14 @@ import { t } from "i18next";
 import { useAccount, useSignMessage } from "wagmi";
 import { useSetDataManagerJWT } from "../hooks/useSetDataManagerJWT";
 import { WalletDisconnected } from "./wallet-disconnected";
+import { SERVICE_URLS } from "@carrot-kpi/sdk";
 
 interface AuthenticateProps {
     onCancel: () => void;
 }
 
 export const Authenticate = ({ onCancel }: AuthenticateProps) => {
-    const { chain, address } = useAccount();
+    const { address } = useAccount();
     const setDataManagerJWT = useSetDataManagerJWT();
 
     const [loading, setLoading] = useState(false);
@@ -20,11 +21,11 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!chain || !address || !signedLoginMessage) return;
+            if (!address || !signedLoginMessage) return;
             setLoading(true);
             try {
                 const response = await fetch(
-                    `${chain.serviceUrls.dataManager}/token`,
+                    `${SERVICE_URLS[__ENVIRONMENT__].dataManager}/token`,
                     {
                         method: "POST",
                         headers: {
@@ -50,15 +51,15 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             }
         };
         fetchData();
-    }, [chain, address, setDataManagerJWT, signedLoginMessage]);
+    }, [address, setDataManagerJWT, signedLoginMessage]);
 
     const handleSign = useCallback(() => {
         const fetchSignableMessage = async () => {
-            if (!chain || !address) return;
+            if (!address) return;
             setLoading(true);
             try {
                 const response = await fetch(
-                    `${chain.serviceUrls.dataManager}/login-message/${address}`,
+                    `${SERVICE_URLS[__ENVIRONMENT__].dataManager}/login-message/${address}`,
                 );
                 if (!response.ok) throw new Error(await response.text());
                 const { message } = (await response.json()) as {
@@ -74,7 +75,7 @@ export const Authenticate = ({ onCancel }: AuthenticateProps) => {
             }
         };
         fetchSignableMessage();
-    }, [chain, address, signMessage]);
+    }, [address, signMessage]);
 
     return (
         <div className="w-full h-full flex justify-center">

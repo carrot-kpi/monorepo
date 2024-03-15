@@ -39,7 +39,6 @@ export const CreateCampaignButton = ({
                 try {
                     const resolved = await Fetcher.resolveTemplates({
                         ipfsGatewayURL,
-                        dataCDNURL: chain.serviceUrls.dataCdn,
                         preferDecentralization,
                         templates: [template],
                     });

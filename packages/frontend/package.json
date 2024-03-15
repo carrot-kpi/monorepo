@@ -35,10 +35,9 @@
         "size-limit": "size-limit",
         "prepare-fathom": "prepare-fathom",
         "config-react-env": "./scripts/config-react-env.js",
-        "start:production": "yarn prepare-fathom && ENVIRONMENT=prod craco start",
+        "start:production": "yarn prepare-fathom && ENVIRONMENT=production craco start",
         "start:staging": "yarn prepare-fathom && ENVIRONMENT=staging craco start",
-        "start:dev": "yarn prepare-fathom && ENVIRONMENT=dev craco start",
-        "start": "craco start",
+        "start:dev": "yarn prepare-fathom && ENVIRONMENT=development craco start",
         "synpress:run": "env-cmd -f ../../.env.e2e synpress run --browser chrome --configFile synpress.config.js",
         "test:e2e": "start-server-and-test 'yarn start:staging' http-get://127.0.0.1:3000 'yarn synpress:run'"
     },

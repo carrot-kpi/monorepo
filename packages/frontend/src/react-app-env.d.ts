@@ -7,9 +7,10 @@ import {
     type CarrotChain,
 } from "./constants";
 import type { Config } from "wagmi";
+import type { Environment } from "@carrot-kpi/shared-state";
 
 declare global {
-    const __ENVIRONMENT__: "dev" | "staging" | "prod" | "library";
+    const __ENVIRONMENT__: Environment;
     const __INFURA_PROJECT_ID__: string;
     const __WALLETCONNECT_PROJECT_ID__: string | undefined;
     const __FATHOM_SITE_ID__: string | undefined;
