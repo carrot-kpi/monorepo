@@ -1,5 +1,19 @@
 # @carrot-kpi/host-frontend
 
+## 0.42.0
+
+### Minor Changes
+
+- c579660: New environments handling
+
+### Patch Changes
+
+- a02c59e: Disable decentralization switch for the development environment
+- Updated dependencies [c579660]
+  - @carrot-kpi/react@0.81.0
+  - @carrot-kpi/sdk@1.54.0
+  - @carrot-kpi/ui@0.70.0
+
 ## 0.41.1
 
 ### Patch Changes

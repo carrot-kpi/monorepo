@@ -1,5 +1,16 @@
 # @carrot-kpi/ui
 
+## 0.70.0
+
+### Minor Changes
+
+- c579660: New environments handling
+
+### Patch Changes
+
+- Updated dependencies [c579660]
+  - @carrot-kpi/sdk@1.54.0
+
 ## 0.69.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @carrot-kpi/shared-state
 
+## 0.18.0
+
+### Minor Changes
+
+- c579660: New environments handling
+
 ## 0.17.1
 
 ### Patch Changes

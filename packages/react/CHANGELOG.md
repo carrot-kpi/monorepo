@@ -1,5 +1,16 @@
 # @carrot-kpi/react
 
+## 0.81.0
+
+### Minor Changes
+
+- c579660: New environments handling
+
+### Patch Changes
+
+- Updated dependencies [c579660]
+  - @carrot-kpi/sdk@1.54.0
+
 ## 0.80.1
 
 ### Patch Changes
