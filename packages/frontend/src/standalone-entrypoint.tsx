@@ -94,7 +94,7 @@ root.render(
 );
 
 if (
-    __ENVIRONMENT__ !== Environment.Production &&
+    __ENVIRONMENT__ !== Environment.Development &&
     "serviceWorker" in navigator
 ) {
     navigator.serviceWorker
