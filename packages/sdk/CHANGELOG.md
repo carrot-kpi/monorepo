@@ -1,5 +1,11 @@
 # @carrot-kpi/sdk
 
+## 1.54.1
+
+### Patch Changes
+
+- f6586b1: Fix typo in arbitrum sepolia subgraph url
+
 ## 1.54.0
 
 ### Minor Changes
