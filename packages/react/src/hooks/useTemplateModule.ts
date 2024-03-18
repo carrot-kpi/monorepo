@@ -1,4 +1,4 @@
-import { ResolvedTemplate } from "@carrot-kpi/sdk";
+import { DATA_CDN_URL, ResolvedTemplate } from "@carrot-kpi/sdk";
 import type { TemplateBundle } from "../i18n";
 import {
     type FunctionComponent,
@@ -18,6 +18,7 @@ import type {
 } from "../types/templates";
 import { useTemplatePreviewMode } from "./useTemplatePreviewMode";
 import { useEnvironment } from "./useEnvironment";
+import { usePreferDecentralization } from "./usePreferDecentralization";
 
 type ComponentType<
     E extends TemplateEntity,
@@ -67,6 +68,7 @@ export const useTemplateModule = <
     const environment = useEnvironment();
     const templatePreviewMode = useTemplatePreviewMode();
     const ipfsGatewayURL = useIPFSGatewayURL();
+    const preferDecentralization = usePreferDecentralization();
 
     const baseURL = useMemo(() => {
         if (!template) return undefined;
@@ -80,14 +82,24 @@ export const useTemplateModule = <
         )
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             root = template.specification.previewUrl[environment]!;
-        else root = `${ipfsGatewayURL}/ipfs/${template.specification.cid}`;
+        else if (
+            environment === Environment.Local &&
+            templatePreviewMode &&
+            template.specification.previewUrl?.[Environment.Development]
+        )
+            root = template.specification.previewUrl[Environment.Development];
+        else
+            root = preferDecentralization
+                ? `${ipfsGatewayURL}/ipfs/${template.specification.cid}`
+                : `${DATA_CDN_URL}/${template.specification.cid}`;
         return root.endsWith("/") ? `${root}${type}` : `${root}/${type}`;
     }, [
-        environment,
-        customBaseURL,
-        templatePreviewMode,
-        ipfsGatewayURL,
         template,
+        customBaseURL,
+        environment,
+        templatePreviewMode,
+        preferDecentralization,
+        ipfsGatewayURL,
         type,
     ]);
     const { loading: loadingFederatedModule, container } =
