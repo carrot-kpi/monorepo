@@ -68,7 +68,7 @@ export const Root = () => {
     const setIPFSGatewayURL = useSetIPFSGatewayURL();
 
     setEnvironment(__ENVIRONMENT__);
-    setTemplatePreviewMode(true);
+    setTemplatePreviewMode(__ENVIRONMENT__ !== Environment.Production);
     setIPFSGatewayURL(IPFS_GATEWAY_URL);
 
     return (
