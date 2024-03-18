@@ -1,5 +1,11 @@
 # @carrot-kpi/react
 
+## 0.81.1
+
+### Patch Changes
+
+- a99938e: Fallback to dev when loading templates on local environment, load from cdn when decentralization mode is off
+
 ## 0.81.0
 
 ### Minor Changes
