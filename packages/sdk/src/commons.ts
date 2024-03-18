@@ -70,7 +70,7 @@ export const SUPPORTED_CHAIN: Record<ChainId, SupportedChain> = {
             ...DEPLOYMENT_ADDRESSES[ChainId.ArbitrumSepolia],
         },
         subgraphUrl:
-            "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-arbtirum-sepolia",
+            "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-arbitrum-sepolia",
     }),
 };
 
