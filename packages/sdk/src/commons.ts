@@ -13,35 +13,33 @@ import {
 } from "viem";
 import { sepolia, arbitrumSepolia } from "viem/chains";
 import { ChainId, DEPLOYMENT_ADDRESSES } from "@carrot-kpi/contracts";
+import { Environment } from "@carrot-kpi/shared-state";
 
 // reexport chain id
 export { ChainId } from "@carrot-kpi/contracts";
 
 export const CACHER = new Cacher("carrot-kpi-sdk");
 
-export enum Environment {
-    Development = "development",
-    Staging = "staging",
-}
-
 export interface ServiceUrls {
-    staticCdn: string;
-    dataCdn: string;
     dataManager: string;
 }
 
 export const SERVICE_URLS: Record<Environment, ServiceUrls> = {
+    [Environment.Local]: {
+        dataManager: "https://data-manager.api.dev.carrot.community",
+    },
     [Environment.Development]: {
-        staticCdn: "https://static.dev.carrot.community",
-        dataCdn: "https://data.dev.carrot.community",
         dataManager: "https://data-manager.api.dev.carrot.community",
     },
     [Environment.Staging]: {
-        staticCdn: "https://static.staging.carrot.community",
-        dataCdn: "https://data.staging.carrot.community",
         dataManager: "https://data-manager.api.staging.carrot.community",
     },
+    [Environment.Production]: {
+        dataManager: "https://data-manager.api.carrot.community",
+    },
 };
+
+export const DATA_CDN_URL = "https://data.carrot.community";
 
 export interface SupportedChain extends Chain {
     contracts: {
@@ -52,8 +50,7 @@ export interface SupportedChain extends Chain {
         kpiTokensManager: ChainContract;
         oraclesManager: ChainContract;
     };
-    environment: Environment;
-    serviceUrls: ServiceUrls & { subgraph: string | null };
+    subgraphUrl?: string;
 }
 
 export const SUPPORTED_CHAIN: Record<ChainId, SupportedChain> = {
@@ -63,12 +60,8 @@ export const SUPPORTED_CHAIN: Record<ChainId, SupportedChain> = {
             ...sepolia.contracts,
             ...DEPLOYMENT_ADDRESSES[ChainId.Sepolia],
         },
-        environment: Environment.Staging,
-        serviceUrls: {
-            ...SERVICE_URLS[Environment.Staging],
-            subgraph:
-                "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-sepolia",
-        },
+        subgraphUrl:
+            "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-sepolia",
     }),
     [ChainId.ArbitrumSepolia]: defineChain<ChainFormatters, SupportedChain>({
         ...arbitrumSepolia,
@@ -76,12 +69,8 @@ export const SUPPORTED_CHAIN: Record<ChainId, SupportedChain> = {
             ...arbitrumSepolia.contracts,
             ...DEPLOYMENT_ADDRESSES[ChainId.ArbitrumSepolia],
         },
-        environment: Environment.Development,
-        serviceUrls: {
-            ...SERVICE_URLS[Environment.Development],
-            subgraph:
-                "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-arbitrum-sepolia",
-        },
+        subgraphUrl:
+            "https://api.thegraph.com/subgraphs/name/carrot-kpi/carrot-arbtirum-sepolia",
     }),
 };
 

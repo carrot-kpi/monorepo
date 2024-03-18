@@ -4,7 +4,7 @@
     "version": "0.17.1",
     "license": "GPL-3.0-or-later",
     "main": "./dist/cjs/index.cjs",
-    "module": "./dist/mjs/index.mjs",
+    "module": "./dist/es/index.mjs",
     "types": "./dist/types/index.d.ts",
     "exports": {
         ".": {

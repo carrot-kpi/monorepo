@@ -8,6 +8,7 @@ import {
 } from "@carrot-kpi/react";
 import { useTranslation } from "react-i18next";
 import { useAccount } from "wagmi";
+import { Environment } from "@carrot-kpi/shared-state";
 
 // TODO: move this in the UI lib with additional functionality (like variants for info, warning and error feedback)
 export const Preferences = () => {
@@ -88,31 +89,32 @@ export const Preferences = () => {
                         />
                     </div>
                 </div> */}
-            {!!chain?.serviceUrls.subgraph && __ENVIRONMENT__ !== "dev" && (
-                <div className="flex flex-col border border-black dark:border-white rounded-lg">
-                    <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
-                        <Typography
-                            data-testid="decentralization-mode-text"
-                            variant="base"
-                            weight="bold"
-                        >
-                            {t("preferences.decentralization")}
+            {!!chain?.subgraphUrl &&
+                __ENVIRONMENT__ !== Environment.Development && (
+                    <div className="flex flex-col border border-black dark:border-white rounded-lg">
+                        <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
+                            <Typography
+                                data-testid="decentralization-mode-text"
+                                variant="base"
+                                weight="bold"
+                            >
+                                {t("preferences.decentralization")}
+                            </Typography>
+                            <Switch
+                                data-testid="decentralization-mode-switch"
+                                checked={preferDecentralization}
+                                onChange={setPreferDecentralization}
+                            />
+                        </div>
+                        <Typography variant="sm" className={{ root: "p-4" }}>
+                            {t("preferences.decentralization.info")}
                         </Typography>
-                        <Switch
-                            data-testid="decentralization-mode-switch"
-                            checked={preferDecentralization}
-                            onChange={setPreferDecentralization}
-                        />
                     </div>
-                    <Typography variant="sm" className={{ root: "p-4" }}>
-                        {t("preferences.decentralization.info")}
-                    </Typography>
-                </div>
-            )}
+                )}
             {/* TODO: this setting is applied to both dev and staging environments but it's simply called "staging" mode.
             We need to find a name that is compatible with the fact that this setting should be available in both the dev
             and staging environments. Maybe preview mode? */}
-            {__ENVIRONMENT__ !== "prod" && (
+            {__ENVIRONMENT__ !== Environment.Production && (
                 <div className="flex flex-col border border-black dark:border-white rounded-lg">
                     <div className="flex gap-2 items-center justify-between p-4 border-b border-black dark:border-white">
                         <Typography

@@ -1,10 +1,11 @@
 import {
-    useSetDevMode,
+    useSetEnvironment,
     useSetIPFSGatewayURL,
     useSetKPITokenTemplateBaseURL,
     useSetOracleTemplateBaseURL,
     useSetTemplatePreviewMode,
 } from "@carrot-kpi/react";
+import { Environment } from "@carrot-kpi/shared-state";
 
 interface LibraryModeSharedStateUpdaterProps {
     ipfsGatewayURL: string;
@@ -19,13 +20,13 @@ export const LibraryModeSharedStateUpdater = ({
     ipfsGatewayURL,
     enableTemplatePreviewMode = false,
 }: LibraryModeSharedStateUpdaterProps) => {
-    const setDevMode = useSetDevMode();
+    const setEnvironment = useSetEnvironment();
     const setTemplatePreviewMode = useSetTemplatePreviewMode();
     const setIPFSGatewayURL = useSetIPFSGatewayURL();
     const setKPITokenTemplateBaseURL = useSetKPITokenTemplateBaseURL();
     const setOracleTemplateBaseURL = useSetOracleTemplateBaseURL();
 
-    setDevMode(true);
+    setEnvironment(Environment.Local);
     setTemplatePreviewMode(enableTemplatePreviewMode);
     setIPFSGatewayURL(ipfsGatewayURL);
     setKPITokenTemplateBaseURL(kpiTokenTemplateBaseURL);

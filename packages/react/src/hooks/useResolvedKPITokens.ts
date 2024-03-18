@@ -42,8 +42,6 @@ export function useResolvedKPITokens(params?: ResolvedKPITokensParams): {
                             const resolved = (
                                 await Fetcher.resolveKPITokens({
                                     ipfsGatewayURL,
-                                    dataCDNURL:
-                                        publicClient.chain.serviceUrls.dataCdn,
                                     preferDecentralization,
                                     kpiTokens: [kpiToken],
                                 })

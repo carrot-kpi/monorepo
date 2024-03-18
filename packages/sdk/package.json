@@ -156,6 +156,7 @@
     },
     "dependencies": {
         "@carrot-kpi/contracts": "^0.10.1",
+        "@carrot-kpi/shared-state": "*",
         "decimal.js-light": "^2.5.1",
         "multiformats": "^13.0.1",
         "viem": "^2.7.1"
@@ -164,7 +165,6 @@
         "@carrot-kpi/shared-state": "*"
     },
     "devDependencies": {
-        "@carrot-kpi/shared-state": "*",
         "@rollup/plugin-commonjs": "^25.0.7",
         "@rollup/plugin-node-resolve": "^15.2.3",
         "@size-limit/file": "^11.0.2",

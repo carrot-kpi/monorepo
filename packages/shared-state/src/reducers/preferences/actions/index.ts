@@ -13,8 +13,8 @@ export const setIPFSGatewayURL = createAction<
     PreferencesState["ipfsGatewayURL"]
 >("preferences/setIPFSGatewayURL");
 
-export const setDevMode = createAction<PreferencesState["devMode"]>(
-    "preferences/setDevMode",
+export const setEnvironment = createAction<PreferencesState["environment"]>(
+    "preferences/setEnvironment",
 );
 
 export const setTemplatePreviewMode = createAction<

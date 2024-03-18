@@ -7,6 +7,7 @@ import { NetworksPopover } from "./networks-popover";
 import { Typography } from "@carrot-kpi/ui";
 import { useTranslation } from "react-i18next";
 import { useClickAway } from "react-use";
+import { Environment } from "@carrot-kpi/shared-state";
 
 export interface ChainSelectProps {
     compact?: boolean;
@@ -47,7 +48,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
 
     return (
         <div>
-            {__ENVIRONMENT__ !== "library" && (
+            {__ENVIRONMENT__ !== Environment.Local && (
                 <NetworksPopover
                     open={networksPopoverOpen}
                     anchor={networksPopoverAnchor}
@@ -58,7 +59,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
             <div
                 data-testid="network-drop-down-button"
                 className={`h-11 w-fit flex items-center border border-black dark:border-white px-[10px] rounded-lg ${
-                    __ENVIRONMENT__ === "library" || chains.length === 1
+                    __ENVIRONMENT__ === Environment.Local || chains.length === 1
                         ? ""
                         : "cursor-pointer"
                 } gap-3`}
@@ -80,7 +81,7 @@ export const ChainSelect = ({ compact = true }: ChainSelectProps) => {
                         {chain?.name || t("connect.wallet.unknown")}
                     </Typography>
                 )}
-                {__ENVIRONMENT__ !== "library" && chains.length > 1 && (
+                {__ENVIRONMENT__ !== Environment.Local && chains.length > 1 && (
                     <CaretDown className="w-3 dark:text-white" />
                 )}
             </div>

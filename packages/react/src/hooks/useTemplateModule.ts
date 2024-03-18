@@ -8,9 +8,8 @@ import {
     useState,
 } from "react";
 import { useFederatedModuleContainer } from "./useFederatedModuleContainer";
-import { type State, useSelector } from "@carrot-kpi/shared-state";
+import { type State, useSelector, Environment } from "@carrot-kpi/shared-state";
 import { useIPFSGatewayURL } from "./useIPFSGatewayURL";
-import { useAccount } from "wagmi";
 import type {
     RemoteComponentProps,
     SerializableObject,
@@ -18,6 +17,7 @@ import type {
     TemplateType,
 } from "../types/templates";
 import { useTemplatePreviewMode } from "./useTemplatePreviewMode";
+import { useEnvironment } from "./useEnvironment";
 
 type ComponentType<
     E extends TemplateEntity,
@@ -64,24 +64,26 @@ export const useTemplateModule = <
             ? state.preferences.kpiTokenTemplateBaseURL
             : state.preferences.oracleTemplateBaseURL,
     );
-    const { chain } = useAccount();
+    const environment = useEnvironment();
     const templatePreviewMode = useTemplatePreviewMode();
     const ipfsGatewayURL = useIPFSGatewayURL();
 
     const baseURL = useMemo(() => {
-        if (!template || !chain) return undefined;
+        if (!template) return undefined;
         let root: string;
         if (customBaseURL) root = customBaseURL;
         else if (
+            environment !== Environment.Local &&
+            environment !== Environment.Production &&
             templatePreviewMode &&
-            template.specification.previewUrl?.[chain.environment]
+            template.specification.previewUrl?.[environment]
         )
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            root = template.specification.previewUrl[chain.environment]!;
+            root = template.specification.previewUrl[environment]!;
         else root = `${ipfsGatewayURL}/ipfs/${template.specification.cid}`;
         return root.endsWith("/") ? `${root}${type}` : `${root}/${type}`;
     }, [
-        chain,
+        environment,
         customBaseURL,
         templatePreviewMode,
         ipfsGatewayURL,

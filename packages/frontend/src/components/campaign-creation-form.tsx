@@ -199,7 +199,6 @@ export function CampaignCreationForm<S extends SerializableObject<S>>() {
                 }
                 const resolvedTemplates = await Fetcher.resolveTemplates({
                     ipfsGatewayURL,
-                    dataCDNURL: chain.serviceUrls.dataCdn,
                     preferDecentralization,
                     templates: templates,
                 });

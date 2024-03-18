@@ -7,6 +7,7 @@ import { http, type Transport } from "viem";
 import { SUPPORTED_CHAIN, type SupportedChain } from "@carrot-kpi/sdk";
 import type { SVGIcon } from "./icons/types";
 import { ChainId } from "@carrot-kpi/sdk";
+import { Environment } from "@carrot-kpi/shared-state";
 
 export const CARROT_KPI_FRONTEND_I18N_NAMESPACE = "@carrot-kpi/frontend";
 
@@ -23,37 +24,22 @@ export interface CarrotChain extends SupportedChain {
     icon: ChainIconData;
 }
 
-export const SUPPORTED_CHAINS: [CarrotChain, ...CarrotChain[]] =
-    __ENVIRONMENT__ === "dev"
-        ? ([
-              {
-                  ...SUPPORTED_CHAIN[ChainId.ArbitrumSepolia],
-                  icon: {
-                      logo: ArbitrumLogo,
-                      backgroundColor: "#213147",
-                  },
-              },
-          ] as const)
-        : __ENVIRONMENT__ === "staging"
-          ? ([
-                {
-                    ...SUPPORTED_CHAIN[ChainId.Sepolia],
-                    icon: {
-                        logo: EthereumLogo,
-                        backgroundColor: "#8637ea",
-                    },
-                },
-            ] as const)
-          : // FIXME: this is not a prod chain but it's here until we have an actual production deployment
-            ([
-                {
-                    ...SUPPORTED_CHAIN[ChainId.ArbitrumSepolia],
-                    icon: {
-                        logo: ArbitrumLogo,
-                        backgroundColor: "#213147",
-                    },
-                },
-            ] as const);
+export const SUPPORTED_CHAINS: [CarrotChain, ...CarrotChain[]] = [
+    {
+        ...SUPPORTED_CHAIN[ChainId.Sepolia],
+        icon: {
+            logo: EthereumLogo,
+            backgroundColor: "#8637ea",
+        },
+    },
+    {
+        ...SUPPORTED_CHAIN[ChainId.ArbitrumSepolia],
+        icon: {
+            logo: ArbitrumLogo,
+            backgroundColor: "#213147",
+        },
+    },
+] as const;
 
 export const SUPPORTED_CHAIN_TRANSPORT: Record<ChainId, Transport> = {
     [sepolia.id as number]: http(),
@@ -61,9 +47,9 @@ export const SUPPORTED_CHAIN_TRANSPORT: Record<ChainId, Transport> = {
 };
 
 export const CARROT_DOMAIN =
-    __ENVIRONMENT__ === "prod"
+    __ENVIRONMENT__ === Environment.Production
         ? "carrot.community"
-        : __ENVIRONMENT__ === "staging"
+        : __ENVIRONMENT__ === Environment.Staging
           ? "staging.carrot.community"
           : "dev.carrot.community";
 

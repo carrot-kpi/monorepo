@@ -28,7 +28,6 @@ export function useResolvedTemplate(params?: ResolvedTemplateParams): {
             try {
                 const resolved = await Fetcher.resolveTemplates({
                     ipfsGatewayURL,
-                    dataCDNURL: chain.serviceUrls.dataCdn,
                     preferDecentralization,
                     templates: [params.template],
                 });

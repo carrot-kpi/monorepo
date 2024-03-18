@@ -6,11 +6,12 @@ const { EsbuildPlugin } = require("esbuild-loader");
 const { join } = require("node:path");
 const shared = require("./shared-dependencies.json");
 const { getEnv } = require("./utils/env");
+const { Environment } = require("@carrot-kpi/shared-state");
 
-const ALLOWED_ENVIRONMENTS = ["prod", "staging", "dev", "library"];
+const ALLOWED_ENVIRONMENTS = Object.values(Environment);
 
 const environment = process.env.ENVIRONMENT;
-if (ALLOWED_ENVIRONMENTS.indexOf(environment) < 0) {
+if (!Object.values(Environment).includes(environment)) {
     console.error(
         `Invalid environment "${environment}" specified. Allowed values are: ${ALLOWED_ENVIRONMENTS.join(
             ", ",

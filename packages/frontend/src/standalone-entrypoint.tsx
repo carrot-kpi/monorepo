@@ -10,9 +10,12 @@ import {
     SUPPORTED_CHAINS,
 } from "./constants";
 import { HostStateProvider } from "./state";
-import { ReactSharedStateProvider } from "@carrot-kpi/shared-state";
 import {
-    useSetDevMode,
+    Environment,
+    ReactSharedStateProvider,
+} from "@carrot-kpi/shared-state";
+import {
+    useSetEnvironment,
     useSetIPFSGatewayURL,
     useSetTemplatePreviewMode,
 } from "@carrot-kpi/react";
@@ -60,18 +63,19 @@ export const config = createConfig({
 });
 
 export const Root = () => {
-    const setDevMode = useSetDevMode();
+    const setEnvironment = useSetEnvironment();
     const setTemplatePreviewMode = useSetTemplatePreviewMode();
     const setIPFSGatewayURL = useSetIPFSGatewayURL();
 
-    setDevMode(false);
-    setTemplatePreviewMode(__ENVIRONMENT__ !== "prod");
+    setEnvironment(__ENVIRONMENT__);
+    setTemplatePreviewMode(__ENVIRONMENT__ !== Environment.Production);
     setIPFSGatewayURL(IPFS_GATEWAY_URL);
 
     return (
         <SharedEntrypoint
             config={config}
-            enableFathom={__ENVIRONMENT__ === "prod"}
+            // FIXME: enable this in production
+            enableFathom={false}
         />
     );
 };
@@ -89,7 +93,10 @@ root.render(
     </StrictMode>,
 );
 
-if (__ENVIRONMENT__ === "prod" && "serviceWorker" in navigator) {
+if (
+    __ENVIRONMENT__ !== Environment.Development &&
+    "serviceWorker" in navigator
+) {
     navigator.serviceWorker
         .register("./sw.js")
         .then(() => {

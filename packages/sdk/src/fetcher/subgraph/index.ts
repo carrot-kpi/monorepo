@@ -89,7 +89,7 @@ const mapRawKPIToken = (chainId: ChainId, rawKPIToken: KPITokenData) => {
 
 class Fetcher implements IPartialCarrotFetcher {
     public supportedInChain({ chain }: SupportedInChainParams): boolean {
-        return !!chain.serviceUrls.subgraph;
+        return !!chain.subgraphUrl;
     }
 
     public async fetchKPITokensAmount({
@@ -515,10 +515,10 @@ class Fetcher implements IPartialCarrotFetcher {
     ): Promise<{ subgraphUrl: string; chain: SupportedChain }> {
         const chain = await validateChainId(publicClient);
         enforce(
-            chain.serviceUrls.subgraph !== null,
+            !!chain.subgraphUrl,
             `no subgraph available in chain ${chain.id}`,
         );
-        return { subgraphUrl: chain.serviceUrls.subgraph, chain };
+        return { subgraphUrl: chain.subgraphUrl, chain };
     }
 }
 

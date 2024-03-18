@@ -14,6 +14,7 @@ import { NAVBAR_LINKS } from "../../constants";
 import VideoPoster from "../../images/video-poster.png";
 import type { KPIToken } from "@carrot-kpi/sdk";
 import { Navbar } from "../../components/ui/navbar";
+import { Environment } from "@carrot-kpi/shared-state";
 
 const plusIconStyles = cva(["invisible", "md:visible", "absolute"], {
     variants: {
@@ -142,7 +143,7 @@ export const Hero = ({ featuredKPITokens }: HeroProps) => {
                             <Button variant="primary" size="big">
                                 <Link to="/campaigns">{t("campaign.all")}</Link>
                             </Button>
-                            {__ENVIRONMENT__ !== "library" && (
+                            {__ENVIRONMENT__ !== Environment.Local && (
                                 <CreateCampaignButton />
                             )}
                         </div>

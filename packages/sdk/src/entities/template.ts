@@ -1,5 +1,5 @@
 import { type Address } from "viem";
-import type { Environment } from "../commons";
+import type { Environment } from "@carrot-kpi/shared-state";
 
 export interface OnChainTemplate {
     addrezz: Address;

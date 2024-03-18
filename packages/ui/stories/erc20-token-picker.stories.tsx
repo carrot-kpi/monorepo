@@ -20,7 +20,12 @@ import {
 import { injected } from "wagmi/connectors";
 import { http, type Address } from "viem";
 import { Typography } from "../src/components/typography";
-import { ChainId, ERC20_ABI, SUPPORTED_CHAIN } from "@carrot-kpi/sdk";
+import {
+    ChainId,
+    DATA_CDN_URL,
+    ERC20_ABI,
+    SUPPORTED_CHAIN,
+} from "@carrot-kpi/sdk";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const injectedConnector = injected();
@@ -109,7 +114,7 @@ const Component = (props: ERC20TokenPickerProps) => {
         let cancelled = false;
         const fetchData = async () => {
             let response = await fetch(
-                `${SUPPORTED_CHAIN[ChainId.Sepolia].serviceUrls.staticCdn}/token-list.json`,
+                `${DATA_CDN_URL}/static/token-list.json`,
             );
             if (!response.ok) {
                 console.warn("could not fetch carrot token list");

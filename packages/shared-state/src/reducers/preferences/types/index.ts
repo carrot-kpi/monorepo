@@ -1,3 +1,10 @@
+export enum Environment {
+    Local = "local",
+    Development = "development",
+    Staging = "staging",
+    Production = "production",
+}
+
 export type Theme = "dark" | "light" | "system";
 
 export interface PreferencesState {
@@ -5,9 +12,9 @@ export interface PreferencesState {
     preferDecentralization: boolean;
     ipfsGatewayURL: string;
 
-    // templates/libs will know when the platform is being run locally
-    // in order to develop templates, and will be able to act accordingly
-    devMode: boolean;
+    // templates/libs will know in which environment the platform is being run
+    // and will be able to act accordingly
+    environment: Environment;
 
     // templates/libs will know when the platform is being run in staging
     // mode and will be able to load templates from their staging deployments
